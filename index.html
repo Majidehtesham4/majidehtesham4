@@ -17,9 +17,10 @@
   --line: #d8e0dd;
   --accent: #0d7470;      /* investment (turquoise tile) */
   --accent-soft: #e0efed;
-  --usd: #4c7a2e;         /* dollar */
-  --gold: #a87a16;        /* gold */
-  --infl: #b34338;        /* inflation */
+  --inv: #2a78d6;         /* chart series: investment */
+  --usd: #1baf7a;         /* dollar */
+  --gold: #eda100;        /* gold */
+  --infl: #e34948;        /* inflation (always dashed) */
   --good: #23784a;
   --bad: #b34338;
   --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
@@ -29,13 +30,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
-    --accent: #43b8b0; --accent-soft: #1b3533; --usd: #8cc067; --gold: #e0b44c; --infl: #ec7f72;
+    --accent: #43b8b0; --accent-soft: #1b3533; --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
     --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
-  --accent: #43b8b0; --accent-soft: #1b3533; --usd: #8cc067; --gold: #e0b44c; --infl: #ec7f72;
+  --accent: #43b8b0; --accent-soft: #1b3533; --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
   --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -83,8 +84,26 @@ input[type="text"]:focus-visible, select:focus-visible, button:focus-visible, in
 .verdict p { margin: 0; max-width: 75ch; }
 .verdict strong { color: var(--accent); }
 
-.chart-box { overflow-x: auto; }
-svg { display: block; width: 100%; height: auto; min-width: 520px; }
+.chart-box { overflow-x: auto; position: relative; }
+.chart-box + h2 { margin-top: 26px; }
+.tip {
+  position: absolute; top: 8px; z-index: 2; pointer-events: none; min-width: 190px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
+  box-shadow: 0 4px 14px rgb(0 0 0 / .12); font-size: .8rem; line-height: 1.6;
+}
+.tip b { display: block; margin-bottom: 2px; }
+.tip div { display: flex; justify-content: space-between; gap: 14px; }
+.tip span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+.saves { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.saves li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 0; border-top: 1px solid var(--line); }
+.saves li .nm { font-weight: 700; flex: 1 1 12em; min-width: 0; overflow-wrap: anywhere; }
+.saves li .dt { font-size: .78rem; color: var(--muted); }
+.save-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.save-row input { flex: 1 1 14em; width: auto; }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button.primary:hover { color: var(--surface); opacity: .9; }
+button.danger:hover, button.danger.armed { border-color: var(--bad); color: var(--bad); }
+svg { display: block; width: 100%; height: auto; min-width: 520px; direction: ltr; touch-action: pan-y; }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .82rem; color: var(--muted); margin-top: 8px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 
@@ -100,9 +119,10 @@ td.close { font-weight: 700; }
 td.up { color: var(--bad); }
 td.down { color: var(--good); }
 .win { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
-.win.inv { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
-.win.usd { color: var(--usd); background: color-mix(in srgb, var(--usd) 16%, transparent); }
-.win.gold { color: var(--gold); background: color-mix(in srgb, var(--gold) 16%, transparent); }
+.win { color: var(--ink); }
+.win.inv { background: color-mix(in srgb, var(--inv) 18%, transparent); }
+.win.usd { background: color-mix(in srgb, var(--usd) 20%, transparent); }
+.win.gold { background: color-mix(in srgb, var(--gold) 22%, transparent); }
 tr.start td { background: var(--accent-soft); }
 .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 10px; }
 .head-row h2 { margin: 0; }
@@ -149,6 +169,19 @@ footer { font-size: .78rem; color: var(--muted); }
   </div>
 </section>
 
+<section class="panel" aria-label="ذخیره و بارگذاری">
+  <div class="head-row"><h2>ذخیره و بارگذاری</h2><span class="note" id="store-where"></span></div>
+  <div class="save-row">
+    <input type="text" id="saveName" placeholder="نام ذخیره، مثلاً «قیمت‌های واقعی تا مهر»" aria-label="نام ذخیره">
+    <button type="button" class="primary" id="saveBtn">ذخیره</button>
+    <button type="button" id="exportBtn">ذخیره در فایل</button>
+    <button type="button" id="importBtn">بارگذاری از فایل</button>
+    <input type="file" id="importFile" accept=".json,application/json" hidden>
+  </div>
+  <p class="note" id="store-msg" aria-live="polite" style="margin-top:6px"></p>
+  <ul class="saves" id="saves"></ul>
+</section>
+
 <section aria-label="خلاصه">
   <div class="cards" id="cards"></div>
 </section>
@@ -156,10 +189,12 @@ footer { font-size: .78rem; color: var(--muted); }
 <section class="verdict" id="verdict" aria-live="polite"></section>
 
 <section class="panel" aria-label="نمودار">
-  <h2>ارزش دارایی در طول زمان (تومان)</h2>
-  <div class="chart-box"><svg id="chart" viewBox="0 0 760 320" role="img" aria-label="نمودار مقایسهٔ سرمایه‌گذاری با دلار، طلا و تورم"></svg></div>
+  <h2>ارزش دارایی ماه به ماه (تومان)</h2>
+  <div class="chart-box" id="box1"><svg id="chart" viewBox="0 0 760 330" role="img" aria-label="نمودار ماه به ماه ارزش سرمایه‌گذاری، دلار، طلا و تورم"></svg><div class="tip" id="tip1" hidden></div></div>
+  <h2>رشد هر ماه نسبت به ماه قبل (درصد)</h2>
+  <div class="chart-box" id="box2"><svg id="chart2" viewBox="0 0 760 260" role="img" aria-label="نمودار ستونی رشد ماهانهٔ سرمایه‌گذاری، دلار و طلا"></svg><div class="tip" id="tip2" hidden></div></div>
   <div class="legend">
-    <span><i class="dot" style="background:var(--accent)"></i>سرمایه‌گذاری با سود ماهانه</span>
+    <span><i class="dot" style="background:var(--inv)"></i>سرمایه‌گذاری با سود ماهانه</span>
     <span><i class="dot" style="background:var(--usd)"></i>اگر دلار می‌خریدم</span>
     <span><i class="dot" style="background:var(--gold)"></i>اگر طلا می‌خریدم</span>
     <span id="infl-legend"><i class="dot" style="background:var(--infl)"></i>حداقل لازم برای جبران تورم</span>
@@ -464,8 +499,8 @@ footer { font-size: .78rem; color: var(--muted); }
     function badge(v) { return '<span dir="ltr" class="pill ' + (v >= 0 ? "good" : "bad") + '">' + (v >= 0 ? "+" : "−") + fmt2(Math.abs(v)) + "٪</span>"; }
     var pocketLine = state.reinvest ? "" : "، شامل " + short(res.pocket) + " سود برداشت‌شده";
     var cards = [
-      { c: "var(--accent)", k: "سرمایه‌گذاری در " + mlabel, v: fmt(last.total), s: short(last.total) + " تومان" + pocketLine },
-      { c: "var(--accent)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
+      { c: "var(--inv)", k: "سرمایه‌گذاری در " + mlabel, v: fmt(last.total), s: short(last.total) + " تومان" + pocketLine },
+      { c: "var(--inv)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
       { c: "var(--usd)", k: "اگر دلار می‌خریدم", v: fmt(last.usdVal), s: fmt2(res.usdU) + " دلار · " + badge(pct(last.total, last.usdVal)) + " به نفع سرمایه‌گذاری" },
       { c: "var(--gold)", k: "اگر طلا می‌خریدم", v: fmt(last.goldVal), s: fmt2(res.goldU) + " گرم · " + badge(pct(last.total, last.goldVal)) + " به نفع سرمایه‌گذاری" },
       byUsd
@@ -509,6 +544,7 @@ footer { font-size: .78rem; color: var(--muted); }
     $("verdict").innerHTML = "<p>" + txt + "</p>";
 
     drawChart(rows);
+    drawBars(rows);
   }
 
   // ---------- chart ----------
@@ -516,52 +552,306 @@ footer { font-size: .78rem; color: var(--muted); }
     var raw = max / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
     return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * mag;
   }
+  var FONT = 'font-family="Vazirmatn, Tahoma, sans-serif"';
+  function txt(x, y, s, anchor, size, fill) {
+    return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="' + anchor + '" font-size="' + (size || 11) +
+      '" fill="' + (fill || "var(--muted)") + '" ' + FONT + ">" + s + "</text>";
+  }
+  function pctTxt(v) { return (v >= 0 ? "+" : "−") + fmt2(Math.abs(v * 100)) + "٪"; }
+  // month axis labels: every month when they fit, year under the first month and each Farvardin
+  function monthAxis(n, x, yBase) {
+    var every = n <= 18 ? 1 : Math.ceil(n / 12), h = "";
+    for (var i = 0; i <= n; i++) {
+      if (i % every !== 0 && i !== n) continue;
+      var parts = label(i).split(" ");
+      h += txt(x(i), yBase, parts[0], "middle", n > 13 ? 9.5 : 10.5);
+      var mIdx = (state.startMonth - 1 + i) % 12;
+      if (i === 0 || mIdx === 0) h += txt(x(i), yBase + 14, parts[1], "middle", 9.5);
+    }
+    return h;
+  }
+  // shared hover layer: snaps to the nearest month, draws a crosshair, fills the tooltip
+  function hover(svg, box, tip, W, idxAt, xAt, content, cross) {
+    svg.onpointermove = function (ev) {
+      var r0 = svg.getBoundingClientRect();
+      var i = idxAt((ev.clientX - r0.left) / r0.width * W);
+      cross(i);
+      tip.innerHTML = content(i);
+      tip.hidden = false;
+      var r = svg.getBoundingClientRect(), br = box.getBoundingClientRect();
+      var cx = r.left - br.left + box.scrollLeft + xAt(i) * r.width / W;
+      var left = cx + 14;
+      if (left + tip.offsetWidth > box.scrollLeft + box.clientWidth) left = cx - tip.offsetWidth - 14;
+      tip.style.left = Math.max(box.scrollLeft + 4, left) + "px";
+    };
+    svg.onpointerleave = function () { tip.hidden = true; cross(-1); };
+  }
+  function tipRow(color, name, value, dash) {
+    return '<div><span><i class="dot" style="background:' + color + (dash ? ";border-radius:2px" : "") + '"></i>' + name + "</span><b class=\"num\" style=\"margin:0\">" + value + "</b></div>";
+  }
+
   function drawChart(rows) {
-    var svg = $("chart"), W = 760, H = 320, L = 90, R = 20, T = 16, B = 40;
+    var svg = $("chart"), W = 760, H = 330, L = 78, R = 92, T = 14, B = 46;
     var byUsd = state.inflBase === "usd";
     var series = [
-      { key: "total", color: "var(--accent)", w: 3 },
-      { key: "usdVal", color: "var(--usd)", w: 2 },
-      { key: "goldVal", color: "var(--gold)", w: 2 },
-      { key: "infl", color: "var(--infl)", w: 2, dash: "5 4" }
+      { key: "total", name: "سرمایه‌گذاری", color: "var(--inv)", w: 2.5 },
+      { key: "usdVal", name: "دلار", color: "var(--usd)", w: 2 },
+      { key: "goldVal", name: "طلا", color: "var(--gold)", w: 2 },
+      { key: "infl", name: "جبران تورم", color: "var(--infl)", w: 2, dash: "5 4" }
     ];
     if (byUsd) series.pop();
-    var max = 0;
-    rows.forEach(function (r) { series.forEach(function (s) { max = Math.max(max, r[s.key]); }); });
-    if (max <= 0) max = 1;
-    var step = niceStep(max, 5), top = Math.ceil(max / step) * step;
+    var lo = Infinity, hi = 0;
+    rows.forEach(function (r) { series.forEach(function (s) { lo = Math.min(lo, r[s.key]); hi = Math.max(hi, r[s.key]); }); });
+    if (!(hi > lo)) { hi = lo * 1.1 + 1; lo = lo * 0.9; }
+    // value lines start near the data, not at zero, so month-to-month moves stay visible
+    var step = niceStep(hi - lo, 5), bot = Math.floor(lo / step) * step, top = Math.ceil(hi / step) * step;
     var n = rows.length - 1 || 1;
     function x(i) { return L + (W - L - R) * i / n; }
-    function y(v) { return T + (H - T - B) * (1 - v / top); }
+    function y(v) { return T + (H - T - B) * (1 - (v - bot) / (top - bot)); }
     var h = "";
-    for (var v = 0; v <= top + 1e-6; v += step) {
+    for (var i = 0; i <= n; i++) h += '<line x1="' + x(i) + '" x2="' + x(i) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="var(--line)" stroke-width="1" stroke-opacity=".45"/>';
+    for (var v = bot; v <= top + step / 2; v += step) {
       h += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)" stroke-width="1"/>';
-      h += '<text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + short(v) + "</text>";
+      h += txt(L - 8, y(v) + 4, short(v), "end");
     }
-    var every = Math.max(1, Math.ceil(n / 8));
-    rows.forEach(function (r, i) {
-      if (i % every !== 0 && i !== n) return;
-      var nm = label(i).split(" ");
-      h += '<text x="' + x(i) + '" y="' + (H - B + 18) + '" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + nm[0] + "</text>";
-      h += '<text x="' + x(i) + '" y="' + (H - B + 32) + '" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + nm[1] + "</text>";
-    });
-    // area under investment line
-    var area = "M" + x(0) + "," + y(0);
+    h += monthAxis(n, x, H - B + 18);
+    var area = "M" + x(0) + "," + y(bot);
     rows.forEach(function (r, i) { area += " L" + x(i) + "," + y(r.total); });
-    area += " L" + x(n) + "," + y(0) + " Z";
-    h += '<path d="' + area + '" fill="var(--accent)" fill-opacity="0.08" stroke="none"/>';
+    h += '<path d="' + area + " L" + x(n) + "," + y(bot) + ' Z" fill="var(--inv)" fill-opacity="0.07" stroke="none"/>';
+    var dots = n <= 36;
     series.slice().reverse().forEach(function (s) {
       var d = rows.map(function (r, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(r[s.key]).toFixed(1); }).join(" ");
       h += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + s.w + '" stroke-linejoin="round" stroke-linecap="round"' + (s.dash ? ' stroke-dasharray="' + s.dash + '"' : "") + "/>";
-      var lr = rows[rows.length - 1];
-      h += '<circle cx="' + x(n) + '" cy="' + y(lr[s.key]) + '" r="' + (s.w + 1.5) + '" fill="' + s.color + '"/>';
+      if (dots) rows.forEach(function (r, i) {
+        h += '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(r[s.key]).toFixed(1) + '" r="3.2" fill="' + s.color + '" stroke="var(--surface)" stroke-width="1.5"/>';
+      });
     });
+    // direct labels at the line ends, pushed apart so they never overlap
+    var last = rows[rows.length - 1];
+    var ends = series.map(function (s) { return { s: s, y: y(last[s.key]) }; }).sort(function (a, b) { return a.y - b.y; });
+    for (var j = 1; j < ends.length; j++) if (ends[j].y - ends[j - 1].y < 15) ends[j].y = ends[j - 1].y + 15;
+    ends.forEach(function (e) {
+      h += '<circle cx="' + (W - R + 10) + '" cy="' + (e.y - 1) + '" r="3.5" fill="' + e.s.color + '"/>';
+      h += txt(W - R + 18, e.y + 3, e.s.name, "start", 11, "var(--ink)");
+    });
+    h += '<line id="x1" x1="0" x2="0" y1="' + T + '" y2="' + (H - B) + '" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>';
+    h += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="transparent"/>';
     svg.innerHTML = h;
+    var cross = svg.querySelector("#x1");
+    hover(svg, $("box1"), $("tip1"), W, function (px) {
+      return Math.max(0, Math.min(n, Math.round((px - L) / ((W - L - R) / n))));
+    }, x, function (i) {
+      var r = rows[i], out = "<b>" + label(i) + "</b>";
+      series.forEach(function (s) { out += tipRow(s.color, s.name, short(r[s.key]), s.dash); });
+      if (i > 0) out += '<div><span>سود این ماه</span><b class="num" style="margin:0">' + short(r.profit) + "</b></div>";
+      return out;
+    }, function (i) {
+      if (i < 0) { cross.setAttribute("visibility", "hidden"); return; }
+      cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
+    });
+  }
+
+  function drawBars(rows) {
+    var svg = $("chart2"), W = 760, H = 260, L = 78, R = 92, T = 14, B = 46;
+    var n = rows.length - 1;
+    var series = [
+      { name: "سرمایه‌گذاری", color: "var(--inv)", v: function (r) { return r.rate / 100; } },
+      { name: "دلار", color: "var(--usd)", v: function (r) { return r.usdChg; } },
+      { name: "طلا", color: "var(--gold)", v: function (r) { return r.goldChg; } }
+    ];
+    var lo = 0, hi = 0;
+    rows.slice(1).forEach(function (r) { series.forEach(function (s) { lo = Math.min(lo, s.v(r)); hi = Math.max(hi, s.v(r)); }); });
+    if (hi === lo) hi = 0.01;
+    var step = niceStep((hi - lo) * 100, 4) / 100;
+    var bot = Math.floor(lo / step) * step, top = Math.ceil(hi / step) * step;
+    var slot = (W - L - R) / n;
+    function cx(k) { return L + slot * (k - 0.5); }
+    function y(v) { return T + (H - T - B) * (1 - (v - bot) / (top - bot)); }
+    var h = "";
+    for (var v = bot; v <= top + step / 2; v += step) {
+      var zero = Math.abs(v) < step / 1000;
+      h += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="' + (zero ? "var(--muted)" : "var(--line)") + '" stroke-width="1"/>';
+      h += txt(L - 8, y(v) + 4, (v > 0 ? "+" : v < 0 ? "−" : "") + fmt2(Math.abs(v * 100)) + "٪", "end");
+    }
+    var gw = Math.min(slot * 0.78, 54), bw = Math.max(2, gw / 3 - 2);
+    h += '<rect id="hl2" x="0" y="' + T + '" width="' + slot + '" height="' + (H - T - B) + '" fill="var(--muted)" fill-opacity=".08" visibility="hidden"/>';
+    for (var k = 1; k <= n; k++) {
+      series.forEach(function (s, j) {
+        var val = s.v(rows[k]), y0 = y(0), y1 = y(val);
+        var bx = cx(k) - gw / 2 + j * (bw + 2) + 1;
+        h += '<rect x="' + bx.toFixed(1) + '" y="' + Math.min(y0, y1).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(1, Math.abs(y1 - y0)).toFixed(1) + '" rx="1.5" fill="' + s.color + '"/>';
+      });
+    }
+    // month labels sit under each group of bars
+    var every = n <= 18 ? 1 : Math.ceil(n / 12);
+    for (k = 1; k <= n; k++) {
+      if (k % every !== 0 && k !== n) continue;
+      var parts = label(k).split(" ");
+      h += txt(cx(k), H - B + 18, parts[0], "middle", n > 13 ? 9.5 : 10.5);
+      if (k === 1 || (state.startMonth - 1 + k) % 12 === 0) h += txt(cx(k), H - B + 32, parts[1], "middle", 9.5);
+    }
+    series.forEach(function (s, j) {
+      h += '<circle cx="' + (W - R + 10) + '" cy="' + (T + 10 + j * 18) + '" r="3.5" fill="' + s.color + '"/>';
+      h += txt(W - R + 18, T + 14 + j * 18, s.name, "start", 11, "var(--ink)");
+    });
+    h += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="transparent"/>';
+    svg.innerHTML = h;
+    var hl = svg.querySelector("#hl2");
+    hover(svg, $("box2"), $("tip2"), W, function (px) {
+      return Math.max(1, Math.min(n, Math.floor((px - L) / slot) + 1));
+    }, cx, function (k) {
+      var r = rows[k], out = "<b>" + label(k) + "</b>";
+      var best = series.slice().sort(function (a, b) { return b.v(r) - a.v(r); })[0];
+      series.forEach(function (s) { out += tipRow(s.color, s.name + (s === best ? " ★" : ""), "<bdi dir=\"ltr\">" + pctTxt(s.v(r)) + "</bdi>"); });
+      return out;
+    }, function (i) {
+      if (i < 0) { hl.setAttribute("visibility", "hidden"); return; }
+      hl.setAttribute("x", L + slot * (i - 1)); hl.setAttribute("visibility", "visible");
+    });
+  }
+
+  // ---------- save & load ----------
+  // Saved scenarios live in the viewer's private Claude storage when the page runs as an artifact,
+  // otherwise in this browser's localStorage. Files work in both.
+  var SAVES_KEY = "compound-ledger-saves";
+  var store = {
+    kind: "local", col: null, downloads: null,
+    list: function () {
+      if (store.col) return store.col.get().then(function (snap) {
+        return snap.docs.map(function (d) { var v = d.data() || {}; return { id: d.id, name: v.name, savedAt: v.savedAt, data: v.data }; });
+      });
+      var all = {};
+      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
+      return Promise.resolve(Object.keys(all).map(function (id) { var v = all[id]; return { id: id, name: v.name, savedAt: v.savedAt, data: v.data }; }));
+    },
+    put: function (id, rec) {
+      if (store.col) return (id ? store.col.doc(id) : store.col.doc()).set(rec);
+      var all = {};
+      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
+      all[id || ("s" + Date.now())] = rec;
+      try { localStorage.setItem(SAVES_KEY, JSON.stringify(all)); } catch (e) { return Promise.reject(e); }
+      return Promise.resolve();
+    },
+    remove: function (id) {
+      if (store.col) return store.col.doc(id).delete();
+      var all = {};
+      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
+      delete all[id];
+      try { localStorage.setItem(SAVES_KEY, JSON.stringify(all)); } catch (e) {}
+      return Promise.resolve();
+    }
+  };
+  var saved = [];
+  function msg(t) { $("store-msg").textContent = t; }
+  function whenText(ts) {
+    try { return new Date(ts).toLocaleString("fa-IR", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { return ""; }
+  }
+  function applyState(s) {
+    var next = JSON.parse(JSON.stringify(DEFAULTS));
+    for (var k in next) if (s && k in s) next[k] = s[k];
+    if (!next.rows || typeof next.rows !== "object") next.rows = {};
+    state = next;
+    fillSettings(); buildRows(); update();
+  }
+  function renderSaves() {
+    var ul = $("saves");
+    ul.innerHTML = "";
+    saved.sort(function (a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
+    if (!saved.length) {
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="note">هنوز چیزی ذخیره نشده است. یک نام بنویسید و «ذخیره» را بزنید.</span>';
+      ul.appendChild(li);
+      return;
+    }
+    saved.forEach(function (sv) {
+      var li = document.createElement("li");
+      var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = sv.name || "بی‌نام";
+      var dt = document.createElement("span"); dt.className = "dt"; dt.textContent = whenText(sv.savedAt);
+      var ld = document.createElement("button"); ld.type = "button"; ld.textContent = "بارگذاری";
+      ld.addEventListener("click", function () {
+        try { applyState(JSON.parse(sv.data)); $("saveName").value = sv.name || ""; msg("«" + sv.name + "» بارگذاری شد."); }
+        catch (e) { msg("این ذخیره خراب است و بارگذاری نشد."); }
+      });
+      var del = document.createElement("button"); del.type = "button"; del.className = "danger"; del.textContent = "حذف";
+      del.addEventListener("click", function () {
+        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "برای حذف دوباره بزنید"; return; }
+        store.remove(sv.id).then(refresh, function () { msg("حذف انجام نشد. دوباره امتحان کنید."); });
+      });
+      li.appendChild(nm); li.appendChild(dt); li.appendChild(ld); li.appendChild(del);
+      ul.appendChild(li);
+    });
+  }
+  function refresh() {
+    return store.list().then(function (l) { saved = l; renderSaves(); }, function () { msg("فهرست ذخیره‌ها خوانده نشد."); });
+  }
+  function exportName() {
+    var n = ($("saveName").value || "سود-مرکب").trim().replace(/[\\/:*?"<>|\s]+/g, "-");
+    return n + ".json";
+  }
+  function initStore() {
+    $("saveBtn").addEventListener("click", function () {
+      var name = $("saveName").value.trim();
+      if (!name) { msg("اول یک نام برای این ذخیره بنویسید."); $("saveName").focus(); return; }
+      var same = saved.filter(function (x) { return x.name === name; })[0];
+      store.put(same ? same.id : null, { name: name, savedAt: Date.now(), data: JSON.stringify(state) })
+        .then(function () { msg(same ? "«" + name + "» به‌روز شد." : "«" + name + "» ذخیره شد."); return refresh(); },
+              function () { msg("ذخیره انجام نشد. دوباره امتحان کنید."); });
+    });
+    $("exportBtn").addEventListener("click", function () {
+      var data = JSON.stringify({ app: "compound-ledger", version: 1, savedAt: Date.now(), state: state }, null, 1);
+      var filename = exportName();
+      if (store.downloads) {
+        store.downloads.save({ filename: filename, data: data }).then(function () { msg("فایل آماده شد."); }, function () { msg("فایل ذخیره نشد."); });
+        return;
+      }
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([data], { type: "application/json" }));
+      a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      msg("فایل " + filename + " ذخیره شد.");
+    });
+    $("importBtn").addEventListener("click", function () { $("importFile").click(); });
+    $("importFile").addEventListener("change", function () {
+      var f = $("importFile").files[0];
+      if (!f) return;
+      var fr = new FileReader();
+      fr.onload = function () {
+        try {
+          var j = JSON.parse(fr.result);
+          var s = j && j.state ? j.state : j;
+          if (!s || typeof s.capital !== "number") throw new Error("bad");
+          applyState(s);
+          $("saveName").value = f.name.replace(/\.json$/i, "");
+          msg("فایل «" + f.name + "» بارگذاری شد. اگر می‌خواهید در فهرست هم بماند، «ذخیره» را بزنید.");
+        } catch (e) { msg("این فایل از این برنامه نیست یا خراب است."); }
+        $("importFile").value = "";
+      };
+      fr.readAsText(f);
+    });
+
+    var inArtifact = window.claude && typeof window.claude.use === "function";
+    $("store-where").textContent = "ذخیره‌ها فقط در همین مرورگر نگه داشته می‌شوند.";
+    if (inArtifact) $("exportBtn").hidden = true;
+    refresh();
+    if (!inArtifact) return;
+    Promise.all([window.claude.use("db"), window.claude.use("user"), window.claude.use("downloads")]).then(function (caps) {
+      var db = caps[0], user = caps[1];
+      store.downloads = caps[2];
+      $("exportBtn").hidden = !store.downloads;
+      if (!db || !user) return;
+      return user.id().then(function (id) {
+        if (!id) return;
+        store.col = db.collection("data/users/" + id + "/scenarios");
+        $("store-where").textContent = "ذخیره‌ها در حساب Claude شما نگه داشته می‌شوند و فقط خودتان آن‌ها را می‌بینید.";
+        return refresh();
+      });
+    }).catch(function () {});
   }
 
   fillSettings();
   buildRows();
   update();
+  initStore();
 })();
 </script>
 </body>
