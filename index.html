@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>دفتر سود مرکب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<style>
+/* Layout: one narrow column — settings strip, verdict cards, chart, then the editable monthly ledger */
+:root {
+  --bg: #f3f6f5;
+  --surface: #ffffff;
+  --ink: #17221f;
+  --muted: #5d6b67;
+  --line: #d8e0dd;
+  --accent: #0d7470;      /* investment (turquoise tile) */
+  --accent-soft: #e0efed;
+  --usd: #4c7a2e;         /* dollar */
+  --gold: #a87a16;        /* gold */
+  --infl: #b34338;        /* inflation */
+  --good: #23784a;
+  --bad: #b34338;
+  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
+  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
+    --accent: #43b8b0; --accent-soft: #1b3533; --usd: #8cc067; --gold: #e0b44c; --infl: #ec7f72;
+    --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
+  --accent: #43b8b0; --accent-soft: #1b3533; --usd: #8cc067; --gold: #e0b44c; --infl: #ec7f72;
+  --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15px; line-height: 1.7;
+  padding-inline: 16px; padding-block: 24px 48px;
+}
+.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
+.wrap > * { min-width: 0; }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.2; margin: 0; color: var(--accent); text-wrap: balance; }
+h2 { font-size: 1.1rem; margin: 0 0 12px; text-wrap: balance; }
+.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+.num { font-variant-numeric: tabular-nums; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
+.settings { display: grid; gap: 18px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label { font-size: .82rem; color: var(--muted); }
+.field small { font-size: .75rem; color: var(--muted); min-height: 1.2em; }
+input[type="text"], select {
+  font: inherit; font-variant-numeric: tabular-nums; color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; width: 100%; min-width: 0;
+}
+input[type="text"]:focus-visible, select:focus-visible, button:focus-visible, input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 1px;
+}
+.group-title { font-size: .78rem; font-weight: 700; letter-spacing: .02em; color: var(--muted); margin: 0 0 8px; }
+.check { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+.note { font-size: .8rem; color: var(--muted); margin: 0; }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
+.card .k { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.card .v { font-size: 1.35rem; font-weight: 700; }
+.card .s { font-size: .8rem; color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.pill { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
+.pill.good { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
+.pill.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent); }
+
+.verdict { border-inline-start: 0; background: var(--accent-soft); border-radius: 10px; padding: 16px 18px; }
+.verdict p { margin: 0; max-width: 75ch; }
+.verdict strong { color: var(--accent); }
+
+.chart-box { overflow-x: auto; }
+svg { display: block; width: 100%; height: auto; min-width: 520px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .82rem; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+
+.table-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .85rem; }
+th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: start; white-space: nowrap; }
+th { font-size: .75rem; color: var(--muted); font-weight: 500; background: var(--bg); position: sticky; top: 0; }
+tbody tr:last-child td { border-bottom: 0; }
+td input[type="text"] { width: 9.5em; padding: 4px 7px; font-size: .85rem; }
+td input.short { width: 4.5em; }
+td.profit { color: var(--accent); font-weight: 700; }
+td.close { font-weight: 700; }
+tr.start td { background: var(--accent-soft); }
+.head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 10px; }
+.head-row h2 { margin: 0; }
+button {
+  font: inherit; font-size: .85rem; cursor: pointer; border-radius: 6px; padding: 6px 12px;
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+button:hover { border-color: var(--accent); color: var(--accent); }
+footer { font-size: .78rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { button { transition: color .15s, border-color .15s; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>دفتر سود مرکب</h1>
+  <p class="lede">سود هر ماه دوباره سرمایه‌گذاری می‌شود. در جدول پایین برای هر ماه می‌توانید واریز یا برداشت بنویسید، نرخ سود را عوض کنید یا قیمت واقعی دلار و طلا را وارد کنید. نتیجه با نگه‌داشتن همان پول به شکل دلار، طلا و با تورم مقایسه می‌شود.</p>
+</header>
+
+<section class="panel settings" aria-label="تنظیمات">
+  <div>
+    <p class="group-title">سرمایه‌گذاری</p>
+    <div class="fields">
+      <div class="field"><label for="capital">سرمایهٔ اولیه (تومان)</label><input type="text" id="capital" inputmode="numeric" data-money><small id="capital-words"></small></div>
+      <div class="field"><label for="startMonth">ماه شروع</label><select id="startMonth"></select><small></small></div>
+      <div class="field"><label for="startYear">سال شروع</label><input type="text" id="startYear" inputmode="numeric"><small></small></div>
+      <div class="field"><label for="rate">سود ماهانه (درصد)</label><input type="text" id="rate" inputmode="decimal"><small id="rate-eff"></small></div>
+      <div class="field"><label for="months">تعداد ماه</label><input type="text" id="months" inputmode="numeric"><small>بین ۱ تا ۱۲۰</small></div>
+    </div>
+    <label class="check" style="margin-top:10px"><input type="checkbox" id="reinvest"> سود هر ماه دوباره سرمایه‌گذاری شود (سود مرکب)</label>
+  </div>
+  <div>
+    <p class="group-title">مقایسه با تورم، دلار و طلا</p>
+    <div class="fields">
+      <div class="field"><label for="inflation">تورم سالانه (درصد)</label><input type="text" id="inflation" inputmode="decimal"><small id="infl-m"></small></div>
+      <div class="field"><label for="usd0">قیمت دلار در ماه شروع (تومان)</label><input type="text" id="usd0" inputmode="numeric" data-money><small></small></div>
+      <div class="field"><label for="usdG">رشد سالانهٔ پیش‌بینی دلار (درصد)</label><input type="text" id="usdG" inputmode="decimal"><small id="usd-m"></small></div>
+      <div class="field"><label for="gold0">قیمت هر گرم طلای ۱۸ عیار در ماه شروع (تومان)</label><input type="text" id="gold0" inputmode="numeric" data-money><small></small></div>
+      <div class="field"><label for="goldG">رشد سالانهٔ پیش‌بینی طلا (درصد)</label><input type="text" id="goldG" inputmode="decimal"><small id="gold-m"></small></div>
+    </div>
+    <p class="note" style="margin-top:10px">قیمت‌ها و نرخ‌های پیش‌فرض دلار، طلا و تورم فقط عدد نمونه‌اند. قیمت واقعی اسفند ۱۴۰۴ را وارد کنید. برای ماه‌هایی که گذشته، قیمت واقعی همان ماه را در جدول بنویسید تا به‌جای پیش‌بینی استفاده شود.</p>
+  </div>
+</section>
+
+<section aria-label="خلاصه">
+  <div class="cards" id="cards"></div>
+</section>
+
+<section class="verdict" id="verdict" aria-live="polite"></section>
+
+<section class="panel" aria-label="نمودار">
+  <h2>ارزش دارایی در طول زمان (تومان)</h2>
+  <div class="chart-box"><svg id="chart" viewBox="0 0 760 320" role="img" aria-label="نمودار مقایسهٔ سرمایه‌گذاری با دلار، طلا و تورم"></svg></div>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--accent)"></i>سرمایه‌گذاری با سود ماهانه</span>
+    <span><i class="dot" style="background:var(--usd)"></i>اگر دلار می‌خریدم</span>
+    <span><i class="dot" style="background:var(--gold)"></i>اگر طلا می‌خریدم</span>
+    <span><i class="dot" style="background:var(--infl)"></i>حداقل لازم برای جبران تورم</span>
+  </div>
+</section>
+
+<section>
+  <div class="head-row">
+    <h2>جدول ماه به ماه</h2>
+    <button type="button" id="clearRows">پاک کردن واریز، برداشت و قیمت‌های جدول</button>
+  </div>
+  <div class="table-box">
+    <table>
+      <thead>
+        <tr>
+          <th>ماه</th>
+          <th>موجودی اول ماه</th>
+          <th>نرخ سود ٪</th>
+          <th>سود این ماه</th>
+          <th>واریز</th>
+          <th>برداشت</th>
+          <th>موجودی آخر ماه</th>
+          <th>قیمت دلار</th>
+          <th>قیمت گرم طلا</th>
+          <th>ارزش به پول روز شروع</th>
+        </tr>
+      </thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:8px">خانه‌های خالی از مقدار پیش‌فرض (متن کم‌رنگ) استفاده می‌کنند. سود هر ماه روی موجودی اول ماه حساب می‌شود؛ واریز و برداشت بعد از دریافت سود اعمال می‌شود و از ماه بعد سود می‌گیرد. در سناریوی دلار و طلا، همان واریزها و برداشت‌ها با قیمت همان ماه خرید و فروش می‌شوند.</p>
+</section>
+
+<footer>اطلاعات فقط در همین مرورگر ذخیره می‌شود.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
+  var KEY = "compound-ledger-v1";
+  var DEFAULTS = {
+    capital: 1600000000, startYear: 1404, startMonth: 12, rate: 4, months: 12, reinvest: true,
+    inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {}
+  };
+
+  var state = load();
+
+  // ---------- number helpers ----------
+  var nf = new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 0 });
+  var nf2 = new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 2 });
+  function fmt(n) { return nf.format(Math.round(n)); }
+  function fmt2(n) { return nf2.format(n); }
+  function parseNum(s) {
+    if (s === null || s === undefined) return null;
+    s = String(s)
+      .replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); })
+      .replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); })
+      .replace(/[,،٬\s]/g, "").replace(/٫/g, ".");
+    if (s === "") return null;
+    var n = parseFloat(s);
+    return isFinite(n) ? n : null;
+  }
+  function short(n) {
+    var a = Math.abs(n);
+    if (a >= 1e9) return fmt2(n / 1e9) + " میلیارد";
+    if (a >= 1e6) return fmt2(n / 1e6) + " میلیون";
+    return fmt(n);
+  }
+  function monthly(annualPct) { return Math.pow(1 + annualPct / 100, 1 / 12) - 1; }
+  function label(k) {
+    var idx = state.startMonth - 1 + k;
+    var y = state.startYear + Math.floor(idx / 12);
+    return MONTHS[((idx % 12) + 12) % 12] + " " + fmt(y).replace(/٬/g, "");
+  }
+
+  // ---------- storage ----------
+  function load() {
+    var s = null;
+    try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) { s = null; }
+    var out = JSON.parse(JSON.stringify(DEFAULTS));
+    if (s && typeof s === "object") for (var k in out) if (k in s) out[k] = s[k];
+    return out;
+  }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+  // ---------- settings ----------
+  var $ = function (id) { return document.getElementById(id); };
+  var sel = $("startMonth");
+  MONTHS.forEach(function (m, i) { var o = document.createElement("option"); o.value = i + 1; o.textContent = m; sel.appendChild(o); });
+
+  var numFields = ["capital", "startYear", "rate", "months", "inflation", "usd0", "usdG", "gold0", "goldG"];
+  function fillSettings() {
+    numFields.forEach(function (f) {
+      var el = $(f);
+      el.value = el.hasAttribute("data-money") ? fmt(state[f]) : (f === "startYear" ? String(state[f]).replace(/\d/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹"[d]; }) : fmt2(state[f]));
+    });
+    sel.value = state.startMonth;
+    $("reinvest").checked = !!state.reinvest;
+  }
+  numFields.forEach(function (f) {
+    var el = $(f);
+    el.addEventListener("input", function () {
+      var v = parseNum(el.value);
+      if (v === null) return;
+      if (f === "months") { v = Math.max(1, Math.min(120, Math.round(v))); }
+      if (f === "startYear") { v = Math.round(v); if (v < 1300 || v > 1500) return; }
+      var rebuild = (f === "months" || f === "startYear") && state[f] !== v;
+      state[f] = v;
+      if (rebuild) buildRows();
+      update();
+    });
+    el.addEventListener("blur", function () { fillSettings(); });
+  });
+  sel.addEventListener("change", function () { state.startMonth = +sel.value; buildRows(); update(); });
+  $("reinvest").addEventListener("change", function () { state.reinvest = $("reinvest").checked; update(); });
+  $("clearRows").addEventListener("click", function () { state.rows = {}; buildRows(); update(); });
+
+  // ---------- table ----------
+  var ROW_FIELDS = [
+    { key: "rate", cls: "short", mode: "decimal" },
+    { key: "dep", mode: "numeric", money: true },
+    { key: "wd", mode: "numeric", money: true },
+    { key: "usd", mode: "numeric", money: true },
+    { key: "gold", mode: "numeric", money: true }
+  ];
+  function rowVal(k, key) { var r = state.rows[k]; return r && r[key] !== undefined && r[key] !== null ? r[key] : null; }
+
+  function cell(text, cls, id) {
+    var td = document.createElement("td");
+    if (cls) td.className = cls;
+    if (id) td.id = id;
+    td.textContent = text || "";
+    return td;
+  }
+  function inputCell(k, f) {
+    var td = document.createElement("td");
+    var inp = document.createElement("input");
+    inp.type = "text"; inp.inputMode = f.mode; inp.id = "r" + k + "-" + f.key;
+    if (f.cls) inp.className = f.cls;
+    var v = rowVal(k, f.key);
+    if (v !== null) inp.value = f.money ? fmt(v) : fmt2(v);
+    inp.setAttribute("aria-label", f.key + " " + label(k));
+    inp.addEventListener("input", function () {
+      var n = parseNum(inp.value);
+      state.rows[k] = state.rows[k] || {};
+      if (n === null || n < 0) delete state.rows[k][f.key]; else state.rows[k][f.key] = n;
+      update();
+    });
+    inp.addEventListener("blur", function () {
+      var n = rowVal(k, f.key);
+      inp.value = n === null ? "" : (f.money ? fmt(n) : fmt2(n));
+    });
+    td.appendChild(inp);
+    return td;
+  }
+  function buildRows() {
+    var tb = $("rows");
+    tb.innerHTML = "";
+    var tr0 = document.createElement("tr");
+    tr0.className = "start";
+    tr0.appendChild(cell(label(0) + " (شروع)"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("", "num", "c0-dep"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("", "num close", "c0-close"));
+    tr0.appendChild(cell("", "num", "c0-usd"));
+    tr0.appendChild(cell("", "num", "c0-gold"));
+    tr0.appendChild(cell("", "num", "c0-real"));
+    tb.appendChild(tr0);
+    for (var k = 1; k <= state.months; k++) {
+      var tr = document.createElement("tr");
+      tr.appendChild(cell(label(k)));
+      tr.appendChild(cell("", "num", "c" + k + "-open"));
+      tr.appendChild(inputCell(k, ROW_FIELDS[0]));
+      tr.appendChild(cell("", "num profit", "c" + k + "-profit"));
+      tr.appendChild(inputCell(k, ROW_FIELDS[1]));
+      tr.appendChild(inputCell(k, ROW_FIELDS[2]));
+      tr.appendChild(cell("", "num close", "c" + k + "-close"));
+      tr.appendChild(inputCell(k, ROW_FIELDS[3]));
+      tr.appendChild(inputCell(k, ROW_FIELDS[4]));
+      tr.appendChild(cell("", "num", "c" + k + "-real"));
+      tb.appendChild(tr);
+    }
+  }
+
+  // ---------- model ----------
+  function simulate() {
+    var im = monthly(state.inflation), um = monthly(state.usdG), gm = monthly(state.goldG);
+    var B = state.capital, pocket = 0;
+    var usdU = state.capital / state.usd0, goldU = state.capital / state.gold0;
+    var infl = state.capital, netIn = state.capital, totalProfit = 0;
+    var out = [{ k: 0, open: 0, profit: 0, dep: state.capital, wd: 0, close: B, total: B,
+      usdP: state.usd0, goldP: state.gold0, usdVal: B, goldVal: B, infl: B, cpi: 1, real: B, rate: 0 }];
+    for (var k = 1; k <= state.months; k++) {
+      var r = rowVal(k, "rate"); if (r === null) r = state.rate;
+      var open = B;
+      var profit = open * r / 100;
+      totalProfit += profit;
+      if (state.reinvest) B += profit; else pocket += profit;
+      var dep = rowVal(k, "dep") || 0;
+      var wd = Math.min(rowVal(k, "wd") || 0, B + dep);
+      B += dep - wd;
+      netIn += dep - wd;
+      var usdP = rowVal(k, "usd"); if (usdP === null || usdP <= 0) usdP = state.usd0 * Math.pow(1 + um, k);
+      var goldP = rowVal(k, "gold"); if (goldP === null || goldP <= 0) goldP = state.gold0 * Math.pow(1 + gm, k);
+      usdU = Math.max(0, usdU + (dep - wd) / usdP);
+      goldU = Math.max(0, goldU + (dep - wd) / goldP);
+      infl = Math.max(0, infl * (1 + im) + dep - wd);
+      var cpi = Math.pow(1 + im, k);
+      var total = B + pocket;
+      out.push({ k: k, open: open, rate: r, profit: profit, dep: dep, wd: wd, close: B, total: total,
+        usdP: usdP, goldP: goldP, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
+        real: total / cpi, usdEst: state.usd0 * Math.pow(1 + um, k), goldEst: state.gold0 * Math.pow(1 + gm, k) });
+    }
+    return { rows: out, pocket: pocket, netIn: netIn, totalProfit: totalProfit, usdU: usdU, goldU: goldU };
+  }
+
+  // ---------- render ----------
+  function update() {
+    save();
+    var res = simulate(), rows = res.rows, last = rows[rows.length - 1];
+    var n = state.months;
+
+    $("capital-words").textContent = short(state.capital) + " تومان";
+    var eff = (Math.pow(1 + state.rate / 100, 12) - 1) * 100;
+    $("rate-eff").textContent = state.reinvest ? "معادل سالانه با سود مرکب: " + fmt2(eff) + "٪" : "سالانه بدون مرکب: " + fmt2(state.rate * 12) + "٪";
+    $("infl-m").textContent = "ماهانه حدود " + fmt2(monthly(state.inflation) * 100) + "٪";
+    $("usd-m").textContent = "ماهانه حدود " + fmt2(monthly(state.usdG) * 100) + "٪";
+    $("gold-m").textContent = "ماهانه حدود " + fmt2(monthly(state.goldG) * 100) + "٪";
+
+    // table
+    $("c0-dep").textContent = fmt(state.capital);
+    $("c0-close").textContent = fmt(state.capital);
+    $("c0-usd").textContent = fmt(state.usd0);
+    $("c0-gold").textContent = fmt(state.gold0);
+    $("c0-real").textContent = fmt(state.capital);
+    for (var k = 1; k <= n; k++) {
+      var r = rows[k];
+      $("c" + k + "-open").textContent = fmt(r.open);
+      $("c" + k + "-profit").textContent = fmt(r.profit);
+      $("c" + k + "-close").textContent = fmt(r.close);
+      $("c" + k + "-real").textContent = fmt(r.real);
+      $("r" + k + "-rate").placeholder = fmt2(state.rate);
+      $("r" + k + "-dep").placeholder = "۰";
+      $("r" + k + "-wd").placeholder = "۰";
+      $("r" + k + "-usd").placeholder = fmt(r.usdEst);
+      $("r" + k + "-gold").placeholder = fmt(r.goldEst);
+    }
+
+    // cards
+    var mlabel = label(n);
+    function pct(a, b) { return b > 0 ? (a / b - 1) * 100 : 0; }
+    function badge(v) { return '<span dir="ltr" class="pill ' + (v >= 0 ? "good" : "bad") + '">' + (v >= 0 ? "+" : "−") + fmt2(Math.abs(v)) + "٪</span>"; }
+    var pocketLine = state.reinvest ? "" : "، شامل " + short(res.pocket) + " سود برداشت‌شده";
+    var cards = [
+      { c: "var(--accent)", k: "سرمایه‌گذاری در " + mlabel, v: fmt(last.total), s: short(last.total) + " تومان" + pocketLine },
+      { c: "var(--accent)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
+      { c: "var(--usd)", k: "اگر دلار می‌خریدم", v: fmt(last.usdVal), s: fmt2(res.usdU) + " دلار · " + badge(pct(last.total, last.usdVal)) + " به نفع سرمایه‌گذاری" },
+      { c: "var(--gold)", k: "اگر طلا می‌خریدم", v: fmt(last.goldVal), s: fmt2(res.goldU) + " گرم · " + badge(pct(last.total, last.goldVal)) + " به نفع سرمایه‌گذاری" },
+      { c: "var(--infl)", k: "حداقل لازم برای جبران تورم", v: fmt(last.infl), s: badge(pct(last.total, last.infl)) + " سود واقعی پس از تورم" },
+      { c: "var(--muted)", k: "ارزش نهایی به پول روز شروع", v: fmt(last.real), s: "قدرت خرید در " + label(0) }
+    ];
+    $("cards").innerHTML = cards.map(function (c) {
+      return '<div class="card"><span class="k"><i class="dot" style="background:' + c.c + '"></i>' + c.k +
+        '</span><span class="v num">' + c.v + '</span><span class="s">' + c.s + "</span></div>";
+    }).join("");
+
+    // verdict
+    var opts = [
+      { name: "سرمایه‌گذاری با سود ماهانه", v: last.total },
+      { name: "خرید دلار", v: last.usdVal },
+      { name: "خرید طلا", v: last.goldVal }
+    ].sort(function (a, b) { return b.v - a.v; });
+    var best = opts[0], inv = last.total;
+    var txt;
+    if (best.v === inv) {
+      var second = opts[1];
+      txt = "تا " + mlabel + " <strong>سرمایه‌گذاری با سود ماهانه</strong> بهترین گزینه است و " + short(inv - second.v) +
+        " تومان (" + fmt2(pct(inv, second.v)) + "٪) بیشتر از " + second.name + " می‌شود.";
+    } else {
+      txt = "تا " + mlabel + " <strong>" + best.name + "</strong> بهتر بود و " + short(best.v - inv) +
+        " تومان (" + fmt2(pct(best.v, inv)) + "٪) بیشتر از سرمایه‌گذاری فعلی شما می‌شد.";
+    }
+    var realPct = pct(inv, last.infl);
+    txt += " نسبت به تورم، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
+    if (state.reinvest) {
+      txt += " دلار یا طلا فقط در صورتی جلو می‌زنند که سالانه بیش از " + fmt2(eff) + "٪ گران شوند (با نرخ " + fmt2(state.rate) + "٪ ماهانه).";
+    }
+    $("verdict").innerHTML = "<p>" + txt + "</p>";
+
+    drawChart(rows);
+  }
+
+  // ---------- chart ----------
+  function niceStep(max, count) {
+    var raw = max / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
+    return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * mag;
+  }
+  function drawChart(rows) {
+    var svg = $("chart"), W = 760, H = 320, L = 90, R = 20, T = 16, B = 40;
+    var series = [
+      { key: "total", color: "var(--accent)", w: 3 },
+      { key: "usdVal", color: "var(--usd)", w: 2 },
+      { key: "goldVal", color: "var(--gold)", w: 2 },
+      { key: "infl", color: "var(--infl)", w: 2, dash: "5 4" }
+    ];
+    var max = 0;
+    rows.forEach(function (r) { series.forEach(function (s) { max = Math.max(max, r[s.key]); }); });
+    if (max <= 0) max = 1;
+    var step = niceStep(max, 5), top = Math.ceil(max / step) * step;
+    var n = rows.length - 1 || 1;
+    function x(i) { return L + (W - L - R) * i / n; }
+    function y(v) { return T + (H - T - B) * (1 - v / top); }
+    var h = "";
+    for (var v = 0; v <= top + 1e-6; v += step) {
+      h += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)" stroke-width="1"/>';
+      h += '<text x="' + (L - 8) + '" y="' + (y(v) + 4) + '" text-anchor="end" font-size="11" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + short(v) + "</text>";
+    }
+    var every = Math.max(1, Math.ceil(n / 8));
+    rows.forEach(function (r, i) {
+      if (i % every !== 0 && i !== n) return;
+      var nm = label(i).split(" ");
+      h += '<text x="' + x(i) + '" y="' + (H - B + 18) + '" text-anchor="middle" font-size="11" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + nm[0] + "</text>";
+      h += '<text x="' + x(i) + '" y="' + (H - B + 32) + '" text-anchor="middle" font-size="10" fill="var(--muted)" font-family="Vazirmatn, Tahoma, sans-serif">' + nm[1] + "</text>";
+    });
+    // area under investment line
+    var area = "M" + x(0) + "," + y(0);
+    rows.forEach(function (r, i) { area += " L" + x(i) + "," + y(r.total); });
+    area += " L" + x(n) + "," + y(0) + " Z";
+    h += '<path d="' + area + '" fill="var(--accent)" fill-opacity="0.08" stroke="none"/>';
+    series.slice().reverse().forEach(function (s) {
+      var d = rows.map(function (r, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(r[s.key]).toFixed(1); }).join(" ");
+      h += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + s.w + '" stroke-linejoin="round" stroke-linecap="round"' + (s.dash ? ' stroke-dasharray="' + s.dash + '"' : "") + "/>";
+      var lr = rows[rows.length - 1];
+      h += '<circle cx="' + x(n) + '" cy="' + y(lr[s.key]) + '" r="' + (s.w + 1.5) + '" fill="' + s.color + '"/>';
+    });
+    svg.innerHTML = h;
+  }
+
+  fillSettings();
+  buildRows();
+  update();
+})();
+</script>
+</body>
+</html>
