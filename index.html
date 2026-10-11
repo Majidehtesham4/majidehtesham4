@@ -183,18 +183,18 @@ footer { font-size: .78rem; color: var(--muted); }
   <div class="table-box">
     <table>
       <thead><tr>
-        <th>نام</th><th>ماه شروع</th><th>مبلغ (تومان)</th><th>سود ماهانه ٪</th><th>مدت (ماه)</th><th>در سررسید</th>
+        <th>نام</th><th>ماه شروع</th><th>روز</th><th>مبلغ (تومان)</th><th>سود ماهانه ٪</th><th>مدت (ماه)</th><th>در سررسید</th>
         <th>چک هر ماه</th><th>آخرین چک</th><th></th>
       </tr></thead>
       <tbody id="contracts"></tbody>
     </table>
   </div>
-  <p class="note" style="margin-top:8px">اولین چک هر قرارداد یک ماه بعد از شروع آن است و اصل پول همراه آخرین چک برمی‌گردد. قراردادی که بعد از ماه شروع اضافه شود پول تازه حساب می‌شود. «تمدید» یعنی اصل پول در سررسید با نرخ و مدت پیش‌فرض همان ماه دوباره قرارداد می‌شود.</p>
+  <p class="note" style="margin-top:8px">هر قرارداد در «روز» خودش چک می‌دهد؛ اولین چک یک ماه بعد از شروع است و اصل پول همراه آخرین چک برمی‌گردد. قراردادی که بعد از ماه شروع اضافه شود پول تازه حساب می‌شود. «تمدید» یعنی اصل پول در سررسید با نرخ و مدت پیش‌فرض همان ماه دوباره قرارداد می‌شود.</p>
   <details>
     <summary>قراردادهای خودکار که از چک‌های هر ماه ساخته شده‌اند (<span id="autoCount"></span>)</summary>
     <div class="table-box" style="margin-top:8px">
       <table>
-        <thead><tr><th>ماه امضا</th><th>مبلغ</th><th>سود ماهانه ٪</th><th>چک هر ماه</th><th>آخرین چک</th><th>ساخته‌شده از</th></tr></thead>
+        <thead><tr><th>تاریخ امضا</th><th>مبلغ</th><th>سود ماهانه ٪</th><th>چک هر ماه</th><th>آخرین چک</th><th>ساخته‌شده از</th></tr></thead>
         <tbody id="autoContracts"></tbody>
       </table>
     </div>
@@ -246,8 +246,10 @@ footer { font-size: .78rem; color: var(--muted); }
           <th>سرمایه در قراردادها (اول ماه)</th>
           <th>نرخ قرارداد جدید ٪</th>
           <th>چک‌های این ماه (سود)</th>
+          <th>روز چک‌ها</th>
           <th>اصل سررسیدشده</th>
           <th>واریز</th>
+          <th>روز واریز</th>
           <th>برداشت</th>
           <th>قرارداد جدید این ماه</th>
           <th>قراردادهای فعال</th>
@@ -280,7 +282,7 @@ footer { font-size: .78rem; color: var(--muted); }
   var DEFAULTS = {
     startYear: 1404, startMonth: 12, rate: 4, term: 12, months: 12, reinvest: true, renew: true,
     inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {},
-    contracts: [{ id: "c1", name: "قرارداد اول", k: 0, amount: 1600000000, rate: 4, term: 12, renew: true }]
+    contracts: [{ id: "c1", name: "قرارداد اول", k: 0, day: 1, amount: 1600000000, rate: 4, term: 12, renew: true }]
   };
   // older saves had a single "capital" field instead of a contract list
   function normalize(s) {
@@ -292,6 +294,7 @@ footer { font-size: .78rem; color: var(--muted); }
         rate: s && typeof s.rate === "number" ? s.rate : 4, term: out.term, renew: true }];
     }
     if (!out.rows || typeof out.rows !== "object") out.rows = {};
+    out.contracts.forEach(function (c) { if (!(c.day >= 1)) c.day = 1; });
     return out;
   }
 
@@ -319,6 +322,15 @@ footer { font-size: .78rem; color: var(--muted); }
     return fmt(n);
   }
   function monthly(annualPct) { return Math.pow(1 + annualPct / 100, 1 / 12) - 1; }
+  // Jalali leap years follow the 33-year cycle; Esfand has 30 days in them
+  function isLeap(y) { return [1, 5, 9, 13, 17, 22, 26, 30].indexOf(((y % 33) + 33) % 33) >= 0; }
+  function monthLen(k) {
+    var idx = state.startMonth - 1 + k, m = ((idx % 12) + 12) % 12, y = state.startYear + Math.floor(idx / 12);
+    return m < 6 ? 31 : m < 11 ? 30 : (isLeap(y) ? 30 : 29);
+  }
+  function dayOf(k, d) { return Math.max(1, Math.min(monthLen(k), Math.round(d) || 1)); }
+  function dateLabel(k, d) { return fmt(dayOf(k, d)) + " " + label(k); }
+  function defaultDay() { return state.contracts.length ? Math.round(state.contracts[0].day) || 1 : 1; }
   function label(k) {
     var idx = state.startMonth - 1 + k;
     var y = state.startYear + Math.floor(idx / 12);
@@ -372,7 +384,7 @@ footer { font-size: .78rem; color: var(--muted); }
   $("addContract").addEventListener("click", function () {
     var prev = state.contracts[state.contracts.length - 1];
     state.contracts.push({ id: "c" + Date.now(), name: "قرارداد " + fmt(state.contracts.length + 1), k: prev ? Math.min(state.months, Math.round(prev.k) + 1) : 0,
-      amount: 100000000, rate: state.rate, term: state.term, renew: true });
+      day: prev ? Math.round(prev.day) || 1 : 1, amount: 100000000, rate: state.rate, term: state.term, renew: true });
     buildContracts(); update();
     var inputs = $("contracts").querySelectorAll("input.name");
     if (inputs.length) inputs[inputs.length - 1].focus();
@@ -384,7 +396,8 @@ footer { font-size: .78rem; color: var(--muted); }
     { key: "dep", mode: "numeric", money: true },
     { key: "wd", mode: "numeric", money: true },
     { key: "usd", mode: "numeric", money: true },
-    { key: "gold", mode: "numeric", money: true }
+    { key: "gold", mode: "numeric", money: true },
+    { key: "day", cls: "short", mode: "numeric" }
   ];
   function rowVal(k, key) { var r = state.rows[k]; return r && r[key] !== undefined && r[key] !== null ? r[key] : null; }
 
@@ -426,7 +439,9 @@ footer { font-size: .78rem; color: var(--muted); }
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("—"));
     tr0.appendChild(cell("", "num", "c0-dep"));
+    tr0.appendChild(cell("—"));
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("", "num", "c0-new"));
     tr0.appendChild(cell("", "num", "c0-count"));
@@ -446,8 +461,10 @@ footer { font-size: .78rem; color: var(--muted); }
       tr.appendChild(cell("", "num", "c" + k + "-open"));
       tr.appendChild(inputCell(k, ROW_FIELDS[0]));
       tr.appendChild(cell("", "num profit", "c" + k + "-profit"));
+      tr.appendChild(cell("", "num", "c" + k + "-days"));
       tr.appendChild(cell("", "num", "c" + k + "-matured"));
       tr.appendChild(inputCell(k, ROW_FIELDS[1]));
+      tr.appendChild(inputCell(k, ROW_FIELDS[5]));
       tr.appendChild(inputCell(k, ROW_FIELDS[2]));
       tr.appendChild(cell("", "num", "c" + k + "-new"));
       tr.appendChild(cell("", "num", "c" + k + "-count"));
@@ -475,7 +492,7 @@ footer { font-size: .78rem; color: var(--muted); }
       var sum = 0;
       state.contracts.forEach(function (c) {
         if (Math.round(c.k) !== k || !(c.amount > 0)) return;
-        active.push({ amount: c.amount, rate: c.rate, start: k, term: Math.max(1, Math.round(c.term)), renew: !!c.renew });
+        active.push({ amount: c.amount, rate: c.rate, start: k, term: Math.max(1, Math.round(c.term)), renew: !!c.renew, day: Math.round(c.day) || 1 });
         sum += c.amount;
       });
       return sum;
@@ -496,32 +513,42 @@ footer { font-size: .78rem; color: var(--muted); }
       var r = rowVal(k, "rate"); if (r === null) r = state.rate;
       if (r !== state.rate) simple = false;
       var open = capital();
-      var profit = 0, renewed = 0, matured = 0;
-      active.forEach(function (c) { profit += c.amount * c.rate / 100; });
+      // cheques and returned principal are grouped by the day they clear; each day's money signs its own contract
+      var profit = 0, matured = 0, pools = {};
+      function bucket(d) { return pools[d] || (pools[d] = { profit: 0, renewed: 0, dep: 0, amt: 0 }); }
+      active.forEach(function (c) { var p = c.amount * c.rate / 100; profit += p; bucket(c.day).profit += p; });
       active = active.filter(function (c) {
         if (c.start + c.term !== k) return true;
         matured += c.amount;
-        if (c.renew) renewed += c.amount; else pocket += c.amount;
+        if (c.renew) bucket(c.day).renewed += c.amount; else pocket += c.amount;
         return false;
       });
       totalProfit += profit;
-      var pool = renewed + (state.reinvest ? profit : 0);
       if (!state.reinvest) pocket += profit;
       var dep = rowVal(k, "dep") || 0;
-      pool += dep;
-      var wd = Math.min(rowVal(k, "wd") || 0, pool + pocket);
-      if (wd) simple = false;
-      if (dep) simple = false;
-      var fromPool = Math.min(wd, pool);
-      pool -= fromPool; pocket -= wd - fromPool;
-      var src = [];
-      if (profit && state.reinvest) src.push("چک‌ها");
-      if (renewed) src.push("اصل سررسیدشده");
-      if (dep) src.push("واریز");
-      if (pool > 0.5) {
-        active.push({ amount: pool, rate: r, start: k, term: Math.max(1, Math.round(state.term)), renew: !!state.renew });
-        autos.push({ k: k, amount: pool, rate: r, term: Math.max(1, Math.round(state.term)), src: src.join(" + ") });
-      } else pool = 0;
+      if (dep) bucket(Math.round(rowVal(k, "day") || defaultDay())).dep += dep;
+      var days = Object.keys(pools).map(Number).sort(function (x, y) { return x - y; });
+      var avail = 0;
+      days.forEach(function (d) { var q = pools[d]; q.amt = q.renewed + q.dep + (state.reinvest ? q.profit : 0); avail += q.amt; });
+      var wd = Math.min(rowVal(k, "wd") || 0, avail + pocket);
+      if (wd || dep) simple = false;
+      var left = wd;
+      days.forEach(function (d) { var t = Math.min(left, pools[d].amt); pools[d].amt -= t; left -= t; });
+      pocket -= left;
+      var newAuto = 0;
+      days.forEach(function (d) {
+        var q = pools[d];
+        if (q.amt <= 0.5) return;
+        var src = [];
+        if (q.profit && state.reinvest) src.push("چک‌ها");
+        if (q.renewed) src.push("اصل سررسیدشده");
+        if (q.dep) src.push("واریز");
+        var term = Math.max(1, Math.round(state.term));
+        active.push({ amount: q.amt, rate: r, start: k, term: term, renew: !!state.renew, day: d });
+        autos.push({ k: k, day: d, amount: q.amt, rate: r, term: term, src: src.join(" + ") });
+        newAuto += q.amt;
+      });
+      var chequeDays = days.filter(function (d) { return pools[d].profit > 0; });
       var manual = startContracts(k);
       var flow = dep + manual - wd;
       // months without an entered price continue from the previous month's price at the forecast growth
@@ -536,7 +563,7 @@ footer { font-size: .78rem; color: var(--muted); }
       cpi *= 1 + step;
       prevUsd = usdP; prevGold = goldP;
       var close = capital(), total = close + pocket;
-      out.push({ k: k, open: open, rate: r, profit: profit, matured: matured, dep: dep + manual, wd: wd, newAmt: pool + manual,
+      out.push({ k: k, days: chequeDays, open: open, rate: r, profit: profit, matured: matured, dep: dep + manual, wd: wd, newAmt: newAuto + manual,
         count: active.length, close: close, total: total, yield: open > 0 ? profit / open : 0,
         usdP: usdP, goldP: goldP, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
         real: total / cpi, usdChg: usdChg, goldChg: goldChg, usdEst: usdEst, goldEst: goldEst });
@@ -555,7 +582,7 @@ footer { font-size: .78rem; color: var(--muted); }
     var tb = $("contracts");
     tb.innerHTML = "";
     if (!state.contracts.length) {
-      tb.innerHTML = '<tr><td colspan="9" class="note">هیچ قراردادی ندارید. «افزودن قرارداد جدید» را بزنید.</td></tr>';
+      tb.innerHTML = '<tr><td colspan="10" class="note">هیچ قراردادی ندارید. «افزودن قرارداد جدید» را بزنید.</td></tr>';
       return;
     }
     state.contracts.forEach(function (c, idx) {
@@ -569,7 +596,7 @@ footer { font-size: .78rem; color: var(--muted); }
           if (key === "name") { c.name = inp.value; save(); return; }
           var v = parseNum(inp.value);
           if (v === null || v < 0) return;
-          c[key] = key === "term" ? Math.max(1, Math.min(60, Math.round(v))) : v;
+          c[key] = key === "term" ? Math.max(1, Math.min(60, Math.round(v))) : key === "day" ? Math.max(1, Math.min(31, Math.round(v))) : v;
           update();
         });
         inp.addEventListener("blur", function () { if (key !== "name") inp.value = money ? fmt(c[key]) : fmt2(c[key]); });
@@ -582,6 +609,7 @@ footer { font-size: .78rem; color: var(--muted); }
       sm.innerHTML = monthOptions(Math.round(c.k));
       sm.addEventListener("change", function () { c.k = +sm.value; update(); });
       tdm.appendChild(sm); tr.appendChild(tdm);
+      tr.appendChild(field("day", "short"));
       tr.appendChild(field("amount", "", true));
       tr.appendChild(field("rate", "short", false, "decimal"));
       tr.appendChild(field("term", "short"));
@@ -609,12 +637,12 @@ footer { font-size: .78rem; color: var(--muted); }
       var pay = $("k" + c.id + "-pay"), end = $("k" + c.id + "-end");
       if (!pay) return;
       pay.textContent = fmt(c.amount * c.rate / 100);
-      end.textContent = label(Math.round(c.k) + Math.max(1, Math.round(c.term)));
+      end.textContent = dateLabel(Math.round(c.k) + Math.max(1, Math.round(c.term)), c.day);
     });
     $("autoCount").textContent = fmt(res.autos.length) + " قرارداد";
     $("autoContracts").innerHTML = res.autos.length ? res.autos.map(function (a) {
-      return "<tr><td>" + label(a.k) + '</td><td class="num">' + fmt(a.amount) + '</td><td class="num">' + fmt2(a.rate) +
-        '</td><td class="num">' + fmt(a.amount * a.rate / 100) + "</td><td>" + label(a.k + a.term) + "</td><td>" + a.src + "</td></tr>";
+      return "<tr><td>" + dateLabel(a.k, a.day) + '</td><td class="num">' + fmt(a.amount) + '</td><td class="num">' + fmt2(a.rate) +
+        '</td><td class="num">' + fmt(a.amount * a.rate / 100) + "</td><td>" + dateLabel(a.k + a.term, a.day) + "</td><td>" + a.src + "</td></tr>";
     }).join("") : '<tr><td colspan="6" class="note">هنوز قرارداد خودکاری ساخته نشده است.</td></tr>';
   }
 
@@ -657,6 +685,8 @@ footer { font-size: .78rem; color: var(--muted); }
       var r = rows[k];
       $("c" + k + "-open").textContent = fmt(r.open);
       $("c" + k + "-profit").textContent = fmt(r.profit);
+      $("c" + k + "-days").textContent = r.days.length ? r.days.map(function (d) { return fmt(dayOf(k, d)); }).join("، ") : "—";
+      $("r" + k + "-day").placeholder = fmt(defaultDay());
       $("c" + k + "-matured").textContent = r.matured ? fmt(r.matured) : "—";
       $("c" + k + "-new").textContent = r.newAmt ? fmt(r.newAmt) : "—";
       $("c" + k + "-count").textContent = fmt(r.count);
