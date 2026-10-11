@@ -124,6 +124,11 @@ td.down { color: var(--good); }
 .win.usd { background: color-mix(in srgb, var(--usd) 20%, transparent); }
 .win.gold { background: color-mix(in srgb, var(--gold) 22%, transparent); }
 tr.start td { background: var(--accent-soft); }
+td input.name { width: 9em; }
+td select { width: auto; padding: 4px 7px; font-size: .85rem; }
+.check-ok { color: var(--good); font-weight: 700; }
+.check-bad { color: var(--bad); font-weight: 700; }
+details summary { cursor: pointer; font-weight: 700; font-size: .9rem; margin-top: 16px; }
 .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 10px; }
 .head-row h2 { margin: 0; }
 button {
@@ -140,20 +145,21 @@ footer { font-size: .78rem; color: var(--muted); }
 
 <header>
   <h1>دفتر سود مرکب</h1>
-  <p class="lede">سود هر ماه دوباره سرمایه‌گذاری می‌شود. در جدول پایین برای هر ماه می‌توانید واریز یا برداشت بنویسید، نرخ سود را عوض کنید یا قیمت واقعی دلار و طلا را وارد کنید. نتیجه با نگه‌داشتن همان پول به شکل دلار، طلا و با تورم مقایسه می‌شود.</p>
+  <p class="lede">هر قرارداد ۱۲ ماه، ماهانه یک چک سود می‌دهد. چک‌هایی که هر ماه پاس می‌شوند خودشان یک قرارداد ۱۲ ماههٔ تازه می‌شوند و این چرخه ادامه پیدا می‌کند. قراردادهای خودتان را اضافه یا حذف کنید، در جدول ماه به ماه واریز، برداشت و قیمت واقعی دلار و طلا را بنویسید و نتیجه را با دلار، طلا و تورم مقایسه کنید.</p>
 </header>
 
 <section class="panel settings" aria-label="تنظیمات">
   <div>
     <p class="group-title">سرمایه‌گذاری</p>
     <div class="fields">
-      <div class="field"><label for="capital">سرمایهٔ اولیه (تومان)</label><input type="text" id="capital" inputmode="numeric" data-money><small id="capital-words"></small></div>
       <div class="field"><label for="startMonth">ماه شروع</label><select id="startMonth"></select><small></small></div>
       <div class="field"><label for="startYear">سال شروع</label><input type="text" id="startYear" inputmode="numeric"><small></small></div>
-      <div class="field"><label for="rate">سود ماهانه (درصد)</label><input type="text" id="rate" inputmode="decimal"><small id="rate-eff"></small></div>
-      <div class="field"><label for="months">تعداد ماه</label><input type="text" id="months" inputmode="numeric"><small>بین ۱ تا ۱۲۰</small></div>
+      <div class="field"><label for="rate">سود ماهانهٔ قراردادهای جدید (درصد)</label><input type="text" id="rate" inputmode="decimal"><small id="rate-eff"></small></div>
+      <div class="field"><label for="term">مدت هر قرارداد (ماه)</label><input type="text" id="term" inputmode="numeric"><small>تعداد چک‌های هر قرارداد</small></div>
+      <div class="field"><label for="months">تعداد ماه محاسبه</label><input type="text" id="months" inputmode="numeric"><small>بین ۱ تا ۱۲۰</small></div>
     </div>
-    <label class="check" style="margin-top:10px"><input type="checkbox" id="reinvest"> سود هر ماه دوباره سرمایه‌گذاری شود (سود مرکب)</label>
+    <label class="check" style="margin-top:10px"><input type="checkbox" id="reinvest"> مبلغ چک‌های هر ماه یک قرارداد تازه شود (سود مرکب)</label>
+    <label class="check"><input type="checkbox" id="renew"> اصل پول قراردادهای خودکار در سررسید دوباره قرارداد شود</label>
   </div>
   <div>
     <p class="group-title">مقایسه با تورم، دلار و طلا</p>
@@ -167,6 +173,32 @@ footer { font-size: .78rem; color: var(--muted); }
     </div>
     <p class="note" style="margin-top:10px">قیمت‌ها و نرخ‌های پیش‌فرض دلار، طلا و تورم فقط عدد نمونه‌اند. قیمت واقعی اسفند ۱۴۰۴ را وارد کنید. برای ماه‌هایی که گذشته، قیمت واقعی همان ماه را در جدول بنویسید تا به‌جای پیش‌بینی استفاده شود.</p>
   </div>
+</section>
+
+<section class="panel" aria-label="قراردادها">
+  <div class="head-row">
+    <h2>قراردادهای من</h2>
+    <button type="button" class="primary" id="addContract">افزودن قرارداد جدید</button>
+  </div>
+  <div class="table-box">
+    <table>
+      <thead><tr>
+        <th>نام</th><th>ماه شروع</th><th>مبلغ (تومان)</th><th>سود ماهانه ٪</th><th>مدت (ماه)</th><th>در سررسید</th>
+        <th>چک هر ماه</th><th>آخرین چک</th><th></th>
+      </tr></thead>
+      <tbody id="contracts"></tbody>
+    </table>
+  </div>
+  <p class="note" style="margin-top:8px">اولین چک هر قرارداد یک ماه بعد از شروع آن است و اصل پول همراه آخرین چک برمی‌گردد. قراردادی که بعد از ماه شروع اضافه شود پول تازه حساب می‌شود. «تمدید» یعنی اصل پول در سررسید با نرخ و مدت پیش‌فرض همان ماه دوباره قرارداد می‌شود.</p>
+  <details>
+    <summary>قراردادهای خودکار که از چک‌های هر ماه ساخته شده‌اند (<span id="autoCount"></span>)</summary>
+    <div class="table-box" style="margin-top:8px">
+      <table>
+        <thead><tr><th>ماه امضا</th><th>مبلغ</th><th>سود ماهانه ٪</th><th>چک هر ماه</th><th>آخرین چک</th><th>ساخته‌شده از</th></tr></thead>
+        <tbody id="autoContracts"></tbody>
+      </table>
+    </div>
+  </details>
 </section>
 
 <section class="panel" aria-label="ذخیره و بارگذاری">
@@ -211,11 +243,14 @@ footer { font-size: .78rem; color: var(--muted); }
       <thead>
         <tr>
           <th>ماه</th>
-          <th>موجودی اول ماه</th>
-          <th>نرخ سود ٪</th>
-          <th>سود این ماه</th>
+          <th>سرمایه در قراردادها (اول ماه)</th>
+          <th>نرخ قرارداد جدید ٪</th>
+          <th>چک‌های این ماه (سود)</th>
+          <th>اصل سررسیدشده</th>
           <th>واریز</th>
           <th>برداشت</th>
+          <th>قرارداد جدید این ماه</th>
+          <th>قراردادهای فعال</th>
           <th>موجودی آخر ماه</th>
           <th>قیمت دلار</th>
           <th>رشد دلار</th>
@@ -230,10 +265,11 @@ footer { font-size: .78rem; color: var(--muted); }
       <tbody id="rows"></tbody>
     </table>
   </div>
-  <p class="note" style="margin-top:8px">خانه‌های خالی از مقدار پیش‌فرض (متن کم‌رنگ) استفاده می‌کنند. سود هر ماه روی موجودی اول ماه حساب می‌شود؛ واریز و برداشت بعد از دریافت سود اعمال می‌شود و از ماه بعد سود می‌گیرد. در سناریوی دلار و طلا، همان واریزها و برداشت‌ها با قیمت همان ماه خرید و فروش می‌شوند.</p>
+  <p class="note" id="formulaCheck" style="margin-top:8px"></p>
+  <p class="note" style="margin-top:6px">خانه‌های خالی از مقدار پیش‌فرض (متن کم‌رنگ) استفاده می‌کنند. هر ماه: چک همهٔ قراردادهای فعال پاس می‌شود، اصل قراردادهای سررسیدشده برمی‌گردد، واریز اضافه و برداشت کم می‌شود و باقی‌مانده یک قرارداد جدید با «نرخ قرارداد جدید» همان ماه می‌شود که از ماه بعد چک می‌دهد. در سناریوی دلار و طلا، همان پول‌های ورودی و برداشت‌ها با قیمت همان ماه خرید و فروش می‌شوند.</p>
 </section>
 
-<footer>اطلاعات فقط در همین مرورگر ذخیره می‌شود.</footer>
+<footer>آخرین تغییرات خودکار در همین مرورگر نگه داشته می‌شود. برای نگه‌داشتن دائمی از «ذخیره» استفاده کنید.</footer>
 </div>
 
 <script>
@@ -242,9 +278,22 @@ footer { font-size: .78rem; color: var(--muted); }
   var MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
   var KEY = "compound-ledger-v1";
   var DEFAULTS = {
-    capital: 1600000000, startYear: 1404, startMonth: 12, rate: 4, months: 12, reinvest: true,
-    inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {}
+    startYear: 1404, startMonth: 12, rate: 4, term: 12, months: 12, reinvest: true, renew: true,
+    inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {},
+    contracts: [{ id: "c1", name: "قرارداد اول", k: 0, amount: 1600000000, rate: 4, term: 12, renew: true }]
   };
+  // older saves had a single "capital" field instead of a contract list
+  function normalize(s) {
+    var out = JSON.parse(JSON.stringify(DEFAULTS));
+    if (s && typeof s === "object") for (var k in out) if (k in s) out[k] = s[k];
+    if (!(s && Array.isArray(s.contracts))) {
+      out.contracts = [{ id: "c1", name: "قرارداد اول", k: 0,
+        amount: s && typeof s.capital === "number" ? s.capital : 1600000000,
+        rate: s && typeof s.rate === "number" ? s.rate : 4, term: out.term, renew: true }];
+    }
+    if (!out.rows || typeof out.rows !== "object") out.rows = {};
+    return out;
+  }
 
   var state = load();
 
@@ -280,9 +329,7 @@ footer { font-size: .78rem; color: var(--muted); }
   function load() {
     var s = null;
     try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) { s = null; }
-    var out = JSON.parse(JSON.stringify(DEFAULTS));
-    if (s && typeof s === "object") for (var k in out) if (k in s) out[k] = s[k];
-    return out;
+    return normalize(s);
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
 
@@ -291,7 +338,7 @@ footer { font-size: .78rem; color: var(--muted); }
   var sel = $("startMonth");
   MONTHS.forEach(function (m, i) { var o = document.createElement("option"); o.value = i + 1; o.textContent = m; sel.appendChild(o); });
 
-  var numFields = ["capital", "startYear", "rate", "months", "inflation", "usd0", "usdG", "gold0", "goldG"];
+  var numFields = ["startYear", "rate", "term", "months", "inflation", "usd0", "usdG", "gold0", "goldG"];
   function fillSettings() {
     numFields.forEach(function (f) {
       var el = $(f);
@@ -299,6 +346,7 @@ footer { font-size: .78rem; color: var(--muted); }
     });
     sel.value = state.startMonth;
     $("reinvest").checked = !!state.reinvest;
+    $("renew").checked = !!state.renew;
     $("inflBase").value = state.inflBase;
   }
   numFields.forEach(function (f) {
@@ -307,18 +355,28 @@ footer { font-size: .78rem; color: var(--muted); }
       var v = parseNum(el.value);
       if (v === null) return;
       if (f === "months") { v = Math.max(1, Math.min(120, Math.round(v))); }
+      if (f === "term") { v = Math.max(1, Math.min(60, Math.round(v))); }
       if (f === "startYear") { v = Math.round(v); if (v < 1300 || v > 1500) return; }
       var rebuild = (f === "months" || f === "startYear") && state[f] !== v;
       state[f] = v;
-      if (rebuild) buildRows();
+      if (rebuild) { buildRows(); buildContracts(); }
       update();
     });
     el.addEventListener("blur", function () { fillSettings(); });
   });
-  sel.addEventListener("change", function () { state.startMonth = +sel.value; buildRows(); update(); });
+  sel.addEventListener("change", function () { state.startMonth = +sel.value; buildRows(); buildContracts(); update(); });
+  $("renew").addEventListener("change", function () { state.renew = $("renew").checked; update(); });
   $("inflBase").addEventListener("change", function () { state.inflBase = $("inflBase").value; update(); });
   $("reinvest").addEventListener("change", function () { state.reinvest = $("reinvest").checked; update(); });
   $("clearRows").addEventListener("click", function () { state.rows = {}; buildRows(); update(); });
+  $("addContract").addEventListener("click", function () {
+    var prev = state.contracts[state.contracts.length - 1];
+    state.contracts.push({ id: "c" + Date.now(), name: "قرارداد " + fmt(state.contracts.length + 1), k: prev ? Math.min(state.months, Math.round(prev.k) + 1) : 0,
+      amount: 100000000, rate: state.rate, term: state.term, renew: true });
+    buildContracts(); update();
+    var inputs = $("contracts").querySelectorAll("input.name");
+    if (inputs.length) inputs[inputs.length - 1].focus();
+  });
 
   // ---------- table ----------
   var ROW_FIELDS = [
@@ -367,8 +425,11 @@ footer { font-size: .78rem; color: var(--muted); }
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("—"));
     tr0.appendChild(cell("", "num", "c0-dep"));
     tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("", "num", "c0-new"));
+    tr0.appendChild(cell("", "num", "c0-count"));
     tr0.appendChild(cell("", "num close", "c0-close"));
     tr0.appendChild(cell("", "num", "c0-usd"));
     tr0.appendChild(cell("—"));
@@ -385,8 +446,11 @@ footer { font-size: .78rem; color: var(--muted); }
       tr.appendChild(cell("", "num", "c" + k + "-open"));
       tr.appendChild(inputCell(k, ROW_FIELDS[0]));
       tr.appendChild(cell("", "num profit", "c" + k + "-profit"));
+      tr.appendChild(cell("", "num", "c" + k + "-matured"));
       tr.appendChild(inputCell(k, ROW_FIELDS[1]));
       tr.appendChild(inputCell(k, ROW_FIELDS[2]));
+      tr.appendChild(cell("", "num", "c" + k + "-new"));
+      tr.appendChild(cell("", "num", "c" + k + "-count"));
       tr.appendChild(cell("", "num close", "c" + k + "-close"));
       tr.appendChild(inputCell(k, ROW_FIELDS[3]));
       tr.appendChild(cell("", "num", "c" + k + "-usdchg"));
@@ -401,41 +465,157 @@ footer { font-size: .78rem; color: var(--muted); }
   }
 
   // ---------- model ----------
+  // Every contract pays amount × rate at the end of each of its `term` months and returns its
+  // principal with the last payment. Each month, the cheques that clear (plus renewed principal and
+  // deposits, minus withdrawals) are signed as one new contract that starts paying the next month.
   function simulate() {
     var im = monthly(state.inflation), um = monthly(state.usdG), gm = monthly(state.goldG);
-    var B = state.capital, pocket = 0;
-    var usdU = state.capital / state.usd0, goldU = state.capital / state.gold0;
-    var infl = state.capital, netIn = state.capital, totalProfit = 0;
+    var n = state.months, active = [], autos = [], pocket = 0, totalProfit = 0;
+    function startContracts(k) {
+      var sum = 0;
+      state.contracts.forEach(function (c) {
+        if (Math.round(c.k) !== k || !(c.amount > 0)) return;
+        active.push({ amount: c.amount, rate: c.rate, start: k, term: Math.max(1, Math.round(c.term)), renew: !!c.renew });
+        sum += c.amount;
+      });
+      return sum;
+    }
+    function capital() { return active.reduce(function (t, c) { return t + c.amount; }, 0); }
+    var initial = startContracts(0);
+    var simple = !!state.reinvest && !!state.renew;
+    state.contracts.forEach(function (c) {
+      if (Math.round(c.k) !== 0 && c.amount > 0 && Math.round(c.k) <= n) simple = false;
+      if (Math.round(c.k) === 0 && (!c.renew || c.rate !== state.rate)) simple = false;
+    });
+    var usdU = initial / state.usd0, goldU = initial / state.gold0, infl = initial;
     var prevUsd = state.usd0, prevGold = state.gold0, cpi = 1, byUsd = state.inflBase === "usd";
-    var out = [{ k: 0, open: 0, profit: 0, dep: state.capital, wd: 0, close: B, total: B,
-      usdP: state.usd0, goldP: state.gold0, usdVal: B, goldVal: B, infl: B, cpi: 1, real: B, rate: 0 }];
-    for (var k = 1; k <= state.months; k++) {
+    var out = [{ k: 0, open: 0, profit: 0, matured: 0, dep: initial, wd: 0, newAmt: initial, count: active.length,
+      close: initial, total: initial, usdP: state.usd0, goldP: state.gold0, usdVal: initial, goldVal: initial,
+      infl: initial, cpi: 1, real: initial, rate: 0, yield: 0 }];
+    for (var k = 1; k <= n; k++) {
       var r = rowVal(k, "rate"); if (r === null) r = state.rate;
-      var open = B;
-      var profit = open * r / 100;
+      if (r !== state.rate) simple = false;
+      var open = capital();
+      var profit = 0, renewed = 0, matured = 0;
+      active.forEach(function (c) { profit += c.amount * c.rate / 100; });
+      active = active.filter(function (c) {
+        if (c.start + c.term !== k) return true;
+        matured += c.amount;
+        if (c.renew) renewed += c.amount; else pocket += c.amount;
+        return false;
+      });
       totalProfit += profit;
-      if (state.reinvest) B += profit; else pocket += profit;
+      var pool = renewed + (state.reinvest ? profit : 0);
+      if (!state.reinvest) pocket += profit;
       var dep = rowVal(k, "dep") || 0;
-      var wd = Math.min(rowVal(k, "wd") || 0, B + dep);
-      B += dep - wd;
-      netIn += dep - wd;
+      pool += dep;
+      var wd = Math.min(rowVal(k, "wd") || 0, pool + pocket);
+      if (wd) simple = false;
+      if (dep) simple = false;
+      var fromPool = Math.min(wd, pool);
+      pool -= fromPool; pocket -= wd - fromPool;
+      var src = [];
+      if (profit && state.reinvest) src.push("چک‌ها");
+      if (renewed) src.push("اصل سررسیدشده");
+      if (dep) src.push("واریز");
+      if (pool > 0.5) {
+        active.push({ amount: pool, rate: r, start: k, term: Math.max(1, Math.round(state.term)), renew: !!state.renew });
+        autos.push({ k: k, amount: pool, rate: r, term: Math.max(1, Math.round(state.term)), src: src.join(" + ") });
+      } else pool = 0;
+      var manual = startContracts(k);
+      var flow = dep + manual - wd;
       // months without an entered price continue from the previous month's price at the forecast growth
       var usdEst = prevUsd * (1 + um), goldEst = prevGold * (1 + gm);
       var usdP = rowVal(k, "usd"); if (usdP === null || usdP <= 0) usdP = usdEst;
       var goldP = rowVal(k, "gold"); if (goldP === null || goldP <= 0) goldP = goldEst;
-      usdU = Math.max(0, usdU + (dep - wd) / usdP);
-      goldU = Math.max(0, goldU + (dep - wd) / goldP);
+      usdU = Math.max(0, usdU + flow / usdP);
+      goldU = Math.max(0, goldU + flow / goldP);
       var usdChg = usdP / prevUsd - 1, goldChg = goldP / prevGold - 1;
       var step = byUsd ? usdChg : im;
-      infl = Math.max(0, infl * (1 + step) + dep - wd);
+      infl = Math.max(0, infl * (1 + step) + flow);
       cpi *= 1 + step;
       prevUsd = usdP; prevGold = goldP;
-      var total = B + pocket;
-      out.push({ k: k, open: open, rate: r, profit: profit, dep: dep, wd: wd, close: B, total: total,
+      var close = capital(), total = close + pocket;
+      out.push({ k: k, open: open, rate: r, profit: profit, matured: matured, dep: dep + manual, wd: wd, newAmt: pool + manual,
+        count: active.length, close: close, total: total, yield: open > 0 ? profit / open : 0,
         usdP: usdP, goldP: goldP, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
         real: total / cpi, usdChg: usdChg, goldChg: goldChg, usdEst: usdEst, goldEst: goldEst });
     }
-    return { rows: out, pocket: pocket, netIn: netIn, totalProfit: totalProfit, usdU: usdU, goldU: goldU };
+    return { rows: out, pocket: pocket, totalProfit: totalProfit, usdU: usdU, goldU: goldU,
+      initial: initial, autos: autos, simple: simple && initial > 0 };
+  }
+
+  // ---------- contracts ----------
+  function monthOptions(selected) {
+    var h = "";
+    for (var k = 0; k <= Math.max(state.months, selected); k++) h += '<option value="' + k + '"' + (k === selected ? " selected" : "") + ">" + label(k) + "</option>";
+    return h;
+  }
+  function buildContracts() {
+    var tb = $("contracts");
+    tb.innerHTML = "";
+    if (!state.contracts.length) {
+      tb.innerHTML = '<tr><td colspan="9" class="note">هیچ قراردادی ندارید. «افزودن قرارداد جدید» را بزنید.</td></tr>';
+      return;
+    }
+    state.contracts.forEach(function (c, idx) {
+      var tr = document.createElement("tr");
+      function field(key, cls, money, mode) {
+        var td = document.createElement("td"), inp = document.createElement("input");
+        inp.type = "text"; inp.id = "k" + c.id + "-" + key; inp.className = cls || ""; inp.inputMode = mode || "numeric";
+        inp.value = key === "name" ? c.name : money ? fmt(c[key]) : fmt2(c[key]);
+        inp.setAttribute("aria-label", key + " " + (c.name || ""));
+        inp.addEventListener("input", function () {
+          if (key === "name") { c.name = inp.value; save(); return; }
+          var v = parseNum(inp.value);
+          if (v === null || v < 0) return;
+          c[key] = key === "term" ? Math.max(1, Math.min(60, Math.round(v))) : v;
+          update();
+        });
+        inp.addEventListener("blur", function () { if (key !== "name") inp.value = money ? fmt(c[key]) : fmt2(c[key]); });
+        td.appendChild(inp);
+        return td;
+      }
+      tr.appendChild(field("name", "name", false, "text"));
+      var tdm = document.createElement("td"), sm = document.createElement("select");
+      sm.id = "k" + c.id + "-k"; sm.setAttribute("aria-label", "ماه شروع " + (c.name || ""));
+      sm.innerHTML = monthOptions(Math.round(c.k));
+      sm.addEventListener("change", function () { c.k = +sm.value; update(); });
+      tdm.appendChild(sm); tr.appendChild(tdm);
+      tr.appendChild(field("amount", "", true));
+      tr.appendChild(field("rate", "short", false, "decimal"));
+      tr.appendChild(field("term", "short"));
+      var tdr = document.createElement("td"), sr = document.createElement("select");
+      sr.id = "k" + c.id + "-renew"; sr.setAttribute("aria-label", "سررسید " + (c.name || ""));
+      sr.innerHTML = '<option value="1">تمدید</option><option value="0">برگشت اصل پول</option>';
+      sr.value = c.renew ? "1" : "0";
+      sr.addEventListener("change", function () { c.renew = sr.value === "1"; update(); });
+      tdr.appendChild(sr); tr.appendChild(tdr);
+      tr.appendChild(cell("", "num", "k" + c.id + "-pay"));
+      tr.appendChild(cell("", "", "k" + c.id + "-end"));
+      var tdd = document.createElement("td"), del = document.createElement("button");
+      del.type = "button"; del.className = "danger"; del.textContent = "حذف";
+      del.addEventListener("click", function () {
+        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "برای حذف دوباره بزنید"; return; }
+        state.contracts.splice(idx, 1);
+        buildContracts(); update();
+      });
+      tdd.appendChild(del); tr.appendChild(tdd);
+      tb.appendChild(tr);
+    });
+  }
+  function renderContracts(res) {
+    state.contracts.forEach(function (c) {
+      var pay = $("k" + c.id + "-pay"), end = $("k" + c.id + "-end");
+      if (!pay) return;
+      pay.textContent = fmt(c.amount * c.rate / 100);
+      end.textContent = label(Math.round(c.k) + Math.max(1, Math.round(c.term)));
+    });
+    $("autoCount").textContent = fmt(res.autos.length) + " قرارداد";
+    $("autoContracts").innerHTML = res.autos.length ? res.autos.map(function (a) {
+      return "<tr><td>" + label(a.k) + '</td><td class="num">' + fmt(a.amount) + '</td><td class="num">' + fmt2(a.rate) +
+        '</td><td class="num">' + fmt(a.amount * a.rate / 100) + "</td><td>" + label(a.k + a.term) + "</td><td>" + a.src + "</td></tr>";
+    }).join("") : '<tr><td colspan="6" class="note">هنوز قرارداد خودکاری ساخته نشده است.</td></tr>';
   }
 
   // ---------- render ----------
@@ -444,21 +624,24 @@ footer { font-size: .78rem; color: var(--muted); }
     var res = simulate(), rows = res.rows, last = rows[rows.length - 1];
     var n = state.months;
 
-    $("capital-words").textContent = short(state.capital) + " تومان";
+    var init = res.initial;
     var eff = (Math.pow(1 + state.rate / 100, 12) - 1) * 100;
     $("rate-eff").textContent = state.reinvest ? "معادل سالانه با سود مرکب: " + fmt2(eff) + "٪" : "سالانه بدون مرکب: " + fmt2(state.rate * 12) + "٪";
+    renderContracts(res);
     $("infl-m").textContent = "ماهانه حدود " + fmt2(monthly(state.inflation) * 100) + "٪";
     $("usd-m").textContent = "ماهانه حدود " + fmt2(monthly(state.usdG) * 100) + "٪";
     $("gold-m").textContent = "ماهانه حدود " + fmt2(monthly(state.goldG) * 100) + "٪";
 
     // table
-    $("c0-dep").textContent = fmt(state.capital);
-    $("c0-close").textContent = fmt(state.capital);
+    $("c0-dep").textContent = fmt(init);
+    $("c0-new").textContent = fmt(init);
+    $("c0-count").textContent = fmt(rows[0].count);
+    $("c0-close").textContent = fmt(init);
     $("c0-usd").textContent = fmt(state.usd0);
     $("c0-gold").textContent = fmt(state.gold0);
-    $("c0-real").textContent = fmt(state.capital);
-    $("c0-inusd").textContent = fmt2(state.capital / state.usd0);
-    $("c0-ingold").textContent = fmt2(state.capital / state.gold0);
+    $("c0-real").textContent = fmt(init);
+    $("c0-inusd").textContent = fmt2(init / state.usd0);
+    $("c0-ingold").textContent = fmt2(init / state.gold0);
     var byUsd = state.inflBase === "usd";
     $("inflation-field").hidden = byUsd;
     $("inflBase-note").textContent = byUsd ? "تورم هر ماه = درصد تغییر قیمت دلار همان ماه" : "";
@@ -474,6 +657,9 @@ footer { font-size: .78rem; color: var(--muted); }
       var r = rows[k];
       $("c" + k + "-open").textContent = fmt(r.open);
       $("c" + k + "-profit").textContent = fmt(r.profit);
+      $("c" + k + "-matured").textContent = r.matured ? fmt(r.matured) : "—";
+      $("c" + k + "-new").textContent = r.newAmt ? fmt(r.newAmt) : "—";
+      $("c" + k + "-count").textContent = fmt(r.count);
       $("c" + k + "-close").textContent = fmt(r.close);
       $("c" + k + "-real").textContent = fmt(r.real);
       chg("c" + k + "-usdchg", r.usdChg);
@@ -481,7 +667,7 @@ footer { font-size: .78rem; color: var(--muted); }
       $("c" + k + "-inusd").textContent = fmt2(r.total / r.usdP);
       $("c" + k + "-ingold").textContent = fmt2(r.total / r.goldP);
       var cands = [
-        { c: "inv", t: "سرمایه‌گذاری " + fmt2(r.rate) + "٪", v: r.rate / 100 },
+        { c: "inv", t: "سرمایه‌گذاری " + fmt2(r.yield * 100) + "٪", v: r.yield },
         { c: "usd", t: "دلار", v: r.usdChg },
         { c: "gold", t: "طلا", v: r.goldChg }
       ].sort(function (a, b) { return b.v - a.v; });
@@ -497,17 +683,17 @@ footer { font-size: .78rem; color: var(--muted); }
     var mlabel = label(n);
     function pct(a, b) { return b > 0 ? (a / b - 1) * 100 : 0; }
     function badge(v) { return '<span dir="ltr" class="pill ' + (v >= 0 ? "good" : "bad") + '">' + (v >= 0 ? "+" : "−") + fmt2(Math.abs(v)) + "٪</span>"; }
-    var pocketLine = state.reinvest ? "" : "، شامل " + short(res.pocket) + " سود برداشت‌شده";
+    var pocketLine = res.pocket > 0.5 ? "، شامل " + short(res.pocket) + " پول نقد بیرون از قرارداد" : "";
     var cards = [
       { c: "var(--inv)", k: "سرمایه‌گذاری در " + mlabel, v: fmt(last.total), s: short(last.total) + " تومان" + pocketLine },
       { c: "var(--inv)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
       { c: "var(--usd)", k: "اگر دلار می‌خریدم", v: fmt(last.usdVal), s: fmt2(res.usdU) + " دلار · " + badge(pct(last.total, last.usdVal)) + " به نفع سرمایه‌گذاری" },
       { c: "var(--gold)", k: "اگر طلا می‌خریدم", v: fmt(last.goldVal), s: fmt2(res.goldU) + " گرم · " + badge(pct(last.total, last.goldVal)) + " به نفع سرمایه‌گذاری" },
       byUsd
-        ? { c: "var(--usd)", k: "موجودی شما به دلار", v: fmt2(last.total / last.usdP) + " دلار", s: "در شروع: " + fmt2(state.capital / state.usd0) + " دلار · دلار " + badge(pct(last.usdP, state.usd0)) + " گران شد" }
+        ? { c: "var(--usd)", k: "موجودی شما به دلار", v: fmt2(last.total / last.usdP) + " دلار", s: "در شروع: " + fmt2(init / state.usd0) + " دلار · دلار " + badge(pct(last.usdP, state.usd0)) + " گران شد" }
         : { c: "var(--infl)", k: "حداقل لازم برای جبران تورم", v: fmt(last.infl), s: badge(pct(last.total, last.infl)) + " سود واقعی پس از تورم" },
       byUsd
-        ? { c: "var(--gold)", k: "موجودی شما به گرم طلا", v: fmt2(last.total / last.goldP) + " گرم", s: "در شروع: " + fmt2(state.capital / state.gold0) + " گرم · طلا " + badge(pct(last.goldP, state.gold0)) + " گران شد" }
+        ? { c: "var(--gold)", k: "موجودی شما به گرم طلا", v: fmt2(last.total / last.goldP) + " گرم", s: "در شروع: " + fmt2(init / state.gold0) + " گرم · طلا " + badge(pct(last.goldP, state.gold0)) + " گران شد" }
         : { c: "var(--muted)", k: "ارزش نهایی به پول روز شروع", v: fmt(last.real), s: "قدرت خرید در " + label(0) }
     ];
     $("cards").innerHTML = cards.map(function (c) {
@@ -542,6 +728,15 @@ footer { font-size: .78rem; color: var(--muted); }
       txt += " دلار یا طلا فقط در صورتی جلو می‌زنند که سالانه بیش از " + fmt2(eff) + "٪ گران شوند (با نرخ " + fmt2(state.rate) + "٪ ماهانه).";
     }
     $("verdict").innerHTML = "<p>" + txt + "</p>";
+
+    var fc = $("formulaCheck");
+    if (res.simple) {
+      var expect = init * Math.pow(1 + state.rate / 100, n), ok = Math.abs(expect - last.total) <= Math.max(1, expect * 1e-9);
+      fc.innerHTML = "کنترل فرمول: " + fmt(init) + " × (۱ + " + fmt2(state.rate) + "٪)<sup>" + fmt(n) + "</sup> = " + fmt(expect) +
+        " · جمع همهٔ قراردادها: " + fmt(last.total) + " " + (ok ? '<span class="check-ok">✓ برابر است</span>' : '<span class="check-bad">✗ برابر نیست</span>');
+    } else {
+      fc.textContent = "کنترل با فرمول یک‌خطی (سرمایه × (۱ + نرخ)^ماه) فقط وقتی ممکن است که همهٔ چک‌ها و اصل‌ها دوباره قرارداد شوند و واریز، برداشت، قرارداد بعدی یا نرخ متفاوتی در کار نباشد. با تنظیمات فعلی، عددها از جمع چک‌به‌چک قراردادها حساب شده‌اند.";
+    }
 
     drawChart(rows);
     drawBars(rows);
@@ -655,7 +850,7 @@ footer { font-size: .78rem; color: var(--muted); }
     var svg = $("chart2"), W = 760, H = 260, L = 78, R = 92, T = 14, B = 46;
     var n = rows.length - 1;
     var series = [
-      { name: "سرمایه‌گذاری", color: "var(--inv)", v: function (r) { return r.rate / 100; } },
+      { name: "سرمایه‌گذاری", color: "var(--inv)", v: function (r) { return r.yield; } },
       { name: "دلار", color: "var(--usd)", v: function (r) { return r.usdChg; } },
       { name: "طلا", color: "var(--gold)", v: function (r) { return r.goldChg; } }
     ];
@@ -747,11 +942,8 @@ footer { font-size: .78rem; color: var(--muted); }
     try { return new Date(ts).toLocaleString("fa-IR", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { return ""; }
   }
   function applyState(s) {
-    var next = JSON.parse(JSON.stringify(DEFAULTS));
-    for (var k in next) if (s && k in s) next[k] = s[k];
-    if (!next.rows || typeof next.rows !== "object") next.rows = {};
-    state = next;
-    fillSettings(); buildRows(); update();
+    state = normalize(s);
+    fillSettings(); buildRows(); buildContracts(); update();
   }
   function renderSaves() {
     var ul = $("saves");
@@ -819,7 +1011,7 @@ footer { font-size: .78rem; color: var(--muted); }
         try {
           var j = JSON.parse(fr.result);
           var s = j && j.state ? j.state : j;
-          if (!s || typeof s.capital !== "number") throw new Error("bad");
+          if (!s || (typeof s.capital !== "number" && !Array.isArray(s.contracts))) throw new Error("bad");
           applyState(s);
           $("saveName").value = f.name.replace(/\.json$/i, "");
           msg("فایل «" + f.name + "» بارگذاری شد. اگر می‌خواهید در فهرست هم بماند، «ذخیره» را بزنید.");
@@ -850,6 +1042,7 @@ footer { font-size: .78rem; color: var(--muted); }
 
   fillSettings();
   buildRows();
+  buildContracts();
   update();
   initStore();
 })();
