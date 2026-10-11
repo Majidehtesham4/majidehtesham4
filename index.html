@@ -145,6 +145,19 @@ main { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 2
 .li .mid small { display: block; color: var(--muted); font-size: .76rem; overflow-wrap: anywhere; }
 .li .end { display: grid; gap: 3px; justify-items: end; }
 .li .amt { font-weight: 800; }
+.grp { border-top: 1px solid var(--line); }
+.grp:first-child { border-top: 0; }
+.grp-h { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; width: 100%; padding: 12px 2px; border: 0; background: none; cursor: pointer; text-align: start; }
+.grp-h:hover { background: var(--surface-2); }
+.grp-h .chev { color: var(--muted); transition: transform .15s; }
+.grp.open .grp-h .chev { transform: rotate(-90deg); color: var(--accent); }
+.grp-h .mid { min-width: 0; display: grid; }
+.grp-h .mid b { font-size: .92rem; }
+.grp-h .mid small { color: var(--muted); font-size: .76rem; overflow-wrap: anywhere; }
+.grp-h .end { display: grid; gap: 2px; justify-items: end; }
+.grp-h .amt { font-weight: 800; }
+.grp-b { background: var(--surface-2); border-radius: 10px; margin: 0 0 12px; padding: 0 10px; }
+.grp-b .li:hover { background: var(--surface); }
 .chip { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; white-space: nowrap; border: 1px solid transparent; }
 .chip.ok { color: var(--good); background: color-mix(in srgb, var(--good) 12%, transparent); }
 .chip.wait { color: var(--muted); background: var(--surface-2); border-color: var(--line); }
@@ -306,6 +319,18 @@ td.strong { font-weight: 800; }
     <div class="grid-2">
       <div class="panel">
         <div class="panel-head"><h3>ارزش دارایی ماه به ماه</h3><span class="note">تومان</span></div>
+        <div class="toolbar" style="margin:-4px 0 10px">
+          <div class="seg" role="group" aria-label="بازهٔ نمودار">
+            <button type="button" data-range="3" aria-pressed="false">۳ ماه</button>
+            <button type="button" data-range="6" aria-pressed="false">۶ ماه</button>
+            <button type="button" data-range="12" aria-pressed="false">۱ سال</button>
+            <button type="button" data-range="all" aria-pressed="true">همه</button>
+          </div>
+          <div class="seg" role="group" aria-label="جهت بازه" id="dirSeg">
+            <button type="button" data-rdir="past" aria-pressed="true">تا امروز</button>
+            <button type="button" data-rdir="future" aria-pressed="false">از امروز به بعد</button>
+          </div>
+        </div>
         <div class="chart-box" id="box1"><svg id="chart1" role="img" aria-label="نمودار ماه به ماه ارزش سرمایه‌گذاری، دلار و طلا"></svg><div class="tip" id="tip1" hidden></div></div>
         <div class="legend" id="legend1"></div>
       </div>
@@ -355,6 +380,7 @@ td.strong { font-weight: 800; }
         <button type="button" data-cst="bad" aria-pressed="false">برگشتی</button>
       </div>
       <select id="chqMonth" aria-label="ماه" style="width:auto"></select>
+      <button class="btn" type="button" id="chqToggle">باز کردن همه</button>
     </div>
     <div class="kpis" id="chqSummary" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"></div>
     <div class="panel" style="padding:4px 12px"><div class="list" id="chqList"></div></div>
@@ -506,10 +532,10 @@ td.strong { font-weight: 800; }
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
   var state = load();
-  var ui = { tab: "dash", q: "", ckind: "manual", cst: "all", cmonth: "all" };
-  try { var u = JSON.parse(localStorage.getItem(UIKEY)); if (u && typeof u === "object") { ui.tab = u.tab || ui.tab; ui.ckind = u.ckind || ui.ckind; } } catch (e) {}
+  var ui = { tab: "dash", q: "", ckind: "manual", cst: "all", cmonth: "all", open: {}, range: "all", rdir: "past" };
+  try { var u = JSON.parse(localStorage.getItem(UIKEY)); if (u && typeof u === "object") { ui.tab = u.tab || ui.tab; ui.ckind = u.ckind || ui.ckind; ui.range = u.range || ui.range; ui.rdir = u.rdir || ui.rdir; } } catch (e) {}
   if (/^#(dash|contracts|cheques|months|settings)$/.test(location.hash)) ui.tab = location.hash.slice(1);
-  function saveUi() { try { localStorage.setItem(UIKEY, JSON.stringify({ tab: ui.tab, ckind: ui.ckind })); } catch (e) {} }
+  function saveUi() { try { localStorage.setItem(UIKEY, JSON.stringify({ tab: ui.tab, ckind: ui.ckind, range: ui.range, rdir: ui.rdir })); } catch (e) {} }
 
   // ---------- calendar ----------
   var TODAY = (function () {
@@ -676,7 +702,7 @@ td.strong { font-weight: 800; }
 
   // search is shared by the header box and the contracts / cheques boxes
   function setQuery(v, from) {
-    ui.q = v;
+    ui.q = v; ui.open = {};
     ["q-top", "q-contracts", "q-cheques"].forEach(function (id) { if (id !== from) $(id).value = v; });
     if (from === "q-top" && ui.tab !== "contracts" && ui.tab !== "cheques") setTab("cheques"); else renderTab();
   }
@@ -690,6 +716,8 @@ td.strong { font-weight: 800; }
   // one delegated click handler for every list on the page
   document.addEventListener("click", function (e) {
     var g = e.target.closest("[data-go]"); if (g) { setTab(g.dataset.go); return; }
+    var gh = e.target.closest("[data-grp]");
+    if (gh) { ui.open[gh.dataset.grp] = gh.getAttribute("aria-expanded") !== "true"; renderCheques(); return; }
     var q = e.target.closest("[data-chq]");
     if (q) { var cq = res.cheques.filter(function (x) { return x.key === q.dataset.chq; })[0]; if (cq) editCheque(cq); return; }
     var c = e.target.closest("[data-contract]");
@@ -705,6 +733,12 @@ td.strong { font-weight: 800; }
       if (k === 0) { setTab("settings"); toast("قیمت‌های ماه شروع در بخش «مقایسه» است."); return; }
       editMonth(k);
     }
+  });
+  document.querySelectorAll("[data-range],[data-rdir]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      if (b.dataset.range) ui.range = b.dataset.range; else ui.rdir = b.dataset.rdir;
+      saveUi(); syncSeg("range"); syncSeg("rdir"); renderDash();
+    });
   });
   function syncSeg(kind) {
     document.querySelectorAll("[data-" + kind + "]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset[kind] === ui[kind] ? "true" : "false"); });
@@ -749,8 +783,18 @@ td.strong { font-weight: 800; }
     } else {
       fc.textContent = "کنترل با فرمول یک‌خطی فقط وقتی ممکن است که همهٔ چک‌ها و اصل‌ها با یک نرخ دوباره قرارداد شوند و واریز، برداشت یا قرارداد بعدی در کار نباشد. با تنظیمات فعلی، عددها از جمع چک‌به‌چک قراردادها حساب شده‌اند.";
     }
-    drawChart(rows, tk);
-    drawBars(rows, tk);
+    // chart window: the chosen number of months up to today or from today on
+    var a = 0, b = n;
+    if (ui.range !== "all") {
+      var N = +ui.range;
+      if (ui.rdir === "past") { a = Math.max(0, tk - N); b = Math.max(tk, Math.min(n, a + 1)); }
+      else { a = tk; b = Math.min(n, tk + N); if (b - a < 1) a = Math.max(0, b - 1); }
+    }
+    $("dirSeg").hidden = ui.range === "all";
+    OFF = a;
+    var win = rows.slice(a, b + 1);
+    drawChart(win, tk - a);
+    drawBars(win, tk - a);
   }
   function verdictText(r, k, when) {
     var opts = [{ name: "سرمایه‌گذاری شما", v: r.total }, { name: "خرید دلار", v: r.usdVal }, { name: "خرید طلا", v: r.goldVal }].sort(function (a, b) { return b.v - a.v; });
@@ -762,13 +806,14 @@ td.strong { font-weight: 800; }
   }
 
   // ---------- cheques ----------
-  function chequeRow(q) {
+  function chequeRow(q, inGroup) {
     var st = chequeStatus(q), o = state.cheques[q.key] || {}, t = ym(q.k);
     return '<button type="button" class="li" data-chq="' + esc(q.key) + '">' +
       '<span class="date num"><b>' + fmt(dayOf(q.k, q.day)) + "</b>" + MONTHS[t.m] + "<br>" + faDigits(t.y) + "</span>" +
       '<span class="mid"><b>' + (q.principal ? "برگشت اصل پول" : "چک سود " + fmt(q.i) + " از " + fmt(q.term)) + "</b>" +
-      "<small>قرارداد " + esc(faDigits(q.c.no)) + (q.c.manual && q.c.name ? " · " + esc(q.c.name) : "") + (o.no ? " · چک " + esc(faDigits(o.no)) : "") + (o.note ? " · " + esc(o.note) : "") + "</small></span>" +
-      '<span class="end"><span class="amt num">' + fmt(q.amount) + '</span><span class="chip ' + st.cls + '">' + st.t + "</span></span></button>";
+      "<small>" + (inGroup ? "" : "قرارداد " + esc(faDigits(q.c.no)) + (q.c.manual && q.c.name ? " · " + esc(q.c.name) : "")) +
+      (o.no ? (inGroup ? "" : " · ") + "چک شمارهٔ " + esc(faDigits(o.no)) : "") + (o.note ? " · " + esc(o.note) : "") + "</small></span>" +
+      '<span class="end"><span class="amt num">' + fmt(q.amount) + '</span><span class="note num">' + short(q.amount) + '</span><span class="chip ' + st.cls + '">' + st.t + "</span></span></button>";
   }
   function filteredCheques() {
     return res.cheques.filter(function (q) {
@@ -793,12 +838,39 @@ td.strong { font-weight: 800; }
       { k: "جمع برگشت اصل", v: short(sum(prin)), s: "تومان" },
       { k: "برگشتی", v: fmt(bad.length), s: bad.length ? short(sum(bad)) + " تومان" : "بدون چک برگشتی" }
     ].map(function (c) { return '<div class="kpi"><span class="k">' + c.k + '</span><span class="v num">' + c.v + '</span><span class="s">' + c.s + "</span></div>"; }).join("");
-    var shown = list.slice(0, 400);
-    $("chqList").innerHTML = shown.length ? shown.map(chequeRow).join("") +
-      (list.length > shown.length ? '<p class="note" style="padding:10px 0">' + fmt(list.length - shown.length) + " چک دیگر هم هست؛ جستجو یا ماه را محدودتر کنید.</p>" : "")
-      : '<div class="empty">چکی با این جستجو پیدا نشد.</div>';
+    // one collapsible group per contract; a search opens the groups it matched
+    var groups = {};
+    list.forEach(function (q) { (groups[q.c.key] = groups[q.c.key] || []).push(q); });
+    var keys = res.contracts.map(function (c) { return c.key; }).filter(function (k) { return groups[k]; });
+    var autoOpen = !!norm(ui.q) || ui.cmonth !== "all";
+    $("chqList").innerHTML = keys.length ? keys.map(function (key) {
+      var qs = groups[key], c = qs[0].c, open = ui.open[key] !== undefined ? ui.open[key] : autoOpen;
+      var all = res.cheques.filter(function (q) { return q.c.key === key && !q.principal; });
+      var paid = all.filter(function (q) { return chequeStatus(q).id === "ok"; }).length;
+      var bad = qs.filter(function (q) { return chequeStatus(q).id === "bad"; }).length;
+      var next = all.filter(function (q) { return chequeStatus(q).id !== "ok"; })[0];
+      var profitSum = qs.reduce(function (t, q) { return t + (q.principal ? 0 : q.amount); }, 0);
+      var princ = qs.filter(function (q) { return q.principal; })[0];
+      var nProfit = qs.length - (princ ? 1 : 0);
+      return '<div class="grp' + (open ? " open" : "") + '">' +
+        '<button type="button" class="grp-h" data-grp="' + esc(key) + '" aria-expanded="' + open + '">' +
+        '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>' +
+        '<span class="mid"><b>قرارداد ' + esc(faDigits(c.no)) + (c.manual && c.name ? " · " + esc(c.name) : "") + "</b>" +
+        "<small>" + short(c.amount) + " · شروع " + dateLabel(c.start, c.day) + " · " + fmt(nProfit) + " چک سود" + (princ ? " + برگشت اصل" : "") + (next ? " · بعدی " + dateLabel(next.k, next.day) : "") + "</small>" +
+        '<span class="bar" style="margin-top:6px;max-width:240px"><i style="width:' + (all.length ? paid / all.length * 100 : 0).toFixed(1) + '%"></i></span></span>' +
+        '<span class="end"><span class="note">جمع سود</span><span class="amt num">' + short(profitSum) + '</span><span class="note">' + fmt(paid) + " از " + fmt(all.length) + " پاس‌شده</span>" +
+        (bad ? '<span class="chip bad">' + fmt(bad) + " برگشتی</span>" : "") + "</span></button>" +
+        (open ? '<div class="grp-b">' + qs.map(function (q) { return chequeRow(q, true); }).join("") + "</div>" : "") + "</div>";
+    }).join("") : '<div class="empty">چکی با این جستجو پیدا نشد.</div>';
+    $("chqToggle").textContent = keys.some(function (k) { return ui.open[k] !== undefined ? ui.open[k] : autoOpen; }) ? "بستن همه" : "باز کردن همه";
+    $("chqToggle").dataset.keys = keys.join("|");
   }
-  $("chqMonth").addEventListener("change", function () { ui.cmonth = $("chqMonth").value; renderCheques(); });
+  $("chqToggle").addEventListener("click", function () {
+    var keys = ($("chqToggle").dataset.keys || "").split("|").filter(Boolean), openAll = $("chqToggle").textContent === "باز کردن همه";
+    keys.forEach(function (k) { ui.open[k] = openAll; });
+    renderCheques();
+  });
+  $("chqMonth").addEventListener("change", function () { ui.cmonth = $("chqMonth").value; ui.open = {}; renderCheques(); });
   document.querySelectorAll("[data-cst]").forEach(function (b) {
     b.addEventListener("click", function () { ui.cst = b.dataset.cst; syncSeg("cst"); renderCheques(); });
   });
@@ -1051,11 +1123,12 @@ td.strong { font-weight: 800; }
   function tipRow(color, name, value, dash) {
     return '<div><span><i class="dot" style="background:' + color + (dash ? ";border-radius:2px" : "") + '"></i>' + name + '</span><b class="num">' + value + "</b></div>";
   }
+  var OFF = 0; // first month index of the visible chart window
   function monthTicks(n, W, L, R, narrow, x, yBase, from) {
     var h = "", every = Math.max(1, Math.ceil(n / Math.max(1, Math.floor((W - L - R) / (narrow ? 44 : 52)))));
     for (var i = from; i <= n; i++) {
       if ((i - from) % every !== 0) continue;
-      var t = ym(i);
+      var t = ym(i + OFF);
       h += txt(x(i), yBase, MONTHS[t.m], "middle", narrow ? 9 : 10);
       if (i === from || t.m === 0) h += txt(x(i), yBase + 13, faDigits(t.y), "middle", 9);
     }
@@ -1109,7 +1182,7 @@ td.strong { font-weight: 800; }
     svg.innerHTML = h;
     var cross = svg.querySelector("#x1");
     hover(svg, $("box1"), $("tip1"), W, function (px) { return Math.max(0, Math.min(n, Math.round((px - L) / ((W - L - R) / n)))); }, x, function (i) {
-      var r = rows[i], out = "<b>" + label(i) + (i === tk ? " · امروز" : "") + "</b>";
+      var r = rows[i], out = "<b>" + label(i + OFF) + (i === tk ? " · امروز" : "") + "</b>";
       series.forEach(function (s) { out += tipRow(s.color, s.name, short(r[s.key]), s.dash); });
       if (i > 0) out += '<div><span>چک‌های این ماه</span><b class="num">' + short(r.profit) + "</b></div>";
       return out;
@@ -1156,7 +1229,7 @@ td.strong { font-weight: 800; }
     svg.innerHTML = h;
     var hl = svg.querySelector("#hl2");
     hover(svg, $("box2"), $("tip2"), W, function (px) { return Math.max(1, Math.min(n, Math.floor((px - L) / slot) + 1)); }, cx, function (k) {
-      var r = rows[k], out = "<b>" + label(k) + "</b>";
+      var r = rows[k], out = "<b>" + label(k + OFF) + "</b>";
       var best = series.slice().sort(function (a, b) { return b.v(r) - a.v(r); })[0];
       series.forEach(function (s) {
         out += tipRow(s.color, s.name + (s === best ? " ★" : ""), '<bdi dir="ltr">' + pctTxt(s.v(r)) + "</bdi>");
@@ -1361,7 +1434,7 @@ td.strong { font-weight: 800; }
   fillSettings();
   res = simulate();
   renderHeader();
-  syncSeg("ckind");
+  syncSeg("ckind"); syncSeg("range"); syncSeg("rdir");
   setTab(ui.tab);
   initStore();
 })();
