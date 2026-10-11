@@ -223,7 +223,8 @@ footer { font-size: .78rem; color: var(--muted); }
 <section class="panel" aria-label="نمودار">
   <h2>ارزش دارایی ماه به ماه (تومان)</h2>
   <div class="chart-box" id="box1"><svg id="chart" viewBox="0 0 760 330" role="img" aria-label="نمودار ماه به ماه ارزش سرمایه‌گذاری، دلار، طلا و تورم"></svg><div class="tip" id="tip1" hidden></div></div>
-  <h2>رشد هر ماه نسبت به ماه قبل (درصد)</h2>
+  <h2>سود ماهانهٔ شما در مقابل تغییر قیمت دلار و طلا (درصد)</h2>
+  <p class="note" style="margin:-6px 0 8px">ستون آبی سود قراردادهای شماست. ستون‌های سبز و زرد درصد گران یا ارزان شدن دلار و طلا نسبت به ماه قبل‌اند و از قیمت‌هایی که در جدول نوشته‌اید حساب می‌شوند.</p>
   <div class="chart-box" id="box2"><svg id="chart2" viewBox="0 0 760 260" role="img" aria-label="نمودار ستونی رشد ماهانهٔ سرمایه‌گذاری، دلار و طلا"></svg><div class="tip" id="tip2" hidden></div></div>
   <div class="legend">
     <span><i class="dot" style="background:var(--inv)"></i>سرمایه‌گذاری با سود ماهانه</span>
@@ -880,9 +881,9 @@ footer { font-size: .78rem; color: var(--muted); }
     var svg = $("chart2"), W = 760, H = 260, L = 78, R = 92, T = 14, B = 46;
     var n = rows.length - 1;
     var series = [
-      { name: "سرمایه‌گذاری", color: "var(--inv)", v: function (r) { return r.yield; } },
-      { name: "دلار", color: "var(--usd)", v: function (r) { return r.usdChg; } },
-      { name: "طلا", color: "var(--gold)", v: function (r) { return r.goldChg; } }
+      { name: "سود شما", color: "var(--inv)", v: function (r) { return r.yield; } },
+      { name: "قیمت دلار", color: "var(--usd)", v: function (r) { return r.usdChg; }, p: "usdP" },
+      { name: "قیمت طلا", color: "var(--gold)", v: function (r) { return r.goldChg; }, p: "goldP" }
     ];
     var lo = 0, hi = 0;
     rows.slice(1).forEach(function (r) { series.forEach(function (s) { lo = Math.min(lo, s.v(r)); hi = Math.max(hi, s.v(r)); }); });
@@ -927,7 +928,12 @@ footer { font-size: .78rem; color: var(--muted); }
     }, cx, function (k) {
       var r = rows[k], out = "<b>" + label(k) + "</b>";
       var best = series.slice().sort(function (a, b) { return b.v(r) - a.v(r); })[0];
-      series.forEach(function (s) { out += tipRow(s.color, s.name + (s === best ? " ★" : ""), "<bdi dir=\"ltr\">" + pctTxt(s.v(r)) + "</bdi>"); });
+      series.forEach(function (s) {
+        out += tipRow(s.color, s.name + (s === best ? " ★" : ""), "<bdi dir=\"ltr\">" + pctTxt(s.v(r)) + "</bdi>");
+        if (s.p) out += '<div><span style="padding-inline-start:15px;font-size:.75rem">' + fmt(rows[k - 1][s.p]) + " ← " + fmt(r[s.p]) + "</span></div>";
+      });
+      var inUsd0 = rows[k - 1].total / rows[k - 1].usdP, inUsd1 = r.total / r.usdP;
+      out += '<div><span>موجودی شما به دلار</span><b class="num" style="margin:0">' + fmt2(inUsd0) + " ← " + fmt2(inUsd1) + "</b></div>";
       return out;
     }, function (i) {
       if (i < 0) { hl.setAttribute("visibility", "hidden"); return; }
