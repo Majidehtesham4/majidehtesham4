@@ -39,6 +39,7 @@
   --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0; background: var(--bg); color: var(--ink);
   font-family: var(--font-body); font-size: 15px; line-height: 1.7;
@@ -96,6 +97,12 @@ td input[type="text"] { width: 9.5em; padding: 4px 7px; font-size: .85rem; }
 td input.short { width: 4.5em; }
 td.profit { color: var(--accent); font-weight: 700; }
 td.close { font-weight: 700; }
+td.up { color: var(--bad); }
+td.down { color: var(--good); }
+.win { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
+.win.inv { color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.win.usd { color: var(--usd); background: color-mix(in srgb, var(--usd) 16%, transparent); }
+.win.gold { color: var(--gold); background: color-mix(in srgb, var(--gold) 16%, transparent); }
 tr.start td { background: var(--accent-soft); }
 .head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 10px; }
 .head-row h2 { margin: 0; }
@@ -131,7 +138,8 @@ footer { font-size: .78rem; color: var(--muted); }
   <div>
     <p class="group-title">مقایسه با تورم، دلار و طلا</p>
     <div class="fields">
-      <div class="field"><label for="inflation">تورم سالانه (درصد)</label><input type="text" id="inflation" inputmode="decimal"><small id="infl-m"></small></div>
+      <div class="field"><label for="inflBase">مبنای تورم</label><select id="inflBase"><option value="usd">رشد قیمت دلار (از جدول)</option><option value="fixed">نرخ ثابت سالانه</option></select><small id="inflBase-note"></small></div>
+      <div class="field" id="inflation-field"><label for="inflation">تورم سالانه (درصد)</label><input type="text" id="inflation" inputmode="decimal"><small id="infl-m"></small></div>
       <div class="field"><label for="usd0">قیمت دلار در ماه شروع (تومان)</label><input type="text" id="usd0" inputmode="numeric" data-money><small></small></div>
       <div class="field"><label for="usdG">رشد سالانهٔ پیش‌بینی دلار (درصد)</label><input type="text" id="usdG" inputmode="decimal"><small id="usd-m"></small></div>
       <div class="field"><label for="gold0">قیمت هر گرم طلای ۱۸ عیار در ماه شروع (تومان)</label><input type="text" id="gold0" inputmode="numeric" data-money><small></small></div>
@@ -154,7 +162,7 @@ footer { font-size: .78rem; color: var(--muted); }
     <span><i class="dot" style="background:var(--accent)"></i>سرمایه‌گذاری با سود ماهانه</span>
     <span><i class="dot" style="background:var(--usd)"></i>اگر دلار می‌خریدم</span>
     <span><i class="dot" style="background:var(--gold)"></i>اگر طلا می‌خریدم</span>
-    <span><i class="dot" style="background:var(--infl)"></i>حداقل لازم برای جبران تورم</span>
+    <span id="infl-legend"><i class="dot" style="background:var(--infl)"></i>حداقل لازم برای جبران تورم</span>
   </div>
 </section>
 
@@ -175,8 +183,13 @@ footer { font-size: .78rem; color: var(--muted); }
           <th>برداشت</th>
           <th>موجودی آخر ماه</th>
           <th>قیمت دلار</th>
+          <th>رشد دلار</th>
           <th>قیمت گرم طلا</th>
-          <th>ارزش به پول روز شروع</th>
+          <th>رشد طلا</th>
+          <th>بیشترین رشد این ماه</th>
+          <th>موجودی به دلار</th>
+          <th>موجودی به گرم طلا</th>
+          <th id="real-head">ارزش به پول روز شروع</th>
         </tr>
       </thead>
       <tbody id="rows"></tbody>
@@ -195,7 +208,7 @@ footer { font-size: .78rem; color: var(--muted); }
   var KEY = "compound-ledger-v1";
   var DEFAULTS = {
     capital: 1600000000, startYear: 1404, startMonth: 12, rate: 4, months: 12, reinvest: true,
-    inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {}
+    inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {}
   };
 
   var state = load();
@@ -251,6 +264,7 @@ footer { font-size: .78rem; color: var(--muted); }
     });
     sel.value = state.startMonth;
     $("reinvest").checked = !!state.reinvest;
+    $("inflBase").value = state.inflBase;
   }
   numFields.forEach(function (f) {
     var el = $(f);
@@ -267,6 +281,7 @@ footer { font-size: .78rem; color: var(--muted); }
     el.addEventListener("blur", function () { fillSettings(); });
   });
   sel.addEventListener("change", function () { state.startMonth = +sel.value; buildRows(); update(); });
+  $("inflBase").addEventListener("change", function () { state.inflBase = $("inflBase").value; update(); });
   $("reinvest").addEventListener("change", function () { state.reinvest = $("reinvest").checked; update(); });
   $("clearRows").addEventListener("click", function () { state.rows = {}; buildRows(); update(); });
 
@@ -321,7 +336,12 @@ footer { font-size: .78rem; color: var(--muted); }
     tr0.appendChild(cell("—"));
     tr0.appendChild(cell("", "num close", "c0-close"));
     tr0.appendChild(cell("", "num", "c0-usd"));
+    tr0.appendChild(cell("—"));
     tr0.appendChild(cell("", "num", "c0-gold"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("—"));
+    tr0.appendChild(cell("", "num", "c0-inusd"));
+    tr0.appendChild(cell("", "num", "c0-ingold"));
     tr0.appendChild(cell("", "num", "c0-real"));
     tb.appendChild(tr0);
     for (var k = 1; k <= state.months; k++) {
@@ -334,7 +354,12 @@ footer { font-size: .78rem; color: var(--muted); }
       tr.appendChild(inputCell(k, ROW_FIELDS[2]));
       tr.appendChild(cell("", "num close", "c" + k + "-close"));
       tr.appendChild(inputCell(k, ROW_FIELDS[3]));
+      tr.appendChild(cell("", "num", "c" + k + "-usdchg"));
       tr.appendChild(inputCell(k, ROW_FIELDS[4]));
+      tr.appendChild(cell("", "num", "c" + k + "-goldchg"));
+      tr.appendChild(cell("", "", "c" + k + "-win"));
+      tr.appendChild(cell("", "num", "c" + k + "-inusd"));
+      tr.appendChild(cell("", "num", "c" + k + "-ingold"));
       tr.appendChild(cell("", "num", "c" + k + "-real"));
       tb.appendChild(tr);
     }
@@ -346,6 +371,7 @@ footer { font-size: .78rem; color: var(--muted); }
     var B = state.capital, pocket = 0;
     var usdU = state.capital / state.usd0, goldU = state.capital / state.gold0;
     var infl = state.capital, netIn = state.capital, totalProfit = 0;
+    var prevUsd = state.usd0, prevGold = state.gold0, cpi = 1, byUsd = state.inflBase === "usd";
     var out = [{ k: 0, open: 0, profit: 0, dep: state.capital, wd: 0, close: B, total: B,
       usdP: state.usd0, goldP: state.gold0, usdVal: B, goldVal: B, infl: B, cpi: 1, real: B, rate: 0 }];
     for (var k = 1; k <= state.months; k++) {
@@ -358,16 +384,21 @@ footer { font-size: .78rem; color: var(--muted); }
       var wd = Math.min(rowVal(k, "wd") || 0, B + dep);
       B += dep - wd;
       netIn += dep - wd;
-      var usdP = rowVal(k, "usd"); if (usdP === null || usdP <= 0) usdP = state.usd0 * Math.pow(1 + um, k);
-      var goldP = rowVal(k, "gold"); if (goldP === null || goldP <= 0) goldP = state.gold0 * Math.pow(1 + gm, k);
+      // months without an entered price continue from the previous month's price at the forecast growth
+      var usdEst = prevUsd * (1 + um), goldEst = prevGold * (1 + gm);
+      var usdP = rowVal(k, "usd"); if (usdP === null || usdP <= 0) usdP = usdEst;
+      var goldP = rowVal(k, "gold"); if (goldP === null || goldP <= 0) goldP = goldEst;
       usdU = Math.max(0, usdU + (dep - wd) / usdP);
       goldU = Math.max(0, goldU + (dep - wd) / goldP);
-      infl = Math.max(0, infl * (1 + im) + dep - wd);
-      var cpi = Math.pow(1 + im, k);
+      var usdChg = usdP / prevUsd - 1, goldChg = goldP / prevGold - 1;
+      var step = byUsd ? usdChg : im;
+      infl = Math.max(0, infl * (1 + step) + dep - wd);
+      cpi *= 1 + step;
+      prevUsd = usdP; prevGold = goldP;
       var total = B + pocket;
       out.push({ k: k, open: open, rate: r, profit: profit, dep: dep, wd: wd, close: B, total: total,
         usdP: usdP, goldP: goldP, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
-        real: total / cpi, usdEst: state.usd0 * Math.pow(1 + um, k), goldEst: state.gold0 * Math.pow(1 + gm, k) });
+        real: total / cpi, usdChg: usdChg, goldChg: goldChg, usdEst: usdEst, goldEst: goldEst });
     }
     return { rows: out, pocket: pocket, netIn: netIn, totalProfit: totalProfit, usdU: usdU, goldU: goldU };
   }
@@ -391,12 +422,35 @@ footer { font-size: .78rem; color: var(--muted); }
     $("c0-usd").textContent = fmt(state.usd0);
     $("c0-gold").textContent = fmt(state.gold0);
     $("c0-real").textContent = fmt(state.capital);
+    $("c0-inusd").textContent = fmt2(state.capital / state.usd0);
+    $("c0-ingold").textContent = fmt2(state.capital / state.gold0);
+    var byUsd = state.inflBase === "usd";
+    $("inflation-field").hidden = byUsd;
+    $("inflBase-note").textContent = byUsd ? "تورم هر ماه = درصد تغییر قیمت دلار همان ماه" : "";
+    $("infl-legend").hidden = byUsd;
+    $("real-head").textContent = byUsd ? "ارزش به دلار روز شروع (تومان)" : "ارزش به پول روز شروع";
+    function chg(id, v) {
+      var el = $(id);
+      el.textContent = (v >= 0 ? "+" : "−") + fmt2(Math.abs(v * 100)) + "٪";
+      el.setAttribute("dir", "ltr");
+      el.className = "num " + (v > 0 ? "up" : v < 0 ? "down" : "");
+    }
     for (var k = 1; k <= n; k++) {
       var r = rows[k];
       $("c" + k + "-open").textContent = fmt(r.open);
       $("c" + k + "-profit").textContent = fmt(r.profit);
       $("c" + k + "-close").textContent = fmt(r.close);
       $("c" + k + "-real").textContent = fmt(r.real);
+      chg("c" + k + "-usdchg", r.usdChg);
+      chg("c" + k + "-goldchg", r.goldChg);
+      $("c" + k + "-inusd").textContent = fmt2(r.total / r.usdP);
+      $("c" + k + "-ingold").textContent = fmt2(r.total / r.goldP);
+      var cands = [
+        { c: "inv", t: "سرمایه‌گذاری " + fmt2(r.rate) + "٪", v: r.rate / 100 },
+        { c: "usd", t: "دلار", v: r.usdChg },
+        { c: "gold", t: "طلا", v: r.goldChg }
+      ].sort(function (a, b) { return b.v - a.v; });
+      $("c" + k + "-win").innerHTML = '<span class="win ' + cands[0].c + '">' + cands[0].t + "</span>";
       $("r" + k + "-rate").placeholder = fmt2(state.rate);
       $("r" + k + "-dep").placeholder = "۰";
       $("r" + k + "-wd").placeholder = "۰";
@@ -414,8 +468,12 @@ footer { font-size: .78rem; color: var(--muted); }
       { c: "var(--accent)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
       { c: "var(--usd)", k: "اگر دلار می‌خریدم", v: fmt(last.usdVal), s: fmt2(res.usdU) + " دلار · " + badge(pct(last.total, last.usdVal)) + " به نفع سرمایه‌گذاری" },
       { c: "var(--gold)", k: "اگر طلا می‌خریدم", v: fmt(last.goldVal), s: fmt2(res.goldU) + " گرم · " + badge(pct(last.total, last.goldVal)) + " به نفع سرمایه‌گذاری" },
-      { c: "var(--infl)", k: "حداقل لازم برای جبران تورم", v: fmt(last.infl), s: badge(pct(last.total, last.infl)) + " سود واقعی پس از تورم" },
-      { c: "var(--muted)", k: "ارزش نهایی به پول روز شروع", v: fmt(last.real), s: "قدرت خرید در " + label(0) }
+      byUsd
+        ? { c: "var(--usd)", k: "موجودی شما به دلار", v: fmt2(last.total / last.usdP) + " دلار", s: "در شروع: " + fmt2(state.capital / state.usd0) + " دلار · دلار " + badge(pct(last.usdP, state.usd0)) + " گران شد" }
+        : { c: "var(--infl)", k: "حداقل لازم برای جبران تورم", v: fmt(last.infl), s: badge(pct(last.total, last.infl)) + " سود واقعی پس از تورم" },
+      byUsd
+        ? { c: "var(--gold)", k: "موجودی شما به گرم طلا", v: fmt2(last.total / last.goldP) + " گرم", s: "در شروع: " + fmt2(state.capital / state.gold0) + " گرم · طلا " + badge(pct(last.goldP, state.gold0)) + " گران شد" }
+        : { c: "var(--muted)", k: "ارزش نهایی به پول روز شروع", v: fmt(last.real), s: "قدرت خرید در " + label(0) }
     ];
     $("cards").innerHTML = cards.map(function (c) {
       return '<div class="card"><span class="k"><i class="dot" style="background:' + c.c + '"></i>' + c.k +
@@ -439,7 +497,12 @@ footer { font-size: .78rem; color: var(--muted); }
         " تومان (" + fmt2(pct(best.v, inv)) + "٪) بیشتر از سرمایه‌گذاری فعلی شما می‌شد.";
     }
     var realPct = pct(inv, last.infl);
-    txt += " نسبت به تورم، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
+    if (byUsd) {
+      txt += " از " + label(0) + " تا " + mlabel + " دلار " + fmt2(pct(last.usdP, state.usd0)) + "٪ و طلا " + fmt2(pct(last.goldP, state.gold0)) +
+        "٪ گران شد. با تورم دلاری، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
+    } else {
+      txt += " نسبت به تورم، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
+    }
     if (state.reinvest) {
       txt += " دلار یا طلا فقط در صورتی جلو می‌زنند که سالانه بیش از " + fmt2(eff) + "٪ گران شوند (با نرخ " + fmt2(state.rate) + "٪ ماهانه).";
     }
@@ -455,12 +518,14 @@ footer { font-size: .78rem; color: var(--muted); }
   }
   function drawChart(rows) {
     var svg = $("chart"), W = 760, H = 320, L = 90, R = 20, T = 16, B = 40;
+    var byUsd = state.inflBase === "usd";
     var series = [
       { key: "total", color: "var(--accent)", w: 3 },
       { key: "usdVal", color: "var(--usd)", w: 2 },
       { key: "goldVal", color: "var(--gold)", w: 2 },
       { key: "infl", color: "var(--infl)", w: 2, dash: "5 4" }
     ];
+    if (byUsd) series.pop();
     var max = 0;
     rows.forEach(function (r) { series.forEach(function (s) { max = Math.max(max, r[s.key]); }); });
     if (max <= 0) max = 1;
