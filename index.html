@@ -6,312 +6,465 @@
 <title>دفتر سود مرکب</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lalezar&family=Vazirmatn:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap">
 <style>
-/* Layout: one narrow column — settings strip, verdict cards, chart, then the editable monthly ledger */
+/* Layout: sticky app bar + tab strip (bottom nav on phones); each tab is one focused workspace */
 :root {
-  --bg: #f3f6f5;
+  --bg: #f3f5f7;
   --surface: #ffffff;
-  --ink: #17221f;
-  --muted: #5d6b67;
-  --line: #d8e0dd;
-  --accent: #0d7470;      /* investment (turquoise tile) */
-  --accent-soft: #e0efed;
+  --surface-2: #f7f9fa;
+  --ink: #0f1c22;
+  --muted: #5a6a72;
+  --faint: #8a979d;
+  --line: #e0e6e9;
+  --accent: #0f6e66;
+  --accent-ink: #ffffff;
+  --accent-soft: #e2f1ef;
   --inv: #2a78d6;         /* chart series: investment */
   --usd: #1baf7a;         /* dollar */
   --gold: #eda100;        /* gold */
   --infl: #e34948;        /* inflation (always dashed) */
-  --good: #23784a;
-  --bad: #b34338;
-  --font-display: "Lalezar", "Vazirmatn", Tahoma, sans-serif;
-  --font-body: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
+  --good: #13803f;
+  --bad: #b42318;
+  --warn: #a15c07;
+  --shadow: 0 1px 2px rgb(15 28 34 / .05), 0 4px 16px rgb(15 28 34 / .05);
+  --font: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
-    --accent: #43b8b0; --accent-soft: #1b3533; --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
-    --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
+    --bg: #0a1114; --surface: #111b1f; --surface-2: #152126; --ink: #e4edef; --muted: #93a5ab; --faint: #6d7f85; --line: #22333a;
+    --accent: #2cc2b0; --accent-ink: #04211e; --accent-soft: #10302c;
+    --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
+    --good: #4fd18a; --bad: #f2776b; --warn: #e5a54a; --shadow: 0 1px 2px rgb(0 0 0 / .3); color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #101816; --surface: #17211f; --ink: #e6eeeb; --muted: #9aaaa5; --line: #2b3a36;
-  --accent: #43b8b0; --accent-soft: #1b3533; --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
-  --good: #6fcf97; --bad: #ec7f72; color-scheme: dark;
+  --bg: #0a1114; --surface: #111b1f; --surface-2: #152126; --ink: #e4edef; --muted: #93a5ab; --faint: #6d7f85; --line: #22333a;
+  --accent: #2cc2b0; --accent-ink: #04211e; --accent-soft: #10302c;
+  --inv: #3987e5; --usd: #199e70; --gold: #c98500; --infl: #e34948;
+  --good: #4fd18a; --bad: #f2776b; --warn: #e5a54a; --shadow: 0 1px 2px rgb(0 0 0 / .3); color-scheme: dark;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-body {
-  margin: 0; background: var(--bg); color: var(--ink);
-  font-family: var(--font-body); font-size: 15px; line-height: 1.7;
-  padding-inline: 16px; padding-block: 24px 48px;
-}
-.wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); }
-.wrap > * { min-width: 0; }
-h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.2; margin: 0; color: var(--accent); text-wrap: balance; }
-h2 { font-size: 1.1rem; margin: 0 0 12px; text-wrap: balance; }
-.lede { margin: 6px 0 0; color: var(--muted); max-width: 62ch; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 14.5px; line-height: 1.65; }
 .num { font-variant-numeric: tabular-nums; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; }
-.settings { display: grid; gap: 18px; }
-.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; }
-.field { display: grid; gap: 4px; min-width: 0; }
-.field label { font-size: .82rem; color: var(--muted); }
-.field small { font-size: .75rem; color: var(--muted); min-height: 1.2em; }
-input[type="text"], select {
-  font: inherit; font-variant-numeric: tabular-nums; color: var(--ink); background: var(--bg);
-  border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px; width: 100%; min-width: 0;
+/* ---------- app bar ---------- */
+.appbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
-input[type="text"]:focus-visible, select:focus-visible, button:focus-visible, input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--accent); outline-offset: 1px;
+.appbar-in { max-width: 1180px; margin: 0 auto; padding: 10px 16px 0; display: grid; gap: 8px; }
+.brand-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; margin-inline-end: auto; }
+.logo { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); display: grid; place-items: center; flex: none; }
+.brand h1 { font-size: 1.08rem; font-weight: 800; margin: 0; letter-spacing: -.01em; }
+.brand small { display: block; font-size: .74rem; color: var(--muted); font-weight: 500; line-height: 1.3; }
+.today { font-size: .78rem; color: var(--muted); background: var(--surface-2); border: 1px solid var(--line); border-radius: 99px; padding: 3px 10px; white-space: nowrap; }
+.search { display: block; position: relative; flex: 0 1 300px; min-width: 0; }
+.search input[type="text"] { width: 100%; padding-block: 7px; padding-right: 12px; padding-left: 34px; border-radius: 9px; border: 1px solid var(--line); background: var(--surface-2); }
+.search svg { position: absolute; left: 10px; right: auto; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+.tab {
+  display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; cursor: pointer;
+  padding: 9px 14px 11px; color: var(--muted); font-weight: 500; font-size: .9rem; border-bottom: 2px solid transparent; white-space: nowrap;
 }
-.group-title { font-size: .78rem; font-weight: 700; letter-spacing: .02em; color: var(--muted); margin: 0 0 8px; }
-.check { display: flex; align-items: center; gap: 8px; font-size: .9rem; }
+.tab svg { flex: none; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); font-weight: 700; }
+
+main { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 20px 56px; }
+.page { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); }
+.page > * { min-width: 0; }
+.page-head { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 10px; }
+.page-head h2 { margin: 0; font-size: 1.25rem; font-weight: 800; letter-spacing: -.01em; }
+.page-head p { margin: 2px 0 0; color: var(--muted); font-size: .85rem; max-width: 70ch; }
+
+/* ---------- surfaces ---------- */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px; box-shadow: var(--shadow); min-width: 0; }
+.panel h3 { margin: 0 0 12px; font-size: .98rem; font-weight: 700; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.panel-head h3 { margin: 0; }
 .note { font-size: .8rem; color: var(--muted); margin: 0; }
+.grid-2 { display: grid; gap: 18px; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+@media (max-width: 900px) { .grid-2 { grid-template-columns: minmax(0, 1fr); } }
 
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; display: grid; gap: 2px; align-content: start; }
-.card .k { font-size: .8rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
-.card .v { font-size: 1.35rem; font-weight: 700; }
-.card .s { font-size: .8rem; color: var(--muted); }
-.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
-.pill { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
-.pill.good { color: var(--good); background: color-mix(in srgb, var(--good) 14%, transparent); }
-.pill.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 14%, transparent); }
-
-.verdict { border-inline-start: 0; background: var(--accent-soft); border-radius: 10px; padding: 16px 18px; }
-.verdict p { margin: 0; max-width: 75ch; }
+/* ---------- dashboard ---------- */
+.hero { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 2fr); gap: 18px; }
+@media (max-width: 900px) { .hero { grid-template-columns: minmax(0, 1fr); } }
+.hero-main { background: var(--accent); color: var(--accent-ink); border-radius: 14px; padding: 20px; display: grid; gap: 4px; align-content: start; box-shadow: var(--shadow); }
+.hero-main .k { font-size: .85rem; opacity: .85; }
+.hero-main .v { font-size: clamp(1.7rem, 4.6vw, 2.3rem); font-weight: 800; letter-spacing: -.02em; line-height: 1.25; }
+.hero-main .s { font-size: .82rem; opacity: .9; }
+.hero-main .row { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--accent-ink) 25%, transparent); font-size: .8rem; }
+.hero-main .row b { font-size: .95rem; display: block; }
+.hero-pill { display: inline-block; font-size: .72rem; font-weight: 700; padding: 0 7px; border-radius: 99px; background: color-mix(in srgb, var(--accent-ink) 18%, transparent); }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 13px 14px; display: grid; gap: 1px; align-content: start; min-width: 0; }
+.kpi .k { font-size: .76rem; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+.kpi .v { font-size: 1.12rem; font-weight: 800; overflow-wrap: anywhere; }
+.kpi .s { font-size: .74rem; color: var(--muted); }
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; }
+.pill { display: inline-block; font-size: .72rem; font-weight: 700; padding: 0 7px; border-radius: 99px; line-height: 1.7; }
+.pill.good { color: var(--good); background: color-mix(in srgb, var(--good) 13%, transparent); }
+.pill.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 13%, transparent); }
+.verdict { background: var(--accent-soft); border-radius: 12px; padding: 14px 16px; font-size: .9rem; }
+.verdict p { margin: 0; }
+.verdict p + p { margin-top: 6px; }
 .verdict strong { color: var(--accent); }
 
-.chart-box { overflow-x: auto; position: relative; }
-.chart-box + h2 { margin-top: 26px; }
-.tip {
-  position: absolute; top: 8px; z-index: 2; pointer-events: none; min-width: 190px;
-  background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px;
-  box-shadow: 0 4px 14px rgb(0 0 0 / .12); font-size: .8rem; line-height: 1.6;
-}
-.tip b { display: block; margin-bottom: 2px; }
-.tip div { display: flex; justify-content: space-between; gap: 14px; }
-.tip span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
-.saves { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
-.saves li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 0; border-top: 1px solid var(--line); }
-.saves li .nm { font-weight: 700; flex: 1 1 12em; min-width: 0; overflow-wrap: anywhere; }
-.saves li .dt { font-size: .78rem; color: var(--muted); }
-.save-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.save-row input { flex: 1 1 14em; width: auto; }
-button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
-button.primary:hover { color: var(--surface); opacity: .9; }
-button.danger:hover, button.danger.armed { border-color: var(--bad); color: var(--bad); }
-svg { display: block; width: 100%; height: auto; min-width: 520px; direction: ltr; touch-action: pan-y; }
-.legend { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: .82rem; color: var(--muted); margin-top: 8px; }
+/* ---------- charts ---------- */
+.chart-box { position: relative; }
+.chart-box svg { display: block; width: 100%; height: auto; direction: ltr; touch-action: pan-y; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: .78rem; color: var(--muted); margin-top: 8px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
+.tip {
+  position: absolute; top: 4px; z-index: 3; pointer-events: none; min-width: 200px; max-width: 260px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / .14); font-size: .78rem; line-height: 1.6;
+}
+.tip > b { display: block; margin-bottom: 2px; }
+.tip div { display: flex; justify-content: space-between; gap: 12px; }
+.tip span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
 
-.table-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
-table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .85rem; }
-th, td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: start; white-space: nowrap; }
-th { font-size: .75rem; color: var(--muted); font-weight: 500; background: var(--bg); position: sticky; top: 0; }
+/* ---------- lists ---------- */
+.list { display: grid; }
+.li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 10px 2px; border: 0; border-top: 1px solid var(--line); background: none; width: 100%; text-align: start; cursor: pointer; }
+.li:first-child { border-top: 0; }
+.li:hover { background: var(--surface-2); }
+.li .date { font-size: .74rem; color: var(--muted); text-align: center; min-width: 52px; line-height: 1.35; }
+.li .date b { display: block; font-size: 1.05rem; color: var(--ink); }
+.li .mid { min-width: 0; }
+.li .mid b { font-weight: 700; font-size: .88rem; }
+.li .mid small { display: block; color: var(--muted); font-size: .76rem; overflow-wrap: anywhere; }
+.li .end { display: grid; gap: 3px; justify-items: end; }
+.li .amt { font-weight: 800; }
+.chip { display: inline-flex; align-items: center; gap: 4px; font-size: .72rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; white-space: nowrap; border: 1px solid transparent; }
+.chip.ok { color: var(--good); background: color-mix(in srgb, var(--good) 12%, transparent); }
+.chip.wait { color: var(--muted); background: var(--surface-2); border-color: var(--line); }
+.chip.now { color: var(--warn); background: color-mix(in srgb, var(--warn) 14%, transparent); }
+.chip.bad { color: var(--bad); background: color-mix(in srgb, var(--bad) 12%, transparent); }
+.chip.acc { color: var(--accent); background: var(--accent-soft); }
+.chip.inv { color: var(--ink); background: color-mix(in srgb, var(--inv) 18%, transparent); }
+.chip.usd { color: var(--ink); background: color-mix(in srgb, var(--usd) 20%, transparent); }
+.chip.gold { color: var(--ink); background: color-mix(in srgb, var(--gold) 22%, transparent); }
+
+/* ---------- toolbars & controls ---------- */
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.toolbar .search { flex: 1 1 220px; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 9px; overflow: hidden; background: var(--surface); }
+.seg button { border: 0; background: none; padding: 6px 12px; cursor: pointer; font-size: .82rem; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; border-radius: 9px; padding: 7px 14px;
+  border: 1px solid var(--line); background: var(--surface); font-size: .86rem; font-weight: 500; white-space: nowrap;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+.btn.primary:hover { color: var(--accent-ink); filter: brightness(1.06); }
+.btn.danger:hover, .btn.danger.armed { border-color: var(--bad); color: var(--bad); }
+.btn:disabled { opacity: .6; cursor: progress; }
+input[type="text"], select {
+  font-variant-numeric: tabular-nums; background: var(--surface-2); border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; width: 100%; min-width: 0;
+}
+.fields { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+.field { display: grid; gap: 4px; min-width: 0; align-content: start; }
+.field label { font-size: .8rem; color: var(--muted); font-weight: 500; }
+.field small { font-size: .74rem; color: var(--faint); }
+.check { display: flex; align-items: center; gap: 8px; font-size: .88rem; }
+.checks { display: grid; gap: 6px; margin-top: 14px; }
+
+/* ---------- contract cards ---------- */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.ccard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; display: grid; gap: 10px; cursor: pointer; text-align: start; box-shadow: var(--shadow); width: 100%; }
+.ccard:hover { border-color: var(--accent); }
+.ccard .top { display: flex; justify-content: space-between; align-items: start; gap: 8px; }
+.ccard .no { font-size: .74rem; color: var(--muted); }
+.ccard .nm { font-weight: 800; font-size: .98rem; overflow-wrap: anywhere; }
+.ccard .amt { font-size: 1.3rem; font-weight: 800; letter-spacing: -.01em; }
+.ccard dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 12px; margin: 0; font-size: .8rem; }
+.ccard dt { color: var(--muted); }
+.ccard dd { margin: 0; font-weight: 700; }
+.bar { height: 6px; border-radius: 99px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; display: block; }
+.bar i { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
+.prog { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: .75rem; color: var(--muted); }
+
+/* ---------- tables ---------- */
+.table-box { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-variant-numeric: tabular-nums; font-size: .82rem; }
+th, td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: start; white-space: nowrap; }
+th { font-size: .72rem; color: var(--muted); font-weight: 700; background: var(--surface-2); }
 tbody tr:last-child td { border-bottom: 0; }
-td input[type="text"] { width: 9.5em; padding: 4px 7px; font-size: .85rem; }
-td input.short { width: 4.5em; }
-td.profit { color: var(--accent); font-weight: 700; }
-td.close { font-weight: 700; }
+td:first-child, th:first-child { position: sticky; inset-inline-start: 0; background: var(--surface); z-index: 1; }
+th:first-child { background: var(--surface-2); }
+tbody tr.click { cursor: pointer; }
+tbody tr.click:hover td { background: var(--surface-2); }
+tr.now td { background: color-mix(in srgb, var(--accent) 8%, var(--surface)); }
+td .est { color: var(--faint); }
 td.up { color: var(--bad); }
 td.down { color: var(--good); }
-.win { display: inline-block; font-size: .75rem; font-weight: 700; padding: 1px 8px; border-radius: 99px; }
-.win { color: var(--ink); }
-.win.inv { background: color-mix(in srgb, var(--inv) 18%, transparent); }
-.win.usd { background: color-mix(in srgb, var(--usd) 20%, transparent); }
-.win.gold { background: color-mix(in srgb, var(--gold) 22%, transparent); }
-tr.start td { background: var(--accent-soft); }
-td input.name { width: 9em; }
-td select { width: auto; padding: 4px 7px; font-size: .85rem; }
+td.strong { font-weight: 800; }
+.rowbtn { border: 0; background: none; padding: 0; cursor: pointer; font-weight: 700; text-align: start; }
+.rowbtn:hover { color: var(--accent); }
+
+/* month cards (phones) */
+.mcards { display: none; gap: 10px; }
+.mcard { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 6px; width: 100%; text-align: start; cursor: pointer; }
+.mcard.now { border-color: var(--accent); }
+.mcard .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.mcard dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 12px; margin: 0; font-size: .8rem; }
+.mcard dt { color: var(--muted); }
+.mcard dd { margin: 0; font-weight: 700; }
+.mcard .est { color: var(--faint); }
+
+/* ---------- sheet (editor) ---------- */
+.scrim { position: fixed; inset: 0; z-index: 40; background: rgb(5 12 15 / .45); display: grid; place-items: center; padding: 16px; }
+.sheet { background: var(--surface); border-radius: 16px; width: min(520px, 100%); max-height: min(86vh, 760px); overflow: auto; box-shadow: 0 20px 60px rgb(0 0 0 / .3); }
+.sheet header { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 14px 18px; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--surface); z-index: 1; }
+.sheet header h3 { margin: 0; font-size: 1rem; }
+.sheet .body { padding: 16px 18px; display: grid; gap: 14px; }
+.sheet .body .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sheet footer { display: flex; justify-content: space-between; gap: 8px; padding: 12px 18px calc(12px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); position: sticky; bottom: 0; background: var(--surface); }
+.xbtn { border: 0; background: var(--surface-2); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; }
+.empty { text-align: center; padding: 30px 10px; color: var(--muted); }
+.saves { list-style: none; margin: 0; padding: 0; }
+.saves li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; padding: 9px 0; border-top: 1px solid var(--line); }
+.saves li .nm { font-weight: 700; flex: 1 1 10em; min-width: 0; overflow-wrap: anywhere; }
+.saves li .dt { font-size: .76rem; color: var(--muted); }
 .check-ok { color: var(--good); font-weight: 700; }
 .check-bad { color: var(--bad); font-weight: 700; }
-details summary { cursor: pointer; font-weight: 700; font-size: .9rem; margin-top: 16px; }
-.head-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 10px; margin-bottom: 10px; }
-.head-row h2 { margin: 0; }
-button {
-  font: inherit; font-size: .85rem; cursor: pointer; border-radius: 6px; padding: 6px 12px;
-  border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+.toast { position: fixed; z-index: 50; inset-inline: 0; bottom: 24px; margin: 0 auto; width: max-content; max-width: calc(100% - 32px); background: var(--ink); color: var(--bg); border-radius: 10px; padding: 9px 16px; font-size: .86rem; box-shadow: 0 8px 24px rgb(0 0 0 / .25); }
+
+/* ---------- phones ---------- */
+@media (max-width: 720px) {
+  body { font-size: 14px; }
+  .appbar { backdrop-filter: none; background: var(--surface); }
+  .appbar-in { padding-bottom: 10px; }
+  .appbar .brand-row > .search { display: none; }
+  .brand small { display: none; }
+  .tabs {
+    position: fixed; inset-inline: 0; bottom: 0; z-index: 30; justify-content: space-around; gap: 0;
+    background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .tab { flex: 1 1 0; flex-direction: column; gap: 2px; padding: 8px 2px 7px; font-size: .68rem; border-bottom: 0; border-top: 2px solid transparent; min-width: 0; }
+  .tab[aria-selected="true"] { border-top-color: var(--accent); }
+  main { padding-block: 16px calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .panel { padding: 14px; border-radius: 12px; }
+  .months-table { display: none; }
+  .mcards { display: grid; }
+  .scrim { place-items: end center; padding: 0; }
+  .sheet { border-radius: 16px 16px 0 0; width: 100%; max-height: 90vh; }
+  .sheet .body .fields { gap: 10px; }
+  .toast { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
 }
-button:hover { border-color: var(--accent); color: var(--accent); }
-footer { font-size: .78rem; color: var(--muted); }
-@media (prefers-reduced-motion: no-preference) { button { transition: color .15s, border-color .15s; } }
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .tab, .ccard { transition: color .15s, border-color .15s, background-color .15s; }
+}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <h1>دفتر سود مرکب</h1>
-  <p class="lede">هر قرارداد ۱۲ ماه، ماهانه یک چک سود می‌دهد. چک‌هایی که هر ماه پاس می‌شوند خودشان یک قرارداد ۱۲ ماههٔ تازه می‌شوند و این چرخه ادامه پیدا می‌کند. قراردادهای خودتان را اضافه یا حذف کنید، در جدول ماه به ماه واریز، برداشت و قیمت واقعی دلار و طلا را بنویسید و نتیجه را با دلار، طلا و تورم مقایسه کنید.</p>
+<header class="appbar">
+  <div class="appbar-in">
+    <div class="brand-row">
+      <div class="brand">
+        <span class="logo" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 4 8-8"/><path d="M15 8h5v5"/></svg>
+        </span>
+        <div><h1>دفتر سود مرکب</h1><small>قراردادها، چک‌ها و مقایسه با دلار و طلا</small></div>
+      </div>
+      <label class="search" aria-label="جستجو">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="q-top" placeholder="جستجو: شماره قرارداد، شماره چک، مبلغ، تاریخ">
+      </label>
+      <span class="today" id="today"></span>
+    </div>
+    <nav class="tabs" role="tablist" aria-label="بخش‌ها">
+      <button class="tab" role="tab" data-tab="dash" id="t-dash"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>داشبورد</button>
+      <button class="tab" role="tab" data-tab="contracts" id="t-contracts"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg>قراردادها</button>
+      <button class="tab" role="tab" data-tab="cheques" id="t-cheques"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 14h5M15 10h3"/></svg>چک‌ها</button>
+      <button class="tab" role="tab" data-tab="months" id="t-months"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>ماه به ماه</button>
+      <button class="tab" role="tab" data-tab="settings" id="t-settings"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>تنظیمات</button>
+    </nav>
+  </div>
 </header>
 
-<section class="panel settings" aria-label="تنظیمات">
-  <div>
-    <p class="group-title">سرمایه‌گذاری</p>
-    <div class="fields">
-      <div class="field"><label for="startMonth">ماه شروع</label><select id="startMonth"></select><small></small></div>
-      <div class="field"><label for="startYear">سال شروع</label><input type="text" id="startYear" inputmode="numeric"><small></small></div>
-      <div class="field"><label for="rate">سود ماهانهٔ قراردادهای جدید (درصد)</label><input type="text" id="rate" inputmode="decimal"><small id="rate-eff"></small></div>
-      <div class="field"><label for="term">مدت هر قرارداد (ماه)</label><input type="text" id="term" inputmode="numeric"><small>تعداد چک‌های هر قرارداد</small></div>
-      <div class="field"><label for="months">تعداد ماه محاسبه</label><input type="text" id="months" inputmode="numeric"><small>بین ۱ تا ۱۲۰</small></div>
+<main>
+  <!-- ================= dashboard ================= -->
+  <section class="page" data-page="dash" role="tabpanel" aria-labelledby="t-dash">
+    <div class="hero">
+      <div class="hero-main" id="hero"></div>
+      <div class="kpis" id="kpis"></div>
     </div>
-    <label class="check" style="margin-top:10px"><input type="checkbox" id="reinvest"> مبلغ چک‌های هر ماه یک قرارداد تازه شود (سود مرکب)</label>
-    <label class="check"><input type="checkbox" id="renew"> اصل پول قراردادهای خودکار در سررسید دوباره قرارداد شود</label>
-  </div>
-  <div>
-    <p class="group-title">مقایسه با تورم، دلار و طلا</p>
-    <div class="fields">
-      <div class="field"><label for="inflBase">مبنای تورم</label><select id="inflBase"><option value="usd">رشد قیمت دلار (از جدول)</option><option value="fixed">نرخ ثابت سالانه</option></select><small id="inflBase-note"></small></div>
-      <div class="field" id="inflation-field"><label for="inflation">تورم سالانه (درصد)</label><input type="text" id="inflation" inputmode="decimal"><small id="infl-m"></small></div>
-      <div class="field"><label for="usd0">قیمت دلار در ماه شروع (تومان)</label><input type="text" id="usd0" inputmode="numeric" data-money><small></small></div>
-      <div class="field"><label for="usdG">رشد سالانهٔ پیش‌بینی دلار (درصد)</label><input type="text" id="usdG" inputmode="decimal"><small id="usd-m"></small></div>
-      <div class="field"><label for="gold0">قیمت هر گرم طلای ۱۸ عیار در ماه شروع (تومان)</label><input type="text" id="gold0" inputmode="numeric" data-money><small></small></div>
-      <div class="field"><label for="goldG">رشد سالانهٔ پیش‌بینی طلا (درصد)</label><input type="text" id="goldG" inputmode="decimal"><small id="gold-m"></small></div>
+    <div class="verdict" id="verdict" aria-live="polite"></div>
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head"><h3>ارزش دارایی ماه به ماه</h3><span class="note">تومان</span></div>
+        <div class="chart-box" id="box1"><svg id="chart1" role="img" aria-label="نمودار ماه به ماه ارزش سرمایه‌گذاری، دلار و طلا"></svg><div class="tip" id="tip1" hidden></div></div>
+        <div class="legend" id="legend1"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>چک‌های پیش رو</h3><button class="btn" type="button" data-go="cheques">همهٔ چک‌ها</button></div>
+        <div class="list" id="upcoming"></div>
+      </div>
     </div>
-    <p class="note" style="margin-top:10px">قیمت‌ها و نرخ‌های پیش‌فرض دلار، طلا و تورم فقط عدد نمونه‌اند. قیمت واقعی اسفند ۱۴۰۴ را وارد کنید. برای ماه‌هایی که گذشته، قیمت واقعی همان ماه را در جدول بنویسید تا به‌جای پیش‌بینی استفاده شود.</p>
-  </div>
-</section>
+    <div class="panel">
+      <div class="panel-head"><h3>سود ماهانهٔ شما در مقابل تغییر قیمت دلار و طلا</h3><span class="note">درصد، نسبت به ماه قبل</span></div>
+      <div class="chart-box" id="box2"><svg id="chart2" role="img" aria-label="نمودار ستونی سود ماهانه و تغییر قیمت دلار و طلا"></svg><div class="tip" id="tip2" hidden></div></div>
+      <div class="legend"><span><i class="dot" style="background:var(--inv)"></i>سود شما</span><span><i class="dot" style="background:var(--usd)"></i>تغییر قیمت دلار</span><span><i class="dot" style="background:var(--gold)"></i>تغییر قیمت طلا</span></div>
+      <p class="note" style="margin-top:6px">ستون‌های سبز و زرد درصد گران یا ارزان شدن دلار و طلا نسبت به ماه قبل‌اند و از قیمت‌های تب «ماه به ماه» حساب می‌شوند.</p>
+    </div>
+    <p class="note" id="formulaCheck"></p>
+  </section>
 
-<section class="panel" aria-label="قراردادها">
-  <div class="head-row">
-    <h2>قراردادهای من</h2>
-    <button type="button" class="primary" id="addContract">افزودن قرارداد جدید</button>
-  </div>
-  <div class="table-box">
-    <table>
-      <thead><tr>
-        <th>نام</th><th>ماه شروع</th><th>روز</th><th>مبلغ (تومان)</th><th>سود ماهانه ٪</th><th>مدت (ماه)</th><th>در سررسید</th>
-        <th>چک هر ماه</th><th>آخرین چک</th><th></th>
-      </tr></thead>
-      <tbody id="contracts"></tbody>
-    </table>
-  </div>
-  <p class="note" style="margin-top:8px">هر قرارداد در «روز» خودش چک می‌دهد؛ اولین چک یک ماه بعد از شروع است و اصل پول همراه آخرین چک برمی‌گردد. قراردادی که بعد از ماه شروع اضافه شود پول تازه حساب می‌شود. «تمدید» یعنی اصل پول در سررسید با نرخ و مدت پیش‌فرض همان ماه دوباره قرارداد می‌شود.</p>
-  <details>
-    <summary>قراردادهای خودکار که از چک‌های هر ماه ساخته شده‌اند (<span id="autoCount"></span>)</summary>
-    <div class="table-box" style="margin-top:8px">
+  <!-- ================= contracts ================= -->
+  <section class="page" data-page="contracts" role="tabpanel" aria-labelledby="t-contracts" hidden>
+    <div class="page-head">
+      <div><h2>قراردادها</h2><p>هر قرارداد در روز خودش ماهانه چک می‌دهد و اصل پول همراه آخرین چک برمی‌گردد. برای ویرایش روی قرارداد بزنید؛ قرارداد خودکار چک‌هایش را نشان می‌دهد.</p></div>
+      <button class="btn primary" type="button" id="addContract">+ قرارداد جدید</button>
+    </div>
+    <div class="toolbar">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" id="q-contracts" placeholder="شماره قرارداد، نام، مبلغ، تاریخ" aria-label="جستجوی قرارداد"></label>
+      <div class="seg" role="group" aria-label="نوع قرارداد">
+        <button type="button" data-ckind="manual" aria-pressed="true">قراردادهای من</button>
+        <button type="button" data-ckind="auto" aria-pressed="false">خودکار</button>
+        <button type="button" data-ckind="all" aria-pressed="false">همه</button>
+      </div>
+    </div>
+    <p class="note" id="contractsInfo"></p>
+    <div class="cards" id="contractCards"></div>
+  </section>
+
+  <!-- ================= cheques ================= -->
+  <section class="page" data-page="cheques" role="tabpanel" aria-labelledby="t-cheques" hidden>
+    <div class="page-head">
+      <div><h2>دفتر چک‌ها</h2><p>همهٔ چک‌های سود و برگشت اصل پول. با زدن روی هر چک، شمارهٔ چک واقعی، وضعیت و یادداشت را ثبت کنید.</p></div>
+    </div>
+    <div class="toolbar">
+      <label class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="text" id="q-cheques" placeholder="شماره چک، شماره قرارداد، مبلغ، تاریخ" aria-label="جستجوی چک"></label>
+      <div class="seg" role="group" aria-label="وضعیت">
+        <button type="button" data-cst="all" aria-pressed="true">همه</button>
+        <button type="button" data-cst="due" aria-pressed="false">پیش رو</button>
+        <button type="button" data-cst="ok" aria-pressed="false">پاس‌شده</button>
+        <button type="button" data-cst="bad" aria-pressed="false">برگشتی</button>
+      </div>
+      <select id="chqMonth" aria-label="ماه" style="width:auto"></select>
+    </div>
+    <div class="kpis" id="chqSummary" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))"></div>
+    <div class="panel" style="padding:4px 12px"><div class="list" id="chqList"></div></div>
+  </section>
+
+  <!-- ================= months ================= -->
+  <section class="page" data-page="months" role="tabpanel" aria-labelledby="t-months" hidden>
+    <div class="page-head">
+      <div><h2>ماه به ماه</h2><p>برای ثبت قیمت واقعی دلار و طلا، واریز، برداشت یا نرخ قرارداد جدید روی هر ماه بزنید. قیمت‌های کم‌رنگ با علامت ≈ پیش‌بینی‌اند.</p></div>
+      <button class="btn" type="button" id="clearRows">پاک کردن ورودی‌های ماهانه</button>
+    </div>
+    <div class="table-box months-table">
       <table>
-        <thead><tr><th>تاریخ امضا</th><th>مبلغ</th><th>سود ماهانه ٪</th><th>چک هر ماه</th><th>آخرین چک</th><th>ساخته‌شده از</th></tr></thead>
-        <tbody id="autoContracts"></tbody>
+        <thead><tr>
+          <th>ماه</th><th>نرخ جدید</th><th>چک‌های ماه</th><th>روز چک‌ها</th><th>اصل برگشتی</th><th>واریز</th><th>برداشت</th>
+          <th>قرارداد جدید</th><th>قراردادهای فعال</th><th>موجودی آخر ماه</th><th>دلار</th><th>تغییر</th><th>گرم طلا</th><th>تغییر</th>
+          <th>دارایی به دلار</th><th>بیشترین رشد</th>
+        </tr></thead>
+        <tbody id="monthRows"></tbody>
       </table>
     </div>
-  </details>
-</section>
+    <div class="mcards" id="monthCards"></div>
+  </section>
 
-<section class="panel" aria-label="ذخیره و بارگذاری">
-  <div class="head-row"><h2>ذخیره و بارگذاری</h2><span class="note" id="store-where"></span></div>
-  <div class="save-row">
-    <input type="text" id="saveName" placeholder="نام ذخیره، مثلاً «قیمت‌های واقعی تا مهر»" aria-label="نام ذخیره">
-    <button type="button" class="primary" id="saveBtn">ذخیره</button>
-    <button type="button" id="exportBtn">ذخیره در فایل</button>
-    <button type="button" id="importBtn">بارگذاری از فایل</button>
-    <input type="file" id="importFile" accept=".json,application/json" hidden>
+  <!-- ================= settings ================= -->
+  <section class="page" data-page="settings" role="tabpanel" aria-labelledby="t-settings" hidden>
+    <div class="page-head"><div><h2>تنظیمات و خروجی</h2></div></div>
+    <div class="panel">
+      <div class="panel-head"><h3>خروجی و پشتیبان</h3></div>
+      <div class="toolbar">
+        <button class="btn primary" type="button" id="xlsxBtn">خروجی اکسل</button>
+        <button class="btn" type="button" id="exportBtn">فایل پشتیبان</button>
+        <button class="btn" type="button" id="importBtn">بارگذاری فایل پشتیبان</button>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+      </div>
+      <p class="note" style="margin-top:8px">فایل اکسل پنج برگه دارد: خلاصه، قراردادها، چک‌ها، ماه به ماه و قیمت‌ها. هر عدد در سلول جداست و هر ستون فیلتر دارد.</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>ذخیره‌ها</h3><span class="note" id="store-where"></span></div>
+      <div class="toolbar">
+        <input type="text" id="saveName" placeholder="نام ذخیره، مثلاً «قیمت‌های واقعی تا مهر»" aria-label="نام ذخیره" style="flex:1 1 220px;width:auto">
+        <button class="btn primary" type="button" id="saveBtn">ذخیره</button>
+      </div>
+      <ul class="saves" id="saves" style="margin-top:8px"></ul>
+    </div>
+    <div class="panel">
+      <h3>محاسبه</h3>
+      <div class="fields">
+        <div class="field"><label for="startMonth">ماه شروع حساب</label><select id="startMonth"></select></div>
+        <div class="field"><label for="startYear">سال شروع</label><input type="text" id="startYear" inputmode="numeric"></div>
+        <div class="field"><label for="rate">سود ماهانهٔ قراردادهای جدید (٪)</label><input type="text" id="rate" inputmode="decimal"><small id="rate-eff"></small></div>
+        <div class="field"><label for="term">مدت قراردادهای جدید (ماه)</label><input type="text" id="term" inputmode="numeric"><small>تعداد چک‌های هر قرارداد</small></div>
+        <div class="field"><label for="months">حداقل تعداد ماه</label><input type="text" id="months" inputmode="numeric"><small id="horizon-note"></small></div>
+      </div>
+      <div class="checks">
+        <label class="check"><input type="checkbox" id="autoExtend"> با گذشت زمان ماه‌های جدید خودکار اضافه شود (همیشه تا ۱۲ ماه بعد از امروز)</label>
+        <label class="check"><input type="checkbox" id="reinvest"> مبلغ چک‌های هر ماه یک قرارداد تازه شود (سود مرکب)</label>
+        <label class="check"><input type="checkbox" id="renew"> اصل پول قراردادهای خودکار در سررسید دوباره قرارداد شود</label>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>مقایسه با تورم، دلار و طلا</h3>
+      <div class="fields">
+        <div class="field"><label for="inflBase">مبنای تورم</label><select id="inflBase"><option value="usd">رشد قیمت دلار</option><option value="fixed">نرخ ثابت سالانه</option></select></div>
+        <div class="field" id="inflation-field"><label for="inflation">تورم سالانه (٪)</label><input type="text" id="inflation" inputmode="decimal"></div>
+        <div class="field"><label for="usd0">قیمت دلار در ماه شروع (تومان)</label><input type="text" id="usd0" inputmode="numeric" data-money></div>
+        <div class="field"><label for="usdG">رشد سالانهٔ پیش‌بینی دلار (٪)</label><input type="text" id="usdG" inputmode="decimal"><small id="usd-m"></small></div>
+        <div class="field"><label for="gold0">قیمت گرم طلای ۱۸ عیار در ماه شروع (تومان)</label><input type="text" id="gold0" inputmode="numeric" data-money></div>
+        <div class="field"><label for="goldG">رشد سالانهٔ پیش‌بینی طلا (٪)</label><input type="text" id="goldG" inputmode="decimal"><small id="gold-m"></small></div>
+      </div>
+      <p class="note" style="margin-top:10px">برای ماه‌هایی که قیمت ننوشته‌اید، قیمت ماه قبل با رشد پیش‌بینی‌شده ادامه پیدا می‌کند.</p>
+    </div>
+    <p class="note">آخرین تغییرات خودکار در همین مرورگر نگه داشته می‌شود. برای نگه‌داشتن دائمی و دسترسی از دستگاه‌های دیگر «ذخیره» را بزنید.</p>
+  </section>
+</main>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <header><h3 id="sheetTitle"></h3><button class="xbtn" type="button" id="sheetClose" aria-label="بستن"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></header>
+    <div class="body" id="sheetBody"></div>
+    <footer id="sheetFoot"></footer>
   </div>
-  <p class="note" id="store-msg" aria-live="polite" style="margin-top:6px"></p>
-  <ul class="saves" id="saves"></ul>
-</section>
-
-<section aria-label="خلاصه">
-  <div class="cards" id="cards"></div>
-</section>
-
-<section class="verdict" id="verdict" aria-live="polite"></section>
-
-<section class="panel" aria-label="نمودار">
-  <h2>ارزش دارایی ماه به ماه (تومان)</h2>
-  <div class="chart-box" id="box1"><svg id="chart" viewBox="0 0 760 330" role="img" aria-label="نمودار ماه به ماه ارزش سرمایه‌گذاری، دلار، طلا و تورم"></svg><div class="tip" id="tip1" hidden></div></div>
-  <h2>سود ماهانهٔ شما در مقابل تغییر قیمت دلار و طلا (درصد)</h2>
-  <p class="note" style="margin:-6px 0 8px">ستون آبی سود قراردادهای شماست. ستون‌های سبز و زرد درصد گران یا ارزان شدن دلار و طلا نسبت به ماه قبل‌اند و از قیمت‌هایی که در جدول نوشته‌اید حساب می‌شوند.</p>
-  <div class="chart-box" id="box2"><svg id="chart2" viewBox="0 0 760 260" role="img" aria-label="نمودار ستونی رشد ماهانهٔ سرمایه‌گذاری، دلار و طلا"></svg><div class="tip" id="tip2" hidden></div></div>
-  <div class="legend">
-    <span><i class="dot" style="background:var(--inv)"></i>سرمایه‌گذاری با سود ماهانه</span>
-    <span><i class="dot" style="background:var(--usd)"></i>اگر دلار می‌خریدم</span>
-    <span><i class="dot" style="background:var(--gold)"></i>اگر طلا می‌خریدم</span>
-    <span id="infl-legend"><i class="dot" style="background:var(--infl)"></i>حداقل لازم برای جبران تورم</span>
-  </div>
-</section>
-
-<section>
-  <div class="head-row">
-    <h2>جدول ماه به ماه</h2>
-    <button type="button" id="clearRows">پاک کردن واریز، برداشت و قیمت‌های جدول</button>
-  </div>
-  <div class="table-box">
-    <table>
-      <thead>
-        <tr>
-          <th>ماه</th>
-          <th>سرمایه در قراردادها (اول ماه)</th>
-          <th>نرخ قرارداد جدید ٪</th>
-          <th>چک‌های این ماه (سود)</th>
-          <th>روز چک‌ها</th>
-          <th>اصل سررسیدشده</th>
-          <th>واریز</th>
-          <th>روز واریز</th>
-          <th>برداشت</th>
-          <th>قرارداد جدید این ماه</th>
-          <th>قراردادهای فعال</th>
-          <th>موجودی آخر ماه</th>
-          <th>قیمت دلار</th>
-          <th>رشد دلار</th>
-          <th>قیمت گرم طلا</th>
-          <th>رشد طلا</th>
-          <th>بیشترین رشد این ماه</th>
-          <th>موجودی به دلار</th>
-          <th>موجودی به گرم طلا</th>
-          <th id="real-head">ارزش به پول روز شروع</th>
-        </tr>
-      </thead>
-      <tbody id="rows"></tbody>
-    </table>
-  </div>
-  <p class="note" id="formulaCheck" style="margin-top:8px"></p>
-  <p class="note" style="margin-top:6px">خانه‌های خالی از مقدار پیش‌فرض (متن کم‌رنگ) استفاده می‌کنند. هر ماه: چک همهٔ قراردادهای فعال پاس می‌شود، اصل قراردادهای سررسیدشده برمی‌گردد، واریز اضافه و برداشت کم می‌شود و باقی‌مانده یک قرارداد جدید با «نرخ قرارداد جدید» همان ماه می‌شود که از ماه بعد چک می‌دهد. در سناریوی دلار و طلا، همان پول‌های ورودی و برداشت‌ها با قیمت همان ماه خرید و فروش می‌شوند.</p>
-</section>
-
-<footer>آخرین تغییرات خودکار در همین مرورگر نگه داشته می‌شود. برای نگه‌داشتن دائمی از «ذخیره» استفاده کنید.</footer>
 </div>
+<div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function () {
   "use strict";
   var MONTHS = ["فروردین","اردیبهشت","خرداد","تیر","مرداد","شهریور","مهر","آبان","آذر","دی","بهمن","اسفند"];
-  var KEY = "compound-ledger-v1";
+  var KEY = "compound-ledger-v1", UIKEY = "compound-ledger-ui";
   var DEFAULTS = {
-    startYear: 1404, startMonth: 12, rate: 4, term: 12, months: 12, reinvest: true, renew: true,
-    inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {},
-    contracts: [{ id: "c1", name: "قرارداد اول", k: 0, day: 1, amount: 1600000000, rate: 4, term: 12, renew: true }]
+    startYear: 1404, startMonth: 12, rate: 4, term: 12, months: 12, autoExtend: true, reinvest: true, renew: true,
+    inflBase: "usd", inflation: 45, usd0: 100000, usdG: 35, gold0: 11000000, goldG: 40, rows: {}, cheques: {},
+    contracts: [{ id: "c1", no: "1", name: "قرارداد اول", k: 0, day: 1, amount: 1600000000, rate: 4, term: 12, renew: true }]
   };
-  // older saves had a single "capital" field instead of a contract list
-  function normalize(s) {
-    var out = JSON.parse(JSON.stringify(DEFAULTS));
-    if (s && typeof s === "object") for (var k in out) if (k in s) out[k] = s[k];
-    if (!(s && Array.isArray(s.contracts))) {
-      out.contracts = [{ id: "c1", name: "قرارداد اول", k: 0,
-        amount: s && typeof s.capital === "number" ? s.capital : 1600000000,
-        rate: s && typeof s.rate === "number" ? s.rate : 4, term: out.term, renew: true }];
-    }
-    if (!out.rows || typeof out.rows !== "object") out.rows = {};
-    out.contracts.forEach(function (c) { if (!(c.day >= 1)) c.day = 1; });
-    return out;
-  }
+  var $ = function (id) { return document.getElementById(id); };
 
-  var state = load();
-
-  // ---------- number helpers ----------
+  // ---------- numbers ----------
   var nf = new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 0 });
   var nf2 = new Intl.NumberFormat("fa-IR", { maximumFractionDigits: 2 });
   function fmt(n) { return nf.format(Math.round(n)); }
   function fmt2(n) { return nf2.format(n); }
+  function faDigits(s) { return String(s).replace(/\d/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹"[d]; }); }
+  function latin(s) {
+    return String(s).replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); })
+      .replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); });
+  }
   function parseNum(s) {
     if (s === null || s === undefined) return null;
-    s = String(s)
-      .replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); })
-      .replace(/[٠-٩]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩".indexOf(d); })
-      .replace(/[,،٬\s]/g, "").replace(/٫/g, ".");
+    s = latin(s).replace(/[,،٬\s]/g, "").replace(/٫/g, ".");
     if (s === "") return null;
     var n = parseFloat(s);
     return isFinite(n) ? n : null;
@@ -323,204 +476,116 @@ footer { font-size: .78rem; color: var(--muted); }
     return fmt(n);
   }
   function monthly(annualPct) { return Math.pow(1 + annualPct / 100, 1 / 12) - 1; }
-  // Jalali leap years follow the 33-year cycle; Esfand has 30 days in them
-  function isLeap(y) { return [1, 5, 9, 13, 17, 22, 26, 30].indexOf(((y % 33) + 33) % 33) >= 0; }
-  function monthLen(k) {
-    var idx = state.startMonth - 1 + k, m = ((idx % 12) + 12) % 12, y = state.startYear + Math.floor(idx / 12);
-    return m < 6 ? 31 : m < 11 ? 30 : (isLeap(y) ? 30 : 29);
-  }
-  function dayOf(k, d) { return Math.max(1, Math.min(monthLen(k), Math.round(d) || 1)); }
-  function dateLabel(k, d) { return fmt(dayOf(k, d)) + " " + label(k); }
-  function defaultDay() { return state.contracts.length ? Math.round(state.contracts[0].day) || 1 : 1; }
-  function label(k) {
-    var idx = state.startMonth - 1 + k;
-    var y = state.startYear + Math.floor(idx / 12);
-    return MONTHS[((idx % 12) + 12) % 12] + " " + fmt(y).replace(/٬/g, "");
-  }
+  function pctTxt(v) { return (v >= 0 ? "+" : "−") + fmt2(Math.abs(v * 100)) + "٪"; }
+  function pct(a, b) { return b > 0 ? (a / b - 1) * 100 : 0; }
+  function badge(v, cls) { return '<span dir="ltr" class="' + (cls || ("pill " + (v >= 0 ? "good" : "bad"))) + '">' + (v >= 0 ? "+" : "−") + fmt2(Math.abs(v)) + "٪</span>"; }
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  function norm(s) { return latin(String(s == null ? "" : s)).toLowerCase().replace(/[\s,٬،\-_/.#]/g, ""); }
 
-  // ---------- storage ----------
+  // ---------- state ----------
+  function normalize(s) {
+    var out = JSON.parse(JSON.stringify(DEFAULTS));
+    if (s && typeof s === "object") for (var k in out) if (k in s) out[k] = s[k];
+    if (!(s && Array.isArray(s.contracts))) {
+      out.contracts = [{ id: "c1", no: "1", name: "قرارداد اول", k: 0, day: 1,
+        amount: s && typeof s.capital === "number" ? s.capital : 1600000000,
+        rate: s && typeof s.rate === "number" ? s.rate : 4, term: out.term, renew: true }];
+    }
+    if (!out.rows || typeof out.rows !== "object") out.rows = {};
+    if (!out.cheques || typeof out.cheques !== "object") out.cheques = {};
+    out.contracts.forEach(function (c, i) {
+      if (!(c.day >= 1)) c.day = 1;
+      if (c.no === undefined || c.no === null || c.no === "") c.no = String(i + 1);
+    });
+    return out;
+  }
   function load() {
     var s = null;
     try { s = JSON.parse(localStorage.getItem(KEY)); } catch (e) { s = null; }
     return normalize(s);
   }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+  var state = load();
+  var ui = { tab: "dash", q: "", ckind: "manual", cst: "all", cmonth: "all" };
+  try { var u = JSON.parse(localStorage.getItem(UIKEY)); if (u && typeof u === "object") { ui.tab = u.tab || ui.tab; ui.ckind = u.ckind || ui.ckind; } } catch (e) {}
+  if (/^#(dash|contracts|cheques|months|settings)$/.test(location.hash)) ui.tab = location.hash.slice(1);
+  function saveUi() { try { localStorage.setItem(UIKEY, JSON.stringify({ tab: ui.tab, ckind: ui.ckind })); } catch (e) {} }
 
-  // ---------- settings ----------
-  var $ = function (id) { return document.getElementById(id); };
-  var sel = $("startMonth");
-  MONTHS.forEach(function (m, i) { var o = document.createElement("option"); o.value = i + 1; o.textContent = m; sel.appendChild(o); });
-
-  var numFields = ["startYear", "rate", "term", "months", "inflation", "usd0", "usdG", "gold0", "goldG"];
-  function fillSettings() {
-    numFields.forEach(function (f) {
-      var el = $(f);
-      el.value = el.hasAttribute("data-money") ? fmt(state[f]) : (f === "startYear" ? String(state[f]).replace(/\d/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹"[d]; }) : fmt2(state[f]));
-    });
-    sel.value = state.startMonth;
-    $("reinvest").checked = !!state.reinvest;
-    $("renew").checked = !!state.renew;
-    $("inflBase").value = state.inflBase;
+  // ---------- calendar ----------
+  var TODAY = (function () {
+    try {
+      var o = {};
+      new Intl.DateTimeFormat("en-US-u-ca-persian", { year: "numeric", month: "numeric", day: "numeric" })
+        .formatToParts(new Date()).forEach(function (p) { o[p.type] = p.value; });
+      var y = parseInt(latin(o.year), 10), m = parseInt(latin(o.month), 10), d = parseInt(latin(o.day), 10);
+      return y > 1300 ? { y: y, m: m, d: d } : null;
+    } catch (e) { return null; }
+  })();
+  function todayK() { return TODAY ? (TODAY.y - state.startYear) * 12 + (TODAY.m - state.startMonth) : -1; }
+  // Jalali leap years follow the 33-year cycle; Esfand has 30 days in them
+  function isLeap(y) { return [1, 5, 9, 13, 17, 22, 26, 30].indexOf(((y % 33) + 33) % 33) >= 0; }
+  function ym(k) { var idx = state.startMonth - 1 + k; return { y: state.startYear + Math.floor(idx / 12), m: ((idx % 12) + 12) % 12 }; }
+  function monthLen(k) { var t = ym(k); return t.m < 6 ? 31 : t.m < 11 ? 30 : (isLeap(t.y) ? 30 : 29); }
+  function dayOf(k, d) { return Math.max(1, Math.min(monthLen(k), Math.round(d) || 1)); }
+  function label(k) { var t = ym(k); return MONTHS[t.m] + " " + faDigits(t.y); }
+  function dateLabel(k, d) { return fmt(dayOf(k, d)) + " " + label(k); }
+  function dateNum(k, d) { var t = ym(k); return t.y + "/" + String(t.m + 1).padStart(2, "0") + "/" + String(dayOf(k, d)).padStart(2, "0"); }
+  function isPast(k, d) { var tk = todayK(); return TODAY ? (k < tk || (k === tk && dayOf(k, d) <= TODAY.d)) : false; }
+  function horizon() {
+    var n = state.months;
+    if (state.autoExtend && TODAY) n = Math.max(n, todayK() + 12);
+    return Math.max(1, Math.min(240, Math.round(n)));
   }
-  numFields.forEach(function (f) {
-    var el = $(f);
-    el.addEventListener("input", function () {
-      var v = parseNum(el.value);
-      if (v === null) return;
-      if (f === "months") { v = Math.max(1, Math.min(120, Math.round(v))); }
-      if (f === "term") { v = Math.max(1, Math.min(60, Math.round(v))); }
-      if (f === "startYear") { v = Math.round(v); if (v < 1300 || v > 1500) return; }
-      var rebuild = (f === "months" || f === "startYear") && state[f] !== v;
-      state[f] = v;
-      if (rebuild) { buildRows(); buildContracts(); }
-      update();
-    });
-    el.addEventListener("blur", function () { fillSettings(); });
-  });
-  sel.addEventListener("change", function () { state.startMonth = +sel.value; buildRows(); buildContracts(); update(); });
-  $("renew").addEventListener("change", function () { state.renew = $("renew").checked; update(); });
-  $("inflBase").addEventListener("change", function () { state.inflBase = $("inflBase").value; update(); });
-  $("reinvest").addEventListener("change", function () { state.reinvest = $("reinvest").checked; update(); });
-  $("clearRows").addEventListener("click", function () { state.rows = {}; buildRows(); update(); });
-  $("addContract").addEventListener("click", function () {
-    var prev = state.contracts[state.contracts.length - 1];
-    state.contracts.push({ id: "c" + Date.now(), name: "قرارداد " + fmt(state.contracts.length + 1), k: prev ? Math.min(state.months, Math.round(prev.k) + 1) : 0,
-      day: prev ? Math.round(prev.day) || 1 : 1, amount: 100000000, rate: state.rate, term: state.term, renew: true });
-    buildContracts(); update();
-    var inputs = $("contracts").querySelectorAll("input.name");
-    if (inputs.length) inputs[inputs.length - 1].focus();
-  });
-
-  // ---------- table ----------
-  var ROW_FIELDS = [
-    { key: "rate", cls: "short", mode: "decimal" },
-    { key: "dep", mode: "numeric", money: true },
-    { key: "wd", mode: "numeric", money: true },
-    { key: "usd", mode: "numeric", money: true },
-    { key: "gold", mode: "numeric", money: true },
-    { key: "day", cls: "short", mode: "numeric" }
-  ];
+  function defaultDay() { return state.contracts.length ? Math.round(state.contracts[0].day) || 1 : 1; }
   function rowVal(k, key) { var r = state.rows[k]; return r && r[key] !== undefined && r[key] !== null ? r[key] : null; }
 
-  function cell(text, cls, id) {
-    var td = document.createElement("td");
-    if (cls) td.className = cls;
-    if (id) td.id = id;
-    td.textContent = text || "";
-    return td;
-  }
-  function inputCell(k, f) {
-    var td = document.createElement("td");
-    var inp = document.createElement("input");
-    inp.type = "text"; inp.inputMode = f.mode; inp.id = "r" + k + "-" + f.key;
-    if (f.cls) inp.className = f.cls;
-    var v = rowVal(k, f.key);
-    if (v !== null) inp.value = f.money ? fmt(v) : fmt2(v);
-    inp.setAttribute("aria-label", f.key + " " + label(k));
-    inp.addEventListener("input", function () {
-      var n = parseNum(inp.value);
-      state.rows[k] = state.rows[k] || {};
-      if (n === null || n < 0) delete state.rows[k][f.key]; else state.rows[k][f.key] = n;
-      update();
-    });
-    inp.addEventListener("blur", function () {
-      var n = rowVal(k, f.key);
-      inp.value = n === null ? "" : (f.money ? fmt(n) : fmt2(n));
-    });
-    td.appendChild(inp);
-    return td;
-  }
-  function buildRows() {
-    var tb = $("rows");
-    tb.innerHTML = "";
-    var tr0 = document.createElement("tr");
-    tr0.className = "start";
-    tr0.appendChild(cell(label(0) + " (شروع)"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("", "num", "c0-dep"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("", "num", "c0-new"));
-    tr0.appendChild(cell("", "num", "c0-count"));
-    tr0.appendChild(cell("", "num close", "c0-close"));
-    tr0.appendChild(cell("", "num", "c0-usd"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("", "num", "c0-gold"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("—"));
-    tr0.appendChild(cell("", "num", "c0-inusd"));
-    tr0.appendChild(cell("", "num", "c0-ingold"));
-    tr0.appendChild(cell("", "num", "c0-real"));
-    tb.appendChild(tr0);
-    for (var k = 1; k <= state.months; k++) {
-      var tr = document.createElement("tr");
-      tr.appendChild(cell(label(k)));
-      tr.appendChild(cell("", "num", "c" + k + "-open"));
-      tr.appendChild(inputCell(k, ROW_FIELDS[0]));
-      tr.appendChild(cell("", "num profit", "c" + k + "-profit"));
-      tr.appendChild(cell("", "num", "c" + k + "-days"));
-      tr.appendChild(cell("", "num", "c" + k + "-matured"));
-      tr.appendChild(inputCell(k, ROW_FIELDS[1]));
-      tr.appendChild(inputCell(k, ROW_FIELDS[5]));
-      tr.appendChild(inputCell(k, ROW_FIELDS[2]));
-      tr.appendChild(cell("", "num", "c" + k + "-new"));
-      tr.appendChild(cell("", "num", "c" + k + "-count"));
-      tr.appendChild(cell("", "num close", "c" + k + "-close"));
-      tr.appendChild(inputCell(k, ROW_FIELDS[3]));
-      tr.appendChild(cell("", "num", "c" + k + "-usdchg"));
-      tr.appendChild(inputCell(k, ROW_FIELDS[4]));
-      tr.appendChild(cell("", "num", "c" + k + "-goldchg"));
-      tr.appendChild(cell("", "", "c" + k + "-win"));
-      tr.appendChild(cell("", "num", "c" + k + "-inusd"));
-      tr.appendChild(cell("", "num", "c" + k + "-ingold"));
-      tr.appendChild(cell("", "num", "c" + k + "-real"));
-      tb.appendChild(tr);
-    }
-  }
-
   // ---------- model ----------
-  // Every contract pays amount × rate at the end of each of its `term` months and returns its
-  // principal with the last payment. Each month, the cheques that clear (plus renewed principal and
-  // deposits, minus withdrawals) are signed as one new contract that starts paying the next month.
+  // Every contract pays amount × rate on its day each month for `term` months and returns its principal with
+  // the last cheque. Money that clears on the same day of a month (cheques, renewed principal, deposits,
+  // minus withdrawals) is signed as one new contract that starts paying the next month.
   function simulate() {
+    var n = horizon();
     var im = monthly(state.inflation), um = monthly(state.usdG), gm = monthly(state.goldG);
-    var n = state.months, active = [], autos = [], pocket = 0, totalProfit = 0;
-    function startContracts(k) {
+    var active = [], all = [], cheques = [], pocket = 0, totalProfit = 0;
+    function manualOf(c, k) {
+      return { key: "m:" + c.id, src: c, manual: true, no: String(c.no || ""), name: c.name || "", amount: c.amount, rate: c.rate,
+        start: k, term: Math.max(1, Math.round(c.term)), renew: !!c.renew, day: Math.max(1, Math.round(c.day) || 1), from: "" };
+    }
+    function startManual(k) {
       var sum = 0;
       state.contracts.forEach(function (c) {
         if (Math.round(c.k) !== k || !(c.amount > 0)) return;
-        active.push({ amount: c.amount, rate: c.rate, start: k, term: Math.max(1, Math.round(c.term)), renew: !!c.renew, day: Math.round(c.day) || 1 });
-        sum += c.amount;
+        var o = manualOf(c, k);
+        active.push(o); all.push(o); sum += c.amount;
       });
       return sum;
     }
     function capital() { return active.reduce(function (t, c) { return t + c.amount; }, 0); }
-    var initial = startContracts(0);
+    var initial = startManual(0);
     var simple = !!state.reinvest && !!state.renew;
     state.contracts.forEach(function (c) {
       if (Math.round(c.k) !== 0 && c.amount > 0 && Math.round(c.k) <= n) simple = false;
-      if (Math.round(c.k) === 0 && (!c.renew || c.rate !== state.rate)) simple = false;
+      if (Math.round(c.k) === 0 && (!c.renew || c.rate !== state.rate || Math.round(c.term) !== Math.round(state.term))) simple = false;
     });
     var usdU = initial / state.usd0, goldU = initial / state.gold0, infl = initial;
     var prevUsd = state.usd0, prevGold = state.gold0, cpi = 1, byUsd = state.inflBase === "usd";
-    var out = [{ k: 0, open: 0, profit: 0, matured: 0, dep: initial, wd: 0, newAmt: initial, count: active.length,
+    var rows = [{ k: 0, days: [], open: 0, profit: 0, matured: 0, dep: initial, wd: 0, newAmt: initial, count: active.length,
       close: initial, total: initial, usdP: state.usd0, goldP: state.gold0, usdVal: initial, goldVal: initial,
-      infl: initial, cpi: 1, real: initial, rate: 0, yield: 0 }];
+      infl: initial, cpi: 1, real: initial, rate: state.rate, yield: 0, usdChg: 0, goldChg: 0, usdSet: true, goldSet: true }];
     for (var k = 1; k <= n; k++) {
       var r = rowVal(k, "rate"); if (r === null) r = state.rate;
       if (r !== state.rate) simple = false;
-      var open = capital();
-      // cheques and returned principal are grouped by the day they clear; each day's money signs its own contract
-      var profit = 0, matured = 0, pools = {};
-      function bucket(d) { return pools[d] || (pools[d] = { profit: 0, renewed: 0, dep: 0, amt: 0 }); }
-      active.forEach(function (c) { var p = c.amount * c.rate / 100; profit += p; bucket(c.day).profit += p; });
+      var open = capital(), profit = 0, matured = 0, pools = {};
+      var bucket = function (d) { return pools[d] || (pools[d] = { profit: 0, renewed: 0, dep: 0, amt: 0 }); };
+      active.forEach(function (c) {
+        var p = c.amount * c.rate / 100, i = k - c.start;
+        profit += p; bucket(c.day).profit += p;
+        cheques.push({ key: c.key + "#" + i, c: c, k: k, day: c.day, i: i, term: c.term, amount: p, principal: false });
+      });
       active = active.filter(function (c) {
         if (c.start + c.term !== k) return true;
         matured += c.amount;
+        cheques.push({ key: c.key + "#p", c: c, k: k, day: c.day, i: c.term, term: c.term, amount: c.amount, principal: true });
         if (c.renew) bucket(c.day).renewed += c.amount; else pocket += c.amount;
         return false;
       });
@@ -536,7 +601,7 @@ footer { font-size: .78rem; color: var(--muted); }
       var left = wd;
       days.forEach(function (d) { var t = Math.min(left, pools[d].amt); pools[d].amt -= t; left -= t; });
       pocket -= left;
-      var newAuto = 0;
+      var newAuto = 0, term = Math.max(1, Math.round(state.term));
       days.forEach(function (d) {
         var q = pools[d];
         if (q.amt <= 0.5) return;
@@ -544,18 +609,17 @@ footer { font-size: .78rem; color: var(--muted); }
         if (q.profit && state.reinvest) src.push("چک‌ها");
         if (q.renewed) src.push("اصل سررسیدشده");
         if (q.dep) src.push("واریز");
-        var term = Math.max(1, Math.round(state.term));
-        active.push({ amount: q.amt, rate: r, start: k, term: term, renew: !!state.renew, day: d });
-        autos.push({ k: k, day: d, amount: q.amt, rate: r, term: term, src: src.join(" + ") });
-        newAuto += q.amt;
+        var t = ym(k);
+        var o = { key: "a:" + k + ":" + d, manual: false, no: "A-" + t.y + String(t.m + 1).padStart(2, "0") + "-" + String(d).padStart(2, "0"),
+          name: "قرارداد خودکار", amount: q.amt, rate: r, start: k, term: term, renew: !!state.renew, day: d, from: src.join(" + ") };
+        active.push(o); all.push(o); newAuto += q.amt;
       });
       var chequeDays = days.filter(function (d) { return pools[d].profit > 0; });
-      var manual = startContracts(k);
+      var manual = startManual(k);
       var flow = dep + manual - wd;
-      // months without an entered price continue from the previous month's price at the forecast growth
       var usdEst = prevUsd * (1 + um), goldEst = prevGold * (1 + gm);
-      var usdP = rowVal(k, "usd"); if (usdP === null || usdP <= 0) usdP = usdEst;
-      var goldP = rowVal(k, "gold"); if (goldP === null || goldP <= 0) goldP = goldEst;
+      var usdP = rowVal(k, "usd"), usdSet = usdP !== null && usdP > 0; if (!usdSet) usdP = usdEst;
+      var goldP = rowVal(k, "gold"), goldSet = goldP !== null && goldP > 0; if (!goldSet) goldP = goldEst;
       usdU = Math.max(0, usdU + flow / usdP);
       goldU = Math.max(0, goldU + flow / goldP);
       var usdChg = usdP / prevUsd - 1, goldChg = goldP / prevGold - 1;
@@ -564,321 +628,499 @@ footer { font-size: .78rem; color: var(--muted); }
       cpi *= 1 + step;
       prevUsd = usdP; prevGold = goldP;
       var close = capital(), total = close + pocket;
-      out.push({ k: k, days: chequeDays, open: open, rate: r, profit: profit, matured: matured, dep: dep + manual, wd: wd, newAmt: newAuto + manual,
-        count: active.length, close: close, total: total, yield: open > 0 ? profit / open : 0,
-        usdP: usdP, goldP: goldP, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
+      rows.push({ k: k, days: chequeDays, open: open, rate: r, profit: profit, matured: matured, dep: dep + manual, wd: wd, newAmt: newAuto + manual,
+        count: active.length, close: close, total: total, yield: open > 0 ? profit / open : 0, pocket: pocket,
+        usdP: usdP, goldP: goldP, usdSet: usdSet, goldSet: goldSet, usdVal: usdU * usdP, goldVal: goldU * goldP, infl: infl, cpi: cpi,
         real: total / cpi, usdChg: usdChg, goldChg: goldChg, usdEst: usdEst, goldEst: goldEst });
     }
-    return { rows: out, pocket: pocket, totalProfit: totalProfit, usdU: usdU, goldU: goldU,
-      initial: initial, autos: autos, simple: simple && initial > 0 };
+    // manual contracts that start after the horizon are still listed
+    state.contracts.forEach(function (c) { if (Math.round(c.k) > n && c.amount > 0) all.push(manualOf(c, Math.round(c.k))); });
+    return { n: n, rows: rows, contracts: all, cheques: cheques, pocket: pocket, totalProfit: totalProfit, usdU: usdU, goldU: goldU,
+      initial: initial, simple: simple && initial > 0 };
+  }
+  function chequeStatus(q) {
+    var o = state.cheques[q.key] || {};
+    if (o.status === "bad") return { id: "bad", t: "برگشتی", cls: "bad" };
+    if (o.status === "ok") return { id: "ok", t: "پاس‌شده", cls: "ok" };
+    if (o.status === "wait") return { id: "due", t: "در انتظار", cls: "wait" };
+    if (!TODAY) return { id: "due", t: "—", cls: "wait" };
+    if (q.k === todayK() && dayOf(q.k, q.day) === TODAY.d) return { id: "due", t: "امروز", cls: "now" };
+    return isPast(q.k, q.day) ? { id: "ok", t: "پاس‌شده", cls: "ok" } : { id: "due", t: "پیش رو", cls: "wait" };
   }
 
-  // ---------- contracts ----------
-  function monthOptions(selected) {
-    var h = "";
-    for (var k = 0; k <= Math.max(state.months, selected); k++) h += '<option value="' + k + '"' + (k === selected ? " selected" : "") + ">" + label(k) + "</option>";
-    return h;
+  // ---------- shell ----------
+  var res = null;
+  function recompute() { save(); res = simulate(); renderTab(); }
+  function renderHeader() {
+    $("today").textContent = TODAY ? "امروز " + fmt(TODAY.d) + " " + MONTHS[TODAY.m - 1] + " " + faDigits(TODAY.y) : "";
   }
-  function buildContracts() {
-    var tb = $("contracts");
-    tb.innerHTML = "";
-    if (!state.contracts.length) {
-      tb.innerHTML = '<tr><td colspan="10" class="note">هیچ قراردادی ندارید. «افزودن قرارداد جدید» را بزنید.</td></tr>';
+  function setTab(t) {
+    ui.tab = t; saveUi();
+    document.querySelectorAll(".tab").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.tab === t ? "true" : "false"); });
+    document.querySelectorAll("[data-page]").forEach(function (p) { p.hidden = p.dataset.page !== t; });
+    renderTab();
+    window.scrollTo(0, 0);
+  }
+  function renderTab() {
+    if (ui.tab === "dash") renderDash();
+    else if (ui.tab === "contracts") renderContracts();
+    else if (ui.tab === "cheques") renderCheques();
+    else if (ui.tab === "months") renderMonths();
+    else renderSettings();
+  }
+  document.querySelectorAll(".tab").forEach(function (b) { b.addEventListener("click", function () { setTab(b.dataset.tab); }); });
+  function toast(t) {
+    var el = $("toast"); el.textContent = t; el.hidden = false;
+    clearTimeout(toast.h); toast.h = setTimeout(function () { el.hidden = true; }, 2600);
+  }
+
+  // search is shared by the header box and the contracts / cheques boxes
+  function setQuery(v, from) {
+    ui.q = v;
+    ["q-top", "q-contracts", "q-cheques"].forEach(function (id) { if (id !== from) $(id).value = v; });
+    if (from === "q-top" && ui.tab !== "contracts" && ui.tab !== "cheques") setTab("cheques"); else renderTab();
+  }
+  ["q-top", "q-contracts", "q-cheques"].forEach(function (id) { $(id).addEventListener("input", function () { setQuery($(id).value, id); }); });
+  function matches(fields) {
+    var q = norm(ui.q);
+    if (!q) return true;
+    return fields.some(function (f) { return norm(f).indexOf(q) >= 0; });
+  }
+
+  // one delegated click handler for every list on the page
+  document.addEventListener("click", function (e) {
+    var g = e.target.closest("[data-go]"); if (g) { setTab(g.dataset.go); return; }
+    var q = e.target.closest("[data-chq]");
+    if (q) { var cq = res.cheques.filter(function (x) { return x.key === q.dataset.chq; })[0]; if (cq) editCheque(cq); return; }
+    var c = e.target.closest("[data-contract]");
+    if (c) {
+      var ct = res.contracts.filter(function (x) { return x.key === c.dataset.contract; })[0]; if (!ct) return;
+      if (ct.manual) editContract(ct.src);
+      else { ui.cmonth = "all"; ui.cst = "all"; syncSeg("cst"); setQuery(ct.no, null); setTab("cheques"); }
       return;
     }
-    state.contracts.forEach(function (c, idx) {
-      var tr = document.createElement("tr");
-      function field(key, cls, money, mode) {
-        var td = document.createElement("td"), inp = document.createElement("input");
-        inp.type = "text"; inp.id = "k" + c.id + "-" + key; inp.className = cls || ""; inp.inputMode = mode || "numeric";
-        inp.value = key === "name" ? c.name : money ? fmt(c[key]) : fmt2(c[key]);
-        inp.setAttribute("aria-label", key + " " + (c.name || ""));
-        inp.addEventListener("input", function () {
-          if (key === "name") { c.name = inp.value; save(); return; }
-          var v = parseNum(inp.value);
-          if (v === null || v < 0) return;
-          c[key] = key === "term" ? Math.max(1, Math.min(60, Math.round(v))) : key === "day" ? Math.max(1, Math.min(31, Math.round(v))) : v;
-          update();
-        });
-        inp.addEventListener("blur", function () { if (key !== "name") inp.value = money ? fmt(c[key]) : fmt2(c[key]); });
-        td.appendChild(inp);
-        return td;
-      }
-      tr.appendChild(field("name", "name", false, "text"));
-      var tdm = document.createElement("td"), sm = document.createElement("select");
-      sm.id = "k" + c.id + "-k"; sm.setAttribute("aria-label", "ماه شروع " + (c.name || ""));
-      sm.innerHTML = monthOptions(Math.round(c.k));
-      sm.addEventListener("change", function () { c.k = +sm.value; update(); });
-      tdm.appendChild(sm); tr.appendChild(tdm);
-      tr.appendChild(field("day", "short"));
-      tr.appendChild(field("amount", "", true));
-      tr.appendChild(field("rate", "short", false, "decimal"));
-      tr.appendChild(field("term", "short"));
-      var tdr = document.createElement("td"), sr = document.createElement("select");
-      sr.id = "k" + c.id + "-renew"; sr.setAttribute("aria-label", "سررسید " + (c.name || ""));
-      sr.innerHTML = '<option value="1">تمدید</option><option value="0">برگشت اصل پول</option>';
-      sr.value = c.renew ? "1" : "0";
-      sr.addEventListener("change", function () { c.renew = sr.value === "1"; update(); });
-      tdr.appendChild(sr); tr.appendChild(tdr);
-      tr.appendChild(cell("", "num", "k" + c.id + "-pay"));
-      tr.appendChild(cell("", "", "k" + c.id + "-end"));
-      var tdd = document.createElement("td"), del = document.createElement("button");
-      del.type = "button"; del.className = "danger"; del.textContent = "حذف";
-      del.addEventListener("click", function () {
-        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "برای حذف دوباره بزنید"; return; }
-        state.contracts.splice(idx, 1);
-        buildContracts(); update();
-      });
-      tdd.appendChild(del); tr.appendChild(tdd);
-      tb.appendChild(tr);
-    });
-  }
-  function renderContracts(res) {
-    state.contracts.forEach(function (c) {
-      var pay = $("k" + c.id + "-pay"), end = $("k" + c.id + "-end");
-      if (!pay) return;
-      pay.textContent = fmt(c.amount * c.rate / 100);
-      end.textContent = dateLabel(Math.round(c.k) + Math.max(1, Math.round(c.term)), c.day);
-    });
-    $("autoCount").textContent = fmt(res.autos.length) + " قرارداد";
-    $("autoContracts").innerHTML = res.autos.length ? res.autos.map(function (a) {
-      return "<tr><td>" + dateLabel(a.k, a.day) + '</td><td class="num">' + fmt(a.amount) + '</td><td class="num">' + fmt2(a.rate) +
-        '</td><td class="num">' + fmt(a.amount * a.rate / 100) + "</td><td>" + dateLabel(a.k + a.term, a.day) + "</td><td>" + a.src + "</td></tr>";
-    }).join("") : '<tr><td colspan="6" class="note">هنوز قرارداد خودکاری ساخته نشده است.</td></tr>';
+    var m = e.target.closest("[data-month]");
+    if (m && ui.tab === "months") {
+      var k = +m.dataset.month;
+      if (k === 0) { setTab("settings"); toast("قیمت‌های ماه شروع در بخش «مقایسه» است."); return; }
+      editMonth(k);
+    }
+  });
+  function syncSeg(kind) {
+    document.querySelectorAll("[data-" + kind + "]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset[kind] === ui[kind] ? "true" : "false"); });
   }
 
-  // ---------- render ----------
-  function update() {
-    save();
-    var res = simulate(), rows = res.rows, last = rows[rows.length - 1];
-    var n = state.months;
-
-    var init = res.initial;
-    var eff = (Math.pow(1 + state.rate / 100, 12) - 1) * 100;
-    $("rate-eff").textContent = state.reinvest ? "معادل سالانه با سود مرکب: " + fmt2(eff) + "٪" : "سالانه بدون مرکب: " + fmt2(state.rate * 12) + "٪";
-    renderContracts(res);
-    $("infl-m").textContent = "ماهانه حدود " + fmt2(monthly(state.inflation) * 100) + "٪";
-    $("usd-m").textContent = "ماهانه حدود " + fmt2(monthly(state.usdG) * 100) + "٪";
-    $("gold-m").textContent = "ماهانه حدود " + fmt2(monthly(state.goldG) * 100) + "٪";
-
-    // table
-    $("c0-dep").textContent = fmt(init);
-    $("c0-new").textContent = fmt(init);
-    $("c0-count").textContent = fmt(rows[0].count);
-    $("c0-close").textContent = fmt(init);
-    $("c0-usd").textContent = fmt(state.usd0);
-    $("c0-gold").textContent = fmt(state.gold0);
-    $("c0-real").textContent = fmt(init);
-    $("c0-inusd").textContent = fmt2(init / state.usd0);
-    $("c0-ingold").textContent = fmt2(init / state.gold0);
-    var byUsd = state.inflBase === "usd";
-    $("inflation-field").hidden = byUsd;
-    $("inflBase-note").textContent = byUsd ? "تورم هر ماه = درصد تغییر قیمت دلار همان ماه" : "";
-    $("infl-legend").hidden = byUsd;
-    $("real-head").textContent = byUsd ? "ارزش به دلار روز شروع (تومان)" : "ارزش به پول روز شروع";
-    function chg(id, v) {
-      var el = $(id);
-      el.textContent = (v >= 0 ? "+" : "−") + fmt2(Math.abs(v * 100)) + "٪";
-      el.setAttribute("dir", "ltr");
-      el.className = "num " + (v > 0 ? "up" : v < 0 ? "down" : "");
-    }
-    for (var k = 1; k <= n; k++) {
-      var r = rows[k];
-      $("c" + k + "-open").textContent = fmt(r.open);
-      $("c" + k + "-profit").textContent = fmt(r.profit);
-      $("c" + k + "-days").textContent = r.days.length ? r.days.map(function (d) { return fmt(dayOf(k, d)); }).join("، ") : "—";
-      $("r" + k + "-day").placeholder = fmt(defaultDay());
-      $("c" + k + "-matured").textContent = r.matured ? fmt(r.matured) : "—";
-      $("c" + k + "-new").textContent = r.newAmt ? fmt(r.newAmt) : "—";
-      $("c" + k + "-count").textContent = fmt(r.count);
-      $("c" + k + "-close").textContent = fmt(r.close);
-      $("c" + k + "-real").textContent = fmt(r.real);
-      chg("c" + k + "-usdchg", r.usdChg);
-      chg("c" + k + "-goldchg", r.goldChg);
-      $("c" + k + "-inusd").textContent = fmt2(r.total / r.usdP);
-      $("c" + k + "-ingold").textContent = fmt2(r.total / r.goldP);
-      var cands = [
-        { c: "inv", t: "سرمایه‌گذاری " + fmt2(r.yield * 100) + "٪", v: r.yield },
-        { c: "usd", t: "دلار", v: r.usdChg },
-        { c: "gold", t: "طلا", v: r.goldChg }
-      ].sort(function (a, b) { return b.v - a.v; });
-      $("c" + k + "-win").innerHTML = '<span class="win ' + cands[0].c + '">' + cands[0].t + "</span>";
-      $("r" + k + "-rate").placeholder = fmt2(state.rate);
-      $("r" + k + "-dep").placeholder = "۰";
-      $("r" + k + "-wd").placeholder = "۰";
-      $("r" + k + "-usd").placeholder = fmt(r.usdEst);
-      $("r" + k + "-gold").placeholder = fmt(r.goldEst);
-    }
-
-    // cards
-    var mlabel = label(n);
-    function pct(a, b) { return b > 0 ? (a / b - 1) * 100 : 0; }
-    function badge(v) { return '<span dir="ltr" class="pill ' + (v >= 0 ? "good" : "bad") + '">' + (v >= 0 ? "+" : "−") + fmt2(Math.abs(v)) + "٪</span>"; }
-    var pocketLine = res.pocket > 0.5 ? "، شامل " + short(res.pocket) + " پول نقد بیرون از قرارداد" : "";
-    var cards = [
-      { c: "var(--inv)", k: "سرمایه‌گذاری در " + mlabel, v: fmt(last.total), s: short(last.total) + " تومان" + pocketLine },
-      { c: "var(--inv)", k: "کل سود دریافتی", v: fmt(res.totalProfit), s: "سود ماه آخر: " + short(last.profit) },
-      { c: "var(--usd)", k: "اگر دلار می‌خریدم", v: fmt(last.usdVal), s: fmt2(res.usdU) + " دلار · " + badge(pct(last.total, last.usdVal)) + " به نفع سرمایه‌گذاری" },
-      { c: "var(--gold)", k: "اگر طلا می‌خریدم", v: fmt(last.goldVal), s: fmt2(res.goldU) + " گرم · " + badge(pct(last.total, last.goldVal)) + " به نفع سرمایه‌گذاری" },
-      byUsd
-        ? { c: "var(--usd)", k: "موجودی شما به دلار", v: fmt2(last.total / last.usdP) + " دلار", s: "در شروع: " + fmt2(init / state.usd0) + " دلار · دلار " + badge(pct(last.usdP, state.usd0)) + " گران شد" }
-        : { c: "var(--infl)", k: "حداقل لازم برای جبران تورم", v: fmt(last.infl), s: badge(pct(last.total, last.infl)) + " سود واقعی پس از تورم" },
-      byUsd
-        ? { c: "var(--gold)", k: "موجودی شما به گرم طلا", v: fmt2(last.total / last.goldP) + " گرم", s: "در شروع: " + fmt2(init / state.gold0) + " گرم · طلا " + badge(pct(last.goldP, state.gold0)) + " گران شد" }
-        : { c: "var(--muted)", k: "ارزش نهایی به پول روز شروع", v: fmt(last.real), s: "قدرت خرید در " + label(0) }
+  // ---------- dashboard ----------
+  function nowIndex() { return Math.max(0, Math.min(res.n, todayK())); }
+  function renderDash() {
+    var rows = res.rows, n = res.n, last = rows[n], tk = nowIndex(), now = rows[tk], init = res.initial;
+    var prev = rows[Math.max(0, tk - 1)];
+    var monthCheques = res.cheques.filter(function (q) { return q.k === tk && !q.principal; });
+    var paid = monthCheques.filter(function (q) { return chequeStatus(q).id === "ok"; });
+    var left = monthCheques.filter(function (q) { return chequeStatus(q).id !== "ok"; });
+    var sum = function (a) { return a.reduce(function (t, q) { return t + q.amount; }, 0); };
+    var profitToDate = rows.slice(1, tk + 1).reduce(function (t, r) { return t + r.profit; }, 0);
+    $("hero").innerHTML =
+      '<span class="k">دارایی شما در ' + label(tk) + "</span>" +
+      '<span class="v num">' + fmt(now.total) + ' <small style="font-size:.45em;font-weight:500">تومان</small></span>' +
+      '<span class="s">' + (tk > 0 ? "این ماه " + short(now.total - prev.total) + " تومان اضافه شد · " : "") + "از شروع " + badge(pct(now.total, init), "hero-pill") + "</span>" +
+      '<div class="row"><span>سرمایهٔ اولیه<b class="num">' + short(init) + '</b></span><span>سود دریافتی تا این ماه<b class="num">' + short(profitToDate) +
+      '</b></span><span>قراردادهای فعال<b class="num">' + fmt(now.count) + "</b></span></div>";
+    var kp = [
+      { c: "var(--inv)", k: "چک‌های " + label(tk), v: short(sum(monthCheques)), s: fmt(paid.length) + " پاس‌شده · " + fmt(left.length) + " مانده" + (left.length ? " (" + short(sum(left)) + ")" : "") },
+      { c: "var(--inv)", k: "پیش‌بینی " + label(n), v: short(last.total), s: "سود ماه آخر: " + short(last.profit) },
+      { c: "var(--accent)", k: "سود مرکب سالانه", v: fmt2((Math.pow(1 + state.rate / 100, 12) - 1) * 100) + "٪", s: "با " + fmt2(state.rate) + "٪ ماهانه" },
+      { c: "var(--usd)", k: "دارایی به دلار", v: fmt2(now.total / now.usdP) + " $", s: "شروع " + fmt2(init / state.usd0) + " $ · " + badge(pct(now.total / now.usdP, init / state.usd0)) },
+      { c: "var(--gold)", k: "دارایی به گرم طلا", v: fmt2(now.total / now.goldP) + " گرم", s: "شروع " + fmt2(init / state.gold0) + " · " + badge(pct(now.total / now.goldP, init / state.gold0)) },
+      { c: "var(--usd)", k: "اگر دلار خریده بودید", v: short(now.usdVal), s: badge(pct(now.total, now.usdVal)) + " به نفع سرمایه‌گذاری" }
     ];
-    $("cards").innerHTML = cards.map(function (c) {
-      return '<div class="card"><span class="k"><i class="dot" style="background:' + c.c + '"></i>' + c.k +
-        '</span><span class="v num">' + c.v + '</span><span class="s">' + c.s + "</span></div>";
+    $("kpis").innerHTML = kp.map(function (c) {
+      return '<div class="kpi"><span class="k"><i class="dot" style="background:' + c.c + '"></i>' + c.k + '</span><span class="v num">' + c.v + '</span><span class="s">' + c.s + "</span></div>";
     }).join("");
-
-    // verdict
-    var opts = [
-      { name: "سرمایه‌گذاری با سود ماهانه", v: last.total },
-      { name: "خرید دلار", v: last.usdVal },
-      { name: "خرید طلا", v: last.goldVal }
-    ].sort(function (a, b) { return b.v - a.v; });
-    var best = opts[0], inv = last.total;
-    var txt;
-    if (best.v === inv) {
-      var second = opts[1];
-      txt = "تا " + mlabel + " <strong>سرمایه‌گذاری با سود ماهانه</strong> بهترین گزینه است و " + short(inv - second.v) +
-        " تومان (" + fmt2(pct(inv, second.v)) + "٪) بیشتر از " + second.name + " می‌شود.";
-    } else {
-      txt = "تا " + mlabel + " <strong>" + best.name + "</strong> بهتر بود و " + short(best.v - inv) +
-        " تومان (" + fmt2(pct(best.v, inv)) + "٪) بیشتر از سرمایه‌گذاری فعلی شما می‌شد.";
-    }
-    var realPct = pct(inv, last.infl);
-    if (byUsd) {
-      txt += " از " + label(0) + " تا " + mlabel + " دلار " + fmt2(pct(last.usdP, state.usd0)) + "٪ و طلا " + fmt2(pct(last.goldP, state.gold0)) +
-        "٪ گران شد. با تورم دلاری، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
-    } else {
-      txt += " نسبت به تورم، سود واقعی شما " + (realPct >= 0 ? "مثبت" : "منفی") + " و برابر " + fmt2(realPct) + "٪ است.";
-    }
-    if (state.reinvest) {
-      txt += " دلار یا طلا فقط در صورتی جلو می‌زنند که سالانه بیش از " + fmt2(eff) + "٪ گران شوند (با نرخ " + fmt2(state.rate) + "٪ ماهانه).";
-    }
-    $("verdict").innerHTML = "<p>" + txt + "</p>";
-
+    $("verdict").innerHTML = verdictText(now, tk, "تا " + label(tk)) + (n > tk ? verdictText(last, n, "تا " + label(n) + " (با قیمت‌های پیش‌بینی)") : "");
+    var up = res.cheques.filter(function (q) { return chequeStatus(q).id !== "ok"; })
+      .sort(function (a, b) { return a.k - b.k || a.day - b.day; }).slice(0, 7);
+    $("upcoming").innerHTML = up.length ? up.map(chequeRow).join("") : '<div class="empty">چک پیش رویی در افق محاسبه نیست.</div>';
     var fc = $("formulaCheck");
     if (res.simple) {
       var expect = init * Math.pow(1 + state.rate / 100, n), ok = Math.abs(expect - last.total) <= Math.max(1, expect * 1e-9);
       fc.innerHTML = "کنترل فرمول: " + fmt(init) + " × (۱ + " + fmt2(state.rate) + "٪)<sup>" + fmt(n) + "</sup> = " + fmt(expect) +
         " · جمع همهٔ قراردادها: " + fmt(last.total) + " " + (ok ? '<span class="check-ok">✓ برابر است</span>' : '<span class="check-bad">✗ برابر نیست</span>');
     } else {
-      fc.textContent = "کنترل با فرمول یک‌خطی (سرمایه × (۱ + نرخ)^ماه) فقط وقتی ممکن است که همهٔ چک‌ها و اصل‌ها دوباره قرارداد شوند و واریز، برداشت، قرارداد بعدی یا نرخ متفاوتی در کار نباشد. با تنظیمات فعلی، عددها از جمع چک‌به‌چک قراردادها حساب شده‌اند.";
+      fc.textContent = "کنترل با فرمول یک‌خطی فقط وقتی ممکن است که همهٔ چک‌ها و اصل‌ها با یک نرخ دوباره قرارداد شوند و واریز، برداشت یا قرارداد بعدی در کار نباشد. با تنظیمات فعلی، عددها از جمع چک‌به‌چک قراردادها حساب شده‌اند.";
     }
-
-    drawChart(rows);
-    drawBars(rows);
+    drawChart(rows, tk);
+    drawBars(rows, tk);
+  }
+  function verdictText(r, k, when) {
+    var opts = [{ name: "سرمایه‌گذاری شما", v: r.total }, { name: "خرید دلار", v: r.usdVal }, { name: "خرید طلا", v: r.goldVal }].sort(function (a, b) { return b.v - a.v; });
+    var t = "<strong>" + when + ":</strong> ";
+    if (opts[0].v === r.total) t += "سرمایه‌گذاری شما از " + opts[1].name + " " + short(r.total - opts[1].v) + " تومان (" + fmt2(pct(r.total, opts[1].v)) + "٪) جلوتر است.";
+    else t += opts[0].name + " " + short(opts[0].v - r.total) + " تومان (" + fmt2(pct(opts[0].v, r.total)) + "٪) بیشتر از سرمایه‌گذاری شما می‌شد.";
+    if (k > 0) t += " دلار " + fmt2(pct(r.usdP, state.usd0)) + "٪ و طلا " + fmt2(pct(r.goldP, state.gold0)) + "٪ نسبت به " + label(0) + " تغییر کرده‌اند.";
+    return "<p>" + t + "</p>";
   }
 
-  // ---------- chart ----------
-  function niceStep(max, count) {
-    var raw = max / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
+  // ---------- cheques ----------
+  function chequeRow(q) {
+    var st = chequeStatus(q), o = state.cheques[q.key] || {}, t = ym(q.k);
+    return '<button type="button" class="li" data-chq="' + esc(q.key) + '">' +
+      '<span class="date num"><b>' + fmt(dayOf(q.k, q.day)) + "</b>" + MONTHS[t.m] + "<br>" + faDigits(t.y) + "</span>" +
+      '<span class="mid"><b>' + (q.principal ? "برگشت اصل پول" : "چک سود " + fmt(q.i) + " از " + fmt(q.term)) + "</b>" +
+      "<small>قرارداد " + esc(faDigits(q.c.no)) + (q.c.manual && q.c.name ? " · " + esc(q.c.name) : "") + (o.no ? " · چک " + esc(faDigits(o.no)) : "") + (o.note ? " · " + esc(o.note) : "") + "</small></span>" +
+      '<span class="end"><span class="amt num">' + fmt(q.amount) + '</span><span class="chip ' + st.cls + '">' + st.t + "</span></span></button>";
+  }
+  function filteredCheques() {
+    return res.cheques.filter(function (q) {
+      var st = chequeStatus(q), o = state.cheques[q.key] || {};
+      if (ui.cst !== "all" && st.id !== ui.cst) return false;
+      if (ui.cmonth !== "all" && String(q.k) !== ui.cmonth) return false;
+      return matches([q.c.no, q.c.name, o.no, o.note, fmt(q.amount), Math.round(q.amount), dateLabel(q.k, q.day), dateNum(q.k, q.day)]);
+    }).sort(function (a, b) { return a.k - b.k || a.day - b.day || (a.principal - b.principal); });
+  }
+  function renderCheques() {
+    var sel = $("chqMonth");
+    var h = '<option value="all">همهٔ ماه‌ها</option>';
+    for (var k = 1; k <= res.n; k++) h += '<option value="' + k + '">' + label(k) + "</option>";
+    sel.innerHTML = h; sel.value = ui.cmonth;
+    if (sel.value !== ui.cmonth) { ui.cmonth = "all"; sel.value = "all"; }
+    var list = filteredCheques(), sum = function (a) { return a.reduce(function (t, q) { return t + q.amount; }, 0); };
+    var prof = list.filter(function (q) { return !q.principal; }), prin = list.filter(function (q) { return q.principal; });
+    var bad = list.filter(function (q) { return chequeStatus(q).id === "bad"; });
+    $("chqSummary").innerHTML = [
+      { k: "تعداد", v: fmt(list.length), s: fmt(prof.length) + " سود · " + fmt(prin.length) + " اصل" },
+      { k: "جمع چک‌های سود", v: short(sum(prof)), s: "تومان" },
+      { k: "جمع برگشت اصل", v: short(sum(prin)), s: "تومان" },
+      { k: "برگشتی", v: fmt(bad.length), s: bad.length ? short(sum(bad)) + " تومان" : "بدون چک برگشتی" }
+    ].map(function (c) { return '<div class="kpi"><span class="k">' + c.k + '</span><span class="v num">' + c.v + '</span><span class="s">' + c.s + "</span></div>"; }).join("");
+    var shown = list.slice(0, 400);
+    $("chqList").innerHTML = shown.length ? shown.map(chequeRow).join("") +
+      (list.length > shown.length ? '<p class="note" style="padding:10px 0">' + fmt(list.length - shown.length) + " چک دیگر هم هست؛ جستجو یا ماه را محدودتر کنید.</p>" : "")
+      : '<div class="empty">چکی با این جستجو پیدا نشد.</div>';
+  }
+  $("chqMonth").addEventListener("change", function () { ui.cmonth = $("chqMonth").value; renderCheques(); });
+  document.querySelectorAll("[data-cst]").forEach(function (b) {
+    b.addEventListener("click", function () { ui.cst = b.dataset.cst; syncSeg("cst"); renderCheques(); });
+  });
+  function editCheque(q) {
+    var o = state.cheques[q.key] || {};
+    function setO(k, v) {
+      var c = state.cheques[q.key] || (state.cheques[q.key] = {});
+      if (v === "" || v === null) delete c[k]; else c[k] = v;
+      if (!Object.keys(c).length) delete state.cheques[q.key];
+      recompute();
+    }
+    openSheet((q.principal ? "برگشت اصل پول" : "چک سود " + fmt(q.i) + " از " + fmt(q.term)) + " · " + dateLabel(q.k, q.day), [
+      { html: '<p class="note">قرارداد ' + esc(faDigits(q.c.no)) + ' · مبلغ <b class="num">' + fmt(q.amount) + "</b> تومان</p>" },
+      { label: "شمارهٔ چک", type: "text", value: o.no || "", set: function (v) { setO("no", latin(v).trim()); }, wide: true },
+      { label: "وضعیت", type: "select", value: o.status || "", options: [["", "خودکار (بر اساس تاریخ)"], ["ok", "پاس‌شده"], ["wait", "در انتظار"], ["bad", "برگشتی"]], set: function (v) { setO("status", v); } },
+      { label: "یادداشت", type: "text", value: o.note || "", set: function (v) { setO("note", v); } },
+      { html: '<p class="note">وضعیت «برگشتی» برای پیگیری است و در محاسبهٔ سود تغییری نمی‌دهد.</p>' }
+    ]);
+  }
+
+  // ---------- contracts ----------
+  function renderContracts() {
+    var list = res.contracts.filter(function (c) {
+      if (ui.ckind === "manual" && !c.manual) return false;
+      if (ui.ckind === "auto" && c.manual) return false;
+      return matches([c.no, c.name, fmt(c.amount), Math.round(c.amount), dateLabel(c.start, c.day), dateNum(c.start, c.day), c.from]);
+    });
+    var autos = res.contracts.filter(function (c) { return !c.manual; }).length;
+    $("contractsInfo").textContent = fmt(state.contracts.length) + " قرارداد دستی و " + fmt(autos) + " قرارداد خودکار تا " + label(res.n) + (list.length > 200 ? " · ۲۰۰ مورد اول نشان داده شده است." : "");
+    $("contractCards").innerHTML = list.length ? list.slice(0, 200).map(function (c) {
+      var paid = 0, next = null;
+      for (var i = 1; i <= c.term; i++) { if (isPast(c.start + i, c.day)) paid = i; else if (!next) next = i; }
+      var st = paid >= c.term ? '<span class="chip ok">تسویه‌شده</span>' : paid > 0 ? '<span class="chip acc">فعال</span>' : '<span class="chip wait">شروع‌نشده</span>';
+      return '<button type="button" class="ccard" data-contract="' + esc(c.key) + '">' +
+        '<span class="top"><span><span class="no num">قرارداد ' + esc(faDigits(c.no)) + '</span><br><span class="nm">' + esc(c.name || "بی‌نام") + "</span></span>" + st + "</span>" +
+        '<span class="amt num">' + fmt(c.amount) + ' <small style="font-size:.55em;font-weight:500;color:var(--muted)">تومان</small></span>' +
+        '<dl><dt>شروع</dt><dd class="num">' + dateLabel(c.start, c.day) + '</dd><dt>آخرین چک</dt><dd class="num">' + dateLabel(c.start + c.term, c.day) +
+        '</dd><dt>چک ماهانه</dt><dd class="num">' + fmt(c.amount * c.rate / 100) + "</dd><dt>نرخ · سررسید</dt><dd>" + fmt2(c.rate) + "٪ · " + (c.renew ? "تمدید" : "برگشت اصل") + "</dd></dl>" +
+        '<span class="bar"><i style="width:' + (paid / c.term * 100).toFixed(1) + '%"></i></span>' +
+        '<span class="prog"><span>' + fmt(paid) + " از " + fmt(c.term) + " چک پاس شده</span><span>" + (next ? "چک بعدی " + dateLabel(c.start + next, c.day) : "") + "</span></span>" +
+        (c.from ? '<span class="note">ساخته‌شده از ' + c.from + "</span>" : "") + "</button>";
+    }).join("") : '<div class="empty" style="grid-column:1/-1">' + (ui.q ? "قراردادی با این جستجو پیدا نشد." : "هیچ قراردادی ندارید. «+ قرارداد جدید» را بزنید.") + "</div>";
+  }
+  document.querySelectorAll("[data-ckind]").forEach(function (b) {
+    b.addEventListener("click", function () { ui.ckind = b.dataset.ckind; saveUi(); syncSeg("ckind"); renderContracts(); });
+  });
+  function monthOpts(sel) {
+    var o = [];
+    for (var k = 0; k <= Math.max(res.n, sel); k++) o.push([String(k), label(k)]);
+    return o;
+  }
+  function editContract(c, isNew) {
+    openSheet(isNew ? "قرارداد جدید" : "قرارداد " + faDigits(c.no || ""), [
+      { label: "شمارهٔ قرارداد", type: "text", value: faDigits(c.no || ""), set: function (v) { c.no = latin(v).trim(); recompute(); } },
+      { label: "نام", type: "text", value: c.name || "", set: function (v) { c.name = v; recompute(); } },
+      { label: "ماه شروع", type: "select", value: String(Math.round(c.k)), options: monthOpts(Math.round(c.k)), set: function (v) { c.k = +v; recompute(); } },
+      { label: "روز", type: "num", value: c.day, set: function (v) { if (v >= 1) { c.day = Math.min(31, Math.round(v)); recompute(); } } },
+      { label: "مبلغ (تومان)", type: "money", value: c.amount, set: function (v) { if (v !== null && v >= 0) { c.amount = v; recompute(); } }, wide: true },
+      { label: "سود ماهانه (٪)", type: "num", value: c.rate, set: function (v) { if (v !== null && v >= 0) { c.rate = v; recompute(); } } },
+      { label: "مدت (ماه)", type: "num", value: c.term, set: function (v) { if (v >= 1) { c.term = Math.min(60, Math.round(v)); recompute(); } } },
+      { label: "در سررسید", type: "select", value: c.renew ? "1" : "0", options: [["1", "تمدید (دوباره قرارداد شود)"], ["0", "برگشت اصل پول"]], set: function (v) { c.renew = v === "1"; recompute(); }, wide: true }
+    ], function () {
+      state.contracts = state.contracts.filter(function (x) { return x !== c; });
+      recompute(); toast("قرارداد حذف شد.");
+    });
+  }
+  $("addContract").addEventListener("click", function () {
+    var maxNo = state.contracts.reduce(function (m, c) { var v = parseInt(latin(c.no), 10); return isFinite(v) && v > m ? v : m; }, 0);
+    var c = { id: "c" + Date.now(), no: String(maxNo + 1), name: "قرارداد " + fmt(state.contracts.length + 1), k: Math.max(0, Math.min(res.n, todayK())),
+      day: TODAY ? TODAY.d : defaultDay(), amount: 100000000, rate: state.rate, term: state.term, renew: true };
+    state.contracts.push(c);
+    ui.ckind = "manual"; syncSeg("ckind");
+    recompute(); editContract(c, true);
+  });
+
+  // ---------- months ----------
+  function winner(r) {
+    return [{ c: "inv", t: "سود " + fmt2(r.yield * 100) + "٪", v: r.yield }, { c: "usd", t: "دلار", v: r.usdChg }, { c: "gold", t: "طلا", v: r.goldChg }]
+      .sort(function (a, b) { return b.v - a.v; })[0];
+  }
+  function chgTd(v) { return '<td class="num ' + (v > 0 ? "up" : v < 0 ? "down" : "") + '" dir="ltr" style="text-align:end">' + pctTxt(v) + "</td>"; }
+  function price(v, set) { return set ? fmt(v) : '<span class="est" title="پیش‌بینی">≈' + fmt(v) + "</span>"; }
+  function renderMonths() {
+    var rows = res.rows, tk = todayK(), h = "", c = "";
+    for (var k = 0; k <= res.n; k++) {
+      var r = rows[k], w = k ? winner(r) : null, cls = k === tk ? "now" : "";
+      h += '<tr class="click ' + cls + '" data-month="' + k + '">' +
+        '<td><button type="button" class="rowbtn" data-month="' + k + '">' + label(k) + (k === 0 ? " · شروع" : "") + (k === tk ? " · امروز" : "") + "</button></td>" +
+        '<td class="num">' + (k ? fmt2(r.rate) + "٪" : "—") + "</td>" +
+        '<td class="num strong">' + (k ? fmt(r.profit) : "—") + "</td>" +
+        '<td class="num">' + (r.days.length ? r.days.map(function (d) { return fmt(dayOf(k, d)); }).join("، ") : "—") + "</td>" +
+        '<td class="num">' + (r.matured ? fmt(r.matured) : "—") + "</td>" +
+        '<td class="num">' + (r.dep ? fmt(r.dep) : "—") + "</td>" +
+        '<td class="num">' + (r.wd ? fmt(r.wd) : "—") + "</td>" +
+        '<td class="num">' + (r.newAmt ? fmt(r.newAmt) : "—") + "</td>" +
+        '<td class="num">' + fmt(r.count) + "</td>" +
+        '<td class="num strong">' + fmt(r.close) + "</td>" +
+        '<td class="num">' + price(r.usdP, r.usdSet) + "</td>" + (k ? chgTd(r.usdChg) : "<td>—</td>") +
+        '<td class="num">' + price(r.goldP, r.goldSet) + "</td>" + (k ? chgTd(r.goldChg) : "<td>—</td>") +
+        '<td class="num">' + fmt2(r.total / r.usdP) + "</td>" +
+        "<td>" + (w ? '<span class="chip ' + w.c + '">' + w.t + "</span>" : "—") + "</td></tr>";
+      c += '<button type="button" class="mcard ' + cls + '" data-month="' + k + '">' +
+        '<span class="top"><b>' + label(k) + (k === tk ? ' <span class="chip now">امروز</span>' : "") + "</b>" + (w ? '<span class="chip ' + w.c + '">' + w.t + "</span>" : '<span class="chip acc">شروع</span>') + "</span>" +
+        '<dl><dt>چک‌های ماه</dt><dd class="num">' + (k ? fmt(r.profit) : "—") + '</dd><dt>موجودی آخر ماه</dt><dd class="num">' + fmt(r.close) +
+        '</dd><dt>دلار</dt><dd class="num">' + price(r.usdP, r.usdSet) + (k ? ' <span dir="ltr" style="font-weight:500;color:var(--muted)">' + pctTxt(r.usdChg) + "</span>" : "") +
+        '</dd><dt>گرم طلا</dt><dd class="num">' + price(r.goldP, r.goldSet) + (k ? ' <span dir="ltr" style="font-weight:500;color:var(--muted)">' + pctTxt(r.goldChg) + "</span>" : "") +
+        "</dd>" + (r.dep && k ? '<dt>واریز</dt><dd class="num">' + fmt(r.dep) + "</dd>" : "") + (r.wd ? '<dt>برداشت</dt><dd class="num">' + fmt(r.wd) + "</dd>" : "") +
+        '<dt>دارایی به دلار</dt><dd class="num">' + fmt2(r.total / r.usdP) + " $</dd></dl></button>";
+    }
+    $("monthRows").innerHTML = h;
+    $("monthCards").innerHTML = c;
+  }
+  function editMonth(k) {
+    var r = res.rows[k];
+    function setR(key, v) {
+      state.rows[k] = state.rows[k] || {};
+      if (v === null || v < 0) delete state.rows[k][key]; else state.rows[k][key] = v;
+      recompute();
+    }
+    openSheet(label(k), [
+      { html: '<p class="note">چک‌های این ماه: <b class="num">' + fmt(r.profit) + '</b> تومان · موجودی آخر ماه: <b class="num">' + fmt(r.close) + "</b></p>" },
+      { label: "قیمت دلار (تومان)", type: "money", value: rowVal(k, "usd"), ph: fmt(r.usdEst), set: function (v) { setR("usd", v); } },
+      { label: "قیمت گرم طلا (تومان)", type: "money", value: rowVal(k, "gold"), ph: fmt(r.goldEst), set: function (v) { setR("gold", v); } },
+      { label: "واریز (تومان)", type: "money", value: rowVal(k, "dep"), ph: "۰", set: function (v) { setR("dep", v); } },
+      { label: "روز واریز", type: "num", value: rowVal(k, "day"), ph: fmt(defaultDay()), set: function (v) { setR("day", v === null ? null : Math.min(31, Math.max(1, Math.round(v)))); } },
+      { label: "برداشت (تومان)", type: "money", value: rowVal(k, "wd"), ph: "۰", set: function (v) { setR("wd", v); } },
+      { label: "نرخ قراردادهای جدید (٪)", type: "num", value: rowVal(k, "rate"), ph: fmt2(state.rate), set: function (v) { setR("rate", v); } },
+      { html: '<p class="note">خانهٔ خالی یعنی مقدار پیش‌فرض (متن کم‌رنگ). واریز همان روز یک قرارداد جدید می‌شود و برداشت از پولی که آن ماه آزاد شده کم می‌شود.</p>' }
+    ]);
+  }
+  $("clearRows").addEventListener("click", function () {
+    var b = $("clearRows");
+    if (!b.classList.contains("armed")) { b.classList.add("armed", "danger"); b.textContent = "برای پاک کردن دوباره بزنید"; return; }
+    b.classList.remove("armed"); b.textContent = "پاک کردن ورودی‌های ماهانه";
+    state.rows = {}; recompute(); toast("ورودی‌های ماهانه پاک شد.");
+  });
+
+  // ---------- sheet editor ----------
+  var sheetReturn = null;
+  function openSheet(title, fields, onDelete) {
+    $("sheetTitle").textContent = title;
+    var body = $("sheetBody"); body.innerHTML = "";
+    var grid = document.createElement("div"); grid.className = "fields";
+    var first = null;
+    fields.forEach(function (f, i) {
+      if (f.html) { var d = document.createElement("div"); d.style.gridColumn = "1 / -1"; d.innerHTML = f.html; grid.appendChild(d); return; }
+      var w = document.createElement("div"); w.className = "field"; if (f.wide) w.style.gridColumn = "1 / -1";
+      var id = "sf" + i, lab = document.createElement("label"); lab.htmlFor = id; lab.textContent = f.label; w.appendChild(lab);
+      var inp;
+      if (f.type === "select") {
+        inp = document.createElement("select");
+        f.options.forEach(function (o) { var op = document.createElement("option"); op.value = o[0]; op.textContent = o[1]; inp.appendChild(op); });
+        inp.value = f.value;
+        inp.addEventListener("change", function () { f.set(inp.value); });
+      } else {
+        inp = document.createElement("input"); inp.type = "text";
+        inp.inputMode = f.type === "text" ? "text" : f.type === "money" ? "numeric" : "decimal";
+        var v = f.value;
+        inp.value = v === null || v === undefined || v === "" ? "" : f.type === "money" ? fmt(v) : f.type === "num" ? fmt2(v) : v;
+        if (f.ph) inp.placeholder = f.ph;
+        inp.addEventListener("input", function () { f.set(f.type === "text" ? inp.value : parseNum(inp.value)); });
+        if (f.type === "money") inp.addEventListener("blur", function () { var x = parseNum(inp.value); inp.value = x === null ? "" : fmt(x); });
+      }
+      inp.id = id; w.appendChild(inp); grid.appendChild(w);
+      if (!first) first = inp;
+    });
+    body.appendChild(grid);
+    var foot = $("sheetFoot"); foot.innerHTML = "";
+    var done = document.createElement("button"); done.type = "button"; done.className = "btn primary"; done.textContent = "تأیید";
+    done.addEventListener("click", closeSheet); foot.appendChild(done);
+    if (onDelete) {
+      var del = document.createElement("button"); del.type = "button"; del.className = "btn danger"; del.textContent = "حذف";
+      del.addEventListener("click", function () {
+        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "برای حذف دوباره بزنید"; return; }
+        closeSheet(); onDelete();
+      });
+      foot.appendChild(del);
+    }
+    sheetReturn = document.activeElement;
+    $("scrim").hidden = false;
+    if (first && window.matchMedia("(min-width: 721px)").matches) first.focus();
+  }
+  function closeSheet() { $("scrim").hidden = true; try { if (sheetReturn && document.contains(sheetReturn)) sheetReturn.focus(); } catch (e) {} }
+  $("sheetClose").addEventListener("click", closeSheet);
+  $("scrim").addEventListener("click", function (e) { if (e.target === $("scrim")) closeSheet(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("scrim").hidden) closeSheet(); });
+
+  // ---------- settings ----------
+  var sel = $("startMonth");
+  MONTHS.forEach(function (m, i) { var o = document.createElement("option"); o.value = i + 1; o.textContent = m; sel.appendChild(o); });
+  var numFields = ["startYear", "rate", "term", "months", "inflation", "usd0", "usdG", "gold0", "goldG"];
+  function fillSettings() {
+    numFields.forEach(function (f) {
+      var el = $(f);
+      el.value = el.hasAttribute("data-money") ? fmt(state[f]) : f === "startYear" ? faDigits(state[f]) : fmt2(state[f]);
+    });
+    sel.value = state.startMonth;
+    ["reinvest", "renew", "autoExtend"].forEach(function (f) { $(f).checked = !!state[f]; });
+    $("inflBase").value = state.inflBase;
+  }
+  numFields.forEach(function (f) {
+    var el = $(f);
+    el.addEventListener("input", function () {
+      var v = parseNum(el.value);
+      if (v === null) return;
+      if (f === "months") v = Math.max(1, Math.min(240, Math.round(v)));
+      if (f === "term") v = Math.max(1, Math.min(60, Math.round(v)));
+      if (f === "startYear") { v = Math.round(v); if (v < 1300 || v > 1500) return; }
+      if ((f === "usd0" || f === "gold0") && v <= 0) return;
+      state[f] = v; recompute();
+    });
+    el.addEventListener("blur", fillSettings);
+  });
+  sel.addEventListener("change", function () { state.startMonth = +sel.value; recompute(); });
+  $("inflBase").addEventListener("change", function () { state.inflBase = $("inflBase").value; recompute(); });
+  ["reinvest", "renew", "autoExtend"].forEach(function (f) { $(f).addEventListener("change", function () { state[f] = $(f).checked; recompute(); }); });
+  function renderSettings() {
+    var eff = (Math.pow(1 + state.rate / 100, 12) - 1) * 100;
+    $("rate-eff").textContent = state.reinvest ? "معادل سالانه با سود مرکب: " + fmt2(eff) + "٪" : "سالانه بدون مرکب: " + fmt2(state.rate * 12) + "٪";
+    $("usd-m").textContent = "ماهانه حدود " + fmt2(monthly(state.usdG) * 100) + "٪";
+    $("gold-m").textContent = "ماهانه حدود " + fmt2(monthly(state.goldG) * 100) + "٪";
+    $("inflation-field").hidden = state.inflBase === "usd";
+    $("horizon-note").textContent = "محاسبه تا " + label(res.n) + (state.autoExtend && TODAY && res.n > state.months ? " (خودکار جلو می‌رود)" : "");
+  }
+
+  // ---------- charts ----------
+  function niceStep(span, count) {
+    var raw = span / count, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
     return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * mag;
   }
   var FONT = 'font-family="Vazirmatn, Tahoma, sans-serif"';
-  function txt(x, y, s, anchor, size, fill) {
+  function txt(x, y, s, anchor, size, fill, weight) {
     return '<text x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="' + anchor + '" font-size="' + (size || 11) +
-      '" fill="' + (fill || "var(--muted)") + '" ' + FONT + ">" + s + "</text>";
+      '" fill="' + (fill || "var(--muted)") + '" ' + FONT + (weight ? ' font-weight="' + weight + '"' : "") + ">" + s + "</text>";
   }
-  function pctTxt(v) { return (v >= 0 ? "+" : "−") + fmt2(Math.abs(v * 100)) + "٪"; }
-  // month axis labels: every month when they fit, year under the first month and each Farvardin
-  function monthAxis(n, x, yBase) {
-    var every = n <= 18 ? 1 : Math.ceil(n / 12), h = "";
-    for (var i = 0; i <= n; i++) {
-      if (i % every !== 0 && i !== n) continue;
-      var parts = label(i).split(" ");
-      h += txt(x(i), yBase, parts[0], "middle", n > 13 ? 9.5 : 10.5);
-      var mIdx = (state.startMonth - 1 + i) % 12;
-      if (i === 0 || mIdx === 0) h += txt(x(i), yBase + 14, parts[1], "middle", 9.5);
-    }
-    return h;
-  }
-  // shared hover layer: snaps to the nearest month, draws a crosshair, fills the tooltip
+  function boxWidth(id) { return Math.max(300, Math.round($(id).clientWidth || 700)); }
   function hover(svg, box, tip, W, idxAt, xAt, content, cross) {
     svg.onpointermove = function (ev) {
-      var r0 = svg.getBoundingClientRect();
-      var i = idxAt((ev.clientX - r0.left) / r0.width * W);
+      var r = svg.getBoundingClientRect();
+      var i = idxAt((ev.clientX - r.left) / r.width * W);
       cross(i);
       tip.innerHTML = content(i);
       tip.hidden = false;
-      var r = svg.getBoundingClientRect(), br = box.getBoundingClientRect();
-      var cx = r.left - br.left + box.scrollLeft + xAt(i) * r.width / W;
-      var left = cx + 14;
-      if (left + tip.offsetWidth > box.scrollLeft + box.clientWidth) left = cx - tip.offsetWidth - 14;
-      tip.style.left = Math.max(box.scrollLeft + 4, left) + "px";
+      var cx = xAt(i) * r.width / W, left = cx + 14;
+      if (left + tip.offsetWidth > box.clientWidth) left = cx - tip.offsetWidth - 14;
+      tip.style.left = Math.max(0, left) + "px";
     };
     svg.onpointerleave = function () { tip.hidden = true; cross(-1); };
   }
   function tipRow(color, name, value, dash) {
-    return '<div><span><i class="dot" style="background:' + color + (dash ? ";border-radius:2px" : "") + '"></i>' + name + "</span><b class=\"num\" style=\"margin:0\">" + value + "</b></div>";
+    return '<div><span><i class="dot" style="background:' + color + (dash ? ";border-radius:2px" : "") + '"></i>' + name + '</span><b class="num">' + value + "</b></div>";
   }
-
-  function drawChart(rows) {
-    var svg = $("chart"), W = 760, H = 330, L = 78, R = 92, T = 14, B = 46;
+  function monthTicks(n, W, L, R, narrow, x, yBase, from) {
+    var h = "", every = Math.max(1, Math.ceil(n / Math.max(1, Math.floor((W - L - R) / (narrow ? 44 : 52)))));
+    for (var i = from; i <= n; i++) {
+      if ((i - from) % every !== 0) continue;
+      var t = ym(i);
+      h += txt(x(i), yBase, MONTHS[t.m], "middle", narrow ? 9 : 10);
+      if (i === from || t.m === 0) h += txt(x(i), yBase + 13, faDigits(t.y), "middle", 9);
+    }
+    return h;
+  }
+  function drawChart(rows, tk) {
+    var svg = $("chart1"), W = boxWidth("box1"), narrow = W < 520, H = narrow ? 260 : 320, L = narrow ? 60 : 74, R = narrow ? 60 : 86, T = 20, B = 40;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     var byUsd = state.inflBase === "usd";
     var series = [
       { key: "total", name: "سرمایه‌گذاری", color: "var(--inv)", w: 2.5 },
       { key: "usdVal", name: "دلار", color: "var(--usd)", w: 2 },
       { key: "goldVal", name: "طلا", color: "var(--gold)", w: 2 },
-      { key: "infl", name: "جبران تورم", color: "var(--infl)", w: 2, dash: "5 4" }
+      { key: "infl", name: "تورم", color: "var(--infl)", w: 2, dash: "5 4" }
     ];
     if (byUsd) series.pop();
+    $("legend1").innerHTML = '<span><i class="dot" style="background:var(--inv)"></i>سرمایه‌گذاری شما</span><span><i class="dot" style="background:var(--usd)"></i>اگر دلار می‌خریدید</span><span><i class="dot" style="background:var(--gold)"></i>اگر طلا می‌خریدید</span>' +
+      (byUsd ? "" : '<span><i class="dot" style="background:var(--infl)"></i>حداقل برای جبران تورم</span>');
     var lo = Infinity, hi = 0;
     rows.forEach(function (r) { series.forEach(function (s) { lo = Math.min(lo, r[s.key]); hi = Math.max(hi, r[s.key]); }); });
     if (!(hi > lo)) { hi = lo * 1.1 + 1; lo = lo * 0.9; }
-    // value lines start near the data, not at zero, so month-to-month moves stay visible
-    var step = niceStep(hi - lo, 5), bot = Math.floor(lo / step) * step, top = Math.ceil(hi / step) * step;
+    var step = niceStep(hi - lo, 4), bot = Math.floor(lo / step) * step, top = Math.ceil(hi / step) * step;
     var n = rows.length - 1 || 1;
     function x(i) { return L + (W - L - R) * i / n; }
     function y(v) { return T + (H - T - B) * (1 - (v - bot) / (top - bot)); }
     var h = "";
-    for (var i = 0; i <= n; i++) h += '<line x1="' + x(i) + '" x2="' + x(i) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="var(--line)" stroke-width="1" stroke-opacity=".45"/>';
     for (var v = bot; v <= top + step / 2; v += step) {
       h += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="var(--line)" stroke-width="1"/>';
-      h += txt(L - 8, y(v) + 4, short(v), "end");
+      h += txt(L - 8, y(v) + 4, short(v), "end", narrow ? 9.5 : 10.5);
     }
-    h += monthAxis(n, x, H - B + 18);
+    h += monthTicks(n, W, L, R, narrow, x, H - B + 16, 0);
     var area = "M" + x(0) + "," + y(bot);
-    rows.forEach(function (r, i) { area += " L" + x(i) + "," + y(r.total); });
-    h += '<path d="' + area + " L" + x(n) + "," + y(bot) + ' Z" fill="var(--inv)" fill-opacity="0.07" stroke="none"/>';
-    var dots = n <= 36;
+    rows.forEach(function (r, i) { area += " L" + x(i).toFixed(1) + "," + y(r.total).toFixed(1); });
+    h += '<path d="' + area + " L" + x(n) + "," + y(bot) + ' Z" fill="var(--inv)" fill-opacity="0.08"/>';
+    if (tk >= 0 && tk <= n) h += '<line x1="' + x(tk) + '" x2="' + x(tk) + '" y1="' + T + '" y2="' + (H - B) + '" stroke="var(--accent)" stroke-width="1.2" stroke-dasharray="3 3"/>' + txt(x(tk), T - 6, "امروز", "middle", 10, "var(--accent)", 700);
+    var dots = (W - L - R) / n > 14;
     series.slice().reverse().forEach(function (s) {
       var d = rows.map(function (r, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(r[s.key]).toFixed(1); }).join(" ");
       h += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="' + s.w + '" stroke-linejoin="round" stroke-linecap="round"' + (s.dash ? ' stroke-dasharray="' + s.dash + '"' : "") + "/>";
-      if (dots) rows.forEach(function (r, i) {
-        h += '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(r[s.key]).toFixed(1) + '" r="3.2" fill="' + s.color + '" stroke="var(--surface)" stroke-width="1.5"/>';
-      });
+      if (dots) rows.forEach(function (r, i) { h += '<circle cx="' + x(i).toFixed(1) + '" cy="' + y(r[s.key]).toFixed(1) + '" r="2.8" fill="' + s.color + '" stroke="var(--surface)" stroke-width="1.4"/>'; });
     });
-    // direct labels at the line ends, pushed apart so they never overlap
     var last = rows[rows.length - 1];
     var ends = series.map(function (s) { return { s: s, y: y(last[s.key]) }; }).sort(function (a, b) { return a.y - b.y; });
-    for (var j = 1; j < ends.length; j++) if (ends[j].y - ends[j - 1].y < 15) ends[j].y = ends[j - 1].y + 15;
+    for (var j = 1; j < ends.length; j++) if (ends[j].y - ends[j - 1].y < 14) ends[j].y = ends[j - 1].y + 14;
     ends.forEach(function (e) {
-      h += '<circle cx="' + (W - R + 10) + '" cy="' + (e.y - 1) + '" r="3.5" fill="' + e.s.color + '"/>';
-      h += txt(W - R + 18, e.y + 3, e.s.name, "start", 11, "var(--ink)");
+      h += '<circle cx="' + (W - R + 9) + '" cy="' + (e.y - 1) + '" r="3.5" fill="' + e.s.color + '"/>';
+      h += txt(W - R + 16, e.y + 3, e.s.name, "start", narrow ? 9.5 : 10.5, "var(--ink)");
     });
     h += '<line id="x1" x1="0" x2="0" y1="' + T + '" y2="' + (H - B) + '" stroke="var(--muted)" stroke-width="1" visibility="hidden"/>';
     h += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="transparent"/>';
     svg.innerHTML = h;
     var cross = svg.querySelector("#x1");
-    hover(svg, $("box1"), $("tip1"), W, function (px) {
-      return Math.max(0, Math.min(n, Math.round((px - L) / ((W - L - R) / n))));
-    }, x, function (i) {
-      var r = rows[i], out = "<b>" + label(i) + "</b>";
+    hover(svg, $("box1"), $("tip1"), W, function (px) { return Math.max(0, Math.min(n, Math.round((px - L) / ((W - L - R) / n)))); }, x, function (i) {
+      var r = rows[i], out = "<b>" + label(i) + (i === tk ? " · امروز" : "") + "</b>";
       series.forEach(function (s) { out += tipRow(s.color, s.name, short(r[s.key]), s.dash); });
-      if (i > 0) out += '<div><span>سود این ماه</span><b class="num" style="margin:0">' + short(r.profit) + "</b></div>";
+      if (i > 0) out += '<div><span>چک‌های این ماه</span><b class="num">' + short(r.profit) + "</b></div>";
       return out;
     }, function (i) {
       if (i < 0) { cross.setAttribute("visibility", "hidden"); return; }
       cross.setAttribute("x1", x(i)); cross.setAttribute("x2", x(i)); cross.setAttribute("visibility", "visible");
     });
   }
-
-  function drawBars(rows) {
-    var svg = $("chart2"), W = 760, H = 260, L = 78, R = 92, T = 14, B = 46;
+  function drawBars(rows, tk) {
+    var svg = $("chart2"), W = boxWidth("box2"), narrow = W < 520, H = narrow ? 220 : 250, L = narrow ? 46 : 58, R = 10, T = 20, B = 38;
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
     var n = rows.length - 1;
     var series = [
       { name: "سود شما", color: "var(--inv)", v: function (r) { return r.yield; } },
@@ -897,189 +1139,230 @@ footer { font-size: .78rem; color: var(--muted); }
     for (var v = bot; v <= top + step / 2; v += step) {
       var zero = Math.abs(v) < step / 1000;
       h += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '" stroke="' + (zero ? "var(--muted)" : "var(--line)") + '" stroke-width="1"/>';
-      h += txt(L - 8, y(v) + 4, (v > 0 ? "+" : v < 0 ? "−" : "") + fmt2(Math.abs(v * 100)) + "٪", "end");
+      h += txt(L - 6, y(v) + 4, (v > 0 ? "+" : v < 0 ? "−" : "") + fmt2(Math.abs(v * 100)) + "٪", "end", narrow ? 9 : 10.5);
     }
-    var gw = Math.min(slot * 0.78, 54), bw = Math.max(2, gw / 3 - 2);
-    h += '<rect id="hl2" x="0" y="' + T + '" width="' + slot + '" height="' + (H - T - B) + '" fill="var(--muted)" fill-opacity=".08" visibility="hidden"/>';
+    if (tk >= 1 && tk <= n) h += '<rect x="' + (L + slot * (tk - 1)) + '" y="' + T + '" width="' + slot + '" height="' + (H - T - B) + '" fill="var(--accent)" fill-opacity=".08"/>' + txt(cx(tk), T - 6, "امروز", "middle", 10, "var(--accent)", 700);
+    var gw = Math.min(slot * 0.8, 54), gap = slot > 14 ? 2 : 0.5, bw = Math.max(1.2, gw / 3 - gap);
+    h += '<rect id="hl2" x="0" y="' + T + '" width="' + slot + '" height="' + (H - T - B) + '" fill="var(--muted)" fill-opacity=".1" visibility="hidden"/>';
     for (var k = 1; k <= n; k++) {
       series.forEach(function (s, j) {
         var val = s.v(rows[k]), y0 = y(0), y1 = y(val);
-        var bx = cx(k) - gw / 2 + j * (bw + 2) + 1;
+        var bx = cx(k) - gw / 2 + j * (gw / 3) + gap / 2;
         h += '<rect x="' + bx.toFixed(1) + '" y="' + Math.min(y0, y1).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + Math.max(1, Math.abs(y1 - y0)).toFixed(1) + '" rx="1.5" fill="' + s.color + '"/>';
       });
     }
-    // month labels sit under each group of bars
-    var every = n <= 18 ? 1 : Math.ceil(n / 12);
-    for (k = 1; k <= n; k++) {
-      if (k % every !== 0 && k !== n) continue;
-      var parts = label(k).split(" ");
-      h += txt(cx(k), H - B + 18, parts[0], "middle", n > 13 ? 9.5 : 10.5);
-      if (k === 1 || (state.startMonth - 1 + k) % 12 === 0) h += txt(cx(k), H - B + 32, parts[1], "middle", 9.5);
-    }
-    series.forEach(function (s, j) {
-      h += '<circle cx="' + (W - R + 10) + '" cy="' + (T + 10 + j * 18) + '" r="3.5" fill="' + s.color + '"/>';
-      h += txt(W - R + 18, T + 14 + j * 18, s.name, "start", 11, "var(--ink)");
-    });
+    h += monthTicks(n, W, L, R, narrow, cx, H - B + 16, 1);
     h += '<rect x="' + L + '" y="' + T + '" width="' + (W - L - R) + '" height="' + (H - T - B) + '" fill="transparent"/>';
     svg.innerHTML = h;
     var hl = svg.querySelector("#hl2");
-    hover(svg, $("box2"), $("tip2"), W, function (px) {
-      return Math.max(1, Math.min(n, Math.floor((px - L) / slot) + 1));
-    }, cx, function (k) {
+    hover(svg, $("box2"), $("tip2"), W, function (px) { return Math.max(1, Math.min(n, Math.floor((px - L) / slot) + 1)); }, cx, function (k) {
       var r = rows[k], out = "<b>" + label(k) + "</b>";
       var best = series.slice().sort(function (a, b) { return b.v(r) - a.v(r); })[0];
       series.forEach(function (s) {
-        out += tipRow(s.color, s.name + (s === best ? " ★" : ""), "<bdi dir=\"ltr\">" + pctTxt(s.v(r)) + "</bdi>");
-        if (s.p) out += '<div><span style="padding-inline-start:15px;font-size:.75rem">' + fmt(rows[k - 1][s.p]) + " ← " + fmt(r[s.p]) + "</span></div>";
+        out += tipRow(s.color, s.name + (s === best ? " ★" : ""), '<bdi dir="ltr">' + pctTxt(s.v(r)) + "</bdi>");
+        if (s.p) out += '<div><span style="padding-inline-start:14px;font-size:.74rem">' + fmt(rows[k - 1][s.p]) + " ← " + fmt(r[s.p]) + "</span></div>";
       });
-      var inUsd0 = rows[k - 1].total / rows[k - 1].usdP, inUsd1 = r.total / r.usdP;
-      out += '<div><span>موجودی شما به دلار</span><b class="num" style="margin:0">' + fmt2(inUsd0) + " ← " + fmt2(inUsd1) + "</b></div>";
+      out += '<div><span>دارایی به دلار</span><b class="num">' + fmt2(rows[k - 1].total / rows[k - 1].usdP) + " ← " + fmt2(r.total / r.usdP) + "</b></div>";
       return out;
-    }, function (i) {
-      if (i < 0) { hl.setAttribute("visibility", "hidden"); return; }
-      hl.setAttribute("x", L + slot * (i - 1)); hl.setAttribute("visibility", "visible");
+    }, function (k) {
+      if (k < 0) { hl.setAttribute("visibility", "hidden"); return; }
+      hl.setAttribute("x", L + slot * (k - 1)); hl.setAttribute("visibility", "visible");
     });
   }
+  var rz;
+  window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (ui.tab === "dash") renderDash(); }, 150); });
+
+  // ---------- excel ----------
+  var downloads = null;
+  function loadXlsx() {
+    if (window.XLSX) return Promise.resolve(window.XLSX);
+    return new Promise(function (ok, fail) {
+      var s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js";
+      s.onload = function () { if (window.XLSX) ok(window.XLSX); else fail(new Error("no XLSX")); };
+      s.onerror = fail;
+      document.head.appendChild(s);
+    });
+  }
+  function sheetOf(X, header, rows, widths, moneyCols) {
+    var ws = X.utils.aoa_to_sheet([header].concat(rows));
+    ws["!cols"] = widths.map(function (w) { return { wch: w }; });
+    ws["!autofilter"] = { ref: X.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: rows.length, c: header.length - 1 } }) };
+    for (var r = 1; r <= rows.length; r++) (moneyCols || []).forEach(function (c) {
+      var cell = ws[X.utils.encode_cell({ r: r, c: c })];
+      if (cell && cell.t === "n") cell.z = "#,##0";
+    });
+    return ws;
+  }
+  function buildWorkbook(X) {
+    var wb = X.utils.book_new(), rows = res.rows, n = res.n, tk = nowIndex(), now = rows[tk], last = rows[n];
+    wb.Workbook = { Views: [{ RTL: true }] };
+    var summary = [
+      ["تاریخ گزارش", TODAY ? TODAY.y + "/" + String(TODAY.m).padStart(2, "0") + "/" + String(TODAY.d).padStart(2, "0") : ""],
+      ["شروع حساب", label(0)], ["افق محاسبه", label(n)],
+      ["سرمایهٔ اولیه (تومان)", Math.round(res.initial)],
+      ["دارایی در " + label(tk) + " (تومان)", Math.round(now.total)],
+      ["سود دریافتی تا " + label(tk) + " (تومان)", Math.round(rows.slice(1, tk + 1).reduce(function (t, r) { return t + r.profit; }, 0))],
+      ["قراردادهای فعال در " + label(tk), now.count],
+      ["پیش‌بینی دارایی در " + label(n) + " (تومان)", Math.round(last.total)],
+      ["کل سود تا " + label(n) + " (تومان)", Math.round(res.totalProfit)],
+      ["دارایی در " + label(tk) + " به دلار", +(now.total / now.usdP).toFixed(2)],
+      ["دارایی در " + label(tk) + " به گرم طلا", +(now.total / now.goldP).toFixed(2)],
+      ["ارزش اگر دلار خریده بودید (تومان)", Math.round(now.usdVal)],
+      ["ارزش اگر طلا خریده بودید (تومان)", Math.round(now.goldVal)],
+      ["سود ماهانهٔ قراردادهای جدید (٪)", state.rate], ["مدت قراردادهای جدید (ماه)", state.term]
+    ];
+    X.utils.book_append_sheet(wb, sheetOf(X, ["شرح", "مقدار"], summary, [44, 22], [1]), "خلاصه");
+    var cs = res.contracts.map(function (c) {
+      return [String(c.no), c.manual ? "دستی" : "خودکار", c.name, dateNum(c.start, c.day), Math.round(c.amount), c.rate, c.term,
+        Math.round(c.amount * c.rate / 100), dateNum(c.start + c.term, c.day), c.renew ? "تمدید" : "برگشت اصل", c.from || ""];
+    });
+    X.utils.book_append_sheet(wb, sheetOf(X, ["شمارهٔ قرارداد", "نوع", "نام", "تاریخ شروع", "مبلغ (تومان)", "سود ماهانه ٪", "مدت (ماه)", "چک ماهانه (تومان)", "تاریخ آخرین چک", "در سررسید", "ساخته‌شده از"],
+      cs, [16, 8, 20, 12, 18, 12, 10, 18, 14, 12, 26], [4, 7]), "قراردادها");
+    var qs = res.cheques.slice().sort(function (a, b) { return a.k - b.k || a.day - b.day; }).map(function (q) {
+      var o = state.cheques[q.key] || {};
+      return [dateNum(q.k, q.day), String(q.c.no), q.principal ? "برگشت اصل" : "سود", q.principal ? "" : q.i + " از " + q.term, Math.round(q.amount), o.no || "", chequeStatus(q).t, o.note || ""];
+    });
+    X.utils.book_append_sheet(wb, sheetOf(X, ["تاریخ", "شمارهٔ قرارداد", "نوع", "قسط", "مبلغ (تومان)", "شمارهٔ چک", "وضعیت", "یادداشت"],
+      qs, [12, 16, 10, 10, 18, 16, 10, 24], [4]), "چک‌ها");
+    var ms = rows.map(function (r, k) {
+      return [label(k), k ? r.rate : "", Math.round(r.profit), Math.round(r.matured), Math.round(k ? r.dep : 0), Math.round(r.wd), Math.round(r.newAmt), r.count,
+        Math.round(r.close), Math.round(r.total), +(r.total / r.usdP).toFixed(2), +(r.total / r.goldP).toFixed(2)];
+    });
+    X.utils.book_append_sheet(wb, sheetOf(X, ["ماه", "نرخ قرارداد جدید ٪", "چک‌های ماه", "اصل برگشتی", "واریز", "برداشت", "قرارداد جدید", "قراردادهای فعال", "موجودی در قراردادها", "کل دارایی", "دارایی به دلار", "دارایی به گرم طلا"],
+      ms, [16, 12, 16, 16, 16, 16, 16, 10, 18, 18, 14, 14], [2, 3, 4, 5, 6, 8, 9]), "ماه به ماه");
+    var ps = rows.map(function (r, k) {
+      return [label(k), Math.round(r.usdP), r.usdSet ? "واقعی" : "پیش‌بینی", k ? +(r.usdChg * 100).toFixed(2) : "", Math.round(r.goldP), r.goldSet ? "واقعی" : "پیش‌بینی",
+        k ? +(r.goldChg * 100).toFixed(2) : "", k ? +(r.yield * 100).toFixed(2) : "", Math.round(r.usdVal), Math.round(r.goldVal)];
+    });
+    X.utils.book_append_sheet(wb, sheetOf(X, ["ماه", "قیمت دلار", "منبع", "تغییر دلار ٪", "قیمت گرم طلا", "منبع", "تغییر طلا ٪", "سود شما ٪", "ارزش اگر دلار خریده بودید", "ارزش اگر طلا خریده بودید"],
+      ps, [16, 14, 10, 12, 16, 10, 12, 10, 22, 22], [1, 4, 8, 9]), "قیمت‌ها");
+    return wb;
+  }
+  $("xlsxBtn").addEventListener("click", function () {
+    var btn = $("xlsxBtn"); btn.disabled = true; btn.textContent = "در حال ساخت…";
+    loadXlsx().then(function (X) {
+      var wb = buildWorkbook(X), name = "دفتر-سود-مرکب-" + (TODAY ? TODAY.y + "-" + TODAY.m + "-" + TODAY.d : "گزارش") + ".xlsx";
+      if (downloads) {
+        var data = X.write(wb, { type: "array", bookType: "xlsx" });
+        return downloads.save({ filename: name, data: data }).then(function () { toast("فایل اکسل آماده شد."); }, function () { toast("فایل ذخیره نشد."); });
+      }
+      X.writeFile(wb, name); toast("فایل اکسل ذخیره شد.");
+    }).catch(function () { toast("ساخت فایل اکسل انجام نشد. اتصال اینترنت را بررسی کنید."); })
+      .then(function () { btn.disabled = false; btn.textContent = "خروجی اکسل"; });
+  });
 
   // ---------- save & load ----------
   // Saved scenarios live in the viewer's private Claude storage when the page runs as an artifact,
-  // otherwise in this browser's localStorage. Files work in both.
+  // otherwise in this browser's localStorage. Backup files work in both.
   var SAVES_KEY = "compound-ledger-saves";
+  function localAll() { try { return JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { return {}; } }
   var store = {
-    kind: "local", col: null, downloads: null,
+    col: null,
     list: function () {
       if (store.col) return store.col.get().then(function (snap) {
         return snap.docs.map(function (d) { var v = d.data() || {}; return { id: d.id, name: v.name, savedAt: v.savedAt, data: v.data }; });
       });
-      var all = {};
-      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
+      var all = localAll();
       return Promise.resolve(Object.keys(all).map(function (id) { var v = all[id]; return { id: id, name: v.name, savedAt: v.savedAt, data: v.data }; }));
     },
     put: function (id, rec) {
       if (store.col) return (id ? store.col.doc(id) : store.col.doc()).set(rec);
-      var all = {};
-      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
-      all[id || ("s" + Date.now())] = rec;
+      var all = localAll(); all[id || ("s" + Date.now())] = rec;
       try { localStorage.setItem(SAVES_KEY, JSON.stringify(all)); } catch (e) { return Promise.reject(e); }
       return Promise.resolve();
     },
     remove: function (id) {
       if (store.col) return store.col.doc(id).delete();
-      var all = {};
-      try { all = JSON.parse(localStorage.getItem(SAVES_KEY)) || {}; } catch (e) { all = {}; }
-      delete all[id];
+      var all = localAll(); delete all[id];
       try { localStorage.setItem(SAVES_KEY, JSON.stringify(all)); } catch (e) {}
       return Promise.resolve();
     }
   };
   var saved = [];
-  function msg(t) { $("store-msg").textContent = t; }
-  function whenText(ts) {
-    try { return new Date(ts).toLocaleString("fa-IR", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { return ""; }
-  }
-  function applyState(s) {
-    state = normalize(s);
-    fillSettings(); buildRows(); buildContracts(); update();
-  }
+  function whenText(ts) { try { return new Date(ts).toLocaleString("fa-IR", { dateStyle: "medium", timeStyle: "short" }); } catch (e) { return ""; } }
+  function applyState(s) { state = normalize(s); fillSettings(); recompute(); }
   function renderSaves() {
-    var ul = $("saves");
-    ul.innerHTML = "";
+    var ul = $("saves"); ul.innerHTML = "";
     saved.sort(function (a, b) { return (b.savedAt || 0) - (a.savedAt || 0); });
-    if (!saved.length) {
-      var li = document.createElement("li");
-      li.innerHTML = '<span class="note">هنوز چیزی ذخیره نشده است. یک نام بنویسید و «ذخیره» را بزنید.</span>';
-      ul.appendChild(li);
-      return;
-    }
+    if (!saved.length) { ul.innerHTML = '<li><span class="note">هنوز چیزی ذخیره نشده است. یک نام بنویسید و «ذخیره» را بزنید.</span></li>'; return; }
     saved.forEach(function (sv) {
       var li = document.createElement("li");
       var nm = document.createElement("span"); nm.className = "nm"; nm.textContent = sv.name || "بی‌نام";
       var dt = document.createElement("span"); dt.className = "dt"; dt.textContent = whenText(sv.savedAt);
-      var ld = document.createElement("button"); ld.type = "button"; ld.textContent = "بارگذاری";
+      var ld = document.createElement("button"); ld.type = "button"; ld.className = "btn"; ld.textContent = "بارگذاری";
       ld.addEventListener("click", function () {
-        try { applyState(JSON.parse(sv.data)); $("saveName").value = sv.name || ""; msg("«" + sv.name + "» بارگذاری شد."); }
-        catch (e) { msg("این ذخیره خراب است و بارگذاری نشد."); }
+        try { applyState(JSON.parse(sv.data)); $("saveName").value = sv.name || ""; toast("«" + sv.name + "» بارگذاری شد."); }
+        catch (e) { toast("این ذخیره خراب است و بارگذاری نشد."); }
       });
-      var del = document.createElement("button"); del.type = "button"; del.className = "danger"; del.textContent = "حذف";
+      var del = document.createElement("button"); del.type = "button"; del.className = "btn danger"; del.textContent = "حذف";
       del.addEventListener("click", function () {
-        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "برای حذف دوباره بزنید"; return; }
-        store.remove(sv.id).then(refresh, function () { msg("حذف انجام نشد. دوباره امتحان کنید."); });
+        if (!del.classList.contains("armed")) { del.classList.add("armed"); del.textContent = "دوباره بزنید"; return; }
+        store.remove(sv.id).then(refreshSaves, function () { toast("حذف انجام نشد."); });
       });
       li.appendChild(nm); li.appendChild(dt); li.appendChild(ld); li.appendChild(del);
       ul.appendChild(li);
     });
   }
-  function refresh() {
-    return store.list().then(function (l) { saved = l; renderSaves(); }, function () { msg("فهرست ذخیره‌ها خوانده نشد."); });
-  }
-  function exportName() {
-    var n = ($("saveName").value || "سود-مرکب").trim().replace(/[\\/:*?"<>|\s]+/g, "-");
-    return n + ".json";
-  }
+  function refreshSaves() { return store.list().then(function (l) { saved = l; renderSaves(); }, function () { toast("فهرست ذخیره‌ها خوانده نشد."); }); }
+  $("saveBtn").addEventListener("click", function () {
+    var name = $("saveName").value.trim();
+    if (!name) { toast("اول یک نام برای این ذخیره بنویسید."); $("saveName").focus(); return; }
+    var same = saved.filter(function (x) { return x.name === name; })[0];
+    store.put(same ? same.id : null, { name: name, savedAt: Date.now(), data: JSON.stringify(state) })
+      .then(function () { toast(same ? "«" + name + "» به‌روز شد." : "«" + name + "» ذخیره شد."); return refreshSaves(); },
+            function () { toast("ذخیره انجام نشد. دوباره امتحان کنید."); });
+  });
+  $("exportBtn").addEventListener("click", function () {
+    var data = JSON.stringify({ app: "compound-ledger", version: 2, savedAt: Date.now(), state: state }, null, 1);
+    var filename = "پشتیبان-سود-مرکب.json";
+    if (downloads) { downloads.save({ filename: filename, data: data }).then(function () { toast("فایل پشتیبان آماده شد."); }, function () { toast("فایل ذخیره نشد."); }); return; }
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([data], { type: "application/json" })); a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    toast("فایل پشتیبان ذخیره شد.");
+  });
+  $("importBtn").addEventListener("click", function () { $("importFile").click(); });
+  $("importFile").addEventListener("change", function () {
+    var f = $("importFile").files[0]; if (!f) return;
+    var fr = new FileReader();
+    fr.onload = function () {
+      try {
+        var j = JSON.parse(fr.result), s = j && j.state ? j.state : j;
+        if (!s || (typeof s.capital !== "number" && !Array.isArray(s.contracts))) throw new Error("bad");
+        applyState(s); toast("فایل «" + f.name + "» بارگذاری شد.");
+      } catch (e) { toast("این فایل از این برنامه نیست یا خراب است."); }
+      $("importFile").value = "";
+    };
+    fr.readAsText(f);
+  });
   function initStore() {
-    $("saveBtn").addEventListener("click", function () {
-      var name = $("saveName").value.trim();
-      if (!name) { msg("اول یک نام برای این ذخیره بنویسید."); $("saveName").focus(); return; }
-      var same = saved.filter(function (x) { return x.name === name; })[0];
-      store.put(same ? same.id : null, { name: name, savedAt: Date.now(), data: JSON.stringify(state) })
-        .then(function () { msg(same ? "«" + name + "» به‌روز شد." : "«" + name + "» ذخیره شد."); return refresh(); },
-              function () { msg("ذخیره انجام نشد. دوباره امتحان کنید."); });
-    });
-    $("exportBtn").addEventListener("click", function () {
-      var data = JSON.stringify({ app: "compound-ledger", version: 1, savedAt: Date.now(), state: state }, null, 1);
-      var filename = exportName();
-      if (store.downloads) {
-        store.downloads.save({ filename: filename, data: data }).then(function () { msg("فایل آماده شد."); }, function () { msg("فایل ذخیره نشد."); });
-        return;
-      }
-      var a = document.createElement("a");
-      a.href = URL.createObjectURL(new Blob([data], { type: "application/json" }));
-      a.download = filename;
-      document.body.appendChild(a); a.click(); a.remove();
-      msg("فایل " + filename + " ذخیره شد.");
-    });
-    $("importBtn").addEventListener("click", function () { $("importFile").click(); });
-    $("importFile").addEventListener("change", function () {
-      var f = $("importFile").files[0];
-      if (!f) return;
-      var fr = new FileReader();
-      fr.onload = function () {
-        try {
-          var j = JSON.parse(fr.result);
-          var s = j && j.state ? j.state : j;
-          if (!s || (typeof s.capital !== "number" && !Array.isArray(s.contracts))) throw new Error("bad");
-          applyState(s);
-          $("saveName").value = f.name.replace(/\.json$/i, "");
-          msg("فایل «" + f.name + "» بارگذاری شد. اگر می‌خواهید در فهرست هم بماند، «ذخیره» را بزنید.");
-        } catch (e) { msg("این فایل از این برنامه نیست یا خراب است."); }
-        $("importFile").value = "";
-      };
-      fr.readAsText(f);
-    });
-
     var inArtifact = window.claude && typeof window.claude.use === "function";
-    $("store-where").textContent = "ذخیره‌ها فقط در همین مرورگر نگه داشته می‌شوند.";
-    if (inArtifact) $("exportBtn").hidden = true;
-    refresh();
+    $("store-where").textContent = "در همین مرورگر";
+    refreshSaves();
     if (!inArtifact) return;
+    $("exportBtn").hidden = true;
     Promise.all([window.claude.use("db"), window.claude.use("user"), window.claude.use("downloads")]).then(function (caps) {
       var db = caps[0], user = caps[1];
-      store.downloads = caps[2];
-      $("exportBtn").hidden = !store.downloads;
+      downloads = caps[2];
+      $("exportBtn").hidden = !downloads;
+      $("xlsxBtn").hidden = !downloads;
       if (!db || !user) return;
       return user.id().then(function (id) {
         if (!id) return;
         store.col = db.collection("data/users/" + id + "/scenarios");
-        $("store-where").textContent = "ذخیره‌ها در حساب Claude شما نگه داشته می‌شوند و فقط خودتان آن‌ها را می‌بینید.";
-        return refresh();
+        $("store-where").textContent = "در حساب Claude شما · فقط خودتان می‌بینید";
+        return refreshSaves();
       });
     }).catch(function () {});
   }
 
+  // ---------- start ----------
   fillSettings();
-  buildRows();
-  buildContracts();
-  update();
+  res = simulate();
+  renderHeader();
+  syncSeg("ckind");
+  setTab(ui.tab);
   initStore();
 })();
 </script>
