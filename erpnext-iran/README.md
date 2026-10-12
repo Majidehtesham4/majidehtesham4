@@ -47,6 +47,13 @@ docker compose exec backend bench --site frontend execute \
   iran_erp.api.create_jalali_fiscal_year --kwargs '{"jalali_year": 1405, "company": "نام شرکت"}'
 ```
 
+نمایش همه‌ی ماژول‌ها (حسابداری، فروش، CRM، وب‌سایت و ...) به‌صورت آیکون در صفحه‌ی اول، به‌جای دو پوشه‌ی
+ERPNext و چارچوب:
+
+```bash
+docker compose exec backend bench --site frontend execute iran_erp.desktop.use_icon_grid
+```
+
 برای اتصال دامنه و HTTPS از راهنمای
 [frappe_docker](https://github.com/frappe/frappe_docker/tree/main/docs) استفاده کنید.
 
