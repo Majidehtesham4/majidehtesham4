@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "creation": "2026-10-12 17:29:24.641132",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "jalali_date_input"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "description": "Date fields show and accept Jalali dates (e.g. 1405/07/19) with a Jalali calendar. Dates are still stored in Gregorian.",
+   "fieldname": "jalali_date_input",
+   "fieldtype": "Check",
+   "label": "Enter Dates in the Jalali Calendar"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-12 17:29:24.641132",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran ERP Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

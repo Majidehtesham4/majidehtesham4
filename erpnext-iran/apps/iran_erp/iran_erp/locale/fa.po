@@ -10529,3 +10529,16 @@ msgstr "دستیار فقط می‌تواند اسناد پیش‌نویس را 
 
 msgid "No permission to read {0}"
 msgstr "اجازه خواندن {0} را ندارید"
+
+#: iran_erp/public/js/jalali.js
+msgid "Invalid Jalali date: {0}"
+msgstr "تاریخ شمسی نامعتبر است: {0}"
+
+msgid "Iran ERP Settings"
+msgstr "تنظیمات ایرانی"
+
+msgid "Enter Dates in the Jalali Calendar"
+msgstr "ورود تاریخ‌ها به شمسی"
+
+msgid "Date fields show and accept Jalali dates (e.g. 1405/07/19) with a Jalali calendar. Dates are still stored in Gregorian."
+msgstr "فیلدهای تاریخ، تاریخ شمسی (مثلاً ۱۴۰۵/۰۷/۱۹) را با تقویم شمسی نشان می‌دهند و می‌پذیرند. تاریخ‌ها همچنان به میلادی ذخیره می‌شوند."

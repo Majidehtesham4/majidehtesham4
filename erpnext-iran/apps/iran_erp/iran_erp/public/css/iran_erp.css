@@ -115,3 +115,67 @@
 	height: 64px;
 	min-height: 64px;
 }
+
+/* Jalali date picker */
+.iran-jalali-picker {
+	position: absolute;
+	z-index: 1060;
+	width: 252px;
+	padding: 8px;
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md);
+	box-shadow: var(--shadow-lg);
+	font-size: var(--text-sm);
+	user-select: none;
+}
+.iran-jalali-nav,
+.iran-jalali-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 2px 4px 6px;
+}
+.iran-jalali-nav [data-action],
+.iran-jalali-footer [data-action] {
+	cursor: pointer;
+	padding: 2px 8px;
+	border-radius: var(--border-radius-sm);
+}
+.iran-jalali-nav [data-action] {
+	font-size: 18px;
+	line-height: 1;
+}
+.iran-jalali-nav [data-action]:hover,
+.iran-jalali-footer [data-action]:hover,
+.iran-jalali-day:hover {
+	background: var(--control-bg);
+}
+.iran-jalali-grid {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	gap: 2px;
+	text-align: center;
+}
+.iran-jalali-weekday {
+	color: var(--text-muted);
+	padding: 4px 0;
+}
+.iran-jalali-day {
+	cursor: pointer;
+	padding: 5px 0;
+	border-radius: var(--border-radius-sm);
+}
+.iran-jalali-day.today {
+	font-weight: 700;
+	color: var(--primary);
+}
+.iran-jalali-day.selected {
+	background: var(--primary);
+	color: var(--white, #fff);
+}
+.iran-jalali-footer {
+	border-top: 1px solid var(--border-color);
+	margin-top: 6px;
+	padding-top: 6px;
+}
