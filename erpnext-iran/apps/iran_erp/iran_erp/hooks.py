@@ -35,7 +35,7 @@ required_apps = ["frappe/erpnext"]
 
 # include js, css files in header of desk.html
 app_include_css = "/assets/iran_erp/css/iran_erp.css"
-app_include_js = "/assets/iran_erp/js/jalali.js"
+app_include_js = ["/assets/iran_erp/js/jalali.js", "/assets/iran_erp/js/ai_assistant.js"]
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
 
 # include js, css files in header of web template
@@ -272,3 +272,5 @@ doc_events = {
 # ------------
 # List of apps whose translatable strings should be excluded from this app's translations.
 # ignore_translatable_strings_from = []
+
+boot_session = "iran_erp.boot.boot_session"

@@ -10402,3 +10402,130 @@ msgstr "{0}: مقدار تایپ‌شده {1} را از فهرست انتخاب 
 
 msgid "Dismiss"
 msgstr "بستن"
+
+# AI assistant
+msgid "AI Assistant"
+msgstr "دستیار هوشمند"
+
+msgid "New Chat"
+msgstr "گفتگوی جدید"
+
+msgid "Ask a question or describe what to do…"
+msgstr "سؤال بپرسید یا بگویید چه کاری انجام شود…"
+
+msgid "Send"
+msgstr "ارسال"
+
+msgid "Hello! I can look up records, run reports, prepare draft documents and web pages, and export to Excel. What do you need?"
+msgstr "سلام! می‌توانم اطلاعات را جستجو کنم، گزارش بگیرم، سند و صفحه وب پیش‌نویس آماده کنم و خروجی Excel بدهم. چه کمکی از دستم برمی‌آید؟"
+
+msgid "Download"
+msgstr "دانلود"
+
+msgid "Thinking…"
+msgstr "در حال بررسی…"
+
+msgid "Something went wrong."
+msgstr "مشکلی پیش آمد."
+
+msgid "The assistant is taking too long. Please try again."
+msgstr "پاسخ دستیار بیش از حد طول کشید. لطفاً دوباره تلاش کنید."
+
+msgid "Test Connection"
+msgstr "آزمایش اتصال"
+
+msgid "Contacting the AI service…"
+msgstr "در حال ارتباط با سرویس هوش مصنوعی…"
+
+msgid "Iran AI Settings"
+msgstr "تنظیمات دستیار هوشمند"
+
+msgid "Iran AI Request"
+msgstr "درخواست دستیار هوشمند"
+
+msgid "Enable AI Assistant"
+msgstr "فعال کردن دستیار هوشمند"
+
+msgid "OpenRouter API Key"
+msgstr "کلید API اپن‌روتر (OpenRouter)"
+
+msgid "Create a key at openrouter.ai/keys"
+msgstr "کلید را از openrouter.ai/keys بسازید"
+
+msgid "Model ID from openrouter.ai/models, e.g. anthropic/claude-opus-5.5"
+msgstr "شناسه مدل از openrouter.ai/models، مثلاً anthropic/claude-opus-5.5"
+
+msgid "Max Tool Steps per Question"
+msgstr "حداکثر مراحل ابزار برای هر سؤال"
+
+msgid "Extra Instructions for the Assistant"
+msgstr "دستورالعمل‌های اضافی برای دستیار"
+
+msgid "Anything the assistant should always know or follow, e.g. tone of voice or company facts"
+msgstr "هر چیزی که دستیار باید همیشه بداند یا رعایت کند، مثلاً لحن نوشتن یا اطلاعات شرکت"
+
+msgid "API Base URL"
+msgstr "نشانی پایه API"
+
+msgid "Previous Request"
+msgstr "درخواست قبلی"
+
+msgid "Total Tokens"
+msgstr "مجموع توکن‌ها"
+
+msgid "Question"
+msgstr "سؤال"
+
+msgid "Answer"
+msgstr "پاسخ"
+
+msgid "Conversation"
+msgstr "گفتگو"
+
+msgid "Actions"
+msgstr "اقدامات"
+
+msgid "Queued"
+msgstr "در صف"
+
+msgid "Running"
+msgstr "در حال اجرا"
+
+msgid "Done"
+msgstr "انجام شد"
+
+msgid "The AI assistant is disabled in Iran AI Settings."
+msgstr "دستیار هوشمند در تنظیمات دستیار هوشمند غیرفعال است."
+
+msgid "Set the OpenRouter API key in Iran AI Settings first."
+msgstr "ابتدا کلید API اپن‌روتر را در تنظیمات دستیار هوشمند وارد کنید."
+
+msgid "Could not reach the AI service: {0}"
+msgstr "ارتباط با سرویس هوش مصنوعی برقرار نشد: {0}"
+
+msgid "The AI service returned an error ({0}): {1}"
+msgstr "سرویس هوش مصنوعی خطا برگرداند ({0}): {1}"
+
+msgid "The AI service returned an empty response."
+msgstr "سرویس هوش مصنوعی پاسخ خالی برگرداند."
+
+msgid "Please write a question."
+msgstr "لطفاً سؤال خود را بنویسید."
+
+msgid "Model {0} was not found on OpenRouter. Some available models: {1}"
+msgstr "مدل {0} در اپن‌روتر پیدا نشد. برخی مدل‌های موجود: {1}"
+
+msgid "Connection works. Model {0} replied: {1}"
+msgstr "اتصال برقرار است. مدل {0} پاسخ داد: {1}"
+
+msgid "The assistant needed more steps than allowed. Try a narrower question."
+msgstr "دستیار به مراحل بیشتری از حد مجاز نیاز داشت. سؤال را محدودتر بپرسید."
+
+msgid "The assistant is not allowed to create or change {0} records."
+msgstr "دستیار اجازه ایجاد یا تغییر رکوردهای {0} را ندارد."
+
+msgid "Only draft documents can be changed by the assistant."
+msgstr "دستیار فقط می‌تواند اسناد پیش‌نویس را تغییر دهد."
+
+msgid "No permission to read {0}"
+msgstr "اجازه خواندن {0} را ندارید"

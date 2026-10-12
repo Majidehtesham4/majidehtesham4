@@ -1,0 +1,74 @@
+"""Minimal client for OpenRouter's OpenAI-compatible chat completions API."""
+
+import frappe
+import requests
+from frappe import _
+
+TIMEOUT_SECONDS = 180
+
+
+class AIError(Exception):
+	pass
+
+
+def get_settings():
+	settings = frappe.get_cached_doc("Iran AI Settings")
+	if not settings.enabled:
+		raise AIError(_("The AI assistant is disabled in Iran AI Settings."))
+	api_key = settings.get_password("api_key", raise_exception=False)
+	if not api_key:
+		raise AIError(_("Set the OpenRouter API key in Iran AI Settings first."))
+	return frappe._dict(
+		api_key=api_key,
+		model=settings.model or "anthropic/claude-opus-5.5",
+		base_url=(settings.base_url or "https://openrouter.ai/api/v1").rstrip("/"),
+		max_steps=settings.max_steps or 8,
+		instructions=settings.assistant_instructions or "",
+	)
+
+
+def chat_completion(settings, messages: list, tools: list | None = None) -> dict:
+	"""Send one chat completion request and return the response JSON."""
+	payload = {"model": settings.model, "messages": messages}
+	if tools:
+		payload["tools"] = tools
+		payload["tool_choice"] = "auto"
+
+	try:
+		response = requests.post(
+			f"{settings.base_url}/chat/completions",
+			headers={
+				"Authorization": f"Bearer {settings.api_key}",
+				"Content-Type": "application/json",
+				# Optional OpenRouter headers that label the traffic in the OpenRouter dashboard
+				"HTTP-Referer": frappe.utils.get_url(),
+				"X-Title": "Iran ERP",
+			},
+			json=payload,
+			timeout=TIMEOUT_SECONDS,
+		)
+	except requests.RequestException as e:
+		raise AIError(_("Could not reach the AI service: {0}").format(e)) from e
+
+	try:
+		data = response.json()
+	except ValueError:
+		data = {}
+
+	if response.status_code != 200 or "error" in data:
+		error = data.get("error") or {}
+		message = error.get("message") if isinstance(error, dict) else str(error)
+		raise AIError(
+			_("The AI service returned an error ({0}): {1}").format(
+				response.status_code, message or response.text[:300]
+			)
+		)
+	if not data.get("choices"):
+		raise AIError(_("The AI service returned an empty response."))
+	return data
+
+
+def list_models(base_url: str) -> list[str]:
+	response = requests.get(f"{base_url.rstrip('/')}/models", timeout=30)
+	response.raise_for_status()
+	return [m["id"] for m in response.json().get("data", [])]
