@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-10-12 21:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "cheques_receivable_account",
+  "cheques_in_collection_account",
+  "cheques_payable_account"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cheques_receivable_account",
+   "fieldtype": "Link",
+   "label": "Cheques Receivable",
+   "options": "Account",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cheques_in_collection_account",
+   "fieldtype": "Link",
+   "label": "Cheques in Collection",
+   "options": "Account",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "cheques_payable_account",
+   "fieldtype": "Link",
+   "label": "Cheques Payable",
+   "options": "Account",
+   "in_list_view": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-12 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Cheque Account",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

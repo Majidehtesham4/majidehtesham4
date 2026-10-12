@@ -10558,3 +10558,169 @@ msgstr "نرخ مالیات بر ارزش افزوده"
 
 msgid "Used for the VAT templates created with the Iranian chart of accounts. Check the rate in the current budget law."
 msgstr "برای الگوهای مالیاتی که همراه کدینگ حسابداری ایران ساخته می‌شوند. نرخ را با قانون بودجه‌ی سال جاری تطبیق دهید."
+
+#: iran_erp/iran_erp/doctype/iran_cheque
+msgid "Iran Cheque"
+msgstr "چک"
+
+msgid "Iran Cheque Log"
+msgstr "گردش چک"
+
+msgid "Iran Cheque Account"
+msgstr "حساب‌های چک"
+
+msgid "Cheques Receivable"
+msgstr "اسناد دریافتنی"
+
+msgid "Cheques in Collection"
+msgstr "اسناد در جریان وصول"
+
+msgid "Cheques Payable"
+msgstr "اسناد پرداختنی"
+
+msgid "Cheque Type"
+msgstr "نوع چک"
+
+msgid "Issued"
+msgstr "صادر شده"
+
+msgid "Cleared"
+msgstr "وصول شده"
+
+msgid "Posting Date"
+msgstr "تاریخ ثبت"
+
+msgid "In Hand"
+msgstr "در صندوق"
+
+msgid "Deposited"
+msgstr "واگذار شده به بانک"
+
+msgid "Endorsed"
+msgstr "واگذار شده به شخص ثالث"
+
+msgid "Cheque Details"
+msgstr "مشخصات چک"
+
+msgid "Sayad ID"
+msgstr "شناسه صیادی"
+
+msgid "The 16-digit Sayad number printed on the cheque"
+msgstr "شناسه‌ی ۱۶ رقمی صیادی که روی چک چاپ شده است"
+
+msgid "When the cheque was received or handed over"
+msgstr "تاریخ دریافت یا تحویل چک"
+
+msgid "Drawer Bank"
+msgstr "بانک صادرکننده"
+
+msgid "The bank the cheque is drawn on"
+msgstr "بانکی که چک از آن کشیده شده است"
+
+msgid "Branch"
+msgstr "شعبه"
+
+msgid "Account Holder"
+msgstr "صاحب حساب"
+
+msgid "For issued cheques: the account the cheque is drawn on. For received cheques: the account they are deposited or cleared into."
+msgstr "برای چک پرداختی: حسابی که چک از آن صادر شده است. برای چک دریافتی: حسابی که چک به آن واگذار یا وصول می‌شود."
+
+msgid "Against Document Type"
+msgstr "نوع سند مرتبط"
+
+msgid "Against Invoice"
+msgstr "فاکتور مرتبط"
+
+msgid "Cheque Account"
+msgstr "حساب چک"
+
+msgid "Cheques receivable or cheques payable, set when the cheque is registered"
+msgstr "اسناد دریافتنی یا اسناد پرداختنی؛ هنگام ثبت چک تعیین می‌شود"
+
+msgid "Endorsed To Type"
+msgstr "نوع گیرنده‌ی چک"
+
+msgid "Endorsed To"
+msgstr "گیرنده‌ی چک"
+
+msgid "History"
+msgstr "گردش"
+
+msgid "From Status"
+msgstr "از وضعیت"
+
+msgid "To Status"
+msgstr "به وضعیت"
+
+msgid "Cheques"
+msgstr "چک‌ها"
+
+msgid "Cheque Accounts"
+msgstr "حساب‌های چک"
+
+msgid "Leave empty for companies on the Iranian chart of accounts; accounts 1302, 1303 and 3102 are used."
+msgstr "برای شرکت‌هایی که کدینگ حسابداری ایران دارند خالی بگذارید؛ حساب‌های ۱۳۰۲، ۱۳۰۳ و ۳۱۰۲ استفاده می‌شوند."
+
+msgid "Amount must be more than zero"
+msgstr "مبلغ باید بیشتر از صفر باشد"
+
+msgid "Sayad ID must be 16 digits"
+msgstr "شناسه صیادی باید ۱۶ رقم باشد"
+
+msgid "Set the bank account the cheque is drawn on"
+msgstr "حساب بانکی‌ای را که چک از آن صادر شده است مشخص کنید"
+
+msgid "A {0} cheque can only be against a {1}"
+msgstr "چک {0} فقط می‌تواند مربوط به {1} باشد"
+
+msgid "{0} is not a submitted invoice of this party"
+msgstr "{0} فاکتور ثبت‌شده‌ی این طرف حساب نیست"
+
+msgid "Receive Cheque"
+msgstr "دریافت چک"
+
+msgid "Issue Cheque"
+msgstr "صدور چک"
+
+msgid "Submit the cheque first"
+msgstr "ابتدا چک را ثبت نهایی کنید"
+
+msgid "Unknown action {0}"
+msgstr "عملیات ناشناخته: {0}"
+
+msgid "A cheque in status {0} cannot be {1}"
+msgstr "چکی که در وضعیت «{0}» است نمی‌تواند «{1}» شود"
+
+msgid "The date cannot be before the posting date of the cheque"
+msgstr "تاریخ نمی‌تواند قبل از تاریخ ثبت چک باشد"
+
+msgid "Deposit to Bank"
+msgstr "واگذاری به بانک"
+
+msgid "Mark as Cleared"
+msgstr "وصول / پاس شد"
+
+msgid "Mark as Bounced"
+msgstr "برگشت خورد"
+
+msgid "Return to Party"
+msgstr "عودت به طرف حساب"
+
+msgid "Endorse to Third Party"
+msgstr "واگذاری به شخص ثالث (خرج چک)"
+
+msgid "Choose who the cheque is endorsed to"
+msgstr "مشخص کنید چک به چه کسی واگذار می‌شود"
+
+msgid "Set the bank account first"
+msgstr "ابتدا حساب بانکی را مشخص کنید"
+
+msgid "{0} cheque {1} ({2}): {3}"
+msgstr "چک {0} شماره {1} ({2}): {3}"
+
+msgid "Set the {0} account for {1} in Iran ERP Settings"
+msgstr "حساب «{0}» را برای {1} در «تنظیمات ایرانی» مشخص کنید"
+
+msgid "{0} is not a bank or cash account of {1}"
+msgstr "{0} حساب بانک یا صندوق {1} نیست"

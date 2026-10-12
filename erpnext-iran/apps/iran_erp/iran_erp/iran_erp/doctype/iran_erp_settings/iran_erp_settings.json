@@ -8,7 +8,9 @@
  "field_order": [
   "jalali_date_input",
   "accounting_section",
-  "vat_rate"
+  "vat_rate",
+  "cheque_section",
+  "cheque_accounts"
  ],
  "fields": [
   {
@@ -29,13 +31,25 @@
    "fieldname": "vat_rate",
    "fieldtype": "Percent",
    "label": "VAT Rate"
+  },
+  {
+   "fieldname": "cheque_section",
+   "fieldtype": "Section Break",
+   "label": "Cheques"
+  },
+  {
+   "description": "Leave empty for companies on the Iranian chart of accounts; accounts 1302, 1303 and 3102 are used.",
+   "fieldname": "cheque_accounts",
+   "fieldtype": "Table",
+   "label": "Cheque Accounts",
+   "options": "Iran Cheque Account"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-12 20:00:00.000000",
+ "modified": "2026-10-12 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran ERP Settings",

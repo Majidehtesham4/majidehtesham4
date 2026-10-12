@@ -1,0 +1,327 @@
+{
+ "actions": [],
+ "creation": "2026-10-12 21:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "cheque_type",
+  "company",
+  "status",
+  "column_break_party",
+  "party_type",
+  "party",
+  "party_name",
+  "section_cheque",
+  "cheque_number",
+  "sayad_id",
+  "amount",
+  "currency",
+  "column_break_dates",
+  "posting_date",
+  "due_date",
+  "drawer_bank",
+  "drawer_branch",
+  "account_holder",
+  "section_accounting",
+  "bank_account",
+  "against_doctype",
+  "against_invoice",
+  "column_break_accounting",
+  "cheque_account",
+  "endorsed_to_type",
+  "endorsed_to",
+  "section_history",
+  "history",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CHQ-.YYYY.-",
+   "default": "CHQ-.YYYY.-",
+   "reqd": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "cheque_type",
+   "fieldtype": "Select",
+   "label": "Cheque Type",
+   "options": "Received\nIssued",
+   "default": "Received",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "remember_last_selected_value": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nIn Hand\nDeposited\nIssued\nCleared\nBounced\nReturned\nEndorsed\nCancelled",
+   "default": "Draft",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "no_copy": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_party",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "party_type",
+   "fieldtype": "Select",
+   "label": "Party Type",
+   "options": "Customer\nSupplier\nEmployee\nShareholder",
+   "reqd": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "party_type",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "party_name",
+   "fieldtype": "Data",
+   "label": "Party Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_cheque",
+   "fieldtype": "Section Break",
+   "label": "Cheque Details"
+  },
+  {
+   "fieldname": "cheque_number",
+   "fieldtype": "Data",
+   "label": "Cheque Number",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "sayad_id",
+   "fieldtype": "Data",
+   "label": "Sayad ID",
+   "length": 16,
+   "description": "The 16-digit Sayad number printed on the cheque",
+   "in_global_search": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "options": "currency",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1,
+   "fetch_from": "company.default_currency",
+   "hidden": 1
+  },
+  {
+   "fieldname": "column_break_dates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1,
+   "default": "Today",
+   "description": "When the cheque was received or handed over"
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "drawer_bank",
+   "fieldtype": "Data",
+   "label": "Drawer Bank",
+   "description": "The bank the cheque is drawn on"
+  },
+  {
+   "fieldname": "drawer_branch",
+   "fieldtype": "Data",
+   "label": "Branch"
+  },
+  {
+   "fieldname": "account_holder",
+   "fieldtype": "Data",
+   "label": "Account Holder"
+  },
+  {
+   "fieldname": "section_accounting",
+   "fieldtype": "Section Break",
+   "label": "Accounting"
+  },
+  {
+   "fieldname": "bank_account",
+   "fieldtype": "Link",
+   "label": "Bank Account",
+   "options": "Account",
+   "description": "For issued cheques: the account the cheque is drawn on. For received cheques: the account they are deposited or cleared into.",
+   "allow_on_submit": 1
+  },
+  {
+   "fieldname": "against_doctype",
+   "fieldtype": "Select",
+   "label": "Against Document Type",
+   "options": "\nSales Invoice\nPurchase Invoice"
+  },
+  {
+   "fieldname": "against_invoice",
+   "fieldtype": "Dynamic Link",
+   "label": "Against Invoice",
+   "options": "against_doctype"
+  },
+  {
+   "fieldname": "column_break_accounting",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cheque_account",
+   "fieldtype": "Link",
+   "label": "Cheque Account",
+   "options": "Account",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "Cheques receivable or cheques payable, set when the cheque is registered"
+  },
+  {
+   "fieldname": "endorsed_to_type",
+   "fieldtype": "Select",
+   "label": "Endorsed To Type",
+   "options": "\nSupplier\nCustomer\nEmployee",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "endorsed_to",
+   "fieldtype": "Dynamic Link",
+   "label": "Endorsed To",
+   "options": "endorsed_to_type",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "section_history",
+   "fieldtype": "Section Break",
+   "label": "History"
+  },
+  {
+   "fieldname": "history",
+   "fieldtype": "Table",
+   "label": "History",
+   "options": "Iran Cheque Log",
+   "read_only": 1,
+   "allow_on_submit": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Iran Cheque",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-12 21:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Cheque",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "amend": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "amend": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "submit": 1,
+   "cancel": 1,
+   "delete": 0,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "amend": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "is_submittable": 1,
+ "autoname": "naming_series:",
+ "track_changes": 1,
+ "title_field": "party_name",
+ "show_title_field_in_link": 0,
+ "search_fields": "cheque_number,party_name,sayad_id,due_date",
+ "naming_rule": "By \"Naming Series\" field"
+}
