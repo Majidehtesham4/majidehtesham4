@@ -1,10 +1,13 @@
 import frappe
 from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
 
+from iran_erp.accounts.chart import install_chart_template
+
 
 def after_install():
 	create_custom_fields(get_custom_fields(), update=True)
 	setup_rial()
+	install_chart_template()
 
 
 def get_custom_fields():

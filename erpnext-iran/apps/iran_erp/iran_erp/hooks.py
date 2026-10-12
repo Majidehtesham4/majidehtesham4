@@ -100,6 +100,7 @@ jinja = {
 
 # before_install = "iran_erp.install.before_install"
 after_install = "iran_erp.install.after_install"
+after_migrate = "iran_erp.accounts.chart.install_chart_template"
 
 # Uninstallation
 # ------------
@@ -160,7 +161,10 @@ after_install = "iran_erp.install.after_install"
 doc_events = {
 	"Customer": {"validate": "iran_erp.validations.validate_iranian_ids"},
 	"Supplier": {"validate": "iran_erp.validations.validate_iranian_ids"},
-	"Company": {"validate": "iran_erp.validations.validate_iranian_ids"},
+	"Company": {
+		"validate": "iran_erp.validations.validate_iranian_ids",
+		"on_update": "iran_erp.accounts.chart.on_company_update",
+	},
 }
 
 # Scheduled Tasks

@@ -10542,3 +10542,19 @@ msgstr "ورود تاریخ‌ها به شمسی"
 
 msgid "Date fields show and accept Jalali dates (e.g. 1405/07/19) with a Jalali calendar. Dates are still stored in Gregorian."
 msgstr "فیلدهای تاریخ، تاریخ شمسی (مثلاً ۱۴۰۵/۰۷/۱۹) را با تقویم شمسی نشان می‌دهند و می‌پذیرند. تاریخ‌ها همچنان به میلادی ذخیره می‌شوند."
+
+#: iran_erp/iran_erp/doctype/iran_erp_settings/iran_erp_settings.js
+msgid "Apply Iranian Chart of Accounts"
+msgstr "اعمال کدینگ حسابداری ایران"
+
+msgid "All accounts and tax templates of {0} will be deleted and replaced with the Iranian chart of accounts. This only works for a company without transactions. Continue?"
+msgstr "همه‌ی حساب‌ها و الگوهای مالیاتی {0} حذف و با کدینگ حسابداری ایران جایگزین می‌شوند. این کار فقط برای شرکتی که هنوز هیچ سندی ندارد ممکن است. ادامه می‌دهید؟"
+
+msgid "The Iranian chart of accounts with {0} accounts was created."
+msgstr "کدینگ حسابداری ایران با {0} حساب ساخته شد."
+
+msgid "VAT Rate"
+msgstr "نرخ مالیات بر ارزش افزوده"
+
+msgid "Used for the VAT templates created with the Iranian chart of accounts. Check the rate in the current budget law."
+msgstr "برای الگوهای مالیاتی که همراه کدینگ حسابداری ایران ساخته می‌شوند. نرخ را با قانون بودجه‌ی سال جاری تطبیق دهید."

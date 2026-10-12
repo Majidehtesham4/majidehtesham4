@@ -6,7 +6,9 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "jalali_date_input"
+  "jalali_date_input",
+  "accounting_section",
+  "vat_rate"
  ],
  "fields": [
   {
@@ -15,13 +17,25 @@
    "fieldname": "jalali_date_input",
    "fieldtype": "Check",
    "label": "Enter Dates in the Jalali Calendar"
+  },
+  {
+   "fieldname": "accounting_section",
+   "fieldtype": "Section Break",
+   "label": "Accounting"
+  },
+  {
+   "default": "10",
+   "description": "Used for the VAT templates created with the Iranian chart of accounts. Check the rate in the current budget law.",
+   "fieldname": "vat_rate",
+   "fieldtype": "Percent",
+   "label": "VAT Rate"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-12 17:29:24.641132",
+ "modified": "2026-10-12 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran ERP Settings",
