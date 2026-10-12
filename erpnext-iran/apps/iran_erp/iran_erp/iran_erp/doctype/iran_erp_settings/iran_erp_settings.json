@@ -10,7 +10,9 @@
   "accounting_section",
   "vat_rate",
   "cheque_section",
-  "cheque_accounts"
+  "cheque_accounts",
+  "moadian_section",
+  "moadian_memory_id"
  ],
  "fields": [
   {
@@ -43,13 +45,25 @@
    "fieldtype": "Table",
    "label": "Cheque Accounts",
    "options": "Iran Cheque Account"
+  },
+  {
+   "fieldname": "moadian_section",
+   "fieldtype": "Section Break",
+   "label": "Moadian (Electronic Invoices)"
+  },
+  {
+   "description": "The 6-character tax memory ID (شناسه یکتای حافظه مالیاتی) issued in the taxpayer's Karpusheh. Used to build each invoice's 22-character tax number.",
+   "fieldname": "moadian_memory_id",
+   "fieldtype": "Data",
+   "length": 6,
+   "label": "Tax Memory ID"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-12 21:00:00.000000",
+ "modified": "2026-10-12 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran ERP Settings",

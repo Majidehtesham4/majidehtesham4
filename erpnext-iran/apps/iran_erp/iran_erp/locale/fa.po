@@ -10755,3 +10755,79 @@ msgstr "{0} حساب بانکی نیست"
 
 msgid "The invoice has no items"
 msgstr "فاکتور هیچ ردیفی ندارد"
+
+#: iran_erp/moadian
+msgid "Moadian"
+msgstr "سامانه مؤدیان"
+
+msgid "Moadian Invoice"
+msgstr "صورتحساب الکترونیکی مؤدیان"
+
+msgid "Prepare for Moadian"
+msgstr "آماده‌سازی برای سامانه مؤدیان"
+
+msgid "Tax Number"
+msgstr "شماره منحصر به فرد مالیاتی"
+
+msgid "Not assigned yet"
+msgstr "هنوز تعیین نشده"
+
+msgid "Fix these before sending:"
+msgstr "پیش از ارسال این موارد را اصلاح کنید:"
+
+msgid "Signing and sending to the tax organization is not built in yet; this data has not been tested against the live service."
+msgstr "امضا و ارسال به سازمان امور مالیاتی هنوز پیاده‌سازی نشده است و این داده با سامانه‌ی واقعی آزمایش نشده است."
+
+msgid "Download JSON"
+msgstr "دانلود JSON"
+
+msgid "Product/Service ID (Moadian)"
+msgstr "شناسه کالا/خدمت (مؤدیان)"
+
+msgid "13-digit product or service ID from the tax organization's catalogue"
+msgstr "شناسه‌ی ۱۳ رقمی کالا یا خدمت از سامانه‌ی شناسه‌ی کالا و خدمات سازمان امور مالیاتی"
+
+msgid "Moadian Unit Code"
+msgstr "کد واحد اندازه‌گیری (مؤدیان)"
+
+msgid "Unit of measure code in the tax organization's list"
+msgstr "کد واحد اندازه‌گیری در فهرست سازمان امور مالیاتی"
+
+msgid "Tax Number (Moadian)"
+msgstr "شماره منحصر به فرد مالیاتی"
+
+msgid "Moadian Serial"
+msgstr "سریال داخلی مؤدیان"
+
+msgid "Moadian (Electronic Invoices)"
+msgstr "سامانه مؤدیان (صورتحساب الکترونیکی)"
+
+msgid "Tax Memory ID"
+msgstr "شناسه یکتای حافظه مالیاتی"
+
+msgid "The 6-character tax memory ID (شناسه یکتای حافظه مالیاتی) issued in the taxpayer's Karpusheh. Used to build each invoice's 22-character tax number."
+msgstr "شناسه‌ی ۶ کاراکتری حافظه‌ی مالیاتی که در کارپوشه‌ی مؤدی صادر می‌شود. شماره‌ی منحصر به فرد ۲۲ کاراکتری هر صورتحساب با آن ساخته می‌شود."
+
+msgid "Only rial invoices are supported; this one is in {0}"
+msgstr "فقط صورتحساب ریالی پشتیبانی می‌شود؛ این صورتحساب به {0} است"
+
+msgid "Set the tax memory ID in Iran ERP Settings"
+msgstr "شناسه یکتای حافظه مالیاتی را در «تنظیمات ایرانی» وارد کنید"
+
+msgid "Set the company's economic code"
+msgstr "کد اقتصادی شرکت را وارد کنید"
+
+msgid "Row {0}: set the 13-digit product/service ID of item {1}"
+msgstr "ردیف {0}: شناسه‌ی ۱۳ رقمی کالا/خدمت را برای {1} وارد کنید"
+
+msgid "Row {0}: set the Moadian unit code of unit {1}"
+msgstr "ردیف {0}: کد واحد مؤدیان را برای واحد {1} وارد کنید"
+
+msgid "The computed total {0} differs from the invoice total {1}; check taxes that are not VAT"
+msgstr "جمع محاسبه‌شده {0} با جمع صورتحساب {1} فرق دارد؛ مالیات‌ها و عوارض غیر از ارزش افزوده را بررسی کنید"
+
+msgid "The invoice this return is against has no tax number yet"
+msgstr "صورتحسابِ اصلیِ این برگشت از فروش هنوز شماره‌ی مالیاتی ندارد"
+
+msgid "Submit the invoice first"
+msgstr "ابتدا صورتحساب را ثبت نهایی کنید"

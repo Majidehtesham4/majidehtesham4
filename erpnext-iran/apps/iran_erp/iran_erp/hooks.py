@@ -36,6 +36,7 @@ required_apps = ["frappe/erpnext"]
 # include js, css files in header of desk.html
 app_include_css = "/assets/iran_erp/css/iran_erp.css"
 app_include_js = ["/assets/iran_erp/js/jalali.js", "/assets/iran_erp/js/ai_assistant.js"]
+doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
 
 # include js, css files in header of web template

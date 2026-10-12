@@ -26,7 +26,50 @@ def get_custom_fields():
 			"insert_after": "iran_national_id",
 		},
 	]
-	return {doctype: iranian_ids for doctype in ("Customer", "Supplier", "Company")}
+	fields = {doctype: list(iranian_ids) for doctype in ("Customer", "Supplier", "Company")}
+	# Electronic invoices for the tax organization (سامانه مؤدیان)
+	fields["Item"] = [
+		{
+			"fieldname": "iran_sstid",
+			"label": "Product/Service ID (Moadian)",
+			"fieldtype": "Data",
+			"length": 13,
+			"insert_after": "item_group",
+			"description": "13-digit product or service ID from the tax organization's catalogue",
+		}
+	]
+	fields["UOM"] = [
+		{
+			"fieldname": "iran_moadian_unit_code",
+			"label": "Moadian Unit Code",
+			"fieldtype": "Data",
+			"insert_after": "uom_name",
+			"description": "Unit of measure code in the tax organization's list",
+		}
+	]
+	fields["Sales Invoice"] = [
+		{
+			"fieldname": "iran_tax_id",
+			"label": "Tax Number (Moadian)",
+			"fieldtype": "Data",
+			"insert_after": "due_date",
+			"read_only": 1,
+			"no_copy": 1,
+			"allow_on_submit": 1,
+			"in_standard_filter": 1,
+		},
+		{
+			"fieldname": "iran_moadian_serial",
+			"label": "Moadian Serial",
+			"fieldtype": "Int",
+			"insert_after": "iran_tax_id",
+			"read_only": 1,
+			"no_copy": 1,
+			"allow_on_submit": 1,
+			"hidden": 1,
+		},
+	]
+	return fields
 
 
 def setup_rial():
