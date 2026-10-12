@@ -10,6 +10,7 @@ Run with:
 
 import frappe
 from frappe.desk.doctype.desktop_settings.desktop_settings import seed_desktop_icons
+from frappe.utils.new_navigation_nudge import skip_new_navigation_prompt
 
 APP_FOLDERS = ("ERPNext", "Framework", "Frappe Framework")
 # Icons that duplicate another icon or only hold settings
@@ -23,6 +24,10 @@ def use_icon_grid(icon_style: str = "Solid"):
 	settings.desktop_page = "Desktop Icons"
 	settings.icon_style = icon_style
 	settings.save()
+
+	# On the icon grid Frappe offers a one-time "Try the new navigation" dialog whose
+	# "Try it" button switches the site straight back to the Apps page
+	skip_new_navigation_prompt()
 
 	# Normally enqueued by Desktop Settings; run it now so the grid exists right away
 	seed_desktop_icons()
