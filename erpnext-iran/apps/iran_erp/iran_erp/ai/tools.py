@@ -15,7 +15,10 @@ from frappe.utils import get_url_to_form
 from frappe.utils.html_utils import sanitize_html
 from frappe.utils.xlsxutils import make_xlsx
 
+from iran_erp.ai.bank import match_bank_statement
+from iran_erp.ai.files import get_file, parse_date, read_table
 from iran_erp.utils.jalali import format_jalali
+from iran_erp.utils.national_id import normalize_digits
 
 MAX_ROWS = 200
 MAX_TEXT = 2000
@@ -222,6 +225,156 @@ def export_excel(title: str, columns: list, rows: list):
 	return {"file_url": file.file_url, "file_name": file.file_name}
 
 
+def read_table_file(file_url: str, max_rows: int = 15):
+	"""The first rows of an attached CSV or Excel file, to see its columns."""
+	rows = read_table(get_file(file_url))
+	return {
+		"total_rows": len(rows),
+		"first_rows": _value([[_cell(c) for c in row] for row in rows[: min(int(max_rows or 15), 50)]]),
+	}
+
+
+def _cell(value):
+	if isinstance(value, float) and value.is_integer():
+		return int(value)
+	return value
+
+
+def find_party(
+	doctype: str, name: str | None = None, economic_code: str | None = None, national_id: str | None = None
+):
+	"""A customer or supplier by economic code, national ID or name."""
+	meta = frappe.get_meta(doctype)
+	for field, value in (
+		("iran_economic_code", economic_code),
+		("iran_national_id", national_id),
+		("tax_id", economic_code),
+	):
+		value = normalize_digits(value or "").strip()
+		if value and meta.has_field(field):
+			found = frappe.get_list(doctype, filters={field: value}, pluck="name", limit=1)
+			if found:
+				return found[0]
+	if name:
+		name_field = "supplier_name" if doctype == "Supplier" else "customer_name"
+		found = frappe.get_list(
+			doctype, filters={name_field: ["like", f"%{name.strip()}%"]}, pluck="name", limit=2
+		)
+		if len(found) == 1:
+			return found[0]
+	return None
+
+
+def create_purchase_invoice_draft(
+	items: list,
+	supplier: str | None = None,
+	supplier_name: str | None = None,
+	supplier_economic_code: str | None = None,
+	supplier_national_id: str | None = None,
+	bill_no: str | None = None,
+	bill_date: str | None = None,
+	company: str | None = None,
+	apply_vat: bool = False,
+	invoice_total: float | None = None,
+	file_url: str | None = None,
+):
+	"""A draft purchase invoice from what was read off a supplier's invoice."""
+	_check_writable("Purchase Invoice")
+	if not (supplier and frappe.db.exists("Supplier", supplier)):
+		supplier = find_party(
+			"Supplier", supplier_name or supplier, supplier_economic_code, supplier_national_id
+		)
+	if not supplier:
+		return {
+			"error": "Supplier not found. Ask the user which supplier this is, or whether to create it "
+			"(create_draft_document with doctype Supplier), then call this tool again with supplier."
+		}
+	company = (
+		company
+		or frappe.defaults.get_user_default("Company")
+		or frappe.db.get_single_value("Global Defaults", "default_company")
+	)
+	expense_account = frappe.get_cached_value("Company", company, "default_expense_account")
+	rows = []
+	for item in items or []:
+		row = {
+			"qty": item.get("qty") or 1,
+			"rate": item.get("rate") or 0,
+			"discount_amount": item.get("discount_amount") or 0,
+		}
+		item_code = item.get("item_code")
+		if item_code and frappe.db.exists("Item", item_code):
+			row["item_code"] = item_code
+		else:
+			# Lines that are not items in the system are booked to an expense account
+			description = item.get("description") or item.get("item_name") or _("Item")
+			row.update(
+				{
+					"item_name": description[:140],
+					"description": description,
+					"uom": item.get("uom") if frappe.db.exists("UOM", item.get("uom") or "") else "Nos",
+					"expense_account": item.get("expense_account") or expense_account,
+				}
+			)
+		rows.append(row)
+	if not rows:
+		frappe.throw(_("The invoice has no items"))
+
+	doc = frappe.get_doc(
+		{
+			"doctype": "Purchase Invoice",
+			"company": company,
+			"supplier": supplier,
+			"bill_no": bill_no,
+			"bill_date": parse_date(bill_date) if bill_date else None,
+			"items": rows,
+		}
+	)
+	if apply_vat:
+		template = frappe.db.get_value(
+			"Purchase Taxes and Charges Template", {"company": company, "is_default": 1, "disabled": 0}
+		)
+		if template:
+			doc.taxes_and_charges = template
+			doc.append_taxes_from_master()
+	doc.docstatus = 0
+	doc.insert()
+	if file_url:
+		attach_file_to_document(file_url, "Purchase Invoice", doc.name)
+	result = {
+		"created": "Purchase Invoice",
+		"name": doc.name,
+		"url": get_url_to_form("Purchase Invoice", doc.name),
+		"supplier": supplier,
+		"net_total": doc.net_total,
+		"taxes": doc.total_taxes_and_charges,
+		"grand_total": doc.grand_total,
+	}
+	if invoice_total is not None and abs(float(invoice_total) - doc.grand_total) >= 1:
+		result["warning"] = (
+			f"The draft totals {doc.grand_total:,.0f} but the document says {float(invoice_total):,.0f}; "
+			"tell the user to check the lines and taxes."
+		)
+	return result
+
+
+def attach_file_to_document(file_url: str, doctype: str, name: str):
+	"""Attach an uploaded file to a document so it is kept with it."""
+	source = get_file(file_url)
+	frappe.get_doc(doctype, name).check_permission("write")
+	attached = frappe.get_doc(
+		{
+			"doctype": "File",
+			"file_url": source.file_url,
+			"file_name": source.file_name,
+			"is_private": source.is_private,
+			"attached_to_doctype": doctype,
+			"attached_to_name": name,
+		}
+	).insert()
+	return {"attached": attached.file_name, "to": f"{doctype} {name}"}
+
+
 TOOLS = {
 	"get_company_info": get_company_info,
 	"describe_doctype": describe_doctype,
@@ -232,6 +385,10 @@ TOOLS = {
 	"update_draft_document": update_draft_document,
 	"create_web_page": create_web_page,
 	"export_excel": export_excel,
+	"read_table_file": read_table_file,
+	"match_bank_statement": match_bank_statement,
+	"create_purchase_invoice_draft": create_purchase_invoice_draft,
+	"attach_file_to_document": attach_file_to_document,
 }
 
 
@@ -331,6 +488,81 @@ TOOL_SCHEMAS = [
 			"rows": {"type": "array", "items": {"type": "array", "items": {}}},
 		},
 		["title", "columns", "rows"],
+	),
+	_fn(
+		"read_table_file",
+		"Read the first rows of an attached CSV or XLSX file (such as a bank statement) to see its "
+		"header row and columns.",
+		{"file_url": {"type": "string"}, "max_rows": {"type": "integer"}},
+		["file_url"],
+	),
+	_fn(
+		"match_bank_statement",
+		"Reconcile an attached bank statement (CSV/XLSX) with the ledger of a bank account. Map the "
+		"statement's column names (exactly as in the header row): the date column, and either one signed "
+		"amount column or separate deposit and withdrawal columns. Jalali or Gregorian dates and Persian "
+		"digits are understood. Returns matched counts, statement lines with no ledger entry (often bank "
+		"fees, interest or unrecorded receipts), ledger entries missing from the statement (often cheques "
+		"not yet cleared), and both closing balances.",
+		{
+			"file_url": {"type": "string"},
+			"bank_account": {
+				"type": "string",
+				"description": "Account name of the bank in the chart of accounts",
+			},
+			"date_column": {"type": "string"},
+			"deposit_column": {"type": "string"},
+			"withdrawal_column": {"type": "string"},
+			"amount_column": {"type": "string", "description": "Signed amount; positive is money in"},
+			"description_column": {"type": "string"},
+			"reference_column": {"type": "string", "description": "Cheque or tracking number column"},
+			"balance_column": {"type": "string"},
+			"header_row": {"type": "integer", "description": "1-based row number of the header row"},
+			"tolerance_days": {"type": "integer", "description": "Allowed date difference, default 3"},
+		},
+		["file_url", "bank_account", "date_column"],
+	),
+	_fn(
+		"create_purchase_invoice_draft",
+		"Create a draft purchase invoice from a supplier invoice the user attached (image or PDF). Read "
+		"the supplier (name, economic code, national ID), invoice number and date, and every line "
+		"(description, quantity, unit price, discount). Use item_code only for items found in the "
+		"system; other lines are booked to the default expense account. Set apply_vat when the invoice "
+		"charges VAT, and pass the invoice's grand total so differences are reported. Pass the file_url "
+		"so the file is attached to the draft.",
+		{
+			"supplier": {"type": "string", "description": "Supplier record name, when known"},
+			"supplier_name": {"type": "string"},
+			"supplier_economic_code": {"type": "string"},
+			"supplier_national_id": {"type": "string"},
+			"bill_no": {"type": "string"},
+			"bill_date": {"type": "string", "description": "As printed, e.g. 1405/07/18"},
+			"items": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"item_code": {"type": "string"},
+						"description": {"type": "string"},
+						"qty": {"type": "number"},
+						"uom": {"type": "string"},
+						"rate": {"type": "number", "description": "Unit price in rial"},
+						"discount_amount": {"type": "number", "description": "Discount per unit"},
+					},
+				},
+			},
+			"apply_vat": {"type": "boolean"},
+			"invoice_total": {"type": "number"},
+			"company": {"type": "string"},
+			"file_url": {"type": "string"},
+		},
+		["items"],
+	),
+	_fn(
+		"attach_file_to_document",
+		"Attach a file the user uploaded to a document, e.g. a receipt to a journal entry.",
+		{"file_url": {"type": "string"}, "doctype": {"type": "string"}, "name": {"type": "string"}},
+		["file_url", "doctype", "name"],
 	),
 ]
 

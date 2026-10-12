@@ -16,6 +16,7 @@
   "total_tokens",
   "section_question",
   "question",
+  "attachments",
   "answer",
   "error",
   "section_log",
@@ -77,6 +78,12 @@
    "read_only": 1
   },
   {
+   "fieldname": "attachments",
+   "fieldtype": "JSON",
+   "label": "Attachments",
+   "read_only": 1
+  },
+  {
    "fieldname": "answer",
    "fieldtype": "Markdown Editor",
    "label": "Answer",
@@ -112,7 +119,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-12 17:11:59.347980",
+ "modified": "2026-10-12 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Request",

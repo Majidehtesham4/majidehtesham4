@@ -3,11 +3,12 @@ import json
 import frappe
 from frappe import _
 
+from iran_erp.ai.files import get_file
 from iran_erp.ai.openrouter import AIError, chat_completion, get_settings, list_models
 
 
 @frappe.whitelist()
-def ask(question: str, previous_request: str | None = None) -> str:
+def ask(question: str, previous_request: str | None = None, files: str | list | None = None) -> str:
 	"""Queue a question for the assistant and return the request name to poll."""
 	question = (question or "").strip()
 	if not question:
@@ -16,6 +17,12 @@ def ask(question: str, previous_request: str | None = None) -> str:
 		frappe.throw(_("The AI assistant is disabled in Iran AI Settings."))
 	if previous_request:
 		_get_own_request(previous_request)
+	if isinstance(files, str):
+		files = json.loads(files or "[]")
+	attachments = []
+	for file_url in (files or [])[:5]:
+		file = get_file(file_url)
+		attachments.append({"file_url": file.file_url, "file_name": file.file_name})
 
 	request = frappe.get_doc(
 		{
@@ -23,6 +30,7 @@ def ask(question: str, previous_request: str | None = None) -> str:
 			"user": frappe.session.user,
 			"question": question[:4000],
 			"previous_request": previous_request,
+			"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
 			"status": "Queued",
 		}
 	).insert(ignore_permissions=True)

@@ -10416,8 +10416,8 @@ msgstr "سؤال بپرسید یا بگویید چه کاری انجام شود�
 msgid "Send"
 msgstr "ارسال"
 
-msgid "Hello! I can look up records, run reports, prepare draft documents and web pages, and export to Excel. What do you need?"
-msgstr "سلام! می‌توانم اطلاعات را جستجو کنم، گزارش بگیرم، سند و صفحه وب پیش‌نویس آماده کنم و خروجی Excel بدهم. چه کمکی از دستم برمی‌آید؟"
+msgid "Hello! I can look up records, run reports, prepare draft documents and web pages, export to Excel, reconcile a bank statement, and turn a supplier invoice image into a draft purchase invoice. What do you need?"
+msgstr "سلام! می‌توانم اطلاعات را جستجو کنم، گزارش بگیرم، سند و صفحه‌ی وب پیش‌نویس بسازم، خروجی Excel بدهم، صورت‌حساب بانک را با دفاتر تطبیق دهم و از عکس فاکتور خرید، فاکتور خرید پیش‌نویس بسازم. چه کاری انجام دهم؟"
 
 msgid "Download"
 msgstr "دانلود"
@@ -10724,3 +10724,34 @@ msgstr "حساب «{0}» را برای {1} در «تنظیمات ایرانی» 
 
 msgid "{0} is not a bank or cash account of {1}"
 msgstr "{0} حساب بانک یا صندوق {1} نیست"
+
+#: iran_erp/ai
+msgid "Attach a bank statement or an invoice"
+msgstr "پیوست صورت‌حساب بانک یا فاکتور"
+
+msgid "Please process the attached file."
+msgstr "لطفاً فایل پیوست را بررسی کن."
+
+msgid "Attachments"
+msgstr "پیوست‌ها"
+
+msgid "File {0} was not found"
+msgstr "فایل {0} پیدا نشد"
+
+msgid "Only CSV and XLSX files can be read as tables. Save the statement as XLSX and try again."
+msgstr "فقط فایل‌های CSV و XLSX به‌صورت جدول خوانده می‌شوند. صورت‌حساب را با قالب XLSX ذخیره کنید و دوباره امتحان کنید."
+
+msgid "Column {0} is not in the statement. Columns: {1}"
+msgstr "ستون {0} در صورت‌حساب نیست. ستون‌ها: {1}"
+
+msgid "Map at least the date column and either an amount column or deposit and withdrawal columns."
+msgstr "دست‌کم ستون تاریخ و یا ستون مبلغ یا ستون‌های واریز و برداشت را مشخص کنید."
+
+msgid "No dated lines with an amount were found with this column mapping."
+msgstr "با این ستون‌ها هیچ ردیفِ دارای تاریخ و مبلغ پیدا نشد."
+
+msgid "{0} is not a bank account"
+msgstr "{0} حساب بانکی نیست"
+
+msgid "The invoice has no items"
+msgstr "فاکتور هیچ ردیفی ندارد"

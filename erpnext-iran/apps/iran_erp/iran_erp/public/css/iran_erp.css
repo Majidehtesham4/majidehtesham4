@@ -179,3 +179,36 @@
 	margin-top: 6px;
 	padding-top: 6px;
 }
+
+.iran-ai-files {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+	padding: 0 10px;
+}
+.iran-ai-file {
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	max-width: 100%;
+	padding: 2px 8px;
+	border-radius: 12px;
+	background: var(--bg-gray);
+	font-size: var(--text-xs);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.iran-ai-file .btn {
+	padding: 0 2px;
+	box-shadow: none;
+	background: transparent;
+}
+.iran-ai-msg-file {
+	margin-top: 4px;
+	font-size: var(--text-xs);
+	opacity: 0.8;
+}
+.iran-ai-attach {
+	align-self: flex-end;
+}

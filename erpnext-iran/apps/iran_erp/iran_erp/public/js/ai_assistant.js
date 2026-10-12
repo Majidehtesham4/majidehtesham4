@@ -6,6 +6,7 @@ iran_erp.ai.Panel = class {
 	constructor() {
 		this.previous_request = null;
 		this.busy = false;
+		this.files = [];
 		this.make();
 	}
 
@@ -25,7 +26,11 @@ iran_erp.ai.Panel = class {
 					</div>
 				</div>
 				<div class="iran-ai-messages"></div>
+				<div class="iran-ai-files"></div>
 				<div class="iran-ai-input">
+					<button class="btn btn-default btn-sm iran-ai-attach" title="${__(
+						"Attach a bank statement or an invoice"
+					)}">${frappe.utils.icon("attachment", "sm")}</button>
 					<textarea rows="2" class="form-control" placeholder="${__(
 						"Ask a question or describe what to do…"
 					)}"></textarea>
@@ -40,6 +45,12 @@ iran_erp.ai.Panel = class {
 		this.$panel.find(".iran-ai-close").on("click", () => this.toggle(false));
 		this.$panel.find(".iran-ai-new").on("click", () => this.reset());
 		this.$panel.find(".iran-ai-send").on("click", () => this.send());
+		this.$panel.find(".iran-ai-attach").on("click", () => this.attach());
+		this.$files = this.$panel.find(".iran-ai-files");
+		this.$files.on("click", ".iran-ai-file-remove", (e) => {
+			this.files.splice(Number($(e.currentTarget).data("index")), 1);
+			this.render_files();
+		});
 		this.$input.on("keydown", (e) => {
 			if (e.key === "Enter" && !e.shiftKey) {
 				e.preventDefault();
@@ -55,24 +66,52 @@ iran_erp.ai.Panel = class {
 		if (show) this.$input.trigger("focus");
 	}
 
+	attach() {
+		new frappe.ui.FileUploader({
+			allow_multiple: true,
+			make_attachments_public: false,
+			restrictions: { allowed_file_types: [".csv", ".xlsx", ".pdf", "image/*"] },
+			on_success: (file) => {
+				if (this.files.length < 5) this.files.push(file);
+				this.render_files();
+			},
+		});
+	}
+
+	render_files() {
+		this.$files.empty();
+		this.files.forEach((file, index) => {
+			const $chip = $(`<span class="iran-ai-file"></span>`).text(file.file_name);
+			$chip.append(
+				`<button class="btn btn-xs iran-ai-file-remove" data-index="${index}">${frappe.utils.icon("x", "xs")}</button>`
+			);
+			this.$files.append($chip);
+		});
+	}
+
 	reset() {
 		this.previous_request = null;
+		this.files = [];
+		this.render_files();
 		this.$messages.empty();
 		this.add_message(
 			"assistant",
 			__(
-				"Hello! I can look up records, run reports, prepare draft documents and web pages, and export to Excel. What do you need?"
+				"Hello! I can look up records, run reports, prepare draft documents and web pages, export to Excel, reconcile a bank statement, and turn a supplier invoice image into a draft purchase invoice. What do you need?"
 			)
 		);
 	}
 
-	add_message(role, text, actions) {
+	add_message(role, text, actions, files) {
 		const $msg = $(`<div class="iran-ai-msg iran-ai-${role}"></div>`);
 		if (role === "assistant") {
 			$msg.html(this.render_markdown(text));
 		} else {
 			$msg.text(text);
 		}
+		(files || []).forEach((file) =>
+			$msg.append($(`<div class="iran-ai-msg-file"></div>`).text(`📎 ${file.file_name}`))
+		);
 		(actions || []).forEach((action) => $msg.append(this.render_action(action)));
 		this.$messages.append($msg);
 		this.$messages.scrollTop(this.$messages[0].scrollHeight);
@@ -102,16 +141,24 @@ iran_erp.ai.Panel = class {
 	}
 
 	send() {
-		const question = (this.$input.val() || "").trim();
-		if (!question || this.busy) return;
+		let question = (this.$input.val() || "").trim();
+		if ((!question && !this.files.length) || this.busy) return;
+		if (!question) question = __("Please process the attached file.");
+		const files = this.files;
+		this.files = [];
+		this.render_files();
 		this.busy = true;
 		this.$input.val("");
-		this.add_message("user", question);
+		this.add_message("user", question, null, files);
 		const $thinking = this.add_message("assistant", __("Thinking…"));
 		$thinking.addClass("iran-ai-thinking");
 
 		frappe
-			.xcall("iran_erp.ai.api.ask", { question, previous_request: this.previous_request })
+			.xcall("iran_erp.ai.api.ask", {
+				question,
+				previous_request: this.previous_request,
+				files: files.map((f) => f.file_url),
+			})
 			.then((request_name) => this.poll(request_name, $thinking, Date.now()))
 			.catch(() => {
 				$thinking.remove();
