@@ -3,4 +3,5 @@
 # Read docs to understand patches: https://frappeframework.com/docs/v14/user/en/database-migrations
 
 [post_model_sync]
+iran_erp.patches.v0_1.setup_rial_number_format
 # Patches added in this section will be executed after doctypes are migrated

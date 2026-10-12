@@ -17,6 +17,34 @@ iran_erp.to_jalali = function (value) {
 	return iran_erp.jalali_formatter.format(date);
 };
 
+// The date picker ships no Persian locale, so it falls back to English month names and "Today".
+const persian_gregorian_months = [
+	"ژانویه",
+	"فوریه",
+	"مارس",
+	"آوریل",
+	"مه",
+	"ژوئن",
+	"ژوئیه",
+	"اوت",
+	"سپتامبر",
+	"اکتبر",
+	"نوامبر",
+	"دسامبر",
+];
+$.fn.datepicker.language["fa"] = {
+	days: ["یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه", "شنبه"],
+	daysShort: ["یک", "دو", "سه", "چهار", "پنج", "جمعه", "شنبه"],
+	daysMin: ["ی", "د", "س", "چ", "پ", "ج", "ش"],
+	months: persian_gregorian_months,
+	monthsShort: persian_gregorian_months,
+	today: "امروز",
+	clear: "پاک کردن",
+	dateFormat: "dd/mm/yyyy",
+	timeFormat: "hh:ii aa",
+	firstDay: 6,
+};
+
 // List view, report view, read-only fields and grids show the Jalali date.
 const gregorian_date_formatter = frappe.form.formatters.Date;
 frappe.form.formatters.Date = function (value, ...args) {

@@ -1,0 +1,9 @@
+/* In right-to-left layouts a number wider than its grid cell overflows on the left, which hides
+   the leading digits (450,000,000 shows as 000,000). Lay numbers out left-to-right so the cell
+   keeps the leading digits and cuts the end with an ellipsis instead. */
+[dir="rtl"] .grid-body .grid-static-col[data-fieldtype="Currency"] .static-area,
+[dir="rtl"] .grid-body .grid-static-col[data-fieldtype="Float"] .static-area,
+[dir="rtl"] .grid-body .grid-static-col[data-fieldtype="Int"] .static-area,
+[dir="rtl"] .grid-body .grid-static-col[data-fieldtype="Percent"] .static-area {
+	direction: ltr;
+}

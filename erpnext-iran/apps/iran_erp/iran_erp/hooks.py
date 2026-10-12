@@ -34,7 +34,7 @@ required_apps = ["frappe/erpnext"]
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/iran_erp/css/iran_erp.css"
+app_include_css = "/assets/iran_erp/css/iran_erp.css"
 app_include_js = "/assets/iran_erp/js/jalali.js"
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
 
