@@ -10891,3 +10891,16 @@ msgstr "دستیار به مراحل بیشتری از حد مجاز نیاز د
 
 msgid "Opening stock entered by the AI assistant"
 msgstr "موجودی اول دوره، ثبت‌شده توسط دستیار هوشمند"
+
+#: iran_erp/public/js/ai_assistant.js
+msgid "Speak instead of typing"
+msgstr "به‌جای تایپ، صحبت کنید"
+
+msgid "The browser did not allow the microphone. Allow it in the address bar; on a server it only works over HTTPS."
+msgstr "مرورگر اجازه‌ی استفاده از میکروفون را نداد. از نوار آدرس اجازه دهید؛ روی سرور فقط با HTTPS کار می‌کند."
+
+msgid "Speech recognition needs the browser's online speech service, which could not be reached."
+msgstr "تشخیص گفتار به سرویس آنلاین مرورگر نیاز دارد که در دسترس نبود."
+
+msgid "No speech was heard. Try again closer to the microphone."
+msgstr "صدایی شنیده نشد. نزدیک‌تر به میکروفون دوباره امتحان کنید."

@@ -212,3 +212,17 @@
 .iran-ai-attach {
 	align-self: flex-end;
 }
+
+.iran-ai-mic {
+	align-self: flex-end;
+}
+.iran-ai-mic.iran-ai-listening {
+	background: var(--red-500, #e03636);
+	color: #fff;
+	animation: iran-ai-pulse 1.2s ease-in-out infinite;
+}
+@keyframes iran-ai-pulse {
+	50% {
+		opacity: 0.6;
+	}
+}

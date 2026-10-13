@@ -46,6 +46,7 @@ iran_erp.ai.Panel = class {
 		this.$panel.find(".iran-ai-new").on("click", () => this.reset());
 		this.$panel.find(".iran-ai-send").on("click", () => this.send());
 		this.$panel.find(".iran-ai-attach").on("click", () => this.attach());
+		this.setup_voice();
 		this.$files = this.$panel.find(".iran-ai-files");
 		this.$files.on("click", ".iran-ai-file-remove", (e) => {
 			this.files.splice(Number($(e.currentTarget).data("index")), 1);
@@ -58,6 +59,58 @@ iran_erp.ai.Panel = class {
 			}
 		});
 		this.reset();
+	}
+
+	setup_voice() {
+		// Speech recognition is built into Chrome and Edge; other browsers just don't get the button
+		const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+		if (!Recognition) return;
+		this.$mic = $(
+			`<button class="btn btn-default btn-sm iran-ai-mic" title="${__("Speak instead of typing")}">${frappe.utils.icon(
+				"mic",
+				"sm"
+			)}</button>`
+		).insertAfter(this.$panel.find(".iran-ai-attach"));
+		this.$mic.on("click", () => (this.recognition ? this.recognition.stop() : this.listen(Recognition)));
+	}
+
+	listen(Recognition) {
+		const recognition = new Recognition();
+		recognition.lang = "fa-IR";
+		recognition.interimResults = true;
+		recognition.continuous = true;
+		const before = (this.$input.val() || "").trim();
+		let spoken = "";
+		recognition.onresult = (event) => {
+			let interim = "";
+			for (let i = event.resultIndex; i < event.results.length; i++) {
+				const text = event.results[i][0].transcript;
+				if (event.results[i].isFinal) spoken += text + " ";
+				else interim += text;
+			}
+			this.$input.val([before, spoken + interim].filter(Boolean).join(" "));
+		};
+		recognition.onerror = (event) => {
+			const messages = {
+				"not-allowed": __(
+					"The browser did not allow the microphone. Allow it in the address bar; on a server it only works over HTTPS."
+				),
+				"service-not-allowed": __(
+					"The browser did not allow the microphone. Allow it in the address bar; on a server it only works over HTTPS."
+				),
+				network: __("Speech recognition needs the browser's online speech service, which could not be reached."),
+				"no-speech": __("No speech was heard. Try again closer to the microphone."),
+			};
+			frappe.show_alert({ message: messages[event.error] || event.error, indicator: "orange" }, 8);
+		};
+		recognition.onend = () => {
+			this.recognition = null;
+			this.$mic.removeClass("iran-ai-listening");
+			this.$input.trigger("focus");
+		};
+		this.recognition = recognition;
+		this.$mic.addClass("iran-ai-listening");
+		recognition.start();
 	}
 
 	toggle(show) {
@@ -141,6 +194,7 @@ iran_erp.ai.Panel = class {
 	}
 
 	send() {
+		if (this.recognition) this.recognition.stop();
 		let question = (this.$input.val() || "").trim();
 		if ((!question && !this.files.length) || this.busy) return;
 		if (!question) question = __("Please process the attached file.");
