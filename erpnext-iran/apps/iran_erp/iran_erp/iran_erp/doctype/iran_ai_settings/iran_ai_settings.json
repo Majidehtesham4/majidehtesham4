@@ -9,6 +9,7 @@
   "enabled",
   "api_key",
   "model",
+  "fallback_models",
   "column_break_1",
   "max_steps",
   "assistant_instructions",
@@ -35,6 +36,12 @@
    "fieldname": "model",
    "fieldtype": "Data",
    "label": "Model"
+  },
+  {
+   "fieldname": "fallback_models",
+   "fieldtype": "Small Text",
+   "label": "Fallback Models",
+   "description": "Optional, one model ID per line. Used in order when the main model is busy or rate limited, e.g. google/gemma-4-26b-a4b-it:free"
   },
   {
    "fieldname": "column_break_1",
@@ -69,7 +76,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-12 17:11:59.056753",
+ "modified": "2026-10-13 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",

@@ -73,13 +73,19 @@ def test_connection() -> str:
 			models = list_models(settings.base_url)
 		except Exception:
 			models = []
-		if models and settings.model not in models:
-			suggestions = [m for m in models if m.startswith("anthropic/")][:8]
+		missing = [m for m in [settings.model, *settings.fallback_models] if models and m not in models]
+		if missing:
+			suggestions = [m for m in models if m.endswith(":free")][:6] + [
+				m for m in models if m.startswith("anthropic/")
+			][:4]
 			return _("Model {0} was not found on OpenRouter. Some available models: {1}").format(
-				settings.model, ", ".join(suggestions)
+				", ".join(missing), ", ".join(suggestions)
 			)
 		response = chat_completion(settings, [{"role": "user", "content": "Reply with the single word: OK"}])
 		reply = (response["choices"][0]["message"].get("content") or "").strip()
-		return _("Connection works. Model {0} replied: {1}").format(settings.model, reply[:100])
+		# With fallbacks, OpenRouter reports which model actually answered
+		return _("Connection works. Model {0} replied: {1}").format(
+			response.get("model") or settings.model, reply[:100]
+		)
 	except AIError as e:
 		return str(e)
