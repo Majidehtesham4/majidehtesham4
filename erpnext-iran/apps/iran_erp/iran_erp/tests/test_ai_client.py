@@ -56,3 +56,27 @@ class TestAIClient(UnitTestCase):
 		with self.assertRaises(AIError) as error:
 			chat_completion(GROQ, [{"role": "user", "content": "hi"}])
 		self.assertIn("413", str(error.exception))
+
+	@patch("iran_erp.ai.openrouter.time.sleep")
+	@patch("iran_erp.ai.openrouter.requests.post")
+	def test_moves_to_the_next_key(self, post, sleep):
+		settings = frappe._dict(GROQ, provider="Groq-test", api_keys=["key-a", "key-b", "key-c"])
+		for key in settings.api_keys:
+			frappe.cache.delete_value(f"iran_ai_key_rest:{openrouter._key_id(key)}")
+		frappe.cache.delete_value("iran_ai_key_current:Groq-test")
+		reply = {"choices": [{"message": {"role": "assistant", "content": "OK"}}]}
+		post.side_effect = [
+			fake_response(429, {"error": {"message": "rate limit"}}),
+			fake_response(401, {"error": {"message": "invalid key"}}),
+			fake_response(200, reply),
+		]
+		self.assertEqual(chat_completion(settings, [{"role": "user", "content": "hi"}]), reply)
+		used = [c.kwargs["headers"]["Authorization"] for c in post.call_args_list]
+		self.assertEqual(used, ["Bearer key-a", "Bearer key-b", "Bearer key-c"])
+		sleep.assert_not_called()
+		# The key that worked is tried first next time; the failed ones rest
+		self.assertEqual(openrouter.usable_keys(settings), ["key-c"])
+
+	def test_split_keys(self):
+		self.assertEqual(openrouter.split_keys(" a, b\nc ,a "), ["a", "b", "c"])
+		self.assertEqual(len(openrouter.split_keys(",".join(f"k{i}" for i in range(40)))), 30)

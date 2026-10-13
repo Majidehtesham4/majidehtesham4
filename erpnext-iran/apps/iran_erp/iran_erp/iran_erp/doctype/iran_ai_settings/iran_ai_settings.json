@@ -42,11 +42,11 @@
    "description": "Which service answers the assistant's requests. Each provider keeps its own key and model, so you can switch back and forth."
   },
   {
-   "description": "Create a key at openrouter.ai/keys",
+   "description": "Create a key at openrouter.ai/keys. Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used.",
    "fieldname": "api_key",
    "fieldtype": "Password",
    "label": "OpenRouter API Key",
-   "length": 512,
+   "length": 4000,
    "depends_on": "eval:(doc.provider||'OpenRouter')=='OpenRouter'"
   },
   {
@@ -68,7 +68,9 @@
    "fieldname": "agentrouter_api_key",
    "fieldtype": "Password",
    "label": "AgentRouter API Key",
-   "depends_on": "eval:doc.provider=='AgentRouter'"
+   "depends_on": "eval:doc.provider=='AgentRouter'",
+   "length": 4000,
+   "description": "Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
   },
   {
    "fieldname": "agentrouter_model",
@@ -81,9 +83,9 @@
    "fieldname": "groq_api_key",
    "fieldtype": "Password",
    "label": "Groq API Key",
-   "length": 512,
+   "length": 4000,
    "depends_on": "eval:doc.provider=='Groq'",
-   "description": "From console.groq.com/keys"
+   "description": "From console.groq.com/keys. Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
   },
   {
    "fieldname": "groq_model",
@@ -97,7 +99,9 @@
    "fieldname": "custom_api_key",
    "fieldtype": "Password",
    "label": "Custom Provider API Key",
-   "depends_on": "eval:doc.provider=='Custom'"
+   "depends_on": "eval:doc.provider=='Custom'",
+   "length": 4000,
+   "description": "Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
   },
   {
    "fieldname": "custom_model",
@@ -162,7 +166,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-13 20:00:00.000000",
+ "modified": "2026-10-13 21:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",

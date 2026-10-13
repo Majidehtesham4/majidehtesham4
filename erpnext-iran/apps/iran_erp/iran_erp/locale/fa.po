@@ -11034,8 +11034,8 @@ msgstr "کلید API سرویس Groq"
 msgid "Groq Model"
 msgstr "مدل Groq"
 
-msgid "From console.groq.com/keys"
-msgstr "از console.groq.com/keys بسازید"
+msgid "From console.groq.com/keys. Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
+msgstr "از console.groq.com/keys بسازید. می‌توانید چند کلید را با کاما جدا کنید (تا ۳۰ کلید): وقتی یکی رد شد یا به سقفش رسید، خودکار کلید بعدی استفاده می‌شود."
 
 msgid "A chat model from console.groq.com/docs/models, e.g. openai/gpt-oss-120b or llama-3.3-70b-versatile"
 msgstr "یک مدل چت از فهرست console.groq.com/docs/models؛ مثلاً openai/gpt-oss-120b یا llama-3.3-70b-versatile"
@@ -11045,3 +11045,9 @@ msgstr "مرورگر: رایگان و داخل Chrome و Edge، ولی در فا
 
 msgid "On Groq: whisper-large-v3 (most accurate) or whisper-large-v3-turbo. On OpenRouter: a model that accepts audio input. Empty: whisper-large-v3 on Groq, the main model elsewhere."
 msgstr "در Groq: whisper-large-v3 (دقیق‌ترین) یا whisper-large-v3-turbo. در OpenRouter: مدلی که ورودی صوتی می‌پذیرد. خالی: در Groq همان whisper-large-v3 و در بقیه مدل اصلی."
+
+msgid "Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
+msgstr "می‌توانید چند کلید را با کاما جدا کنید (تا ۳۰ کلید): وقتی یکی رد شد یا به سقفش رسید، خودکار کلید بعدی استفاده می‌شود."
+
+msgid "Create a key at openrouter.ai/keys. Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
+msgstr "کلید را از openrouter.ai/keys بسازید. می‌توانید چند کلید را با کاما جدا کنید (تا ۳۰ کلید): وقتی یکی رد شد یا به سقفش رسید، خودکار کلید بعدی استفاده می‌شود."

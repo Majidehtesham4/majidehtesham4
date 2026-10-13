@@ -5,6 +5,8 @@ Messages API ("claude_native", as AgentRouter's Claude models do) are reached th
 iran_erp.ai.anthropic, which converts the request and the response.
 """
 
+import hashlib
+import re
 import time
 
 import frappe
@@ -40,6 +42,12 @@ MULTI_FORMAT = ("AgentRouter", "Custom")
 DEFAULT_MODELS = {"OpenRouter": "anthropic/claude-opus-5.5", "Groq": "openai/gpt-oss-120b"}
 DEFAULT_TRANSCRIPTION_MODELS = {"Groq": "whisper-large-v3"}
 
+# A key field may hold several keys; when one is refused or rate limited the next one is used
+MAX_KEYS = 30
+KEY_SWITCH_STATUSES = {401, 402, 403, 429}
+# How long a key is left alone after each kind of failure, in seconds
+KEY_COOL_DOWN = {401: 6 * 3600, 403: 6 * 3600, 402: 3600, 429: 60}
+
 
 class AIError(Exception):
 	pass
@@ -62,8 +70,8 @@ def get_settings():
 		raise AIError(_("The AI assistant is disabled in Iran AI Settings."))
 	provider = provider_of(settings)
 	key_field, model_field, openai_url, anthropic_url = PROVIDERS[provider]
-	api_key = settings.get_password(key_field, raise_exception=False)
-	if not api_key:
+	api_keys = split_keys(settings.get_password(key_field, raise_exception=False))
+	if not api_keys:
 		raise AIError(_("Set the {0} API key in Iran AI Settings first.").format(provider))
 	api_format = (
 		ANTHROPIC_FORMAT
@@ -80,7 +88,8 @@ def get_settings():
 	return frappe._dict(
 		provider=provider,
 		api_format=api_format,
-		api_key=api_key,
+		api_key=api_keys[0],
+		api_keys=api_keys,
 		model=model,
 		# OpenRouter's "models" list is its own feature; other providers would reject it
 		fallback_models=[m.strip() for m in (settings.fallback_models or "").splitlines() if m.strip()]
@@ -102,13 +111,16 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 
 		url = f"{settings.base_url}/v1/messages"
 		payload = to_anthropic_request(settings.model, messages, tools)
-		headers = {
-			"x-api-key": settings.api_key,
-			# Some relays read the key from here instead
-			"Authorization": f"Bearer {settings.api_key}",
-			"anthropic-version": "2023-06-01",
-			"Content-Type": "application/json",
-		}
+
+		def headers(key):
+			return {
+				"x-api-key": key,
+				# Some relays read the key from here instead
+				"Authorization": f"Bearer {key}",
+				"anthropic-version": "2023-06-01",
+				"Content-Type": "application/json",
+			}
+
 	else:
 		url = f"{settings.base_url}/chat/completions"
 		payload = {"model": settings.model, "messages": messages}
@@ -119,15 +131,17 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 		if tools:
 			payload["tools"] = tools
 			payload["tool_choice"] = "auto"
-		headers = {
-			"Authorization": f"Bearer {settings.api_key}",
-			"Content-Type": "application/json",
-			# Optional OpenRouter headers that label the traffic in the OpenRouter dashboard
-			"HTTP-Referer": frappe.utils.get_url(),
-			"X-Title": "Iran ERP",
-		}
 
-	response = post_with_retries(url, headers=headers, json=payload)
+		def headers(key):
+			return {
+				"Authorization": f"Bearer {key}",
+				"Content-Type": "application/json",
+				# Optional OpenRouter headers that label the traffic in the OpenRouter dashboard
+				"HTTP-Referer": frappe.utils.get_url(),
+				"X-Title": "Iran ERP",
+			}
+
+	response = post_with_retries(settings, url, lambda key: {"headers": headers(key), "json": payload})
 	data = check_response(settings, response)
 	if settings.api_format == ANTHROPIC_FORMAT:
 		data = from_anthropic_response(data)
@@ -136,12 +150,57 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 	return data
 
 
-def post_with_retries(url: str, **kwargs):
+def split_keys(value: str | None) -> list[str]:
+	"""The keys in a key field: one, or several separated by commas, spaces or new lines."""
+	return list(dict.fromkeys(k for k in re.split(r"[\s,;]+", value or "") if k))[:MAX_KEYS]
+
+
+def _key_id(key: str) -> str:
+	# Only a fingerprint of the key goes into the cache
+	return hashlib.sha256(key.encode()).hexdigest()[:16]
+
+
+def usable_keys(settings) -> list[str]:
+	"""The keys in the order to try them: the last one that worked first, resting keys left out."""
+	keys = settings.get("api_keys") or [settings.api_key]
+	current = frappe.cache.get_value(f"iran_ai_key_current:{settings.provider}")
+	ids = [_key_id(k) for k in keys]
+	if current in ids:
+		start = ids.index(current)
+		keys = keys[start:] + keys[:start]
+	ready = [k for k in keys if not frappe.cache.get_value(f"iran_ai_key_rest:{_key_id(k)}")]
+	# When every key is resting, try them anyway rather than fail without asking
+	return ready or keys
+
+
+def _rest_key(key: str, response):
+	seconds = KEY_COOL_DOWN.get(response.status_code, 60)
+	try:
+		seconds = max(seconds, min(int(float(response.headers.get("retry-after"))), 3600))
+	except (TypeError, ValueError):
+		pass
+	frappe.cache.set_value(f"iran_ai_key_rest:{_key_id(key)}", 1, expires_in_sec=seconds)
+
+
+def post_with_retries(settings, url: str, request_for_key):
+	"""POST with each usable key in turn, then retry busy responses after a pause.
+
+	`request_for_key(key)` returns the keyword arguments of `requests.post` for that key.
+	"""
+	keys = usable_keys(settings)
 	for wait in (*RETRY_WAITS, None):
-		try:
-			response = requests.post(url, timeout=TIMEOUT_SECONDS, **kwargs)
-		except requests.RequestException as e:
-			raise AIError(_("Could not reach the AI service: {0}").format(e)) from e
+		while True:
+			try:
+				response = requests.post(url, timeout=TIMEOUT_SECONDS, **request_for_key(keys[0]))
+			except requests.RequestException as e:
+				raise AIError(_("Could not reach the AI service: {0}").format(e)) from e
+			if response.status_code in KEY_SWITCH_STATUSES and len(keys) > 1:
+				_rest_key(keys[0], response)
+				keys = keys[1:]
+				continue
+			break
+		if response.ok:
+			frappe.cache.set_value(f"iran_ai_key_current:{settings.provider}", _key_id(keys[0]))
 		if response.status_code not in RETRY_STATUSES or wait is None:
 			return response
 		try:
@@ -198,10 +257,18 @@ def check_response(settings, response) -> dict:
 def transcribe_audio(settings, wav: bytes, prompt: str = "") -> str:
 	"""Speech to text through the OpenAI-style /audio/transcriptions endpoint (Whisper models)."""
 	response = post_with_retries(
+		settings,
 		f"{settings.base_url}/audio/transcriptions",
-		headers={"Authorization": f"Bearer {settings.api_key}"},
-		files={"file": ("speech.wav", wav, "audio/wav")},
-		data={"model": settings.transcription_model, "language": "fa", "prompt": prompt, "response_format": "json"},
+		lambda key: {
+			"headers": {"Authorization": f"Bearer {key}"},
+			"files": {"file": ("speech.wav", wav, "audio/wav")},
+			"data": {
+				"model": settings.transcription_model,
+				"language": "fa",
+				"prompt": prompt,
+				"response_format": "json",
+			},
+		},
 	)
 	return (check_response(settings, response).get("text") or "").strip()
 
