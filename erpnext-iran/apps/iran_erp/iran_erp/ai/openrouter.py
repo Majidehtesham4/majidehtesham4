@@ -143,6 +143,12 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 					"{0} rejected this system as a client (401): its keys only work inside the coding tools it supports, such as Claude Code or Codex, not from other software. Use OpenRouter or another provider with a regular API key."
 				).format(settings.provider)
 			)
+		if response.status_code == 402:
+			raise AIError(
+				_(
+					"Your {0} account has no credit left (402): {1}. Top up the account on the provider's website and try again."
+				).format(settings.provider, message or "")
+			)
 		if response.status_code == 429:
 			raise AIError(
 				_(

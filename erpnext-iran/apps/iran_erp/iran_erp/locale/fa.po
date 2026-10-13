@@ -11021,3 +11021,6 @@ msgstr "فاکتورهای خرید معوقه"
 
 msgid "{0} rejected this system as a client (401): its keys only work inside the coding tools it supports, such as Claude Code or Codex, not from other software. Use OpenRouter or another provider with a regular API key."
 msgstr "{0} این سیستم را به‌عنوان کلاینت نپذیرفت (401): کلیدهای آن فقط داخل ابزارهای برنامه‌نویسی پشتیبانی‌شده مثل Claude Code یا Codex کار می‌کنند، نه در نرم‌افزارهای دیگر. از OpenRouter یا سرویس دیگری با کلید API معمولی استفاده کنید."
+
+msgid "Your {0} account has no credit left (402): {1}. Top up the account on the provider's website and try again."
+msgstr "اعتبار حساب {0} شما تمام شده است (402): {1}. حساب را در سایت همان سرویس شارژ کنید و دوباره امتحان کنید."
