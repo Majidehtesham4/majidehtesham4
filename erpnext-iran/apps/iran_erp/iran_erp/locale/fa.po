@@ -10884,3 +10884,10 @@ msgstr "اختیاری؛ در هر خط یک شناسه‌ی مدل. وقتی م
 
 msgid "The AI model is busy or its free quota is used up (429): {0}. Wait a few minutes, add fallback models in AI Assistant Settings, or use a paid model."
 msgstr "مدل هوش مصنوعی شلوغ است یا سهمیه‌ی رایگانش تمام شده (۴۲۹): {0}. چند دقیقه صبر کنید، در «تنظیمات دستیار هوشمند» مدل جایگزین اضافه کنید یا از یک مدل پولی استفاده کنید."
+
+#: iran_erp/ai
+msgid "The assistant needed more steps than allowed. Ask for less at once, or raise Max Tool Steps in AI Assistant Settings."
+msgstr "دستیار به مراحل بیشتری از حد مجاز نیاز داشت. کار کمتری را یک‌جا بخواهید، یا «حداکثر مراحل ابزار برای هر سؤال» را در «تنظیمات دستیار هوشمند» بالا ببرید."
+
+msgid "Opening stock entered by the AI assistant"
+msgstr "موجودی اول دوره، ثبت‌شده توسط دستیار هوشمند"

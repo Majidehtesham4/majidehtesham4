@@ -171,8 +171,9 @@ iran_erp.ai.Panel = class {
 			if (r.status === "Done" || r.status === "Failed") {
 				$thinking.remove();
 				this.busy = false;
+				// A failed request still carries the conversation, so "try again" works
+				this.previous_request = request_name;
 				if (r.status === "Done") {
-					this.previous_request = request_name;
 					this.add_message("assistant", r.answer, r.actions);
 				} else {
 					this.add_message("assistant", `⚠️ ${r.error || __("Something went wrong.")}`, r.actions);

@@ -48,7 +48,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "8",
+   "default": "20",
    "fieldname": "max_steps",
    "fieldtype": "Int",
    "label": "Max Tool Steps per Question"
@@ -76,7 +76,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-13 12:00:00.000000",
+ "modified": "2026-10-13 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",

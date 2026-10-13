@@ -30,7 +30,7 @@ def get_settings():
 		model=settings.model or "anthropic/claude-opus-5.5",
 		fallback_models=[m.strip() for m in (settings.fallback_models or "").splitlines() if m.strip()],
 		base_url=(settings.base_url or "https://openrouter.ai/api/v1").rstrip("/"),
-		max_steps=settings.max_steps or 8,
+		max_steps=settings.max_steps or 20,
 		instructions=settings.assistant_instructions or "",
 	)
 

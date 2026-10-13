@@ -7,3 +7,4 @@ iran_erp.patches.v0_1.setup_rial_number_format
 # Patches added in this section will be executed after doctypes are migrated
 iran_erp.patches.v0_1.set_default_vat_rate
 iran_erp.patches.v0_2.create_moadian_fields
+iran_erp.patches.v0_2.raise_ai_max_steps

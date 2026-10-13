@@ -375,6 +375,212 @@ def attach_file_to_document(file_url: str, doctype: str, name: str):
 	return {"attached": attached.file_name, "to": f"{doctype} {name}"}
 
 
+def _default_company():
+	return frappe.defaults.get_user_default("Company") or frappe.db.get_single_value(
+		"Global Defaults", "default_company"
+	)
+
+
+def _find_item(value: str) -> str | None:
+	"""An item by code, or by name when exactly one matches."""
+	value = (value or "").strip()
+	if not value:
+		return None
+	if frappe.db.exists("Item", value):
+		return value
+	for name in (value, normalize_digits(value)):
+		found = frappe.get_list("Item", filters={"item_name": name}, pluck="name", limit=2)
+		if len(found) == 1:
+			return found[0]
+	found = frappe.get_list("Item", filters={"item_name": ["like", f"%{value}%"]}, pluck="name", limit=2)
+	return found[0] if len(found) == 1 else None
+
+
+def create_items(items: list, company: str | None = None):
+	"""Create several items at once, with a selling price and optional opening stock."""
+	_check_writable("Item")
+	company = company or _default_company()
+	warehouse = frappe.db.get_value(
+		"Warehouse", {"company": company, "warehouse_name": "Stores", "is_group": 0}
+	) or frappe.db.get_value("Warehouse", {"company": company, "is_group": 0})
+	group = "Products" if frappe.db.exists("Item Group", "Products") else "All Item Groups"
+	created, existing, stock_rows = [], [], []
+	for row in items or []:
+		name = (row.get("item_name") or "").strip()
+		if not name:
+			continue
+		code = _find_item(row.get("item_code") or name)
+		if code:
+			existing.append(code)
+		else:
+			item = frappe.get_doc(
+				{
+					"doctype": "Item",
+					"item_code": row.get("item_code") or name,
+					"item_name": name,
+					"item_group": row.get("item_group")
+					if frappe.db.exists("Item Group", row.get("item_group") or "")
+					else group,
+					"stock_uom": row.get("uom") if frappe.db.exists("UOM", row.get("uom") or "") else "Nos",
+					"is_stock_item": 0 if row.get("is_service") else 1,
+					"item_defaults": [{"company": company, "default_warehouse": warehouse}],
+				}
+			).insert()
+			code = item.name
+			created.append(code)
+			if row.get("selling_price") and frappe.db.exists("Price List", "Standard Selling"):
+				frappe.get_doc(
+					{
+						"doctype": "Item Price",
+						"item_code": code,
+						"price_list": "Standard Selling",
+						"price_list_rate": row["selling_price"],
+					}
+				).insert()
+		if row.get("opening_qty"):
+			stock_rows.append(
+				{
+					"item_code": code,
+					"qty": row["opening_qty"],
+					# Cost price if given; otherwise the selling price stands in until someone corrects it
+					"basic_rate": row.get("cost_price") or row.get("selling_price") or 0,
+					"t_warehouse": warehouse,
+				}
+			)
+	result = {
+		"created": "Item",
+		"items_created": created,
+		"items_already_existing": existing,
+		"url": frappe.utils.get_url("/desk/item"),
+	}
+	if stock_rows:
+		entry = frappe.get_doc(
+			{
+				"doctype": "Stock Entry",
+				"stock_entry_type": "Material Receipt",
+				"company": company,
+				"remarks": _("Opening stock entered by the AI assistant"),
+				"items": stock_rows,
+			}
+		).insert()
+		# The link the user needs next is the stock entry to submit
+		result.update(
+			{
+				"created": "Stock Entry",
+				"name": entry.name,
+				"url": get_url_to_form("Stock Entry", entry.name),
+				"note": "Opening stock is a DRAFT stock entry; stock changes only after the user submits it.",
+			}
+		)
+	return result
+
+
+def create_customer(
+	customer_name: str,
+	city: str | None = None,
+	mobile: str | None = None,
+	email: str | None = None,
+	customer_type: str = "Individual",
+	national_id: str | None = None,
+):
+	"""A customer with address and contact details, or the existing one with that name."""
+	_check_writable("Customer")
+	existing = find_party("Customer", customer_name, national_id=national_id)
+	if existing and frappe.db.get_value("Customer", existing, "customer_name") == customer_name.strip():
+		return {"customer": existing, "already_existed": True}
+	territory = "Iran" if frappe.db.exists("Territory", "Iran") else "All Territories"
+	group = "Individual" if customer_type == "Individual" else "Commercial"
+	customer = frappe.get_doc(
+		{
+			"doctype": "Customer",
+			"customer_name": customer_name.strip(),
+			"customer_type": customer_type if customer_type in ("Individual", "Company") else "Individual",
+			"customer_group": group if frappe.db.exists("Customer Group", group) else "All Customer Groups",
+			"territory": territory,
+			"iran_national_id": national_id,
+		}
+	).insert()
+	links = [{"link_doctype": "Customer", "link_name": customer.name}]
+	if city:
+		frappe.get_doc(
+			{
+				"doctype": "Address",
+				"address_title": customer_name,
+				"address_type": "Billing",
+				"address_line1": city,
+				"city": city,
+				"country": "Iran",
+				"links": links,
+			}
+		).insert()
+	if mobile or email:
+		contact = {"doctype": "Contact", "first_name": customer_name, "links": links}
+		if mobile:
+			contact["phone_nos"] = [{"phone": normalize_digits(mobile), "is_primary_mobile_no": 1}]
+		if email:
+			contact["email_ids"] = [{"email_id": email, "is_primary": 1}]
+		frappe.get_doc(contact).insert()
+	return {"created": "Customer", "name": customer.name, "url": get_url_to_form("Customer", customer.name)}
+
+
+def create_sales_invoice_draft(
+	customer: str,
+	items: list,
+	discount_percentage: float | None = None,
+	apply_vat: bool = False,
+	company: str | None = None,
+):
+	"""A draft sales invoice; customers and items may be given by name."""
+	_check_writable("Sales Invoice")
+	company = company or _default_company()
+	customer_id = customer if frappe.db.exists("Customer", customer) else find_party("Customer", customer)
+	if not customer_id:
+		return {"error": f"Customer '{customer}' not found. Create it with create_customer first."}
+	rows, missing = [], []
+	for row in items or []:
+		code = _find_item(row.get("item_code") or row.get("item") or row.get("item_name"))
+		if not code:
+			missing.append(row.get("item_code") or row.get("item") or row.get("item_name"))
+			continue
+		rate = row.get("rate") or frappe.db.get_value(
+			"Item Price", {"item_code": code, "price_list": "Standard Selling"}, "price_list_rate"
+		)
+		rows.append({"item_code": code, "qty": row.get("qty") or 1, "rate": rate or 0})
+	if missing:
+		return {
+			"error": f"Items not found: {', '.join(map(str, missing))}. Create them with create_items first."
+		}
+	doc = frappe.get_doc(
+		{
+			"doctype": "Sales Invoice",
+			"company": company,
+			"customer": customer_id,
+			"items": rows,
+			"additional_discount_percentage": discount_percentage or 0,
+			"apply_discount_on": "Net Total",
+		}
+	)
+	if apply_vat:
+		template = frappe.db.get_value(
+			"Sales Taxes and Charges Template", {"company": company, "is_default": 1, "disabled": 0}
+		)
+		if template:
+			doc.taxes_and_charges = template
+			doc.append_taxes_from_master()
+	doc.docstatus = 0
+	doc.insert()
+	return {
+		"created": "Sales Invoice",
+		"name": doc.name,
+		"url": get_url_to_form("Sales Invoice", doc.name),
+		"customer": customer_id,
+		"total_before_discount": doc.total,
+		"discount": doc.discount_amount,
+		"taxes": doc.total_taxes_and_charges,
+		"grand_total": doc.grand_total,
+	}
+
+
 TOOLS = {
 	"get_company_info": get_company_info,
 	"describe_doctype": describe_doctype,
@@ -389,6 +595,9 @@ TOOLS = {
 	"match_bank_statement": match_bank_statement,
 	"create_purchase_invoice_draft": create_purchase_invoice_draft,
 	"attach_file_to_document": attach_file_to_document,
+	"create_items": create_items,
+	"create_customer": create_customer,
+	"create_sales_invoice_draft": create_sales_invoice_draft,
 }
 
 
@@ -557,6 +766,71 @@ TOOL_SCHEMAS = [
 			"file_url": {"type": "string"},
 		},
 		["items"],
+	),
+	_fn(
+		"create_items",
+		"Create several products at once with selling price and optional opening stock (one draft "
+		"stock entry for all). Prefer this over create_draft_document for items. Existing items with the "
+		"same name are reused.",
+		{
+			"items": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"item_name": {"type": "string"},
+						"item_code": {"type": "string", "description": "Optional; defaults to the name"},
+						"selling_price": {"type": "number", "description": "In rial"},
+						"cost_price": {"type": "number", "description": "Purchase cost in rial, if known"},
+						"opening_qty": {"type": "number"},
+						"uom": {"type": "string"},
+						"is_service": {"type": "boolean"},
+					},
+					"required": ["item_name"],
+				},
+			},
+			"company": {"type": "string"},
+		},
+		["items"],
+	),
+	_fn(
+		"create_customer",
+		"Create a customer with city (address) and mobile/email (contact) in one call. Returns the "
+		"existing customer if one with the same name exists.",
+		{
+			"customer_name": {"type": "string"},
+			"city": {"type": "string"},
+			"mobile": {"type": "string"},
+			"email": {"type": "string"},
+			"customer_type": {"type": "string", "enum": ["Individual", "Company"]},
+			"national_id": {"type": "string"},
+		},
+		["customer_name"],
+	),
+	_fn(
+		"create_sales_invoice_draft",
+		"Create a draft sales invoice in one call. Customer and items can be given by name; prices "
+		"come from the price list unless a rate is given. discount_percentage is applied to the whole "
+		"invoice. Set apply_vat only when the user asks for VAT.",
+		{
+			"customer": {"type": "string"},
+			"items": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"item": {"type": "string", "description": "Item code or name"},
+						"qty": {"type": "number"},
+						"rate": {"type": "number"},
+					},
+					"required": ["item"],
+				},
+			},
+			"discount_percentage": {"type": "number"},
+			"apply_vat": {"type": "boolean"},
+			"company": {"type": "string"},
+		},
+		["customer", "items"],
 	),
 	_fn(
 		"attach_file_to_document",
