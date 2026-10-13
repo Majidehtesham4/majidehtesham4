@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "enabled",
+  "commands_enabled",
   "provider",
   "api_key",
   "model",
@@ -32,6 +33,13 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enable AI Assistant"
+  },
+  {
+   "default": "1",
+   "fieldname": "commands_enabled",
+   "fieldtype": "Check",
+   "label": "Answer Known Commands Without AI",
+   "description": "Common requests (balances, stock, sales, invoices, cheques, opening pages, ...) are answered by the built-in command engine, without sending anything to an AI service. Only what it does not recognize goes to the AI model, when one is enabled. Extra commands can be added in Iran Chat Command."
   },
   {
    "default": "OpenRouter",
@@ -166,7 +174,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-13 21:00:00.000000",
+ "modified": "2026-10-13 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",

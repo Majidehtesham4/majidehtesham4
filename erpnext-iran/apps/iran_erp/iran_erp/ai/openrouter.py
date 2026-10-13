@@ -177,7 +177,7 @@ def _rest_key(key: str, response):
 	seconds = KEY_COOL_DOWN.get(response.status_code, 60)
 	try:
 		seconds = max(seconds, min(int(float(response.headers.get("retry-after"))), 3600))
-	except (TypeError, ValueError):
+	except TypeError, ValueError:
 		pass
 	frappe.cache.set_value(f"iran_ai_key_rest:{_key_id(key)}", 1, expires_in_sec=seconds)
 
@@ -205,7 +205,7 @@ def post_with_retries(settings, url: str, request_for_key):
 			return response
 		try:
 			wait = min(max(float(response.headers.get("retry-after")), wait), MAX_RETRY_WAIT)
-		except (TypeError, ValueError):
+		except TypeError, ValueError:
 			pass
 		time.sleep(wait)
 

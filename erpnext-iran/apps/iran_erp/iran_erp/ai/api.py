@@ -10,14 +10,20 @@ from iran_erp.ai.openrouter import AIError, chat_completion, get_settings, list_
 
 @frappe.whitelist()
 def ask(question: str, previous_request: str | None = None, files: str | list | None = None) -> str:
-	"""Queue a question for the assistant and return the request name to poll."""
+	"""Answer a known command right away, or queue the question for the AI model.
+
+	Returns the request name to poll; a command's request is already Done.
+	"""
+	from iran_erp.ai.openrouter import has_api_key
+
 	question = (question or "").strip()
 	if not question:
 		frappe.throw(_("Please write a question."))
-	if not frappe.db.get_single_value("Iran AI Settings", "enabled"):
+	settings = frappe.get_cached_doc("Iran AI Settings")
+	ai_on = bool(settings.enabled and has_api_key())
+	if not settings.commands_enabled and not ai_on:
 		frappe.throw(_("The AI assistant is disabled in Iran AI Settings."))
-	if previous_request:
-		_get_own_request(previous_request)
+	previous = _get_own_request(previous_request) if previous_request else None
 	if isinstance(files, str):
 		files = json.loads(files or "[]")
 	attachments = []
@@ -25,17 +31,48 @@ def ask(question: str, previous_request: str | None = None, files: str | list | 
 		file = get_file(file_url)
 		attachments.append({"file_url": file.file_url, "file_name": file.file_name})
 
-	request = frappe.get_doc(
-		{
-			"doctype": "Iran AI Request",
-			"user": frappe.session.user,
-			"question": question[:4000],
-			"previous_request": previous_request,
-			"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
-			"status": "Queued",
-		}
-	).insert(ignore_permissions=True)
+	values = {
+		"doctype": "Iran AI Request",
+		"user": frappe.session.user,
+		"question": question[:4000],
+		"previous_request": previous_request,
+		"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
+	}
+	# Files need the AI model to read them
+	if settings.commands_enabled and not attachments:
+		result = _run_command(question, previous, ai_on)
+		if not result.get("delegate"):
+			history = json.loads(previous.messages or "[]") if previous else []
+			history += [
+				{"role": "user", "content": question},
+				{"role": "assistant", "content": result.get("answer") or ""},
+			]
+			failed = bool(result.get("error"))
+			request = frappe.get_doc(
+				{
+					**values,
+					"status": "Failed" if failed else "Done",
+					"handled_by": "Not Understood" if result.get("unrecognized") else "Command",
+					"intent": result.get("intent"),
+					"score": result.get("score"),
+					"answer": None if failed else result.get("answer"),
+					"error": result.get("error"),
+					"actions": json.dumps(result.get("actions") or [], ensure_ascii=False, default=str),
+					"messages": json.dumps(history, ensure_ascii=False, default=str),
+					"command_state": json.dumps(result["state"], ensure_ascii=False, default=str)
+					if result.get("state")
+					else None,
+					"model": "commands",
+				}
+			).insert(ignore_permissions=True)
+			return request.name
+		values.update(intent=result.get("intent"), score=result.get("score"))
 
+	if not ai_on:
+		frappe.throw(_("The AI assistant is disabled in Iran AI Settings."))
+	request = frappe.get_doc({**values, "status": "Queued", "handled_by": "AI"}).insert(
+		ignore_permissions=True
+	)
 	frappe.enqueue(
 		"iran_erp.ai.assistant.run_request",
 		queue="long",
@@ -44,6 +81,22 @@ def ask(question: str, previous_request: str | None = None, files: str | list | 
 		enqueue_after_commit=True,
 	)
 	return request.name
+
+
+def _run_command(question: str, previous, ai_on: bool) -> dict:
+	from iran_erp.commands.engine import handle
+
+	state = json.loads(previous.command_state or "{}") if previous else {}
+	try:
+		return handle(question, state, ai_available=ai_on)
+	except Exception as e:
+		frappe.db.rollback()
+		if not isinstance(e, frappe.ValidationError):
+			frappe.log_error(title="Iran chat command failed")
+		message = frappe.utils.strip_html(str(e)) or _("Something went wrong.")
+		frappe.clear_last_message()
+		frappe.local.message_log = []
+		return {"error": message, "answer": message, "intent": None}
 
 
 @frappe.whitelist()

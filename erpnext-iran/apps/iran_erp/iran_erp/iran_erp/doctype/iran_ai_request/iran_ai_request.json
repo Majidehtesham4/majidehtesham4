@@ -12,6 +12,9 @@
   "status",
   "previous_request",
   "column_break_1",
+  "handled_by",
+  "intent",
+  "score",
   "model",
   "total_tokens",
   "section_question",
@@ -21,7 +24,8 @@
   "error",
   "section_log",
   "actions",
-  "messages"
+  "messages",
+  "command_state"
  ],
  "fields": [
   {
@@ -53,6 +57,29 @@
   {
    "fieldname": "column_break_1",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "handled_by",
+   "fieldtype": "Select",
+   "label": "Handled By",
+   "options": "\nCommand\nAI\nNot Understood",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "intent",
+   "fieldtype": "Data",
+   "label": "Command",
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Match Score",
+   "precision": "3",
+   "read_only": 1
   },
   {
    "fieldname": "model",
@@ -114,12 +141,20 @@
    "label": "Conversation",
    "options": "JSON",
    "read_only": 1
+  },
+  {
+   "fieldname": "command_state",
+   "fieldtype": "Code",
+   "label": "Command State",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "The question the command is waiting for an answer to"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-12 22:00:00.000000",
+ "modified": "2026-10-13 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Request",

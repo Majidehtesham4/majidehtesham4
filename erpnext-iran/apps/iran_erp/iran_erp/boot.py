@@ -4,9 +4,11 @@ import frappe
 def boot_session(bootinfo):
 	from iran_erp.ai.openrouter import has_api_key
 
-	bootinfo.iran_ai_enabled = bool(
-		frappe.db.get_single_value("Iran AI Settings", "enabled") and has_api_key()
-	)
+	ai_on = bool(frappe.db.get_single_value("Iran AI Settings", "enabled") and has_api_key())
+	commands_on = bool(frappe.db.get_single_value("Iran AI Settings", "commands_enabled"))
+	# The chat opens when either the built-in commands or an AI model can answer
+	bootinfo.iran_ai_enabled = ai_on or commands_on
+	bootinfo.iran_ai_model_enabled = ai_on
 	# Administrators see the assistant button even before it is set up, so they can find the settings
 	bootinfo.iran_ai_can_configure = "System Manager" in frappe.get_roles()
 	bootinfo.iran_ai_voice = frappe.db.get_single_value("Iran AI Settings", "voice_input") or "Browser"

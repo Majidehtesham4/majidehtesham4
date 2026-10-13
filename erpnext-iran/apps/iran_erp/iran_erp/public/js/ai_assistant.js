@@ -39,6 +39,12 @@ iran_erp.ai.Panel = class {
 			</div>`).appendTo(document.body);
 
 		this.$messages = this.$panel.find(".iran-ai-messages");
+		// Links to desk pages in answers open behind the chat
+		this.$messages.on("click", "a[href^='/desk/']", (e) => {
+			if (e.ctrlKey || e.metaKey) return;
+			e.preventDefault();
+			frappe.set_route(e.currentTarget.getAttribute("href"));
+		});
 		this.$input = this.$panel.find("textarea");
 
 		this.$button.on("click", () => this.toggle(true));
@@ -62,7 +68,10 @@ iran_erp.ai.Panel = class {
 	}
 
 	setup_voice() {
-		const use_model = frappe.boot.iran_ai_voice === "AI Model" && navigator.mediaDevices?.getUserMedia;
+		const use_model =
+			frappe.boot.iran_ai_voice === "AI Model" &&
+			frappe.boot.iran_ai_model_enabled &&
+			navigator.mediaDevices?.getUserMedia;
 		// Speech recognition is built into Chrome and Edge; other browsers just don't get the button
 		const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 		if (!use_model && !Recognition) return;
@@ -188,12 +197,17 @@ iran_erp.ai.Panel = class {
 		this.files = [];
 		this.render_files();
 		this.$messages.empty();
-		this.add_message(
-			"assistant",
-			__(
-				"Hello! I can look up records, run reports, prepare draft documents and web pages, export to Excel, reconcile a bank statement, and turn a supplier invoice image into a draft purchase invoice. What do you need?"
-			)
+		let welcome = __(
+			"Hello! Ask me about balances, stock, sales, purchases and cheques, or tell me to create an invoice, a customer, a payment or a reminder. Write «help» to see everything I can do."
 		);
+		if (frappe.boot.iran_ai_model_enabled) {
+			welcome +=
+				" " +
+				__(
+					"Anything else, attached invoices and bank statements included, goes to the AI model."
+				);
+		}
+		this.add_message("assistant", welcome);
 	}
 
 	add_message(role, text, actions, files) {
@@ -220,7 +234,7 @@ iran_erp.ai.Panel = class {
 			const href = local_link(a.getAttribute("href") || "");
 			a.setAttribute("href", href);
 			if (!/^(https?:\/\/|\/)/.test(href)) a.removeAttribute("href");
-			a.setAttribute("target", "_blank");
+			if (!href.startsWith("/desk/")) a.setAttribute("target", "_blank");
 		});
 		return $html.html();
 	}
@@ -228,10 +242,22 @@ iran_erp.ai.Panel = class {
 	render_action(action) {
 		const link = local_link(action.file_url || action.url || "");
 		if (!link) return "";
-		const label = action.file_url
-			? `${__("Download")} ${frappe.utils.escape_html(action.file_name || "")}`
-			: `${__(action.created || action.updated)}: ${frappe.utils.escape_html(action.name || "")}`;
-		const $a = $(`<a class="iran-ai-action" target="_blank"></a>`).attr("href", link).text(label);
+		let label = action.label || "";
+		if (!label) {
+			label = action.file_url
+				? `${__("Download")} ${action.file_name || ""}`
+				: `${__(action.created || action.updated)}: ${action.name || ""}`;
+		}
+		const $a = $(`<a class="iran-ai-action"></a>`).attr("href", link).text(label);
+		if (link.startsWith("/desk/")) {
+			// Pages of the desk open behind the chat, which stays open
+			$a.on("click", (e) => {
+				e.preventDefault();
+				frappe.set_route(link);
+			});
+		} else {
+			$a.attr("target", "_blank");
+		}
 		return $("<div>").append($a);
 	}
 
@@ -272,6 +298,9 @@ iran_erp.ai.Panel = class {
 				this.previous_request = request_name;
 				if (r.status === "Done") {
 					this.add_message("assistant", r.answer, r.actions);
+					// "Open the list of customers": go there straight away
+					const open = (r.actions || []).find((a) => a.open && a.url);
+					if (open) frappe.set_route(local_link(open.url));
 				} else {
 					this.add_message("assistant", `⚠️ ${r.error || __("Something went wrong.")}`, r.actions);
 				}

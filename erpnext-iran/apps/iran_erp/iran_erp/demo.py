@@ -261,6 +261,8 @@ class Demo:
 			("PRN-01", 8, 140_000_000),
 			("DESK-01", 6, 250_000_000),
 		]
+		# Opening stock is balanced against the temporary opening account, not booked as a gain
+		opening = opening_account(self.company)
 		self.add(
 			{
 				"doctype": "Stock Entry",
@@ -270,7 +272,13 @@ class Demo:
 				"set_posting_time": 1,
 				"remarks": "موجودی اول دوره (داده‌ی نمونه)",
 				"items": [
-					{"item_code": code, "qty": qty, "basic_rate": rate, "t_warehouse": self.stores}
+					{
+						"item_code": code,
+						"qty": qty,
+						"basic_rate": rate,
+						"t_warehouse": self.stores,
+						"expense_account": opening,
+					}
 					for code, qty, rate in items
 				],
 			},
@@ -810,3 +818,10 @@ def set_job_status(status: dict):
 	# Kept in the database: saving Website Settings clears the whole Redis cache
 	frappe.db.set_default(JOB_KEY, json.dumps(status, ensure_ascii=False))
 	frappe.db.commit()
+
+
+def opening_account(company: str) -> str | None:
+	"""The account opening balances are booked against (افتتاحیه موقت)."""
+	return frappe.db.get_value(
+		"Account", {"company": company, "account_type": "Temporary", "is_group": 0, "disabled": 0}
+	)

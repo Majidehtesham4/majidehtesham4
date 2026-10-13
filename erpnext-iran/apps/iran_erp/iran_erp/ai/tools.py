@@ -18,6 +18,7 @@ from frappe.utils.xlsxutils import make_xlsx
 
 from iran_erp.ai.bank import match_bank_statement
 from iran_erp.ai.files import get_file, parse_date, read_table
+from iran_erp.demo import opening_account
 from iran_erp.utils.jalali import format_jalali
 from iran_erp.utils.national_id import normalize_digits
 
@@ -461,6 +462,8 @@ def create_items(items: list, company: str | None = None):
 					"qty": row["opening_qty"],
 					"basic_rate": row["cost_price"],
 					"t_warehouse": warehouse,
+					# Opening stock is balanced against the temporary opening account, not booked as a gain
+					"expense_account": opening_account(company),
 				}
 			)
 	result = {

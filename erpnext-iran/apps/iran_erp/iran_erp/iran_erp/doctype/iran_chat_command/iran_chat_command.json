@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:command_name",
+ "creation": "2026-10-13 22:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "command_name",
+  "enabled",
+  "phrases",
+  "column_break_1",
+  "action",
+  "intent",
+  "target",
+  "filters",
+  "reply"
+ ],
+ "fields": [
+  {
+   "fieldname": "command_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Command Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "phrases",
+   "fieldtype": "Small Text",
+   "label": "Sample Sentences",
+   "reqd": 1,
+   "description": "One sentence per line, the way users would ask for it. The more ways you write, the better it is recognized."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Reply",
+   "fieldname": "action",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Action",
+   "options": "Reply\nOpen List\nNew Document\nOpen Report\nOpen Document\nOpen Link\nBuilt-in Command",
+   "description": "Built-in Command: the sentences are extra ways of asking for one of the built-in commands."
+  },
+  {
+   "depends_on": "eval:doc.action=='Built-in Command'",
+   "fieldname": "intent",
+   "fieldtype": "Select",
+   "label": "Built-in Command",
+   "mandatory_depends_on": "eval:doc.action=='Built-in Command'"
+  },
+  {
+   "depends_on": "eval:['Open List','New Document','Open Report','Open Document','Open Link'].includes(doc.action)",
+   "fieldname": "target",
+   "fieldtype": "Data",
+   "label": "Target",
+   "description": "Open List / New Document: the DocType, e.g. Sales Invoice. Open Report: the report name. Open Document: DocType:name. Open Link: a path such as /desk/stock-balance."
+  },
+  {
+   "depends_on": "eval:['Open List','Open Report'].includes(doc.action)",
+   "fieldname": "filters",
+   "fieldtype": "Code",
+   "label": "Filters",
+   "options": "JSON",
+   "description": "Optional, e.g. {\"status\": \"Overdue\"}"
+  },
+  {
+   "fieldname": "reply",
+   "fieldtype": "Small Text",
+   "label": "Reply",
+   "description": "The text shown in the chat. {today} and {user} are replaced with today's Jalali date and the user's name."
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-13 22:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Chat Command",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

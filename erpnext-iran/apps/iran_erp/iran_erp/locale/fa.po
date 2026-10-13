@@ -11051,3 +11051,927 @@ msgstr "می‌توانید چند کلید را با کاما جدا کنید (
 
 msgid "Create a key at openrouter.ai/keys. Several keys can be entered, separated by commas (up to 30): when one is refused or reaches its limit, the next one is used."
 msgstr "کلید را از openrouter.ai/keys بسازید. می‌توانید چند کلید را با کاما جدا کنید (تا ۳۰ کلید): وقتی یکی رد شد یا به سقفش رسید، خودکار کلید بعدی استفاده می‌شود."
+
+msgid "Cancelled."
+msgstr "لغو شد."
+
+msgid "Which one did you mean? Reply with its number."
+msgstr "منظورتان کدام است؟ شماره‌اش را بنویسید."
+
+msgid "I did not understand this request."
+msgstr "متوجه این درخواست نشدم."
+
+msgid "Did you mean one of these?"
+msgstr "شاید منظورتان یکی از این‌ها بود:"
+
+msgid "Write «help» to see what I can do."
+msgstr "برای دیدن کارهایی که بلدم بنویسید «راهنما»."
+
+msgid "Cancelled. Nothing was changed."
+msgstr "لغو شد. چیزی تغییر نکرد."
+
+msgid "Please give more detail."
+msgstr "لطفاً جزئیات بیشتری بنویسید."
+
+msgid "I could not read that."
+msgstr "متوجه نشدم."
+
+msgid "Reply with the number."
+msgstr "شماره‌ی گزینه را بنویسید."
+
+msgid "Which one?"
+msgstr "کدام؟"
+
+msgid "These items were not found: {0}. Write the items again with their exact names, or define them first."
+msgstr "این کالاها پیدا نشد: {0}. کالاها را با نام دقیقشان دوباره بنویسید یا اول تعریفشان کنید."
+
+msgid "Shall I go ahead? (yes / no)"
+msgstr "انجام بدهم؟ (بله / خیر)"
+
+msgid "You do not have permission for this."
+msgstr "شما دسترسی لازم برای این کار را ندارید."
+
+msgid "Balance of {0}: {1}"
+msgstr "مانده‌ی {0}: {1}"
+
+msgid "General Ledger"
+msgstr "دفتر کل"
+
+msgid "{0} has no balance; the account is settled."
+msgstr "{0} مانده ندارد؛ حسابش تسویه است."
+
+msgid "{0} owes us {1}."
+msgstr "{0} به ما {1} بدهکار است."
+
+msgid "We owe {0} {1}."
+msgstr "ما به {0} مبلغ {1} بدهکاریم."
+
+msgid "Unpaid invoices: {0}, totalling {1}."
+msgstr "فاکتورهای پرداخت‌نشده: {0} فاکتور، جمعاً {1}."
+
+msgid "Statement"
+msgstr "ریز حساب"
+
+msgid "Unpaid invoices"
+msgstr "فاکتورهای پرداخت‌نشده"
+
+msgid "Date"
+msgstr "تاریخ"
+
+msgid "Document"
+msgstr "سند"
+
+msgid "Debit"
+msgstr "بدهکار"
+
+msgid "Credit"
+msgstr "بستانکار"
+
+msgid "No transactions in this period."
+msgstr "در این دوره گردشی نیست."
+
+msgid "Balance today: {0}"
+msgstr "مانده تا امروز: {0}"
+
+msgid "Full statement"
+msgstr "ریز حساب کامل"
+
+msgid "Account"
+msgstr "حساب"
+
+msgid "Balance"
+msgstr "مانده"
+
+msgid "Total cash and bank: {0}"
+msgstr "جمع صندوق و بانک: {0}"
+
+msgid "No cash or bank accounts found."
+msgstr "حساب صندوق یا بانکی پیدا نشد."
+
+msgid "No customer owes us anything."
+msgstr "هیچ مشتری‌ای به ما بدهکار نیست."
+
+msgid "Customers owe us {0} in total ({1} customers)."
+msgstr "مشتری‌ها جمعاً {0} به ما بدهکارند ({1} مشتری)."
+
+msgid "Customer"
+msgstr "مشتری"
+
+msgid "Accounts Receivable"
+msgstr "حساب‌های دریافتنی"
+
+msgid "We owe no supplier anything."
+msgstr "به هیچ تأمین‌کننده‌ای بدهکار نیستیم."
+
+msgid "We owe suppliers {0} in total ({1} suppliers)."
+msgstr "جمعاً {0} به تأمین‌کننده‌ها بدهکاریم ({1} تأمین‌کننده)."
+
+msgid "Supplier"
+msgstr "تأمین‌کننده"
+
+msgid "Accounts Payable"
+msgstr "حساب‌های پرداختنی"
+
+msgid "Invoice"
+msgstr "فاکتور"
+
+msgid "Due Date"
+msgstr "سررسید"
+
+msgid "Outstanding"
+msgstr "مانده‌ی پرداخت‌نشده"
+
+msgid "No unpaid invoices."
+msgstr "فاکتور پرداخت‌نشده‌ای نیست."
+
+msgid "Unpaid in total: {0}; past their due date: {1}."
+msgstr "جمع پرداخت‌نشده: {0}؛ گذشته از سررسید: {1}."
+
+msgid "Unpaid sales invoices"
+msgstr "فاکتورهای فروش پرداخت‌نشده"
+
+msgid "Unpaid purchase invoices"
+msgstr "فاکتورهای خرید پرداخت‌نشده"
+
+msgid "Profit and Loss Statement"
+msgstr "صورت سود و زیان"
+
+msgid "No expenses in {0}."
+msgstr "در {0} هزینه‌ای ثبت نشده."
+
+msgid "Expenses in {0}: {1}"
+msgstr "هزینه‌های {0}: {1}"
+
+msgid "Amount"
+msgstr "مبلغ"
+
+msgid "Party"
+msgstr "طرف حساب"
+
+msgid "Mode of Payment"
+msgstr "روش پرداخت"
+
+msgid "Payments received"
+msgstr "دریافتی‌ها"
+
+msgid "Payments made"
+msgstr "پرداختی‌ها"
+
+msgid "Nothing in {0}."
+msgstr "در {0} موردی نیست."
+
+msgid "Total: {0}"
+msgstr "جمع: {0}"
+
+msgid "Was it paid in cash, or by bank transfer / card?"
+msgstr "نقدی بود یا واریز به حساب (کارت به کارت)؟"
+
+msgid "Recorded from chat"
+msgstr "ثبت از دستیار"
+
+msgid "received from"
+msgstr "دریافت از"
+
+msgid "paid to"
+msgstr "پرداخت به"
+
+msgid "Draft payment: {0} {1} {2} ({3}). It is not allocated to invoices yet; open it, use «Get Outstanding Invoices» and submit."
+msgstr "پیش‌نویس سند: {0} {1} {2} ({3}). هنوز به فاکتوری تخصیص داده نشده؛ بازش کنید، «دریافت فاکتورهای باز» را بزنید و ثبت نهایی کنید."
+
+msgid "Recording a journal entry needs the accounts chosen by hand. I opened a new journal entry for you."
+msgstr "برای سند حسابداری باید حساب‌ها دستی انتخاب شوند. یک سند حسابداری جدید برایتان باز کردم."
+
+msgid "New Journal Entry"
+msgstr "سند حسابداری جدید"
+
+msgid "Which Jalali year? For example 1406."
+msgstr "کدام سال شمسی؟ مثلاً ۱۴۰۶."
+
+msgid "Fiscal year {0} is ready."
+msgstr "سال مالی {0} آماده است."
+
+msgid "Total"
+msgstr "جمع"
+
+msgid "Sales invoices without a Moadian tax ID"
+msgstr "فاکتورهای فروش بدون شماره‌ی مالیاتی مؤدیان"
+
+msgid "Every submitted sales invoice of {0} has a tax ID."
+msgstr "همه‌ی فاکتورهای فروش ثبت‌شده‌ی {0} شماره‌ی مالیاتی دارند."
+
+msgid "Lead {0} was created."
+msgstr "سرنخ {0} ثبت شد."
+
+msgid "open"
+msgstr "باز"
+
+msgid "Lead"
+msgstr "سرنخ"
+
+msgid "Name"
+msgstr "نام"
+
+msgid "Mobile"
+msgstr "موبایل"
+
+msgid "Status"
+msgstr "وضعیت"
+
+msgid "Leads"
+msgstr "سرنخ‌ها"
+
+msgid "No leads."
+msgstr "سرنخی نیست."
+
+msgid "Opportunity"
+msgstr "فرصت فروش"
+
+msgid "Expected Closing"
+msgstr "پیش‌بینی بسته شدن"
+
+msgid "Open opportunities"
+msgstr "فرصت‌های فروش باز"
+
+msgid "No open opportunities."
+msgstr "فرصت فروش بازی نیست."
+
+msgid "No purchases{0} in {1}."
+msgstr "در {1} خریدی{0} ثبت نشده."
+
+msgid "Purchases{0} in {1}: {2} invoices, {3} before tax, {4} with tax."
+msgstr "خرید{0} در {1}: {2} فاکتور، {3} بدون مالیات و {4} با مالیات."
+
+msgid "Open the invoices"
+msgstr "باز کردن فاکتورها"
+
+msgid "Top suppliers"
+msgstr "تأمین‌کننده‌های اصلی"
+
+msgid "Latest purchase invoices"
+msgstr "آخرین فاکتورهای خرید"
+
+msgid "Draft purchase invoice from {0}:"
+msgstr "پیش‌نویس فاکتور خرید از {0}:"
+
+msgid "Draft purchase order to {0}:"
+msgstr "پیش‌نویس سفارش خرید به {0}:"
+
+msgid "Order"
+msgstr "سفارش"
+
+msgid "Required By"
+msgstr "تاریخ نیاز"
+
+msgid "Open purchase orders"
+msgstr "سفارش‌های خرید باز"
+
+msgid "Every purchase order is received and billed."
+msgstr "همه‌ی سفارش‌های خرید دریافت و فاکتور شده‌اند."
+
+msgid "{0} is already a supplier."
+msgstr "{0} از قبل تأمین‌کننده است."
+
+msgid "Supplier {0} was created."
+msgstr "تأمین‌کننده‌ی {0} تعریف شد."
+
+msgid "Request"
+msgstr "درخواست"
+
+msgid "Type"
+msgstr "نوع"
+
+msgid "Open material requests"
+msgstr "درخواست‌های کالای باز"
+
+msgid "No open material requests."
+msgstr "درخواست کالای بازی نیست."
+
+msgid "Which items, and how many?"
+msgstr "چه کالاهایی و چند تا؟"
+
+msgid "Draft material request:"
+msgstr "پیش‌نویس درخواست کالا:"
+
+msgid "Nothing found."
+msgstr "چیزی پیدا نشد."
+
+msgid "Open the list"
+msgstr "باز کردن فهرست"
+
+msgid "Showing {0} of {1}."
+msgstr "{0} مورد از {1} مورد نمایش داده شد."
+
+msgid "Open the full list"
+msgstr "باز کردن فهرست کامل"
+
+msgid "Work Order"
+msgstr "دستور تولید"
+
+msgid "Quantity"
+msgstr "تعداد"
+
+msgid "Produced"
+msgstr "تولیدشده"
+
+msgid "Open work orders"
+msgstr "دستورهای تولید باز"
+
+msgid "No open work orders."
+msgstr "دستور تولید بازی نیست."
+
+msgid "{0} has no bill of materials, so it cannot be produced yet. Define its BOM first."
+msgstr "{0} فهرست مواد (BOM) ندارد و هنوز نمی‌شود تولیدش کرد. اول فهرست موادش را تعریف کنید."
+
+msgid "Draft work order: {0} × {1}."
+msgstr "پیش‌نویس دستور تولید: {0} × {1}."
+
+msgid "{0} has no bill of materials."
+msgstr "{0} فهرست مواد (BOM) ندارد."
+
+msgid "Materials for {0} {1}:"
+msgstr "مواد لازم برای {0} عدد {1}:"
+
+msgid "Unit"
+msgstr "واحد"
+
+msgid "Open"
+msgstr "باز کردن"
+
+msgid "Nothing was produced in {0}."
+msgstr "در {0} تولیدی ثبت نشده."
+
+msgid "Hello {0}! How can I help? Write «help» to see what I can do."
+msgstr "سلام {0}! چه کمکی از دستم برمی‌آید؟ برای دیدن کارهایی که بلدم بنویسید «راهنما»."
+
+msgid "You're welcome! Anything else?"
+msgstr "خواهش می‌کنم! کار دیگری هم هست؟"
+
+msgid "These are the things I can do without an AI model. Write them in your own words:"
+msgstr "این کارها را بدون هوش مصنوعی انجام می‌دهم. با زبان خودتان بنویسید:"
+
+msgid "Today is {0} {1} ({2})."
+msgstr "امروز {0} {1} است ({2})."
+
+msgid "{0}: {1} in the Jalali calendar, {2} in the Gregorian calendar."
+msgstr "{0}: {1} شمسی، برابر با {2} میلادی."
+
+msgid "In tomans: {0} toman"
+msgstr "به تومان: {0} تومان"
+
+msgid "{0} includes {1}% VAT: before tax {2}, VAT {3}."
+msgstr "{0} شامل {1}٪ ارزش افزوده است: بدون مالیات {2}، ارزش افزوده {3}."
+
+msgid "VAT at {0}% on {1} is {2}; total with VAT {3}."
+msgstr "ارزش افزوده‌ی {0}٪ روی {1} می‌شود {2}؛ جمع با ارزش افزوده {3}."
+
+msgid "Designation"
+msgstr "سمت"
+
+msgid "Department"
+msgstr "واحد"
+
+msgid "Email"
+msgstr "ایمیل"
+
+msgid "Date of Joining"
+msgstr "تاریخ استخدام"
+
+msgid "Active employees"
+msgstr "کارکنان فعال"
+
+msgid "No sales{0} in {1}."
+msgstr "در {1} فروشی{0} ثبت نشده."
+
+msgid "Sales{0} in {1}: {2} invoices, {3} before tax, {4} with tax."
+msgstr "فروش{0} در {1}: {2} فاکتور، {3} بدون مالیات و {4} با مالیات."
+
+msgid "Invoices"
+msgstr "فاکتورها"
+
+msgid "Top customers"
+msgstr "مشتری‌های برتر"
+
+msgid "No sales in {0}."
+msgstr "در {0} فروشی ثبت نشده."
+
+msgid "Least sold items"
+msgstr "کم‌فروش‌ترین کالاها"
+
+msgid "Best selling items"
+msgstr "پرفروش‌ترین کالاها"
+
+msgid "{0} was not sold in {1}."
+msgstr "{0} در {1} فروش نرفته."
+
+msgid "{0} in {1}: {2} sold, for {3} before tax."
+msgstr "{0} در {1}: {2} عدد فروش رفته، به مبلغ {3} بدون مالیات."
+
+msgid "Latest sales invoices"
+msgstr "آخرین فاکتورهای فروش"
+
+msgid "Rate"
+msgstr "قیمت واحد"
+
+msgid "including {0} tax"
+msgstr "شامل {0} مالیات"
+
+msgid "Some lines have no price; set it in the draft."
+msgstr "بعضی ردیف‌ها قیمت ندارند؛ در پیش‌نویس قیمت بگذارید."
+
+msgid "Add value added tax to this invoice? (yes / no)"
+msgstr "مالیات بر ارزش افزوده به این فاکتور اضافه شود؟ (بله / خیر)"
+
+msgid "Draft sales invoice for {0}:"
+msgstr "پیش‌نویس فاکتور فروش برای {0}:"
+
+msgid "Draft quotation for {0}:"
+msgstr "پیش‌نویس پیش‌فاکتور برای {0}:"
+
+msgid "Draft sales order for {0}, delivery {1}:"
+msgstr "پیش‌نویس سفارش فروش برای {0}، تحویل {1}:"
+
+msgid "Delivery Date"
+msgstr "تاریخ تحویل"
+
+msgid "Open sales orders"
+msgstr "سفارش‌های فروش باز"
+
+msgid "Every sales order is delivered and billed."
+msgstr "همه‌ی سفارش‌های فروش تحویل و فاکتور شده‌اند."
+
+msgid "Quotation"
+msgstr "پیش‌فاکتور"
+
+msgid "Valid Till"
+msgstr "اعتبار تا"
+
+msgid "Open quotations"
+msgstr "پیش‌فاکتورهای باز"
+
+msgid "No open quotations."
+msgstr "پیش‌فاکتور بازی نیست."
+
+msgid "Delivery Note"
+msgstr "حواله‌ی خروج"
+
+msgid "Delivery notes not billed yet"
+msgstr "حواله‌های خروج فاکتورنشده"
+
+msgid "Every delivery note is billed."
+msgstr "همه‌ی حواله‌ها فاکتور شده‌اند."
+
+msgid "Sales returns"
+msgstr "برگشت از فروش"
+
+msgid "No sales returns in {0}."
+msgstr "در {0} برگشت از فروشی نبوده."
+
+msgid "The mobile number is not valid. Write an 11 digit number starting with 09, or «none»."
+msgstr "شماره‌ی موبایل درست نیست. یک شماره‌ی ۱۱ رقمی که با ۰۹ شروع می‌شود بنویسید، یا «ندارد»."
+
+msgid "{0} is already a customer."
+msgstr "{0} از قبل مشتری است."
+
+msgid "Customer {0} was created."
+msgstr "مشتری {0} تعریف شد."
+
+msgid "Address"
+msgstr "آدرس"
+
+msgid "Economic Code"
+msgstr "کد اقتصادی"
+
+msgid "National ID"
+msgstr "شناسه/کد ملی"
+
+msgid "Group"
+msgstr "گروه"
+
+msgid "Last invoice"
+msgstr "آخرین فاکتور"
+
+msgid "No contact details are recorded."
+msgstr "اطلاعات تماسی ثبت نشده."
+
+msgid "{0} customers in total; {1} new in {2}."
+msgstr "جمعاً {0} مشتری؛ {1} مشتری جدید در {2}."
+
+msgid "Change the selling price of {0} from {1} to {2}"
+msgstr "قیمت فروش {0} از {1} به {2} تغییر کند"
+
+msgid "not set"
+msgstr "تعیین نشده"
+
+msgid "The selling price of {0} is now {1}."
+msgstr "قیمت فروش {0} حالا {1} است."
+
+msgid "Opening {0}."
+msgstr "{0} را باز می‌کنم."
+
+msgid "Opening the list of {0}."
+msgstr "فهرست {0} را باز می‌کنم."
+
+msgid "Opening a new {0} form."
+msgstr "فرم {0} جدید را باز می‌کنم."
+
+msgid "Opening the report {0}."
+msgstr "گزارش {0} را باز می‌کنم."
+
+msgid "Which document? Write its number."
+msgstr "کدام سند؟ شماره‌اش را بنویسید."
+
+msgid "Opening {0} {1}."
+msgstr "{0} {1} را باز می‌کنم."
+
+msgid "Opening the print view of {0} {1}."
+msgstr "نسخه‌ی چاپی {0} {1} را باز می‌کنم."
+
+msgid "Nothing matched «{0}»."
+msgstr "چیزی با «{0}» پیدا نشد."
+
+msgid "Results for «{0}»:"
+msgstr "نتیجه‌های «{0}»:"
+
+msgid "{0} {1} is not a draft, so there is nothing to submit."
+msgstr "{0} {1} پیش‌نویس نیست و چیزی برای ثبت نهایی ندارد."
+
+msgid "Submit {0} {1}"
+msgstr "ثبت نهایی {0} {1}"
+
+msgid "A submitted document can only be cancelled, not edited."
+msgstr "سند ثبت‌شده فقط ابطال می‌شود و دیگر ویرایش نمی‌شود."
+
+msgid "{0} {1} was submitted."
+msgstr "{0} {1} ثبت نهایی شد."
+
+msgid "Cheque"
+msgstr "چک"
+
+msgid "Number"
+msgstr "شماره"
+
+msgid "received"
+msgstr "دریافتی"
+
+msgid "issued"
+msgstr "پرداختی"
+
+msgid "the next 7 days"
+msgstr "۷ روز آینده"
+
+msgid "Cheques due in {0}"
+msgstr "چک‌های سررسید {0}"
+
+msgid "No cheques fall due in {0}."
+msgstr "در {0} چکی سررسید نمی‌شود."
+
+msgid "Received cheques not yet cleared"
+msgstr "چک‌های دریافتی وصول‌نشده"
+
+msgid "No received cheques are pending."
+msgstr "چک دریافتی در جریانی نیست."
+
+msgid "Issued cheques not yet cleared"
+msgstr "چک‌های پرداختی پاس‌نشده"
+
+msgid "No issued cheques are pending."
+msgstr "چک پرداختی پاس‌نشده‌ای نیست."
+
+msgid "Bounced cheques"
+msgstr "چک‌های برگشتی"
+
+msgid "No bounced cheques."
+msgstr "چک برگشتی نداریم."
+
+msgid "Received cheque"
+msgstr "چک دریافتی"
+
+msgid "Issued cheque"
+msgstr "چک پرداختی"
+
+msgid "Draft {0}: {1}, {2}, due {3}. Submit it to record it."
+msgstr "پیش‌نویس {0}: {1}، {2}، سررسید {3}. برای ثبت، آن را ثبت نهایی کنید."
+
+msgid "No cheque with number {0} was found."
+msgstr "چکی با شماره‌ی {0} پیدا نشد."
+
+msgid "Noted: {0}"
+msgstr "یادداشت شد: {0}"
+
+msgid "Task"
+msgstr "کار"
+
+msgid "My open tasks"
+msgstr "کارهای باز من"
+
+msgid "You have no open tasks."
+msgstr "کار بازی ندارید."
+
+msgid "{0}: {1}% complete, status {2}, {3} open tasks, expected end {4}."
+msgstr "{0}: {1}٪ پیشرفت، وضعیت {2}، {3} کار باز، پایان پیش‌بینی‌شده {4}."
+
+msgid "Project"
+msgstr "پروژه"
+
+msgid "% Complete"
+msgstr "درصد پیشرفت"
+
+msgid "Expected End"
+msgstr "پایان پیش‌بینی‌شده"
+
+msgid "Open projects"
+msgstr "پروژه‌های باز"
+
+msgid "No open projects."
+msgstr "پروژه‌ی بازی نیست."
+
+msgid "Subject"
+msgstr "عنوان"
+
+msgid "Overdue tasks"
+msgstr "کارهای عقب‌افتاده"
+
+msgid "No overdue tasks."
+msgstr "کار عقب‌افتاده‌ای نیست."
+
+msgid "{0} is not in stock."
+msgstr "{0} موجودی ندارد."
+
+msgid "Stock of {0}: {1} {2}"
+msgstr "موجودی {0}: {1} {2}"
+
+msgid "Warehouse"
+msgstr "انبار"
+
+msgid "In stock"
+msgstr "موجود"
+
+msgid "Reserved"
+msgstr "رزروشده"
+
+msgid "Projected"
+msgstr "پیش‌بینی‌شده"
+
+msgid "Stock Ledger"
+msgstr "کاردکس کالا"
+
+msgid "Warehouse {0} is empty."
+msgstr "انبار {0} خالی است."
+
+msgid "Value"
+msgstr "ارزش"
+
+msgid "Stock Balance"
+msgstr "موجودی انبار"
+
+msgid "Stock of which item? (or which warehouse)"
+msgstr "موجودی کدام کالا؟ (یا کدام انبار)"
+
+msgid "Stock is worth {0}."
+msgstr "ارزش موجودی انبار {0} است."
+
+msgid "No warehouses found."
+msgstr "انباری پیدا نشد."
+
+msgid "No item is running low."
+msgstr "کالای رو به اتمامی نداریم."
+
+msgid "Reorder level"
+msgstr "نقطه‌ی سفارش"
+
+msgid "Stock Projected Qty"
+msgstr "موجودی پیش‌بینی‌شده"
+
+msgid "Stock item"
+msgstr "کالای انباری"
+
+msgid "Service / non-stock"
+msgstr "خدمت / غیرانباری"
+
+msgid "Description"
+msgstr "توضیحات"
+
+msgid "{0} is already defined."
+msgstr "{0} از قبل تعریف شده."
+
+msgid "Item {0} was created."
+msgstr "کالای {0} تعریف شد."
+
+msgid "Selling price: {0}"
+msgstr "قیمت فروش: {0}"
+
+msgid "Draft stock receipt into {0}:"
+msgstr "پیش‌نویس رسید ورود به {0}:"
+
+msgid "Stock changes when you submit it."
+msgstr "موجودی بعد از ثبت نهایی تغییر می‌کند."
+
+msgid "Draft stock issue from {0}:"
+msgstr "پیش‌نویس خروج از {0}:"
+
+msgid "Move to which warehouse? Write: from <warehouse> to <warehouse>."
+msgstr "به کدام انبار منتقل شود؟ بنویسید: از <انبار> به <انبار>."
+
+msgid "Draft transfer from {0} to {1}:"
+msgstr "پیش‌نویس انتقال از {0} به {1}:"
+
+msgid "No movements of {0} in {1}."
+msgstr "در {1} گردشی برای {0} نیست."
+
+msgid "In/Out"
+msgstr "ورود/خروج"
+
+msgid "Not permitted"
+msgstr "دسترسی ندارید"
+
+msgid "Hello! Ask me about balances, stock, sales, purchases and cheques, or tell me to create an invoice, a customer, a payment or a reminder. Write «help» to see everything I can do."
+msgstr "سلام! از مانده‌ی حساب‌ها، موجودی، فروش، خرید و چک‌ها بپرسید، یا بگویید فاکتور، مشتری، دریافت و پرداخت یا یادآوری ثبت کنم. برای دیدن همه‌ی کارهایی که بلدم بنویسید «راهنما»."
+
+msgid "Anything else, attached invoices and bank statements included, goes to the AI model."
+msgstr "بقیه‌ی درخواست‌ها، از جمله فایل فاکتور و صورت‌حساب بانک، به هوش مصنوعی فرستاده می‌شود."
+
+msgid "Filters must be valid JSON"
+msgstr "فیلترها باید JSON معتبر باشند"
+
+msgid "Choose one of the built-in commands"
+msgstr "یکی از دستورهای آماده را انتخاب کنید"
+
+msgid "Command Name"
+msgstr "نام دستور"
+
+msgid "Enabled"
+msgstr "فعال"
+
+msgid "Sample Sentences"
+msgstr "جمله‌های نمونه"
+
+msgid "One sentence per line, the way users would ask for it. The more ways you write, the better it is recognized."
+msgstr "هر خط یک جمله، همان‌طور که کاربرها می‌پرسند. هر چه شکل‌های بیشتری بنویسید، بهتر تشخیص داده می‌شود."
+
+msgid "Action"
+msgstr "کار"
+
+msgid "Built-in Command: the sentences are extra ways of asking for one of the built-in commands."
+msgstr "دستور آماده: جمله‌ها شکل‌های دیگری از پرسیدن یکی از دستورهای آماده‌اند."
+
+msgid "Reply"
+msgstr "پاسخ متنی"
+
+msgid "Open List"
+msgstr "باز کردن فهرست"
+
+msgid "New Document"
+msgstr "سند جدید"
+
+msgid "Open Report"
+msgstr "باز کردن گزارش"
+
+msgid "Open Document"
+msgstr "باز کردن سند"
+
+msgid "Open Link"
+msgstr "باز کردن آدرس"
+
+msgid "Built-in Command"
+msgstr "دستور آماده"
+
+msgid "Target"
+msgstr "مقصد"
+
+msgid "Open List / New Document: the DocType, e.g. Sales Invoice. Open Report: the report name. Open Document: DocType:name. Open Link: a path such as /desk/stock-balance."
+msgstr "باز کردن فهرست / سند جدید: نام DocType، مثلاً Sales Invoice. باز کردن گزارش: نام گزارش. باز کردن سند: DocType:نام. باز کردن آدرس: مسیری مثل /desk/stock-balance."
+
+msgid "Filters"
+msgstr "فیلترها"
+
+msgid "Optional, e.g. {\"status\": \"Overdue\"}"
+msgstr "اختیاری، مثلاً {\"status\": \"Overdue\"}"
+
+msgid "The text shown in the chat. {today} and {user} are replaced with today's Jalali date and the user's name."
+msgstr "متنی که در چت نشان داده می‌شود. {today} و {user} با تاریخ شمسی امروز و نام کاربر جایگزین می‌شوند."
+
+msgid "Iran Chat Command"
+msgstr "دستور چت"
+
+msgid "User"
+msgstr "کاربر"
+
+msgid "Failed"
+msgstr "ناموفق"
+
+msgid "Handled By"
+msgstr "پاسخ‌دهنده"
+
+msgid "Command"
+msgstr "دستور"
+
+msgid "AI"
+msgstr "هوش مصنوعی"
+
+msgid "Not Understood"
+msgstr "تشخیص داده نشد"
+
+msgid "Match Score"
+msgstr "امتیاز تطبیق"
+
+msgid "Model"
+msgstr "مدل"
+
+msgid "Error"
+msgstr "خطا"
+
+msgid "Log"
+msgstr "گزارش"
+
+msgid "Command State"
+msgstr "وضعیت گفتگو"
+
+msgid "The question the command is waiting for an answer to"
+msgstr "سؤالی که دستور منتظر جوابش است"
+
+msgid "Answer Known Commands Without AI"
+msgstr "پاسخ به دستورهای شناخته‌شده بدون هوش مصنوعی"
+
+msgid "Common requests (balances, stock, sales, invoices, cheques, opening pages, ...) are answered by the built-in command engine, without sending anything to an AI service. Only what it does not recognize goes to the AI model, when one is enabled. Extra commands can be added in Iran Chat Command."
+msgstr "درخواست‌های رایج (مانده‌ها، موجودی، فروش، فاکتورها، چک‌ها، باز کردن صفحه‌ها و ...) را موتور دستورهای داخلی جواب می‌دهد و چیزی به سرویس هوش مصنوعی فرستاده نمی‌شود. فقط چیزهایی که تشخیص ندهد، اگر هوش مصنوعی فعال باشد، به آن فرستاده می‌شود. دستورهای بیشتر را در «دستور چت» اضافه کنید."
+
+msgid "OpenRouter"
+msgstr "OpenRouter"
+
+msgid "AgentRouter"
+msgstr "AgentRouter"
+
+msgid "Groq"
+msgstr "Groq"
+
+msgid "Custom"
+msgstr "سفارشی"
+
+msgid "OpenAI Chat"
+msgstr "OpenAI Chat"
+
+msgid "Anthropic Messages"
+msgstr "Anthropic Messages"
+
+msgid "Statement of {0}"
+msgstr "ریز حساب {0}"
+
+msgid "Profit and Loss"
+msgstr "سود و زیان"
+
+msgid "Income"
+msgstr "درآمد"
+
+msgid "Expenses"
+msgstr "هزینه‌ها"
+
+msgid "Net profit"
+msgstr "سود خالص"
+
+msgid "Net loss"
+msgstr "زیان خالص"
+
+msgid "Profit margin"
+msgstr "حاشیه‌ی سود"
+
+msgid "VAT"
+msgstr "مالیات بر ارزش افزوده"
+
+msgid "VAT on sales"
+msgstr "ارزش افزوده‌ی فروش"
+
+msgid "VAT on purchases"
+msgstr "ارزش افزوده‌ی خرید"
+
+msgid "VAT payable"
+msgstr "ارزش افزوده‌ی پرداختنی"
+
+msgid "VAT receivable"
+msgstr "ارزش افزوده‌ی دریافتنی (اعتبار)"
+
+msgid "from"
+msgstr "از"
+
+msgid "Production"
+msgstr "تولید"
+
+msgid "to"
+msgstr "به"
+
+msgid "Selling price"
+msgstr "قیمت فروش"
+
+msgid "Buying price list"
+msgstr "قیمت در لیست خرید"
+
+msgid "Last purchase price"
+msgstr "آخرین قیمت خرید"
+
+msgid "Average cost"
+msgstr "میانگین بهای تمام‌شده"
+
+msgid "Items running low"
+msgstr "کالاهای رو به اتمام"
+
+msgid "Movements of {0}"
+msgstr "گردش {0}"
