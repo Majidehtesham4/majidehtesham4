@@ -62,16 +62,57 @@ iran_erp.ai.Panel = class {
 	}
 
 	setup_voice() {
+		const use_model = frappe.boot.iran_ai_voice === "AI Model" && navigator.mediaDevices?.getUserMedia;
 		// Speech recognition is built into Chrome and Edge; other browsers just don't get the button
 		const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-		if (!Recognition) return;
+		if (!use_model && !Recognition) return;
 		this.$mic = $(
 			`<button class="btn btn-default btn-sm iran-ai-mic" title="${__("Speak instead of typing")}">${frappe.utils.icon(
 				"mic",
 				"sm"
 			)}</button>`
 		).insertAfter(this.$panel.find(".iran-ai-attach"));
-		this.$mic.on("click", () => (this.recognition ? this.recognition.stop() : this.listen(Recognition)));
+		if (use_model) {
+			this.$mic.on("click", () => (this.recorder ? this.recorder.stop() : this.record()));
+		} else {
+			this.$mic.on("click", () => (this.recognition ? this.recognition.stop() : this.listen(Recognition)));
+		}
+	}
+
+	async record() {
+		let stream;
+		try {
+			stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+		} catch (e) {
+			frappe.show_alert(
+				{
+					message: __(
+						"The browser did not allow the microphone. Allow it in the address bar; on a server it only works over HTTPS."
+					),
+					indicator: "orange",
+				},
+				8
+			);
+			return;
+		}
+		const chunks = [];
+		this.recorder = new MediaRecorder(stream);
+		this.recorder.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+		this.recorder.onstop = async () => {
+			stream.getTracks().forEach((track) => track.stop());
+			this.recorder = null;
+			this.$mic.removeClass("iran-ai-listening").addClass("iran-ai-transcribing").prop("disabled", true);
+			try {
+				const audio = await to_wav_base64(new Blob(chunks));
+				const text = await frappe.xcall("iran_erp.ai.api.transcribe", { audio }, "POST");
+				const before = (this.$input.val() || "").trim();
+				this.$input.val([before, text].filter(Boolean).join(" ")).trigger("focus");
+			} finally {
+				this.$mic.removeClass("iran-ai-transcribing").prop("disabled", false);
+			}
+		};
+		this.recorder.start();
+		this.$mic.addClass("iran-ai-listening");
 	}
 
 	listen(Recognition) {
@@ -195,6 +236,7 @@ iran_erp.ai.Panel = class {
 
 	send() {
 		if (this.recognition) this.recognition.stop();
+		if (this.recorder) this.recorder.stop();
 		let question = (this.$input.val() || "").trim();
 		if ((!question && !this.files.length) || this.busy) return;
 		if (!question) question = __("Please process the attached file.");
@@ -244,6 +286,44 @@ iran_erp.ai.Panel = class {
 		});
 	}
 };
+
+// Models take audio as WAV; record in whatever the browser offers and convert to 16 kHz mono
+async function to_wav_base64(blob) {
+	const decoded = await new AudioContext().decodeAudioData(await blob.arrayBuffer());
+	const rate = 16000;
+	const offline = new OfflineAudioContext(1, Math.ceil(decoded.duration * rate), rate);
+	const source = offline.createBufferSource();
+	source.buffer = decoded;
+	source.connect(offline.destination);
+	source.start();
+	const samples = (await offline.startRendering()).getChannelData(0);
+
+	const view = new DataView(new ArrayBuffer(44 + samples.length * 2));
+	const text = (offset, value) => [...value].forEach((c, i) => view.setUint8(offset + i, c.charCodeAt(0)));
+	text(0, "RIFF");
+	view.setUint32(4, 36 + samples.length * 2, true);
+	text(8, "WAVEfmt ");
+	view.setUint32(16, 16, true);
+	view.setUint16(20, 1, true);
+	view.setUint16(22, 1, true);
+	view.setUint32(24, rate, true);
+	view.setUint32(28, rate * 2, true);
+	view.setUint16(32, 2, true);
+	view.setUint16(34, 16, true);
+	text(36, "data");
+	view.setUint32(40, samples.length * 2, true);
+	samples.forEach((sample, i) => {
+		const clipped = Math.max(-1, Math.min(1, sample));
+		view.setInt16(44 + i * 2, clipped < 0 ? clipped * 0x8000 : clipped * 0x7fff, true);
+	});
+
+	const bytes = new Uint8Array(view.buffer);
+	let binary = "";
+	for (let i = 0; i < bytes.length; i += 0x8000) {
+		binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+	}
+	return btoa(binary);
+}
 
 $(document).on("app_ready", () => {
 	if (frappe.boot.iran_ai_enabled && !iran_erp.ai.panel) {

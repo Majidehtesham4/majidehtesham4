@@ -13,6 +13,9 @@
   "column_break_1",
   "max_steps",
   "assistant_instructions",
+  "voice_section",
+  "voice_input",
+  "transcription_model",
   "advanced_section",
   "base_url"
  ],
@@ -60,6 +63,26 @@
    "label": "Extra Instructions for the Assistant"
   },
   {
+   "fieldname": "voice_section",
+   "fieldtype": "Section Break",
+   "label": "Voice Input"
+  },
+  {
+   "default": "Browser",
+   "fieldname": "voice_input",
+   "fieldtype": "Select",
+   "label": "Speech Recognition",
+   "options": "Browser\nAI Model",
+   "description": "Browser: free, built into Chrome and Edge, weaker in Persian. AI Model: the recording is sent to an audio-capable model on OpenRouter; more accurate with names and numbers, and costs like any request."
+  },
+  {
+   "fieldname": "transcription_model",
+   "fieldtype": "Data",
+   "label": "Transcription Model",
+   "depends_on": "eval:doc.voice_input=='AI Model'",
+   "description": "A model that accepts audio input (filter the OpenRouter models page by audio input). Empty: the main model is used."
+  },
+  {
    "collapsible": 1,
    "fieldname": "advanced_section",
    "fieldtype": "Section Break",
@@ -76,7 +99,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-13 13:00:00.000000",
+ "modified": "2026-10-13 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",

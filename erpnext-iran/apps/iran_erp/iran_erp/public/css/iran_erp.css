@@ -226,3 +226,7 @@
 		opacity: 0.6;
 	}
 }
+.iran-ai-mic.iran-ai-transcribing {
+	opacity: 0.5;
+	cursor: progress;
+}

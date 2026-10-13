@@ -32,6 +32,7 @@ def get_settings():
 		base_url=(settings.base_url or "https://openrouter.ai/api/v1").rstrip("/"),
 		max_steps=settings.max_steps or 20,
 		instructions=settings.assistant_instructions or "",
+		transcription_model=settings.transcription_model or settings.model or "anthropic/claude-opus-5.5",
 	)
 
 

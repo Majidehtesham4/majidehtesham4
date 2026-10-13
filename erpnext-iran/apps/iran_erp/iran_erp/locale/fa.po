@@ -10904,3 +10904,28 @@ msgstr "تشخیص گفتار به سرویس آنلاین مرورگر نیاز
 
 msgid "No speech was heard. Try again closer to the microphone."
 msgstr "صدایی شنیده نشد. نزدیک‌تر به میکروفون دوباره امتحان کنید."
+
+#: iran_erp/ai voice
+msgid "Voice Input"
+msgstr "ورود صوتی"
+
+msgid "Speech Recognition"
+msgstr "تشخیص گفتار"
+
+msgid "Browser"
+msgstr "مرورگر"
+
+msgid "AI Model"
+msgstr "مدل هوش مصنوعی"
+
+msgid "Browser: free, built into Chrome and Edge, weaker in Persian. AI Model: the recording is sent to an audio-capable model on OpenRouter; more accurate with names and numbers, and costs like any request."
+msgstr "مرورگر: رایگان و داخل Chrome و Edge، ولی در فارسی ضعیف‌تر. مدل هوش مصنوعی: صدای ضبط‌شده به یک مدل صوتی در OpenRouter فرستاده می‌شود؛ نام‌ها و اعداد را دقیق‌تر می‌فهمد و مثل هر درخواست دیگری هزینه دارد."
+
+msgid "Transcription Model"
+msgstr "مدل تبدیل گفتار به متن"
+
+msgid "A model that accepts audio input (filter the OpenRouter models page by audio input). Empty: the main model is used."
+msgstr "مدلی که ورودی صوتی می‌پذیرد (در صفحه‌ی مدل‌های OpenRouter بر اساس ورودی audio فیلتر کنید). اگر خالی بماند، مدل اصلی استفاده می‌شود."
+
+msgid "The recording is empty or too long."
+msgstr "صدای ضبط‌شده خالی یا بیش از حد طولانی است."

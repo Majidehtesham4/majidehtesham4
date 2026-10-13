@@ -89,3 +89,52 @@ def test_connection() -> str:
 		)
 	except AIError as e:
 		return str(e)
+
+
+# About 4 minutes of 16 kHz mono 16-bit WAV
+MAX_AUDIO_BASE64 = 11 * 1024 * 1024
+
+
+@frappe.whitelist(methods=["POST"])
+def transcribe(audio: str) -> str:
+	"""Turn a recorded WAV (base64) into Persian text with an audio-capable model."""
+	if not audio or len(audio) > MAX_AUDIO_BASE64:
+		frappe.throw(_("The recording is empty or too long."))
+	try:
+		settings = get_settings()
+	except AIError as e:
+		frappe.throw(str(e))
+	settings = frappe._dict(settings, model=settings.transcription_model, fallback_models=[])
+	prompt = (
+		"Transcribe this Persian speech exactly as spoken, in Persian script. It is an instruction to an "
+		"accounting system. Write numbers as digits and keep product codes as said. Output only the text, "
+		"with no explanation."
+	)
+	vocabulary = _vocabulary()
+	if vocabulary:
+		prompt += " Names that may appear: " + "، ".join(vocabulary)
+	try:
+		response = chat_completion(
+			settings,
+			[
+				{
+					"role": "user",
+					"content": [
+						{"type": "text", "text": prompt},
+						{"type": "input_audio", "input_audio": {"data": audio, "format": "wav"}},
+					],
+				}
+			],
+		)
+	except AIError as e:
+		frappe.throw(str(e))
+	return (response["choices"][0]["message"].get("content") or "").strip()
+
+
+def _vocabulary(limit: int = 60) -> list[str]:
+	"""Recent item and customer names, so the model spells them the way they are stored."""
+	names = []
+	for doctype, field in (("Item", "item_name"), ("Customer", "customer_name")):
+		if frappe.has_permission(doctype, "read"):
+			names += frappe.get_list(doctype, pluck=field, order_by="modified desc", limit=limit // 2)
+	return [n for n in dict.fromkeys(names) if n]
