@@ -121,3 +121,75 @@ class TestConversation(IntegrationTestCase):
 		reply = handle("فاکتور بزن")
 		self.assertEqual(reply["state"]["waiting"], "customer")
 		self.assertIsNone(handle("لغو", reply["state"])["state"])
+
+
+class TestBankAndLearning(IntegrationTestCase):
+	def setUp(self):
+		frappe.set_user("Administrator")
+		company = frappe.defaults.get_user_default("Company") or frappe.db.get_single_value(
+			"Global Defaults", "default_company"
+		)
+		# A ledger account of its own: each one can belong to a single bank account
+		ledger = frappe.db.get_value("Account", {"company": company, "account_name": "بانک آزمون چت"})
+		if not ledger:
+			parent = frappe.db.get_value(
+				"Account",
+				frappe.db.get_value(
+					"Account", {"company": company, "account_type": "Bank", "is_group": 0}, "name"
+				),
+				"parent_account",
+			)
+			ledger = (
+				frappe.get_doc(
+					{
+						"doctype": "Account",
+						"account_name": "بانک آزمون چت",
+						"parent_account": parent,
+						"company": company,
+						"account_type": "Bank",
+					}
+				)
+				.insert()
+				.name
+			)
+		if not frappe.db.exists("Bank", "بانک آزمون"):
+			frappe.get_doc({"doctype": "Bank", "bank_name": "بانک آزمون"}).insert()
+		self.bank_account = frappe.db.get_value("Bank Account", {"account_name": "حساب آزمون چت"})
+		if not self.bank_account:
+			self.bank_account = (
+				frappe.get_doc(
+					{
+						"doctype": "Bank Account",
+						"account_name": "حساب آزمون چت",
+						"bank": "بانک آزمون",
+						"is_company_account": 1,
+						"company": company,
+						"account": ledger,
+					}
+				)
+				.insert()
+				.name
+			)
+		self.ledger = ledger
+		TestConversation.setUp(self)
+
+	def test_payment_into_a_named_bank_account(self):
+		reply = handle("مشتری آزمون چت ۵ میلیون به حساب بانک آزمون واریز کرد")
+		payment = frappe.get_doc("Payment Entry", reply["actions"][0]["name"])
+		self.assertEqual(payment.payment_type, "Receive")
+		self.assertEqual((payment.bank_account, payment.paid_to), (self.bank_account, self.ledger))
+		self.assertEqual(payment.paid_amount, 5_000_000)
+
+	def test_learned_sentence_is_understood_next_time(self):
+		from iran_erp.commands import engine
+		from iran_erp.commands.learning import learn
+
+		sentence = "مشتری آزمون چت بابت تسویه حساب ده میلیون پول نقد آورد"
+		self.assertTrue(learn("receive_payment", sentence))
+		engine._cache.clear()
+		ranked = engine.get_matcher().rank(
+			engine._without_names("یکی بابت تسویه حساب بیست میلیون پول نقد آورد")
+		)
+		self.assertEqual(ranked[0][0], "receive_payment")
+		# Learning the same wording twice adds nothing
+		self.assertFalse(learn("receive_payment", sentence))

@@ -144,6 +144,9 @@ def stem(token: str) -> str:
 	for suffix in _STEM_SUFFIXES:
 		if token.endswith(suffix) and len(token) - len(suffix) >= 3:
 			return token[: -len(suffix)]
+	# Past participles read like the past tense: "واریز کرده" as "واریز کرد", "گرفته" as "گرفت"
+	if len(token) >= 4 and token.endswith(("ده", "ته")):
+		return token[:-1]
 	# "مشتریا", "کارمندا": a final ا after a consonant or ی is the spoken plural
 	if len(token) >= 5 and token.endswith("ا") and token[-2] not in "اوه":
 		return token[:-1]
@@ -217,6 +220,9 @@ STOPWORDS = {
 	"همه",
 	"تمام",
 	"هنوز",
+	"برام",
+	"برامون",
+	"واسم",
 	"داریم",
 	"دارم",
 	"نشون",

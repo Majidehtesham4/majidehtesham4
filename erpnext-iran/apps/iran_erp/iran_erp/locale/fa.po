@@ -11975,3 +11975,36 @@ msgstr "کالاهای رو به اتمام"
 
 msgid "Movements of {0}"
 msgstr "گردش {0}"
+
+msgid "Ask the AI model instead"
+msgstr "از هوش مصنوعی بپرس"
+
+msgid "AI model"
+msgstr "هوش مصنوعی"
+
+msgid "System commands"
+msgstr "دستورهای سیستم"
+
+msgid "Answered by the AI model"
+msgstr "این جواب را هوش مصنوعی داده است"
+
+msgid "Answered by the built-in commands on this server, without an AI service"
+msgstr "این جواب را دستورهای داخلی سیستم روی همین سرور داده‌اند، بدون هوش مصنوعی"
+
+msgid "Not right? Ask the AI model"
+msgstr "درست نبود؟ از هوش مصنوعی بپرس"
+
+msgid "Learned Automatically"
+msgstr "یادگرفته‌شده"
+
+msgid "Sentences the assistant learned from requests the AI model handled, or from the user's choice. Delete a line to forget it."
+msgstr "جمله‌هایی که دستیار از درخواست‌های انجام‌شده با هوش مصنوعی یا از انتخاب کاربر یاد گرفته است. برای فراموش کردن، خط را پاک کنید."
+
+msgid "Feedback"
+msgstr "بازخورد"
+
+msgid "Wrong"
+msgstr "اشتباه"
+
+msgid "Wrong: the user said the answer was wrong and asked the AI model instead."
+msgstr "اشتباه: کاربر گفته جواب درست نبود و از هوش مصنوعی پرسیده است."

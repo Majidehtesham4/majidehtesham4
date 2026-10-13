@@ -9,7 +9,13 @@ from iran_erp.ai.openrouter import AIError, chat_completion, get_settings, list_
 
 
 @frappe.whitelist()
-def ask(question: str, previous_request: str | None = None, files: str | list | None = None) -> str:
+def ask(
+	question: str,
+	previous_request: str | None = None,
+	files: str | list | None = None,
+	force_ai: int = 0,
+	wrong_request: str | None = None,
+) -> str:
 	"""Answer a known command right away, or queue the question for the AI model.
 
 	Returns the request name to poll; a command's request is already Done.
@@ -24,6 +30,8 @@ def ask(question: str, previous_request: str | None = None, files: str | list | 
 	if not settings.commands_enabled and not ai_on:
 		frappe.throw(_("The AI assistant is disabled in Iran AI Settings."))
 	previous = _get_own_request(previous_request) if previous_request else None
+	if wrong_request:
+		_mark_wrong(_get_own_request(wrong_request))
 	if isinstance(files, str):
 		files = json.loads(files or "[]")
 	attachments = []
@@ -39,7 +47,7 @@ def ask(question: str, previous_request: str | None = None, files: str | list | 
 		"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
 	}
 	# Files need the AI model to read them
-	if settings.commands_enabled and not attachments:
+	if settings.commands_enabled and not attachments and not (force_ai and ai_on):
 		result = _run_command(question, previous, ai_on)
 		if not result.get("delegate"):
 			history = json.loads(previous.messages or "[]") if previous else []
@@ -104,10 +112,20 @@ def get_result(request_name: str) -> dict:
 	request = _get_own_request(request_name)
 	return {
 		"status": request.status,
+		"handled_by": request.handled_by,
 		"answer": request.answer,
 		"error": request.error,
 		"actions": json.loads(request.actions or "[]"),
 	}
+
+
+def _mark_wrong(request):
+	"""The user said a command's answer was wrong: note it, and forget a learned sentence behind it."""
+	from iran_erp.commands.learning import unlearn
+
+	request.db_set("feedback", "Wrong")
+	if request.handled_by == "Command" and request.intent:
+		unlearn(request.intent, request.question)
 
 
 def _get_own_request(name: str):

@@ -283,3 +283,26 @@
 	padding: 12px 8px;
 	color: var(--text-muted);
 }
+
+/* Who answered a chat message: the built-in commands or the AI model */
+.iran-ai-source {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin-top: 6px;
+	font-size: 11px;
+	color: var(--text-muted);
+}
+.iran-ai-source-ai {
+	color: #7c3aed;
+}
+.iran-ai-source-system {
+	color: #0f766e;
+}
+.iran-ai-source .icon {
+	stroke: currentColor;
+}
+.iran-ai-wrong {
+	padding: 0 4px;
+	font-size: 11px;
+}

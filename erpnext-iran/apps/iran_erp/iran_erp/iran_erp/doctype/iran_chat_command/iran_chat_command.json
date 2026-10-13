@@ -8,6 +8,7 @@
  "field_order": [
   "command_name",
   "enabled",
+  "learned",
   "phrases",
   "column_break_1",
   "action",
@@ -31,6 +32,16 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Enabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "learned",
+   "fieldtype": "Check",
+   "label": "Learned Automatically",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Sentences the assistant learned from requests the AI model handled, or from the user's choice. Delete a line to forget it."
   },
   {
    "fieldname": "phrases",
@@ -83,7 +94,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-13 22:00:00.000000",
+ "modified": "2026-10-14 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran Chat Command",

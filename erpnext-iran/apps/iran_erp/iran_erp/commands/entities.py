@@ -17,6 +17,13 @@ SOURCES = {
 		{"is_group": 0, "disabled": 0, "account_type": ["in", ["Cash", "Bank"]]},
 		"name",
 	),
+	# The company's bank accounts by the names people use: "حساب ملت", "بانک ملت شرکا"
+	"bank_account": (
+		"Bank Account",
+		("account_name", "bank", "name"),
+		{"disabled": 0, "is_company_account": 1},
+		"name",
+	),
 	"project": ("Project", ("project_name", "name"), {}, "project_name"),
 	"employee": ("Employee", ("employee_name", "name"), {"status": "Active"}, "employee_name"),
 	"lead": ("Lead", ("lead_name", "company_name", "name"), {}, "lead_name"),

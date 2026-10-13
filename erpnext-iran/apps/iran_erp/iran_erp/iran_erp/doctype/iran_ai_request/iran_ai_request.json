@@ -15,6 +15,7 @@
   "handled_by",
   "intent",
   "score",
+  "feedback",
   "model",
   "total_tokens",
   "section_question",
@@ -80,6 +81,15 @@
    "label": "Match Score",
    "precision": "3",
    "read_only": 1
+  },
+  {
+   "fieldname": "feedback",
+   "fieldtype": "Select",
+   "label": "Feedback",
+   "options": "\nWrong",
+   "in_standard_filter": 1,
+   "read_only": 1,
+   "description": "Wrong: the user said the answer was wrong and asked the AI model instead."
   },
   {
    "fieldname": "model",
@@ -154,7 +164,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-13 22:00:00.000000",
+ "modified": "2026-10-14 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Request",

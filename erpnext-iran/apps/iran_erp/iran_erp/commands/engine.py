@@ -167,6 +167,10 @@ def handle(question: str, state: dict | None = None, ai_available: bool = False)
 	if state.get("choose"):
 		chosen = _pick(question, [(name, name) for name in state["choose"]])
 		if chosen:
+			# The user's choice teaches the wording, so the same request is not asked about again
+			from iran_erp.commands.learning import learn
+
+			learn(chosen, state.get("question") or "")
 			return _run(
 				chosen,
 				dict(state.get("values") or {}),

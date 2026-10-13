@@ -226,6 +226,31 @@ iran_erp.ai.Panel = class {
 		return $msg;
 	}
 
+	// Who answered: the built-in commands on this server, or the AI model
+	add_source($msg, handled_by, question, request_name) {
+		if (!handled_by) return;
+		const by_ai = handled_by === "AI";
+		const $source = $(`<div class="iran-ai-source ${by_ai ? "iran-ai-source-ai" : "iran-ai-source-system"}"></div>`)
+			.append(frappe.utils.icon(by_ai ? "sparkles" : "settings", "xs"))
+			.append($("<span></span>").text(by_ai ? __("AI model") : __("System commands")))
+			.attr(
+				"title",
+				by_ai
+					? __("Answered by the AI model")
+					: __("Answered by the built-in commands on this server, without an AI service")
+			);
+		if (!by_ai && frappe.boot.iran_ai_model_enabled && question) {
+			$(`<button class="btn btn-xs btn-link iran-ai-wrong"></button>`)
+				.text(__("Not right? Ask the AI model"))
+				.on("click", (e) => {
+					$(e.currentTarget).remove();
+					this.ask_ai_instead(question, request_name);
+				})
+				.appendTo($source);
+		}
+		$msg.append($source);
+	}
+
 	render_markdown(text) {
 		// Escape any HTML in the model's reply before markdown, so only markdown formatting survives
 		const html = frappe.markdown(frappe.utils.escape_html(text || ""));
@@ -270,26 +295,32 @@ iran_erp.ai.Panel = class {
 		const files = this.files;
 		this.files = [];
 		this.render_files();
-		this.busy = true;
 		this.$input.val("");
 		this.add_message("user", question, null, files);
+		this.ask({ question, files: files.map((f) => f.file_url) });
+	}
+
+	// "That was wrong": the same question again, this time for the AI model
+	ask_ai_instead(question, request_name) {
+		if (this.busy) return;
+		this.add_message("user", __("Ask the AI model instead"));
+		this.ask({ question, force_ai: 1, wrong_request: request_name });
+	}
+
+	ask(args) {
+		this.busy = true;
 		const $thinking = this.add_message("assistant", __("Thinking…"));
 		$thinking.addClass("iran-ai-thinking");
-
 		frappe
-			.xcall("iran_erp.ai.api.ask", {
-				question,
-				previous_request: this.previous_request,
-				files: files.map((f) => f.file_url),
-			})
-			.then((request_name) => this.poll(request_name, $thinking, Date.now()))
+			.xcall("iran_erp.ai.api.ask", { previous_request: this.previous_request, ...args })
+			.then((request_name) => this.poll(request_name, $thinking, Date.now(), args.question))
 			.catch(() => {
 				$thinking.remove();
 				this.busy = false;
 			});
 	}
 
-	poll(request_name, $thinking, started) {
+	poll(request_name, $thinking, started, question) {
 		frappe.xcall("iran_erp.ai.api.get_result", { request_name }).then((r) => {
 			if (r.status === "Done" || r.status === "Failed") {
 				$thinking.remove();
@@ -297,7 +328,8 @@ iran_erp.ai.Panel = class {
 				// A failed request still carries the conversation, so "try again" works
 				this.previous_request = request_name;
 				if (r.status === "Done") {
-					this.add_message("assistant", r.answer, r.actions);
+					const $msg = this.add_message("assistant", r.answer, r.actions);
+					this.add_source($msg, r.handled_by, question, request_name);
 					// "Open the list of customers": go there straight away
 					const open = (r.actions || []).find((a) => a.open && a.url);
 					if (open) frappe.set_route(local_link(open.url));
@@ -312,7 +344,7 @@ iran_erp.ai.Panel = class {
 				this.add_message("assistant", __("The assistant is taking too long. Please try again."));
 				return;
 			}
-			setTimeout(() => this.poll(request_name, $thinking, started), 2000);
+			setTimeout(() => this.poll(request_name, $thinking, started, question), 2000);
 		});
 	}
 };

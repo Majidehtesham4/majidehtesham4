@@ -126,9 +126,23 @@ def party_statement(context):
 	return {"answer": "\n".join(lines), "actions": [link(_("Full statement"), url)]}
 
 
+def bank_accounts() -> dict[str, str]:
+	"""The company's bank accounts as {ledger account: name people know it by, e.g. "بانک ملت شرکا"}."""
+	if not frappe.has_permission("Bank Account", "read"):
+		return {}
+	rows = frappe.get_list(
+		"Bank Account",
+		filters={"company": company(), "is_company_account": 1, "disabled": 0},
+		fields=["name", "account"],
+	)
+	return {row.account: row.name for row in rows if row.account}
+
+
 def cash_position(context):
 	require("GL Entry")
-	account = context.get("account")
+	bank = context.get("bank")
+	account = frappe.db.get_value("Bank Account", bank, "account") if bank else context.get("account")
+	names = bank_accounts()
 	accounts = (
 		[account]
 		if account
@@ -148,7 +162,10 @@ def cash_position(context):
 	for name in accounts:
 		value = _balance_on(account=name)
 		total_value += value
-		rows.append([name.rsplit(" - ", 1)[0], money(value)])
+		label = name.rsplit(" - ", 1)[0]
+		if names.get(name):
+			label += f" ({names[name]})"
+		rows.append([label, money(value)])
 	answer = table([_("Account"), _("Balance")], rows)
 	if len(rows) > 1:
 		answer += "\n\n" + _("Total cash and bank: {0}").format(money(total_value))
@@ -381,6 +398,10 @@ def _payment_entry(context, payment_type, party_type, party):
 
 	require("Payment Entry", "create")
 	mode = context.get("payment_mode")
+	bank = context.get("bank")
+	# Money that went into a named bank account was a transfer, not cash
+	if bank and not mode:
+		mode = "Wire Transfer"
 	if not mode:
 		raise NeedSlot("payment_mode", _("Was it paid in cash, or by bank transfer / card?"))
 	if not frappe.db.exists("Mode of Payment", mode):
@@ -392,6 +413,8 @@ def _payment_entry(context, payment_type, party_type, party):
 	except frappe.ValidationError:
 		frappe.clear_last_message()
 		account = None
+	if bank:
+		account = frappe.db.get_value("Bank Account", bank, "account") or account
 	if not account:
 		field = "default_cash_account" if mode == "Cash" else "default_bank_account"
 		account = frappe.get_cached_value("Company", the_company, field) or frappe.get_cached_value(
@@ -415,6 +438,8 @@ def _payment_entry(context, payment_type, party_type, party):
 			"target_exchange_rate": 1,
 		}
 	)
+	if bank:
+		doc.bank_account = bank
 	if frappe.get_cached_value("Account", account, "account_type") == "Bank":
 		doc.reference_no = _("Recorded from chat")
 		doc.reference_date = nowdate()
@@ -423,7 +448,7 @@ def _payment_entry(context, payment_type, party_type, party):
 	return {
 		"answer": _(
 			"Draft payment: {0} {1} {2} ({3}). It is not allocated to invoices yet; open it, use «Get Outstanding Invoices» and submit."
-		).format(money(amount), verb, party_label(party_type, party), _(mode)),
+		).format(money(amount), verb, party_label(party_type, party), bank or _(mode)),
 		"actions": [doc_link("Payment Entry", doc.name)],
 	}
 

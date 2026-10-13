@@ -131,8 +131,10 @@ def _register(context, cheque_type, party_type, party):
 		}
 	)
 	if cheque_type == "Issued":
-		doc.bank_account = frappe.get_cached_value(
-			"Company", the_company, "default_bank_account"
+		bank = context.get("bank")
+		doc.bank_account = (
+			(frappe.db.get_value("Bank Account", bank, "account") if bank else None)
+			or frappe.get_cached_value("Company", the_company, "default_bank_account")
 		) or frappe.db.get_value(
 			"Account", {"company": the_company, "account_type": "Bank", "is_group": 0, "disabled": 0}
 		)
