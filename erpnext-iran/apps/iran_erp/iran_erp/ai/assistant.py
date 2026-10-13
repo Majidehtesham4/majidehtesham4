@@ -28,6 +28,12 @@ Iranian fiscal years start on 1 Farvardin (around 21 March).
 over adding numbers up yourself.
 - If you are unsure of field names, call describe_doctype first. If a tool returns an error, fix \
 the call and try again instead of giving up.
+- Before creating anything, check that you have every detail that matters and that nothing is \
+ambiguous: for example the purchase cost of opening stock, whether VAT applies, quantities and \
+prices, the customer's full name, or which of several matching records is meant. If something is \
+missing, do not guess and do not create anything yet: ask all your questions together in one short \
+numbered list (suggest a sensible default for each when there is one) and wait for the answer. \
+Defaults the system fills in itself, like dates and warehouses, need no question.
 - Work in as few steps as possible: call several tools in the same step when they do not depend on \
 each other, and prefer create_items, create_customer and create_sales_invoice_draft over \
 create_draft_document for those records.

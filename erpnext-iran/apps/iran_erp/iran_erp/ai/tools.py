@@ -404,6 +404,14 @@ def create_items(items: list, company: str | None = None):
 		"Warehouse", {"company": company, "warehouse_name": "Stores", "is_group": 0}
 	) or frappe.db.get_value("Warehouse", {"company": company, "is_group": 0})
 	group = "Products" if frappe.db.exists("Item Group", "Products") else "All Item Groups"
+	# Stock valued at a guessed cost distorts profit, so the cost has to come from the user
+	no_cost = [r.get("item_name") for r in items or [] if r.get("opening_qty") and not r.get("cost_price")]
+	if no_cost:
+		return {
+			"error": "Nothing was created. Opening stock needs the purchase cost (cost_price) of: "
+			+ ", ".join(map(str, no_cost))
+			+ ". Ask the user for it, together with any other missing details, then call again."
+		}
 	created, existing, stock_rows = [], [], []
 	for row in items or []:
 		name = (row.get("item_name") or "").strip()
@@ -442,8 +450,7 @@ def create_items(items: list, company: str | None = None):
 				{
 					"item_code": code,
 					"qty": row["opening_qty"],
-					# Cost price if given; otherwise the selling price stands in until someone corrects it
-					"basic_rate": row.get("cost_price") or row.get("selling_price") or 0,
+					"basic_rate": row["cost_price"],
 					"t_warehouse": warehouse,
 				}
 			)
@@ -527,12 +534,20 @@ def create_sales_invoice_draft(
 	customer: str,
 	items: list,
 	discount_percentage: float | None = None,
-	apply_vat: bool = False,
+	apply_vat: bool | None = None,
 	company: str | None = None,
 ):
 	"""A draft sales invoice; customers and items may be given by name."""
 	_check_writable("Sales Invoice")
 	company = company or _default_company()
+	vat_template = frappe.db.get_value(
+		"Sales Taxes and Charges Template", {"company": company, "is_default": 1, "disabled": 0}
+	)
+	if apply_vat is None and vat_template:
+		return {
+			"error": f"This invoice was not created. Ask the user whether VAT ({vat_template}) should be added to "
+			"this invoice, together with any other missing details, then call again with apply_vat."
+		}
 	customer_id = customer if frappe.db.exists("Customer", customer) else find_party("Customer", customer)
 	if not customer_id:
 		return {"error": f"Customer '{customer}' not found. Create it with create_customer first."}
@@ -560,13 +575,9 @@ def create_sales_invoice_draft(
 			"apply_discount_on": "Net Total",
 		}
 	)
-	if apply_vat:
-		template = frappe.db.get_value(
-			"Sales Taxes and Charges Template", {"company": company, "is_default": 1, "disabled": 0}
-		)
-		if template:
-			doc.taxes_and_charges = template
-			doc.append_taxes_from_master()
+	if apply_vat and vat_template:
+		doc.taxes_and_charges = vat_template
+		doc.append_taxes_from_master()
 	doc.docstatus = 0
 	doc.insert()
 	return {
@@ -781,7 +792,10 @@ TOOL_SCHEMAS = [
 						"item_name": {"type": "string"},
 						"item_code": {"type": "string", "description": "Optional; defaults to the name"},
 						"selling_price": {"type": "number", "description": "In rial"},
-						"cost_price": {"type": "number", "description": "Purchase cost in rial, if known"},
+						"cost_price": {
+							"type": "number",
+							"description": "Purchase cost per unit in rial; required with opening_qty, ask the user",
+						},
 						"opening_qty": {"type": "number"},
 						"uom": {"type": "string"},
 						"is_service": {"type": "boolean"},
@@ -811,7 +825,7 @@ TOOL_SCHEMAS = [
 		"create_sales_invoice_draft",
 		"Create a draft sales invoice in one call. Customer and items can be given by name; prices "
 		"come from the price list unless a rate is given. discount_percentage is applied to the whole "
-		"invoice. Set apply_vat only when the user asks for VAT.",
+		"invoice. apply_vat must be set from the user's answer: ask whether VAT applies if they did not say.",
 		{
 			"customer": {"type": "string"},
 			"items": {
