@@ -10447,7 +10447,7 @@ msgid "Enable AI Assistant"
 msgstr "فعال کردن دستیار هوشمند"
 
 msgid "OpenRouter API Key"
-msgstr "کلید API اپن‌روتر (OpenRouter)"
+msgstr "کلید API سرویس OpenRouter"
 
 msgid "Create a key at openrouter.ai/keys"
 msgstr "کلید را از openrouter.ai/keys بسازید"
@@ -10929,3 +10929,55 @@ msgstr "مدلی که ورودی صوتی می‌پذیرد (در صفحه‌ی 
 
 msgid "The recording is empty or too long."
 msgstr "صدای ضبط‌شده خالی یا بیش از حد طولانی است."
+
+#: iran_erp/ai providers
+msgid "Provider"
+msgstr "ارائه‌دهنده"
+
+msgid "Which service answers the assistant's requests. Each provider keeps its own key and model, so you can switch back and forth."
+msgstr "سرویسی که به درخواست‌های دستیار جواب می‌دهد. کلید و مدل هر ارائه‌دهنده جدا ذخیره می‌شود و می‌توانید بین آن‌ها جابه‌جا شوید."
+
+msgid "OpenRouter Model"
+msgstr "مدل OpenRouter"
+
+msgid "AgentRouter API Key"
+msgstr "کلید API سرویس AgentRouter"
+
+msgid "AgentRouter Model"
+msgstr "مدل AgentRouter"
+
+msgid "The model name exactly as AgentRouter lists it, e.g. deepseek-v4-flash or claude-opus-4-8"
+msgstr "نام مدل دقیقاً همان‌طور که در AgentRouter نوشته شده؛ مثلاً deepseek-v4-flash یا claude-opus-4-8"
+
+msgid "Custom Provider API Key"
+msgstr "کلید API ارائه‌دهنده‌ی سفارشی"
+
+msgid "Custom Provider Model"
+msgstr "مدل ارائه‌دهنده‌ی سفارشی"
+
+msgid "Custom Provider Base URL"
+msgstr "آدرس پایه‌ی ارائه‌دهنده‌ی سفارشی"
+
+msgid "For the OpenAI format, the URL before /chat/completions (e.g. https://example.com/v1); for the Anthropic format, the URL before /v1/messages."
+msgstr "برای فرمت OpenAI، آدرسِ قبل از ‎/chat/completions (مثلاً https://example.com/v1)؛ برای فرمت Anthropic، آدرسِ قبل از ‎/v1/messages."
+
+msgid "API Format"
+msgstr "فرمت API"
+
+msgid "OpenAI Chat for models marked chat; Anthropic Messages for models marked claude_native (e.g. Claude on AgentRouter)."
+msgstr "برای مدل‌هایی که برچسب chat دارند «OpenAI Chat» و برای مدل‌هایی که برچسب claude_native دارند (مثل Claude در AgentRouter) «Anthropic Messages» را انتخاب کنید."
+
+msgid "Set the {0} API key in Iran AI Settings first."
+msgstr "ابتدا کلید API سرویس {0} را در «تنظیمات دستیار هوشمند» وارد کنید."
+
+msgid "Set the API base URL of the custom provider in Iran AI Settings."
+msgstr "آدرس پایه‌ی API ارائه‌دهنده‌ی سفارشی را در «تنظیمات دستیار هوشمند» وارد کنید."
+
+msgid "Set the model name for {0} in Iran AI Settings."
+msgstr "نام مدل {0} را در «تنظیمات دستیار هوشمند» وارد کنید."
+
+msgid "Connection works. {0} model {1} replied: {2}"
+msgstr "اتصال برقرار است. مدل {1} از {0} پاسخ داد: {2}"
+
+msgid "Voice transcription needs a provider in the OpenAI Chat format with an audio model."
+msgstr "تبدیل گفتار به متن به ارائه‌دهنده‌ای با فرمت OpenAI Chat و یک مدل صوتی نیاز دارد."

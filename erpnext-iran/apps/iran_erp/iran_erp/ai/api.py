@@ -70,7 +70,7 @@ def test_connection() -> str:
 	try:
 		settings = get_settings()
 		try:
-			models = list_models(settings.base_url)
+			models = list_models(settings)
 		except Exception:
 			models = []
 		missing = [m for m in [settings.model, *settings.fallback_models] if models and m not in models]
@@ -84,8 +84,8 @@ def test_connection() -> str:
 		response = chat_completion(settings, [{"role": "user", "content": "Reply with the single word: OK"}])
 		reply = (response["choices"][0]["message"].get("content") or "").strip()
 		# With fallbacks, OpenRouter reports which model actually answered
-		return _("Connection works. Model {0} replied: {1}").format(
-			response.get("model") or settings.model, reply[:100]
+		return _("Connection works. {0} model {1} replied: {2}").format(
+			settings.provider, response.get("model") or settings.model, reply[:100]
 		)
 	except AIError as e:
 		return str(e)
@@ -104,6 +104,8 @@ def transcribe(audio: str) -> str:
 		settings = get_settings()
 	except AIError as e:
 		frappe.throw(str(e))
+	if settings.api_format != "OpenAI Chat":
+		frappe.throw(_("Voice transcription needs a provider in the OpenAI Chat format with an audio model."))
 	settings = frappe._dict(settings, model=settings.transcription_model, fallback_models=[])
 	prompt = (
 		"Transcribe this Persian speech exactly as spoken, in Persian script. It is an instruction to an "

@@ -108,3 +108,81 @@ class TestStoredHistory(UnitTestCase):
 		stored = _trim(message)
 		self.assertEqual(stored["content"][0]["text"], "این فاکتور را ثبت کن")
 		self.assertNotIn("base64", str(stored))
+
+
+class TestAnthropicFormat(UnitTestCase):
+	def test_request_conversion(self):
+		from iran_erp.ai.anthropic import to_anthropic_request
+
+		messages = [
+			{"role": "system", "content": "be brief"},
+			{
+				"role": "user",
+				"content": [
+					{"type": "text", "text": "این فاکتور"},
+					{"type": "image_url", "image_url": {"url": "data:image/png;base64,AAAA"}},
+				],
+			},
+			{
+				"role": "assistant",
+				"content": "",
+				"tool_calls": [
+					{
+						"id": "c1",
+						"type": "function",
+						"function": {"name": "get_company_info", "arguments": "{}"},
+					},
+					{
+						"id": "c2",
+						"type": "function",
+						"function": {"name": "describe_doctype", "arguments": '{"doctype": "Item"}'},
+					},
+				],
+			},
+			{"role": "tool", "tool_call_id": "c1", "content": '{"company_name": "x"}'},
+			{"role": "tool", "tool_call_id": "c2", "content": "{}"},
+		]
+		tools = [
+			{
+				"type": "function",
+				"function": {
+					"name": "get_company_info",
+					"description": "d",
+					"parameters": {"type": "object"},
+				},
+			}
+		]
+		request = to_anthropic_request("claude-opus-4-8", messages, tools)
+		self.assertEqual(request["system"], "be brief")
+		self.assertEqual([turn["role"] for turn in request["messages"]], ["user", "assistant", "user"])
+		self.assertEqual(request["messages"][0]["content"][1]["source"]["media_type"], "image/png")
+		self.assertEqual(request["messages"][1]["content"][1]["input"], {"doctype": "Item"})
+		# Both tool results go back in one user turn
+		self.assertEqual([b["tool_use_id"] for b in request["messages"][2]["content"]], ["c1", "c2"])
+		self.assertEqual(request["tools"][0]["input_schema"], {"type": "object"})
+
+	def test_response_conversion(self):
+		from iran_erp.ai.anthropic import from_anthropic_response
+
+		response = from_anthropic_response(
+			{
+				"id": "m1",
+				"model": "claude-opus-4-8",
+				"content": [
+					{"type": "text", "text": "در حال جستجو"},
+					{
+						"type": "tool_use",
+						"id": "t1",
+						"name": "search_documents",
+						"input": {"doctype": "Customer"},
+					},
+				],
+				"stop_reason": "tool_use",
+				"usage": {"input_tokens": 10, "output_tokens": 5},
+			}
+		)
+		message = response["choices"][0]["message"]
+		self.assertEqual(message["content"], "در حال جستجو")
+		self.assertEqual(message["tool_calls"][0]["function"]["name"], "search_documents")
+		self.assertEqual(message["tool_calls"][0]["function"]["arguments"], '{"doctype": "Customer"}')
+		self.assertEqual(response["usage"]["total_tokens"], 15)

@@ -107,7 +107,18 @@ ERPNext و چارچوب:
 docker compose exec backend bench --site frontend execute iran_erp.desktop.use_icon_grid
 ```
 
-## دستیار هوشمند (OpenRouter)
+## دستیار هوشمند (OpenRouter، AgentRouter یا هر سرویس سازگار)
+
+در «تنظیمات دستیار هوشمند» با فیلد **ارائه‌دهنده** سرویس را انتخاب کنید. کلید و مدل هر ارائه‌دهنده جدا نگه داشته
+می‌شود:
+
+| ارائه‌دهنده | آدرس | توضیح |
+|---|---|---|
+| OpenRouter | خودکار | پیش‌فرض؛ با «مدل‌های جایگزین» |
+| AgentRouter | خودکار | نام مدل همان‌طور که در agentrouter.org نوشته شده؛ برای مدل‌های `chat` فرمت «OpenAI Chat» و برای مدل‌های فقط `claude_native` (مثل Claude) فرمت «Anthropic Messages» |
+| سفارشی | دستی | هر سرویسی که API سازگار با OpenAI یا Anthropic دارد |
+
+### راه‌اندازی OpenRouter
 
 1. یک کلید API از [openrouter.ai/keys](https://openrouter.ai/keys) بسازید و اعتبار حساب را شارژ کنید.
 2. در ERPNext به آدرس `/desk/iran-ai-settings` بروید (یا در جستجو «تنظیمات دستیار هوشمند» را بنویسید).

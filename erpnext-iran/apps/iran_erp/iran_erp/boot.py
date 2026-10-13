@@ -2,9 +2,10 @@ import frappe
 
 
 def boot_session(bootinfo):
+	from iran_erp.ai.openrouter import has_api_key
+
 	bootinfo.iran_ai_enabled = bool(
-		frappe.db.get_single_value("Iran AI Settings", "enabled")
-		and frappe.db.get_single_value("Iran AI Settings", "api_key")
+		frappe.db.get_single_value("Iran AI Settings", "enabled") and has_api_key()
 	)
 	# Administrators see the assistant button even before it is set up, so they can find the settings
 	bootinfo.iran_ai_can_configure = "System Manager" in frappe.get_roles()
