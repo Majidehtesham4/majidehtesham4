@@ -137,6 +137,12 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 	if response.status_code != 200 or "error" in data:
 		error = data.get("error") or {}
 		message = error.get("message") if isinstance(error, dict) else str(error)
+		if response.status_code == 401 and "unauthorized client" in (message or response.text).lower():
+			raise AIError(
+				_(
+					"{0} rejected this system as a client (401): its keys only work inside the coding tools it supports, such as Claude Code or Codex, not from other software. Use OpenRouter or another provider with a regular API key."
+				).format(settings.provider)
+			)
 		if response.status_code == 429:
 			raise AIError(
 				_(

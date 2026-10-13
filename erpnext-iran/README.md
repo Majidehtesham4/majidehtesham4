@@ -120,6 +120,9 @@ docker compose exec backend bench --site frontend execute iran_erp.desktop.use_i
 | AgentRouter | خودکار | نام مدل همان‌طور که در agentrouter.org نوشته شده؛ برای مدل‌های `chat` فرمت «OpenAI Chat» و برای مدل‌های فقط `claude_native` (مثل Claude) فرمت «Anthropic Messages» |
 | سفارشی | دستی | هر سرویسی که API سازگار با OpenAI یا Anthropic دارد |
 
+> **توجه:** AgentRouter فقط درخواست ابزارهای برنامه‌نویسی پشتیبانی‌شده‌ی خودش (مثل Claude Code و Codex) را می‌پذیرد و به
+> نرم‌افزارهای دیگر خطای `401 unauthorized client detected` می‌دهد؛ پس با کلید فعلی‌اش در این سیستم کار نمی‌کند.
+
 ### راه‌اندازی OpenRouter
 
 1. یک کلید API از [openrouter.ai/keys](https://openrouter.ai/keys) بسازید و اعتبار حساب را شارژ کنید.
