@@ -1,10 +1,11 @@
+import base64
 import json
 
 import frappe
 from frappe import _
 
 from iran_erp.ai.files import get_file
-from iran_erp.ai.openrouter import AIError, chat_completion, get_settings, list_models
+from iran_erp.ai.openrouter import AIError, chat_completion, get_settings, list_models, transcribe_audio
 
 
 @frappe.whitelist()
@@ -75,11 +76,14 @@ def test_connection() -> str:
 			models = []
 		missing = [m for m in [settings.model, *settings.fallback_models] if models and m not in models]
 		if missing:
-			suggestions = [m for m in models if m.endswith(":free")][:6] + [
-				m for m in models if m.startswith("anthropic/")
-			][:4]
-			return _("Model {0} was not found on OpenRouter. Some available models: {1}").format(
-				", ".join(missing), ", ".join(suggestions)
+			if settings.provider == "OpenRouter":
+				suggestions = [m for m in models if m.endswith(":free")][:6] + [
+					m for m in models if m.startswith("anthropic/")
+				][:4]
+			else:
+				suggestions = [m for m in models if "whisper" not in m and "guard" not in m][:10]
+			return _("Model {0} was not found on {1}. Some available models: {2}").format(
+				", ".join(missing), settings.provider, ", ".join(suggestions)
 			)
 		response = chat_completion(settings, [{"role": "user", "content": "Reply with the single word: OK"}])
 		reply = (response["choices"][0]["message"].get("content") or "").strip()
@@ -93,6 +97,7 @@ def test_connection() -> str:
 
 # About 4 minutes of 16 kHz mono 16-bit WAV
 MAX_AUDIO_BASE64 = 11 * 1024 * 1024
+WHISPER_PROMPT_CHARS = 400
 
 
 @frappe.whitelist(methods=["POST"])
@@ -106,6 +111,13 @@ def transcribe(audio: str) -> str:
 		frappe.throw(str(e))
 	if settings.api_format != "OpenAI Chat":
 		frappe.throw(_("Voice transcription needs a provider in the OpenAI Chat format with an audio model."))
+	if "whisper" in settings.transcription_model.lower():
+		# Whisper takes a short prompt (about 224 tokens) that only steers spelling
+		hint = "، ".join(_vocabulary(30))[:WHISPER_PROMPT_CHARS]
+		try:
+			return transcribe_audio(settings, base64.b64decode(audio), hint)
+		except AIError as e:
+			frappe.throw(str(e))
 	settings = frappe._dict(settings, model=settings.transcription_model, fallback_models=[])
 	prompt = (
 		"Transcribe this Persian speech exactly as spoken, in Persian script. It is an instruction to an "

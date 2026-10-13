@@ -10512,8 +10512,8 @@ msgstr "سرویس هوش مصنوعی پاسخ خالی برگرداند."
 msgid "Please write a question."
 msgstr "لطفاً سؤال خود را بنویسید."
 
-msgid "Model {0} was not found on OpenRouter. Some available models: {1}"
-msgstr "مدل {0} در اپن‌روتر پیدا نشد. برخی مدل‌های موجود: {1}"
+msgid "Model {0} was not found on {1}. Some available models: {2}"
+msgstr "مدل {0} در {1} پیدا نشد. برخی مدل‌های موجود: {2}"
 
 msgid "Connection works. Model {0} replied: {1}"
 msgstr "اتصال برقرار است. مدل {0} پاسخ داد: {1}"
@@ -10869,8 +10869,8 @@ msgstr "داده‌ی نمونه‌ای برای حذف وجود ندارد"
 msgid "Finish the setup wizard first"
 msgstr "ابتدا ویزارد راه‌اندازی را کامل کنید"
 
-msgid "The assistant needs an OpenRouter API key. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
-msgstr "دستیار هوشمند به کلید API سرویس OpenRouter نیاز دارد. کلید را در «تنظیمات دستیار هوشمند» وارد کنید، تیک «فعال» را بزنید، ذخیره کنید و صفحه را دوباره بارگذاری کنید."
+msgid "The assistant needs an API key from an AI provider. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
+msgstr "دستیار هوشمند به کلید API یک سرویس هوش مصنوعی نیاز دارد. کلید را در «تنظیمات دستیار هوشمند» وارد کنید، تیک «فعال» را بزنید، ذخیره کنید و صفحه را دوباره بارگذاری کنید."
 
 msgid "Open AI Assistant Settings"
 msgstr "باز کردن تنظیمات دستیار هوشمند"
@@ -11024,3 +11024,24 @@ msgstr "{0} این سیستم را به‌عنوان کلاینت نپذیرفت
 
 msgid "Your {0} account has no credit left (402): {1}. Top up the account on the provider's website and try again."
 msgstr "اعتبار حساب {0} شما تمام شده است (402): {1}. حساب را در سایت همان سرویس شارژ کنید و دوباره امتحان کنید."
+
+msgid "The request is larger than the model or your plan allows (413): {0}. Choose a model with a larger limit, or upgrade the plan with the provider."
+msgstr "درخواست از سقف مدل یا طرح حساب شما بزرگ‌تر است (413): {0}. مدلی با سقف بالاتر انتخاب کنید یا طرح حساب را در سایت سرویس ارتقا دهید."
+
+msgid "Groq API Key"
+msgstr "کلید API سرویس Groq"
+
+msgid "Groq Model"
+msgstr "مدل Groq"
+
+msgid "From console.groq.com/keys"
+msgstr "از console.groq.com/keys بسازید"
+
+msgid "A chat model from console.groq.com/docs/models, e.g. openai/gpt-oss-120b or llama-3.3-70b-versatile"
+msgstr "یک مدل چت از فهرست console.groq.com/docs/models؛ مثلاً openai/gpt-oss-120b یا llama-3.3-70b-versatile"
+
+msgid "Browser: free, built into Chrome and Edge, weaker in Persian. AI Model: the recording is sent to the selected provider (a Whisper model on Groq, or an audio-capable model on OpenRouter); more accurate with names and numbers, and costs like any request."
+msgstr "مرورگر: رایگان و داخل Chrome و Edge، ولی در فارسی ضعیف‌تر. مدل هوش مصنوعی: صدای ضبط‌شده به سرویس انتخاب‌شده فرستاده می‌شود (مدل Whisper در Groq یا یک مدل صوتی در OpenRouter)؛ نام‌ها و اعداد را دقیق‌تر می‌فهمد و مثل هر درخواست دیگری هزینه دارد."
+
+msgid "On Groq: whisper-large-v3 (most accurate) or whisper-large-v3-turbo. On OpenRouter: a model that accepts audio input. Empty: whisper-large-v3 on Groq, the main model elsewhere."
+msgstr "در Groq: whisper-large-v3 (دقیق‌ترین) یا whisper-large-v3-turbo. در OpenRouter: مدلی که ورودی صوتی می‌پذیرد. خالی: در Groq همان whisper-large-v3 و در بقیه مدل اصلی."

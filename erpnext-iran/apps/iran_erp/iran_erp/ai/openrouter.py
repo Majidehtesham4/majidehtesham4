@@ -1,4 +1,4 @@
-"""Client for the AI providers: OpenRouter, AgentRouter or any OpenAI-compatible service.
+"""Client for the AI providers: OpenRouter, AgentRouter, Groq or any OpenAI-compatible service.
 
 Requests are always built in OpenAI's chat completions shape. Providers that only speak Anthropic's
 Messages API ("claude_native", as AgentRouter's Claude models do) are reached through the adapter in
@@ -15,6 +15,8 @@ TIMEOUT_SECONDS = 180
 # Busy or rate-limited providers (common with free models) are retried after these pauses
 RETRY_WAITS = (4, 12)
 RETRY_STATUSES = {429, 502, 503, 529}
+# Longest pause taken when the provider names its own (Groq does, in a Retry-After header)
+MAX_RETRY_WAIT = 30
 # OpenRouter accepts at most this many models in a fallback list
 MAX_MODELS = 3
 
@@ -30,8 +32,13 @@ PROVIDERS = {
 		"https://agentrouter.org/v1",
 		"https://agentrouter.org",
 	),
+	"Groq": ("groq_api_key", "groq_model", "https://api.groq.com/openai/v1", None),
 	"Custom": ("custom_api_key", "custom_model", None, None),
 }
+# Providers that offer more than one request format
+MULTI_FORMAT = ("AgentRouter", "Custom")
+DEFAULT_MODELS = {"OpenRouter": "anthropic/claude-opus-5.5", "Groq": "openai/gpt-oss-120b"}
+DEFAULT_TRANSCRIPTION_MODELS = {"Groq": "whisper-large-v3"}
 
 
 class AIError(Exception):
@@ -60,14 +67,14 @@ def get_settings():
 		raise AIError(_("Set the {0} API key in Iran AI Settings first.").format(provider))
 	api_format = (
 		ANTHROPIC_FORMAT
-		if provider != "OpenRouter" and settings.get("api_format") == ANTHROPIC_FORMAT
+		if provider in MULTI_FORMAT and settings.get("api_format") == ANTHROPIC_FORMAT
 		else OPENAI_FORMAT
 	)
 	default_url = anthropic_url if api_format == ANTHROPIC_FORMAT else openai_url
 	base_url = (settings.base_url if provider == "Custom" else None) or default_url
 	if not base_url:
 		raise AIError(_("Set the API base URL of the custom provider in Iran AI Settings."))
-	model = settings.get(model_field) or ("anthropic/claude-opus-5.5" if provider == "OpenRouter" else "")
+	model = settings.get(model_field) or DEFAULT_MODELS.get(provider, "")
 	if not model:
 		raise AIError(_("Set the model name for {0} in Iran AI Settings.").format(provider))
 	return frappe._dict(
@@ -82,7 +89,9 @@ def get_settings():
 		base_url=base_url.rstrip("/"),
 		max_steps=settings.max_steps or 20,
 		instructions=settings.assistant_instructions or "",
-		transcription_model=settings.transcription_model or model,
+		transcription_model=settings.transcription_model
+		or DEFAULT_TRANSCRIPTION_MODELS.get(provider)
+		or model,
 	)
 
 
@@ -118,15 +127,32 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 			"X-Title": "Iran ERP",
 		}
 
+	response = post_with_retries(url, headers=headers, json=payload)
+	data = check_response(settings, response)
+	if settings.api_format == ANTHROPIC_FORMAT:
+		data = from_anthropic_response(data)
+	if not data.get("choices"):
+		raise AIError(_("The AI service returned an empty response."))
+	return data
+
+
+def post_with_retries(url: str, **kwargs):
 	for wait in (*RETRY_WAITS, None):
 		try:
-			response = requests.post(url, headers=headers, json=payload, timeout=TIMEOUT_SECONDS)
+			response = requests.post(url, timeout=TIMEOUT_SECONDS, **kwargs)
 		except requests.RequestException as e:
 			raise AIError(_("Could not reach the AI service: {0}").format(e)) from e
 		if response.status_code not in RETRY_STATUSES or wait is None:
-			break
+			return response
+		try:
+			wait = min(max(float(response.headers.get("retry-after")), wait), MAX_RETRY_WAIT)
+		except (TypeError, ValueError):
+			pass
 		time.sleep(wait)
 
+
+def check_response(settings, response) -> dict:
+	"""The response's JSON, or an AIError that explains what went wrong."""
 	try:
 		data = response.json()
 	except ValueError:
@@ -155,22 +181,37 @@ def chat_completion(settings, messages: list, tools: list | None = None) -> dict
 					"The AI model is busy or its free quota is used up (429): {0}. Wait a few minutes, add fallback models in AI Assistant Settings, or use a paid model."
 				).format(message or "")
 			)
+		if response.status_code == 413:
+			raise AIError(
+				_(
+					"The request is larger than the model or your plan allows (413): {0}. Choose a model with a larger limit, or upgrade the plan with the provider."
+				).format(message or "")
+			)
 		raise AIError(
 			_("The AI service returned an error ({0}): {1}").format(
 				response.status_code, message or response.text[:300]
 			)
 		)
-	if settings.api_format == ANTHROPIC_FORMAT:
-		data = from_anthropic_response(data)
-	if not data.get("choices"):
-		raise AIError(_("The AI service returned an empty response."))
 	return data
+
+
+def transcribe_audio(settings, wav: bytes, prompt: str = "") -> str:
+	"""Speech to text through the OpenAI-style /audio/transcriptions endpoint (Whisper models)."""
+	response = post_with_retries(
+		f"{settings.base_url}/audio/transcriptions",
+		headers={"Authorization": f"Bearer {settings.api_key}"},
+		files={"file": ("speech.wav", wav, "audio/wav")},
+		data={"model": settings.transcription_model, "language": "fa", "prompt": prompt, "response_format": "json"},
+	)
+	return (check_response(settings, response).get("text") or "").strip()
 
 
 def list_models(settings) -> list[str]:
 	"""Model IDs offered by the provider, or [] when it does not publish a list we can read."""
-	if settings.provider != "OpenRouter":
+	if settings.provider not in ("OpenRouter", "Groq"):
 		return []
-	response = requests.get(f"{settings.base_url}/models", timeout=30)
+	response = requests.get(
+		f"{settings.base_url}/models", headers={"Authorization": f"Bearer {settings.api_key}"}, timeout=30
+	)
 	response.raise_for_status()
 	return [m["id"] for m in response.json().get("data", [])]

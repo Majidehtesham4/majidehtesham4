@@ -109,7 +109,7 @@ ERPNext و چارچوب:
 docker compose exec backend bench --site frontend execute iran_erp.desktop.use_icon_grid
 ```
 
-## دستیار هوشمند (OpenRouter، AgentRouter یا هر سرویس سازگار)
+## دستیار هوشمند (OpenRouter، AgentRouter، Groq یا هر سرویس سازگار)
 
 در «تنظیمات دستیار هوشمند» با فیلد **ارائه‌دهنده** سرویس را انتخاب کنید. کلید و مدل هر ارائه‌دهنده جدا نگه داشته
 می‌شود:
@@ -118,6 +118,7 @@ docker compose exec backend bench --site frontend execute iran_erp.desktop.use_i
 |---|---|---|
 | OpenRouter | خودکار | پیش‌فرض؛ با «مدل‌های جایگزین» |
 | AgentRouter | خودکار | نام مدل همان‌طور که در agentrouter.org نوشته شده؛ برای مدل‌های `chat` فرمت «OpenAI Chat» و برای مدل‌های فقط `claude_native` (مثل Claude) فرمت «Anthropic Messages» |
+| Groq | خودکار | کلید از console.groq.com/keys؛ مدل پیش‌فرض `openai/gpt-oss-120b`. ورود صوتی با «مدل هوش مصنوعی» از Whisper (`whisper-large-v3`) استفاده می‌کند که فارسی را خوب می‌فهمد. در طرح رایگان سقف توکن در دقیقه کم است و درخواست‌های پشت‌سرهم کمی صبر می‌کنند |
 | سفارشی | دستی | هر سرویسی که API سازگار با OpenAI یا Anthropic دارد |
 
 > **توجه:** AgentRouter فقط درخواست ابزارهای برنامه‌نویسی پشتیبانی‌شده‌ی خودش (مثل Claude Code و Codex) را می‌پذیرد و به

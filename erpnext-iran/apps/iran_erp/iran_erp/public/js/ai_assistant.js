@@ -347,7 +347,7 @@ $(document).on("app_ready", () => {
 				frappe.msgprint({
 					title: __("AI Assistant"),
 					message: __(
-						"The assistant needs an OpenRouter API key. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
+						"The assistant needs an API key from an AI provider. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
 					),
 					primary_action: {
 						label: __("Open AI Assistant Settings"),

@@ -13,6 +13,8 @@
   "fallback_models",
   "agentrouter_api_key",
   "agentrouter_model",
+  "groq_api_key",
+  "groq_model",
   "custom_api_key",
   "custom_model",
   "base_url",
@@ -36,7 +38,7 @@
    "fieldname": "provider",
    "fieldtype": "Select",
    "label": "Provider",
-   "options": "OpenRouter\nAgentRouter\nCustom",
+   "options": "OpenRouter\nAgentRouter\nGroq\nCustom",
    "description": "Which service answers the assistant's requests. Each provider keeps its own key and model, so you can switch back and forth."
   },
   {
@@ -76,6 +78,22 @@
    "description": "The model name exactly as AgentRouter lists it, e.g. deepseek-v4-flash or claude-opus-4-8"
   },
   {
+   "fieldname": "groq_api_key",
+   "fieldtype": "Password",
+   "label": "Groq API Key",
+   "length": 512,
+   "depends_on": "eval:doc.provider=='Groq'",
+   "description": "From console.groq.com/keys"
+  },
+  {
+   "fieldname": "groq_model",
+   "fieldtype": "Data",
+   "label": "Groq Model",
+   "default": "openai/gpt-oss-120b",
+   "depends_on": "eval:doc.provider=='Groq'",
+   "description": "A chat model from console.groq.com/docs/models, e.g. openai/gpt-oss-120b or llama-3.3-70b-versatile"
+  },
+  {
    "fieldname": "custom_api_key",
    "fieldtype": "Password",
    "label": "Custom Provider API Key",
@@ -100,7 +118,7 @@
    "fieldtype": "Select",
    "label": "API Format",
    "options": "OpenAI Chat\nAnthropic Messages",
-   "depends_on": "eval:doc.provider && doc.provider!='OpenRouter'",
+   "depends_on": "eval:['AgentRouter','Custom'].includes(doc.provider)",
    "description": "OpenAI Chat for models marked chat; Anthropic Messages for models marked claude_native (e.g. Claude on AgentRouter)."
   },
   {
@@ -130,21 +148,21 @@
    "fieldtype": "Select",
    "label": "Speech Recognition",
    "options": "Browser\nAI Model",
-   "description": "Browser: free, built into Chrome and Edge, weaker in Persian. AI Model: the recording is sent to an audio-capable model on OpenRouter; more accurate with names and numbers, and costs like any request."
+   "description": "Browser: free, built into Chrome and Edge, weaker in Persian. AI Model: the recording is sent to the selected provider (a Whisper model on Groq, or an audio-capable model on OpenRouter); more accurate with names and numbers, and costs like any request."
   },
   {
    "fieldname": "transcription_model",
    "fieldtype": "Data",
    "label": "Transcription Model",
    "depends_on": "eval:doc.voice_input=='AI Model'",
-   "description": "A model that accepts audio input (filter the OpenRouter models page by audio input). Empty: the main model is used."
+   "description": "On Groq: whisper-large-v3 (most accurate) or whisper-large-v3-turbo. On OpenRouter: a model that accepts audio input. Empty: whisper-large-v3 on Groq, the main model elsewhere."
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-13 18:00:00.000000",
+ "modified": "2026-10-13 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Settings",
