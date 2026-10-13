@@ -10981,3 +10981,40 @@ msgstr "اتصال برقرار است. مدل {1} از {0} پاسخ داد: {2}
 
 msgid "Voice transcription needs a provider in the OpenAI Chat format with an audio model."
 msgstr "تبدیل گفتار به متن به ارائه‌دهنده‌ای با فرمت OpenAI Chat و یک مدل صوتی نیاز دارد."
+
+#: iran_erp/inbox.py
+msgid "My Tasks"
+msgstr "کارهای من"
+
+msgid "Waiting for your approval"
+msgstr "منتظر تأیید شما"
+
+msgid "Drafts to review and submit"
+msgstr "پیش‌نویس‌های منتظر بررسی و ثبت"
+
+msgid "Assigned to you"
+msgstr "واگذارشده به شما"
+
+msgid "Needs attention"
+msgstr "نیازمند توجه"
+
+msgid "Nothing is waiting for you."
+msgstr "کاری منتظر شما نیست."
+
+msgid "{0} awaiting your approval"
+msgstr "{0} منتظر تأیید شما"
+
+msgid "{0} awaiting submission"
+msgstr "{0} منتظر ثبت نهایی"
+
+msgid "Tasks assigned to you"
+msgstr "کارهای واگذارشده به شما"
+
+msgid "Cheques due within {0} days"
+msgstr "چک‌های با سررسید تا {0} روز آینده"
+
+msgid "Overdue sales invoices"
+msgstr "فاکتورهای فروش معوقه"
+
+msgid "Overdue purchase invoices"
+msgstr "فاکتورهای خرید معوقه"

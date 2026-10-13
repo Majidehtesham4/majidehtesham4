@@ -35,7 +35,11 @@ required_apps = ["frappe/erpnext"]
 
 # include js, css files in header of desk.html
 app_include_css = "/assets/iran_erp/css/iran_erp.css"
-app_include_js = ["/assets/iran_erp/js/jalali.js", "/assets/iran_erp/js/ai_assistant.js"]
+app_include_js = [
+	"/assets/iran_erp/js/jalali.js",
+	"/assets/iran_erp/js/ai_assistant.js",
+	"/assets/iran_erp/js/inbox.js",
+]
 doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
 
@@ -101,7 +105,11 @@ jinja = {
 
 # before_install = "iran_erp.install.before_install"
 after_install = "iran_erp.install.after_install"
-after_migrate = ["iran_erp.accounts.chart.install_chart_template", "iran_erp.install.clear_translation_cache"]
+after_migrate = [
+	"iran_erp.accounts.chart.install_chart_template",
+	"iran_erp.desktop.add_iran_icons",
+	"iran_erp.install.clear_translation_cache",
+]
 
 # Uninstallation
 # ------------
