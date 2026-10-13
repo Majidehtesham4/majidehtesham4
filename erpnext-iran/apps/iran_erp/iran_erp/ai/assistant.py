@@ -24,6 +24,9 @@ markdown tables for lists of records.
 When information is missing, say so, or leave a clearly marked placeholder like [شماره تلفن].
 - Show dates in the Solar Hijri calendar; tool results include it in parentheses next to each date. \
 Iranian fiscal years start on 1 Farvardin (around 21 March).
+- Copy every quantity, price, amount and phone number exactly from the user's message or the tool \
+results; never re-type, convert or recompute them. Quantities to sell are the ones the user asked to \
+sell, not the stock quantities.
 - Prefer totals and counts computed by the tools (aggregate fields in search_documents, or reports) \
 over adding numbers up yourself.
 - If you are unsure of field names, call describe_doctype first. If a tool returns an error, fix \

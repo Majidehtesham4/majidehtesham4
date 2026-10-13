@@ -217,7 +217,8 @@ iran_erp.ai.Panel = class {
 		const html = frappe.markdown(frappe.utils.escape_html(text || ""));
 		const $html = $("<div>").html(html);
 		$html.find("a").each((_, a) => {
-			const href = a.getAttribute("href") || "";
+			const href = local_link(a.getAttribute("href") || "");
+			a.setAttribute("href", href);
 			if (!/^(https?:\/\/|\/)/.test(href)) a.removeAttribute("href");
 			a.setAttribute("target", "_blank");
 		});
@@ -225,7 +226,7 @@ iran_erp.ai.Panel = class {
 	}
 
 	render_action(action) {
-		const link = action.file_url || action.url;
+		const link = local_link(action.file_url || action.url || "");
 		if (!link) return "";
 		const label = action.file_url
 			? `${__("Download")} ${frappe.utils.escape_html(action.file_name || "")}`
@@ -286,6 +287,13 @@ iran_erp.ai.Panel = class {
 		});
 	}
 };
+
+// Links to this site's pages made in a background job carry the container's host name (http://frontend/...);
+// keep only the path so they open on whatever address the user is on
+function local_link(href) {
+	const match = /^https?:\/\/[^/]+(\/(desk|app|files|private|api)\/.*)$/.exec(href);
+	return match ? match[1] : href;
+}
 
 // Models take audio as WAV; record in whatever the browser offers and convert to 16 kHz mono
 async function to_wav_base64(blob) {

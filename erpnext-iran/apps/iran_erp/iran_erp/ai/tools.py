@@ -8,10 +8,11 @@ nothing here submits, cancels or deletes a document.
 import datetime
 import json
 import re
+from urllib.parse import urlsplit
 
 import frappe
 from frappe import _
-from frappe.utils import get_url_to_form
+from frappe.utils import get_url_to_form as absolute_form_url
 from frappe.utils.html_utils import sanitize_html
 from frappe.utils.xlsxutils import make_xlsx
 
@@ -21,6 +22,14 @@ from iran_erp.utils.jalali import format_jalali
 from iran_erp.utils.national_id import normalize_digits
 
 MAX_ROWS = 200
+
+
+def get_url_to_form(doctype: str, name: str) -> str:
+	"""A link relative to the site: the assistant runs as a background job, where the absolute URL would
+	carry the container's internal host name (e.g. http://frontend/...) that the user's browser cannot open."""
+	return urlsplit(absolute_form_url(doctype, name)).path
+
+
 MAX_TEXT = 2000
 # Configuration areas the assistant must not create or change records in
 BLOCKED_MODULES = {"Core", "Custom", "Desk", "Email", "Integrations", "Automation", "Website Theme"}
@@ -205,7 +214,7 @@ def create_web_page(title: str, route: str, html: str, publish: bool = False):
 		"created": "Web Page",
 		"name": doc.name,
 		"url": get_url_to_form("Web Page", doc.name),
-		"public_url": frappe.utils.get_url(doc.route),
+		"public_url": "/" + doc.route.lstrip("/"),
 		"published": bool(doc.published),
 	}
 
@@ -458,7 +467,7 @@ def create_items(items: list, company: str | None = None):
 		"created": "Item",
 		"items_created": created,
 		"items_already_existing": existing,
-		"url": frappe.utils.get_url("/desk/item"),
+		"url": "/desk/item",
 	}
 	if stock_rows:
 		entry = frappe.get_doc(
@@ -492,6 +501,11 @@ def create_customer(
 ):
 	"""A customer with address and contact details, or the existing one with that name."""
 	_check_writable("Customer")
+	if mobile and not re.fullmatch(r"09\d{9}", normalize_digits(mobile)):
+		return {
+			"error": f"Nothing was created. The mobile number {mobile} is not valid: Iranian mobile numbers have "
+			"11 digits and start with 09. Ask the user for the correct number."
+		}
 	existing = find_party("Customer", customer_name, national_id=national_id)
 	if existing and frappe.db.get_value("Customer", existing, "customer_name") == customer_name.strip():
 		return {"customer": existing, "already_existed": True}
@@ -585,6 +599,10 @@ def create_sales_invoice_draft(
 		"name": doc.name,
 		"url": get_url_to_form("Sales Invoice", doc.name),
 		"customer": customer_id,
+		"lines": [
+			{"item": row.item_name, "qty": row.qty, "rate": row.rate, "amount": row.amount}
+			for row in doc.items
+		],
 		"total_before_discount": doc.total,
 		"discount": doc.discount_amount,
 		"taxes": doc.total_taxes_and_charges,
