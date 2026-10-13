@@ -89,3 +89,10 @@ def setup_rial():
 		# The desk reads it from the defaults that saving System Settings would normally write.
 		frappe.db.set_single_value("System Settings", "use_number_format_from_currency", 1)
 		frappe.db.set_default("use_number_format_from_currency", 1)
+
+
+def clear_translation_cache():
+	"""New or changed Persian translations only show once the cached dictionaries are rebuilt."""
+	from frappe.translate import clear_cache
+
+	clear_cache()

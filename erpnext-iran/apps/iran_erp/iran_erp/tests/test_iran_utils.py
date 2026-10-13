@@ -42,3 +42,13 @@ class TestIranianIds(UnitTestCase):
 		self.assertTrue(is_valid_economic_code("10320894878"))
 		self.assertTrue(is_valid_economic_code("411111111111"))
 		self.assertFalse(is_valid_economic_code("123"))
+
+
+class TestDemoIds(UnitTestCase):
+	def test_generated_ids_are_valid(self):
+		from iran_erp.demo import legal_id, national_code
+		from iran_erp.utils.national_id import is_valid_legal_national_id, is_valid_national_code
+
+		for index in range(8):
+			self.assertTrue(is_valid_national_code(national_code(f"00{index}1234{index}5")))
+			self.assertTrue(is_valid_legal_national_id(legal_id(f"1010{index}2345{index}")))

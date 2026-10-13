@@ -3,6 +3,43 @@
 
 frappe.ui.form.on("Iran ERP Settings", {
 	refresh(frm) {
+		const wait_for_demo = () =>
+			frappe.xcall("iran_erp.demo.job_status").then((r) => {
+				if (r.running) {
+					setTimeout(wait_for_demo, 3000);
+					return;
+				}
+				const message = r.error
+					? __("Demo data failed: {0}", [r.error])
+					: r.action === "create"
+					? __("Demo data was created: {0} records.", [r.count])
+					: __("Demo data was deleted: {0} records.", [r.count]);
+				// A toast, not msgprint: the confirm dialog shares msgprint's dialog and can blank it
+				frappe.show_alert({ message, indicator: r.error ? "red" : "green" }, 30);
+			});
+		const demo = (action, question) =>
+			frappe.confirm(question, () =>
+				frappe.xcall("iran_erp.demo.start", { action }).then(() => {
+					frappe.show_alert({ message: __("Please wait; this takes a minute or two."), indicator: "blue" }, 15);
+					setTimeout(wait_for_demo, 3000);
+				})
+			);
+		frm.add_custom_button(
+			__("Create Demo Data"),
+			() =>
+				demo(
+					"create",
+					__(
+						"Sample customers, suppliers, items, stock, production, sales and purchase invoices, CRM, projects, support tickets, employees, web pages and cheques will be added to the default company. Continue?"
+					)
+				),
+			__("Demo Data")
+		);
+		frm.add_custom_button(
+			__("Delete Demo Data"),
+			() => demo("delete", __("All demo records will be cancelled and deleted. Continue?")),
+			__("Demo Data")
+		);
 		frm.add_custom_button(__("Apply Iranian Chart of Accounts"), () => {
 			frappe.prompt(
 				[

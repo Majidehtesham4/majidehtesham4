@@ -10831,3 +10831,46 @@ msgstr "صورتحسابِ اصلیِ این برگشت از فروش هنوز �
 
 msgid "Submit the invoice first"
 msgstr "ابتدا صورتحساب را ثبت نهایی کنید"
+
+#: iran_erp/demo.py
+msgid "Create Demo Data"
+msgstr "ساخت داده‌ی نمونه"
+
+msgid "Delete Demo Data"
+msgstr "حذف داده‌ی نمونه"
+
+msgid "Demo Data"
+msgstr "داده‌ی نمونه"
+
+msgid "Please wait; this takes a minute or two."
+msgstr "لطفاً صبر کنید؛ یکی دو دقیقه طول می‌کشد."
+
+msgid "Sample customers, suppliers, items, stock, production, sales and purchase invoices, CRM, projects, support tickets, employees, web pages and cheques will be added to the default company. Continue?"
+msgstr "مشتری، تأمین‌کننده، کالا، موجودی انبار، تولید، فاکتور فروش و خرید، CRM، پروژه، تیکت پشتیبانی، کارمند، صفحه‌ی وب و چک نمونه به شرکت پیش‌فرض اضافه می‌شود. ادامه می‌دهید؟"
+
+msgid "All demo records will be cancelled and deleted. Continue?"
+msgstr "همه‌ی رکوردهای نمونه لغو و حذف می‌شوند. ادامه می‌دهید؟"
+
+msgid "Demo data was created: {0} records."
+msgstr "داده‌ی نمونه ساخته شد: {0} رکورد."
+
+msgid "Demo data was deleted: {0} records."
+msgstr "داده‌ی نمونه حذف شد: {0} رکورد."
+
+msgid "Demo data failed: {0}"
+msgstr "ساخت یا حذف داده‌ی نمونه با خطا روبه‌رو شد: {0}"
+
+msgid "Demo data was already created. Delete it first to create it again."
+msgstr "داده‌ی نمونه قبلاً ساخته شده است. برای ساخت دوباره، اول آن را حذف کنید."
+
+msgid "No demo data to delete"
+msgstr "داده‌ی نمونه‌ای برای حذف وجود ندارد"
+
+msgid "Finish the setup wizard first"
+msgstr "ابتدا ویزارد راه‌اندازی را کامل کنید"
+
+msgid "The assistant needs an OpenRouter API key. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
+msgstr "دستیار هوشمند به کلید API سرویس OpenRouter نیاز دارد. کلید را در «تنظیمات دستیار هوشمند» وارد کنید، تیک «فعال» را بزنید، ذخیره کنید و صفحه را دوباره بارگذاری کنید."
+
+msgid "Open AI Assistant Settings"
+msgstr "باز کردن تنظیمات دستیار هوشمند"

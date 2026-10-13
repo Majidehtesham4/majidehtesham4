@@ -193,5 +193,27 @@ iran_erp.ai.Panel = class {
 $(document).on("app_ready", () => {
 	if (frappe.boot.iran_ai_enabled && !iran_erp.ai.panel) {
 		iran_erp.ai.panel = new iran_erp.ai.Panel();
+	} else if (!frappe.boot.iran_ai_enabled && frappe.boot.iran_ai_can_configure && !iran_erp.ai.setup_button) {
+		// Not set up yet: the same button leads administrators to the settings
+		iran_erp.ai.setup_button = $(`
+			<button class="iran-ai-launcher btn btn-default" title="${__("AI Assistant")}">
+				${frappe.utils.icon("sparkles", "md")}<span>${__("AI Assistant")}</span>
+			</button>`)
+			.appendTo(document.body)
+			.on("click", () =>
+				frappe.msgprint({
+					title: __("AI Assistant"),
+					message: __(
+						"The assistant needs an OpenRouter API key. Enter the key in AI Assistant Settings, tick Enabled, save, then reload the page."
+					),
+					primary_action: {
+						label: __("Open AI Assistant Settings"),
+						action: () => {
+							frappe.hide_msgprint();
+							frappe.set_route("Form", "Iran AI Settings");
+						},
+					},
+				})
+			);
 	}
 });

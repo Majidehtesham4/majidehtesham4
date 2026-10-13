@@ -101,7 +101,7 @@ jinja = {
 
 # before_install = "iran_erp.install.before_install"
 after_install = "iran_erp.install.after_install"
-after_migrate = "iran_erp.accounts.chart.install_chart_template"
+after_migrate = ["iran_erp.accounts.chart.install_chart_template", "iran_erp.install.clear_translation_cache"]
 
 # Uninstallation
 # ------------
