@@ -96,3 +96,46 @@ def clear_translation_cache():
 	from frappe.translate import clear_cache
 
 	clear_cache()
+
+
+# Master records ERPNext creates under English names: show them translated wherever they appear
+TRANSLATED_DOCTYPES = (
+	"Territory",
+	"Customer Group",
+	"Supplier Group",
+	"Item Group",
+	"UOM",
+	"Mode of Payment",
+	"Price List",
+	"Warehouse Type",
+	"Sales Stage",
+	"Lead Source",
+	"Opportunity Type",
+	"Opportunity Lost Reason",
+	"Market Segment",
+	"Industry Type",
+	"Designation",
+	"Activity Type",
+	"Project Type",
+	"Stock Entry Type",
+	"Salutation",
+	"Gender",
+	"Print Heading",
+)
+
+
+def mark_translated_doctypes():
+	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
+
+	for doctype in TRANSLATED_DOCTYPES:
+		if not frappe.db.exists("DocType", doctype) or frappe.get_meta(doctype).translated_doctype:
+			continue
+		make_property_setter(
+			doctype,
+			None,
+			"translated_doctype",
+			1,
+			"Check",
+			for_doctype=True,
+			validate_fields_for_doctype=False,
+		)

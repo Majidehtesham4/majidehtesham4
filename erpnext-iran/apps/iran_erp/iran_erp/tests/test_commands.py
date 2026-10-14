@@ -193,3 +193,28 @@ class TestBankAndLearning(IntegrationTestCase):
 		self.assertEqual(ranked[0][0], "receive_payment")
 		# Learning the same wording twice adds nothing
 		self.assertFalse(learn("receive_payment", sentence))
+
+
+class TestJalaliPeriods(UnitTestCase):
+	def test_ranges_follow_jalali_months(self):
+		from iran_erp.overrides.jalali_periods import jalali_ranges, period_label, range_label
+
+		ranges = jalali_ranges("2026-03-21", "2026-06-21", 1)
+		# Farvardin and Ordibehesht have 31 days, so months do not start on the 21st of each month
+		self.assertEqual(
+			[(str(a), str(b)) for a, b in ranges],
+			[("2026-03-21", "2026-04-20"), ("2026-04-21", "2026-05-21"), ("2026-05-22", "2026-06-21")],
+		)
+		self.assertEqual(period_label(datetime.date(2026, 10, 14), 1), "مهر ۱۴۰۵")
+		self.assertEqual(period_label(datetime.date(2026, 10, 14), 3), "پاییز ۱۴۰۵")
+		self.assertEqual(range_label("2026-03-21", "2026-06-21"), "فروردین تا خرداد ۱۴۰۵")
+		seasons = jalali_ranges("2026-03-21", "2027-03-20", 3)
+		self.assertEqual(len(seasons), 4)
+		self.assertEqual(str(seasons[-1][1]), "2027-03-20")
+
+
+class TestExplain(IntegrationTestCase):
+	def test_explain_a_page_in_the_chat(self):
+		reply = handle("آموزش فاکتور فروش")
+		self.assertEqual(reply["intent"], "explain_page")
+		self.assertIn("فاکتور فروش سند فروش", reply["answer"])

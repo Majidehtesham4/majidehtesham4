@@ -175,3 +175,27 @@ def employees(context):
 		order_by="employee_name asc",
 		limit=20,
 	)
+
+
+def explain_page(context):
+	"""The «آموزش» guide of a document type or report, in the chat."""
+	from iran_erp.commands.engine import NeedSlot
+	from iran_erp.help import get_guide
+
+	doctype, report = context.get("doctype"), context.get("report")
+	if not doctype and not report:
+		raise NeedSlot("doctype", _("Which part? For example: «آموزش فاکتور فروش»."))
+	guide = get_guide("report", report) if report and not doctype else get_guide("doctype", doctype)
+	title = _(report or doctype)
+	lines = [f"**{title}**", "", guide.get("about") or _("No guide has been written for this part yet.")]
+	if guide.get("steps"):
+		lines += ["", "**" + _("Steps") + "**"]
+		lines += [f"{i}. {step}" for i, step in enumerate(guide["steps"], 1)]
+	if guide.get("fields"):
+		lines += ["", "**" + _("Important fields") + "**"]
+		meta = frappe.get_meta(doctype) if doctype else None
+		for fieldname, text in list(guide["fields"].items())[:10]:
+			label = _(meta.get_label(fieldname)) if meta and meta.has_field(fieldname) else fieldname
+			lines.append(f"- {label}: {text}")
+	lines += ["", _("Every page also has a «Help» button at the top that explains each of its fields.")]
+	return "\n".join(lines)

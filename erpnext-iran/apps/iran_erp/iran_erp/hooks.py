@@ -39,6 +39,8 @@ app_include_js = [
 	"/assets/iran_erp/js/jalali.js",
 	"/assets/iran_erp/js/ai_assistant.js",
 	"/assets/iran_erp/js/inbox.js",
+	"/assets/iran_erp/js/record_names.js",
+	"/assets/iran_erp/js/help.js",
 ]
 doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
@@ -108,6 +110,7 @@ after_install = "iran_erp.install.after_install"
 after_migrate = [
 	"iran_erp.accounts.chart.install_chart_template",
 	"iran_erp.desktop.add_iran_icons",
+	"iran_erp.install.mark_translated_doctypes",
 	"iran_erp.install.clear_translation_cache",
 ]
 
@@ -235,12 +238,13 @@ doc_events = {
 
 # Request Events
 # ----------------
-# before_request = ["iran_erp.utils.before_request"]
+# Jalali months in period reports (Sales Analytics, Trends, financial statements)
+before_request = ["iran_erp.overrides.jalali_periods.apply"]
 # after_request = ["iran_erp.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["iran_erp.utils.before_job"]
+before_job = ["iran_erp.overrides.jalali_periods.apply"]
 # after_job = ["iran_erp.utils.after_job"]
 
 # User Data Protection

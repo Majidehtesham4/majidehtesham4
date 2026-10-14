@@ -178,6 +178,24 @@ INTENTS = [
 	},
 	# ---------------------------------------------------------------- navigation
 	{
+		"name": "explain_page",
+		"group": "عمومی",
+		"title": "آموزش یک بخش یا سند (چیست و چطور کار می‌کند)",
+		"handler": "general.explain_page",
+		"slots": [("doctype", "doctype", False, ""), ("report", "report", False, "")],
+		"examples": [
+			"آموزش {doctype}",
+			"{doctype} چیه",
+			"{doctype} برای چیه",
+			"طرز کار با {doctype}",
+			"{doctype} چطوری کار میکنه",
+			"گزارش {report} چی نشون میده",
+			"توضیح بده {doctype} چیست",
+			"چطور {doctype} ثبت کنم",
+			"راهنمای {doctype}",
+		],
+	},
+	{
 		"name": "open_list",
 		"group": "باز کردن صفحه‌ها",
 		"title": "باز کردن فهرست یک نوع سند (مشتری‌ها، فاکتورها، کالاها، ...)",
