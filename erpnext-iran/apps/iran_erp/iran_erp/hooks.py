@@ -1,7 +1,7 @@
 app_name = "iran_erp"
-app_title = "Iran ERP"
+app_title = "ERP-VERON"
 app_publisher = "Majid Ehtesham"
-app_description = "Iranian localization for ERPNext: Jalali calendar, Iranian identifiers, fiscal year"
+app_description = "ERP-VERON: Persian business software built on ERPNext, with the Jalali calendar, Iranian accounting and taxes, cheques and a Persian assistant"
 app_email = "ehteshammajid5@gmail.com"
 app_license = "mit"
 
@@ -111,6 +111,7 @@ after_migrate = [
 	"iran_erp.accounts.chart.install_chart_template",
 	"iran_erp.desktop.add_iran_icons",
 	"iran_erp.install.mark_translated_doctypes",
+	"iran_erp.install.apply_branding",
 	"iran_erp.install.clear_translation_cache",
 ]
 

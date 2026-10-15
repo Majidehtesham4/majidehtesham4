@@ -406,3 +406,16 @@
 	border-radius: 6px;
 	transition: outline 0.3s;
 }
+.iran-help-saved {
+	border-inline-start: 3px solid #7c3aed;
+	padding-inline-start: 10px;
+}
+.iran-help-saved h3 {
+	font-size: 14px;
+	margin-top: 12px;
+}
+.iran-help-saved-note {
+	color: var(--text-muted);
+	font-size: 11px;
+	margin: 6px 0 8px;
+}

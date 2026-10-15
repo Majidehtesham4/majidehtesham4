@@ -197,5 +197,8 @@ def explain_page(context):
 		for fieldname, text in list(guide["fields"].items())[:10]:
 			label = _(meta.get_label(fieldname)) if meta and meta.has_field(fieldname) else fieldname
 			lines.append(f"- {label}: {text}")
+	saved = guide.get("saved") or {}
+	if saved.get("status") == "Ready" and saved.get("content"):
+		lines += ["", saved["content"]]
 	lines += ["", _("Every page also has a «Help» button at the top that explains each of its fields.")]
 	return "\n".join(lines)

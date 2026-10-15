@@ -218,3 +218,127 @@ class TestExplain(IntegrationTestCase):
 		reply = handle("آموزش فاکتور فروش")
 		self.assertEqual(reply["intent"], "explain_page")
 		self.assertIn("فاکتور فروش سند فروش", reply["answer"])
+
+
+class TestRecipes(IntegrationTestCase):
+	"""What the AI model did once is learned and done again without it."""
+
+	def setUp(self):
+		frappe.set_user("Administrator")
+		self.company = frappe.defaults.get_user_default("Company") or frappe.db.get_single_value(
+			"Global Defaults", "default_company"
+		)
+		for name in ("مشتری دستور آموخته", "مشتری دوم آموخته"):
+			if not frappe.db.exists("Customer", {"customer_name": name}):
+				frappe.get_doc({"doctype": "Customer", "customer_name": name}).insert()
+		from iran_erp.commands import entities
+
+		entities.forget("customer")
+		self.recipes = []
+
+	def tearDown(self):
+		# Learning commits, so the recipes made here are removed by hand
+		for name in self.recipes:
+			frappe.delete_doc("Iran Learned Recipe", name, force=True)
+		frappe.db.commit()
+
+	def _ai_run(self, question, tool, args, result):
+		import json
+
+		from iran_erp.commands.recipes import learn_recipe
+
+		request = frappe.get_doc(
+			{"doctype": "Iran AI Request", "user": "Administrator", "question": question, "status": "Done"}
+		).insert(ignore_permissions=True)
+		messages = [
+			{
+				"role": "assistant",
+				"content": "",
+				"tool_calls": [
+					{"id": "1", "type": "function", "function": {"name": tool, "arguments": json.dumps(args)}}
+				],
+			},
+			{"role": "tool", "tool_call_id": "1", "content": json.dumps(result)},
+			{"role": "assistant", "content": "done"},
+		]
+		name = learn_recipe(request, messages, question)
+		self.recipes.append(name)
+		return frappe.get_doc("Iran Learned Recipe", name)
+
+	def test_read_recipe_takes_new_names_and_period(self):
+		from iran_erp.commands.text import find_period
+
+		customer = frappe.db.get_value("Customer", {"customer_name": "مشتری دستور آموخته"})
+		other = frappe.db.get_value("Customer", {"customer_name": "مشتری دوم آموخته"})
+		(start, end), _label = find_period(tokens("این ماه"))
+		recipe = self._ai_run(
+			"سفارش‌های باز مشتری دستور آموخته در این ماه را فهرست کن",
+			"search_documents",
+			{
+				"doctype": "Sales Order",
+				"filters": {"customer": customer, "transaction_date": ["between", [str(start), str(end)]]},
+				"fields": ["name", "grand_total"],
+			},
+			{"count": 0, "rows": []},
+		)
+		self.assertIn("{{customer}}", recipe.steps)
+		self.assertIn("{{period.from}}", recipe.steps)
+		self.assertFalse(recipe.writes)
+
+		result = handle("سفارش‌های باز مشتری دوم آموخته در این ماه را فهرست کن")
+		self.assertEqual(result["intent"], f"recipe:{recipe.name}")
+		self.assertNotIn("delegate", result)
+		# Without a customer it asks for one, then reads it from the reply
+		result = handle("سفارش‌های باز در این ماه را فهرست کن")
+		self.assertEqual(result["state"]["waiting"], "customer")
+		result = handle("مشتری دوم آموخته", result["state"])
+		self.assertEqual(result["intent"], f"recipe:{recipe.name}")
+		self.assertIsNone(result["state"])
+		self.assertTrue(other)
+
+	def test_write_recipe_asks_first_and_converts_toman(self):
+		expense = frappe.db.get_value(
+			"Account", {"company": self.company, "root_type": "Expense", "is_group": 0}, "name"
+		)
+		cash = frappe.db.get_value(
+			"Account", {"company": self.company, "account_type": "Cash", "is_group": 0}, "name"
+		)
+		recipe = self._ai_run(
+			"هزینه آبدارخانه ۳ میلیون تومان از صندوق پرداخت شد سندش رو بزن",
+			"create_draft_document",
+			{
+				"doctype": "Journal Entry",
+				"data": {
+					"company": self.company,
+					"posting_date": frappe.utils.nowdate(),
+					"accounts": [
+						{"account": expense, "debit_in_account_currency": 30_000_000},
+						{"account": cash, "credit_in_account_currency": 30_000_000},
+					],
+				},
+			},
+			{"created": "Journal Entry", "name": "ACC-JV-TEST", "url": "/desk/journal-entry/ACC-JV-TEST"},
+		)
+		self.assertTrue(recipe.writes)
+		self.assertIn("{{today}}", recipe.steps)
+
+		result = handle("هزینه آبدارخانه ۴ میلیون تومان از صندوق پرداخت شد سندش رو بزن")
+		self.assertTrue(result["state"]["confirm"])
+		result = handle("بله", result["state"])
+		created = result["actions"][0]["name"]
+		self.assertEqual(frappe.db.get_value("Journal Entry", created, "total_debit"), 40_000_000)
+		self.assertEqual(frappe.db.get_value("Journal Entry", created, "docstatus"), 0)
+
+	def test_wrong_answer_switches_recipe_off(self):
+		from iran_erp.commands.recipes import disable
+
+		recipe = self._ai_run(
+			"فهرست تأمین‌کننده‌های فعال گروه مواد اولیه را نشان بده",
+			"search_documents",
+			{"doctype": "Supplier", "filters": {"disabled": 0}, "fields": ["name"]},
+			{"count": 0, "rows": []},
+		)
+		disable(recipe.name)
+		self.assertFalse(frappe.db.get_value("Iran Learned Recipe", recipe.name, "enabled"))
+		result = handle("فهرست تأمین‌کننده‌های فعال گروه مواد اولیه را نشان بده")
+		self.assertNotEqual(result.get("intent"), f"recipe:{recipe.name}")

@@ -123,19 +123,21 @@ def unlearn(intent: str, phrase: str):
 		doc.save(ignore_permissions=True)
 
 
-def learn_from_ai(request, actions: list):
-	"""After the AI model finished a request: learn its wording if it did what one command does."""
+def learn_from_ai(request, actions: list) -> bool:
+	"""After the AI model finished a request: learn its wording if it did what one command does.
+	True when the request was one command's work (learned now or already known)."""
 	created = [(a.get("created"), a.get("name")) for a in actions or [] if a.get("created") and a.get("name")]
 	intents = {_intent_for(doctype, name) for doctype, name in created}
 	if len(intents) != 1 or None in intents:
-		return
+		return False
 	intent = intents.pop()
 	# A short reply ("بله", a name) answered an earlier question: learn that question instead
 	current = request
 	for _step in range(LOOK_BACK + 1):
 		if len(tokens(current.question or "")) > MIN_WORDS and not current.get("attachments"):
 			learn(intent, current.question)
-			return
+			return True
 		if not current.previous_request:
-			return
+			return True
 		current = frappe.get_doc("Iran AI Request", current.previous_request)
+	return True

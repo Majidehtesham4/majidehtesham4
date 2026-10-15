@@ -120,11 +120,16 @@ def get_result(request_name: str) -> dict:
 
 
 def _mark_wrong(request):
-	"""The user said a command's answer was wrong: note it, and forget a learned sentence behind it."""
+	"""The user said a command's answer was wrong: note it, and forget the learned sentence or
+	recipe behind it."""
 	from iran_erp.commands.learning import unlearn
 
 	request.db_set("feedback", "Wrong")
-	if request.handled_by == "Command" and request.intent:
+	if request.handled_by == "Command" and (request.intent or "").startswith("recipe:"):
+		from iran_erp.commands.recipes import disable
+
+		disable(request.intent[7:])
+	elif request.handled_by == "Command" and request.intent:
 		unlearn(request.intent, request.question)
 
 

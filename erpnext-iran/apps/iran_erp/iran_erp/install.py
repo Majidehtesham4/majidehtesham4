@@ -139,3 +139,30 @@ def mark_translated_doctypes():
 			for_doctype=True,
 			validate_fields_for_doctype=False,
 		)
+
+
+BRAND = "ERP-VERON"
+BRAND_LOGO = "/assets/iran_erp/images/erp-veron-logo.svg"
+# Values that are still the stock ones and can be replaced; anything else was set by the user
+STOCK_NAMES = {None, "", "ERPNext", "Frappe", "Frappe Framework"}
+
+
+def apply_branding():
+	"""Show the product as ERP-VERON: name in titles and the login page, logo and favicon."""
+	if frappe.db.get_single_value("System Settings", "app_name") in STOCK_NAMES:
+		frappe.db.set_single_value("System Settings", "app_name", BRAND)
+	website = frappe.get_single("Website Settings")
+	changes = {}
+	if website.app_name in STOCK_NAMES:
+		changes["app_name"] = BRAND
+	for field in ("app_logo", "favicon", "splash_image"):
+		if not website.get(field):
+			changes[field] = BRAND_LOGO
+	if not website.footer_powered:
+		changes["footer_powered"] = BRAND
+	if changes:
+		# Saving Website Settings clears the whole cache; setting the values does not
+		for field, value in changes.items():
+			frappe.db.set_single_value("Website Settings", field, value)
+	if not frappe.db.get_single_value("Navbar Settings", "app_logo"):
+		frappe.db.set_single_value("Navbar Settings", "app_logo", BRAND_LOGO)

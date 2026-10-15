@@ -13,7 +13,8 @@ from iran_erp.utils.jalali import format_jalali
 # Tool results are trimmed before they go back into stored history, to keep later turns small
 STORED_TOOL_RESULT_CHARS = 6000
 
-SYSTEM_PROMPT = """You are the AI assistant built into the ERPNext system of an Iranian company.
+SYSTEM_PROMPT = """You are the AI assistant built into ERP-VERON, the business software (built on ERPNext) of an Iranian \
+company. Call the software ERP-VERON when you name it.
 Today is {today} ({today_jalali} in the Solar Hijri calendar). The default company is "{company}" and \
 its currency is {currency}. The user is {user_name}.
 
@@ -155,6 +156,7 @@ def run_request(request_name: str):
 			earlier_files = json.loads(attachments_json or "[]")
 		history.append(user_message(request, earlier_files))
 		messages = [{"role": "system", "content": build_system_prompt(settings)}, *history]
+		run_start = len(messages)
 
 		answer = None
 		for _step in range(int(settings.max_steps)):
@@ -205,7 +207,7 @@ def run_request(request_name: str):
 			},
 			commit=True,
 		)
-		_learn(request, actions)
+		_learn(request, actions, messages[run_start:], bool(earlier_files))
 	except AIError as e:
 		_fail(request, str(e), actions, total_tokens, history)
 	except Exception:
@@ -270,12 +272,28 @@ def _fail(request, error: str, actions: list, total_tokens: int, history: list |
 	)
 
 
-def _learn(request, actions):
-	"""Teach the command engine the wording of a request the AI model handled; never fails the request."""
+# A follow-up shorter than this leans on the earlier conversation, so it cannot be repeated alone
+RECIPE_MIN_WORDS = 5
+
+
+def _learn(request, actions, run_messages=(), had_files=False):
+	"""Teach the command engine what the AI model just did; never fails the request.
+
+	A request that one command does teaches that command its wording. Anything else the AI model
+	did with tools becomes a learned recipe, so the same request is done without it next time."""
 	from iran_erp.commands.learning import learn_from_ai
+	from iran_erp.commands.recipes import learn_recipe
+	from iran_erp.commands.text import tokens
 
 	try:
-		learn_from_ai(request, actions)
+		if learn_from_ai(request, actions):
+			frappe.db.commit()
+			return
+		if had_files or request.get("attachments"):
+			return
+		if request.previous_request and len(tokens(request.question or "")) < RECIPE_MIN_WORDS:
+			return
+		learn_recipe(request, list(run_messages), request.question or "")
 		frappe.db.commit()
 	except Exception:
 		frappe.db.rollback()

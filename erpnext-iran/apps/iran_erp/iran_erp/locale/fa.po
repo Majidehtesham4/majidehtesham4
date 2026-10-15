@@ -2082,7 +2082,7 @@ msgid "Compact Item Print"
 msgstr "چاپ کالا فشرده"
 
 msgid "Company Abbreviation (requires ERPNext to be installed)"
-msgstr "مخفف شرکت (نیاز به نصب ERPNext دارد)"
+msgstr "مخفف شرکت (نیاز به نصب ERP-VERON دارد)"
 
 msgid "Company Address is missing. You don't have permission to create an Address. Please contact your System Manager."
 msgstr "نشانی شرکت وارد نشده است. شما اجازه ایجاد نشانی ندارید. لطفاً با مدیر سیستم تماس بگیرید."
@@ -2949,7 +2949,7 @@ msgid "Duplicate line reference: '{0}'"
 msgstr "مرجع ردیف تکراری: '{0}'"
 
 msgid "ERPNext will make a stock ledger entry for each transaction of this item. Keep unchecked for non-stock or service items."
-msgstr "ERPNext برای هر تراکنش این کالا یک سند دفتر موجودی ثبت می‌کند. برای کالاهای غیرانباری یا خدماتی انتخاب نکنید."
+msgstr "ERP-VERON برای هر تراکنش این کالا یک سند دفتر موجودی ثبت می‌کند. برای کالاهای غیرانباری یا خدماتی انتخاب نکنید."
 
 msgid "Edit BOM"
 msgstr "ویرایش فهرست مواد"
@@ -3562,7 +3562,7 @@ msgid "Frappe CRM Allowed User"
 msgstr "کاربر مجاز Frappe CRM"
 
 msgid "Frappe CRM data synchronization is not enabled on ERPNext. Contact System Manager of ERPNext."
-msgstr "همگام‌سازی داده Frappe CRM در ERPNext فعال نیست. با مدیر سیستم ERPNext تماس بگیرید."
+msgstr "همگام‌سازی داده Frappe CRM در ERP-VERON فعال نیست. با مدیر سیستم ERP-VERON تماس بگیرید."
 
 msgid "Frappe Framework"
 msgstr "فریم‌ورک Frappe"
@@ -3676,7 +3676,7 @@ msgid "Get paid"
 msgstr "وجه را دریافت کنید"
 
 msgid "Get to know ERPNext"
-msgstr "آشنایی با ERPNext"
+msgstr "آشنایی با ERP-VERON"
 
 msgid "Get your books ready"
 msgstr "دفاتر خود را آماده کنید"
@@ -4009,7 +4009,7 @@ msgid "If unlimited expiry for the Loyalty Points, keep the Expiry Duration empt
 msgstr "اگر امتیازهای وفاداری انقضا ندارند، مدت انقضا را خالی یا ۰ بگذارید."
 
 msgid "If you are maintaining stock of this Item in your Inventory, ERPNext will make a stock ledger entry for each transaction of this item."
-msgstr "اگر موجودی این کالا را نگهداری می‌کنید، ERPNext برای هر تراکنش این کالا یک ثبت در دفتر موجودی ایجاد می‌کند."
+msgstr "اگر موجودی این کالا را نگهداری می‌کنید، ERP-VERON برای هر تراکنش این کالا یک ثبت در دفتر موجودی ایجاد می‌کند."
 
 msgid "If you set this, this Item will come in a drop-down under the selected parent."
 msgstr "اگر این را تنظیم کنید، این کالا در یک منوی کشویی زیر والد انتخاب‌شده نمایش داده خواهد شد."
@@ -8288,7 +8288,7 @@ msgid "Something that did not meet your quality standard."
 msgstr "چیزی که مطابق استاندارد کیفیت شما نبود."
 
 msgid "Something you bought before using ERPNext, with what you paid, where it is, and how much has already depreciated. See [Asset](https://docs.frappe.io/erpnext/user/manual/en/asset)."
-msgstr "چیزی که پیش از استفاده از ERPNext خریده‌اید، با مبلغ پرداختی، محل نگهداری و میزان استهلاک تاکنون. ببینید: [دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset)."
+msgstr "چیزی که پیش از استفاده از ERP-VERON خریده‌اید، با مبلغ پرداختی، محل نگهداری و میزان استهلاک تاکنون. ببینید: [دارایی](https://docs.frappe.io/erpnext/user/manual/en/asset)."
 
 msgid "Something you measure and improve on a schedule, like on-time delivery."
 msgstr "چیزی که طبق برنامه می‌سنجید و بهبود می‌دهید، مانند تحویل به‌موقع."
@@ -9707,7 +9707,7 @@ msgid "Used with Financial Report Template"
 msgstr "همراه با الگوی گزارش مالی استفاده می‌شود"
 
 msgid "User not allowed to synchronize data from Frappe CRM on ERPNext. Contact System Manager of ERPNext."
-msgstr "کاربر اجازه همگام‌سازی داده از Frappe CRM در ERPNext را ندارد. با مدیر سیستم ERPNext تماس بگیرید."
+msgstr "کاربر اجازه همگام‌سازی داده از Frappe CRM در ERP-VERON را ندارد. با مدیر سیستم ERP-VERON تماس بگیرید."
 
 msgid "User {0} doesn't have any default POS Profile. Check Default at Row {1} for this User."
 msgstr "کاربر {0} هیچ نمایه صندوق فروش پیش‌فرضی ندارد. پیش‌فرض را در ردیف {1} برای این کاربر بررسی کنید."
@@ -14651,7 +14651,7 @@ msgid "One entry on the dock. `link_type` says what kind of thing it opens, and 
 msgstr "یک ورودی در داک. `link_type` مشخص می‌کند که چه نوع چیزی را باز می‌کند، و هر نوع به دو پرسشی که یک کلیک مطرح می‌کند -- کدام صفحه باز می‌شود و کدام پوسته در کنار آن ظاهر می‌شود -- به شیوه‌ی خودش پاسخ می‌دهد. یک ردیف `Sidebar` *خودِ* پوسته است: آن نوار کناری را انتخاب می‌کند و مسیر آغازین آن را باز می‌کند. یک ردیف `Workspace` صفحه‌ای را باز می‌کند و پوسته‌اش را از ماژولی که مالک آن است می‌گیرد. یک ردیف `URL` از میز کار خارج می‌شود و اصلاً پوسته‌ای ندارد. هر ردیف همچنین `icon` و `title` خودش را دارد، بنابراین نوار همان‌گونه خوانده می‌شود که نویسنده‌اش نوشته است -- خالی بودن در یک لایه‌ی بالاتر به معنای ارث‌بری است. آنچه یک ردیف به آن اشاره می‌کند *همان* هویت آن است و هیچ‌کدام ذخیره نمی‌شود: تغییر برچسب نمی‌تواند ردیف را از خودش جدا کند، و تغییر مقصد یک ویرایش نیست بلکه ردیفی دیگر است. همین ردیف‌ها در هر سه لایه -- داک خودِ برنامه، چیدمان سایت و چیدمان یک فرد -- با `Dock` والد از هم متمایز می‌شوند، و هرگز با خود ردیف."
 
 msgid "One layer of one app's dock. Three of them share this table, told apart by `app`, `user` and `standard`: the app's own dock, which an app ships as an exported document and a developer authors; the site's arrangement of it, curated by a Workspace Manager and applying to everyone; and one person's own, applied last and winning. A dock belongs to an app, so arranging ERPNext's rail does not touch frappe's -- and a layer is addressed by app plus user rather than by user alone. Same shape at all three, because the rows are identical and the parent is what says whose they are; see `Custom Sidebar`, which layers a sidebar the same way in a table of its own."
-msgstr "یک لایه از داک یک برنامه. سه لایه در این جدول مشترک‌اند و با `app`، `user` و `standard` از هم متمایز می‌شوند: داک خودِ برنامه، که برنامه آن را به‌صورت یک سند برون‌بُردشده ارائه می‌کند و یک توسعه‌دهنده آن را می‌نویسد؛ چیدمان سایت از آن، که مدیر فضای کار تنظیمش می‌کند و برای همه اعمال می‌شود؛ و داک شخصی یک فرد، که در آخر اعمال می‌شود و اولویت دارد. هر داک متعلق به یک برنامه است، بنابراین چیدن نوار ERPNext به نوار frappe دست نمی‌زند -- و هر لایه با ترکیب برنامه و کاربر مشخص می‌شود، نه فقط با کاربر. شکل هر سه یکسان است، زیرا ردیف‌ها یکسان‌اند و این والد است که مشخص می‌کند ردیف‌ها متعلق به کیست؛ `Custom Sidebar` را ببینید که نوار کناری را به همین شیوه در جدول جداگانه‌ی خودش لایه‌بندی می‌کند."
+msgstr "یک لایه از داک یک برنامه. سه لایه در این جدول مشترک‌اند و با `app`، `user` و `standard` از هم متمایز می‌شوند: داک خودِ برنامه، که برنامه آن را به‌صورت یک سند برون‌بُردشده ارائه می‌کند و یک توسعه‌دهنده آن را می‌نویسد؛ چیدمان سایت از آن، که مدیر فضای کار تنظیمش می‌کند و برای همه اعمال می‌شود؛ و داک شخصی یک فرد، که در آخر اعمال می‌شود و اولویت دارد. هر داک متعلق به یک برنامه است، بنابراین چیدن نوار ERP-VERON به نوار frappe دست نمی‌زند -- و هر لایه با ترکیب برنامه و کاربر مشخص می‌شود، نه فقط با کاربر. شکل هر سه یکسان است، زیرا ردیف‌ها یکسان‌اند و این والد است که مشخص می‌کند ردیف‌ها متعلق به کیست؛ `Custom Sidebar` را ببینید که نوار کناری را به همین شیوه در جدول جداگانه‌ی خودش لایه‌بندی می‌کند."
 
 msgid "One ordered list holding both references to base items (`added` unset -- non-empty fields override, empty fields mean no opinion) and items this layer added (`added` set -- full items, rendered as they stand). Row order is the arrangement; base items not named here keep their base order and follow the ones that are, which is how a newly installed app's items still reach someone who has already reordered."
 msgstr "یک فهرست مرتب که هم ارجاع‌هایی به آیتم‌های پایه (`added` تنظیم‌نشده -- فیلدهای غیرخالی مقدار پایه را جایگزین می‌کنند و فیلدهای خالی یعنی نظری ندارد) و هم آیتم‌هایی را که این لایه اضافه کرده است (`added` تنظیم‌شده -- آیتم‌های کامل که همان‌طور که هستند نمایش داده می‌شوند) در خود نگه می‌دارد. ترتیب ردیف‌ها همان چیدمان است؛ آیتم‌های پایه‌ای که اینجا نام برده نشده‌اند ترتیب پایه‌ی خود را حفظ می‌کنند و پس از آیتم‌های نام‌برده‌شده می‌آیند؛ به همین شکل آیتم‌های برنامه‌ای که تازه نصب شده است همچنان به دست کسی که پیش‌تر ترتیب را تغییر داده است می‌رسند."
@@ -17501,7 +17501,7 @@ msgid "Do you want to continue?"
 msgstr "آیا می‌خواهید ادامه دهید؟"
 
 msgid "ERPNext Integrations"
-msgstr "یکپارچه‌سازی‌های ERPNext"
+msgstr "یکپارچه‌سازی‌های ERP-VERON"
 
 msgid "Economic Code / کد اقتصادی"
 msgstr "کد اقتصادی"
@@ -18060,3 +18060,153 @@ msgstr "فیلدهای مهم"
 
 msgid "Every page also has a «Help» button at the top that explains each of its fields."
 msgstr "بالای هر صفحه هم دکمه‌ی «آموزش» هست که همه‌ی فیلدهای آن را توضیح می‌دهد."
+
+msgid "<div class=\"well\">\n    Edit list of Series in the box. Rules:\n    <ul>\n        <li>Each Series Prefix on a new line.</li>\n        <li>Allowed special characters are \"/\" and \"-\"</li>\n        <li>\n            Optionally, set the number of digits in the series using dot (.)\n            followed by hashes (#). For example, \".####\" means that the series\n            will have four digits. Default is five digits.\n        </li>\n        <li>\n            You can also use variables in the series name by putting them\n            between (.) dots\n            <br>\n            Supported Variables:\n            <ul>\n                <li><code>.YYYY.</code> - Year in 4 digits</li>\n                <li><code>.YY.</code> - Year in 2 digits</li>\n                <li><code>.MM.</code> - Month</li>\n                <li><code>.DD.</code> - Day of month</li>\n                <li><code>.WW.</code> - Week of the year</li>\n                <li>\n                    <code>.{fieldname}.</code> - fieldname on the document e.g.\n                    <code>branch</code>\n                </li>\n                <li><code>.FY.</code> - Fiscal Year (requires ERPNext to be installed)</li>\n                <li><code>.ABBR.</code> - Company Abbreviation (requires ERPNext to be installed)</li>\n            </ul>\n        </li>\n    </ul>\n    Examples:\n    <ul>\n        <li>INV-</li>\n        <li>INV-10-</li>\n        <li>INVK-</li>\n        <li>INV-.YYYY.-.{branch}.-.MM.-.####</li>\n    </ul>\n</div>\n<br>\n"
+msgstr "<div class=\"well\">\n    لیست سری‌ها را در کادر ویرایش کنید. قوانین:\n    <ul>\n        <li>هر پیشوند سری در یک خط جدید.</li>\n        <li>کاراکترهای خاص مجاز \"/\" و \"-\" هستند</li>\n        <li>\n            به‌صورت اختیاری، تعداد ارقام سری را با استفاده از نقطه (.)\n            و سپس علامت‌های (#) تنظیم کنید. به‌عنوان مثال، \".####\" به این معنی است که سری\n            چهار رقم خواهد داشت. پیش‌فرض پنج رقم است.\n        </li>\n        <li>\n            همچنین می‌توانید از متغیرها در نام سری با قرار دادن آن‌ها\n            بین (.) نقاط استفاده کنید\n            <br>\n            متغیرهای پشتیبانی شده:\n            <ul>\n                <li><code>.YYYY.</code> - سال در 4 رقم</li>\n                <li><code>.YY.</code> - سال در 2 رقم</li>\n                <li><code>.MM.</code> - ماه</li>\n                <li><code>.DD.</code> - روز ماه</li>\n                <li><code>.WW.</code> - هفته سال</li>\n                <li>\n                    <code>.{fieldname}.</code> - نام فیلد در سند مثلاً\n                    <code>branch</code>\n                </li>\n                <li><code>.FY.</code> - سال مالی (نیاز به نصب ERP-VERON دارد)</li>\n                <li><code>.ABBR.</code> - مخفف شرکت (نیاز به نصب ERP-VERON دارد)</li>\n            </ul>\n        </li>\n    </ul>\n    مثال‌ها:\n    <ul>\n        <li>INV-</li>\n        <li>INV-10-</li>\n        <li>INVK-</li>\n        <li>INV-.YYYY.-.{branch}.-.MM.-.####</li>\n    </ul>\n</div>\n<br>\n"
+
+msgid "Enter static url parameters here (Eg. sender=ERPNext, username=ERPNext, password=1234 etc.)"
+msgstr "پارامترهای ثابت URL را اینجا وارد کنید (مثلاً sender=ERP-VERON, username=ERP-VERON, password=1234 و غیره)"
+
+msgid "Fiscal Year (requires ERPNext to be installed)"
+msgstr "سال مالی (نیازمند نصب ERP-VERON است)"
+
+msgid "ERPNext"
+msgstr "ERP-VERON"
+
+msgid "ERPNext Settings"
+msgstr "تنظیمات ERP-VERON"
+
+msgid "ERPNext User ID"
+msgstr "شناسه کاربری ERP-VERON"
+
+msgid "If this option is configured 'Yes', ERPNext will prevent you from creating a Purchase Invoice or Receipt without creating a Purchase Order first. This configuration can be overridden for a particular supplier by enabling the 'Allow Purchase Invoice Creation Without Purchase Order' checkbox in the Supplier master."
+msgstr "اگر این گزینه 'بله' پیکربندی شده باشد، ERP-VERON شما را از ایجاد فاکتور خرید یا رسید بدون ایجاد یک سفارش خرید جلوگیری می‌کند. این پیکربندی را می‌توان با فعال کردن کادر انتخاب «اجازه ایجاد فاکتور خرید بدون سفارش خرید» در بخش اصلی تأمین‌کننده، برای یک تأمین‌کننده خاص لغو کرد."
+
+msgid "If this option is configured 'Yes', ERPNext will prevent you from creating a Purchase Invoice without creating a Purchase Receipt first. This configuration can be overridden for a particular supplier by enabling the 'Allow Purchase Invoice Creation Without Purchase Receipt' checkbox in the Supplier master."
+msgstr "اگر این گزینه 'بله' پیکربندی شده باشد، ERP-VERON از ایجاد فاکتور خرید بدون ایجاد یک رسید خرید جلوگیری می‌کند. این پیکربندی را می‌توان برای یک تأمین‌کننده خاص با فعال کردن کادر انتخاب «اجازه ایجاد فاکتور خرید بدون رسید خرید» در قسمت اصلی تأمین‌کننده لغو کرد."
+
+msgid "This action will unlink this account from any external service integrating ERPNext with your bank accounts. It cannot be undone. Are you certain ?"
+msgstr "این عمل پیوند این حساب را با هر سرویس خارجی که ERP-VERON را با حساب‌های بانکی شما یکپارچه می‌کند، لغو می‌کند. نمی‌توان آن را واگرد کرد. مطمئنی؟"
+
+msgid "WARNING: Exotel app has been separated from ERPNext, please install the app to continue using Exotel integration."
+msgstr "هشدار: برنامه Exotel از ERP-VERON جدا شده است، لطفاً برای ادامه استفاده از Exotel یکپارچه سازی، برنامه را نصب کنید."
+
+msgid "[Important] [ERPNext] Auto Reorder Errors"
+msgstr "[مهم] [ERP-VERON] خطاهای سفارش مجدد خودکار"
+
+msgid "Powered by {0}"
+msgstr "قدرت‌گرفته از {0}"
+
+msgid "a draft {0}"
+msgstr "یک {0} پیش‌نویس"
+
+msgid "customer {0}"
+msgstr "مشتری {0}"
+
+msgid "a draft sales invoice for {0}"
+msgstr "یک فاکتور فروش پیش‌نویس برای {0}"
+
+msgid "a draft purchase invoice from {0}"
+msgstr "یک فاکتور خرید پیش‌نویس از {0}"
+
+msgid "Created: {0} {1}"
+msgstr "ساخته شد: {0} {1}"
+
+msgid "Open the report"
+msgstr "باز کردن گزارش"
+
+msgid "I learned how to do this from the AI model; I will create {0}."
+msgstr "این کار را قبلاً از هوش مصنوعی یاد گرفته‌ام؛ {0} می‌سازم."
+
+msgid "This could not be done the learned way: {0}"
+msgstr "این کار به روشی که یاد گرفته بودم انجام نشد: {0}"
+
+msgid "Done the way I learned it from the AI model"
+msgstr "انجام شد، به روشی که از هوش مصنوعی یاد گرفته‌ام"
+
+msgid "Unknown page kind"
+msgstr "نوع صفحه نامعتبر است"
+
+msgid "Written by your administrator"
+msgstr "نوشته‌ی مدیر سیستم"
+
+msgid "Written by the AI model and saved"
+msgstr "نوشته‌ی هوش مصنوعی، ذخیره‌شده"
+
+msgid "Write it again"
+msgstr "دوباره بنویس"
+
+msgid "The full guide is being written; it takes a minute or two…"
+msgstr "راهنمای کامل در حال نوشته شدن است؛ یکی دو دقیقه طول می‌کشد…"
+
+msgid "A step-by-step guide for beginners, written once by the AI model and saved for everyone."
+msgstr "یک راهنمای قدم‌به‌قدم برای تازه‌کارها که یک بار هوش مصنوعی می‌نویسد و برای همه ذخیره می‌شود."
+
+msgid "Write the full guide"
+msgstr "نوشتن راهنمای کامل"
+
+msgid "Complete guide"
+msgstr "راهنمای کامل"
+
+msgid "Iran Learned Recipe"
+msgstr "روش آموخته‌شده"
+
+msgid "Creates Documents"
+msgstr "سند می‌سازد"
+
+msgid "Times Used"
+msgstr "دفعات استفاده"
+
+msgid "Failures"
+msgstr "خطاها"
+
+msgid "Learned From"
+msgstr "آموخته از درخواست"
+
+msgid "What It Does"
+msgstr "کاری که انجام می‌دهد"
+
+msgid "Details Read From the Message"
+msgstr "جزئیاتی که از پیام خوانده می‌شود"
+
+msgid "Recipes that create documents ask the user before they run."
+msgstr "روش‌هایی که سند می‌سازند پیش از اجرا از کاربر تأیید می‌گیرند."
+
+msgid "Ways of asking for this, without names and numbers. Add more lines to teach other wordings."
+msgstr "جمله‌هایی که این کار را می‌خواهند، بدون نام‌ها و عددها. برای یاد دادن جمله‌های دیگر خط اضافه کنید."
+
+msgid "The tool calls the AI model made, with the details of the message replaced by placeholders."
+msgstr "کارهایی که هوش مصنوعی انجام داد، با جاهای خالی به جای جزئیات پیام."
+
+msgid "Iran Page Guide"
+msgstr "راهنمای صفحه"
+
+msgid "Page Kind"
+msgstr "نوع صفحه"
+
+msgid "Page"
+msgstr "صفحه"
+
+msgid "Written By"
+msgstr "نوشته‌ی"
+
+msgid "Guide"
+msgstr "راهنما"
+
+msgid "Edit the text and choose Manual so it is never regenerated over."
+msgstr "متن را ویرایش کنید و «دستی» را انتخاب کنید تا هرگز دوباره روی آن نوشته نشود."
+
+msgid "doctype"
+msgstr "نوع سند"
+
+msgid "report"
+msgstr "گزارش"
+
+msgid "workspace"
+msgstr "فضای کار"
+
+msgid "Ready"
+msgstr "آماده"
+
+msgid "Generating"
+msgstr "در حال نوشتن"

@@ -1,0 +1,98 @@
+{
+ "actions": [],
+ "autoname": "format:{page_kind}:{page_name}",
+ "creation": "2026-10-15 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "page_kind",
+  "page_name",
+  "column_break_1",
+  "status",
+  "source",
+  "section_content",
+  "content",
+  "error"
+ ],
+ "fields": [
+  {
+   "fieldname": "page_kind",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Page Kind",
+   "options": "doctype\nreport\nworkspace",
+   "reqd": 1
+  },
+  {
+   "fieldname": "page_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Page",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Ready",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Ready\nGenerating\nFailed"
+  },
+  {
+   "default": "AI",
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Written By",
+   "options": "AI\nManual",
+   "description": "Edit the text and choose Manual so it is never regenerated over."
+  },
+  {
+   "fieldname": "section_content",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "content",
+   "fieldtype": "Markdown Editor",
+   "label": "Guide"
+  },
+  {
+   "fieldname": "error",
+   "fieldtype": "Small Text",
+   "label": "Error",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-15 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Page Guide",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "All"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "page_name"
+}

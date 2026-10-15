@@ -49,7 +49,7 @@ iran_erp.help = {
 				</div>`).appendTo(document.body);
 			this.$panel.find(".iran-help-close").on("click", () => this.$panel.hide());
 			this.$panel.on("click", ".iran-help-item[data-target]", (e) => this.point_to($(e.currentTarget)));
-			this.$panel.on("click", ".iran-help-ai", () => this.ask_ai());
+			this.$panel.on("click", ".iran-help-generate", () => this.generate());
 			frappe.router.on("change", () => this.$panel && this.$panel.hide());
 		}
 		this.$panel.show();
@@ -81,6 +81,7 @@ iran_erp.help = {
 			const guide = await this.guide("doctype", doctype);
 			title = __(doctype);
 			parts.push(this.about(guide.about || __("This page holds {0} records.", [__(doctype)])));
+			parts.push(this.saved_section({ kind: "doctype", name: doctype }, guide));
 			if (guide.module_about) parts.push(this.section(__("Part of the system"), `<p>${esc(guide.module_about)}</p>`));
 			if (guide.steps && guide.steps.length) parts.push(this.steps(guide.steps));
 			if (context.kind === "form") {
@@ -93,6 +94,7 @@ iran_erp.help = {
 			const guide = await this.guide("report", context.report);
 			title = __(context.report);
 			parts.push(this.about(guide.about || __("A report.")));
+			parts.push(this.saved_section({ kind: "report", name: context.report }, guide));
 			parts.push(this.report_parts(guide.fields || {}));
 		} else if (context.kind === "workspace") {
 			const guide = await this.guide("workspace", context.workspace);
@@ -103,17 +105,11 @@ iran_erp.help = {
 						__("This workspace gathers the pages of one part of the system. Use the side menu to open them.")
 				)
 			);
+			parts.push(this.saved_section({ kind: "workspace", name: context.workspace }, guide));
 			parts.push(this.section(__("How to move around"), this.navigation_help()));
 		} else {
 			title = __("Help");
 			parts.push(this.section(__("How to move around"), this.navigation_help()));
-		}
-		if (frappe.boot.iran_ai_enabled) {
-			parts.push(
-				`<button class="btn btn-sm btn-default iran-help-ai">${frappe.utils.icon("sparkles", "sm")} ${__(
-					"Ask the assistant about this page"
-				)}</button>`
-			);
 		}
 		this.$panel.find(".iran-help-title").html(`${frappe.utils.icon("book-open", "sm")} ${esc(title)}`);
 		return parts.filter(Boolean).join("");
@@ -255,18 +251,67 @@ iran_erp.help = {
 		}
 	},
 
-	ask_ai() {
-		const context = this.current || {};
-		const name = __(context.doctype || context.report || context.workspace || "");
-		const panel = iran_erp.ai && iran_erp.ai.panel;
-		if (!panel) return;
-		this.$panel.hide();
-		panel.toggle(true);
-		panel.$input.val(
-			__("Explain the page «{0}» step by step: what it is for, and what each part and field does.", [name])
-		);
-		panel.send();
+	// The full guide the AI model writes once; everyone sees the saved text afterwards
+	saved_section(page, guide) {
+		this.page = page;
+		const saved = guide.saved;
+		const ai_on = frappe.boot.iran_ai_model_enabled;
+		const button = (label) =>
+			`<button class="btn btn-sm btn-default iran-help-generate">${frappe.utils.icon("sparkles", "sm")} ${label}</button>`;
+		let html = "";
+		if (saved && saved.status === "Ready" && saved.content) {
+			html = `<div class="iran-help-saved">${frappe.markdown(frappe.utils.escape_html(saved.content))}</div>`;
+			html += `<div class="iran-help-saved-note">${
+				saved.source === "Manual" ? __("Written by your administrator") : __("Written by the AI model and saved")
+			}</div>`;
+			if (guide.can_regenerate && ai_on && saved.source !== "Manual") {
+				html += button(__("Write it again"));
+			}
+		} else if (saved && saved.status === "Generating") {
+			html = `<div class="text-muted">${__("The full guide is being written; it takes a minute or two…")}</div>`;
+			this.wait_for(page);
+		} else if (ai_on) {
+			if (saved && saved.status === "Failed") {
+				html += `<div class="text-danger small">${frappe.utils.escape_html(saved.error || "")}</div>`;
+			}
+			html += `<p class="text-muted small">${__(
+				"A step-by-step guide for beginners, written once by the AI model and saved for everyone."
+			)}</p>`;
+			html += button(__("Write the full guide"));
+		}
+		return html ? this.section(__("Complete guide"), html) : "";
 	},
+
+	async generate() {
+		const page = this.page;
+		if (!page) return;
+		this.$panel.find(".iran-help-generate").prop("disabled", true);
+		await frappe.xcall("iran_erp.help.generate", { kind: page.kind, name: page.name }, "POST");
+		this.wait_for(page, true);
+	},
+
+	wait_for(page, refresh_now) {
+		const key = `${page.kind}:${page.name}`;
+		clearTimeout(this.waiting);
+		const check = async () => {
+			delete this.guides[key];
+			const guide = await this.guide(page.kind, page.name);
+			const status = guide.saved && guide.saved.status;
+			const same_page = this.page && `${this.page.kind}:${this.page.name}` === key;
+			if (!same_page || !this.$panel.is(":visible")) return;
+			if (status === "Generating") {
+				if (refresh_now) {
+					refresh_now = false;
+					this.$panel.find(".iran-help-body").html(await this.render(this.current));
+				}
+				this.waiting = setTimeout(check, 4000);
+				return;
+			}
+			this.$panel.find(".iran-help-body").html(await this.render(this.current));
+		};
+		this.waiting = setTimeout(check, refresh_now ? 0 : 4000);
+	},
+
 };
 
 $(document).on("app_ready", () => {

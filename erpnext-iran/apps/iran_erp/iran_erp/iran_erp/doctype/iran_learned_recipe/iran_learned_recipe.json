@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-15 11:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "enabled",
+  "writes",
+  "column_break_1",
+  "uses",
+  "failures",
+  "learned_from",
+  "section_phrases",
+  "phrases",
+  "section_steps",
+  "slots",
+  "steps"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Request",
+   "reqd": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "default": "0",
+   "fieldname": "writes",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Creates Documents",
+   "read_only": 1,
+   "description": "Recipes that create documents ask the user before they run."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "uses",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Times Used",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "failures",
+   "fieldtype": "Int",
+   "label": "Failures",
+   "read_only": 1
+  },
+  {
+   "fieldname": "learned_from",
+   "fieldtype": "Link",
+   "label": "Learned From",
+   "options": "Iran AI Request",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_phrases",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "phrases",
+   "fieldtype": "Small Text",
+   "label": "Sample Sentences",
+   "reqd": 1,
+   "description": "Ways of asking for this, without names and numbers. Add more lines to teach other wordings."
+  },
+  {
+   "fieldname": "section_steps",
+   "fieldtype": "Section Break",
+   "label": "What It Does"
+  },
+  {
+   "fieldname": "slots",
+   "fieldtype": "Code",
+   "label": "Details Read From the Message",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "steps",
+   "fieldtype": "Code",
+   "label": "Steps",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "The tool calls the AI model made, with the details of the message replaced by placeholders."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-15 11:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Learned Recipe",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title"
+}

@@ -15,3 +15,14 @@ def boot_session(bootinfo):
 	# Jalali input is on until someone turns it off in Iran ERP Settings
 	jalali_input = frappe.db.get_singles_dict("Iran ERP Settings").get("jalali_date_input")
 	bootinfo.iran_jalali_input = jalali_input is None or bool(int(jalali_input))
+	_rebrand_apps(bootinfo)
+
+
+def _rebrand_apps(bootinfo):
+	"""The desk header and app switcher show ERP-VERON instead of ERPNext and Frappe."""
+	from iran_erp.install import BRAND, BRAND_LOGO
+
+	for app in bootinfo.get("app_data") or []:
+		if app.get("app_name") in ("erpnext", "frappe", "iran_erp"):
+			app["app_logo_url"] = BRAND_LOGO
+			app["app_title"] = BRAND

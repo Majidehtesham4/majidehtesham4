@@ -11,6 +11,7 @@ import json
 import frappe
 from frappe import _
 
+from iran_erp.commands import recipes
 from iran_erp.commands import slots as slot_readers
 from iran_erp.commands.catalog import DOCTYPES, INTENTS, REPORTS
 from iran_erp.commands.matcher import Matcher, features
@@ -111,6 +112,12 @@ def custom_commands() -> list[dict]:
 	)
 
 
+def learned_recipes() -> list[dict]:
+	if not frappe.db.table_exists("Iran Learned Recipe"):
+		return []
+	return frappe.get_all("Iran Learned Recipe", filters={"enabled": 1}, fields=["name", "phrases"])
+
+
 def get_matcher() -> Matcher:
 	version = frappe.cache.get_value("iran_cmd_version") or 0
 	if _cache.get("version") != version or "matcher" not in _cache:
@@ -121,12 +128,16 @@ def get_matcher() -> Matcher:
 			for phrase in (command.phrases or "").splitlines():
 				if phrase.strip():
 					samples.append((intent, phrase.strip(), {}))
+		for recipe in learned_recipes():
+			for phrase in (recipe.phrases or "").splitlines():
+				if phrase.strip():
+					samples.append((f"recipe:{recipe.name}", phrase.strip(), {}))
 		_cache.update(matcher=Matcher(samples), version=version)
 	return _cache["matcher"]
 
 
 def reset_matcher(*args, **kwargs):
-	"""Called when custom commands change."""
+	"""Called when custom commands or learned recipes change."""
 	frappe.cache.set_value("iran_cmd_version", frappe.generate_hash(length=8))
 
 
@@ -207,6 +218,9 @@ def handle(question: str, state: dict | None = None, ai_available: bool = False)
 			score=score,
 		)
 
+	# A learned recipe repeats what was done once; with the AI model at hand, only for a close match
+	if best.startswith("recipe:") and ai_available and score < recipes.MIN_SCORE:
+		return _reply(None, delegate=True, intent=best, score=score)
 	intent = INTENT_BY_NAME.get(best)
 	if intent and intent.get("ai") and ai_available:
 		return _reply(None, delegate=True, intent=best, score=score)
@@ -288,6 +302,8 @@ def _prefer_fitting(question, ranked):
 
 
 def _title(intent_name: str) -> str:
+	if intent_name.startswith("recipe:"):
+		return frappe.db.get_value("Iran Learned Recipe", intent_name[7:], "title") or intent_name
 	if intent_name.startswith("custom:"):
 		return frappe.db.get_value("Iran Chat Command", intent_name[7:], "command_name") or intent_name
 	return INTENT_BY_NAME[intent_name]["title"]
@@ -332,6 +348,14 @@ def _continue(question, state, ai_available):
 		return _run(name, values, message, ai_available, confirmed=True)
 
 	waiting = state.get("waiting")
+	if name.startswith("recipe:") and waiting:
+		# The recipe reads what it still needs from the reply itself
+		# A reply that is only a name is the answer; a full new request starts over
+		rest = _without_names(question)
+		ranked = get_matcher().rank(rest) if rest.strip() else []
+		if not (ranked and ranked[0][1] >= SURE and ranked[0][0] != name):
+			return _run(name, values, message, ai_available)
+		return None
 	if state.get("options"):
 		chosen = _pick(question, state["options"])
 		if chosen:
@@ -389,6 +413,8 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		from iran_erp.commands.handlers import custom
 
 		return _reply(**custom.run(intent_name[7:], message), intent=intent_name)
+	if intent_name.startswith("recipe:"):
+		return _run_recipe(intent_name, values, message, ai_available, confirmed)
 	intent = INTENT_BY_NAME[intent_name]
 	slot_list = intent.get("slots", [])
 	order = {t: i for i, t in enumerate(slot_readers.ORDER)}
@@ -444,6 +470,32 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		return _reply(_("You do not have permission for this."), intent=intent_name)
 	if isinstance(result, str):
 		result = {"answer": result}
+	return _reply(intent=intent_name, **result)
+
+
+def _run_recipe(intent_name, values, message, ai_available, confirmed):
+	try:
+		result = recipes.run(intent_name[7:], message, values, confirmed=confirmed)
+	except NeedSlot as e:
+		return _ask(intent_name, values, e.slot, e.question, e.options)
+	except NeedConfirm as e:
+		return _reply(
+			e.summary + "\n\n" + _("Shall I go ahead? (yes / no)"),
+			state={"intent": intent_name, "values": values, "confirm": True},
+			intent=intent_name,
+		)
+	except frappe.PermissionError:
+		frappe.clear_last_message()
+		return _reply(_("You do not have permission for this."), intent=intent_name)
+	except frappe.DoesNotExistError:
+		frappe.clear_last_message()
+		return (
+			_reply(None, delegate=True, intent=intent_name)
+			if ai_available
+			else _not_understood(message.text, [], False)
+		)
+	if result.pop("delegate_on_error", False) and ai_available:
+		return _reply(None, delegate=True, intent=intent_name)
 	return _reply(intent=intent_name, **result)
 
 
