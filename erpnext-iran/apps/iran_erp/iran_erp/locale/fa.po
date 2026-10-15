@@ -18375,3 +18375,66 @@ msgstr "پیمانکاری"
 
 msgid "Goods and Services"
 msgstr "کالا و خدمات"
+
+msgid "Docstatus"
+msgstr "وضعیت سند"
+
+msgid "All Days"
+msgstr "همه‌ی روزها"
+
+msgid "Weekends"
+msgstr "آخر هفته‌ها"
+
+msgid "Alert"
+msgstr "هشدار"
+
+msgid "Energy Point"
+msgstr "امتیاز فعالیت"
+
+msgid "Prospecting"
+msgstr "شناسایی مشتری"
+
+msgid "Qualification"
+msgstr "ارزیابی صلاحیت"
+
+msgid "Needs Analysis"
+msgstr "بررسی نیاز"
+
+msgid "Value Proposition"
+msgstr "ارائه‌ی پیشنهاد ارزش"
+
+msgid "Perception Analysis"
+msgstr "بررسی دیدگاه مشتری"
+
+msgid "Negotiation/Review"
+msgstr "مذاکره/بازبینی"
+
+msgid "Dispatch Notification"
+msgstr "اعلان ارسال"
+
+msgid "Condition Examples:"
+msgstr "نمونه‌های شرط:"
+
+msgid "Size (MB)"
+msgstr "اندازه (مگابایت)"
+
+msgid "Data (MB)"
+msgstr "داده (مگابایت)"
+
+msgid "Index (MB)"
+msgstr "ایندکس (مگابایت)"
+
+msgid "Clear Cache"
+msgstr "پاک کردن حافظه‌ی موقت"
+
+msgid "Process Not Found"
+msgstr "فرایند پیدا نشد"
+
+msgid "Iran"
+msgstr "ایران"
+
+msgid "All Locations"
+msgstr "همه‌ی مکان‌ها"
+
+msgid "Main"
+msgstr "اصلی"
