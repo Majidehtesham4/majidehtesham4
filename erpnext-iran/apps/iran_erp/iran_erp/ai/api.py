@@ -109,6 +109,8 @@ def _run_command(question: str, previous, ai_on: bool) -> dict:
 
 @frappe.whitelist()
 def get_result(request_name: str) -> dict:
+	from iran_erp.commands.engine import quick_replies
+
 	request = _get_own_request(request_name)
 	return {
 		"status": request.status,
@@ -116,6 +118,8 @@ def get_result(request_name: str) -> dict:
 		"answer": request.answer,
 		"error": request.error,
 		"actions": json.loads(request.actions or "[]"),
+		# Buttons for answering the question the system just asked
+		**quick_replies(json.loads(request.command_state or "{}") if request.command_state else None),
 	}
 
 

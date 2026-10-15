@@ -499,6 +499,52 @@ def _run_recipe(intent_name, values, message, ai_available, confirmed):
 	return _reply(intent=intent_name, **result)
 
 
+def _waiting_type(state) -> str | None:
+	name, waiting = state.get("intent") or "", state.get("waiting")
+	if not waiting:
+		return None
+	if name.startswith("recipe:"):
+		slots = json.loads(frappe.db.get_value("Iran Learned Recipe", name[7:], "slots") or "{}")
+		return (slots.get(waiting) or {}).get("type")
+	return _slot_type(name, waiting)
+
+
+def quick_replies(state: dict | None) -> dict:
+	"""Buttons for answering the question a reply asked: yes/no, the numbered options, a few
+	common answers, or a list to pick a customer, item, ... from. Each reply is sent as typed text."""
+	from iran_erp.commands import entities
+
+	if not state:
+		return {}
+	replies, pick = [], None
+	if state.get("confirm"):
+		replies = [{"label": "بله، انجام بده", "text": "بله"}, {"label": "نه", "text": "نه"}]
+	elif state.get("choose"):
+		replies = [{"label": _title(c), "text": str(i)} for i, c in enumerate(state["choose"], 1)]
+	elif state.get("options"):
+		replies = [{"label": label, "text": str(i)} for i, (_v, label) in enumerate(state["options"], 1)]
+	else:
+		kind = _waiting_type(state)
+		if kind == "vat":
+			replies = [
+				{"label": "بله، با ارزش افزوده", "text": "بله"},
+				{"label": "بدون ارزش افزوده", "text": "خیر"},
+			]
+		elif kind == "payment_mode":
+			replies = [{"label": "نقدی", "text": "نقدی"}, {"label": "واریز به حساب", "text": "واریز به حساب"}]
+		elif kind == "period":
+			replies = [{"label": t, "text": t} for t in ("امروز", "این ماه", "ماه قبل", "امسال")]
+		elif kind == "date":
+			replies = [{"label": t, "text": t} for t in ("امروز", "فردا", "پس‌فردا")]
+		elif kind in entities.SOURCES:
+			doctype, _fields, filters, _label = entities.SOURCES[kind]
+			pick = {"doctype": doctype, "filters": filters}
+		elif kind in ("party", "party_or_account"):
+			pick = {"doctype": "Customer", "filters": {"disabled": 0}}
+	replies.append({"label": _("Cancel"), "text": "انصراف", "cancel": True})
+	return {"replies": replies, "pick": pick}
+
+
 def describe() -> list[dict]:
 	"""The catalog for the help page and the README."""
 	return [

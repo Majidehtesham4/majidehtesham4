@@ -18210,3 +18210,39 @@ msgstr "آماده"
 
 msgid "Generating"
 msgstr "در حال نوشتن"
+
+msgid "This task has no form."
+msgstr "این کار فرم ساده ندارد."
+
+msgid "It was saved as a draft. Open it, check it, then press «Submit» to make it final."
+msgstr "به‌صورت پیش‌نویس ذخیره شد. بازش کنید، بررسی کنید و بعد «ثبت نهایی» را بزنید تا قطعی شود."
+
+msgid "Start Page"
+msgstr "شروع کار"
+
+msgid "What can you do?"
+msgstr "چه کارهایی بلدی؟"
+
+msgid "Choose from the list"
+msgstr "انتخاب از فهرست"
+
+msgid "Choose {0}"
+msgstr "انتخاب {0}"
+
+msgid "Hello {0}!"
+msgstr "سلام {0}!"
+
+msgid "What do you want to do today? Click a button; each one asks a few simple questions. You can also write to the assistant in plain words."
+msgstr "امروز چه کاری می‌خواهید انجام دهید؟ روی یک دکمه بزنید؛ هر کدام چند سؤال ساده می‌پرسد. می‌توانید به زبان ساده به دستیار هم بنویسید."
+
+msgid "The assistant is turned off. Ask your administrator to turn it on in Iran AI Settings."
+msgstr "دستیار خاموش است. از مدیر سیستم بخواهید آن را در «تنظیمات دستیار هوشمند» روشن کند."
+
+msgid "Iran ERP"
+msgstr "ERP-VERON"
+
+msgid "Open the Start Page After Login"
+msgstr "باز شدن صفحه‌ی «شروع کار» بعد از ورود"
+
+msgid "After signing in, people land on the Start page with big buttons for everyday tasks, instead of the app icons."
+msgstr "بعد از ورود، کاربران به‌جای آیکون برنامه‌ها به صفحه‌ی «شروع کار» با دکمه‌های بزرگ کارهای روزانه می‌روند."

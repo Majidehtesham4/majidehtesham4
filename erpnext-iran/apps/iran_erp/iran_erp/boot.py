@@ -15,6 +15,8 @@ def boot_session(bootinfo):
 	# Jalali input is on until someone turns it off in Iran ERP Settings
 	jalali_input = frappe.db.get_singles_dict("Iran ERP Settings").get("jalali_date_input")
 	bootinfo.iran_jalali_input = jalali_input is None or bool(int(jalali_input))
+	start_page = frappe.db.get_singles_dict("Iran ERP Settings").get("open_start_page")
+	bootinfo.iran_open_start_page = start_page is None or bool(int(start_page))
 	_rebrand_apps(bootinfo)
 
 

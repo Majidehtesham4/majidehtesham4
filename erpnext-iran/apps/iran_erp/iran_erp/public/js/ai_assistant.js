@@ -207,7 +207,81 @@ iran_erp.ai.Panel = class {
 					"Anything else, attached invoices and bank statements included, goes to the AI model."
 				);
 		}
-		this.add_message("assistant", welcome);
+		const $welcome = this.add_message("assistant", welcome);
+		this.render_replies($welcome, { replies: this.starters() });
+	}
+
+	// Things a new user can start with, one click each
+	starters() {
+		return [
+			{ label: __("Start Page"), route: "/desk/iran-start" },
+			{ label: "فروش این ماه", text: "فروش این ماه چقدر بوده؟" },
+			{ label: "موجودی صندوق و بانک", text: "موجودی صندوق و بانک" },
+			{ label: "طلب از مشتری‌ها", text: "کل طلب ما از مشتری‌ها" },
+			{ label: "چک‌های نزدیک سررسید", text: "چک‌های نزدیک سررسید" },
+			{ label: "صدور فاکتور فروش", text: "صدور فاکتور فروش" },
+			{ label: "ثبت دریافت از مشتری", text: "ثبت دریافت وجه از مشتری" },
+			{ label: "کارهای من", text: "کارهای من" },
+			{ label: __("What can you do?"), text: "راهنما" },
+		];
+	}
+
+	// Buttons under a reply: answers to the question it asked, or a list to pick a record from
+	render_replies($msg, r) {
+		const replies = r.replies || [];
+		if (!replies.length && !r.pick) return;
+		const $bar = $(`<div class="iran-ai-replies"></div>`);
+		if (r.pick) {
+			$(`<button class="btn btn-xs btn-primary iran-ai-reply"></button>`)
+				.text(__("Choose from the list"))
+				.on("click", () => this.pick(r.pick, $bar))
+				.appendTo($bar);
+		}
+		replies.forEach((reply) => {
+			$(`<button class="btn btn-xs iran-ai-reply"></button>`)
+				.addClass(reply.cancel ? "btn-link" : "btn-default")
+				.text(reply.label)
+				.on("click", () => {
+					if (reply.route) {
+						frappe.set_route(reply.route);
+						return;
+					}
+					this.reply(reply.text, reply.label, $bar);
+				})
+				.appendTo($bar);
+		});
+		$msg.append($bar);
+		this.$messages.scrollTop(this.$messages[0].scrollHeight);
+	}
+
+	reply(text, label, $bar) {
+		if (this.busy) return;
+		$bar.remove();
+		this.add_message("user", label || text);
+		this.ask({ question: text });
+	}
+
+	pick(pick, $bar) {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Choose {0}", [__(pick.doctype)]),
+			fields: [
+				{
+					fieldname: "value",
+					fieldtype: "Link",
+					options: pick.doctype,
+					label: __(pick.doctype),
+					reqd: 1,
+					get_query: () => ({ filters: pick.filters || {} }),
+				},
+			],
+			primary_action_label: __("Select"),
+			primary_action: (values) => {
+				dialog.hide();
+				const title = frappe.utils.get_link_title(pick.doctype, values.value) || values.value;
+				this.reply(values.value, title, $bar);
+			},
+		});
+		dialog.show();
 	}
 
 	add_message(role, text, actions, files) {
@@ -296,6 +370,7 @@ iran_erp.ai.Panel = class {
 		this.files = [];
 		this.render_files();
 		this.$input.val("");
+		this.$messages.find(".iran-ai-replies").remove();
 		this.add_message("user", question, null, files);
 		this.ask({ question, files: files.map((f) => f.file_url) });
 	}
@@ -330,6 +405,7 @@ iran_erp.ai.Panel = class {
 				if (r.status === "Done") {
 					const $msg = this.add_message("assistant", r.answer, r.actions);
 					this.add_source($msg, r.handled_by, question, request_name);
+					this.render_replies($msg, r);
 					// "Open the list of customers": go there straight away
 					const open = (r.actions || []).find((a) => a.open && a.url);
 					if (open) frappe.set_route(local_link(open.url));

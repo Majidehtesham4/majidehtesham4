@@ -41,6 +41,7 @@ app_include_js = [
 	"/assets/iran_erp/js/inbox.js",
 	"/assets/iran_erp/js/record_names.js",
 	"/assets/iran_erp/js/help.js",
+	"/assets/iran_erp/js/start.js",
 ]
 doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"

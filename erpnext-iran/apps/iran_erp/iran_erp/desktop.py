@@ -61,6 +61,22 @@ def use_icon_grid(icon_style: str = "Solid"):
 
 # label, link, image, roles that see it
 IRAN_ICONS = (
+	(
+		"Start Page",
+		"/desk/iran-start",
+		"start.svg",
+		(
+			"System Manager",
+			"Accounts Manager",
+			"Accounts User",
+			"Sales User",
+			"Sales Manager",
+			"Purchase User",
+			"Purchase Manager",
+			"Stock User",
+			"Stock Manager",
+		),
+	),
 	("AI Assistant", "/desk/iran-ai-settings", "ai_assistant.svg", ("System Manager",)),
 	("Iran ERP Settings", "/desk/iran-erp-settings", "iran_settings.svg", ("System Manager",)),
 	("Cheques", "/desk/iran-cheque", "cheques.svg", ("System Manager", "Accounts Manager", "Accounts User")),
