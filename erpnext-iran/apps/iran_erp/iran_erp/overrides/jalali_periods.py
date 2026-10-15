@@ -62,6 +62,8 @@ def jalali_ranges(from_date, to_date, step: int) -> list[tuple[datetime.date, da
 def period_label(date, step: int) -> str:
 	""" "مهر ۱۴۰۵", "پاییز ۱۴۰۵" or "نیمه دوم ۱۴۰۵" for the period that holds the date."""
 	j = _jalali(date)
+	if step == 12:
+		return to_persian_digits(j.year)
 	if step == 3:
 		name = SEASONS[(j.month - 1) // 3]
 	elif step == 6:
@@ -230,6 +232,68 @@ def _financial(original_period_list, original_label):
 	return get_period_list, get_label
 
 
+# ---- Dashboard charts and everything else that buckets dates with frappe.utils.dateutils
+
+GRAINS = {"Monthly": 1, "Quarterly": 3, "Yearly": 12}
+DATEUTILS = ("get_period", "get_period_beginning", "get_period_ending", "get_dates_from_timegrain")
+
+
+def _dateutils(originals):
+	"""Monthly, quarterly and yearly buckets follow the Jalali calendar: «مهر ۱۴۰۵» instead of «Oct 2026»."""
+
+	def get_period_ending(date, timegrain):
+		step = GRAINS.get(timegrain)
+		if not step or not jalali_on():
+			return originals["get_period_ending"](date, timegrain)
+		return add_days(_next_start(getdate(date), step), -1)
+
+	def get_period_beginning(date, timegrain, as_str=True):
+		step = GRAINS.get(timegrain)
+		if not step or not jalali_on():
+			return originals["get_period_beginning"](date, timegrain, as_str)
+		return _period_start(getdate(date), step)
+
+	def get_period(date, interval="Monthly"):
+		step = GRAINS.get(interval)
+		if not step or not jalali_on():
+			return originals["get_period"](date, interval)
+		return period_label(date, step)
+
+	def get_dates_from_timegrain(from_date, to_date, timegrain="Daily"):
+		step = GRAINS.get(timegrain)
+		if not step or not jalali_on():
+			return originals["get_dates_from_timegrain"](from_date, to_date, timegrain)
+		dates = [get_period_ending(from_date, timegrain)]
+		while getdate(dates[-1]) < getdate(to_date) and len(dates) < 240:
+			dates.append(get_period_ending(add_days(dates[-1], 1), timegrain))
+		return dates
+
+	return {
+		"get_period": get_period,
+		"get_period_beginning": get_period_beginning,
+		"get_period_ending": get_period_ending,
+		"get_dates_from_timegrain": get_dates_from_timegrain,
+	}
+
+
+def _patch_dateutils():
+	import sys
+
+	from frappe.utils import dateutils
+
+	originals = {name: getattr(dateutils, name) for name in DATEUTILS}
+	patched = _dateutils(originals)
+	for name, function in patched.items():
+		setattr(dateutils, name, function)
+	# Modules that imported the functions by name before this ran keep their own references
+	for module_name, module in list(sys.modules.items()):
+		if not module or not module_name.startswith(("frappe", "erpnext")):
+			continue
+		for name in DATEUTILS:
+			if getattr(module, name, None) is originals[name]:
+				setattr(module, name, patched[name])
+
+
 def apply():
 	"""Swap in the Jalali versions once per process."""
 	global _applied
@@ -256,3 +320,4 @@ def apply():
 	financial_statements.get_period_list, financial_statements.get_label = _financial(
 		financial_statements.get_period_list, financial_statements.get_label
 	)
+	_patch_dateutils()

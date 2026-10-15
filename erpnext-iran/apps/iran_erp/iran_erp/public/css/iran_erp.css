@@ -706,3 +706,24 @@
 	margin: 8px 0 12px;
 	line-height: 1.9;
 }
+
+/* Legend of charts whose series names are too long for the chart's own legend */
+.iran-chart-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+	padding: 6px 12px 10px;
+	font-size: 0.82rem;
+	color: var(--text-muted);
+}
+.iran-chart-legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+.iran-chart-legend-item i {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+}

@@ -121,6 +121,7 @@ TRANSLATED_DOCTYPES = (
 	"Salutation",
 	"Gender",
 	"Print Heading",
+	"Print Format",
 )
 
 
@@ -166,3 +167,25 @@ def apply_branding():
 			frappe.db.set_single_value("Website Settings", field, value)
 	if not frappe.db.get_single_value("Navbar Settings", "app_logo"):
 		frappe.db.set_single_value("Navbar Settings", "app_logo", BRAND_LOGO)
+
+
+# ERPNext's «Review» report (Quality) reads Quality Action.document_type, a column the doctype no
+# longer has, and fails with a database error. It now links the review in its own field.
+REVIEW_REPORT_QUERY = """SELECT
+  `tabQuality Action`.name as "Quality Action:Link/Quality Action:200",
+  `tabQuality Action`.corrective_preventive as "Action:Data:150",
+  `tabQuality Action`.review as "Quality Review:Link/Quality Review:200",
+  `tabQuality Action`.date as "Date:Date:120",
+  `tabQuality Action`.status as "Status:Data:120"
+FROM
+  `tabQuality Action`
+WHERE
+  ifnull(`tabQuality Action`.review, '') != ''"""
+
+
+def fix_upstream_reports():
+	if not frappe.db.exists("Report", "Review"):
+		return
+	query = frappe.db.get_value("Report", "Review", "query") or ""
+	if "document_type" in query and frappe.db.has_column("Quality Action", "review"):
+		frappe.db.set_value("Report", "Review", "query", REVIEW_REPORT_QUERY, update_modified=False)

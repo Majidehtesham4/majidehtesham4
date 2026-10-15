@@ -18438,3 +18438,228 @@ msgstr "همه‌ی مکان‌ها"
 
 msgid "Main"
 msgstr "اصلی"
+
+msgid "Accounts Payable Standard"
+msgstr "حساب‌های پرداختنی - استاندارد"
+
+msgid "Accounts Payable Summary Standard"
+msgstr "خلاصه‌ی حساب‌های پرداختنی - استاندارد"
+
+msgid "Accounts Receivable Standard"
+msgstr "حساب‌های دریافتنی - استاندارد"
+
+msgid "Accounts Receivable Summary Standard"
+msgstr "خلاصه‌ی حساب‌های دریافتنی - استاندارد"
+
+msgid "Balance Sheet Standard"
+msgstr "ترازنامه - استاندارد"
+
+msgid "Bank and Cash Payment Voucher"
+msgstr "سند پرداخت بانکی و نقدی"
+
+msgid "Cash Flow Statement Standard"
+msgstr "صورت جریان وجوه نقد - استاندارد"
+
+msgid "Cheque Printing Format"
+msgstr "قالب چاپ چک"
+
+msgid "Credit Note"
+msgstr "یادداشت بستانکاری"
+
+msgid "Delivery Note Bordered"
+msgstr "حواله‌ی خروج - با کادر"
+
+msgid "Delivery Note Classic"
+msgstr "حواله‌ی خروج - کلاسیک"
+
+msgid "Delivery Note Modern"
+msgstr "حواله‌ی خروج - مدرن"
+
+msgid "Delivery Note Modern with Images"
+msgstr "حواله‌ی خروج - مدرن با تصویر"
+
+msgid "Delivery Note Standard"
+msgstr "حواله‌ی خروج - استاندارد"
+
+msgid "Delivery Note with Item Image"
+msgstr "حواله‌ی خروج - با تصویر کالا"
+
+msgid "Detailed Tax Invoice"
+msgstr "صورتحساب مالیاتی تفصیلی"
+
+msgid "Drop Shipping Format"
+msgstr "قالب ارسال مستقیم"
+
+msgid "Dunning Letter"
+msgstr "نامه‌ی مطالبه"
+
+msgid "General Ledger Standard"
+msgstr "دفتر کل - استاندارد"
+
+msgid "IRS 1099 Form"
+msgstr "فرم IRS 1099"
+
+msgid "Journal Auditing Voucher"
+msgstr "سند حسابرسی روزنامه"
+
+msgid "P&L Statement Standard"
+msgstr "صورت سود و زیان - استاندارد"
+
+msgid "Payment Receipt Voucher"
+msgstr "رسید دریافت وجه"
+
+msgid "Pick List"
+msgstr "فهرست برداشت"
+
+msgid "POS Invoice Bordered"
+msgstr "فاکتور صندوق فروش - با کادر"
+
+msgid "POS Invoice Classic"
+msgstr "فاکتور صندوق فروش - کلاسیک"
+
+msgid "POS Invoice Modern"
+msgstr "فاکتور صندوق فروش - مدرن"
+
+msgid "POS Invoice Modern with Images"
+msgstr "فاکتور صندوق فروش - مدرن با تصویر"
+
+msgid "POS Invoice Standard"
+msgstr "فاکتور صندوق فروش - استاندارد"
+
+msgid "POS Invoice with Item Image"
+msgstr "فاکتور صندوق فروش - با تصویر کالا"
+
+msgid "Purchase Auditing Voucher"
+msgstr "سند حسابرسی خرید"
+
+msgid "Purchase eInvoice"
+msgstr "صورتحساب الکترونیکی خرید"
+
+msgid "Purchase Invoice Bordered"
+msgstr "فاکتور خرید - با کادر"
+
+msgid "Purchase Invoice Classic"
+msgstr "فاکتور خرید - کلاسیک"
+
+msgid "Purchase Invoice Modern"
+msgstr "فاکتور خرید - مدرن"
+
+msgid "Purchase Invoice Modern with Images"
+msgstr "فاکتور خرید - مدرن با تصویر"
+
+msgid "Purchase Invoice Standard"
+msgstr "فاکتور خرید - استاندارد"
+
+msgid "Purchase Invoice with Item Image"
+msgstr "فاکتور خرید - با تصویر کالا"
+
+msgid "Purchase Order Bordered"
+msgstr "سفارش خرید - با کادر"
+
+msgid "Purchase Order Classic"
+msgstr "سفارش خرید - کلاسیک"
+
+msgid "Purchase Order Modern"
+msgstr "سفارش خرید - مدرن"
+
+msgid "Purchase Order Modern with Images"
+msgstr "سفارش خرید - مدرن با تصویر"
+
+msgid "Purchase Order Standard"
+msgstr "سفارش خرید - استاندارد"
+
+msgid "Purchase Order with Item Image"
+msgstr "سفارش خرید - با تصویر کالا"
+
+msgid "Purchase Receipt Serial and Batch Bundle Print"
+msgstr "چاپ سریال و دسته‌ی رسید خرید"
+
+msgid "Quotation Bordered"
+msgstr "پیش‌فاکتور - با کادر"
+
+msgid "Quotation Classic"
+msgstr "پیش‌فاکتور - کلاسیک"
+
+msgid "Quotation Modern"
+msgstr "پیش‌فاکتور - مدرن"
+
+msgid "Quotation Modern with Images"
+msgstr "پیش‌فاکتور - مدرن با تصویر"
+
+msgid "Quotation Standard"
+msgstr "پیش‌فاکتور - استاندارد"
+
+msgid "Quotation with Item Image"
+msgstr "پیش‌فاکتور - با تصویر کالا"
+
+msgid "Request for Quotation Bordered"
+msgstr "درخواست پیش‌فاکتور - با کادر"
+
+msgid "Request for Quotation Classic"
+msgstr "درخواست پیش‌فاکتور - کلاسیک"
+
+msgid "Request for Quotation Modern"
+msgstr "درخواست پیش‌فاکتور - مدرن"
+
+msgid "Request for Quotation Modern with Images"
+msgstr "درخواست پیش‌فاکتور - مدرن با تصویر"
+
+msgid "Request for Quotation with Item Image"
+msgstr "درخواست پیش‌فاکتور - با تصویر کالا"
+
+msgid "Return POS Invoice"
+msgstr "برگشت فاکتور صندوق فروش"
+
+msgid "Sales Auditing Voucher"
+msgstr "سند حسابرسی فروش"
+
+msgid "Sales Invoice Bordered"
+msgstr "فاکتور فروش - با کادر"
+
+msgid "Sales Invoice Classic"
+msgstr "فاکتور فروش - کلاسیک"
+
+msgid "Sales Invoice Modern"
+msgstr "فاکتور فروش - مدرن"
+
+msgid "Sales Invoice Modern with Images"
+msgstr "فاکتور فروش - مدرن با تصویر"
+
+msgid "Sales Invoice Return"
+msgstr "برگشت از فروش"
+
+msgid "Sales Invoice Standard"
+msgstr "فاکتور فروش - استاندارد"
+
+msgid "Sales Invoice with Item Image"
+msgstr "فاکتور فروش - با تصویر کالا"
+
+msgid "Sales Order Bordered"
+msgstr "سفارش فروش - با کادر"
+
+msgid "Sales Order Classic"
+msgstr "سفارش فروش - کلاسیک"
+
+msgid "Sales Order Modern"
+msgstr "سفارش فروش - مدرن"
+
+msgid "Sales Order Modern with Images"
+msgstr "سفارش فروش - مدرن با تصویر"
+
+msgid "Sales Order Standard"
+msgstr "سفارش فروش - استاندارد"
+
+msgid "Sales Order with Item Image"
+msgstr "سفارش فروش - با تصویر کالا"
+
+msgid "Simplified Tax Invoice"
+msgstr "صورتحساب مالیاتی ساده"
+
+msgid "Tax Invoice"
+msgstr "صورتحساب مالیاتی"
+
+msgid "Trial Balance Standard"
+msgstr "تراز آزمایشی - استاندارد"
+
+msgid "finished"
+msgstr "تمام‌شده"

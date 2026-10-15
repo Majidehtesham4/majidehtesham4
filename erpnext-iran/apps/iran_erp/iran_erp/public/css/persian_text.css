@@ -58,3 +58,11 @@ html[dir="rtl"] .dt-cell__content > div[style*="text-align: right"] {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+
+/* Chart axis labels such as «-10 میلیارد» are laid out left to right so the minus sign stays
+   next to its number */
+html[dir="rtl"] .frappe-chart .y.axis text,
+html[dir="rtl"] .frappe-chart .x.axis text {
+	direction: ltr;
+	unicode-bidi: plaintext;
+}

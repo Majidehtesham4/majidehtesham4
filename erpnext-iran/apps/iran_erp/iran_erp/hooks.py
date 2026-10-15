@@ -115,6 +115,7 @@ after_migrate = [
 	"iran_erp.desktop.add_iran_icons",
 	"iran_erp.install.mark_translated_doctypes",
 	"iran_erp.install.apply_branding",
+	"iran_erp.install.fix_upstream_reports",
 	"iran_erp.install.clear_translation_cache",
 ]
 

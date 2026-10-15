@@ -212,6 +212,20 @@ class TestJalaliPeriods(UnitTestCase):
 		self.assertEqual(len(seasons), 4)
 		self.assertEqual(str(seasons[-1][1]), "2027-03-20")
 
+	def test_dashboard_chart_buckets(self):
+		from frappe.utils import dateutils
+
+		from iran_erp.overrides.jalali_periods import apply
+
+		apply()
+		self.assertEqual(dateutils.get_period("2026-10-14", "Monthly"), "مهر ۱۴۰۵")
+		self.assertEqual(str(dateutils.get_period_ending("2026-10-14", "Monthly")), "2026-10-22")
+		self.assertEqual(str(dateutils.get_period_beginning("2026-10-14", "Monthly")), "2026-09-23")
+		ends = dateutils.get_dates_from_timegrain("2026-09-23", "2026-12-21", "Monthly")
+		self.assertEqual([str(d) for d in ends], ["2026-10-22", "2026-11-21", "2026-12-21"])
+		# Daily buckets are not touched
+		self.assertEqual(dateutils.get_period("2026-10-14", "Daily"), "14-10-26")
+
 
 class TestExplain(IntegrationTestCase):
 	def test_explain_a_page_in_the_chat(self):
