@@ -33,8 +33,13 @@ iran_erp.help = {
 			.on("click", () => this.toggle());
 	},
 
-	async toggle() {
-		if (this.$panel && this.$panel.is(":visible")) {
+	// The guide of another part of the system, from a «بیشتر بدانید» link: show({ kind: "list", doctype })
+	show(context) {
+		return this.toggle(context);
+	},
+
+	async toggle(context) {
+		if (!context && this.$panel && this.$panel.is(":visible")) {
 			this.$panel.hide();
 			return;
 		}
@@ -57,7 +62,7 @@ iran_erp.help = {
 		if (!this.field_types) {
 			this.field_types = await frappe.xcall("iran_erp.help.get_field_types");
 		}
-		const context = this.context();
+		context = context || this.context();
 		this.current = context;
 		const html = await this.render(context);
 		this.$panel.find(".iran-help-body").html(html);
@@ -81,6 +86,7 @@ iran_erp.help = {
 			const guide = await this.guide("doctype", doctype);
 			title = __(doctype);
 			parts.push(this.about(guide.about || __("This page holds {0} records.", [__(doctype)])));
+			parts.push(this.example(guide.example));
 			parts.push(this.saved_section({ kind: "doctype", name: doctype }, guide));
 			if (guide.module_about) parts.push(this.section(__("Part of the system"), `<p>${esc(guide.module_about)}</p>`));
 			if (guide.steps && guide.steps.length) parts.push(this.steps(guide.steps));
@@ -94,6 +100,7 @@ iran_erp.help = {
 			const guide = await this.guide("report", context.report);
 			title = __(context.report);
 			parts.push(this.about(guide.about || __("A report.")));
+			parts.push(this.example(guide.example));
 			parts.push(this.saved_section({ kind: "report", name: context.report }, guide));
 			parts.push(this.report_parts(guide.fields || {}));
 		} else if (context.kind === "workspace") {
@@ -117,6 +124,11 @@ iran_erp.help = {
 
 	about(text) {
 		return `<p class="iran-help-about">${frappe.utils.escape_html(text)}</p>`;
+	},
+
+	example(text) {
+		if (!text) return "";
+		return `<div class="iran-help-example"><b>${__("Example")}:</b> ${frappe.utils.escape_html(text)}</div>`;
 	},
 
 	section(title, html) {

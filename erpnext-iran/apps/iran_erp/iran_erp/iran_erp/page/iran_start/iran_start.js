@@ -78,12 +78,34 @@ class IranStartPage {
 		this.page = page;
 		this.$body = $(`<div class="iran-start" dir="rtl"></div>`).appendTo(page.main);
 		this.$hello = $(`<div class="iran-start-hello"></div>`).appendTo(this.$body);
+		this.$setup = $(`<div class="iran-start-setup" style="display:none"></div>`).appendTo(this.$body);
 		this.$cards = $(`<div class="iran-start-cards"></div>`).appendTo(this.$body);
 		this.$groups = $(`<div class="iran-start-groups"></div>`).appendTo(this.$body);
 		this.render_groups();
 	}
 
+	// Until the easy setup is finished, a banner leads to it
+	load_setup() {
+		frappe.xcall("iran_erp.onboarding.get_progress").then((p) => {
+			if (!p || !p.total || p.finished) return this.$setup.hide();
+			this.$setup
+				.html(
+					`<div class="iran-start-setup-text">
+						<b>راه‌اندازی آسان</b>
+						<span>بانک‌ها، مشتری‌ها، کالاها و موجودی‌های اول کار را با چند سؤال ساده وارد کنید.</span>
+						<div class="iran-setup-progress-bar"><span style="width:${Math.round((100 * p.done) / p.total)}%"></span></div>
+						<small>${__("{0} of {1} steps done", [String(p.done), String(p.total)])}</small>
+					</div>
+					<button class="btn btn-primary btn-sm">${p.done ? "ادامه‌ی راه‌اندازی" : "شروع راه‌اندازی"}</button>`
+				)
+				.show()
+				.find("button")
+				.on("click", () => frappe.set_route("iran-easy-setup"));
+		});
+	}
+
 	load_summary() {
+		this.load_setup();
 		frappe.xcall("iran_erp.start.get_summary").then((r) => {
 			const name = (r.user || "").split(" ")[0];
 			this.$hello.html(`

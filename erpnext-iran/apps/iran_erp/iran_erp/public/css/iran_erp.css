@@ -539,3 +539,170 @@
 		grid-template-columns: 1fr;
 	}
 }
+
+/* Easy setup («راه‌اندازی آسان») */
+.iran-start-setup {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 14px 18px;
+	margin-bottom: 20px;
+	border-radius: 12px;
+	border: 1px solid var(--primary);
+	background: var(--subtle-accent, var(--card-bg));
+}
+.iran-start-setup-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	flex: 1;
+}
+.iran-setup {
+	display: grid;
+	grid-template-columns: 240px 1fr;
+	gap: 24px;
+	padding: 8px 0 32px;
+}
+.iran-setup-nav {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+.iran-setup-progress {
+	margin-bottom: 10px;
+}
+.iran-setup-progress-text {
+	font-size: 0.85rem;
+	color: var(--text-muted);
+	margin-bottom: 6px;
+}
+.iran-setup-progress-bar {
+	height: 6px;
+	border-radius: 999px;
+	background: var(--border-color);
+	overflow: hidden;
+	max-width: 420px;
+}
+.iran-setup-progress-bar span {
+	display: block;
+	height: 100%;
+	background: var(--primary);
+}
+.iran-setup-nav-item {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px 10px;
+	border: none;
+	border-radius: 8px;
+	background: none;
+	color: var(--text-color);
+	text-align: right;
+}
+.iran-setup-nav-item:hover {
+	background: var(--fg-hover-color, var(--control-bg));
+}
+.iran-setup-nav-item.active {
+	background: var(--control-bg);
+	font-weight: 600;
+}
+.iran-setup-nav-mark {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 999px;
+	border: 1px solid var(--border-color);
+	font-size: 0.8rem;
+	flex-shrink: 0;
+}
+.iran-setup-nav-item.done .iran-setup-nav-mark {
+	background: var(--green-500, #43ac79);
+	border-color: transparent;
+	color: #fff;
+}
+.iran-setup-card {
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 12px;
+	padding: 20px 24px;
+}
+.iran-setup-step-number {
+	color: var(--text-muted);
+	font-size: 0.85rem;
+}
+.iran-setup-title {
+	margin: 4px 0 8px;
+	font-weight: 700;
+}
+.iran-setup-intro {
+	max-width: 760px;
+	line-height: 1.9;
+}
+.iran-setup-example {
+	background: var(--control-bg);
+	border-radius: 8px;
+	padding: 10px 14px;
+	margin: 8px 0 10px;
+	max-width: 760px;
+	line-height: 1.9;
+}
+.iran-setup-learn {
+	margin-bottom: 16px;
+}
+.iran-setup-paste {
+	margin-top: 8px;
+}
+.iran-setup-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 18px;
+	padding-top: 14px;
+	border-top: 1px solid var(--border-color);
+}
+.iran-setup-summary {
+	max-width: 560px;
+}
+.iran-setup-summary td:last-child {
+	direction: ltr;
+	text-align: left;
+	white-space: nowrap;
+}
+.iran-setup-capital td {
+	font-weight: 700;
+	border-top: 2px solid var(--border-color);
+}
+.iran-setup-issue {
+	padding: 8px 12px;
+	border-radius: 8px;
+	margin: 6px 0;
+	max-width: 760px;
+	background: var(--control-bg);
+}
+.iran-setup-issue-error {
+	background: var(--red-50, #fff5f5);
+	color: var(--red-700, #b41d1d);
+}
+.iran-setup-issue-warning {
+	background: var(--amber-50, #fdf8ed);
+	color: var(--amber-800, #91400d);
+}
+@media (max-width: 760px) {
+	.iran-setup {
+		grid-template-columns: 1fr;
+	}
+	.iran-start-setup {
+		flex-direction: column;
+		align-items: stretch;
+	}
+}
+
+.iran-help-example {
+	background: var(--control-bg);
+	border-radius: 8px;
+	padding: 8px 12px;
+	margin: 8px 0 12px;
+	line-height: 1.9;
+}

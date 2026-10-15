@@ -1,0 +1,132 @@
+{
+ "actions": [],
+ "creation": "2026-10-15 14:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "business_section",
+  "business_type",
+  "sells",
+  "has_warehouse",
+  "column_break_business",
+  "vat_registered",
+  "uses_cheques",
+  "opening_date",
+  "progress_section",
+  "steps_done",
+  "data",
+  "opening_section",
+  "opening_posted",
+  "opening_documents"
+ ],
+ "fields": [
+  {
+   "fieldname": "business_section",
+   "fieldtype": "Section Break",
+   "label": "Your Business"
+  },
+  {
+   "fieldname": "business_type",
+   "fieldtype": "Select",
+   "label": "Kind of Business",
+   "options": "\nShop\nDistribution\nManufacturing\nServices\nContracting"
+  },
+  {
+   "fieldname": "sells",
+   "fieldtype": "Select",
+   "label": "Sells",
+   "options": "\nGoods\nServices\nGoods and Services"
+  },
+  {
+   "default": "1",
+   "fieldname": "has_warehouse",
+   "fieldtype": "Check",
+   "label": "Keeps Stock in a Warehouse"
+  },
+  {
+   "fieldname": "column_break_business",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "vat_registered",
+   "fieldtype": "Check",
+   "label": "Charges Value Added Tax"
+  },
+  {
+   "default": "1",
+   "fieldname": "uses_cheques",
+   "fieldtype": "Check",
+   "label": "Receives or Issues Cheques"
+  },
+  {
+   "description": "The day the balances entered in the setup are counted on; usually the first day of the fiscal year or of the month you start using the system.",
+   "fieldname": "opening_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "progress_section",
+   "fieldtype": "Section Break",
+   "label": "Progress"
+  },
+  {
+   "fieldname": "steps_done",
+   "fieldtype": "Small Text",
+   "label": "Finished Steps",
+   "read_only": 1
+  },
+  {
+   "description": "What was entered in each step, kept until the opening balances are recorded.",
+   "fieldname": "data",
+   "fieldtype": "Code",
+   "label": "Entered Details",
+   "options": "JSON",
+   "read_only": 1
+  },
+  {
+   "fieldname": "opening_section",
+   "fieldtype": "Section Break",
+   "label": "Opening Balances"
+  },
+  {
+   "default": "0",
+   "fieldname": "opening_posted",
+   "fieldtype": "Check",
+   "label": "Opening Balances Recorded",
+   "read_only": 1
+  },
+  {
+   "fieldname": "opening_documents",
+   "fieldtype": "Code",
+   "label": "Documents Made",
+   "options": "JSON",
+   "read_only": 1
+  }
+ ],
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-10-15 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Setup",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "read": 1,
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Accounts Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

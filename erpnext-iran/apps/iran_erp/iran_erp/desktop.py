@@ -77,6 +77,7 @@ IRAN_ICONS = (
 			"Stock Manager",
 		),
 	),
+	("Easy Setup", "/desk/iran-easy-setup", "setup.svg", ("System Manager", "Accounts Manager")),
 	("AI Assistant", "/desk/iran-ai-settings", "ai_assistant.svg", ("System Manager",)),
 	("Iran ERP Settings", "/desk/iran-erp-settings", "iran_settings.svg", ("System Manager",)),
 	("Cheques", "/desk/iran-cheque", "cheques.svg", ("System Manager", "Accounts Manager", "Accounts User")),

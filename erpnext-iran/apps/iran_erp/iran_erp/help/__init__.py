@@ -3,7 +3,7 @@
 import frappe
 from frappe import _
 
-from iran_erp.help.guides import DOCTYPES, FIELD_TYPES, REPORTS, WORKSPACES
+from iran_erp.help.guides import DOCTYPES, EXAMPLES, FIELD_TYPES, REPORT_EXAMPLES, REPORTS, WORKSPACES
 
 KINDS = ("doctype", "report", "workspace")
 
@@ -39,6 +39,7 @@ def get_guide(kind: str, name: str) -> dict:
 def _builtin_guide(kind: str, name: str) -> dict:
 	if kind == "doctype":
 		guide = dict(DOCTYPES.get(name) or {})
+		guide.setdefault("example", EXAMPLES.get(name))
 		if frappe.db.exists("DocType", name):
 			meta = frappe.get_meta(name)
 			if not guide.get("about") and meta.description:
@@ -49,6 +50,7 @@ def _builtin_guide(kind: str, name: str) -> dict:
 		return guide
 	if kind == "report":
 		guide = dict(REPORTS.get(name) or {})
+		guide.setdefault("example", REPORT_EXAMPLES.get(name))
 		if not guide.get("about") and frappe.db.exists("Report", name):
 			ref = frappe.db.get_value("Report", name, "ref_doctype")
 			if ref:

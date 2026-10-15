@@ -18246,3 +18246,132 @@ msgstr "باز شدن صفحه‌ی «شروع کار» بعد از ورود"
 
 msgid "After signing in, people land on the Start page with big buttons for everyday tasks, instead of the app icons."
 msgstr "بعد از ورود، کاربران به‌جای آیکون برنامه‌ها به صفحه‌ی «شروع کار» با دکمه‌های بزرگ کارهای روزانه می‌روند."
+
+msgid "CRM"
+msgstr "ارتباط با مشتری"
+
+msgid "DocType"
+msgstr "نوع سند"
+
+msgid "Appointment Booking"
+msgstr "رزرو نوبت"
+
+msgid "Stock Reposting"
+msgstr "بازمحاسبه‌ی موجودی"
+
+msgid "Background Task"
+msgstr "کار پس‌زمینه"
+
+msgid "Payments"
+msgstr "پرداخت‌ها"
+
+msgid "As of {0}"
+msgstr "تا تاریخ {0}"
+
+msgid "Balances as per bank statement before {0}"
+msgstr "مانده‌ها طبق صورتحساب بانک پیش از {0}"
+
+msgid "Closing Balance as of {}"
+msgstr "مانده‌ی پایانی تا تاریخ {}"
+
+msgid "Closing balance on bank statement as of {0}"
+msgstr "مانده‌ی پایانی صورتحساب بانک تا تاریخ {0}"
+
+msgid "Drag to reorder"
+msgstr "برای جابه‌جایی بکشید"
+
+msgid "Enter the closing balance you see in your bank statement for {0} as of the {1}"
+msgstr "مانده‌ی پایانی‌ای را که در صورتحساب بانک {0} تا تاریخ {1} می‌بینید وارد کنید"
+
+msgid "Jalali period"
+msgstr "بازه‌ی شمسی"
+
+msgid "Only the system manager or the accounts manager can set the system up."
+msgstr "فقط مدیر سیستم یا مدیر حسابداری می‌تواند سیستم را راه‌اندازی کند."
+
+msgid "The opening balances are already recorded. Make further changes in the documents themselves."
+msgstr "مانده‌های اول دوره قبلاً ثبت شده‌اند. تغییرهای بعدی را در خود سندها انجام دهید."
+
+msgid "Unknown step"
+msgstr "قدم نامعتبر است"
+
+msgid "Please fix these rows"
+msgstr "لطفاً این ردیف‌ها را درست کنید"
+
+msgid "Choose the start date."
+msgstr "تاریخ شروع را انتخاب کنید."
+
+msgid "The chart of accounts has no group for bank accounts."
+msgstr "نمودار حساب‌ها گروهی برای حساب‌های بانکی ندارد."
+
+msgid "The opening balances are already recorded."
+msgstr "مانده‌های اول دوره قبلاً ثبت شده‌اند."
+
+msgid "Fix the problems marked in red first."
+msgstr "اول مشکل‌هایی را که با رنگ قرمز مشخص شده‌اند برطرف کنید."
+
+msgid "Nothing was recorded. {0}"
+msgstr "چیزی ثبت نشد. {0}"
+
+msgid "Easy Setup"
+msgstr "راه‌اندازی آسان"
+
+msgid "Learn more: {0}"
+msgstr "بیشتر بدانید: {0}"
+
+msgid "Warehouses you already have: {0}"
+msgstr "انبارهایی که از قبل دارید: {0}"
+
+msgid "Save and continue"
+msgstr "ذخیره و ادامه"
+
+msgid "Skip this step"
+msgstr "رد شدن از این قدم"
+
+msgid "Iran Setup"
+msgstr "اطلاعات راه‌اندازی"
+
+msgid "Your Business"
+msgstr "کسب‌وکار شما"
+
+msgid "Kind of Business"
+msgstr "نوع کسب‌وکار"
+
+msgid "Keeps Stock in a Warehouse"
+msgstr "کالا در انبار نگه می‌دارد"
+
+msgid "Charges Value Added Tax"
+msgstr "مشمول ارزش افزوده"
+
+msgid "Receives or Issues Cheques"
+msgstr "چک می‌گیرد یا می‌دهد"
+
+msgid "Start Date"
+msgstr "تاریخ شروع"
+
+msgid "Finished Steps"
+msgstr "قدم‌های انجام‌شده"
+
+msgid "Entered Details"
+msgstr "اطلاعات واردشده"
+
+msgid "Opening Balances"
+msgstr "مانده‌های اول دوره"
+
+msgid "Opening Balances Recorded"
+msgstr "مانده‌های اول دوره ثبت شد"
+
+msgid "Documents Made"
+msgstr "سندهای ساخته‌شده"
+
+msgid "The day the balances entered in the setup are counted on; usually the first day of the fiscal year or of the month you start using the system."
+msgstr "روزی که مانده‌های واردشده در راه‌اندازی مال آن است؛ معمولاً اول سال مالی یا اول ماهی که کار با سیستم را شروع می‌کنید."
+
+msgid "What was entered in each step, kept until the opening balances are recorded."
+msgstr "آنچه در هر قدم وارد شده، تا زمان ثبت مانده‌های اول دوره نگه داشته می‌شود."
+
+msgid "Contracting"
+msgstr "پیمانکاری"
+
+msgid "Goods and Services"
+msgstr "کالا و خدمات"

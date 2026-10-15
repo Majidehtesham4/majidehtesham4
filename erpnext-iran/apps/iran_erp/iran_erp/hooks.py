@@ -34,9 +34,11 @@ required_apps = ["frappe/erpnext"]
 # ------------------
 
 # include js, css files in header of desk.html
-app_include_css = "/assets/iran_erp/css/iran_erp.css"
+app_include_css = ["/assets/iran_erp/css/persian_text.css", "/assets/iran_erp/css/iran_erp.css"]
 app_include_js = [
+	"/assets/iran_erp/js/jalaali_core.js",
 	"/assets/iran_erp/js/jalali.js",
+	"/assets/iran_erp/js/charts.js",
 	"/assets/iran_erp/js/ai_assistant.js",
 	"/assets/iran_erp/js/inbox.js",
 	"/assets/iran_erp/js/record_names.js",
@@ -47,7 +49,7 @@ doctype_js = {"Sales Invoice": "public/js/sales_invoice.js"}
 # app_include_js = "/assets/iran_erp/js/iran_erp.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/iran_erp/css/iran_erp.css"
+web_include_css = "/assets/iran_erp/css/persian_text.css"
 # web_include_js = "/assets/iran_erp/js/iran_erp.js"
 
 # include custom scss in every website theme (without file extension ".scss")
@@ -218,9 +220,10 @@ doc_events = {
 # Overriding Methods
 # ------------------------------
 #
-# override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "iran_erp.event.get_events"
-# }
+override_whitelisted_methods = {
+	# ERPNext's Banking page asks for a method this version of Frappe does not have
+	"frappe.translate.get_boot_translations": "iran_erp.overrides.translations.get_boot_translations",
+}
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,

@@ -1,0 +1,60 @@
+/* Persian text in the desk and on the website.
+
+   Inter, the default font, has no Persian letters, so every computer drew them in whatever font it
+   had. Vazirmatn (SIL Open Font License, see fonts/vazirmatn/OFL.txt) is used for the Persian letters
+   only; Latin text and digits stay in Inter. */
+@font-face {
+	font-family: "Vazirmatn NL";
+	src: url("/assets/iran_erp/fonts/vazirmatn/Vazirmatn-NL-Variable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+	unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+
+html:lang(fa),
+html[dir="rtl"] {
+	--font-stack: "InterVariable", "Inter", "Vazirmatn NL", "-apple-system", "BlinkMacSystemFont",
+		"Segoe UI", "Tahoma", "Roboto", "Helvetica Neue", sans-serif;
+}
+
+html:lang(fa) body,
+html[dir="rtl"] body {
+	font-family: var(--font-stack);
+}
+
+/* Letter spacing pulls apart the joined letters of Persian words ("سود و زیان" became "س و د"),
+   so it is turned off everywhere in Persian. */
+html:lang(fa) body *,
+html[dir="rtl"] body * {
+	letter-spacing: normal !important;
+}
+
+/* Persian letters reach higher and lower than Latin ones; a line height made for Latin text clips
+   the dots and the tails. */
+html[dir="rtl"] .sidebar-item-label,
+html[dir="rtl"] .standard-sidebar-label,
+html[dir="rtl"] .ellipsis,
+html[dir="rtl"] .btn,
+html[dir="rtl"] .dropdown-item,
+html[dir="rtl"] .page-title .title-text,
+html[dir="rtl"] .widget-title,
+html[dir="rtl"] .number-card-title,
+html[dir="rtl"] .control-label,
+html[dir="rtl"] .form-control,
+html[dir="rtl"] .dt-cell__content,
+html[dir="rtl"] .list-row .level-item,
+html[dir="rtl"] .indicator-pill {
+	line-height: 1.6;
+}
+
+/* A number wider than its report column overflowed on the left in right-to-left pages, which hid
+   its leading digits (3,038,000,000 showed as 038,000,000). Numbers are laid out left-to-right, so
+   the leading digits stay and the end is cut with an ellipsis; the full value is in the tooltip. */
+html[dir="rtl"] .dt-cell__content > div[style*="text-align: right"] {
+	direction: ltr;
+	text-align: right;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
