@@ -39,6 +39,7 @@ app_include_js = [
 	"/assets/iran_erp/js/jalaali_core.js",
 	"/assets/iran_erp/js/jalali.js",
 	"/assets/iran_erp/js/charts.js",
+	"/assets/iran_erp/js/tables.js",
 	"/assets/iran_erp/js/ai_assistant.js",
 	"/assets/iran_erp/js/inbox.js",
 	"/assets/iran_erp/js/record_names.js",
@@ -116,6 +117,9 @@ after_migrate = [
 	"iran_erp.install.mark_translated_doctypes",
 	"iran_erp.install.apply_branding",
 	"iran_erp.install.fix_upstream_reports",
+	"iran_erp.install.jalali_fiscal_year_names",
+	"iran_erp.install.translate_company_records",
+	"iran_erp.accounts.categories.persian_descriptions",
 	"iran_erp.install.clear_translation_cache",
 ]
 
@@ -180,7 +184,10 @@ doc_events = {
 	"Supplier": {"validate": "iran_erp.validations.validate_iranian_ids"},
 	"Company": {
 		"validate": "iran_erp.validations.validate_iranian_ids",
-		"on_update": "iran_erp.accounts.chart.on_company_update",
+		"on_update": [
+			"iran_erp.accounts.chart.on_company_update",
+			"iran_erp.install.on_company_update",
+		],
 	},
 }
 

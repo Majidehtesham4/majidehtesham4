@@ -19,6 +19,7 @@
 		"بهمن",
 		"اسفند",
 	];
+	const GREGORIAN_FA = ["ژانویه", "فوریه", "مارس", "آوریل", "مه", "ژوئن", "ژوئیه", "اوت", "سپتامبر", "اکتبر", "نوامبر", "دسامبر"];
 	const persian = (text) => String(text).replace(/\d/g, (d) => PERSIAN_DIGITS[d]);
 	const pad2 = (n) => String(n).padStart(2, "0");
 
@@ -61,8 +62,15 @@
 		text = text.replace(MONTH_DAY, (match, mon, d, y) => {
 			return jalali(full_year(y), MONTHS_EN.indexOf(mon) + 1, Number(d)) || match;
 		});
+		// A month with no day («Jun 2026», the ends of a fiscal quarter) cannot be put in a Jalali
+		// month; it gets the Persian name of the Gregorian month
+		text = text.replace(MONTH_YEAR, (match, mon, y) => `${GREGORIAN_FA[MONTHS_EN.indexOf(mon)]} ${y}`);
+		// «Q1: 1405» is the first quarter of the fiscal year
+		text = text.replace(/^Q([1-4]):\s*/, (match, q) => `فصل ${q}: `);
 		return text;
 	}
+
+	const MONTH_YEAR = /\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+'?(\d{2,4})\b/g;
 
 	// The calendar of the date picker is Gregorian; its English day and month names get Persian ones
 	const CALENDAR_WORDS = {

@@ -30,4 +30,17 @@ $(document).on("app_ready", () => {
 		};
 	}
 
+
+	// And as the record's name at the top of the form's side panel
+	frappe.ui.form.on("*", {
+		refresh(frm) {
+			if (!iran_erp.names.is_translated(frm.doctype) || frm.is_new()) return;
+			const translated = __(frm.doc.name);
+			if (translated === frm.doc.name) return;
+			$(frm.wrapper)
+				.find(".form-title-text .ellipsis")
+				.filter((_, el) => el.textContent.trim() === frm.doc.name)
+				.text(translated);
+		},
+	});
 });

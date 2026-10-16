@@ -13,4 +13,7 @@ RUN cd /home/frappe/frappe-bench \
 	# The image keeps built assets in ../assets; sites/assets is only linked to it at runtime
 	&& ln -sfn /home/frappe/frappe-bench/assets sites/assets \
 	&& bench build --app iran_erp \
+	# The Persian translations, compiled into the image so that every container (web, workers,
+	# scheduler) has them; a worker without them rebuilt the shared translation cache without them
+	&& bench compile-po-to-mo --app iran_erp --force \
 	&& rm sites/assets

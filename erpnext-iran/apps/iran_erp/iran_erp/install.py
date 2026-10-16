@@ -122,6 +122,12 @@ TRANSLATED_DOCTYPES = (
 	"Gender",
 	"Print Heading",
 	"Print Format",
+	"Account Category",
+	"Financial Report Template",
+	"Warehouse",
+	"Department",
+	"Cost Center",
+	"UOM Category",
 )
 
 
@@ -189,3 +195,81 @@ def fix_upstream_reports():
 	query = frappe.db.get_value("Report", "Review", "query") or ""
 	if "document_type" in query and frappe.db.has_column("Quality Action", "review"):
 		frappe.db.set_value("Report", "Review", "query", REVIEW_REPORT_QUERY, update_modified=False)
+
+
+def jalali_fiscal_year_names():
+	"""A fiscal year that runs exactly from 1 Farvardin to the end of Esfand but has a Gregorian
+	name («2026-2027», made by ERPNext's setup) is renamed to its Jalali year («1405»)."""
+	import re
+
+	import jdatetime
+
+	from iran_erp.utils.jalali import jalali_year_bounds
+
+	for year in frappe.get_all("Fiscal Year", fields=["name", "year_start_date", "year_end_date"]):
+		if not re.fullmatch(r"\d{4}(-\d{4})?", year.name) or 1300 < int(year.name[:4]) < 1500:
+			continue
+		jalali_year = jdatetime.date.fromgregorian(date=year.year_start_date).year
+		start, end = jalali_year_bounds(jalali_year)
+		new_name = str(jalali_year)
+		if (start, end) != (year.year_start_date, year.year_end_date) or frappe.db.exists(
+			"Fiscal Year", new_name
+		):
+			continue
+		frappe.rename_doc("Fiscal Year", year.name, new_name, force=True, show_alert=False)
+		frappe.db.set_value("Fiscal Year", new_name, "year", new_name, update_modified=False)
+
+
+# Records ERPNext makes for every company under English names with the company's abbreviation
+# («Stores - ST», «Accounts - ST», «Main - ST»). Their names differ per company, so their Persian
+# names are added as translations for each company on migrate.
+COMPANY_RECORDS = {
+	"Warehouse": {
+		"All Warehouses": "همه‌ی انبارها",
+		"Stores": "انبار اصلی",
+		"Finished Goods": "انبار کالای ساخته‌شده",
+		"Work In Progress": "انبار کالای در جریان ساخت",
+		"Goods In Transit": "کالای در راه",
+	},
+	"Department": {
+		"All Departments": "همه‌ی بخش‌ها",
+		"Accounts": "حسابداری",
+		"Marketing": "بازاریابی",
+		"Sales": "فروش",
+		"Purchase": "خرید",
+		"Operations": "عملیات",
+		"Production": "تولید",
+		"Dispatch": "ارسال",
+		"Customer Service": "خدمات مشتریان",
+		"Human Resources": "منابع انسانی",
+		"Management": "مدیریت",
+		"Quality Management": "مدیریت کیفیت",
+		"Research & Development": "تحقیق و توسعه",
+		"Legal": "حقوقی",
+	},
+	"Cost Center": {"Main": "اصلی"},
+}
+
+
+def translate_company_records():
+	for abbr in frappe.get_all("Company", pluck="abbr"):
+		for doctype, names in COMPANY_RECORDS.items():
+			for english, persian in names.items():
+				source = f"{english} - {abbr}"
+				if not frappe.db.exists(doctype, source):
+					continue
+				if frappe.db.exists("Translation", {"language": "fa", "source_text": source}):
+					continue
+				frappe.get_doc(
+					{
+						"doctype": "Translation",
+						"language": "fa",
+						"source_text": source,
+						"translated_text": f"{persian} - {abbr}",
+					}
+				).insert(ignore_permissions=True)
+
+
+def on_company_update(doc, method=None):
+	"""A new company's warehouses, departments and cost center get their Persian names too."""
+	translate_company_records()

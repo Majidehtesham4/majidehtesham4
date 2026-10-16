@@ -18663,3 +18663,159 @@ msgstr "تراز آزمایشی - استاندارد"
 
 msgid "finished"
 msgstr "تمام‌شده"
+
+msgid "Cash and Cash Equivalents"
+msgstr "وجه نقد و معادل‌های نقد"
+
+msgid "Trade Receivables"
+msgstr "دریافتنی‌های تجاری"
+
+msgid "Other Receivables"
+msgstr "سایر دریافتنی‌ها"
+
+msgid "Stock Assets"
+msgstr "موجودی مواد و کالا"
+
+msgid "Short-term Investments"
+msgstr "سرمایه‌گذاری‌های کوتاه‌مدت"
+
+msgid "Other Current Assets"
+msgstr "سایر دارایی‌های جاری"
+
+msgid "Tangible Assets"
+msgstr "دارایی‌های ثابت مشهود"
+
+msgid "Intangible Assets"
+msgstr "دارایی‌های نامشهود"
+
+msgid "Long-term Investments"
+msgstr "سرمایه‌گذاری‌های بلندمدت"
+
+msgid "Other Non-current Assets"
+msgstr "سایر دارایی‌های غیرجاری"
+
+msgid "Trade Payables"
+msgstr "پرداختنی‌های تجاری"
+
+msgid "Other Payables"
+msgstr "سایر پرداختنی‌ها"
+
+msgid "Short-term Borrowings"
+msgstr "تسهیلات مالی کوتاه‌مدت"
+
+msgid "Current Tax Liabilities"
+msgstr "مالیات پرداختنی"
+
+msgid "Other Current Liabilities"
+msgstr "سایر بدهی‌های جاری"
+
+msgid "Long-term Borrowings"
+msgstr "تسهیلات مالی بلندمدت"
+
+msgid "Other Non-current Liabilities"
+msgstr "سایر بدهی‌های غیرجاری"
+
+msgid "Share Capital"
+msgstr "سرمایه"
+
+msgid "Reserves and Surplus"
+msgstr "اندوخته‌ها و سود انباشته"
+
+msgid "Revenue from Operations"
+msgstr "درآمدهای عملیاتی"
+
+msgid "Other Operating Income"
+msgstr "سایر درآمدهای عملیاتی"
+
+msgid "Investment Income"
+msgstr "درآمد سرمایه‌گذاری‌ها"
+
+msgid "Cost of Goods Sold"
+msgstr "بهای تمام‌شده‌ی کالای فروش‌رفته"
+
+msgid "Other Direct Costs"
+msgstr "سایر هزینه‌های مستقیم"
+
+msgid "Operating Expenses"
+msgstr "هزینه‌های عملیاتی"
+
+msgid "Finance Costs"
+msgstr "هزینه‌های مالی"
+
+msgid "Standard Balance Sheet (IFRS)"
+msgstr "ترازنامه‌ی استاندارد (IFRS)"
+
+msgid "Standard Cash Flow Statement (IFRS)"
+msgstr "صورت جریان وجوه نقد استاندارد (IFRS)"
+
+msgid "Standard Profit and Loss (IFRS)"
+msgstr "صورت سود و زیان استاندارد (IFRS)"
+
+msgid "Horizontal Balance Sheet (Columnar)"
+msgstr "ترازنامه‌ی افقی (ستونی)"
+
+msgid "Horizontal Profit and Loss (Columnar)"
+msgstr "سود و زیان افقی (ستونی)"
+
+msgid "Financial Ratios Analysis"
+msgstr "تحلیل نسبت‌های مالی"
+
+msgid "This Fiscal Year"
+msgstr "سال مالی جاری"
+
+msgid "Last Fiscal Year"
+msgstr "سال مالی گذشته"
+
+msgid "Magnetic Induction"
+msgstr "القای مغناطیسی"
+
+msgid "Speed"
+msgstr "سرعت"
+
+msgid "Frequency and Wavelength"
+msgstr "بسامد و طول موج"
+
+msgid "Density"
+msgstr "چگالی"
+
+msgid "Temperature"
+msgstr "دما"
+
+msgid "Mass"
+msgstr "جرم"
+
+msgid "Power"
+msgstr "توان"
+
+msgid "Volume"
+msgstr "حجم"
+
+msgid "Length"
+msgstr "طول"
+
+msgid "Area"
+msgstr "مساحت"
+
+msgid "Time"
+msgstr "زمان"
+
+msgid "Pressure"
+msgstr "فشار"
+
+msgid "Energy"
+msgstr "انرژی"
+
+msgid "Force"
+msgstr "نیرو"
+
+msgid "Electric Current"
+msgstr "جریان الکتریکی"
+
+msgid "Electrical Charge"
+msgstr "بار الکتریکی"
+
+msgid "Agriculture"
+msgstr "کشاورزی"
+
+msgid "Very Poor"
+msgstr "بسیار ضعیف"

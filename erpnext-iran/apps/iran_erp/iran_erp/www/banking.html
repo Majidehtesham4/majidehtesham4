@@ -1,3 +1,11 @@
 {% include "erpnext/www/banking.html" %}
+<link rel="stylesheet" href="/assets/iran_erp/css/persian_text.css">
+<style>
+	/* The Banking page sets its own font; Persian letters and digits get Vazirmatn here too */
+	html[dir="rtl"] body,
+	html[dir="rtl"] #root {
+		font-family: "Vazirmatn Digits", "InterVariable", "Inter", "Vazirmatn NL", sans-serif;
+	}
+</style>
 <script src="/assets/iran_erp/js/jalaali_core.js"></script>
 <script src="/assets/iran_erp/js/banking_page.js"></script>
