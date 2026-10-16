@@ -56,6 +56,15 @@ iran_erp.tables.cell_text = function (column, value, row) {
 	return typeof value === "object" ? iran_erp.tables.text(value.content ?? "") : String(value);
 };
 
+// Amount columns are headed with the currency's code («بدهکار (IRR)»); the rial is named in Persian
+iran_erp.tables.currency_label = function (column) {
+	const fixed = { ...column };
+	["name", "label", "content"].forEach((key) => {
+		if (typeof fixed[key] === "string") fixed[key] = fixed[key].replace(/\(IRR\)/g, "(ریال)");
+	});
+	return fixed;
+};
+
 iran_erp.tables.fit = function (wrapper, options) {
 	const columns = options && options.columns;
 	const data = (options && options.data) || [];
@@ -90,7 +99,7 @@ iran_erp.tables.fit = function (wrapper, options) {
 
 	options.columns = columns.map((column, i) => {
 		if (widths[i] === null) return column;
-		return { ...column, width: Math.floor(widths[i] * scale) };
+		return { ...T.currency_label(column), width: Math.floor(widths[i] * scale) };
 	});
 	return options;
 };
@@ -133,6 +142,20 @@ iran_erp.tables.wrap = function (Base) {
 			};
 			Style.iran_row_index = true;
 		}
+		// Columns without an alignment are set to the left, where a Persian page starts on the right:
+		// text there began at the far side of its column
+		if (!Style.iran_rtl_align) {
+			const set_column_style = Style.setColumnStyle;
+			Style.setColumnStyle = function () {
+				if (document.documentElement.dir === "rtl") {
+					this.datamanager.getColumns().forEach((column) => {
+						if (!column.align || column.align === "left") column.align = "right";
+					});
+				}
+				return set_column_style.call(this);
+			};
+			Style.iran_rtl_align = true;
+		}
 		probe.destroy && probe.destroy();
 	} catch (e) {
 		// The row numbers keep the table's own width
@@ -156,3 +179,118 @@ iran_erp.tables.wrap = function (Base) {
 		});
 	}
 })();
+
+// Lists (/desk/<doctype>) are not tables: each row is a line of boxes, most of them sharing the width
+// equally, so a short date had room to spare while the name and the ID beside it were cut. Each
+// column is measured at the width of its widest box and the room left on the page is shared out
+// in proportion; the list scrolls sideways only when its content really is wider than the page. A
+// width the user set by dragging a column's edge is kept.
+iran_erp.tables.LIST_MAX_WIDTH = 460;
+
+iran_erp.tables.LIST_MIN_CAP = 160;
+
+// The widest a column may be for all of them to fit in the room there is, no narrower than
+// LIST_MIN_CAP: columns wider than that give up the difference
+iran_erp.tables.list_cap = function (widths, available) {
+	const sorted = [...widths].sort((a, b) => b - a);
+	let rest = widths.reduce((sum, w) => sum + w, 0);
+	for (let i = 0; i < sorted.length; i++) {
+		rest -= sorted[i];
+		// The first i+1 columns at the same cap, the rest as they are
+		const cap = (available - rest) / (i + 1);
+		if (cap >= (sorted[i + 1] || 0)) return Math.max(iran_erp.tables.LIST_MIN_CAP, Math.floor(cap));
+	}
+	return iran_erp.tables.LIST_MIN_CAP;
+};
+
+iran_erp.tables.fit_list = function (listview) {
+	const result = listview.$result && listview.$result[0];
+	if (!result || !result.offsetParent || frappe.is_mobile()) return;
+	const manual = new Set(
+		(listview.columns || [])
+			.filter((col) => col.df && cint(col.df.width))
+			.map((col) => (col.type === "Status" ? "status_field" : col.df.fieldname))
+	);
+	const cells = [...result.querySelectorAll(".level-left .list-row-col[data-fieldname]")].filter(
+		(el) => el.dataset.fieldname && el.dataset.fieldname !== "undefined" && !manual.has(el.dataset.fieldname)
+	);
+	if (!cells.length) return;
+
+	// Every box at the width of its content, measured in one pass
+	result.classList.add("iran-list-measure");
+	const widths = {};
+	cells.forEach((el) => {
+		const name = el.dataset.fieldname;
+		widths[name] = Math.max(widths[name] || 0, Math.ceil(el.getBoundingClientRect().width) + 4);
+	});
+	result.classList.remove("iran-list-measure");
+
+	const head = result.querySelector(".list-row-head");
+	const left = head && head.querySelector(".level-left");
+	const right = head && head.querySelector(".level-right");
+	if (!head || !left) return;
+	const style = getComputedStyle(head);
+	const first = left.querySelector(".list-row-col");
+	const gap = first ? parseFloat(getComputedStyle(first).marginLeft) + parseFloat(getComputedStyle(first).marginRight) : 15;
+	// Columns the measure leaves alone keep their room: a user's own widths in full, the others
+	// (the button and tag columns, which take what is left over) only their spacing
+	let fixed = 0;
+	left.querySelectorAll(":scope > .list-row-col").forEach((el) => {
+		const name = el.dataset.fieldname;
+		if (name in widths || !el.offsetWidth) return;
+		fixed += (manual.has(name) ? el.getBoundingClientRect().width : 0) + gap;
+	});
+	// The list grows past the page to fit wide columns, so the page is the box it scrolls in
+	const page = result.closest(".result-container") || result;
+	const available =
+		page.clientWidth -
+		parseFloat(style.paddingLeft) -
+		parseFloat(style.paddingRight) -
+		(right ? right.getBoundingClientRect().width : 0) -
+		fixed -
+		Object.keys(widths).length * gap -
+		8;
+	const total = Object.values(widths).reduce((sum, w) => sum + w, 0);
+	let cap = iran_erp.tables.LIST_MAX_WIDTH;
+	if (available > 0 && total > available) {
+		// A little too wide: the longest columns (long account names) give up the difference, so the
+		// short ones beside them (the ID) stay in sight; much too wide and the list scrolls
+		cap = iran_erp.tables.list_cap(Object.values(widths), available);
+	}
+	const capped = Object.values(widths).reduce((sum, w) => sum + Math.min(w, cap), 0);
+	const scale = available > 0 && capped > 0 && capped < available ? available / capped : 1;
+	Object.entries(widths).forEach(([name, width]) => {
+		listview.column_max_widths[name] = Math.floor(Math.min(width, cap) * scale);
+	});
+};
+
+$(document).on("app_ready", () => {
+	const list = frappe.views.ListView && frappe.views.ListView.prototype;
+	if (!list || list.iran_fitted) return;
+	list.iran_fitted = true;
+	const apply_column_widths = list.apply_column_widths;
+	list.apply_column_widths = function () {
+		if (!this.list_view_settings?.disable_scrolling) {
+			try {
+				iran_erp.tables.fit_list(this);
+			} catch (e) {
+				// The list keeps its own widths
+			}
+		}
+		apply_column_widths.call(this);
+		// Measured before the Persian font arrived, the text was wider than it will be drawn
+		if (document.fonts && document.fonts.status !== "loaded" && !this.iran_fonts_wait) {
+			this.iran_fonts_wait = true;
+			document.fonts.ready.then(() => this.apply_column_widths());
+		}
+		// The list's own limit is narrower than a long name may need
+		if (this.list_view_settings?.disable_scrolling) return;
+		Object.entries(this.column_max_widths).forEach(([name, width]) => {
+			if (width <= 400) return;
+			this.$result.find(`.level-left .list-row-col[data-fieldname="${name}"]`).css({
+				width,
+				flex: `0 0 ${width}px`,
+			});
+		});
+	};
+});

@@ -400,12 +400,6 @@
 .iran-help-ai {
 	margin-top: 16px;
 }
-.iran-help-highlight {
-	outline: 2px solid #7c3aed;
-	outline-offset: 4px;
-	border-radius: 6px;
-	transition: outline 0.3s;
-}
 .iran-help-saved {
 	border-inline-start: 3px solid #7c3aed;
 	padding-inline-start: 10px;
@@ -726,4 +720,210 @@
 	width: 10px;
 	height: 10px;
 	border-radius: 3px;
+}
+
+/* About dialog (brand.js) */
+.iran-about {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	text-align: right;
+}
+.iran-about-head {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+.iran-about-logo {
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	flex-shrink: 0;
+}
+.iran-about-name {
+	font-size: 20px;
+	font-weight: 700;
+	color: var(--heading-color, var(--text-color));
+}
+.iran-about-tagline {
+	color: var(--text-muted);
+	margin-top: 2px;
+}
+.iran-about-version {
+	display: inline-block;
+	margin-top: 6px;
+	padding: 1px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	background: var(--subtle-fg, var(--bg-light-gray));
+	color: var(--text-muted);
+}
+.iran-about-features {
+	margin: 0;
+	padding-right: 20px;
+	padding-left: 0;
+	line-height: 1.9;
+}
+.iran-about-rows {
+	border: 1px solid var(--border-color);
+	border-radius: var(--border-radius-md, 8px);
+}
+.iran-about-row {
+	display: flex;
+	gap: 12px;
+	padding: 8px 12px;
+}
+.iran-about-row + .iran-about-row {
+	border-top: 1px solid var(--border-color);
+}
+.iran-about-label {
+	min-width: 90px;
+	color: var(--text-muted);
+}
+.iran-about-legal,
+.iran-about-copy {
+	font-size: 12px;
+	color: var(--text-muted);
+}
+
+/* Help panel: toolbar, guide sections, the box around the part being explained, the tour */
+.iran-help-panel-right {
+	left: auto;
+	right: 16px;
+}
+.iran-help-toolbar {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+	padding: 8px 14px;
+	border-bottom: 1px solid var(--border-color);
+}
+.iran-help-toolbar .iran-help-tour-start {
+	white-space: nowrap;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+.iran-help-toolbar .iran-help-search {
+	flex: 1;
+	min-width: 0;
+}
+.iran-help-list {
+	padding-inline-start: 18px;
+	margin: 0;
+}
+.iran-help-mistakes .iran-help-section-title::before {
+	content: "⚠ ";
+	color: var(--orange-500, #f59e0b);
+}
+.iran-help-tips .iran-help-section-title::before {
+	content: "💡 ";
+}
+.iran-help-before .iran-help-section-title::before {
+	content: "✔ ";
+	color: var(--green-500, #22c55e);
+}
+.iran-help-group[data-target] {
+	cursor: pointer;
+	border-radius: 6px;
+	padding: 2px 6px;
+}
+.iran-help-group[data-target]:hover,
+.iran-help-group.active,
+.iran-help-item.active {
+	background: rgba(124, 58, 237, 0.08);
+}
+.iran-help-item-label .icon {
+	opacity: 0.45;
+}
+.iran-help-related {
+	cursor: pointer;
+	text-decoration: none !important;
+}
+.iran-help-related:hover {
+	background: rgba(124, 58, 237, 0.12);
+}
+.iran-help-back {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	margin-bottom: 8px;
+	font-size: 12px;
+}
+.iran-help-frame {
+	position: fixed;
+	z-index: 1035;
+	pointer-events: none;
+	border: 3px solid #7c3aed;
+	border-radius: 10px;
+	box-shadow:
+		0 0 0 4px rgba(124, 58, 237, 0.25),
+		0 0 18px rgba(124, 58, 237, 0.45);
+	animation: iran-help-pulse 1.4s ease-in-out 2;
+}
+.iran-help-touring .iran-help-frame {
+	z-index: 1060;
+	box-shadow:
+		0 0 0 4px rgba(124, 58, 237, 0.25),
+		0 0 0 9999px rgba(15, 23, 42, 0.45);
+	animation: none;
+}
+.iran-help-frame-label {
+	position: absolute;
+	top: -26px;
+	right: -3px;
+	background: #7c3aed;
+	color: #fff;
+	font-size: 12px;
+	line-height: 1.6;
+	padding: 1px 10px;
+	border-radius: 6px 6px 0 0;
+	white-space: nowrap;
+}
+@keyframes iran-help-pulse {
+	0%,
+	100% {
+		box-shadow:
+			0 0 0 4px rgba(124, 58, 237, 0.25),
+			0 0 18px rgba(124, 58, 237, 0.45);
+	}
+	50% {
+		box-shadow:
+			0 0 0 10px rgba(124, 58, 237, 0.12),
+			0 0 28px rgba(124, 58, 237, 0.6);
+	}
+}
+.iran-help-tour-bubble {
+	position: fixed;
+	z-index: 1061;
+	width: min(340px, calc(100vw - 16px));
+	background: var(--card-bg, #fff);
+	color: var(--text-color);
+	border-radius: 12px;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+	padding: 12px 14px;
+	line-height: 1.8;
+	text-align: right;
+}
+.iran-help-tour-count {
+	font-size: 11px;
+	color: var(--text-muted);
+}
+.iran-help-tour-title {
+	font-weight: 700;
+	margin: 2px 0 4px;
+}
+.iran-help-tour-text {
+	font-size: 13px;
+}
+.iran-help-tour-buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 10px;
+	gap: 6px;
+}
+.iran-help-tour-buttons span {
+	display: inline-flex;
+	gap: 6px;
 }

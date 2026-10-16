@@ -38,6 +38,8 @@ app_include_css = ["/assets/iran_erp/css/persian_text.css", "/assets/iran_erp/cs
 app_include_js = [
 	"/assets/iran_erp/js/jalaali_core.js",
 	"/assets/iran_erp/js/jalali.js",
+	"/assets/iran_erp/js/money.js",
+	"/assets/iran_erp/js/brand.js",
 	"/assets/iran_erp/js/charts.js",
 	"/assets/iran_erp/js/tables.js",
 	"/assets/iran_erp/js/ai_assistant.js",
@@ -116,6 +118,7 @@ after_migrate = [
 	"iran_erp.desktop.add_iran_icons",
 	"iran_erp.install.mark_translated_doctypes",
 	"iran_erp.install.apply_branding",
+	"iran_erp.install.setup_rial",
 	"iran_erp.install.fix_upstream_reports",
 	"iran_erp.install.jalali_fiscal_year_names",
 	"iran_erp.install.translate_company_records",
@@ -252,12 +255,16 @@ override_whitelisted_methods = {
 # Request Events
 # ----------------
 # Jalali months in period reports (Sales Analytics, Trends, financial statements)
-before_request = ["iran_erp.overrides.jalali_periods.apply"]
+before_request = [
+	"iran_erp.overrides.jalali_periods.apply",
+	"iran_erp.overrides.money.apply",
+	"iran_erp.overrides.translations.site_language_for_guests",
+]
 # after_request = ["iran_erp.utils.after_request"]
 
 # Job Events
 # ----------
-before_job = ["iran_erp.overrides.jalali_periods.apply"]
+before_job = ["iran_erp.overrides.jalali_periods.apply", "iran_erp.overrides.money.apply"]
 # after_job = ["iran_erp.utils.after_job"]
 
 # User Data Protection

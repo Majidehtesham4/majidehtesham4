@@ -108,3 +108,11 @@ html[dir="rtl"] button {
 .dt-cell .dt-cell__content:has(> input[type="checkbox"]) {
 	overflow: visible;
 }
+
+/* Lists: each column measured at the width of its content (tables.js, fit_list) */
+.iran-list-measure .level-left .list-row-col[data-fieldname] {
+	flex: 0 0 auto !important;
+	width: auto !important;
+	min-width: 0 !important;
+	max-width: none !important;
+}

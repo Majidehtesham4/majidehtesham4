@@ -17,6 +17,7 @@ def boot_session(bootinfo):
 	bootinfo.iran_jalali_input = jalali_input is None or bool(int(jalali_input))
 	start_page = frappe.db.get_singles_dict("Iran ERP Settings").get("open_start_page")
 	bootinfo.iran_open_start_page = start_page is None or bool(int(start_page))
+	bootinfo.iran_version = frappe.get_attr("iran_erp.__version__")
 	_rebrand_apps(bootinfo)
 
 

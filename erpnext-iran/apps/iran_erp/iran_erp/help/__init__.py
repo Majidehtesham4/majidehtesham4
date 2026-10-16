@@ -3,6 +3,7 @@
 import frappe
 from frappe import _
 
+from iran_erp.help import content
 from iran_erp.help.guides import DOCTYPES, EXAMPLES, FIELD_TYPES, REPORT_EXAMPLES, REPORTS, WORKSPACES
 
 KINDS = ("doctype", "report", "workspace")
@@ -36,9 +37,20 @@ def get_guide(kind: str, name: str) -> dict:
 	return guide
 
 
+def _merge(short: dict | None, full: dict | None) -> dict:
+	"""The short guide of guides.py with the complete one of help/content laid over it."""
+	guide = dict(short or {})
+	for key, value in (full or {}).items():
+		if key == "fields":
+			guide["fields"] = {**(guide.get("fields") or {}), **value}
+		elif value:
+			guide[key] = value
+	return guide
+
+
 def _builtin_guide(kind: str, name: str) -> dict:
 	if kind == "doctype":
-		guide = dict(DOCTYPES.get(name) or {})
+		guide = _merge(DOCTYPES.get(name), content.GUIDES.get(name))
 		guide.setdefault("example", EXAMPLES.get(name))
 		if frappe.db.exists("DocType", name):
 			meta = frappe.get_meta(name)
@@ -49,7 +61,7 @@ def _builtin_guide(kind: str, name: str) -> dict:
 			guide["is_submittable"] = meta.is_submittable
 		return guide
 	if kind == "report":
-		guide = dict(REPORTS.get(name) or {})
+		guide = _merge(REPORTS.get(name), content.REPORTS.get(name))
 		guide.setdefault("example", REPORT_EXAMPLES.get(name))
 		if not guide.get("about") and frappe.db.exists("Report", name):
 			ref = frappe.db.get_value("Report", name, "ref_doctype")
@@ -57,7 +69,8 @@ def _builtin_guide(kind: str, name: str) -> dict:
 				guide["about"] = _("This report is based on {0} documents.").format(_(ref))
 		return guide
 	if kind == "workspace":
-		return {"about": WORKSPACES.get(name) or WORKSPACES.get(name.title())}
+		short = {"about": WORKSPACES.get(name) or WORKSPACES.get(name.title())}
+		return _merge(short, content.WORKSPACES.get(name) or content.WORKSPACES.get(name.title()))
 	return {}
 
 

@@ -73,12 +73,18 @@ def get_custom_fields():
 
 
 def setup_rial():
-	"""The rial has no subunit in practice, so show and round IRR amounts without decimals."""
+	"""The rial has no subunit in practice, so show and round IRR amounts without decimals.
+
+	Amounts are written as Iranian accounting writes them: the number, then the word «ریال»
+	(«۳۵٬۰۰۰ ریال»), rather than the ligature sign «﷼» before the number.
+	"""
 	if frappe.db.exists("Currency", "IRR"):
 		frappe.db.set_value(
 			"Currency",
 			"IRR",
 			{
+				"symbol": "ریال",
+				"symbol_on_right": 1,
 				"number_format": "#,###",
 				"fraction": "",
 				"fraction_units": 0,
@@ -150,6 +156,7 @@ def mark_translated_doctypes():
 
 BRAND = "ERP-VERON"
 BRAND_LOGO = "/assets/iran_erp/images/erp-veron-logo.svg"
+BRAND_WEBSITE = "https://erpveron.com"
 # Values that are still the stock ones and can be replaced; anything else was set by the user
 STOCK_NAMES = {None, "", "ERPNext", "Frappe", "Frappe Framework"}
 
@@ -173,6 +180,13 @@ def apply_branding():
 			frappe.db.set_single_value("Website Settings", field, value)
 	if not frappe.db.get_single_value("Navbar Settings", "app_logo"):
 		frappe.db.set_single_value("Navbar Settings", "app_logo", BRAND_LOGO)
+	# The Help menu's link to the framework makers' support site leads to the product's website
+	for item in frappe.get_all(
+		"Navbar Item",
+		filters={"parent": "Navbar Settings", "route": ["like", "%frappe.io%"]},
+		pluck="name",
+	):
+		frappe.db.set_value("Navbar Item", item, {"item_label": "ERP-VERON Website", "route": BRAND_WEBSITE})
 
 
 # ERPNext's «Review» report (Quality) reads Quality Action.document_type, a column the doctype no

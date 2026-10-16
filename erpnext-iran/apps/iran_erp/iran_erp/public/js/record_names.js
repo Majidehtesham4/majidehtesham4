@@ -44,3 +44,37 @@ $(document).on("app_ready", () => {
 		},
 	});
 });
+
+// Report columns that name a document type («Voucher Type»: "Payment Entry", "Sales Invoice") show
+// the stored English name; it is shown as the Persian name of the type
+(function () {
+	const formatters = frappe.form && frappe.form.formatters;
+	if (!formatters || formatters.Data.iran_doctypes) return;
+	const FIELDS = /(^|_)(voucher_type|doctype|document_type|reference_type|party_type|ref_type)$/;
+	const is_doctype = (value) =>
+		typeof value === "string" &&
+		value &&
+		frappe.boot.user &&
+		(frappe.boot.user.can_read || []).includes(value);
+
+	const Data = formatters.Data;
+	formatters.Data = function (value, docfield, options, doc) {
+		if (docfield && FIELDS.test(docfield.fieldname || "") && is_doctype(value)) value = __(value);
+		return Data.call(this, value, docfield, options, doc);
+	};
+	Object.assign(formatters.Data, Data, { iran_doctypes: true });
+
+	// A link to the type itself keeps its address; only the text shown changes
+	const Link = formatters.Link;
+	formatters.Link = function (value, docfield, options, doc) {
+		const html = Link.call(this, value, docfield, options, doc);
+		if (!docfield || docfield.options !== "DocType" || !is_doctype(value) || typeof html !== "string") {
+			return html;
+		}
+		const translated = __(value);
+		if (translated === value) return html;
+		if (!html.includes("<")) return html === value ? translated : html;
+		return html.replace(`>${frappe.utils.escape_html(value)}<`, `>${frappe.utils.escape_html(translated)}<`);
+	};
+	Object.assign(formatters.Link, Link);
+})();

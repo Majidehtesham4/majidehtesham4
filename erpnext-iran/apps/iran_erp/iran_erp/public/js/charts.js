@@ -270,7 +270,15 @@ iran_erp.jaalali_ready = () => !!(iran_erp.jalaali && iran_erp.to_persian_digits
 	const SIZE = /^(.*?)(-?[\d.,٬]+)(.*?)\s+(هزار\u00a0میلیارد|میلیارد|میلیون|هزار)$/;
 	Card.prototype.set_formatted_number = function (...args) {
 		set_formatted_number.apply(this, args);
-		const match = SIZE.exec(String(this.formatted_number || "").trim());
+		const text = String(this.formatted_number || "").trim();
+		// An amount in a currency written after the number (money.js): «۳ میلیارد ریال» as one
+		const sized = /^(.*)\s+(هزار\u00a0میلیارد|میلیارد|میلیون|هزار)$/.exec(text);
+		const amount = sized && iran_erp.money && iran_erp.money.parts(sized[1]);
+		if (amount) {
+			this.formatted_number = iran_erp.money.isolate(amount.number, `${sized[2]} ${amount.words}`);
+			return;
+		}
+		const match = SIZE.exec(text);
 		if (match) {
 			const currency = `${match[1]} ${match[3]}`.trim();
 			this.formatted_number = `${match[2]} ${match[4]}${currency ? " " + currency : ""}`;
