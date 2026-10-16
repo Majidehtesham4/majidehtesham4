@@ -231,7 +231,8 @@ class TestExplain(IntegrationTestCase):
 	def test_explain_a_page_in_the_chat(self):
 		reply = handle("آموزش فاکتور فروش")
 		self.assertEqual(reply["intent"], "explain_page")
-		self.assertIn("فاکتور فروش سند فروش", reply["answer"])
+		self.assertIn("فاکتور فروش سند", reply["answer"])
+		self.assertIn("اشتباه‌های رایج", reply["answer"])
 
 
 class TestRecipes(IntegrationTestCase):

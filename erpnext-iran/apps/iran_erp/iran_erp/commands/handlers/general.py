@@ -197,8 +197,16 @@ def explain_page(context):
 		for fieldname, text in list(guide["fields"].items())[:10]:
 			label = _(meta.get_label(fieldname)) if meta and meta.has_field(fieldname) else fieldname
 			lines.append(f"- {label}: {text}")
-	saved = guide.get("saved") or {}
-	if saved.get("status") == "Ready" and saved.get("content"):
-		lines += ["", saved["content"]]
-	lines += ["", _("Every page also has a «Help» button at the top that explains each of its fields.")]
+	if guide.get("after"):
+		lines += ["", "**پس از «ثبت نهایی» چه می‌شود؟**", guide["after"]]
+	if guide.get("mistakes"):
+		lines += ["", "**اشتباه‌های رایج**"] + [f"- {text}" for text in guide["mistakes"]]
+	if guide.get("example"):
+		lines += ["", f"**{_('Example')}:** {guide['example']}"]
+	lines += [
+		"",
+		_("Every page also has a «Help» button at the top that explains each of its fields.")
+		+ " "
+		+ "«تور قدم‌به‌قدم» همان‌جا بخش‌های صفحه را یکی‌یکی نشان می‌دهد.",
+	]
 	return "\n".join(lines)
