@@ -25,14 +25,32 @@ def boot_session(bootinfo):
 	if bootinfo.iran_investor_only:
 		bootinfo.iran_ai_enabled = bootinfo.iran_ai_can_configure = False
 		bootinfo.iran_open_start_page = False
+	# Until the business is described in Easy Setup, an administrator's desk opens there
+	bootinfo.iran_setup_pending = (
+		not bootinfo.iran_investor_only and "System Manager" in frappe.get_roles() and _setup_pending()
+	)
 	_rebrand_apps(bootinfo)
+
+
+def _setup_pending() -> bool:
+	import json
+
+	done = json.loads(frappe.db.get_single_value("Iran Setup", "steps_done") or "[]")
+	return "business" not in done
 
 
 def _rebrand_apps(bootinfo):
 	"""The desk header and app switcher show ERP-VERON instead of ERPNext and Frappe."""
 	from iran_erp.install import BRAND, BRAND_LOGO
 
-	for app in bootinfo.get("app_data") or []:
-		if app.get("app_name") in ("erpnext", "frappe", "iran_erp"):
+	# One icon for the whole system: Frappe's own «Framework» (developer tools, /app/build) would be
+	# a second «ERP-VERON»; it stays reachable by its address
+	bootinfo.app_data = [
+		app
+		for app in bootinfo.get("app_data") or []
+		if app.get("app_name") != "frappe" and (app.get("app_name") != "iran_erp" or app.get("app_route"))
+	]
+	for app in bootinfo.app_data:
+		if app.get("app_name") in ("erpnext", "iran_erp"):
 			app["app_logo_url"] = BRAND_LOGO
 			app["app_title"] = BRAND

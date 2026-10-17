@@ -20803,3 +20803,31 @@ msgstr "باز کردن سایت"
 msgid "Sales Expert"
 msgstr "کارشناس فروش"
 
+
+#. Delete all data, business environments
+msgid "Delete All Data (Start Over)"
+msgstr "حذف همه‌ی اطلاعات (شروع از نو)"
+
+msgid "Every document, customer, supplier, item, car, cheque and contract is deleted and cannot be brought back; numbering starts again from 1 and Easy Setup asks about the business again. The companies, chart of accounts, users and settings stay."
+msgstr "همه‌ی اسناد، مشتری‌ها، تأمین‌کننده‌ها، کالاها، خودروها، چک‌ها و قراردادها حذف می‌شوند و برنمی‌گردند؛ شماره‌گذاری از ۱ شروع می‌شود و «راه‌اندازی آسان» دوباره درباره‌ی کسب‌وکار می‌پرسد. شرکت، کدینگ حساب‌ها، کاربران و تنظیمات می‌مانند."
+
+msgid "To confirm, type «{0}»"
+msgstr "برای تأیید، «{0}» را بنویسید"
+
+msgid "Deleting; this takes a minute or two."
+msgstr "در حال حذف؛ یکی دو دقیقه طول می‌کشد."
+
+msgid "Deleting failed"
+msgstr "حذف انجام نشد"
+
+msgid "{0} records were deleted. The system now opens on Easy Setup."
+msgstr "{0} رکورد حذف شد. حالا برنامه با «راه‌اندازی آسان» باز می‌شود."
+
+msgid "Open Easy Setup"
+msgstr "باز کردن راه‌اندازی آسان"
+
+msgid "Delete All Data"
+msgstr "حذف همه‌ی اطلاعات"
+
+msgid "Type «{0}» to confirm"
+msgstr "برای تأیید «{0}» را بنویسید"

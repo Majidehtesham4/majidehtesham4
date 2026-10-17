@@ -1,5 +1,6 @@
-# Start from zero: deletes ALL data of this installation (database, files, site) and makes a
-# fresh site with the Iranian setup and the car dealership's sample data.
+# Start from zero: deletes ALL data of this installation (database, files, the main site and
+# every business environment) and makes a fresh main site with the Iranian setup, and the car
+# dealership's sample data if asked. For one business's environment use business.ps1 instead.
 #
 #   cd D:\majidehtesham4\erpnext-iran\deploy
 #   powershell -ExecutionPolicy Bypass -File .\reset.ps1
@@ -22,7 +23,7 @@ docker compose down -v --remove-orphans
 $left = docker ps -aq --filter "label=com.docker.compose.project=$project"
 if ($left) { docker rm -f $left | Out-Null }
 
-# Volumes that survived (in use at the time of «down»)
+# Volumes that survived (in use at the time of "down")
 $volumes = docker volume ls -q --filter "label=com.docker.compose.project=$project"
 foreach ($v in $volumes) { docker volume rm -f $v | Out-Null }
 $volumes = docker volume ls -q --filter "label=com.docker.compose.project=$project"
@@ -42,6 +43,12 @@ if ($created.ExitCode -ne 0) {
 	exit 1
 }
 
-Write-Host "Setting up (Persian, Iran, rial, Iranian chart of accounts) and loading the sample data..."
-docker compose exec backend bench --site frontend execute iran_erp.fresh_start.run
+$title = Read-Host "Business name (Persian is fine)"
+if (-not $title) { $title = "ERP-VERON" }
+$demo = Read-Host "Load the car dealership's sample data too? (y/n)"
+$demoFlag = if ($demo -eq "y") { "1" } else { "0" }
+Write-Host "Setting up (Persian, Iran, rial, Iranian chart of accounts)..."
+docker compose exec -T -e "IRAN_COMPANY=$title" -e "IRAN_ABBR=VRN" -e "IRAN_DEMO=$demoFlag" backend `
+	bench --site frontend execute iran_erp.fresh_start.run
 Write-Host "Done. Open the system in the browser, press Ctrl+Shift+R and log in as Administrator."
+Write-Host "The first login opens Easy Setup: choose the kind of business and what it needs."

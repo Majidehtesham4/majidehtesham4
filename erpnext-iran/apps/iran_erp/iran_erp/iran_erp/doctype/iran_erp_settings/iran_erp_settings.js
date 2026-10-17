@@ -40,6 +40,44 @@ frappe.ui.form.on("Iran ERP Settings", {
 			() => demo("delete", __("All demo records will be cancelled and deleted. Continue?")),
 			__("Demo Data")
 		);
+		frm.add_custom_button(
+			__("Delete All Data (Start Over)"),
+			() => {
+				const word = "حذف همه";
+				frappe.prompt(
+					[
+						{
+							fieldtype: "HTML",
+							options: `<p class="text-danger">${__(
+								"Every document, customer, supplier, item, car, cheque and contract is deleted and cannot be brought back; numbering starts again from 1 and Easy Setup asks about the business again. The companies, chart of accounts, users and settings stay."
+							)}</p>`,
+						},
+						{ fieldname: "confirm", fieldtype: "Data", label: __("To confirm, type «{0}»", [word]), reqd: 1 },
+					],
+					({ confirm }) =>
+						frappe.xcall("iran_erp.reset_data.start", { confirm }).then(() => {
+							frappe.show_alert({ message: __("Deleting; this takes a minute or two."), indicator: "blue" }, 20);
+							const wait = () =>
+								frappe.xcall("iran_erp.reset_data.status").then((r) => {
+									if (r.running) return setTimeout(wait, 3000);
+									if (r.error) {
+										frappe.msgprint({ message: r.error, indicator: "red", title: __("Deleting failed") });
+										return;
+									}
+									frappe.msgprint({
+										message: __("{0} records were deleted. The system now opens on Easy Setup.", [r.count]),
+										indicator: "green",
+										primary_action: { label: __("Open Easy Setup"), action: () => (window.location.href = "/desk/iran-easy-setup") },
+									});
+								});
+							setTimeout(wait, 3000);
+						}),
+					__("Delete All Data"),
+					__("Delete")
+				);
+			},
+			__("Demo Data")
+		);
 		frm.add_custom_button(__("Apply Iranian Chart of Accounts"), () => {
 			frappe.prompt(
 				[

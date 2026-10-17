@@ -3,39 +3,39 @@
 	bench --site frontend execute iran_erp.fresh_start.run
 
 On a new, empty site this does what the setup wizard does, with the Iranian choices (Persian,
-Iran, Asia/Tehran, rial, the Iranian chart of accounts, this Jalali year as the fiscal year), and
-then loads the car dealership's sample data. Run on a site already set up, it only loads the
-sample data that is missing.
+Iran, Asia/Tehran, rial, the Iranian chart of accounts, this Jalali year as the fiscal year). The
+first login then opens Easy Setup, which asks about the business and arranges the system for it.
+
+The business's name comes from the IRAN_COMPANY environment variable (the scripts in deploy/ set
+it), so that a Persian name needs no quoting on the command line; IRAN_DEMO=1 also loads the car
+dealership's sample data.
 """
+
+import os
 
 import frappe
 import jdatetime
-from frappe.utils import getdate, nowdate
+from frappe.utils import cint, getdate, nowdate
 
 from iran_erp.accounts.chart import CHART_NAME
 from iran_erp.utils.jalali import jalali_year_bounds
 
 
-def run(
-	company: str = "نمایشگاه خودرو ورون",
-	abbr: str = "VRN",
-	general_demo: bool = False,
-) -> str:
+def run(company: str | None = None, abbr: str | None = None, demo: bool | None = None) -> str:
 	frappe.only_for("System Manager")
+	company = (company or os.environ.get("IRAN_COMPANY") or "شرکت من").strip()
+	abbr = (abbr or os.environ.get("IRAN_ABBR") or "CO").strip().upper()[:5]
+	demo = cint(os.environ.get("IRAN_DEMO")) if demo is None else cint(demo)
 	if not frappe.is_setup_complete():
 		_setup(company, abbr)
 	company = frappe.defaults.get_global_default("company") or company
+	if demo:
+		from iran_erp.iran_dealership.demo import _records, create_dealership_demo
 
-	from iran_erp.iran_dealership.demo import _records, create_dealership_demo
-
-	if general_demo:
-		from iran_erp.demo import create_demo_data
-
-		create_demo_data(company)
-	if not _records():
-		create_dealership_demo(company)
+		if not _records():
+			create_dealership_demo(company)
 	frappe.db.commit()
-	return f"Ready: {company}. Log in as Administrator; the showroom website is at /cars."
+	return f"Ready: {company}"
 
 
 def _setup(company: str, abbr: str):

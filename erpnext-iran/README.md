@@ -75,6 +75,8 @@ docker compose logs -f create-site     # تا ساخت سایت تمام شود
 docker compose exec backend bench --site frontend execute iran_erp.fresh_start.run
 ```
 
+با `-e IRAN_COMPANY=<نام> -e IRAN_DEMO=1` بعد از `exec` نام شرکت و بارگذاری داده‌ی نمونه‌ی نمایشگاه تعیین می‌شود.
+
 روی ویندوز همه‌ی این مراحل با یک اسکریپت انجام می‌شود؛ اسکریپت حجم‌هایی را هم که `down -v` نتوانسته پاک کند
 (چون کانتینری هنوز از آن‌ها استفاده می‌کرد) پاک می‌کند:
 
@@ -82,6 +84,30 @@ docker compose exec backend bench --site frontend execute iran_erp.fresh_start.r
 cd deploy
 powershell -ExecutionPolicy Bypass -File .\reset.ps1
 ```
+
+### محیط جدا برای هر کسب‌وکار
+
+هر کسب‌وکار می‌تواند سایت و پایگاه داده‌ی خودش را داشته باشد، روی آدرس `http://<نام>.localhost:8080` (مرورگر هر
+آدرس `*.localhost` را به همین کامپیوتر می‌فرستد و نیازی به تغییر فایل hosts نیست). سایت اصلی روی
+`http://localhost:8080` دست نمی‌خورد. نام فقط حروف کوچک انگلیسی، عدد و خط تیره است:
+
+```powershell
+cd deploy
+powershell -ExecutionPolicy Bypass -File .\business.ps1 new shop       # http://shop.localhost:8080
+powershell -ExecutionPolicy Bypass -File .\business.ps1 demo shop      # داده‌ی نمونه‌ی نمایشگاه خودرو
+powershell -ExecutionPolicy Bypass -File .\business.ps1 list
+powershell -ExecutionPolicy Bypass -File .\business.ps1 reset shop     # حذف همه و ساخت دوباره
+powershell -ExecutionPolicy Bypass -File .\business.ps1 remove shop
+```
+
+اولین ورود به هر محیط تازه «راه‌اندازی آسان» را باز می‌کند تا نوع کسب‌وکار و امکانات لازم انتخاب شود و برنامه بر همان
+اساس چیده شود.
+
+### حذف همه‌ی اطلاعات با یک دکمه (حالت آزمایشی)
+
+در «تنظیمات ایرانی» ← «داده‌ی نمونه» ← «حذف همه‌ی اطلاعات (شروع از نو)»: همه‌ی اسناد، مشتری‌ها، تأمین‌کننده‌ها،
+کالاها، خودروها، چک‌ها و قراردادها حذف می‌شوند، شماره‌گذاری از ۱ شروع می‌شود و «راه‌اندازی آسان» دوباره باز می‌شود.
+شرکت، کدینگ حساب‌ها، سال مالی، کاربران و تنظیمات می‌مانند. برای تأیید باید «حذف همه» تایپ شود.
 
 ### داده‌ی نمونه
 

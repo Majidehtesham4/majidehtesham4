@@ -81,9 +81,18 @@ $(document).on("startup", () => {
 	frappe.router.on("change", () => setTimeout(go, 100));
 });
 
+// A new system opens on Easy Setup until the business is described: the kind of business and
+// what it needs decide which parts of the system are shown
+$(document).on("startup", () => {
+	if (!frappe.boot.iran_setup_pending) return;
+	const home = () => /^\/(desk|app)(\/(desktop|home|build\/desktop|iran-start))?\/?$/.test(window.location.pathname);
+	const go = () => home() && frappe.set_route("iran-easy-setup");
+	[300, 1500, 4000].forEach((wait) => setTimeout(go, wait));
+});
+
 // Newcomers land on the Start page once per sign-in, instead of the grid of app icons
 $(document).on("startup", () => {
-	if (!frappe.boot.iran_open_start_page) return;
+	if (!frappe.boot.iran_open_start_page || frappe.boot.iran_setup_pending) return;
 	const key = `iran_start_shown_${frappe.boot.user.name}`;
 	try {
 		if (sessionStorage.getItem(key)) return;
@@ -92,8 +101,8 @@ $(document).on("startup", () => {
 		return;
 	}
 	// Only when the desk opens on its home page, and once the desk has finished setting up
-	if (!/^\/(desk|app)\/?$/.test(window.location.pathname)) return;
-	setTimeout(() => {
-		if (/^\/(desk|app)\/?$/.test(window.location.pathname)) frappe.set_route("iran-start");
-	}, 300);
+	// Only when the desk opens on its home page; it may move there after a slow first load
+	const home = () => /^\/(desk|app)(\/(desktop|home))?\/?$/.test(window.location.pathname);
+	if (!home()) return;
+	[300, 1500, 4000].forEach((wait) => setTimeout(() => home() && frappe.set_route("iran-start"), wait));
 });
