@@ -1,0 +1,231 @@
+{
+ "actions": [],
+ "creation": "2026-10-17 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "layout_name",
+  "page_width",
+  "page_height",
+  "font_size",
+  "column_break_page",
+  "offset_x",
+  "offset_y",
+  "section_positions",
+  "date_x",
+  "date_y",
+  "date_words_x",
+  "date_words_y",
+  "amount_words_x",
+  "amount_words_y",
+  "column_break_positions",
+  "payee_x",
+  "payee_y",
+  "payee_id_x",
+  "payee_id_y",
+  "amount_x",
+  "amount_y",
+  "purpose_x",
+  "purpose_y"
+ ],
+ "fields": [
+  {
+   "fieldname": "layout_name",
+   "fieldtype": "Data",
+   "label": "Layout Name",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "description": "For example: Mellat Sayad cheque"
+  },
+  {
+   "fieldname": "page_width",
+   "fieldtype": "Float",
+   "label": "Cheque Width (mm)",
+   "default": "180"
+  },
+  {
+   "fieldname": "page_height",
+   "fieldtype": "Float",
+   "label": "Cheque Height (mm)",
+   "default": "80"
+  },
+  {
+   "fieldname": "font_size",
+   "fieldtype": "Float",
+   "label": "Font Size (pt)",
+   "default": "11"
+  },
+  {
+   "fieldname": "column_break_page",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "offset_x",
+   "fieldtype": "Float",
+   "label": "Move Everything Right (mm)",
+   "default": "0",
+   "description": "To line the print up with the cheque without changing each item"
+  },
+  {
+   "fieldname": "offset_y",
+   "fieldtype": "Float",
+   "label": "Move Everything Down (mm)",
+   "default": "0"
+  },
+  {
+   "fieldname": "section_positions",
+   "fieldtype": "Section Break",
+   "label": "Positions (mm from the top right corner)",
+   "description": "Each item is placed at its distance from the right edge (X) and from the top edge (Y) of the cheque"
+  },
+  {
+   "fieldname": "date_x",
+   "fieldtype": "Float",
+   "label": "Date X",
+   "default": "22"
+  },
+  {
+   "fieldname": "date_y",
+   "fieldtype": "Float",
+   "label": "Date Y",
+   "default": "12"
+  },
+  {
+   "fieldname": "date_words_x",
+   "fieldtype": "Float",
+   "label": "Date in Words X",
+   "default": "70"
+  },
+  {
+   "fieldname": "date_words_y",
+   "fieldtype": "Float",
+   "label": "Date in Words Y",
+   "default": "12"
+  },
+  {
+   "fieldname": "amount_words_x",
+   "fieldtype": "Float",
+   "label": "Amount in Words X",
+   "default": "40"
+  },
+  {
+   "fieldname": "amount_words_y",
+   "fieldtype": "Float",
+   "label": "Amount in Words Y",
+   "default": "30"
+  },
+  {
+   "fieldname": "column_break_positions",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payee_x",
+   "fieldtype": "Float",
+   "label": "Pay To X",
+   "default": "40"
+  },
+  {
+   "fieldname": "payee_y",
+   "fieldtype": "Float",
+   "label": "Pay To Y",
+   "default": "41"
+  },
+  {
+   "fieldname": "payee_id_x",
+   "fieldtype": "Float",
+   "label": "Payee National ID X",
+   "default": "120"
+  },
+  {
+   "fieldname": "payee_id_y",
+   "fieldtype": "Float",
+   "label": "Payee National ID Y",
+   "default": "41"
+  },
+  {
+   "fieldname": "amount_x",
+   "fieldtype": "Float",
+   "label": "Amount in Digits X",
+   "default": "140"
+  },
+  {
+   "fieldname": "amount_y",
+   "fieldtype": "Float",
+   "label": "Amount in Digits Y",
+   "default": "52"
+  },
+  {
+   "fieldname": "purpose_x",
+   "fieldtype": "Float",
+   "label": "Purpose X",
+   "default": "40"
+  },
+  {
+   "fieldname": "purpose_y",
+   "fieldtype": "Float",
+   "label": "Purpose Y",
+   "default": "52"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-17 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Cheque Layout",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Sales User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "field:layout_name",
+ "naming_rule": "By fieldname"
+}

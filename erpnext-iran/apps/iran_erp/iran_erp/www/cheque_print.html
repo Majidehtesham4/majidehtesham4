@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<link rel="stylesheet" href="/assets/iran_erp/css/persian_text.css">
+<style>
+	@page { size: {{ layout.page_width }}mm {{ layout.page_height }}mm; margin: 0; }
+	html, body { margin: 0; padding: 0; background: #fff; }
+	body { font-family: var(--font-stack, "Vazirmatn NL", Tahoma, sans-serif); color: #000; }
+	.leaf { position: relative; width: {{ layout.page_width }}mm; height: {{ layout.page_height }}mm; overflow: hidden; }
+	.item { position: absolute; white-space: nowrap; font-size: {{ layout.font_size }}pt; line-height: 1.2; }
+	.item.amount, .item.date, .item.payee_id { direction: ltr; unicode-bidi: plaintext; font-weight: 700; }
+	{% if test %}
+	.leaf { outline: 0.3mm dashed #888; background-image:
+		linear-gradient(to left, rgba(0,0,0,.12) 0.2mm, transparent 0.2mm),
+		linear-gradient(to bottom, rgba(0,0,0,.12) 0.2mm, transparent 0.2mm);
+		background-size: 10mm 10mm; background-position: right top; }
+	.item { outline: 0.2mm solid rgba(124,58,237,.6); }
+	.item::before { content: attr(data-label); position: absolute; top: -3.2mm; right: 0; font-size: 6pt; color: #7c3aed; }
+	{% endif %}
+	.toolbar { position: fixed; bottom: 12px; left: 12px; display: flex; gap: 8px; font: 13px Tahoma, sans-serif; }
+	.toolbar button { padding: 6px 14px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+	@media print { .toolbar { display: none; } }
+</style>
+</head>
+<body>
+	<div class="leaf">
+		{% for item in items %}{% if item.text %}
+		<div class="item {{ item.key }}" data-label="{{ item.key }}" style="right: {{ item.right }}mm; top: {{ item.top }}mm;">{{ item.text }}</div>
+		{% endif %}{% endfor %}
+	</div>
+	<div class="toolbar">
+		<button onclick="window.print()">چاپ</button>
+		<button onclick="window.close()">بستن</button>
+	</div>
+</body>
+</html>

@@ -71,6 +71,16 @@ iran_erp.start.show_result = function (title, result) {
 	dialog.show();
 };
 
+// An investor's login always opens on their own account
+$(document).on("startup", () => {
+	if (!frappe.boot.iran_investor_only) return;
+	const home = () => /^\/(desk|app)(\/(desktop|build\/desktop))?\/?$/.test(window.location.pathname);
+	const go = () => home() && frappe.set_route("iran-my-account");
+	// The desk may move to its home page after a slow first load; look again a few times
+	[300, 1500, 4000].forEach((wait) => setTimeout(go, wait));
+	frappe.router.on("change", () => setTimeout(go, 100));
+});
+
 // Newcomers land on the Start page once per sign-in, instead of the grid of app icons
 $(document).on("startup", () => {
 	if (!frappe.boot.iran_open_start_page) return;

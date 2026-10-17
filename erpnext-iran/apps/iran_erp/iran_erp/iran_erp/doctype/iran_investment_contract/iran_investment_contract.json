@@ -1,0 +1,376 @@
+{
+ "actions": [],
+ "creation": "2026-10-17 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "investor",
+  "investor_name",
+  "contract_type",
+  "column_break_head",
+  "start_date",
+  "company",
+  "status",
+  "parent_contract",
+  "section_scope",
+  "scope",
+  "branch",
+  "vehicle",
+  "section_terms",
+  "amount",
+  "received_to",
+  "months",
+  "end_date",
+  "column_break_terms",
+  "monthly_rate",
+  "profit_payment",
+  "monthly_profit",
+  "total_profit",
+  "section_remittance",
+  "remittance_number",
+  "expected_delivery",
+  "column_break_remittance",
+  "commission_rate",
+  "sale_amount",
+  "settlement_amount",
+  "section_schedule",
+  "schedule",
+  "section_summary",
+  "accrued_profit",
+  "paid_profit",
+  "column_break_summary",
+  "receipt_entry",
+  "remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "INV-.YYYY.-",
+   "default": "INV-.YYYY.-",
+   "reqd": 1
+  },
+  {
+   "fieldname": "investor",
+   "fieldtype": "Link",
+   "label": "Investor",
+   "options": "Iran Investor",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "investor_name",
+   "fieldtype": "Data",
+   "label": "Investor Name",
+   "fetch_from": "investor.full_name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "contract_type",
+   "fieldtype": "Select",
+   "label": "Contract Type",
+   "options": "Partnership\nCar Remittance",
+   "default": "Partnership",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_head",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "reqd": 1,
+   "default": "Today",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "remember_last_selected_value": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nActive\nMatured\nSettled\nCancelled",
+   "default": "Draft",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "parent_contract",
+   "fieldtype": "Link",
+   "label": "Continues Contract",
+   "options": "Iran Investment Contract",
+   "read_only": 1,
+   "description": "Reinvestment: this contract continues the earlier one"
+  },
+  {
+   "fieldname": "section_scope",
+   "fieldtype": "Section Break",
+   "label": "Where the Money Goes"
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Select",
+   "label": "Invested In",
+   "options": "Whole Business\nBranch\nVehicle",
+   "default": "Whole Business",
+   "reqd": 1
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "depends_on": "eval:doc.scope=='Branch'",
+   "mandatory_depends_on": "eval:doc.scope=='Branch'"
+  },
+  {
+   "fieldname": "vehicle",
+   "fieldtype": "Link",
+   "label": "Vehicle",
+   "options": "Iran Vehicle",
+   "depends_on": "eval:doc.scope=='Vehicle' || doc.contract_type=='Car Remittance'"
+  },
+  {
+   "fieldname": "section_terms",
+   "fieldtype": "Section Break",
+   "label": "Amount and Profit"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "received_to",
+   "fieldtype": "Link",
+   "label": "Received In",
+   "options": "Account",
+   "description": "Bank or cash account the money came into; empty for a reinvestment"
+  },
+  {
+   "fieldname": "months",
+   "fieldtype": "Int",
+   "label": "Months",
+   "reqd": 1,
+   "default": "6"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_terms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "monthly_rate",
+   "fieldtype": "Percent",
+   "label": "Monthly Profit Rate (%)",
+   "depends_on": "eval:doc.contract_type=='Partnership'"
+  },
+  {
+   "fieldname": "profit_payment",
+   "fieldtype": "Select",
+   "label": "Profit Paid",
+   "options": "Monthly\nAt the End",
+   "default": "Monthly",
+   "depends_on": "eval:doc.contract_type=='Partnership'"
+  },
+  {
+   "fieldname": "monthly_profit",
+   "fieldtype": "Currency",
+   "label": "Monthly Profit",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_profit",
+   "fieldtype": "Currency",
+   "label": "Total Profit",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "section_remittance",
+   "fieldtype": "Section Break",
+   "label": "Car Remittance",
+   "depends_on": "eval:doc.contract_type=='Car Remittance'"
+  },
+  {
+   "fieldname": "remittance_number",
+   "fieldtype": "Data",
+   "label": "Remittance Number"
+  },
+  {
+   "fieldname": "expected_delivery",
+   "fieldtype": "Date",
+   "label": "Expected Delivery"
+  },
+  {
+   "fieldname": "column_break_remittance",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commission_rate",
+   "fieldtype": "Percent",
+   "label": "Business Commission on Sale (%)"
+  },
+  {
+   "fieldname": "sale_amount",
+   "fieldtype": "Currency",
+   "label": "Sold For",
+   "read_only": 1
+  },
+  {
+   "fieldname": "settlement_amount",
+   "fieldtype": "Currency",
+   "label": "Due to the Investor",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "section_schedule",
+   "fieldtype": "Section Break",
+   "label": "Payments to the Investor"
+  },
+  {
+   "fieldname": "schedule",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "Iran Investment Payment"
+  },
+  {
+   "fieldname": "section_summary",
+   "fieldtype": "Section Break",
+   "label": "Summary",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "accrued_profit",
+   "fieldtype": "Currency",
+   "label": "Profit Earned to Date",
+   "read_only": 1,
+   "description": "Day by day: amount × monthly rate × 12 ÷ 365 for every day since the start"
+  },
+  {
+   "fieldname": "paid_profit",
+   "fieldtype": "Currency",
+   "label": "Profit Paid",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_summary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "receipt_entry",
+   "fieldtype": "Link",
+   "label": "Receipt Entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "options": "Iran Investment Contract",
+   "read_only": 1,
+   "no_copy": 1,
+   "print_hide": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-17 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Investment Contract",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "submit": 1,
+   "cancel": 1,
+   "amend": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "submit": 1
+  },
+  {
+   "role": "Sales User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1,
+   "submit": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "is_submittable": 1,
+ "autoname": "naming_series:",
+ "naming_rule": "By \"Naming Series\" field",
+ "title_field": "investor_name",
+ "show_title_field_in_link": 1,
+ "search_fields": "investor_name,status,start_date"
+}

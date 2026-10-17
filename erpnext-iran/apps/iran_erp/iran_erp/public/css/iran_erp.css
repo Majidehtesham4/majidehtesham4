@@ -927,3 +927,79 @@
 	display: inline-flex;
 	gap: 6px;
 }
+
+/* «حساب من» of an investor */
+.iran-investor {
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 8px 0 40px;
+}
+.iran-investor-hello {
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 12px;
+}
+.iran-investor-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	gap: 12px;
+	margin-bottom: 18px;
+}
+.iran-investor-card {
+	border: 1px solid var(--border-color);
+	border-radius: 14px;
+	padding: 14px 16px;
+	background: var(--card-bg);
+}
+.iran-investor-card .label {
+	color: var(--text-muted);
+	font-size: 12px;
+}
+.iran-investor-card .value {
+	font-size: 18px;
+	font-weight: 700;
+	margin-top: 4px;
+}
+.iran-investor-card.accent {
+	background: linear-gradient(135deg, #7c3aed, #4f46e5);
+	color: #fff;
+	border: none;
+}
+.iran-investor-card.accent .label {
+	color: rgba(255, 255, 255, 0.8);
+}
+.iran-investor-contract {
+	border: 1px solid var(--border-color);
+	border-radius: 14px;
+	padding: 14px 16px;
+	margin-bottom: 14px;
+	background: var(--card-bg);
+}
+.iran-investor-contract .head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+.iran-investor-contract .amount {
+	font-weight: 700;
+	font-size: 16px;
+}
+.iran-investor-contract .earned {
+	margin: 8px 0;
+	color: #6d28d9;
+}
+.iran-investor-table {
+	margin-top: 8px;
+	font-size: 13px;
+}
+.iran-investor-table th {
+	color: var(--text-muted);
+	font-weight: 500;
+}
+.iran-investor-empty {
+	padding: 40px;
+	text-align: center;
+	color: var(--text-muted);
+}

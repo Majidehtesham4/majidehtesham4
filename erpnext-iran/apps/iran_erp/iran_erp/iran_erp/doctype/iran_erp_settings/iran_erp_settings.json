@@ -13,7 +13,11 @@
   "cheque_section",
   "cheque_accounts",
   "moadian_section",
-  "moadian_memory_id"
+  "moadian_memory_id",
+  "section_business",
+  "reinvest_threshold",
+  "column_break_business",
+  "cheque_layout"
  ],
  "fields": [
   {
@@ -65,13 +69,35 @@
    "fieldtype": "Data",
    "length": 6,
    "label": "Tax Memory ID"
+  },
+  {
+   "fieldname": "section_business",
+   "fieldtype": "Section Break",
+   "label": "Instalments and Investors"
+  },
+  {
+   "fieldname": "reinvest_threshold",
+   "fieldtype": "Currency",
+   "label": "Reinvestment Threshold",
+   "description": "When the cleared payments of an investor's contract reach this amount, the contract suggests a new one"
+  },
+  {
+   "fieldname": "column_break_business",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cheque_layout",
+   "fieldtype": "Link",
+   "label": "Cheque Print Layout",
+   "options": "Iran Cheque Layout",
+   "description": "Where each item is printed on the cheque leaf"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-15 12:00:00.000000",
+ "modified": "2026-10-17 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran ERP Settings",

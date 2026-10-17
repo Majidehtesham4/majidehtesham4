@@ -123,6 +123,7 @@ after_migrate = [
 	"iran_erp.install.jalali_fiscal_year_names",
 	"iran_erp.install.translate_company_records",
 	"iran_erp.accounts.categories.persian_descriptions",
+	"iran_erp.business.after_migrate",
 	"iran_erp.install.clear_translation_cache",
 ]
 
@@ -196,6 +197,8 @@ doc_events = {
 
 # Scheduled Tasks
 # ---------------
+
+scheduler_events = {"daily": ["iran_erp.business.jobs.daily"]}
 
 # scheduler_events = {
 # 	"all": [

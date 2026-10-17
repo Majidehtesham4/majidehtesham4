@@ -90,9 +90,14 @@ def add_iran_icons():
 	They are "App" icons: a "Link" icon is only shown when it leads to a module's sidebar, while
 	an App icon of an installed app is shown to anyone with one of its roles.
 	"""
+	add_icons(IRAN_ICONS)
+
+
+def add_icons(icons):
+	"""Home-screen icons from (label, link, image in public/icons, roles) rows."""
 	if frappe.db.get_single_value("Desktop Settings", "desktop_page") != "Desktop Icons":
 		return
-	for label, link, image, roles in IRAN_ICONS:
+	for label, link, image, roles in icons:
 		values = {
 			"icon_type": "App",
 			"link_type": "External",

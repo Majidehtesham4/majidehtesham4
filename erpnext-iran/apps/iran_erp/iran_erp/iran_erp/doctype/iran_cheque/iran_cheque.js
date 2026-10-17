@@ -41,6 +41,14 @@ frappe.ui.form.on("Iran Cheque", {
 	},
 
 	refresh(frm) {
+		// A cheque the business writes is printed on the bank's leaf
+		if (frm.doc.cheque_type === "Issued" && !frm.is_new()) {
+			const open = (test) =>
+				window.open(`/cheque_print?cheque=${encodeURIComponent(frm.doc.name)}${test ? "&test=1" : ""}`, "_blank");
+			frm.add_custom_button(__("Print on Cheque"), () => open(false), __("Print"));
+			frm.add_custom_button(__("Test Print (with grid)"), () => open(true), __("Print"));
+			frm.add_custom_button(__("Cheque Print Layout"), () => frappe.set_route("List", "Iran Cheque Layout"), __("Print"));
+		}
 		if (frm.doc.docstatus !== 1) return;
 		const actions = (CHEQUE_ACTIONS[frm.doc.cheque_type] || {})[frm.doc.status] || [];
 		const labels = cheque_action_labels();

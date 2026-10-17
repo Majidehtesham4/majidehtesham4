@@ -19,7 +19,7 @@ The short guides in iran_erp.help.guides fill what a guide here leaves out.
 
 from importlib import import_module
 
-MODULES = ("accounting", "selling_buying", "stock_more", "reports")
+MODULES = ("accounting", "selling_buying", "stock_more", "reports", "dealership")
 
 
 def _collect(name: str) -> dict:

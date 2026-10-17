@@ -171,6 +171,15 @@ class IranSetupPage {
 					reqd: 1,
 					description: "موجودی‌ها و مانده‌هایی که در قدم‌های بعد می‌نویسید مال همین روز است.",
 				},
+				{ fieldtype: "Section Break" },
+				{
+					fieldname: "branches",
+					fieldtype: "Small Text",
+					label: "شعبه‌ها (اگر چند شعبه دارید، نام هر شعبه در یک خط)",
+					default: answers.branches || "",
+					description:
+						"مثلاً «شعبه مرکزی» و «شعبه کرج». هر سند می‌تواند شعبه داشته باشد و گزارش‌ها برای هر شعبه جدا گرفته می‌شوند. اگر یک شعبه دارید خالی بگذارید.",
+				},
 			];
 		}
 		const table = (key, label) => ({

@@ -18,6 +18,12 @@ def boot_session(bootinfo):
 	start_page = frappe.db.get_singles_dict("Iran ERP Settings").get("open_start_page")
 	bootinfo.iran_open_start_page = start_page is None or bool(int(start_page))
 	bootinfo.iran_version = frappe.get_attr("iran_erp.__version__")
+	# An investor's login opens on their own account and has no use for the rest of the desk
+	others = set(frappe.get_roles()) - {"All", "Guest", "Desk User", "Investor"}
+	bootinfo.iran_investor_only = "Investor" in frappe.get_roles() and not others
+	if bootinfo.iran_investor_only:
+		bootinfo.iran_ai_enabled = bootinfo.iran_ai_can_configure = False
+		bootinfo.iran_open_start_page = False
 	_rebrand_apps(bootinfo)
 
 

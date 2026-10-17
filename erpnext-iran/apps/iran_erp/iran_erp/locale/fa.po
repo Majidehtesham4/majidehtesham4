@@ -19263,3 +19263,688 @@ msgstr "{0} {1} باید ثبت نهایی شود"
 msgid "{} has submitted assets linked to it. You need to cancel the assets to create purchase return."
 msgstr "{} دارایی‌های مرتبط با آن را ثبت نهایی کرده است. برای ایجاد بازگشت خرید، باید دارایی‌ها را لغو کنید."
 
+
+#. Business packs: car dealership, instalment sales, investors, cheque printing
+msgid "Iran Vehicle"
+msgstr "خودرو"
+
+msgid "For example: Peugeot 207 automatic"
+msgstr "مثلاً: پژو ۲۰۷ اتوماتیک"
+
+msgid "Model Year"
+msgstr "سال ساخت"
+
+msgid "Awaiting Delivery"
+msgstr "در انتظار تحویل"
+
+msgid "Identification"
+msgstr "مشخصات"
+
+msgid "Chassis Number (VIN)"
+msgstr "شماره شاسی"
+
+msgid "Engine Number"
+msgstr "شماره موتور"
+
+msgid "Plate"
+msgstr "پلاک"
+
+msgid "Mileage (km)"
+msgstr "کارکرد (کیلومتر)"
+
+msgid "Owned By"
+msgstr "مالک"
+
+msgid "A car bought with an investor's money for the investor (remittance) is the investor's: when it is sold the price goes to the investor, less the business's commission."
+msgstr "خودرویی که با پول سرمایه‌گذار و برای او خریده شده (حواله) مال سرمایه‌گذار است: وقتی فروخته شود، پولش پس از کم کردن حق‌العمل نمایشگاه به سرمایه‌گذار می‌رسد."
+
+msgid "Business"
+msgstr "خود مجموعه"
+
+msgid "Investor"
+msgstr "سرمایه‌گذار"
+
+msgid "Investment Contract"
+msgstr "قرارداد سرمایه‌گذاری"
+
+msgid "Expected Delivery"
+msgstr "تاریخ تحویل پیش‌بینی‌شده"
+
+msgid "Purchase and Costs"
+msgstr "خرید و هزینه‌ها"
+
+msgid "Purchase Price"
+msgstr "قیمت خرید"
+
+msgid "Bought From"
+msgstr "خریده‌شده از"
+
+msgid "Leave empty when paid in cash"
+msgstr "اگر نقدی پرداخت شده خالی بگذارید"
+
+msgid "Bank or cash account, when the car was paid for right away"
+msgstr "حساب بانک یا صندوق، وقتی پول خودرو همان موقع پرداخت شده"
+
+msgid "Purchase Entry"
+msgstr "سند خرید"
+
+msgid "Asking Price"
+msgstr "قیمت پیشنهادی فروش"
+
+msgid "Costs (repairs, inspection, transfer, ...)"
+msgstr "هزینه‌ها (تعمیر، کارشناسی، انتقال سند، ...)"
+
+msgid "Sale"
+msgstr "فروش"
+
+msgid "Sale Contract"
+msgstr "قرارداد فروش"
+
+msgid "Sale Price"
+msgstr "قیمت فروش"
+
+msgid "Profit on the Car"
+msgstr "سود این خودرو"
+
+msgid "Iran Vehicle Cost"
+msgstr "هزینه خودرو"
+
+msgid "Bank or cash account the cost was paid from"
+msgstr "حساب بانک یا صندوقی که هزینه از آن پرداخت شده"
+
+msgid "Iran Instalment"
+msgstr "قسط"
+
+msgid "Principal"
+msgstr "اصل پول"
+
+msgid "Settled Early"
+msgstr "تسویه زودتر"
+
+msgid "Paid On"
+msgstr "تاریخ پرداخت"
+
+msgid "Interest Entry"
+msgstr "سند سود"
+
+msgid "The entry that moved this instalment's interest to income"
+msgstr "سندی که سود این قسط را به درآمد برده است"
+
+msgid "Iran Instalment Sale"
+msgstr "فروش اقساطی"
+
+msgid "What Is Sold"
+msgstr "موضوع فروش"
+
+msgid "Filled from the vehicle; for other goods, write what is sold"
+msgstr "از خودرو پر می‌شود؛ برای کالاهای دیگر بنویسید چه فروخته می‌شود"
+
+msgid "Contract Date"
+msgstr "تاریخ قرارداد"
+
+msgid "Price and Terms"
+msgstr "قیمت و شرایط"
+
+msgid "Down Payment"
+msgstr "پیش‌پرداخت"
+
+msgid "Down Payment Received In"
+msgstr "پیش‌پرداخت واریز شده به"
+
+msgid "Bank or cash account; leave empty if the down payment is recorded separately"
+msgstr "حساب بانک یا صندوق؛ اگر پیش‌پرداخت را جداگانه ثبت می‌کنید خالی بگذارید"
+
+msgid "Other Costs Added"
+msgstr "هزینه‌های دیگر (به اقساط اضافه می‌شود)"
+
+msgid "Costs added to the instalments, such as transfer fees"
+msgstr "هزینه‌هایی که به اقساط اضافه می‌شود، مثل هزینه‌ی انتقال سند"
+
+msgid "Monthly Profit Rate (%)"
+msgstr "درصد سود ماهانه"
+
+msgid "For example 6: 6% of the financed amount for every month"
+msgstr "مثلاً ۶: هر ماه ۶٪ مبلغ باقی‌مانده (اقساطی)"
+
+msgid "Number of Instalments"
+msgstr "تعداد اقساط"
+
+msgid "Months Between Instalments"
+msgstr "فاصله اقساط (ماه)"
+
+msgid "First Instalment Date"
+msgstr "تاریخ اولین قسط"
+
+msgid "Late Fee (% per month)"
+msgstr "جریمه دیرکرد (درصد در ماه)"
+
+msgid "Charged day by day on an instalment that is past due; 0 for none"
+msgstr "روزشمار روی قسطی که سررسیدش گذشته حساب می‌شود؛ صفر یعنی بدون جریمه"
+
+msgid "Financed Amount"
+msgstr "مبلغ اقساطی"
+
+msgid "Sale price less down payment, plus other costs"
+msgstr "قیمت فروش منهای پیش‌پرداخت، به‌علاوه‌ی هزینه‌های دیگر"
+
+msgid "Total Profit"
+msgstr "کل سود"
+
+msgid "Total of Instalments"
+msgstr "جمع اقساط"
+
+msgid "Each Instalment"
+msgstr "مبلغ هر قسط"
+
+msgid "Instalments"
+msgstr "اقساط"
+
+msgid "Late Fees Charged"
+msgstr "جریمه‌ی ثبت‌شده"
+
+msgid "Sale Entry"
+msgstr "سند فروش"
+
+msgid "Early Settlement Entry"
+msgstr "سند تسویه زودتر"
+
+msgid "Iran Investor"
+msgstr "سرمایه‌گذار"
+
+msgid "IBAN (Sheba)"
+msgstr "شماره شبا"
+
+msgid "For paying profits by transfer"
+msgstr "برای واریز سود"
+
+msgid "Party in the Accounts"
+msgstr "طرف حساب در دفاتر"
+
+msgid "Made automatically; the investor's account in the books"
+msgstr "خودکار ساخته می‌شود؛ حساب سرمایه‌گذار در دفاتر"
+
+msgid "Login User"
+msgstr "کاربر ورود"
+
+msgid "Iran Investment Payment"
+msgstr "پرداخت به سرمایه‌گذار"
+
+msgid "Profit"
+msgstr "سود"
+
+msgid "Reinvested"
+msgstr "سرمایه‌گذاری مجدد"
+
+msgid "Profit Entry"
+msgstr "سند سود"
+
+msgid "Reinvested In"
+msgstr "سرمایه‌گذاری مجدد در"
+
+msgid "Iran Investment Contract"
+msgstr "قرارداد سرمایه‌گذاری"
+
+msgid "Investor Name"
+msgstr "نام سرمایه‌گذار"
+
+msgid "Contract Type"
+msgstr "نوع قرارداد"
+
+msgid "Car Remittance"
+msgstr "خرید حواله خودرو"
+
+msgid "Matured"
+msgstr "سررسید شده"
+
+msgid "Continues Contract"
+msgstr "ادامه‌ی قرارداد"
+
+msgid "Reinvestment: this contract continues the earlier one"
+msgstr "سرمایه‌گذاری مجدد: این قرارداد ادامه‌ی قرارداد قبلی است"
+
+msgid "Where the Money Goes"
+msgstr "محل سرمایه‌گذاری"
+
+msgid "Invested In"
+msgstr "سرمایه‌گذاری در"
+
+msgid "Whole Business"
+msgstr "کل مجموعه"
+
+msgid "Amount and Profit"
+msgstr "مبلغ و سود"
+
+msgid "Received In"
+msgstr "واریز شده به"
+
+msgid "Bank or cash account the money came into; empty for a reinvestment"
+msgstr "حساب بانک یا صندوقی که پول به آن واریز شد؛ برای سرمایه‌گذاری مجدد خالی"
+
+msgid "Profit Paid"
+msgstr "پرداخت سود"
+
+msgid "At the End"
+msgstr "در سررسید"
+
+msgid "Monthly Profit"
+msgstr "سود ماهانه"
+
+msgid "Remittance Number"
+msgstr "شماره حواله"
+
+msgid "Business Commission on Sale (%)"
+msgstr "حق‌العمل مجموعه از فروش (درصد)"
+
+msgid "Sold For"
+msgstr "فروخته شده به مبلغ"
+
+msgid "Due to the Investor"
+msgstr "سهم سرمایه‌گذار"
+
+msgid "Payments to the Investor"
+msgstr "پرداخت‌ها به سرمایه‌گذار"
+
+msgid "Profit Earned to Date"
+msgstr "سود تا امروز"
+
+msgid "Day by day: amount × monthly rate × 12 ÷ 365 for every day since the start"
+msgstr "روزشمار: مبلغ × درصد ماهانه × ۱۲ ÷ ۳۶۵ برای هر روز از شروع"
+
+msgid "Receipt Entry"
+msgstr "سند دریافت"
+
+msgid "Iran Cheque Layout"
+msgstr "قالب چاپ چک"
+
+msgid "Layout Name"
+msgstr "نام قالب"
+
+msgid "For example: Mellat Sayad cheque"
+msgstr "مثلاً: چک صیادی ملت"
+
+msgid "Cheque Width (mm)"
+msgstr "عرض چک (میلی‌متر)"
+
+msgid "Cheque Height (mm)"
+msgstr "ارتفاع چک (میلی‌متر)"
+
+msgid "Font Size (pt)"
+msgstr "اندازه قلم"
+
+msgid "Move Everything Right (mm)"
+msgstr "جابه‌جایی همه به راست (میلی‌متر)"
+
+msgid "To line the print up with the cheque without changing each item"
+msgstr "برای هم‌تراز کردن چاپ با برگ چک بدون تغییر تک‌تک موارد"
+
+msgid "Move Everything Down (mm)"
+msgstr "جابه‌جایی همه به پایین (میلی‌متر)"
+
+msgid "Positions (mm from the top right corner)"
+msgstr "جای هر مورد (میلی‌متر از گوشه‌ی بالا و راست)"
+
+msgid "Each item is placed at its distance from the right edge (X) and from the top edge (Y) of the cheque"
+msgstr "هر مورد با فاصله‌اش از لبه‌ی راست (X) و لبه‌ی بالای (Y) چک چاپ می‌شود"
+
+msgid "Date X"
+msgstr "تاریخ X"
+
+msgid "Date Y"
+msgstr "تاریخ Y"
+
+msgid "Date in Words X"
+msgstr "تاریخ به حروف X"
+
+msgid "Date in Words Y"
+msgstr "تاریخ به حروف Y"
+
+msgid "Amount in Words X"
+msgstr "مبلغ به حروف X"
+
+msgid "Amount in Words Y"
+msgstr "مبلغ به حروف Y"
+
+msgid "Pay To X"
+msgstr "در وجه X"
+
+msgid "Pay To Y"
+msgstr "در وجه Y"
+
+msgid "Payee National ID X"
+msgstr "کد ملی گیرنده X"
+
+msgid "Payee National ID Y"
+msgstr "کد ملی گیرنده Y"
+
+msgid "Amount in Digits X"
+msgstr "مبلغ به عدد X"
+
+msgid "Amount in Digits Y"
+msgstr "مبلغ به عدد Y"
+
+msgid "Purpose X"
+msgstr "بابت X"
+
+msgid "Purpose Y"
+msgstr "بابت Y"
+
+msgid "Instalments and Investors"
+msgstr "اقساط و سرمایه‌گذاران"
+
+msgid "Reinvestment Threshold"
+msgstr "حد نصاب سرمایه‌گذاری مجدد"
+
+msgid "When the cleared payments of an investor's contract reach this amount, the contract suggests a new one"
+msgstr "وقتی پرداخت‌های پاس‌شده‌ی یک قرارداد به این مبلغ برسد، پیشنهاد قرارداد جدید داده می‌شود"
+
+msgid "Cheque Print Layout"
+msgstr "قالب چاپ چک"
+
+msgid "Where each item is printed on the cheque leaf"
+msgstr "جای چاپ هر مورد روی برگ چک"
+
+msgid "Branches"
+msgstr "شعبه‌ها"
+
+msgid "A car whose purchase is in the business's books cannot belong to an investor"
+msgstr "خودرویی که خریدش در دفاتر نمایشگاه ثبت شده نمی‌تواند مال سرمایه‌گذار باشد"
+
+msgid "Cost of car {0}: {1}"
+msgstr "هزینه‌ی خودرو {0}: {1}"
+
+msgid "This car is in the books; it cannot be deleted"
+msgstr "این خودرو در دفاتر ثبت شده و حذف نمی‌شود"
+
+msgid "The purchase is already recorded"
+msgstr "خرید قبلاً ثبت شده است"
+
+msgid "Only a car the business owns is recorded as its stock"
+msgstr "فقط خودرویی که مال نمایشگاه است به‌عنوان موجودی ثبت می‌شود"
+
+msgid "Enter the purchase price first"
+msgstr "اول قیمت خرید را وارد کنید"
+
+msgid "Choose who the car was bought from, or the account it was paid from"
+msgstr "فروشنده‌ی خودرو یا حسابی که پول از آن پرداخت شده را انتخاب کنید"
+
+msgid "Purchase of car {0}"
+msgstr "خرید خودرو {0}"
+
+msgid "Paid {0} of {1}; outstanding {2}."
+msgstr "پرداخت شده {0} از {1}؛ مانده {2}."
+
+msgid "{0} instalments are overdue."
+msgstr "{0} قسط معوق است."
+
+msgid "Late fee not yet charged: {0}"
+msgstr "جریمه‌ی ثبت‌نشده: {0}"
+
+msgid "Make Instalment Cheques"
+msgstr "ساخت چک‌های اقساط"
+
+msgid "Instalment Paid in Cash"
+msgstr "پرداخت نقدی قسط"
+
+msgid "Charge Late Fee"
+msgstr "ثبت جریمه دیرکرد"
+
+msgid "Late fee charged: {0}"
+msgstr "جریمه ثبت شد: {0}"
+
+msgid "Early Settlement"
+msgstr "تسویه زودتر"
+
+msgid "Overdue Instalments"
+msgstr "اقساط معوق"
+
+msgid "{0} cheques are made, one per instalment, with their amounts and due dates; the numbers go on from the first one."
+msgstr "{0} چک ساخته می‌شود، برای هر قسط یکی، با مبلغ و سررسید همان قسط؛ شماره‌ها از شماره‌ی اولین چک پشت سر هم ادامه می‌یابند."
+
+msgid "Branch of the Bank"
+msgstr "شعبه بانک"
+
+msgid "Number of the First Cheque"
+msgstr "شماره اولین چک"
+
+msgid "Sayad IDs (optional, one per line in order)"
+msgstr "شناسه‌های صیادی (اختیاری، هر کدام در یک خط به ترتیب)"
+
+msgid "Make Cheques"
+msgstr "ساخت چک‌ها"
+
+msgid "{0} cheques made"
+msgstr "{0} چک ساخته شد"
+
+msgid "Every open instalment has a cheque; clear the cheque when it is paid."
+msgstr "همه‌ی اقساط باز چک دارند؛ وقتی پرداخت شد، چک را «وصول‌شده» کنید."
+
+msgid "Instalment"
+msgstr "قسط"
+
+msgid "To settle today the customer pays {0}: principal {1} and profit earned so far {2}. The profit of the days not reached, {3}, is taken off. The open cheques are to be given back. Continue?"
+msgstr "برای تسویه امروز، مشتری {0} می‌پردازد: اصل پول {1} و سود تا امروز {2}. سود روزهای باقی‌مانده یعنی {3} کم می‌شود. چک‌های باز باید به مشتری برگردانده شوند. ادامه می‌دهید؟"
+
+msgid "Enter the number of instalments"
+msgstr "تعداد اقساط را وارد کنید"
+
+msgid "The down payment covers the whole price; nothing is left for instalments"
+msgstr "پیش‌پرداخت کل قیمت را پوشانده؛ چیزی برای اقساط نمانده"
+
+msgid "Car {0} is already sold in {1}"
+msgstr "خودرو {0} قبلاً در {1} فروخته شده"
+
+msgid "Car {0} belongs to another company"
+msgstr "خودرو {0} مال شرکت دیگری است"
+
+msgid "Instalment sale {0} to {1}: {2}"
+msgstr "فروش اقساطی {0} به {1}: {2}"
+
+msgid "Profit of instalments of {0} that fell due"
+msgstr "سود اقساط سررسیدشده‌ی {0}"
+
+msgid "There is no late fee to charge"
+msgstr "جریمه‌ای برای ثبت نیست"
+
+msgid "Late fee of instalments of {0}"
+msgstr "جریمه دیرکرد اقساط {0}"
+
+msgid "This instalment is not open"
+msgstr "این قسط باز نیست"
+
+msgid "This instalment has a cheque; clear the cheque instead"
+msgstr "این قسط چک دارد؛ به‌جای آن چک را وصول کنید"
+
+msgid "Instalment {0} of {1}"
+msgstr "قسط {0} از {1}"
+
+msgid "Nothing is left to settle"
+msgstr "چیزی برای تسویه نمانده"
+
+msgid "Early settlement of {0}"
+msgstr "تسویه زودتر {0}"
+
+msgid "Submit the contract first"
+msgstr "اول قرارداد را ثبت نهایی کنید"
+
+msgid "Enter the number of the first cheque"
+msgstr "شماره‌ی اولین چک را وارد کنید"
+
+msgid "This investor already has a login: {0}"
+msgstr "این سرمایه‌گذار کاربر ورود دارد: {0}"
+
+msgid "There is already a user with this email"
+msgstr "کاربری با این ایمیل وجود دارد"
+
+msgid "Investor's Account"
+msgstr "حساب سرمایه‌گذار"
+
+msgid "New Investment Contract"
+msgstr "قرارداد سرمایه‌گذاری جدید"
+
+msgid "Create Login"
+msgstr "ساخت کاربر ورود"
+
+msgid "The investor signs in with this email and password and sees only their own account."
+msgstr "سرمایه‌گذار با این ایمیل و رمز وارد می‌شود و فقط حساب خودش را می‌بیند."
+
+msgid "Enter the amount"
+msgstr "مبلغ را وارد کنید"
+
+msgid "Enter the number of months"
+msgstr "تعداد ماه‌ها را وارد کنید"
+
+msgid "Choose the car of the remittance (make it with status «Awaiting Delivery»)"
+msgstr "خودروی حواله را انتخاب کنید (آن را با وضعیت «در انتظار تحویل» بسازید)"
+
+msgid "Choose the car the money is invested in"
+msgstr "خودرویی را که پول در آن سرمایه‌گذاری شده انتخاب کنید"
+
+msgid "Investment {0} of {1}"
+msgstr "سرمایه‌گذاری {0} از {1}"
+
+msgid "Profit of investment {0} of {1}"
+msgstr "سود سرمایه‌گذاری {0} از {1}"
+
+msgid "{0} of investment {1}"
+msgstr "{0} سرمایه‌گذاری {1}"
+
+msgid "This payment is not open, or it has a cheque"
+msgstr "این پرداخت باز نیست یا چک دارد"
+
+msgid "{0} of investment {1} paid"
+msgstr "{0} سرمایه‌گذاری {1} پرداخت شد"
+
+msgid "Only payments not yet made can be put back in"
+msgstr "فقط پرداخت‌هایی که هنوز انجام نشده دوباره سرمایه‌گذاری می‌شوند"
+
+msgid "Choose the account the money is brought back into"
+msgstr "حسابی را که پول به آن برمی‌گردد انتخاب کنید"
+
+msgid "Choose the payments to put back in, or the amount brought back"
+msgstr "پرداخت‌هایی که دوباره سرمایه‌گذاری می‌شوند یا مبلغ برگشتی را انتخاب کنید"
+
+msgid "Continues {0}"
+msgstr "ادامه‌ی {0}"
+
+msgid "Reinvested in {0}"
+msgstr "سرمایه‌گذاری مجدد در {0}"
+
+msgid "Reinvestment {0} of {1}"
+msgstr "سرمایه‌گذاری مجدد {0} از {1}"
+
+msgid "Profit earned to date: {0} ({1} a day). Paid so far: {2}."
+msgstr "سود تا امروز: {0} (روزانه {1}). پرداخت‌شده تا حالا: {2}."
+
+msgid "Cleared payments of {0} have reached the reinvestment threshold: a new contract can be made."
+msgstr "پرداخت‌های پاس‌شده به مبلغ {0} به حد نصاب رسیده: می‌توانید قرارداد جدید بسازید."
+
+msgid "This contract is part of a chain of {0} contracts."
+msgstr "این قرارداد بخشی از زنجیره‌ی {0} قرارداد است."
+
+msgid "Issue Cheques"
+msgstr "صدور چک‌ها"
+
+msgid "Paid by Transfer"
+msgstr "پرداخت با حواله/نقدی"
+
+msgid "Reinvest"
+msgstr "سرمایه‌گذاری مجدد"
+
+msgid "cheque"
+msgstr "چک"
+
+msgid "{0} cheques are issued to the investor, one per payment, with their amounts and due dates."
+msgstr "{0} چک برای سرمایه‌گذار صادر می‌شود، برای هر پرداخت یکی، با مبلغ و سررسید همان پرداخت."
+
+msgid "Bank Account the Cheques Are Drawn On"
+msgstr "حساب بانکی صادرکننده‌ی چک‌ها"
+
+msgid "Date Given"
+msgstr "تاریخ تحویل چک‌ها"
+
+msgid "{0} cheques issued"
+msgstr "{0} چک صادر شد"
+
+msgid "Every payment has a cheque; mark the cheque cleared when it is paid."
+msgstr "همه‌ی پرداخت‌ها چک دارند؛ وقتی پاس شد، چک را «وصول‌شده» کنید."
+
+msgid "A new contract continues this one. Payments not yet made can be put back in (their cheques come back), and money from cleared cheques can be brought back in."
+msgstr "یک قرارداد جدید در ادامه‌ی این قرارداد ساخته می‌شود. پرداخت‌هایی که هنوز انجام نشده دوباره سرمایه‌گذاری می‌شوند (چک‌هایشان برمی‌گردد) و پول چک‌های پاس‌شده هم می‌تواند دوباره آورده شود."
+
+msgid "Payments Put Back In"
+msgstr "پرداخت‌هایی که دوباره سرمایه‌گذاری می‌شوند"
+
+msgid "Money from Cleared Cheques Brought Back"
+msgstr "پول چک‌های پاس‌شده که دوباره آورده شده"
+
+msgid "Brought Back Into"
+msgstr "واریز به حساب"
+
+msgid "Make New Contract"
+msgstr "ساخت قرارداد جدید"
+
+msgid "Instalments Coming In"
+msgstr "اقساط دریافتنی"
+
+msgid "Due to Investors"
+msgstr "پرداختنی به سرمایه‌گذاران"
+
+msgid "Net"
+msgstr "خالص"
+
+msgid "Running Balance"
+msgstr "مانده‌ی تجمعی"
+
+msgid "Instalments and Investors Cash Forecast"
+msgstr "پیش‌بینی نقدینگی اقساط و سرمایه‌گذاران"
+
+msgid "Days Late"
+msgstr "روز تأخیر"
+
+msgid "Cheque Status"
+msgstr "وضعیت چک"
+
+msgid "Late Fee to Date"
+msgstr "جریمه تا امروز"
+
+msgid "Vehicles"
+msgstr "خودروها"
+
+msgid "No investor account is linked to your login. Ask the office to link it."
+msgstr "هیچ حساب سرمایه‌گذاری به کاربری شما وصل نیست. از دفتر بخواهید آن را وصل کند."
+
+msgid "Log in to print cheques"
+msgstr "برای چاپ چک وارد شوید"
+
+msgid "Print Cheque"
+msgstr "چاپ چک"
+
+msgid "Print on Cheque"
+msgstr "چاپ روی برگ چک"
+
+msgid "Test Print (with grid)"
+msgstr "چاپ آزمایشی (با خط‌کش)"
+
+msgid "Record Purchase in the Books"
+msgstr "ثبت خرید در دفاتر"
+
+msgid "Sell in Instalments"
+msgstr "فروش اقساطی"
+
+msgid "Total cost of the car: {0}"
+msgstr "بهای تمام‌شده‌ی خودرو: {0}"
+
+msgid "Profit on the car: {0}"
+msgstr "سود این خودرو: {0}"
+
+msgid "Instalment Sales"
+msgstr "فروش اقساطی"
+
+msgid "Investors"
+msgstr "سرمایه‌گذاران"
+
+msgid "Cash Forecast"
+msgstr "پیش‌بینی نقدینگی"
+
+msgid "Partnership"
+msgstr "مشارکت"

@@ -137,6 +137,7 @@ BUSINESS_TYPES = {
 	"Manufacturing": "تولیدی",
 	"Services": "خدماتی",
 	"Contracting": "پیمانکاری",
+	"Car Dealership": "نمایشگاه خودرو (فروش اقساطی و سرمایه‌گذار)",
 }
 SELLS = {"Goods": "کالا", "Services": "خدمت", "Goods and Services": "کالا و خدمت"}
 
@@ -207,6 +208,7 @@ def get_state() -> dict:
 			"vat_registered": setup.vat_registered,
 			"uses_cheques": setup.uses_cheques,
 			"opening_date": str(setup.opening_date) if setup.opening_date else None,
+			"branches": setup.branches,
 		},
 		"data": _data(setup),
 		"warehouses": frappe.get_all(
@@ -281,7 +283,7 @@ def _fail(errors: list[str]):
 
 
 def _save_business(setup, data, values):
-	for field in ("business_type", "sells", "opening_date"):
+	for field in ("business_type", "sells", "opening_date", "branches"):
 		setup.set(field, values.get(field))
 	for field in ("has_warehouse", "vat_registered", "uses_cheques"):
 		setup.set(field, 1 if values.get(field) else 0)
@@ -289,6 +291,7 @@ def _save_business(setup, data, values):
 		frappe.throw(_("Choose the start date."))
 	_show_parts(setup)
 	_apply_vat(setup, data)
+	_apply_business_pack(setup)
 
 
 def _show_parts(setup):
@@ -304,6 +307,15 @@ def _show_parts(setup):
 		if frappe.db.exists("Desktop Icon", label):
 			frappe.db.set_value("Desktop Icon", label, "hidden", 0 if show else 1)
 	clear_every_users_desktop_icons()
+
+
+def _apply_business_pack(setup):
+	"""What the kind of business needs on top of the common parts, and its branches."""
+	from iran_erp.business import PACKS, apply_pack, set_branches
+
+	set_branches((setup.branches or "").splitlines(), _company())
+	if setup.business_type in PACKS:
+		apply_pack(setup.business_type, _company())
 
 
 def _apply_vat(setup, data):

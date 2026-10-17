@@ -12,6 +12,7 @@
   "vat_registered",
   "uses_cheques",
   "opening_date",
+  "branches",
   "progress_section",
   "steps_done",
   "data",
@@ -29,7 +30,7 @@
    "fieldname": "business_type",
    "fieldtype": "Select",
    "label": "Kind of Business",
-   "options": "\nShop\nDistribution\nManufacturing\nServices\nContracting"
+   "options": "\nShop\nDistribution\nManufacturing\nServices\nContracting\nCar Dealership"
   },
   {
    "fieldname": "sells",
@@ -64,6 +65,11 @@
    "fieldname": "opening_date",
    "fieldtype": "Date",
    "label": "Start Date"
+  },
+  {
+   "fieldname": "branches",
+   "fieldtype": "Small Text",
+   "label": "Branches"
   },
   {
    "fieldname": "progress_section",
@@ -106,7 +112,7 @@
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-10-15 14:00:00.000000",
+ "modified": "2026-10-17 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran Setup",

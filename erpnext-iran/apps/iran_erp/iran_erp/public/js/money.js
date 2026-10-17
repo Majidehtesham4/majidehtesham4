@@ -19,6 +19,12 @@ iran_erp.money.isolate = function (number, words) {
 	return `${RLI}${LRI}${number}${PDI} ${words}${PDI}`;
 };
 
+// An amount in the company's currency, formatted as its fields are (no decimals for the rial)
+iran_erp.money.format = function (value) {
+	const currency = (frappe.boot.sysdefaults && frappe.boot.sysdefaults.currency) || undefined;
+	return format_currency(value || 0, currency, currency ? 0 : undefined);
+};
+
 // The number and the words of an isolated amount, or null for any other text
 iran_erp.money.parts = function (text) {
 	const match = /^⁧⁦(.*?)⁩ (.*)⁩$/.exec(String(text || "").trim());
