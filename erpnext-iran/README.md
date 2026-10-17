@@ -75,6 +75,14 @@ docker compose logs -f create-site     # تا ساخت سایت تمام شود
 docker compose exec backend bench --site frontend execute iran_erp.fresh_start.run
 ```
 
+روی ویندوز همه‌ی این مراحل با یک اسکریپت انجام می‌شود؛ اسکریپت حجم‌هایی را هم که `down -v` نتوانسته پاک کند
+(چون کانتینری هنوز از آن‌ها استفاده می‌کرد) پاک می‌کند:
+
+```powershell
+cd deploy
+powershell -ExecutionPolicy Bypass -File .\reset.ps1
+```
+
 ### داده‌ی نمونه
 
 برای آشنایی با سیستم، در «تنظیمات ایرانی» (`/desk/iran-erp-settings`) از منوی «داده‌ی نمونه» گزینه‌ی «ساخت داده‌ی نمونه»
