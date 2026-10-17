@@ -72,6 +72,18 @@ def get_custom_fields():
 	return fields
 
 
+def refresh_module_map():
+	"""Read the apps' modules afresh before the DocTypes are synced.
+
+	A migrate takes its list of modules from the cache as it was when the command started. An
+	update that adds a module (Iran Dealership) was then synced without that module's DocTypes,
+	and everything that needed them failed («No module named frappe.core.doctype.iran_car_model»).
+	"""
+	frappe.cache.delete_value(["app_modules", "module_app"])
+	frappe.client_cache.delete_value("installed_app_modules")
+	frappe.setup_module_map()
+
+
 def setup_rial():
 	"""The rial has no subunit in practice, so show and round IRR amounts without decimals.
 
