@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "creation": "2026-10-18 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "section",
+  "measure",
+  "score",
+  "comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "label": "Item",
+   "options": "Iran Inspection Item",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Select",
+   "label": "Section",
+   "options": "Technical\nInterior",
+   "fetch_from": "item.section",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "measure",
+   "fieldtype": "Select",
+   "label": "Measured As",
+   "options": "Score\nPercent",
+   "fetch_from": "item.measure",
+   "read_only": 1
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Score or Percent",
+   "in_list_view": 1,
+   "description": "1 to 10, or a percent"
+  },
+  {
+   "fieldname": "comment",
+   "fieldtype": "Data",
+   "label": "Comment",
+   "in_list_view": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-18 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran Dealership",
+ "name": "Iran Vehicle Inspection",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

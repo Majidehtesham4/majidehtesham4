@@ -1,0 +1,624 @@
+{
+ "actions": [],
+ "creation": "2026-10-18 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tab_identity",
+  "naming_series",
+  "title",
+  "car_model",
+  "year",
+  "color",
+  "plate",
+  "column_break_identity",
+  "status",
+  "entry_date",
+  "mileage",
+  "chassis_number",
+  "engine_number",
+  "section_place",
+  "branch",
+  "company",
+  "column_break_place",
+  "parking",
+  "parking_spot",
+  "tab_owner",
+  "ownership",
+  "investor",
+  "investment_contract",
+  "owner_customer",
+  "owner_mobile",
+  "owner_national_id",
+  "commission_rate",
+  "charge_costs_to_owner",
+  "column_break_owner",
+  "purchase_date",
+  "purchase_price",
+  "seller",
+  "paid_from",
+  "purchase_entry",
+  "section_price",
+  "asking_price",
+  "column_break_price",
+  "minimum_price",
+  "section_documents",
+  "doc_ownership",
+  "doc_card",
+  "doc_insurance",
+  "doc_body_insurance",
+  "doc_spare_key",
+  "column_break_documents",
+  "doc_warranty",
+  "doc_fines_clear",
+  "doc_tax_clear",
+  "doc_technical_check",
+  "documents_note",
+  "tab_body",
+  "body_diagram",
+  "body_marks",
+  "body_summary",
+  "tab_inspection",
+  "inspection",
+  "inspection_note",
+  "tab_costs",
+  "costs",
+  "section_cost_totals",
+  "preparation_total",
+  "repair_total",
+  "column_break_cost_totals",
+  "paperwork_total",
+  "total_cost",
+  "tab_sale",
+  "sale_contract",
+  "sold_price",
+  "profit",
+  "column_break_sale",
+  "exit_date",
+  "delivered_to",
+  "days_in_lot",
+  "tab_log",
+  "log",
+  "notes"
+ ],
+ "fields": [
+  {
+   "fieldname": "tab_identity",
+   "fieldtype": "Tab Break",
+   "label": "Car"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CAR-.#####",
+   "default": "CAR-.#####",
+   "reqd": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "car_model",
+   "fieldtype": "Link",
+   "label": "Model",
+   "options": "Iran Car Model",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "label": "Model Year",
+   "in_list_view": 1,
+   "description": "Jalali year, for example 1403"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Link",
+   "label": "Color",
+   "options": "Iran Car Color",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "plate",
+   "fieldtype": "Data",
+   "label": "Plate",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_identity",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status in the Lot",
+   "options": "Awaiting Delivery\nIn Preparation\nReady for Sale\nReserved\nSold\nExited",
+   "default": "Ready for Sale",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Reserved, sold and exited are set by the sale"
+  },
+  {
+   "fieldname": "entry_date",
+   "fieldtype": "Date",
+   "label": "Entry Date",
+   "reqd": 1,
+   "default": "Today"
+  },
+  {
+   "fieldname": "mileage",
+   "fieldtype": "Int",
+   "label": "Mileage (km)"
+  },
+  {
+   "fieldname": "chassis_number",
+   "fieldtype": "Data",
+   "label": "Chassis Number (VIN)",
+   "unique": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "engine_number",
+   "fieldtype": "Data",
+   "label": "Engine Number"
+  },
+  {
+   "fieldname": "section_place",
+   "fieldtype": "Section Break",
+   "label": "Where It Is"
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Link",
+   "label": "Branch",
+   "options": "Branch",
+   "in_standard_filter": 1,
+   "description": "The branch of whoever registers the car; only an administrator changes it"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "remember_last_selected_value": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "column_break_place",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "parking",
+   "fieldtype": "Link",
+   "label": "Parking",
+   "options": "Iran Parking",
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "parking_spot",
+   "fieldtype": "Data",
+   "label": "Spot Number"
+  },
+  {
+   "fieldname": "tab_owner",
+   "fieldtype": "Tab Break",
+   "label": "Owner and Price"
+  },
+  {
+   "fieldname": "ownership",
+   "fieldtype": "Select",
+   "label": "Owned By",
+   "options": "Business\nInvestor\nCustomer",
+   "default": "Business",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "investor",
+   "fieldtype": "Link",
+   "label": "Investor",
+   "options": "Iran Investor",
+   "depends_on": "eval:doc.ownership=='Investor'",
+   "mandatory_depends_on": "eval:doc.ownership=='Investor'"
+  },
+  {
+   "fieldname": "investment_contract",
+   "fieldtype": "Link",
+   "label": "Investment Contract",
+   "options": "Iran Investment Contract",
+   "depends_on": "eval:doc.ownership=='Investor'"
+  },
+  {
+   "fieldname": "owner_customer",
+   "fieldtype": "Link",
+   "label": "Owner (Customer)",
+   "options": "Customer",
+   "depends_on": "eval:doc.ownership=='Customer'",
+   "mandatory_depends_on": "eval:doc.ownership=='Customer'",
+   "description": "A car left by its owner to be sold on their behalf"
+  },
+  {
+   "fieldname": "owner_mobile",
+   "fieldtype": "Data",
+   "label": "Owner's Mobile",
+   "options": "Phone",
+   "depends_on": "eval:doc.ownership=='Customer'"
+  },
+  {
+   "fieldname": "owner_national_id",
+   "fieldtype": "Data",
+   "label": "Owner's National ID",
+   "depends_on": "eval:doc.ownership=='Customer'"
+  },
+  {
+   "fieldname": "commission_rate",
+   "fieldtype": "Percent",
+   "label": "Commission (%)",
+   "depends_on": "eval:doc.ownership!='Business'",
+   "description": "What the business keeps of the sale price"
+  },
+  {
+   "fieldname": "charge_costs_to_owner",
+   "fieldtype": "Check",
+   "label": "Costs Are the Owner's",
+   "default": "1",
+   "depends_on": "eval:doc.ownership!='Business'",
+   "description": "Preparation and repair costs are taken from what the owner receives"
+  },
+  {
+   "fieldname": "column_break_owner",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "purchase_date",
+   "fieldtype": "Date",
+   "label": "Purchase Date",
+   "depends_on": "eval:doc.ownership=='Business'"
+  },
+  {
+   "fieldname": "purchase_price",
+   "fieldtype": "Currency",
+   "label": "Purchase Price",
+   "depends_on": "eval:doc.ownership=='Business'"
+  },
+  {
+   "fieldname": "seller",
+   "fieldtype": "Link",
+   "label": "Bought From",
+   "options": "Supplier",
+   "depends_on": "eval:doc.ownership=='Business'",
+   "description": "Leave empty when paid right away"
+  },
+  {
+   "fieldname": "paid_from",
+   "fieldtype": "Link",
+   "label": "Paid From",
+   "options": "Account",
+   "depends_on": "eval:doc.ownership=='Business'",
+   "description": "Bank or cash account, when the car was paid for right away"
+  },
+  {
+   "fieldname": "purchase_entry",
+   "fieldtype": "Link",
+   "label": "Purchase Entry",
+   "options": "Journal Entry",
+   "read_only": 1,
+   "depends_on": "eval:doc.purchase_entry"
+  },
+  {
+   "fieldname": "section_price",
+   "fieldtype": "Section Break",
+   "label": "Selling Price"
+  },
+  {
+   "fieldname": "asking_price",
+   "fieldtype": "Currency",
+   "label": "Asking Price",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_price",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "minimum_price",
+   "fieldtype": "Currency",
+   "label": "Lowest Price Accepted",
+   "description": "Seen by staff only, not printed"
+  },
+  {
+   "fieldname": "section_documents",
+   "fieldtype": "Section Break",
+   "label": "Documents Received",
+   "description": "Tick what was handed over with the car"
+  },
+  {
+   "fieldname": "doc_ownership",
+   "fieldtype": "Check",
+   "label": "Ownership Document (Sanad)"
+  },
+  {
+   "fieldname": "doc_card",
+   "fieldtype": "Check",
+   "label": "Car Card"
+  },
+  {
+   "fieldname": "doc_insurance",
+   "fieldtype": "Check",
+   "label": "Third-Party Insurance"
+  },
+  {
+   "fieldname": "doc_body_insurance",
+   "fieldtype": "Check",
+   "label": "Body Insurance"
+  },
+  {
+   "fieldname": "doc_spare_key",
+   "fieldtype": "Check",
+   "label": "Spare Key"
+  },
+  {
+   "fieldname": "column_break_documents",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "doc_warranty",
+   "fieldtype": "Check",
+   "label": "Warranty Booklet"
+  },
+  {
+   "fieldname": "doc_fines_clear",
+   "fieldtype": "Check",
+   "label": "No Traffic Fines"
+  },
+  {
+   "fieldname": "doc_tax_clear",
+   "fieldtype": "Check",
+   "label": "Annual Tax Paid"
+  },
+  {
+   "fieldname": "doc_technical_check",
+   "fieldtype": "Check",
+   "label": "Technical Inspection Certificate"
+  },
+  {
+   "fieldname": "documents_note",
+   "fieldtype": "Small Text",
+   "label": "Note on the Documents"
+  },
+  {
+   "fieldname": "tab_body",
+   "fieldtype": "Tab Break",
+   "label": "Body and Paint"
+  },
+  {
+   "fieldname": "body_diagram",
+   "fieldtype": "HTML",
+   "label": "Body Diagram"
+  },
+  {
+   "fieldname": "body_marks",
+   "fieldtype": "Table",
+   "label": "Body Condition",
+   "options": "Iran Vehicle Body Mark"
+  },
+  {
+   "fieldname": "body_summary",
+   "fieldtype": "Small Text",
+   "label": "Body Summary",
+   "read_only": 1,
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "tab_inspection",
+   "fieldtype": "Tab Break",
+   "label": "Technical and Interior"
+  },
+  {
+   "fieldname": "inspection",
+   "fieldtype": "Table",
+   "label": "Technical and Interior Condition",
+   "options": "Iran Vehicle Inspection"
+  },
+  {
+   "fieldname": "inspection_note",
+   "fieldtype": "Small Text",
+   "label": "Expert's Note"
+  },
+  {
+   "fieldname": "tab_costs",
+   "fieldtype": "Tab Break",
+   "label": "Services and Costs"
+  },
+  {
+   "fieldname": "costs",
+   "fieldtype": "Table",
+   "label": "Services and Costs",
+   "options": "Iran Vehicle Cost"
+  },
+  {
+   "fieldname": "section_cost_totals",
+   "fieldtype": "Section Break",
+   "label": "Totals"
+  },
+  {
+   "fieldname": "preparation_total",
+   "fieldtype": "Currency",
+   "label": "Preparation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "repair_total",
+   "fieldtype": "Currency",
+   "label": "Repairs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_cost_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "paperwork_total",
+   "fieldtype": "Currency",
+   "label": "Paperwork and Other",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_cost",
+   "fieldtype": "Currency",
+   "label": "Total Cost",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "tab_sale",
+   "fieldtype": "Tab Break",
+   "label": "Sale and Exit"
+  },
+  {
+   "fieldname": "sale_contract",
+   "fieldtype": "Link",
+   "label": "Sale Contract",
+   "options": "Iran Instalment Sale",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sold_price",
+   "fieldtype": "Currency",
+   "label": "Sale Price",
+   "read_only": 1
+  },
+  {
+   "fieldname": "profit",
+   "fieldtype": "Currency",
+   "label": "Profit on the Car",
+   "read_only": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "column_break_sale",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "exit_date",
+   "fieldtype": "Date",
+   "label": "Exit Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "delivered_to",
+   "fieldtype": "Data",
+   "label": "Delivered To",
+   "read_only": 1
+  },
+  {
+   "fieldname": "days_in_lot",
+   "fieldtype": "Int",
+   "label": "Days in the Lot",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tab_log",
+   "fieldtype": "Tab Break",
+   "label": "Car File"
+  },
+  {
+   "fieldname": "log",
+   "fieldtype": "Table",
+   "label": "Everything That Happened",
+   "options": "Iran Vehicle Log",
+   "read_only": 1
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran Dealership",
+ "name": "Iran Vehicle",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Sales User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Stock User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "naming_series:",
+ "naming_rule": "By \"Naming Series\" field",
+ "title_field": "title",
+ "show_title_field_in_link": 1,
+ "search_fields": "car_model,plate,chassis_number,status",
+ "image_field": null,
+ "default_print_format": "Car File"
+}

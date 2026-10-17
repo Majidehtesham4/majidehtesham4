@@ -200,6 +200,7 @@ def get_state() -> dict:
 		"steps": steps,
 		"tables": TABLES,
 		"business_types": BUSINESS_TYPES,
+		"business_features": _business_features(),
 		"sells": SELLS,
 		"answers": {
 			"business_type": setup.business_type,
@@ -209,6 +210,8 @@ def get_state() -> dict:
 			"uses_cheques": setup.uses_cheques,
 			"opening_date": str(setup.opening_date) if setup.opening_date else None,
 			"branches": setup.branches,
+			"parkings": setup.parkings,
+			"business_features": json.loads(setup.business_features or "null"),
 		},
 		"data": _data(setup),
 		"warehouses": frappe.get_all(
@@ -283,10 +286,20 @@ def _fail(errors: list[str]):
 
 
 def _save_business(setup, data, values):
-	for field in ("business_type", "sells", "opening_date", "branches"):
+	for field in ("business_type", "sells", "opening_date", "branches", "parkings"):
 		setup.set(field, values.get(field))
+	from iran_erp.business import PACKS
+
+	pack = PACKS.get(setup.business_type) or {}
+	if pack.get("features"):
+		# A car dealership sells goods it does not keep in the stock module: its cars have their own file
+		setup.sells, setup.has_warehouse = "Goods", 0
+		chosen = values.get(_features_field(setup.business_type)) or []
+		setup.business_features = json.dumps([key for key, *_rest in pack["features"] if key in chosen])
 	for field in ("has_warehouse", "vat_registered", "uses_cheques"):
 		setup.set(field, 1 if values.get(field) else 0)
+	if setup.business_type in ("Car Dealership",):
+		setup.has_warehouse = 0
 	if not setup.opening_date:
 		frappe.throw(_("Choose the start date."))
 	_show_parts(setup)
@@ -311,11 +324,28 @@ def _show_parts(setup):
 
 def _apply_business_pack(setup):
 	"""What the kind of business needs on top of the common parts, and its branches."""
-	from iran_erp.business import PACKS, apply_pack, set_branches
+	from iran_erp.business import PACKS, apply_pack, set_branches, set_parkings
 
 	set_branches((setup.branches or "").splitlines(), _company())
 	if setup.business_type in PACKS:
-		apply_pack(setup.business_type, _company())
+		features = json.loads(setup.business_features or "null")
+		apply_pack(setup.business_type, _company(), features)
+		set_parkings((setup.parkings or "").splitlines())
+
+
+def _business_features() -> dict:
+	"""For each kind of business with choices of its own: the field and the choices."""
+	from iran_erp.business import PACKS
+
+	return {
+		business_type: {"field": _features_field(business_type), "choices": pack["features"]}
+		for business_type, pack in PACKS.items()
+		if pack.get("features")
+	}
+
+
+def _features_field(business_type) -> str:
+	return "features_" + frappe.scrub(business_type)
 
 
 def _apply_vat(setup, data):

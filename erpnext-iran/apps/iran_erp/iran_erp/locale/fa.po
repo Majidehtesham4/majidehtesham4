@@ -19948,3 +19948,496 @@ msgstr "پیش‌بینی نقدینگی"
 
 msgid "Partnership"
 msgstr "مشارکت"
+
+#. Car dealership module: car file, lists, dashboard, menu
+msgid "Car Dealership"
+msgstr "نمایشگاه خودرو"
+
+msgid "Iran Vehicle Body Mark"
+msgstr "علامت بدنه"
+
+msgid "Body Part"
+msgstr "قطعه بدنه"
+
+msgid "Iran Vehicle Service"
+msgstr "خدمات خودرو"
+
+msgid "Preparation"
+msgstr "آماده‌سازی"
+
+msgid "Paperwork"
+msgstr "امور اداری و مدارک"
+
+msgid "Usual Cost"
+msgstr "هزینه معمول"
+
+msgid "Ask Whole or Part"
+msgstr "پرسیدن کلی یا موضعی"
+
+msgid "Polish, paint, PDR...: done on the whole car or on some parts"
+msgstr "پولیش، رنگ، PDR و ...: روی کل خودرو یا بخشی از آن انجام می‌شود"
+
+msgid "Iran Car Model"
+msgstr "مدل خودرو"
+
+msgid "Body Type"
+msgstr "نوع بدنه"
+
+msgid "Sedan"
+msgstr "سدان"
+
+msgid "Hatchback"
+msgstr "هاچ‌بک"
+
+msgid "SUV"
+msgstr "شاسی‌بلند"
+
+msgid "Crossover"
+msgstr "کراس‌اوور"
+
+msgid "Van"
+msgstr "ون"
+
+msgid "Car"
+msgstr "خودرو"
+
+msgid "Jalali year, for example 1403"
+msgstr "سال شمسی، مثلاً ۱۴۰۳"
+
+msgid "Status in the Lot"
+msgstr "وضعیت در نمایشگاه"
+
+msgid "Reserved, sold and exited are set by the sale"
+msgstr "«رزرو»، «فروخته‌شده» و «خارج‌شده» با فروش خودکار تنظیم می‌شوند"
+
+msgid "In Preparation"
+msgstr "در حال آماده‌سازی"
+
+msgid "Ready for Sale"
+msgstr "آماده فروش"
+
+msgid "Exited"
+msgstr "خارج‌شده"
+
+msgid "Entry Date"
+msgstr "تاریخ ورود"
+
+msgid "Where It Is"
+msgstr "محل خودرو"
+
+msgid "The branch of whoever registers the car; only an administrator changes it"
+msgstr "شعبه‌ی کسی که خودرو را ثبت می‌کند؛ فقط مدیر سیستم می‌تواند آن را تغییر دهد"
+
+msgid "Parking"
+msgstr "پارکینگ"
+
+msgid "Spot Number"
+msgstr "شماره جایگاه"
+
+msgid "Owner and Price"
+msgstr "مالک و قیمت"
+
+msgid "Owner (Customer)"
+msgstr "مالک (مشتری)"
+
+msgid "A car left by its owner to be sold on their behalf"
+msgstr "خودرویی که مالکش آن را برای فروش امانی به نمایشگاه سپرده است"
+
+msgid "Owner's Mobile"
+msgstr "موبایل مالک"
+
+msgid "Owner's National ID"
+msgstr "کد ملی مالک"
+
+msgid "Commission (%)"
+msgstr "حق‌العمل (درصد)"
+
+msgid "What the business keeps of the sale price"
+msgstr "سهم مجموعه از قیمت فروش"
+
+msgid "Costs Are the Owner's"
+msgstr "هزینه‌ها به عهده‌ی مالک"
+
+msgid "Preparation and repair costs are taken from what the owner receives"
+msgstr "هزینه‌های آماده‌سازی و تعمیر از مبلغی که به مالک پرداخت می‌شود کم می‌شود"
+
+msgid "Leave empty when paid right away"
+msgstr "اگر همان موقع پرداخت شده خالی بگذارید"
+
+msgid "Selling Price"
+msgstr "قیمت فروش"
+
+msgid "Lowest Price Accepted"
+msgstr "کف قیمت"
+
+msgid "Seen by staff only, not printed"
+msgstr "فقط برای کارکنان؛ چاپ نمی‌شود"
+
+msgid "Documents Received"
+msgstr "مدارک دریافت‌شده"
+
+msgid "Tick what was handed over with the car"
+msgstr "مدارکی که همراه خودرو تحویل شده را تیک بزنید"
+
+msgid "Ownership Document (Sanad)"
+msgstr "سند مالکیت"
+
+msgid "Car Card"
+msgstr "کارت خودرو"
+
+msgid "Third-Party Insurance"
+msgstr "بیمه شخص ثالث"
+
+msgid "Body Insurance"
+msgstr "بیمه بدنه"
+
+msgid "Spare Key"
+msgstr "سوئیچ یدک"
+
+msgid "Warranty Booklet"
+msgstr "دفترچه گارانتی"
+
+msgid "No Traffic Fines"
+msgstr "برگه خلافی (بدون خلافی)"
+
+msgid "Annual Tax Paid"
+msgstr "عوارض سالانه پرداخت شده"
+
+msgid "Technical Inspection Certificate"
+msgstr "برگه معاینه فنی"
+
+msgid "Note on the Documents"
+msgstr "توضیح مدارک"
+
+msgid "Body and Paint"
+msgstr "وضعیت بدنه"
+
+msgid "Body Diagram"
+msgstr "نقشه بدنه"
+
+msgid "Body Condition"
+msgstr "وضعیت بدنه"
+
+msgid "Body Summary"
+msgstr "خلاصه بدنه"
+
+msgid "Technical and Interior"
+msgstr "وضعیت فنی و داخلی"
+
+msgid "Technical and Interior Condition"
+msgstr "وضعیت فنی و داخلی"
+
+msgid "Expert's Note"
+msgstr "نظر کارشناس"
+
+msgid "Services and Costs"
+msgstr "خدمات و هزینه‌ها"
+
+msgid "Repairs"
+msgstr "تعمیرات"
+
+msgid "Paperwork and Other"
+msgstr "امور اداری و سایر"
+
+msgid "Sale and Exit"
+msgstr "فروش و خروج"
+
+msgid "Exit Date"
+msgstr "تاریخ خروج"
+
+msgid "Delivered To"
+msgstr "تحویل گیرنده"
+
+msgid "Days in the Lot"
+msgstr "روزهای ماندن در نمایشگاه"
+
+msgid "Car File"
+msgstr "پرونده خودرو"
+
+msgid "Everything That Happened"
+msgstr "سوابق خودرو"
+
+msgid "Iran Parking"
+msgstr "پارکینگ"
+
+msgid "Iran Car Color"
+msgstr "رنگ خودرو"
+
+msgid "Color Code"
+msgstr "کد رنگ"
+
+msgid "Iran Body Condition"
+msgstr "وضعیت قطعه بدنه"
+
+msgid "Color on the Diagram"
+msgstr "رنگ روی نقشه"
+
+msgid "Effect on Price"
+msgstr "اثر روی قیمت"
+
+msgid "Iran Body Part"
+msgstr "قطعه بدنه"
+
+msgid "Place on the Diagram"
+msgstr "جای روی نقشه"
+
+msgid "The name of the part on the car diagram (front_bumper, hood, roof, front_left_door, ...)"
+msgstr "نام این قطعه روی نقشه‌ی خودرو (front_bumper، hood، roof، front_left_door، ...)؛ برای قطعه‌هایی که روی نقشه نیستند خالی بگذارید"
+
+msgid "Iran Vehicle Inspection"
+msgstr "بازدید فنی خودرو"
+
+msgid "Technical"
+msgstr "فنی"
+
+msgid "Interior"
+msgstr "داخلی"
+
+msgid "Measured As"
+msgstr "نوع سنجش"
+
+msgid "Score or Percent"
+msgstr "نمره یا درصد"
+
+msgid "1 to 10, or a percent"
+msgstr "۱ تا ۱۰، یا درصد"
+
+msgid "Iran Vehicle Log"
+msgstr "سابقه خودرو"
+
+msgid "By"
+msgstr "توسط"
+
+msgid "Iran Inspection Item"
+msgstr "مورد بازدید فنی"
+
+msgid "Score: from 1 (bad) to 10 (perfect). Percent: how much is left, for example of the tyres"
+msgstr "نمره: از ۱ (بد) تا ۱۰ (عالی). درصد: چقدر باقی مانده، مثلاً عمر لاستیک‌ها"
+
+msgid "Done On"
+msgstr "محدوده کار"
+
+msgid "Whole Car"
+msgstr "کل خودرو"
+
+msgid "Some Parts"
+msgstr "موضعی (بخشی از خودرو)"
+
+msgid "Parts"
+msgstr "قطعه‌ها"
+
+msgid "Done By"
+msgstr "انجام‌دهنده"
+
+msgid "Own Workshop"
+msgstr "تعمیرگاه خودمان"
+
+msgid "Outside"
+msgstr "بیرون"
+
+msgid "Workshop or Supplier"
+msgstr "تعمیرگاه یا تأمین‌کننده"
+
+msgid "Bank or cash account the cost was paid from; or choose the workshop to owe it"
+msgstr "حساب بانک یا صندوقی که هزینه از آن پرداخت شد؛ یا تعمیرگاه را انتخاب کنید تا بدهی به آن ثبت شود"
+
+msgid "Vehicles in Stock"
+msgstr "موجودی خودروها"
+
+msgid "Vehicle Costs"
+msgstr "هزینه‌های خودروها"
+
+msgid "ERP-VERON"
+msgstr "ERP-VERON"
+
+msgid "AI Assistant Settings"
+msgstr "تنظیمات دستیار هوشمند"
+
+msgid "AI Requests"
+msgstr "درخواست‌های دستیار هوشمند"
+
+msgid "Chat Commands"
+msgstr "دستورهای چت"
+
+msgid "Learned Recipes"
+msgstr "روش‌های آموخته‌شده"
+
+msgid "Page Guides"
+msgstr "راهنمای صفحه‌ها"
+
+msgid "Investment Contracts"
+msgstr "قراردادهای سرمایه‌گذاری"
+
+msgid "Dealership Settings"
+msgstr "تنظیمات نمایشگاه"
+
+msgid "Car Models"
+msgstr "مدل‌های خودرو"
+
+msgid "Car Colors"
+msgstr "رنگ‌های خودرو"
+
+msgid "Body Parts"
+msgstr "قطعه‌های بدنه"
+
+msgid "Body Conditions"
+msgstr "وضعیت‌های بدنه"
+
+msgid "Inspection Items"
+msgstr "موارد بازدید فنی"
+
+msgid "Parkings"
+msgstr "پارکینگ‌ها"
+
+msgid "Business Features"
+msgstr "امکانات کسب‌وکار"
+
+msgid "New Car"
+msgstr "ورود خودروی جدید"
+
+msgid "New Instalment Sale"
+msgstr "فروش اقساطی جدید"
+
+msgid "Cars in the Lot"
+msgstr "خودروهای نمایشگاه"
+
+msgid "Value of own cars: {0}"
+msgstr "ارزش خودروهای مجموعه: {0}"
+
+msgid "Sold This Month"
+msgstr "فروش این ماه"
+
+msgid "Cheques to Receive This Week"
+msgstr "چک‌های دریافتنی این هفته"
+
+msgid "{0} cheques"
+msgstr "{0} چک"
+
+msgid "Cheques to Pay This Week"
+msgstr "چک‌های پرداختنی این هفته"
+
+msgid "{0} instalments"
+msgstr "{0} قسط"
+
+msgid "Due to Investors This Month"
+msgstr "پرداختنی به سرمایه‌گذاران این ماه"
+
+msgid "Longest in the Lot"
+msgstr "طولانی‌ترین ماندن در نمایشگاه"
+
+msgid "{0} days"
+msgstr "{0} روز"
+
+msgid "No cars in the lot"
+msgstr "خودرویی در نمایشگاه نیست"
+
+msgid "Cars by Parking"
+msgstr "خودروها در هر پارکینگ"
+
+msgid "No parking set"
+msgstr "بدون پارکینگ"
+
+msgid "Latest Events"
+msgstr "آخرین رویدادها"
+
+msgid "Only an administrator can move a car to another branch"
+msgstr "فقط مدیر سیستم می‌تواند خودرو را به شعبه‌ی دیگری ببرد"
+
+msgid "A car whose purchase is in the business's books cannot belong to someone else"
+msgstr "خودرویی که خریدش در دفاتر مجموعه ثبت شده نمی‌تواند مال دیگری باشد"
+
+msgid "Body without marks"
+msgstr "بدنه بدون ایراد"
+
+msgid "{0} marks on {1} parts"
+msgstr "{0} مورد روی {1} قطعه"
+
+msgid "Car came in"
+msgstr "ورود خودرو"
+
+msgid "Entry date {0}; {1}"
+msgstr "تاریخ ورود {0}؛ {1}"
+
+msgid "{0} changed"
+msgstr "تغییر {0}"
+
+msgid "Service: {0}"
+msgstr "خدمت: {0}"
+
+msgid "Body condition recorded"
+msgstr "وضعیت بدنه ثبت شد"
+
+msgid "Documents received"
+msgstr "مدارک دریافت شد"
+
+msgid "{0} of car {1} ({2})"
+msgstr "{0} خودرو {1} ({2})"
+
+msgid "Purchase of car {0} ({1})"
+msgstr "خرید خودرو {0} ({1})"
+
+msgid "Purchase recorded in the books"
+msgstr "خرید در دفاتر ثبت شد"
+
+msgid "Only a car in the lot can be reserved"
+msgstr "فقط خودرویی که در نمایشگاه است رزرو می‌شود"
+
+msgid "The car is not reserved"
+msgstr "خودرو رزرو نیست"
+
+msgid "A car leaves the lot after it is sold"
+msgstr "خودرو پس از فروش از نمایشگاه خارج می‌شود"
+
+msgid "Car left the lot"
+msgstr "خروج خودرو از نمایشگاه"
+
+msgid "Sale cancelled"
+msgstr "فروش لغو شد"
+
+msgid "{0} days in the lot"
+msgstr "{0} روز در نمایشگاه"
+
+msgid "Cancel Reservation"
+msgstr "لغو رزرو"
+
+msgid "Car Leaves the Lot"
+msgstr "خروج خودرو"
+
+msgid "Add Service or Cost"
+msgstr "افزودن خدمت یا هزینه"
+
+msgid "Front"
+msgstr "جلو"
+
+msgid "Rear"
+msgstr "عقب"
+
+msgid "Click a part of the car to record what was found on it."
+msgstr "روی هر قسمت خودرو کلیک کنید تا وضعیت آن را ثبت کنید."
+
+msgid "What was found"
+msgstr "چه دیده شد"
+
+msgid "Part Is Sound"
+msgstr "این قطعه سالم است"
+
+msgid "Expected Margin"
+msgstr "سود پیش‌بینی‌شده"
+
+msgid "Cars"
+msgstr "خودروها"
+
+msgid "Times"
+msgstr "دفعات"
+
+msgid "Reserve"
+msgstr "رزرو"
+
+msgid "Sold"
+msgstr "فروخته‌شده"
+msgid "Iran Dealership"
+msgstr "نمایشگاه خودرو"
+
+msgid "Checked Item"
+msgstr "مورد بازدید"
+

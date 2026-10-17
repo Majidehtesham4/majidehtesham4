@@ -13,6 +13,8 @@
   "uses_cheques",
   "opening_date",
   "branches",
+  "business_features",
+  "parkings",
   "progress_section",
   "steps_done",
   "data",
@@ -72,6 +74,16 @@
    "label": "Branches"
   },
   {
+   "fieldname": "business_features",
+   "fieldtype": "Small Text",
+   "label": "Business Features"
+  },
+  {
+   "fieldname": "parkings",
+   "fieldtype": "Small Text",
+   "label": "Parkings"
+  },
+  {
    "fieldname": "progress_section",
    "fieldtype": "Section Break",
    "label": "Progress"
@@ -112,7 +124,7 @@
  ],
  "issingle": 1,
  "links": [],
- "modified": "2026-10-17 09:00:00.000000",
+ "modified": "2026-10-18 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran Setup",

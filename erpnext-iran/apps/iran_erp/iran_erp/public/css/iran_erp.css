@@ -1003,3 +1003,169 @@
 	text-align: center;
 	color: var(--text-muted);
 }
+
+/* The dealership's home (iran-dealership) */
+.iran-dash {
+	padding: 6px 0 40px;
+}
+.iran-dash-cards {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+	gap: 12px;
+	margin-bottom: 14px;
+}
+.iran-dash-card {
+	display: block;
+	border: 1px solid var(--border-color);
+	border-radius: 14px;
+	padding: 14px 16px;
+	background: var(--card-bg);
+	color: var(--text-color) !important;
+	text-decoration: none !important;
+	transition: box-shadow 0.15s, transform 0.15s;
+}
+.iran-dash-card:hover {
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+	transform: translateY(-1px);
+}
+.iran-dash-card .label {
+	color: var(--text-muted);
+	font-size: 12px;
+}
+.iran-dash-card .value {
+	font-size: 22px;
+	font-weight: 700;
+	margin-top: 4px;
+}
+.iran-dash-card .sub {
+	font-size: 12px;
+	color: var(--text-muted);
+	margin-top: 2px;
+}
+.iran-dash-card.accent {
+	background: linear-gradient(135deg, #0f766e, #0e7490);
+	border: none;
+	color: #fff !important;
+}
+.iran-dash-card.accent .label,
+.iran-dash-card.accent .sub {
+	color: rgba(255, 255, 255, 0.85);
+}
+.iran-dash-card.good .value {
+	color: #15803d;
+}
+.iran-dash-card.warn .value {
+	color: #b45309;
+}
+.iran-dash-card.bad .value {
+	color: #b91c1c;
+}
+.iran-dash-row {
+	display: grid;
+	grid-template-columns: 1fr 1fr 2fr;
+	gap: 12px;
+}
+@media (max-width: 991px) {
+	.iran-dash-row {
+		grid-template-columns: 1fr;
+	}
+}
+.iran-dash-box {
+	border: 1px solid var(--border-color);
+	border-radius: 14px;
+	padding: 12px 14px;
+	background: var(--card-bg);
+}
+.iran-dash-title {
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+.iran-dash-line {
+	display: flex;
+	justify-content: space-between;
+	gap: 8px;
+	padding: 6px 2px;
+	border-top: 1px solid var(--border-color);
+	color: var(--text-color) !important;
+	text-decoration: none !important;
+	font-size: 13px;
+}
+.iran-dash-line:first-of-type {
+	border-top: none;
+}
+a.iran-dash-line:hover {
+	background: var(--subtle-fg);
+}
+.iran-dash-line > span:last-child {
+	flex-shrink: 0;
+	white-space: nowrap;
+}
+
+/* Body diagram of a car (Iran Vehicle) */
+.iran-body {
+	display: flex;
+	gap: 24px;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+.iran-body-figure {
+	width: 260px;
+	flex-shrink: 0;
+}
+.iran-body-svg {
+	width: 100%;
+	height: auto;
+}
+.iran-body-part {
+	stroke: var(--gray-500, #9ca3af);
+	stroke-width: 1.5;
+	cursor: pointer;
+	transition: filter 0.15s;
+}
+.iran-body-part:hover {
+	filter: brightness(0.9);
+	stroke: #7c3aed;
+	stroke-width: 2.5;
+}
+.iran-body-part.marked {
+	stroke: #111;
+}
+.iran-body-count {
+	font-size: 15px;
+	font-weight: 700;
+	fill: #fff;
+	text-anchor: middle;
+	pointer-events: none;
+	paint-order: stroke;
+	stroke: rgba(0, 0, 0, 0.45);
+	stroke-width: 3px;
+}
+.iran-body-side {
+	flex: 1;
+	min-width: 240px;
+}
+.iran-body-legends {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 14px;
+	margin-bottom: 10px;
+	font-size: 12px;
+}
+.iran-body-legend i {
+	display: inline-block;
+	width: 12px;
+	height: 12px;
+	border-radius: 3px;
+	margin-inline-end: 4px;
+	vertical-align: middle;
+}
+.iran-body-extra {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin-bottom: 10px;
+}
+.iran-body-list {
+	padding-inline-start: 18px;
+	line-height: 1.9;
+}

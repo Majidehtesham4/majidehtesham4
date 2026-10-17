@@ -1,0 +1,119 @@
+{
+ "actions": [],
+ "creation": "2026-10-18 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "service",
+  "category",
+  "scope",
+  "body_parts",
+  "done_by",
+  "vendor",
+  "amount",
+  "status",
+  "paid_from",
+  "description",
+  "journal_entry"
+ ],
+ "fields": [
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1,
+   "in_list_view": 1,
+   "default": "Today"
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Link",
+   "label": "Service",
+   "options": "Iran Vehicle Service",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Select",
+   "label": "Category",
+   "options": "Preparation\nRepair\nPaperwork\nOther",
+   "fetch_from": "service.category",
+   "read_only": 1
+  },
+  {
+   "fieldname": "scope",
+   "fieldtype": "Select",
+   "label": "Done On",
+   "options": "Whole Car\nSome Parts",
+   "default": "Whole Car"
+  },
+  {
+   "fieldname": "body_parts",
+   "fieldtype": "Data",
+   "label": "Parts",
+   "depends_on": "eval:doc.scope=='Some Parts'"
+  },
+  {
+   "fieldname": "done_by",
+   "fieldtype": "Select",
+   "label": "Done By",
+   "options": "Own Workshop\nOutside",
+   "default": "Own Workshop",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "vendor",
+   "fieldtype": "Link",
+   "label": "Workshop or Supplier",
+   "options": "Supplier",
+   "depends_on": "eval:doc.done_by=='Outside'"
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Planned\nDone",
+   "default": "Done",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "paid_from",
+   "fieldtype": "Link",
+   "label": "Paid From",
+   "options": "Account",
+   "description": "Bank or cash account the cost was paid from; or choose the workshop to owe it"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Data",
+   "label": "Description"
+  },
+  {
+   "fieldname": "journal_entry",
+   "fieldtype": "Link",
+   "label": "Journal Entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran Dealership",
+ "name": "Iran Vehicle Cost",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

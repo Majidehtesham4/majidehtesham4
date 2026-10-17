@@ -22,6 +22,7 @@ ACCOUNTS = {
 	"fee_income": ("6203", "درآمد کارمزد و جریمه دیرکرد", "62", "Income Account", "Income"),
 	"commission_income": ("6204", "درآمد حق‌العمل فروش امانی", "62", "Income Account", "Income"),
 	"investor_profit": ("8203", "هزینه سود سرمایه‌گذاران", "82", "Expense Account", "Expense"),
+	"preparation_expense": ("8115", "هزینه آماده‌سازی خودرو", "81", "Expense Account", "Expense"),
 	"cost_of_sales": ("7101", "بهای تمام‌شده کالای فروش‌رفته", "71", "Cost of Goods Sold", "Expense"),
 }
 
@@ -30,36 +31,41 @@ INVESTOR_ROLE = "Investor"
 
 # label, link, image, roles: home-screen icons of a pack's pages
 DEALERSHIP_ICONS = (
-	("Vehicles", "/desk/iran-vehicle", "vehicles.svg", ("System Manager", "Accounts Manager", "Sales User")),
 	(
-		"Instalment Sales",
-		"/desk/iran-instalment-sale",
-		"instalments.svg",
-		("System Manager", "Accounts Manager", "Accounts User", "Sales User"),
-	),
-	(
-		"Investors",
-		"/desk/iran-investment-contract",
-		"investors.svg",
-		("System Manager", "Accounts Manager", "Accounts User"),
-	),
-	(
-		"Cash Forecast",
-		"/desk/query-report/Instalments and Investors Cash Forecast",
-		"forecast.svg",
-		("System Manager", "Accounts Manager", "Accounts User"),
+		"Car Dealership",
+		"/desk/iran-dealership",
+		"vehicles.svg",
+		("System Manager", "Accounts Manager", "Accounts User", "Sales User", "Stock User"),
 	),
 )
+# Icons of the first version of the pack, now pages of the dealership's own menu
+OLD_ICONS = ("Vehicles", "Instalment Sales", "Investors", "Cash Forecast")
 
 INVESTOR_ICON = ("My Account", "/desk/iran-my-account", "investors.svg", (INVESTOR_ROLE,))
+
+# What a kind of business can choose to use, asked in the easy setup: key, label, explanation
+DEALERSHIP_FEATURES = (
+	("instalments", "فروش اقساطی", "پیش‌پرداخت و اقساط با چک، سود ماهانه، جریمه دیرکرد و تسویه زودتر"),
+	("investors", "سرمایه‌گذار دارم", "قرارداد با سود ماهانه، سود روزشمار، صدور چک‌ها و سرمایه‌گذاری مجدد"),
+	(
+		"remittance",
+		"خرید حواله برای سرمایه‌گذار",
+		"سرمایه‌گذار حواله می‌خرد و خودرو پس از تحویل برایش فروخته می‌شود",
+	),
+	("consignment", "فروش امانی خودروی مشتری", "خودروی مردم را برای فروش می‌پذیرید و حق‌العمل برمی‌دارید"),
+	("preparation", "آماده‌سازی و تعمیرگاه", "کارواش، پولیش، صافکاری، رنگ و ... با هزینه‌ی هر خودرو"),
+	("parkings", "چند پارکینگ دارم", "هر خودرو در کدام پارکینگ و کدام جایگاه است"),
+)
 
 PACKS = {
 	"Car Dealership": {
 		"label": "نمایشگاه خودرو",
 		"icons": DEALERSHIP_ICONS,
 		# Home-screen icons of parts a car dealership does not use
-		"hide": ("Manufacturing", "Projects", "Quality", "Support", "Assets"),
+		"hide": ("Manufacturing", "Projects", "Quality", "Support", "Assets", *OLD_ICONS),
 		"accounts": tuple(ACCOUNTS),
+		"features": DEALERSHIP_FEATURES,
+		"seed": "iran_erp.iran_dealership.seed.seed",
 	},
 }
 
@@ -122,7 +128,37 @@ def ensure_role():
 		)
 
 
-def apply_pack(pack: str, company: str):
+# The menu entries of each choice of a car dealership, hidden when it is not chosen
+FEATURE_PAGES = {
+	"instalments": ("Iran Instalment Sale", "Overdue Instalments"),
+	"investors": ("Iran Investor", "Iran Investment Contract"),
+	"parkings": ("Iran Parking",),
+	"preparation": ("Iran Vehicle Service", "Vehicle Costs"),
+}
+
+
+def apply_features(sidebar: str, features: list[str] | None):
+	"""Shows the menu entries of the chosen parts of the business, hides the others (all shown when
+	nothing was chosen yet)."""
+	if not frappe.db.exists("Sidebar", sidebar):
+		return
+	hidden = set()
+	if features is not None:
+		for feature, pages in FEATURE_PAGES.items():
+			if feature not in features:
+				hidden.update(pages)
+		if "instalments" not in features and "investors" not in features:
+			hidden.add("Instalments and Investors Cash Forecast")
+	for row in frappe.get_all(
+		"Sidebar Item", filters={"parent": sidebar, "parenttype": "Sidebar"}, fields=["name", "link_to"]
+	):
+		frappe.db.set_value(
+			"Sidebar Item", row.name, "hidden", 1 if row.link_to in hidden else 0, update_modified=False
+		)
+	frappe.cache.delete_keys("sidebar")
+
+
+def apply_pack(pack: str, company: str, features: list[str] | None = None):
 	"""Set the system up for one kind of business."""
 	from iran_erp.desktop import add_icons, clear_every_users_desktop_icons
 
@@ -131,11 +167,44 @@ def apply_pack(pack: str, company: str):
 		account(company, key)
 	investor_group(company)
 	ensure_role()
+	ensure_user_branch_field()
+	if spec.get("seed"):
+		frappe.get_attr(spec["seed"])()
 	add_icons(spec["icons"] + (INVESTOR_ICON,))
+	apply_features("Iran Dealership", features)
 	for label in spec["hide"]:
 		if frappe.db.exists("Desktop Icon", label):
 			frappe.db.set_value("Desktop Icon", label, "hidden", 1)
 	clear_every_users_desktop_icons()
+
+
+def ensure_user_branch_field():
+	"""Each user has the branch they work at; what they register is of that branch."""
+	from frappe.custom.doctype.custom_field.custom_field import create_custom_fields
+
+	create_custom_fields(
+		{
+			"User": [
+				{
+					"fieldname": "iran_branch",
+					"label": "Branch",
+					"fieldtype": "Link",
+					"options": "Branch",
+					"insert_after": "mobile_no",
+					"description": "The branch this user works at; cars and contracts they register are of this branch",
+				}
+			]
+		},
+		update=True,
+	)
+
+
+def set_parkings(names: list[str], branch: str | None = None):
+	for name in [n.strip() for n in names if n and n.strip()]:
+		if not frappe.db.exists("Iran Parking", name):
+			frappe.get_doc({"doctype": "Iran Parking", "parking_name": name, "branch": branch}).insert(
+				ignore_permissions=True
+			)
 
 
 def set_branches(names: list[str], company: str | None = None):
@@ -231,4 +300,5 @@ def after_migrate():
 	business_type = frappe.db.get_single_value("Iran Setup", "business_type")
 	company = frappe.defaults.get_global_default("company")
 	if business_type in PACKS and company:
-		apply_pack(business_type, company)
+		features = frappe.db.get_single_value("Iran Setup", "business_features")
+		apply_pack(business_type, company, frappe.parse_json(features) if features else None)

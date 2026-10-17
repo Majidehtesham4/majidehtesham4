@@ -105,6 +105,8 @@ jinja = {
 	"methods": [
 		"iran_erp.utils.jalali.format_jalali",
 		"iran_erp.utils.jalali.to_persian_digits",
+		"iran_erp.iran_dealership.printing.body_svg",
+		"iran_erp.iran_dealership.printing.car_money",
 	],
 }
 

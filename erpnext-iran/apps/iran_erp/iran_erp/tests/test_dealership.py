@@ -8,8 +8,8 @@ from frappe.utils import add_days, add_months, flt, nowdate
 from iran_erp.accounts.chart import CHART_NAME
 from iran_erp.business import account, apply_pack, journal, set_branches
 from iran_erp.business.investor_portal import get_my_account
-from iran_erp.iran_erp.doctype.iran_instalment_sale.iran_instalment_sale import calculate
-from iran_erp.iran_erp.doctype.iran_investment_contract.iran_investment_contract import daily_profit
+from iran_erp.iran_dealership.doctype.iran_instalment_sale.iran_instalment_sale import calculate
+from iran_erp.iran_dealership.doctype.iran_investment_contract.iran_investment_contract import daily_profit
 from iran_erp.utils.words import amount_words, date_words, number_words
 
 COMPANY = "Dealership Test Co"
@@ -55,6 +55,8 @@ class TestDealership(TestCase):
 				frappe.get_doc({"doctype": "Customer", "customer_name": name}).insert()
 		cls.cash = number_account("1101")
 		cls.bank = number_account("110301")
+		# The pack fills the lists of models, colours, body parts and services
+		cls.car_model = frappe.db.get_value("Iran Car Model", {"disabled": 0})
 
 	@classmethod
 	def tearDownClass(cls):
@@ -64,7 +66,7 @@ class TestDealership(TestCase):
 		return frappe.get_doc(
 			{
 				"doctype": "Iran Vehicle",
-				"model": "پژو ۲۰۷ اتوماتیک",
+				"car_model": self.car_model,
 				"year": "1404",
 				"company": COMPANY,
 				**kwargs,
@@ -85,11 +87,13 @@ class TestDealership(TestCase):
 
 	def test_sale_in_instalments(self):
 		car = self.vehicle(purchase_price=1_500_000_000, paid_from=self.cash, asking_price=2 * BILLION)
+		# A car paid for from an account is in the books as soon as it is saved
+		self.assertTrue(car.purchase_entry)
 		car.append(
-			"costs", {"date": nowdate(), "description": "تعمیر", "amount": 50_000_000, "paid_from": self.cash}
+			"costs", {"date": nowdate(), "service": "صافکاری", "amount": 50_000_000, "paid_from": self.cash}
 		)
 		car.save()
-		car.record_purchase()
+		self.assertEqual(car.repair_total, 50_000_000)
 		stock = account(COMPANY, "vehicle_stock")
 		self.assertEqual(balance(stock), 1_550_000_000)
 
@@ -201,7 +205,7 @@ class TestDealership(TestCase):
 
 	def test_car_remittance(self):
 		investor = frappe.get_doc({"doctype": "Iran Investor", "full_name": "خریدار حواله"}).insert()
-		car = self.vehicle(status="Awaiting Delivery", expected_delivery=add_months(nowdate(), 2))
+		car = self.vehicle(status="Awaiting Delivery")
 		contract = frappe.get_doc(
 			{
 				"doctype": "Iran Investment Contract",
@@ -218,7 +222,7 @@ class TestDealership(TestCase):
 		contract.submit()
 		car.reload()
 		self.assertEqual(car.ownership, "Investor")
-		car.status = "Available"
+		car.status = "Ready for Sale"
 		car.save()
 
 		sale = frappe.get_doc(
@@ -279,6 +283,54 @@ class TestDealership(TestCase):
 			set(frappe.get_all("GL Entry", filters={"voucher_no": entry}, pluck="branch")),
 			{"شعبه آزمایشی کرج"},
 		)
+
+	def test_car_file(self):
+		set_branches(["شعبه آزمایشی کرج", ""])
+		frappe.db.set_value("User", "Administrator", "iran_branch", "شعبه آزمایشی کرج")
+		try:
+			car = self.vehicle(ownership="Customer", owner_customer="Dealership Buyer", commission_rate=3)
+		finally:
+			frappe.db.set_value("User", "Administrator", "iran_branch", None)
+		# The car takes the branch of whoever registers it, and its file starts with its arrival
+		self.assertEqual(car.branch, "شعبه آزمایشی کرج")
+		self.assertTrue(car.name.startswith("CAR-"))
+		self.assertEqual(len(car.log), 1)
+		# Technical and interior items to score are laid out on a new car
+		self.assertEqual(
+			{row.item for row in car.inspection},
+			set(frappe.get_all("Iran Inspection Item", pluck="name")),
+		)
+
+		hood = frappe.db.get_value("Iran Body Part", {"diagram_key": "hood"})
+		car.append("body_marks", {"body_part": hood, "condition": "رنگ دارد", "description": "لکه‌ای"})
+		car.append("costs", {"service": "پولیش بدنه", "amount": 8_000_000, "status": "Planned"})
+		car.status = "In Preparation"
+		car.save()
+		self.assertIn(hood, car.body_summary)
+		self.assertGreaterEqual(len(car.log), 4)
+		# A planned service is not a cost yet; once done it adds to the car's preparation
+		self.assertEqual(car.preparation_total, 0)
+		car.costs[0].status = "Done"
+		car.save()
+		self.assertEqual(car.preparation_total, 8_000_000)
+		# Without an account or a workshop to owe, it is not in the books
+		self.assertFalse(car.costs[0].journal_entry)
+
+		# Only an administrator moves a car to another branch
+		set_branches(["شعبه آزمایشی کرج", "شعبه آزمایشی تهران"])
+		user = "lot.staff@example.com"
+		if not frappe.db.exists("User", user):
+			staff = frappe.get_doc(
+				{"doctype": "User", "email": user, "first_name": "کارمند", "send_welcome_email": 0}
+			).insert()
+			staff.add_roles("Accounts Manager", "Stock Manager", "Sales Manager")
+		frappe.set_user(user)
+		try:
+			car.reload()
+			car.branch = "شعبه آزمایشی تهران"
+			self.assertRaises(frappe.ValidationError, car.save)
+		finally:
+			frappe.set_user("Administrator")
 
 	def test_words(self):
 		self.assertEqual(number_words(1_250_000), "یک میلیون و دویست و پنجاه هزار")
