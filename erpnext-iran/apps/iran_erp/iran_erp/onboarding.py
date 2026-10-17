@@ -212,6 +212,8 @@ def get_state() -> dict:
 			"branches": setup.branches,
 			"parkings": setup.parkings,
 			"business_features": json.loads(setup.business_features or "null"),
+			"trade_name": frappe.db.get_single_value("Iran ERP Settings", "trade_name"),
+			"trade_phone": frappe.db.get_single_value("Iran ERP Settings", "trade_phone"),
 		},
 		"data": _data(setup),
 		"warehouses": frappe.get_all(
@@ -288,6 +290,9 @@ def _fail(errors: list[str]):
 def _save_business(setup, data, values):
 	for field in ("business_type", "sells", "opening_date", "branches", "parkings"):
 		setup.set(field, values.get(field))
+	# The name customers know, for the dashboard and the printouts
+	for field in ("trade_name", "trade_phone"):
+		frappe.db.set_single_value("Iran ERP Settings", field, (values.get(field) or "").strip())
 	from iran_erp.business import PACKS
 
 	pack = PACKS.get(setup.business_type) or {}

@@ -2,7 +2,12 @@
 // An investor sees only their own account; staff choose the investor.
 
 frappe.pages["iran-my-account"].on_page_load = function (wrapper) {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title: __("My Account"), single_column: true });
+	const trade = frappe.boot.iran_trade_name;
+	const page = frappe.ui.make_app_page({
+		parent: wrapper,
+		title: trade ? `${__("My Account")} — ${trade}` : __("My Account"),
+		single_column: true,
+	});
 	const state = { investor: (frappe.route_options && frappe.route_options.investor) || null };
 	frappe.route_options = null;
 	const $body = $(`<div class="iran-investor" dir="rtl"></div>`).appendTo(page.main);

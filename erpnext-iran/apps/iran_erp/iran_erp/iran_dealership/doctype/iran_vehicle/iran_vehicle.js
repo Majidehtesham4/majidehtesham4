@@ -21,7 +21,22 @@ const IRAN_CAR_PARTS = [
 	["rear_bumper", "rect", { x: 70, y: 448, width: 160, height: 26, rx: 13 }],
 ];
 
+// Iranian cars carry a Jalali model year, imported ones a Gregorian year
+function iran_vehicle_year_hint(frm) {
+	const imported = frm.doc.made_in === "Imported Car";
+	frm.set_df_property(
+		"year",
+		"description",
+		imported ? __("Gregorian year of an imported car, for example 2024") : __("Jalali year of a car made in Iran, for example 1403")
+	);
+}
+
 frappe.ui.form.on("Iran Vehicle", {
+	// Fetched from the car model when one is chosen
+	made_in(frm) {
+		iran_vehicle_year_hint(frm);
+	},
+
 	setup(frm) {
 		const cash = () => ({ filters: { company: frm.doc.company, is_group: 0, account_type: ["in", ["Bank", "Cash"]] } });
 		frm.set_query("paid_from", cash);
@@ -51,6 +66,7 @@ frappe.ui.form.on("Iran Vehicle", {
 	refresh(frm) {
 		const admin = frappe.user.has_role("System Manager");
 		frm.set_df_property("branch", "read_only", admin ? 0 : 1);
+		iran_vehicle_year_hint(frm);
 		iran_vehicle_body.render(frm);
 		if (frm.is_new()) return;
 

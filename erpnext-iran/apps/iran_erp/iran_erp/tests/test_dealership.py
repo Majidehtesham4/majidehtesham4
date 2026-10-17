@@ -56,7 +56,8 @@ class TestDealership(TestCase):
 		cls.cash = number_account("1101")
 		cls.bank = number_account("110301")
 		# The pack fills the lists of models, colours, body parts and services
-		cls.car_model = frappe.db.get_value("Iran Car Model", {"disabled": 0})
+		cls.car_model = frappe.db.get_value("Iran Car Model", {"disabled": 0, "made_in": "Made in Iran"})
+		cls.imported_model = frappe.db.get_value("Iran Car Model", {"disabled": 0, "made_in": "Imported Car"})
 
 	@classmethod
 	def tearDownClass(cls):
@@ -331,6 +332,28 @@ class TestDealership(TestCase):
 			self.assertRaises(frappe.ValidationError, car.save)
 		finally:
 			frappe.set_user("Administrator")
+
+	def test_model_year_follows_where_the_car_was_made(self):
+		# An Iranian car has a Jalali year, written in either digits
+		self.assertEqual(self.vehicle(year="۱۴۰۲").year, "1402")
+		self.assertRaises(frappe.ValidationError, self.vehicle, year="2023")
+		# An imported car has a Gregorian year
+		car = self.vehicle(car_model=self.imported_model, year="2019")
+		self.assertEqual(car.made_in, "Imported Car")
+		self.assertRaises(frappe.ValidationError, self.vehicle, car_model=self.imported_model, year="1398")
+
+	def test_dashboard(self):
+		from iran_erp.iran_dealership.dashboard import SERIES, get_dashboard
+
+		data = get_dashboard(months=6)
+		self.assertEqual(len(data["months"]["labels"]), 6)
+		self.assertEqual(set(data["months"]["series"]), set(SERIES))
+		series = data["months"]["series"]
+		for i in range(6):
+			self.assertEqual(
+				series["net"][i], series["car_profit"][i] + series["interest"][i] - series["investor_profit"][i]
+			)
+		self.assertEqual(sum(a["count"] for a in data["ages"]), data["in_lot"])
 
 	def test_words(self):
 		self.assertEqual(number_words(1_250_000), "یک میلیون و دویست و پنجاه هزار")

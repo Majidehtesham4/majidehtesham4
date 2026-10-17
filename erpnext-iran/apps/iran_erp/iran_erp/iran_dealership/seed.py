@@ -57,6 +57,9 @@ MODELS = {
 	"مرسدس‌بنز": ["کلاس C", "کلاس E", "GLC"],
 }
 
+# Brands whose cars come from abroad: their model year is Gregorian
+IMPORTED_BRANDS = ("تویوتا", "هیوندای", "کیا", "نیسان", "مزدا", "بی‌ام‌و", "مرسدس‌بنز")
+
 COLORS = [
 	("سفید", "#ffffff"),
 	("سفید صدفی", "#f5f1e6"),
@@ -176,7 +179,8 @@ def seed():
 	for brand, models in MODELS.items():
 		for model in models:
 			if not frappe.db.exists("Iran Car Model", f"{brand} {model}"):
-				_insert("Iran Car Model", {"brand": brand, "model": model})
+				made_in = "Imported Car" if brand in IMPORTED_BRANDS else "Made in Iran"
+				_insert("Iran Car Model", {"brand": brand, "model": model, "made_in": made_in})
 	for name, code in COLORS:
 		if not frappe.db.exists("Iran Car Color", name):
 			_insert("Iran Car Color", {"color_name": name, "color_code": code})

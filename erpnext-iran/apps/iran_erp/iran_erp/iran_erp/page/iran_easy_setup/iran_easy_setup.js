@@ -127,6 +127,20 @@ class IranSetupPage {
 		if (step.key === "business") {
 			return [
 				{
+					fieldname: "trade_name",
+					fieldtype: "Data",
+					label: "نام کسب‌وکار شما",
+					default: answers.trade_name || "",
+					description: "نامی که مشتری‌ها می‌شناسند، مثلاً «نمایشگاه خودرو ورون». روی داشبورد، چاپ‌ها و صفحه‌ی سرمایه‌گذاران نوشته می‌شود.",
+				},
+				{
+					fieldname: "trade_phone",
+					fieldtype: "Data",
+					label: "تلفن",
+					default: answers.trade_phone || "",
+				},
+				{ fieldtype: "Section Break" },
+				{
 					fieldname: "business_type",
 					fieldtype: "Select",
 					label: "کار شما چیست؟",

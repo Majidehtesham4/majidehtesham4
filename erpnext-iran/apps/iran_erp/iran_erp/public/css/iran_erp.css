@@ -1006,99 +1006,541 @@
 
 /* The dealership's home (iran-dealership) */
 .iran-dash {
+	--dash-ink: var(--text-color);
+	--dash-muted: var(--text-muted);
+	--dash-line: var(--border-color);
+	--dash-card: var(--card-bg);
+	--dash-wash: var(--subtle-fg);
+	--dash-good: #0f7a3c;
+	--dash-good-bg: #e7f6ec;
+	--dash-warning: #9a5b00;
+	--dash-warning-bg: #fff4dc;
+	--dash-critical: #b42318;
+	--dash-critical-bg: #fdecea;
+	--dash-hero-a: #0f3d5c;
+	--dash-hero-b: #13708a;
 	padding: 6px 0 40px;
+	transition: opacity 0.2s;
 }
-.iran-dash-cards {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-	gap: 12px;
-	margin-bottom: 14px;
+[data-theme="dark"] .iran-dash {
+	--dash-good: #5fd38d;
+	--dash-good-bg: rgba(95, 211, 141, 0.12);
+	--dash-warning: #f2b84b;
+	--dash-warning-bg: rgba(242, 184, 75, 0.12);
+	--dash-critical: #ff8a80;
+	--dash-critical-bg: rgba(255, 138, 128, 0.12);
+	--dash-hero-a: #0b2a40;
+	--dash-hero-b: #0e4d61;
 }
-.iran-dash-card {
-	display: block;
-	border: 1px solid var(--border-color);
-	border-radius: 14px;
-	padding: 14px 16px;
-	background: var(--card-bg);
-	color: var(--text-color) !important;
+.iran-dash.loading {
+	opacity: 0.55;
+}
+.iran-dash a {
+	color: inherit;
 	text-decoration: none !important;
-	transition: box-shadow 0.15s, transform 0.15s;
+	cursor: pointer;
 }
-.iran-dash-card:hover {
-	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-	transform: translateY(-1px);
+.iran-dash-icon {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.8;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 }
-.iran-dash-card .label {
-	color: var(--text-muted);
-	font-size: 12px;
+.iran-dash-hero {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+	padding: 22px 26px;
+	border-radius: 18px;
+	margin-bottom: 14px;
+	color: #fff;
+	background: linear-gradient(120deg, var(--dash-hero-a), var(--dash-hero-b));
+	box-shadow: 0 10px 30px rgba(15, 61, 92, 0.18);
 }
-.iran-dash-card .value {
-	font-size: 22px;
-	font-weight: 700;
+.iran-dash-hero-name {
+	font-size: 24px;
+	font-weight: 800;
+}
+.iran-dash-hero-sub {
+	opacity: 0.8;
 	margin-top: 4px;
 }
-.iran-dash-card .sub {
+.iran-dash-hero-stat {
+	text-align: left;
+}
+.iran-dash-hero-stat span {
+	display: block;
+	opacity: 0.8;
 	font-size: 12px;
-	color: var(--text-muted);
-	margin-top: 2px;
 }
-.iran-dash-card.accent {
-	background: linear-gradient(135deg, #0f766e, #0e7490);
-	border: none;
-	color: #fff !important;
+.iran-dash-hero-stat b {
+	font-size: 22px;
 }
-.iran-dash-card.accent .label,
-.iran-dash-card.accent .sub {
-	color: rgba(255, 255, 255, 0.85);
+.iran-dash-tiles,
+.iran-dash-alerts {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+	margin-bottom: 12px;
 }
-.iran-dash-card.good .value {
-	color: #15803d;
+.iran-dash-alerts {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
 }
-.iran-dash-card.warn .value {
-	color: #b45309;
+@media (max-width: 1100px) {
+	.iran-dash-tiles {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }
-.iran-dash-card.bad .value {
-	color: #b91c1c;
+@media (max-width: 640px) {
+	.iran-dash-tiles,
+	.iran-dash-alerts {
+		grid-template-columns: 1fr;
+	}
+}
+.iran-dash-tile {
+	display: block;
+	padding: 16px 18px;
+	border: 1px solid var(--dash-line);
+	border-radius: 16px;
+	background: var(--dash-card);
+	transition: box-shadow 0.15s, transform 0.15s;
+}
+.iran-dash-tile:hover {
+	box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+	transform: translateY(-1px);
+}
+.iran-dash-tile-head {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: var(--dash-muted);
+	font-size: 13px;
+}
+.iran-dash-tile-head > .iran-dash-icon {
+	width: 30px;
+	height: 30px;
+	padding: 6px;
+	border-radius: 10px;
+	background: var(--dash-wash);
+	color: var(--dash-ink);
+}
+.iran-dash-tile-value {
+	font-size: 24px;
+	font-weight: 800;
+	margin-top: 10px;
+	color: var(--dash-ink);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.iran-dash-tile-sub {
+	color: var(--dash-muted);
+	font-size: 12px;
+	margin-top: 4px;
+}
+.iran-dash-alerts .iran-dash-tile-value {
+	font-size: 19px;
+}
+.iran-dash-tile.bad .iran-dash-tile-value {
+	color: var(--dash-critical);
+}
+.iran-dash-tile.critical {
+	border-color: var(--dash-critical);
+	background: var(--dash-critical-bg);
+}
+.iran-dash-tile.critical .iran-dash-tile-head,
+.iran-dash-tile.critical .iran-dash-tile-value {
+	color: var(--dash-critical);
+}
+.iran-dash-tile.critical .iran-dash-tile-head > .iran-dash-icon {
+	background: transparent;
+	color: var(--dash-critical);
+}
+.iran-dash-tile.warning {
+	border-color: var(--dash-warning);
+	background: var(--dash-warning-bg);
+}
+.iran-dash-tile.warning .iran-dash-tile-head,
+.iran-dash-tile.warning .iran-dash-tile-head > .iran-dash-icon {
+	color: var(--dash-warning);
+	background: transparent;
+}
+.iran-dash-delta {
+	margin-inline-start: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+}
+.iran-dash-delta .iran-dash-icon {
+	width: 13px;
+	height: 13px;
+	stroke-width: 2.4;
+}
+.iran-dash-delta.good {
+	color: var(--dash-good);
+	background: var(--dash-good-bg);
+}
+.iran-dash-delta.bad {
+	color: var(--dash-critical);
+	background: var(--dash-critical-bg);
 }
 .iran-dash-row {
 	display: grid;
-	grid-template-columns: 1fr 1fr 2fr;
+	grid-template-columns: minmax(260px, 1fr) 2.4fr;
 	gap: 12px;
+	margin-bottom: 12px;
 }
-@media (max-width: 991px) {
-	.iran-dash-row {
+.iran-dash-row.three {
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+@media (max-width: 1100px) {
+	.iran-dash-row,
+	.iran-dash-row.three {
 		grid-template-columns: 1fr;
 	}
 }
 .iran-dash-box {
-	border: 1px solid var(--border-color);
-	border-radius: 14px;
-	padding: 12px 14px;
-	background: var(--card-bg);
+	position: relative;
+	min-width: 0;
+	padding: 16px 18px;
+	border: 1px solid var(--dash-line);
+	border-radius: 16px;
+	background: var(--dash-card);
 }
 .iran-dash-title {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-weight: 700;
+	margin-bottom: 12px;
+}
+.iran-dash-title.small {
+	font-size: 13px;
+	margin: 18px 0 8px;
+	color: var(--dash-muted);
+}
+.iran-dash-stack {
+	display: flex;
+	gap: 2px;
+	height: 14px;
+	border-radius: 7px;
+	overflow: hidden;
+	background: var(--dash-wash);
+}
+.iran-dash-stack .seg:hover {
+	filter: brightness(1.1);
+}
+.iran-dash-keys {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 6px 12px;
+	margin-top: 12px;
+}
+.iran-dash-key {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 13px;
+}
+.iran-dash-key i {
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+}
+.iran-dash-key b {
+	margin-inline-start: auto;
+}
+.iran-dash-age {
+	display: grid;
+	grid-template-columns: 110px 1fr 28px;
+	align-items: center;
+	gap: 8px;
+	font-size: 12px;
+	padding: 3px 0;
+}
+.iran-dash-age .name {
+	color: var(--dash-muted);
+}
+.iran-dash-age b {
+	text-align: left;
+}
+.iran-dash-age .bar,
+.iran-dash-park .bar {
+	height: 8px;
+	border-radius: 4px;
+	background: var(--dash-wash);
+	overflow: hidden;
+}
+.iran-dash-age .bar i,
+.iran-dash-park .bar i {
+	display: block;
+	height: 100%;
+	border-radius: 4px;
+	background: #2a78d6;
+}
+.iran-dash-age.old .bar i,
+.iran-dash-park .bar.full i {
+	background: var(--dash-warning);
+}
+.iran-dash-money-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+.iran-dash-switch {
+	display: inline-flex;
+	padding: 3px;
+	border-radius: 10px;
+	background: var(--dash-wash);
+}
+.iran-dash-switch button {
+	border: none;
+	background: transparent;
+	padding: 4px 12px;
+	border-radius: 8px;
+	font-size: 12px;
+	color: var(--dash-muted);
+}
+.iran-dash-switch button.on {
+	background: var(--dash-card);
+	color: var(--dash-ink);
 	font-weight: 600;
-	margin-bottom: 8px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.iran-dash-series {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 4px 0 10px;
+}
+.iran-dash-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin: 0;
+	padding: 4px 10px;
+	border: 1px solid var(--dash-line);
+	border-radius: 999px;
+	font-size: 12px;
+	color: var(--dash-muted);
+	cursor: pointer;
+	user-select: none;
+}
+.iran-dash-chip input {
+	display: none;
+}
+.iran-dash-chip i {
+	width: 10px;
+	height: 10px;
+	border-radius: 3px;
+	border: 2px solid var(--c);
+}
+.iran-dash-chip.on {
+	color: var(--dash-ink);
+	border-color: var(--dash-ink);
+}
+.iran-dash-chip.on i {
+	background: var(--c);
+}
+.iran-dash-chart svg {
+	direction: ltr;
+	display: block;
+	max-width: 100%;
+}
+.iran-dash-chart .grid {
+	stroke: var(--dash-line);
+	stroke-width: 1;
+}
+.iran-dash-chart .zero {
+	stroke: var(--dash-muted);
+	stroke-width: 1;
+}
+.iran-dash-chart .axis {
+	fill: var(--dash-muted);
+	font-size: 11px;
+}
+.iran-dash-chart .end {
+	fill: var(--dash-ink);
+	font-size: 11px;
+}
+.iran-dash-chart .line {
+	fill: none;
+	stroke-width: 2;
+	stroke-linejoin: round;
+}
+.iran-dash-chart .dot {
+	stroke: var(--dash-card);
+	stroke-width: 2;
+}
+.iran-dash-chart .cross {
+	stroke: var(--dash-muted);
+	stroke-dasharray: 3 3;
+}
+.iran-dash-chart .hit {
+	fill: transparent;
+	outline: none;
+}
+.iran-dash-chart .band {
+	fill: var(--dash-wash);
+}
+.iran-dash-empty {
+	padding: 60px 0;
+	text-align: center;
+	color: var(--dash-muted);
+}
+.iran-dash-tooltip {
+	position: absolute;
+	z-index: 5;
+	min-width: 200px;
+	padding: 10px 12px;
+	border: 1px solid var(--dash-line);
+	border-radius: 12px;
+	background: var(--dash-card);
+	box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+	pointer-events: none;
+	font-size: 12px;
+}
+.iran-dash-tooltip .head {
+	color: var(--dash-muted);
+	margin-bottom: 6px;
+}
+.iran-dash-tooltip .row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 2px 0;
+}
+.iran-dash-tooltip .row i {
+	width: 12px;
+	height: 3px;
+	border-radius: 2px;
+}
+.iran-dash-tooltip .row b {
+	color: var(--dash-ink);
+}
+.iran-dash-tooltip .row span {
+	color: var(--dash-muted);
+	margin-inline-start: auto;
+}
+.iran-dash-table {
+	max-height: 320px;
+	overflow: auto;
+}
+.iran-dash-table table {
+	width: 100%;
+	font-size: 12px;
+}
+.iran-dash-table th,
+.iran-dash-table td {
+	padding: 6px 8px;
+	border-bottom: 1px solid var(--dash-line);
+	white-space: nowrap;
+}
+.iran-dash-table th {
+	position: sticky;
+	top: 0;
+	background: var(--dash-card);
+	color: var(--dash-muted);
+	font-weight: 600;
 }
 .iran-dash-line {
 	display: flex;
 	justify-content: space-between;
+	align-items: center;
 	gap: 8px;
-	padding: 6px 2px;
-	border-top: 1px solid var(--border-color);
-	color: var(--text-color) !important;
-	text-decoration: none !important;
+	padding: 8px 4px;
+	border-top: 1px solid var(--dash-line);
 	font-size: 13px;
 }
 .iran-dash-line:first-of-type {
 	border-top: none;
 }
-a.iran-dash-line:hover {
-	background: var(--subtle-fg);
+.iran-dash-line:hover,
+.iran-dash-park:hover,
+.iran-dash-event:hover {
+	background: var(--dash-wash);
+	border-radius: 8px;
 }
-.iran-dash-line > span:last-child {
+.iran-dash-line .grow {
+	min-width: 0;
+}
+.iran-dash-line small {
+	display: block;
+	color: var(--dash-muted);
+}
+.iran-dash-days {
 	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background: var(--dash-wash);
+	font-size: 12px;
 	white-space: nowrap;
+}
+.iran-dash-days .iran-dash-icon {
+	width: 13px;
+	height: 13px;
+}
+.iran-dash-days.warning {
+	color: var(--dash-warning);
+	background: var(--dash-warning-bg);
+}
+.iran-dash-days.critical {
+	color: var(--dash-critical);
+	background: var(--dash-critical-bg);
+}
+.iran-dash-park {
+	display: block;
+	padding: 8px 4px;
+}
+.iran-dash-park .top {
+	display: flex;
+	justify-content: space-between;
+	font-size: 13px;
+	margin-bottom: 6px;
+}
+.iran-dash-timeline {
+	position: relative;
+	padding-inline-start: 14px;
+	border-inline-start: 2px solid var(--dash-line);
+}
+.iran-dash-event {
+	position: relative;
+	display: block;
+	padding: 6px 8px;
+	font-size: 13px;
+}
+.iran-dash-event::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: -21px;
+	top: 12px;
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--dash-card);
+	border: 2px solid #2a78d6;
+}
+.iran-dash-event span {
+	display: block;
+	color: var(--dash-ink);
+}
+.iran-dash-event small {
+	color: var(--dash-muted);
 }
 
 /* Body diagram of a car (Iran Vehicle) */

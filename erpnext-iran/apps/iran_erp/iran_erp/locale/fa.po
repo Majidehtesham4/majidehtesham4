@@ -20441,3 +20441,130 @@ msgstr "نمایشگاه خودرو"
 msgid "Checked Item"
 msgstr "مورد بازدید"
 
+
+#. Dashboard chart, model year by origin, business name
+msgid "Car Sales"
+msgstr "فروش خودرو"
+
+msgid "Profit on Cars Sold"
+msgstr "سود فروش خودرو"
+
+msgid "Instalment Profit"
+msgstr "سود اقساط"
+
+msgid "Service Costs"
+msgstr "هزینه خدمات"
+
+msgid "Investors' Profit"
+msgstr "سود سرمایه‌گذاران"
+
+msgid "Car Purchases"
+msgstr "خرید خودرو"
+
+msgid "Instalments Collected"
+msgstr "وصول اقساط"
+
+msgid "billion"
+msgstr "میلیارد"
+
+msgid "million"
+msgstr "میلیون"
+
+msgid "thousand"
+msgstr "هزار"
+
+msgid "Compared with last month"
+msgstr "نسبت به ماه قبل"
+
+msgid "Last 12 Months"
+msgstr "۱۲ ماه گذشته"
+
+msgid "Last 24 Months"
+msgstr "۲۴ ماه گذشته"
+
+msgid "More than {0} days"
+msgstr "بیش از {0} روز"
+
+msgid "{0} to {1} days"
+msgstr "{0} تا {1} روز"
+
+msgid "Value of own cars"
+msgstr "ارزش خودروهای مجموعه"
+
+msgid "{0} ready for sale"
+msgstr "{0} خودرو آماده فروش"
+
+msgid "Sales This Month"
+msgstr "فروش این ماه"
+
+msgid "{0} cars — last month {1}"
+msgstr "{0} خودرو — ماه قبل {1}"
+
+msgid "Net Profit This Month"
+msgstr "سود خالص این ماه"
+
+msgid "Last month {0}"
+msgstr "ماه قبل {0}"
+
+msgid "Cash in the Next 7 Days"
+msgstr "نقدینگی ۷ روز آینده"
+
+msgid "To receive {0} — to pay {1}"
+msgstr "دریافتنی {0} — پرداختنی {1}"
+
+msgid "Cheques This Week"
+msgstr "چک‌های این هفته"
+
+msgid "{0} to receive, {1} to pay"
+msgstr "{0} دریافتنی، {1} پرداختنی"
+
+msgid "The Lot"
+msgstr "وضعیت نمایشگاه"
+
+msgid "Profit, Costs and Sales by Month"
+msgstr "سود، هزینه و فروش ماه‌به‌ماه"
+
+msgid "Bars"
+msgstr "ستونی"
+
+msgid "Lines"
+msgstr "خطی"
+
+msgid "Tick at least one item to see it on the chart."
+msgstr "دست‌کم یک مورد را تیک بزنید تا روی نمودار دیده شود."
+
+msgid "Made In"
+msgstr "ساخت"
+
+msgid "Made in Iran"
+msgstr "ساخت داخل"
+
+msgid "Imported Car"
+msgstr "وارداتی"
+
+msgid "Model year of an Iranian car is Jalali (1403); of an imported one, Gregorian (2024)"
+msgstr "سال ساخت خودروی داخلی شمسی (۱۴۰۳) و خودروی وارداتی میلادی (۲۰۲۴) نوشته می‌شود"
+
+msgid "Jalali for a car made in Iran (1403), Gregorian for an imported one (2024)"
+msgstr "برای خودروی داخلی شمسی (۱۴۰۳) و برای خودروی وارداتی میلادی (۲۰۲۴)"
+
+msgid "Gregorian"
+msgstr "میلادی"
+
+msgid "Model year of this car is a {0} year between {1} and {2}, for example {3}"
+msgstr "سال ساخت این خودرو یک سال {0} بین {1} و {2} است، مثلاً {3}"
+
+msgid "Gregorian year of an imported car, for example 2024"
+msgstr "سال میلادی (خودروی وارداتی)، مثلاً ۲۰۲۴"
+
+msgid "Jalali year of a car made in Iran, for example 1403"
+msgstr "سال شمسی (خودروی ساخت داخل)، مثلاً ۱۴۰۳"
+
+msgid "Your Business as Customers See It"
+msgstr "معرفی کسب‌وکار شما به مشتری"
+
+msgid "Business Name"
+msgstr "نام کسب‌وکار"
+
+msgid "The name customers know, for example «نمایشگاه خودرو ورون». Shown on the dashboard, the printouts and the investors' page"
+msgstr "نامی که مشتری‌ها می‌شناسند، مثلاً «نمایشگاه خودرو ورون». روی داشبورد، چاپ‌ها و صفحه‌ی سرمایه‌گذاران نوشته می‌شود"

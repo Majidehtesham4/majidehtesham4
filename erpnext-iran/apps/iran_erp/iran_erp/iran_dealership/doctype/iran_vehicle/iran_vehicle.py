@@ -41,6 +41,8 @@ DOCUMENTS = (
 	"doc_technical_check",
 )
 # Changes worth a line in the car's file: field, how its value is shown
+LATIN_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+
 WATCHED = (
 	("status", lambda v: _(v) if v else ""),
 	("branch", str),
@@ -71,6 +73,7 @@ class IranVehicle(Document):
 			self.fill_inspection()
 
 	def validate(self):
+		self.check_year()
 		model = frappe.db.get_value("Iran Car Model", self.car_model, "title") if self.car_model else ""
 		self.title = " ".join(str(part) for part in (model, self.year, self.color) if part)
 		if self.plate:
@@ -95,6 +98,28 @@ class IranVehicle(Document):
 		before = self.get_doc_before_save()
 		if before and before.branch != self.branch and not is_admin():
 			frappe.throw(_("Only an administrator can move a car to another branch"))
+
+	def check_year(self):
+		"""Model year: Jalali for a car made in Iran (1403), Gregorian for an imported one (2024)."""
+		if self.car_model:
+			self.made_in = frappe.db.get_value("Iran Car Model", self.car_model, "made_in") or "Made in Iran"
+		year = (self.year or "").strip().translate(LATIN_DIGITS)
+		if not year:
+			self.year = ""
+			return
+		this_year = getdate(nowdate()).year
+		if self.made_in == "Imported Car":
+			first, last, example = 1950, this_year + 1, this_year - 2
+		else:
+			first, last, example = 1330, this_year - 620, this_year - 623
+		if not year.isdigit() or not first <= int(year) <= last:
+			calendar = _("Gregorian") if self.made_in == "Imported Car" else _("Jalali")
+			frappe.throw(
+				_("Model year of this car is a {0} year between {1} and {2}, for example {3}").format(
+					calendar, first, last, example
+				)
+			)
+		self.year = year
 
 	def check_owner(self):
 		if self.ownership != "Business" and self.purchase_entry:

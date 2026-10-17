@@ -101,6 +101,17 @@ def account(company: str, key: str) -> str:
 	return doc.name
 
 
+def trade_profile() -> dict:
+	"""The business as its customers know it (Iran ERP Settings), for headers and printouts."""
+	settings = frappe.db.get_singles_dict("Iran ERP Settings")
+	return frappe._dict(
+		name=settings.get("trade_name") or frappe.defaults.get_global_default("company") or "",
+		phone=settings.get("trade_phone") or "",
+		address=settings.get("trade_address") or "",
+		logo=settings.get("trade_logo") or "",
+	)
+
+
 def investor_group(company: str | None = None) -> str:
 	"""The supplier group of investors, whose money is owed to them in the investors' account."""
 	if not frappe.db.exists("Supplier Group", INVESTOR_GROUP):

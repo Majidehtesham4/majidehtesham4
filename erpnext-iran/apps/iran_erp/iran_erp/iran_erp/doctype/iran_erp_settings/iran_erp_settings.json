@@ -8,6 +8,12 @@
  "field_order": [
   "jalali_date_input",
   "open_start_page",
+  "trade_section",
+  "trade_name",
+  "trade_phone",
+  "column_break_trade",
+  "trade_address",
+  "trade_logo",
   "accounting_section",
   "vat_rate",
   "cheque_section",
@@ -33,6 +39,36 @@
    "fieldname": "open_start_page",
    "fieldtype": "Check",
    "label": "Open the Start Page After Login"
+  },
+  {
+   "fieldname": "trade_section",
+   "fieldtype": "Section Break",
+   "label": "Your Business as Customers See It"
+  },
+  {
+   "fieldname": "trade_name",
+   "fieldtype": "Data",
+   "label": "Business Name",
+   "description": "The name customers know, for example «نمایشگاه خودرو ورون». Shown on the dashboard, the printouts and the investors' page"
+  },
+  {
+   "fieldname": "trade_phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "column_break_trade",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "trade_address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "trade_logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
   },
   {
    "fieldname": "accounting_section",
@@ -97,7 +133,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-17 09:00:00.000000",
+ "modified": "2026-10-19 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran ERP Settings",
