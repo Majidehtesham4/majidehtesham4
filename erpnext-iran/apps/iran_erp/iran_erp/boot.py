@@ -19,6 +19,10 @@ def boot_session(bootinfo):
 	bootinfo.iran_open_start_page = start_page is None or bool(int(start_page))
 	bootinfo.iran_version = frappe.get_attr("iran_erp.__version__")
 	bootinfo.iran_trade_name = frappe.db.get_single_value("Iran ERP Settings", "trade_name") or ""
+	from iran_erp.business.visibility import home_page
+
+	# The page the desk opens on: the business's own home, such as a car dealership's dashboard
+	bootinfo.iran_home_page = home_page()
 	# An investor's login opens on their own account and has no use for the rest of the desk
 	others = set(frappe.get_roles()) - {"All", "Guest", "Desk User", "Investor"}
 	bootinfo.iran_investor_only = "Investor" in frappe.get_roles() and not others

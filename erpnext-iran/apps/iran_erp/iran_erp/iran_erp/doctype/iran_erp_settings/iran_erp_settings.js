@@ -30,7 +30,7 @@ frappe.ui.form.on("Iran ERP Settings", {
 				demo(
 					"create",
 					__(
-						"Sample customers, suppliers, items, stock, production, sales and purchase invoices, CRM, projects, support tickets, employees, web pages and cheques will be added to the default company. Continue?"
+						"Sample data of the kind of business chosen in Easy Setup will be added: for a car dealership its cars, investors, instalment sales and website; for other businesses customers, suppliers, items, stock, production, invoices, CRM, projects and cheques. Continue?"
 					)
 				),
 			__("Demo Data")

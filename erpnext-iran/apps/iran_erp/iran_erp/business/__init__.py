@@ -313,3 +313,7 @@ def after_migrate():
 	if business_type in PACKS and company:
 		features = frappe.db.get_single_value("Iran Setup", "business_features")
 		apply_pack(business_type, company, frappe.parse_json(features) if features else None)
+	from iran_erp.business import visibility
+
+	# Icons an update brought stay hidden unless the business uses them
+	visibility.apply()

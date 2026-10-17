@@ -20831,3 +20831,7 @@ msgstr "حذف همه‌ی اطلاعات"
 
 msgid "Type «{0}» to confirm"
 msgstr "برای تأیید «{0}» را بنویسید"
+
+msgid "Sample data of the kind of business chosen in Easy Setup will be added: for a car dealership its cars, investors, instalment sales and website; for other businesses customers, suppliers, items, stock, production, invoices, CRM, projects and cheques. Continue?"
+msgstr "داده‌ی نمونه‌ی همان کسب‌وکاری که در «راه‌اندازی آسان» انتخاب شده اضافه می‌شود: برای نمایشگاه خودرو، خودروها، سرمایه‌گذاران، فروش‌های اقساطی و سایت؛ برای کسب‌وکارهای دیگر، مشتری‌ها، تأمین‌کننده‌ها، کالاها، انبار، تولید، فاکتورها، CRM، پروژه‌ها و چک‌ها. ادامه می‌دهید؟"
+

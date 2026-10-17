@@ -3,7 +3,7 @@
 #
 #   powershell -ExecutionPolicy Bypass -File .\business.ps1 list
 #   powershell -ExecutionPolicy Bypass -File .\business.ps1 new shop
-#   powershell -ExecutionPolicy Bypass -File .\business.ps1 demo shop      (car dealership sample data)
+#   powershell -ExecutionPolicy Bypass -File .\business.ps1 demo shop      (sample data of its kind of business)
 #   powershell -ExecutionPolicy Bypass -File .\business.ps1 reset shop     (delete all and start again)
 #   powershell -ExecutionPolicy Bypass -File .\business.ps1 remove shop
 #
@@ -72,7 +72,7 @@ switch ($Action) {
 	}
 	"demo" {
 		if (-not $exists) { Write-Host "$site does not exist; make it first: .\business.ps1 new $Name"; exit 1 }
-		Write-Host "Loading the car dealership's sample data into $site..."
+		Write-Host "Loading the sample data of the business chosen in Easy Setup into $site..."
 		docker compose exec -T -e "IRAN_DEMO=1" backend bench --site $site execute iran_erp.fresh_start.run
 	}
 	"reset" {

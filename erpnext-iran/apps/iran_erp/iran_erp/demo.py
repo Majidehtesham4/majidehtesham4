@@ -804,9 +804,9 @@ def run_job(action: str):
 	status = {"running": False, "action": action}
 	try:
 		if action == "create":
-			status["count"] = create_demo_data()["records"]
+			status["count"] = create_for_business()
 		else:
-			status["count"] = delete_demo_data()["deleted"]
+			status["count"] = delete_for_business()
 	except Exception as e:
 		frappe.db.rollback()
 		frappe.log_error(title="Iran ERP demo data")
@@ -825,3 +825,31 @@ def opening_account(company: str) -> str | None:
 	return frappe.db.get_value(
 		"Account", {"company": company, "account_type": "Temporary", "is_group": 0, "disabled": 0}
 	)
+
+
+def create_for_business() -> int:
+	"""The sample data of the kind of business chosen in Easy Setup: a car dealership's cars,
+	investors and instalment sales, or for any other business the shop, stock, production and
+	sales sample. Returns how many records were made."""
+	from iran_erp.iran_dealership import demo as dealership
+
+	business_type = frappe.db.get_single_value("Iran Setup", "business_type")
+	if business_type in (None, "", "Car Dealership"):
+		if dealership._records():
+			frappe.throw(_("Demo data was already created. Delete it first to create it again."))
+		dealership.create_dealership_demo()
+		return len(dealership._records())
+	return create_demo_data()["records"]
+
+
+def delete_for_business() -> int:
+	"""Deletes whichever sample data is there."""
+	from iran_erp.iran_dealership import demo as dealership
+
+	count = 0
+	if dealership._records():
+		count += len(dealership._records())
+		dealership.delete_dealership_demo()
+	if frappe.db.get_default(LOG_KEY):
+		count += delete_demo_data()["deleted"]
+	return count

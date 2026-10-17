@@ -11,3 +11,4 @@ iran_erp.patches.v0_2.raise_ai_max_steps
 iran_erp.patches.v0_3.enable_chat_commands
 iran_erp.patches.v1_1.vehicle_file
 iran_erp.patches.v1_2.model_year_calendar
+iran_erp.patches.v1_3.icon_grid

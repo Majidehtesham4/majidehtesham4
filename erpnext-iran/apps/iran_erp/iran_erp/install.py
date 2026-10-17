@@ -8,6 +8,10 @@ def after_install():
 	create_custom_fields(get_custom_fields(), update=True)
 	setup_rial()
 	install_chart_template()
+	from iran_erp.desktop import use_icon_grid
+
+	# The home page is a grid of the business's icons, not the «Apps» page of two app folders
+	use_icon_grid()
 
 
 def get_custom_fields():

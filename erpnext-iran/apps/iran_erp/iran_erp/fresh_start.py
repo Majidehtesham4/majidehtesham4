@@ -7,8 +7,8 @@ Iran, Asia/Tehran, rial, the Iranian chart of accounts, this Jalali year as the 
 first login then opens Easy Setup, which asks about the business and arranges the system for it.
 
 The business's name comes from the IRAN_COMPANY environment variable (the scripts in deploy/ set
-it), so that a Persian name needs no quoting on the command line; IRAN_DEMO=1 also loads the car
-dealership's sample data.
+it), so that a Persian name needs no quoting on the command line; IRAN_DEMO=1 also loads the sample
+data of the business chosen in Easy Setup (a car dealership's if none is chosen yet).
 """
 
 import os
@@ -30,10 +30,11 @@ def run(company: str | None = None, abbr: str | None = None, demo: bool | None =
 		_setup(company, abbr)
 	company = frappe.defaults.get_global_default("company") or company
 	if demo:
-		from iran_erp.iran_dealership.demo import _records, create_dealership_demo
+		from iran_erp.demo import create_for_business
 
-		if not _records():
-			create_dealership_demo(company)
+		# The kind of business chosen in Easy Setup decides which sample (a car dealership's if
+		# none is chosen yet)
+		create_for_business()
 	frappe.db.commit()
 	return f"Ready: {company}"
 
@@ -64,7 +65,11 @@ def _setup(company: str, abbr: str):
 	frappe.db.set_value("User", "Administrator", "language", "fa")
 	frappe.db.set_single_value("Iran ERP Settings", "trade_name", company)
 
+	from iran_erp.desktop import use_icon_grid
 	from iran_erp.install import jalali_fiscal_year_names
+
+	# Again after the setup, which may have set the home page back to «Apps»
+	use_icon_grid()
 
 	# The fiscal year ERPNext made (1 Farvardin to the end of Esfand) takes its Jalali name
 	jalali_fiscal_year_names()

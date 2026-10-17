@@ -162,6 +162,10 @@ def create_dealership_demo(company: str | None = None):
 			"parkings": "\n".join(name for name, _branch in PARKINGS),
 		},
 	)
+	# The business is described: the desk no longer opens on Easy Setup's first step
+	done = json.loads(frappe.db.get_single_value("Iran Setup", "steps_done") or "[]")
+	if "business" not in done:
+		frappe.db.set_single_value("Iran Setup", "steps_done", json.dumps([*done, "business"]))
 	if not frappe.db.get_single_value("Iran ERP Settings", "trade_name"):
 		frappe.db.set_single_value(
 			"Iran ERP Settings", {"trade_name": "نمایشگاه خودرو ورون", "trade_phone": "021-88776655"}
@@ -462,6 +466,10 @@ def create_dealership_demo(company: str | None = None):
 			car.record_exit(date=add_days(posting, 3), delivered_to=BUYERS[buyer][0])
 
 	_website(cars)
+	from iran_erp.business import visibility
+
+	# The home screen of a car dealership: its own parts only
+	visibility.apply()
 	frappe.db.commit()
 	return "Dealership sample data created: 20 cars, 5 investors, 5 instalment sales."
 

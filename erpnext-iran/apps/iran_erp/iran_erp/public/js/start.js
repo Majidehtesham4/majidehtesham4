@@ -104,5 +104,6 @@ $(document).on("startup", () => {
 	// Only when the desk opens on its home page; it may move there after a slow first load
 	const home = () => /^\/(desk|app)(\/(desktop|home))?\/?$/.test(window.location.pathname);
 	if (!home()) return;
-	[300, 1500, 4000].forEach((wait) => setTimeout(() => home() && frappe.set_route("iran-start"), wait));
+	const page = frappe.boot.iran_home_page || "iran-start";
+	[300, 1500, 4000].forEach((wait) => setTimeout(() => home() && frappe.set_route(page), wait));
 });

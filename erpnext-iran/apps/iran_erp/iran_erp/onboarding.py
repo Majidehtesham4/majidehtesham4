@@ -313,18 +313,10 @@ def _save_business(setup, data, values):
 
 
 def _show_parts(setup):
-	"""Hide the home-screen icons of parts the business does not use; show them again if it does."""
-	from iran_erp.desktop import clear_every_users_desktop_icons
+	"""Only the parts the business uses stay on the home screen."""
+	from iran_erp.business import visibility
 
-	shown = {
-		"Stock": _keeps_stock(setup),
-		"Manufacturing": setup.business_type == "Manufacturing",
-		"Cheques": bool(setup.uses_cheques),
-	}
-	for label, show in shown.items():
-		if frappe.db.exists("Desktop Icon", label):
-			frappe.db.set_value("Desktop Icon", label, "hidden", 0 if show else 1)
-	clear_every_users_desktop_icons()
+	visibility.apply(setup)
 
 
 def _apply_business_pack(setup):
