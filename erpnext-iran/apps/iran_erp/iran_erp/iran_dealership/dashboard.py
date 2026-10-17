@@ -139,6 +139,7 @@ def get_dashboard(branch: str | None = None, months: int = 12) -> dict:
 		"cheques_out": {"count": cheques_out[0] or 0, "amount": flt(cheques_out[1])},
 		"overdue": {"count": overdue[0] or 0, "amount": flt(overdue[1])},
 		"investors_month": flt(investors_month),
+		"requests": frappe.db.count("Iran Car Inquiry", {**where, "status": "New"}),
 		"parkings": parkings,
 		"oldest": oldest,
 		"events": events,

@@ -1,0 +1,12 @@
+<div class="sr-expert">
+	<div class="sr-expert-photo">{% if e.photo %}<img src="{{ e.photo }}" alt="" loading="lazy">{% else %}{{ e.full_name[:1] }}{% endif %}</div>
+	<div class="sr-expert-info">
+		<b>{{ e.full_name }}</b>
+		{% if e.job_title %}<span>{{ e.job_title }}</span>{% endif %}
+		{% if e.branch %}<small>{{ e.branch }}</small>{% endif %}
+	</div>
+	<div class="sr-expert-actions">
+		{% if e.mobile %}<a class="sr-btn small" href="tel:{{ e.mobile }}">تماس</a>{% endif %}
+		{% if e.whatsapp %}<a class="sr-btn small ghost" href="https://wa.me/{{ e.whatsapp }}" target="_blank" rel="noopener">واتس‌اپ</a>{% endif %}
+	</div>
+</div>

@@ -179,6 +179,8 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 					route: ["query-report", "Overdue Instalments"], sub: __("{0} instalments", [num(d.overdue.count)]) })}
 				${tile({ label: __("Due to Investors This Month"), value: money(d.investors_month), icon_name: "users", tone: d.investors_month ? "warning" : "calm",
 					route: ["query-report", "Instalments and Investors Cash Forecast"] })}
+				${tile({ label: __("New Customer Requests"), value: num(d.requests), icon_name: "users", tone: d.requests ? "warning" : "calm",
+					route: ["List", "Iran Car Inquiry", { status: "New" }], sub: __("From the website and by phone") })}
 				${tile({ label: __("Cheques This Week"), value: `${num(d.cheques_in.count + d.cheques_out.count)}`, icon_name: "cheque", tone: "calm",
 					route: ["List", "Iran Cheque"], sub: __("{0} to receive, {1} to pay", [num(d.cheques_in.count), num(d.cheques_out.count)]) })}
 			</div>

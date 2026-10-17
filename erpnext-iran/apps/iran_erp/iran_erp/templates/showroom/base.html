@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ s.title }}{% endblock %}</title>
+<meta name="description" content="{% block description %}{{ s.tagline }}{% endblock %}">
+{% block meta %}{% endblock %}
+{% if s.logo %}<link rel="icon" href="{{ s.logo }}">{% endif %}
+<link rel="stylesheet" href="/assets/iran_erp/css/persian_text.css">
+<link rel="stylesheet" href="/assets/iran_erp/css/showroom.css">
+{% if csrf_token %}<meta name="csrf-token" content="{{ csrf_token }}">{% endif %}
+</head>
+<body class="sr">
+<header class="sr-header">
+	<div class="sr-wrap sr-header-row">
+		<a class="sr-brand" href="/cars">
+			{% if s.logo %}<img src="{{ s.logo }}" alt="">{% endif %}
+			<span>{{ s.title }}</span>
+		</a>
+		<nav class="sr-nav">
+			<a href="/cars">خودروها</a>
+			<a href="/cars#experts">کارشناسان</a>
+			{% if s.phone %}<a class="sr-call" href="tel:{{ s.phone }}" dir="ltr">{{ to_persian_digits(s.phone) }}</a>{% endif %}
+		</nav>
+	</div>
+</header>
+<main>
+{% block content %}{% endblock %}
+</main>
+<footer class="sr-footer">
+	<div class="sr-wrap sr-footer-row">
+		<div>
+			<b>{{ s.title }}</b>
+			{% if s.address %}<p>{{ s.address }}</p>{% endif %}
+			{% if s.working_hours %}<p>{{ to_persian_digits(s.working_hours) }}</p>{% endif %}
+		</div>
+		<div class="sr-footer-links">
+			{% if s.phone %}<a href="tel:{{ s.phone }}">تماس: <span dir="ltr">{{ to_persian_digits(s.phone) }}</span></a>{% endif %}
+			{% if s.whatsapp %}<a href="https://wa.me/{{ s.whatsapp }}" rel="noopener" target="_blank">واتس‌اپ</a>{% endif %}
+			{% if s.instagram %}<a href="https://instagram.com/{{ s.instagram }}" rel="noopener" target="_blank">اینستاگرام</a>{% endif %}
+			{% if s.map_link %}<a href="{{ s.map_link }}" rel="noopener" target="_blank">مسیریابی</a>{% endif %}
+		</div>
+	</div>
+</footer>
+{% block scripts %}{% endblock %}
+</body>
+</html>

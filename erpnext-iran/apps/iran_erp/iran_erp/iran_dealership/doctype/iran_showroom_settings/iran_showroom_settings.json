@@ -1,0 +1,226 @@
+{
+ "actions": [],
+ "creation": "2026-10-20 09:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "site_title",
+  "tagline",
+  "column_break_site",
+  "hero_image",
+  "show_prices",
+  "price_unit",
+  "section_instalments",
+  "monthly_rate",
+  "months_options",
+  "column_break_instalments",
+  "min_down_percent",
+  "section_contact",
+  "phone",
+  "whatsapp",
+  "instagram",
+  "column_break_contact",
+  "address",
+  "map_link",
+  "working_hours",
+  "section_experts",
+  "experts"
+ ],
+ "fields": [
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Show the Showroom Website",
+   "default": "1",
+   "description": "The public pages /cars (all cars) and /cars/CAR-00001 (one car)"
+  },
+  {
+   "fieldname": "site_title",
+   "fieldtype": "Data",
+   "label": "Website Title",
+   "description": "Empty: the business name from Iran ERP Settings"
+  },
+  {
+   "fieldname": "tagline",
+   "fieldtype": "Data",
+   "label": "Tagline",
+   "description": "For example «خرید نقد و اقساط، با کارشناسی شفاف»"
+  },
+  {
+   "fieldname": "column_break_site",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hero_image",
+   "fieldtype": "Attach Image",
+   "label": "Banner Image"
+  },
+  {
+   "fieldname": "show_prices",
+   "fieldtype": "Check",
+   "label": "Show Prices",
+   "default": "1"
+  },
+  {
+   "fieldname": "price_unit",
+   "fieldtype": "Select",
+   "label": "Show Prices In",
+   "options": "Toman\nRial",
+   "default": "Toman"
+  },
+  {
+   "fieldname": "section_instalments",
+   "fieldtype": "Section Break",
+   "label": "Instalment Calculator"
+  },
+  {
+   "fieldname": "monthly_rate",
+   "fieldtype": "Percent",
+   "label": "Monthly Profit Rate",
+   "default": "4",
+   "description": "Used by the calculator on the website; the contract can still differ"
+  },
+  {
+   "fieldname": "months_options",
+   "fieldtype": "Data",
+   "label": "Instalment Months Offered",
+   "default": "6,10,12,18,24",
+   "description": "Comma separated"
+  },
+  {
+   "fieldname": "column_break_instalments",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "min_down_percent",
+   "fieldtype": "Percent",
+   "label": "Lowest Down Payment",
+   "default": "30",
+   "description": "Percent of the price"
+  },
+  {
+   "fieldname": "section_contact",
+   "fieldtype": "Section Break",
+   "label": "Contact"
+  },
+  {
+   "fieldname": "phone",
+   "fieldtype": "Data",
+   "label": "Phone"
+  },
+  {
+   "fieldname": "whatsapp",
+   "fieldtype": "Data",
+   "label": "WhatsApp Number",
+   "description": "With country code, for example 989121234567"
+  },
+  {
+   "fieldname": "instagram",
+   "fieldtype": "Data",
+   "label": "Instagram Page"
+  },
+  {
+   "fieldname": "column_break_contact",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "address",
+   "fieldtype": "Small Text",
+   "label": "Address"
+  },
+  {
+   "fieldname": "map_link",
+   "fieldtype": "Data",
+   "label": "Map Link"
+  },
+  {
+   "fieldname": "working_hours",
+   "fieldtype": "Data",
+   "label": "Working Hours",
+   "description": "For example «شنبه تا پنجشنبه ۹ تا ۲۰»"
+  },
+  {
+   "fieldname": "section_experts",
+   "fieldtype": "Section Break",
+   "label": "Experts",
+   "description": "Shown on the website; a customer's request goes to them in turn"
+  },
+  {
+   "fieldname": "experts",
+   "fieldtype": "Table",
+   "label": "Experts",
+   "options": "Iran Showroom Expert"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-20 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran Dealership",
+ "name": "Iran Showroom Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Accounts User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Sales User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Stock User",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "email": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "issingle": 1
+}

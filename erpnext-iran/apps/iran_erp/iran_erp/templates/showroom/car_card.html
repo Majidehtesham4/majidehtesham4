@@ -1,0 +1,17 @@
+<a class="sr-card{% if car.featured %} featured{% endif %}" href="/cars/{{ car.name }}">
+	<div class="sr-card-photo" style="--car: {{ car.color_code }}">
+		{% if car.cover %}<img src="{{ car.cover }}" alt="{{ car.brand }} {{ car.model }}" loading="lazy">
+		{% else %}{% include "templates/showroom/car_drawing.html" %}{% endif %}
+		{% if car.status_label %}<span class="sr-badge {{ car.status|lower|replace(' ', '-') }}">{{ car.status_label }}</span>{% endif %}
+	</div>
+	<div class="sr-card-body">
+		<div class="sr-card-brand">{{ car.brand }}</div>
+		<div class="sr-card-title">{{ car.model }} <span>{{ car.year }}</span></div>
+		{% if car.headline %}<div class="sr-card-headline">{{ car.headline }}</div>{% endif %}
+		<div class="sr-card-specs">
+			<span>{{ car.mileage }} کیلومتر</span>
+			<span><i class="sr-dot" style="background: {{ car.color_code }}"></i>{{ car.color }}</span>
+		</div>
+		<div class="sr-card-price">{{ car.price or "قیمت: تماس بگیرید" }}</div>
+	</div>
+</a>

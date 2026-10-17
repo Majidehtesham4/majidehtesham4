@@ -10,7 +10,9 @@
   "column_break_model",
   "body_type",
   "made_in",
-  "disabled"
+  "disabled",
+  "section_3d",
+  "model_3d"
  ],
  "fields": [
   {
@@ -61,10 +63,22 @@
    "fieldname": "disabled",
    "fieldtype": "Check",
    "label": "Disabled"
+  },
+  {
+   "fieldname": "section_3d",
+   "fieldtype": "Section Break",
+   "label": "3D Model",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "model_3d",
+   "fieldtype": "Attach",
+   "label": "3D Model File (GLB)",
+   "description": "A .glb file of this model, shown on the website turning on a platform. Without one, a drawn car in the car's colour is shown"
   }
  ],
  "links": [],
- "modified": "2026-10-19 10:00:00.000000",
+ "modified": "2026-10-20 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Car Model",

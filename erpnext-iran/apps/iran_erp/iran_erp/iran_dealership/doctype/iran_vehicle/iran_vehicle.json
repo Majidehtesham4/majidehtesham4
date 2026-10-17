@@ -78,6 +78,17 @@
   "exit_date",
   "delivered_to",
   "days_in_lot",
+  "tab_website",
+  "show_on_website",
+  "featured",
+  "website_show_price",
+  "website_show_report",
+  "column_break_website",
+  "website_headline",
+  "website_features",
+  "website_description",
+  "section_photos",
+  "photos",
   "tab_log",
   "log",
   "notes"
@@ -538,6 +549,74 @@
    "read_only": 1
   },
   {
+   "fieldname": "tab_website",
+   "fieldtype": "Tab Break",
+   "label": "Website"
+  },
+  {
+   "fieldname": "show_on_website",
+   "fieldtype": "Check",
+   "label": "Show on the Website",
+   "description": "The car's page on the website (/cars/CAR-00001), with its photos, price, body and expert report. Purchase price, lowest price and the owner are never shown"
+  },
+  {
+   "fieldname": "featured",
+   "fieldtype": "Check",
+   "label": "Featured",
+   "depends_on": "show_on_website"
+  },
+  {
+   "fieldname": "website_show_price",
+   "fieldtype": "Check",
+   "label": "Show the Price",
+   "default": "1",
+   "depends_on": "show_on_website"
+  },
+  {
+   "fieldname": "website_show_report",
+   "fieldtype": "Check",
+   "label": "Show Body and Expert Report",
+   "default": "1",
+   "depends_on": "show_on_website"
+  },
+  {
+   "fieldname": "column_break_website",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "website_headline",
+   "fieldtype": "Data",
+   "label": "Headline",
+   "depends_on": "show_on_website",
+   "description": "For example «کم‌کار، بدون رنگ، بیمه کامل»"
+  },
+  {
+   "fieldname": "website_features",
+   "fieldtype": "Small Text",
+   "label": "Options",
+   "depends_on": "show_on_website",
+   "description": "One per line, for example «سانروف» or «دوربین دنده عقب»"
+  },
+  {
+   "fieldname": "website_description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "depends_on": "show_on_website"
+  },
+  {
+   "fieldname": "section_photos",
+   "fieldtype": "Section Break",
+   "label": "Photos",
+   "depends_on": "show_on_website",
+   "description": "The first photo is the one shown in the list of cars"
+  },
+  {
+   "fieldname": "photos",
+   "fieldtype": "Table",
+   "label": "Photos",
+   "options": "Iran Vehicle Photo"
+  },
+  {
    "fieldname": "tab_log",
    "fieldtype": "Tab Break",
    "label": "Car File"
@@ -556,7 +635,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-19 10:00:00.000000",
+ "modified": "2026-10-20 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Vehicle",

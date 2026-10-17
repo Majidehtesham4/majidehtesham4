@@ -1,0 +1,217 @@
+{% extends "templates/showroom/base.html" %}
+{% block title %}{{ car.title }} {{ car.year }} — {{ s.title }}{% endblock %}
+{% block description %}{{ car.headline or (car.title ~ " مدل " ~ car.year ~ "، " ~ car.mileage ~ " کیلومتر") }}{% endblock %}
+{% block meta %}
+<meta property="og:title" content="{{ car.title }} {{ car.year }}">
+<meta property="og:description" content="{{ car.price or car.headline }}">
+{% if car.photos %}<meta property="og:image" content="{{ car.photos[0].image }}">{% endif %}
+<script type="importmap">
+{"imports": {"three": "/assets/iran_erp/vendor/three/three.module.min.js", "three/addons/": "/assets/iran_erp/vendor/three/examples/jsm/"}}
+</script>
+{% endblock %}
+{% block content %}
+<div class="sr-wrap">
+	<nav class="sr-crumbs"><a href="/cars">خودروها</a> / <a href="/cars?brand={{ car.brand|urlencode }}">{{ car.brand }}</a> / <span>{{ car.model }}</span></nav>
+
+	<div class="sr-car">
+		<section class="sr-media">
+			<div class="sr-tabs" role="tablist">
+				{% if car.photos %}<button class="on" data-tab="photos">عکس‌ها</button>{% endif %}
+				<button {% if not car.photos %}class="on"{% endif %} data-tab="three">نمای سه‌بعدی ۳۶۰°</button>
+			</div>
+			{% if car.photos %}
+			<div class="sr-pane" data-pane="photos">
+				<div class="sr-photo-main"><img id="sr-main-photo" src="{{ car.photos[0].image }}" alt="{{ car.photos[0].caption or car.title }}"></div>
+				{% if car.photos|length > 1 %}
+				<div class="sr-thumbs">
+					{% for p in car.photos %}<button data-photo="{{ p.image }}" class="{{ 'on' if loop.first else '' }}"><img src="{{ p.image }}" alt="{{ p.caption }}" loading="lazy"></button>{% endfor %}
+				</div>
+				{% endif %}
+			</div>
+			{% endif %}
+			<div class="sr-pane" data-pane="three" {% if car.photos %}hidden{% endif %}>
+				<div class="sr-stage" id="sr-stage">
+					<div class="sr-stage-hint">برای چرخاندن بکشید، برای بزرگ‌نمایی اسکرول کنید</div>
+				</div>
+				<div class="sr-stage-tools">
+					<button data-3d="spin" class="on">چرخش سکو</button>
+					<button data-3d="doors" class="drawn-only">باز کردن درها</button>
+					<button data-3d="hood" class="drawn-only">باز کردن کاپوت</button>
+					<span class="sr-stage-views">
+						<button data-view="front">جلو</button>
+						<button data-view="side">کنار</button>
+						<button data-view="back">عقب</button>
+						<button data-view="top">بالا</button>
+					</span>
+					<span id="sr-anims"></span>
+				</div>
+				{% if not car.model_3d %}<p class="sr-note">نمای سه‌بعدی نمونه است و در رنگ همین خودرو نشان داده می‌شود.</p>{% endif %}
+			</div>
+		</section>
+
+		<aside class="sr-summary">
+			<div class="sr-summary-brand">{{ car.brand }}</div>
+			<h1>{{ car.model }} <span>{{ car.year }}</span></h1>
+			{% if car.headline %}<p class="sr-headline">{{ car.headline }}</p>{% endif %}
+			<div class="sr-chips">
+				<span>{{ car.mileage }} کیلومتر</span>
+				<span><i class="sr-dot" style="background: {{ car.color_code }}"></i>{{ car.color }}</span>
+				<span>{{ "وارداتی" if car.made_in == "Imported Car" else "ساخت داخل" }}</span>
+				{% if car.status_label %}<span class="sr-badge {{ car.status|lower|replace(' ', '-') }}">{{ car.status_label }}</span>{% endif %}
+			</div>
+			<div class="sr-price">{{ car.price or "برای قیمت تماس بگیرید" }}</div>
+			<div class="sr-actions">
+				{% if car.show_price %}<a class="sr-btn" href="#calculator">محاسبه‌ی اقساط</a>{% endif %}
+				<button class="sr-btn ghost" data-inquiry="Test Drive">رزرو تست‌درایو</button>
+				<button class="sr-btn ghost" data-inquiry="Call Me Back">با من تماس بگیرید</button>
+				{% if s.whatsapp %}<a class="sr-btn whatsapp" target="_blank" rel="noopener" href="https://wa.me/{{ s.whatsapp }}?text={{ ('سلام، درباره‌ی ' ~ car.title ~ ' ' ~ car.year ~ ' (' ~ car.name ~ ') سؤال دارم')|urlencode }}">پرسش در واتس‌اپ</a>{% endif %}
+			</div>
+			<div class="sr-code">کد خودرو: <span dir="ltr">{{ car.name }}</span></div>
+		</aside>
+	</div>
+
+	<div class="sr-sections">
+		<section class="sr-box">
+			<h2>مشخصات</h2>
+			<dl class="sr-specs">
+				<div><dt>برند</dt><dd>{{ car.brand }}</dd></div>
+				<div><dt>مدل</dt><dd>{{ car.model }}</dd></div>
+				<div><dt>سال ساخت</dt><dd>{{ car.year }}</dd></div>
+				<div><dt>کارکرد</dt><dd>{{ car.mileage }} کیلومتر</dd></div>
+				<div><dt>رنگ</dt><dd>{{ car.color }}</dd></div>
+				{% if car.body_type %}<div><dt>نوع بدنه</dt><dd>{{ _(car.body_type) }}</dd></div>{% endif %}
+				<div><dt>ساخت</dt><dd>{{ "وارداتی" if car.made_in == "Imported Car" else "داخل" }}</dd></div>
+				{% if car.plate_city %}<div><dt>پلاک</dt><dd>ایران {{ car.plate_city }}</dd></div>{% endif %}
+			</dl>
+			{% if car.features %}
+			<h3>امکانات</h3>
+			<div class="sr-features">{% for f in car.features %}<span>✓ {{ f }}</span>{% endfor %}</div>
+			{% endif %}
+			{% if car.description %}<p class="sr-description">{{ car.description }}</p>{% endif %}
+			{% if car.documents %}
+			<h3>مدارک</h3>
+			<div class="sr-features docs">{% for d in car.documents %}<span>✓ {{ d }}</span>{% endfor %}</div>
+			{% endif %}
+		</section>
+
+		{% if car.report %}
+		<section class="sr-box">
+			<h2>وضعیت بدنه</h2>
+			<div class="sr-body">
+				<div class="sr-body-svg">{{ car.body_svg }}</div>
+				<div>
+					{% if car.body_marks %}
+					<ul class="sr-marks">
+						{% for part, marks in car.body_marks.items() %}
+						<li><b>{{ part }}</b>: {% for m in marks %}{{ m.condition }}{% if m.description %} ({{ m.description }}){% endif %}{{ "، " if not loop.last else "" }}{% endfor %}</li>
+						{% endfor %}
+					</ul>
+					{% else %}
+					<p class="sr-clean">✓ بدنه بدون رنگ و ایراد</p>
+					{% endif %}
+				</div>
+			</div>
+		</section>
+		{% if car.inspection %}
+		<section class="sr-box">
+			<h2>گزارش کارشناسی</h2>
+			<div class="sr-inspection">
+				{% for r in car.inspection %}
+				{% set ratio = (r.score if r.percent else r.score * 10) %}
+				<div class="sr-score">
+					<span>{{ r.item }}</span>
+					<span class="bar"><i style="width: {{ ratio }}%" class="{{ 'low' if ratio < 50 else 'mid' if ratio < 75 else 'good' }}"></i></span>
+					<b>{{ to_persian_digits(r.score) }}{{ "٪" if r.percent else " از ۱۰" }}</b>
+					{% if r.comment %}<small>{{ r.comment }}</small>{% endif %}
+				</div>
+				{% endfor %}
+			</div>
+			{% if car.inspection_note %}<p class="sr-description">{{ car.inspection_note }}</p>{% endif %}
+		</section>
+		{% endif %}
+		{% endif %}
+
+		{% if car.show_price %}
+		<section class="sr-box sr-calculator" id="calculator">
+			<h2>شبیه‌سازی خرید اقساطی</h2>
+			<p class="sr-muted">پیش‌پرداخت و تعداد ماه‌ها را انتخاب کنید تا مبلغ هر قسط را ببینید. سود ماهانه {{ to_persian_digits(s.monthly_rate|round(2)|string) }}٪ روی مبلغ اقساطی حساب شده است.</p>
+			<div class="sr-calc">
+				<div class="sr-calc-inputs">
+					<label>پیش‌پرداخت: <b id="sr-down-text"></b>
+						<input type="range" id="sr-down" min="0" max="100" step="1">
+					</label>
+					<div class="sr-range-ends"><span id="sr-down-min"></span><span id="sr-down-max"></span></div>
+					<div class="sr-months-label">تعداد اقساط (ماه)</div>
+					<div class="sr-months" id="sr-months">
+						{% for m in s.months %}<button data-months="{{ m }}">{{ to_persian_digits(m) }}</button>{% endfor %}
+					</div>
+				</div>
+				<div class="sr-calc-result" id="sr-result">
+					<div class="sr-calc-monthly"><span>هر قسط</span><b id="sr-monthly">—</b></div>
+					<dl>
+						<div><dt>قیمت خودرو</dt><dd id="sr-r-price"></dd></div>
+						<div><dt>پیش‌پرداخت</dt><dd id="sr-r-down"></dd></div>
+						<div><dt>مبلغ اقساطی</dt><dd id="sr-r-financed"></dd></div>
+						<div><dt>سود اقساط</dt><dd id="sr-r-interest"></dd></div>
+						<div><dt>جمع پرداختی</dt><dd id="sr-r-total"></dd></div>
+					</dl>
+					<button class="sr-btn" data-inquiry="Instalment Plan">این طرح را می‌خواهم</button>
+					<small class="sr-muted">مبلغ نهایی در قرارداد مشخص می‌شود.</small>
+				</div>
+			</div>
+		</section>
+		{% endif %}
+
+		{% if s.experts %}
+		<section class="sr-box" id="experts">
+			<h2>کارشناسان ما</h2>
+			<div class="sr-expert-grid">{% for e in s.experts %}{% include "templates/showroom/expert.html" %}{% endfor %}</div>
+		</section>
+		{% endif %}
+
+		{% if car.similar %}
+		<section class="sr-similar">
+			<h2>خودروهای مشابه</h2>
+			<div class="sr-grid">{% for car in car.similar %}{% include "templates/showroom/car_card.html" %}{% endfor %}</div>
+		</section>
+		{% endif %}
+	</div>
+</div>
+
+<dialog class="sr-dialog" id="sr-inquiry">
+	<form method="dialog" id="sr-inquiry-form">
+		<h3 id="sr-inquiry-title">درخواست</h3>
+		<p class="sr-muted" id="sr-inquiry-car">{{ car.title }} {{ car.year }}</p>
+		<input type="hidden" name="kind">
+		<label>نام و نام خانوادگی<input name="full_name" required minlength="2" maxlength="100" autocomplete="name"></label>
+		<label>موبایل<input name="mobile" required inputmode="tel" placeholder="۰۹۱۲۱۲۳۴۵۶۷" autocomplete="tel" dir="ltr"></label>
+		<div class="sr-when">
+			<label>روز دلخواه<input type="date" name="preferred_date"></label>
+			<label>ساعت
+				<select name="preferred_time">
+					<option value="">فرقی نمی‌کند</option>
+					<option value="Morning">صبح</option>
+					<option value="Afternoon">بعدازظهر</option>
+					<option value="Evening">عصر</option>
+				</select>
+			</label>
+		</div>
+		<label>پیام<textarea name="message" rows="3" maxlength="1000"></textarea></label>
+		<div class="sr-plan" id="sr-inquiry-plan" hidden></div>
+		<div class="sr-error" id="sr-inquiry-error" hidden></div>
+		<div class="sr-dialog-actions">
+			<button type="submit" class="sr-btn" value="send">ارسال</button>
+			<button type="button" class="sr-btn ghost" data-close>انصراف</button>
+		</div>
+	</form>
+	<div class="sr-sent" id="sr-sent" hidden>
+		<b>درخواست شما ثبت شد.</b>
+		<p>کارشناس ما به‌زودی با شما تماس می‌گیرد. کد پیگیری: <span id="sr-sent-code" dir="ltr"></span></p>
+		<button class="sr-btn" data-close>بستن</button>
+	</div>
+</dialog>
+{% endblock %}
+{% block scripts %}
+<script>window.SR_CAR = {{ page_data }};</script>
+<script src="/assets/iran_erp/js/showroom.js"></script>
+{% endblock %}

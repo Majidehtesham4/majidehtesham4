@@ -100,8 +100,15 @@ SERVICES = [
 ]
 
 
+def _records() -> list:
+	"""The sample records made so far, read from the database: the cached defaults can lag behind
+	a delete made by another process."""
+	value = frappe.db.get_value("DefaultValue", {"parent": "__default", "defkey": LOG_KEY}, "defvalue")
+	return json.loads(value or "[]")
+
+
 def _log(doctype, name):
-	records = json.loads(frappe.db.get_default(LOG_KEY) or "[]")
+	records = _records()
 	records.append([doctype, name])
 	frappe.db.set_default(LOG_KEY, json.dumps(records))
 
@@ -136,7 +143,7 @@ def _account(company, number=None, account_type=None):
 @frappe.whitelist()
 def create_dealership_demo(company: str | None = None):
 	frappe.only_for("System Manager")
-	if json.loads(frappe.db.get_default(LOG_KEY) or "[]"):
+	if _records():
 		return "Dealership sample data is already there; delete it first."
 	company = company or frappe.defaults.get_global_default("company")
 	# Car files keep their summaries and log lines as text, so write them in Persian even when this
@@ -454,15 +461,100 @@ def create_dealership_demo(company: str | None = None):
 			car.reload()
 			car.record_exit(date=add_days(posting, 3), delivered_to=BUYERS[buyer][0])
 
+	_website(cars)
 	frappe.db.commit()
 	return "Dealership sample data created: 20 cars, 5 investors, 5 instalment sales."
+
+
+# Options a buyer looks for, by how premium the car is
+FEATURES = [
+	["ایربگ دوگانه", "ترمز ABS", "سیستم صوتی بلوتوث"],
+	["دوربین دنده عقب", "سنسور پارک", "کروز کنترل", "ایربگ دوگانه"],
+	["سانروف", "صندلی برقی", "دوربین ۳۶۰ درجه", "استارت دکمه‌ای", "نمایشگر لمسی"],
+]
+HEADLINES = ["بدون رنگ، کم‌کار", "تک‌مالک، سرویس‌های شرکتی", "بیمه کامل، آماده تحویل", "فول، کارشناسی شده"]
+REQUESTS = [
+	("آقای جعفری", "09121110001", "Test Drive", "شنبه صبح می‌توانم بیایم؟"),
+	("خانم مرادی", "09351110002", "Instalment Plan", "با ۴۰ درصد پیش‌پرداخت و ۱۲ ماه"),
+	("آقای کریمی", "09191110003", "Call Me Back", ""),
+	("خانم نوروزی", "09021110004", "Question", "خودرو تصادفی است؟"),
+]
+
+
+def _website(cars):
+	"""The showroom website: most cars on it with options and a headline, two experts, and a few
+	requests from customers."""
+	settings = frappe.get_single("Iran Showroom Settings")
+	if not settings.experts:
+		settings.update(
+			{
+				"enabled": 1,
+				"tagline": "خرید نقد و اقساط، با کارشناسی شفاف",
+				"phone": "02188776655",
+				"whatsapp": "989121234567",
+				"working_hours": "شنبه تا پنجشنبه ۹ تا ۲۰",
+				"address": "تهران، بزرگراه شهید همت، نمایشگاه خودرو ورون",
+			}
+		)
+		settings.append(
+			"experts",
+			{
+				"full_name": "مهندس رضا امیری",
+				"job_title": "کارشناس فروش",
+				"user": "Administrator",
+				"mobile": "09121234501",
+				"whatsapp": "989121234501",
+			},
+		)
+		settings.append(
+			"experts",
+			{
+				"full_name": "سارا محمدی",
+				"job_title": "کارشناس فروش اقساطی",
+				"mobile": "09121234502",
+				"branch": BRANCHES[1],
+			},
+		)
+		settings.flags.ignore_permissions = True
+		settings.save()
+	shown = []
+	for i, car in enumerate(cars):
+		car.reload()
+		if car.status not in ("Ready for Sale", "Reserved", "In Preparation"):
+			continue
+		price = car.asking_price or 0
+		car.update(
+			{
+				"show_on_website": 1,
+				"featured": i in (2, 4, 11),
+				"website_headline": HEADLINES[i % len(HEADLINES)],
+				"website_features": "\n".join(
+					FEATURES[0 if price < 15_000 * MILLION else 1 if price < 30_000 * MILLION else 2]
+				),
+			}
+		)
+		car.flags.ignore_permissions = True
+		car.save()
+		shown.append(car)
+	for (name, mobile, kind, message), car in zip(REQUESTS, shown, strict=False):
+		_new(
+			"Iran Car Inquiry",
+			{
+				"full_name": name,
+				"mobile": mobile,
+				"kind": kind,
+				"vehicle": car.name,
+				"message": message,
+				"source": "Website",
+			},
+		)
 
 
 @frappe.whitelist()
 def delete_dealership_demo():
 	"""Cancels and deletes what create_dealership_demo made, newest first."""
 	frappe.only_for("System Manager")
-	records = json.loads(frappe.db.get_default(LOG_KEY) or "[]")
+	records = _records()
 
 	def each(doctype):
 		for kind, name in reversed(records):
@@ -479,6 +571,7 @@ def delete_dealership_demo():
 	for doc in each("Iran Vehicle"):
 		_cancel_vehicle_entries(doc)
 	for doctype in (
+		"Iran Car Inquiry",
 		"Iran Instalment Sale",
 		"Iran Investment Contract",
 		"Iran Cheque",

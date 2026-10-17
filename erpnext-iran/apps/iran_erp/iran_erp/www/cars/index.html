@@ -1,0 +1,92 @@
+{% extends "templates/showroom/base.html" %}
+{% block title %}خودروها — {{ s.title }}{% endblock %}
+{% block content %}
+<section class="sr-hero"{% if s.hero_image %} style="--hero: url('{{ s.hero_image }}')"{% endif %}>
+	<div class="sr-wrap">
+		<h1>{{ s.title }}</h1>
+		{% if s.tagline %}<p>{{ s.tagline }}</p>{% endif %}
+		<form class="sr-search" method="get" action="/cars">
+			<input type="search" name="q" value="{{ args.q or '' }}" placeholder="جستجوی مدل، مثلاً «تارا» یا «کمری»">
+			<button type="submit">جستجو</button>
+		</form>
+	</div>
+</section>
+
+<div class="sr-wrap sr-layout">
+	<aside class="sr-filters">
+		<form method="get" action="/cars" id="sr-filter-form">
+			{% if args.q %}<input type="hidden" name="q" value="{{ args.q }}">{% endif %}
+			<label>برند
+				<select name="brand">
+					<option value="">همه</option>
+					{% for b in data.brands %}<option {% if args.brand == b %}selected{% endif %}>{{ b }}</option>{% endfor %}
+				</select>
+			</label>
+			{% if data.body_types %}
+			<label>نوع بدنه
+				<select name="body">
+					<option value="">همه</option>
+					{% for b in data.body_types %}<option value="{{ b }}" {% if args.body == b %}selected{% endif %}>{{ _(b) }}</option>{% endfor %}
+				</select>
+			</label>
+			{% endif %}
+			<label>ساخت
+				<select name="made_in">
+					<option value="">همه</option>
+					<option value="Made in Iran" {% if args.made_in == "Made in Iran" %}selected{% endif %}>داخلی</option>
+					<option value="Imported Car" {% if args.made_in == "Imported Car" %}selected{% endif %}>وارداتی</option>
+				</select>
+			</label>
+			{% if s.show_prices %}
+			<label>قیمت از ({{ "تومان" if s.toman else "ریال" }})
+				<input type="number" name="min_price" value="{{ args.min_price or '' }}" min="0" step="1000000" inputmode="numeric">
+			</label>
+			<label>تا
+				<input type="number" name="max_price" value="{{ args.max_price or '' }}" min="0" step="1000000" inputmode="numeric">
+			</label>
+			{% endif %}
+			<label>ترتیب
+				<select name="sort">
+					<option value="">تازه‌ترین</option>
+					{% if s.show_prices %}
+					<option value="price_asc" {% if args.sort == "price_asc" %}selected{% endif %}>ارزان‌ترین</option>
+					<option value="price_desc" {% if args.sort == "price_desc" %}selected{% endif %}>گران‌ترین</option>
+					{% endif %}
+				</select>
+			</label>
+			<button type="submit" class="sr-btn">اعمال</button>
+			{% if args %}<a class="sr-clear" href="/cars">پاک کردن فیلترها</a>{% endif %}
+		</form>
+	</aside>
+
+	<section class="sr-results">
+		<div class="sr-results-head">
+			<h2>{{ to_persian_digits(data.count) }} خودرو</h2>
+		</div>
+		{% if data.cars %}
+		<div class="sr-grid">
+			{% for car in data.cars %}{% include "templates/showroom/car_card.html" %}{% endfor %}
+		</div>
+		{% else %}
+		<div class="sr-empty">خودرویی با این مشخصات پیدا نشد. <a href="/cars">همه‌ی خودروها</a></div>
+		{% endif %}
+	</section>
+</div>
+
+{% if s.experts %}
+<section class="sr-wrap sr-experts" id="experts">
+	<h2>با کارشناسان ما صحبت کنید</h2>
+	<div class="sr-expert-grid">
+		{% for e in s.experts %}{% include "templates/showroom/expert.html" %}{% endfor %}
+	</div>
+</section>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+<script>
+	// Filters apply as soon as they change
+	document.querySelectorAll("#sr-filter-form select").forEach((el) =>
+		el.addEventListener("change", () => el.form.submit())
+	);
+</script>
+{% endblock %}

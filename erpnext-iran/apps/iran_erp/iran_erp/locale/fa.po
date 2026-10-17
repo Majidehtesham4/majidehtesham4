@@ -20568,3 +20568,238 @@ msgstr "نام کسب‌وکار"
 
 msgid "The name customers know, for example «نمایشگاه خودرو ورون». Shown on the dashboard, the printouts and the investors' page"
 msgstr "نامی که مشتری‌ها می‌شناسند، مثلاً «نمایشگاه خودرو ورون». روی داشبورد، چاپ‌ها و صفحه‌ی سرمایه‌گذاران نوشته می‌شود"
+
+#. Showroom website, customer requests
+msgid "Iran Vehicle Photo"
+msgstr "عکس خودرو"
+
+msgid "Photo"
+msgstr "عکس"
+
+msgid "Caption"
+msgstr "توضیح عکس"
+
+msgid "Iran Showroom Expert"
+msgstr "کارشناس نمایشگاه"
+
+msgid "For example «کارشناس فروش اقساطی»"
+msgstr "مثلاً «کارشناس فروش اقساطی»"
+
+msgid "Inquiries are assigned to this user"
+msgstr "درخواست‌های مشتری‌ها به این کاربر سپرده می‌شود"
+
+msgid "WhatsApp Number"
+msgstr "شماره واتس‌اپ"
+
+msgid "Iran Showroom Settings"
+msgstr "تنظیمات سایت نمایشگاه"
+
+msgid "Show the Showroom Website"
+msgstr "سایت نمایشگاه فعال باشد"
+
+msgid "The public pages /cars (all cars) and /cars/CAR-00001 (one car)"
+msgstr "صفحه‌های عمومی /cars (همه‌ی خودروها) و /cars/CAR-00001 (یک خودرو)"
+
+msgid "Website Title"
+msgstr "عنوان سایت"
+
+msgid "Empty: the business name from Iran ERP Settings"
+msgstr "اگر خالی باشد، نام کسب‌وکار از «تنظیمات ایرانی» گذاشته می‌شود"
+
+msgid "Tagline"
+msgstr "شعار"
+
+msgid "For example «خرید نقد و اقساط، با کارشناسی شفاف»"
+msgstr "مثلاً «خرید نقد و اقساط، با کارشناسی شفاف»"
+
+msgid "Show Prices"
+msgstr "نمایش قیمت‌ها"
+
+msgid "Show Prices In"
+msgstr "واحد نمایش قیمت"
+
+msgid "Toman"
+msgstr "تومان"
+
+msgid "Rial"
+msgstr "ریال"
+
+msgid "Instalment Calculator"
+msgstr "ماشین‌حساب اقساط"
+
+msgid "Monthly Profit Rate"
+msgstr "درصد سود ماهانه"
+
+msgid "Used by the calculator on the website; the contract can still differ"
+msgstr "در ماشین‌حساب سایت به کار می‌رود؛ قرارداد می‌تواند متفاوت باشد"
+
+msgid "Instalment Months Offered"
+msgstr "تعداد ماه‌های اقساط"
+
+msgid "Comma separated"
+msgstr "با ویرگول جدا کنید"
+
+msgid "Lowest Down Payment"
+msgstr "کمترین پیش‌پرداخت"
+
+msgid "Percent of the price"
+msgstr "درصد از قیمت"
+
+msgid "With country code, for example 989121234567"
+msgstr "با کد کشور، مثلاً 989121234567"
+
+msgid "Instagram Page"
+msgstr "صفحه اینستاگرام"
+
+msgid "Map Link"
+msgstr "لینک نقشه"
+
+msgid "For example «شنبه تا پنجشنبه ۹ تا ۲۰»"
+msgstr "مثلاً «شنبه تا پنجشنبه ۹ تا ۲۰»"
+
+msgid "Experts"
+msgstr "کارشناسان"
+
+msgid "Shown on the website; a customer's request goes to them in turn"
+msgstr "روی سایت نشان داده می‌شوند؛ درخواست هر مشتری به نوبت به یکی از آن‌ها سپرده می‌شود"
+
+msgid "Iran Car Inquiry"
+msgstr "درخواست مشتری"
+
+msgid "Call Me Back"
+msgstr "تماس بگیرید"
+
+msgid "Test Drive"
+msgstr "تست‌درایو"
+
+msgid "Instalment Plan"
+msgstr "خرید اقساطی"
+
+msgid "Car Title"
+msgstr "عنوان خودرو"
+
+msgid "Contacted"
+msgstr "تماس گرفته شد"
+
+msgid "Test Drive Booked"
+msgstr "تست‌درایو رزرو شد"
+
+msgid "Won"
+msgstr "خرید کرد"
+
+msgid "Walk-in"
+msgstr "مراجعه حضوری"
+
+msgid "Instagram"
+msgstr "اینستاگرام"
+
+msgid "Preferred Date"
+msgstr "روز دلخواه"
+
+msgid "Preferred Time"
+msgstr "ساعت دلخواه"
+
+msgid "Morning"
+msgstr "صبح"
+
+msgid "Afternoon"
+msgstr "بعدازظهر"
+
+msgid "Evening"
+msgstr "عصر"
+
+msgid "Instalment Plan Chosen"
+msgstr "طرح اقساطی انتخاب‌شده"
+
+msgid "Car Price"
+msgstr "قیمت خودرو"
+
+msgid "Follow-up"
+msgstr "پیگیری"
+
+msgid "Show on the Website"
+msgstr "نمایش در سایت"
+
+msgid "The car's page on the website (/cars/CAR-00001), with its photos, price, body and expert report. Purchase price, lowest price and the owner are never shown"
+msgstr "صفحه‌ی خودرو در سایت (/cars/CAR-00001) با عکس‌ها، قیمت، وضعیت بدنه و گزارش کارشناسی. قیمت خرید، کف قیمت و مالک هیچ‌وقت نشان داده نمی‌شوند"
+
+msgid "Featured"
+msgstr "ویژه"
+
+msgid "Show the Price"
+msgstr "نمایش قیمت"
+
+msgid "Show Body and Expert Report"
+msgstr "نمایش وضعیت بدنه و گزارش کارشناسی"
+
+msgid "Headline"
+msgstr "تیتر"
+
+msgid "For example «کم‌کار، بدون رنگ، بیمه کامل»"
+msgstr "مثلاً «کم‌کار، بدون رنگ، بیمه کامل»"
+
+msgid "One per line, for example «سانروف» or «دوربین دنده عقب»"
+msgstr "هر مورد در یک خط، مثلاً «سانروف» یا «دوربین دنده عقب»"
+
+msgid "Photos"
+msgstr "عکس‌ها"
+
+msgid "The first photo is the one shown in the list of cars"
+msgstr "عکس اول در فهرست خودروهای سایت نشان داده می‌شود"
+
+msgid "3D Model"
+msgstr "مدل سه‌بعدی"
+
+msgid "3D Model File (GLB)"
+msgstr "فایل مدل سه‌بعدی (GLB)"
+
+msgid "A .glb file of this model, shown on the website turning on a platform. Without one, a drawn car in the car's colour is shown"
+msgstr "فایل ‎.glb این مدل که روی سایت روی سکوی چرخان نشان داده می‌شود. اگر نباشد، یک خودروی نمونه در رنگ همان خودرو نشان داده می‌شود"
+
+msgid "Ask an expert for the price of this car"
+msgstr "قیمت این خودرو را از کارشناس بپرسید"
+
+msgid "Choose one of the months offered"
+msgstr "یکی از تعداد ماه‌های پیشنهادی را انتخاب کنید"
+
+msgid "The down payment is at least {0}"
+msgstr "پیش‌پرداخت دست‌کم {0} است"
+
+msgid "Too many requests were sent; please try again later"
+msgstr "درخواست‌های زیادی فرستاده شده؛ کمی بعد دوباره تلاش کنید"
+
+msgid "Write your name"
+msgstr "نام خود را بنویسید"
+
+msgid "Enter a mobile number like 09121234567"
+msgstr "شماره موبایل را مثل ۰۹۱۲۱۲۳۴۵۶۷ بنویسید"
+
+msgid "From customer request {0}"
+msgstr "از درخواست مشتری {0}"
+
+msgid "Write the instalment months offered, for example 6,10,12"
+msgstr "تعداد ماه‌های اقساط را بنویسید، مثلاً 6,10,12"
+
+msgid "Make Instalment Sale"
+msgstr "ساخت فروش اقساطی"
+
+msgid "See on the Website"
+msgstr "دیدن در سایت"
+
+msgid "New Customer Requests"
+msgstr "درخواست‌های جدید مشتری"
+
+msgid "From the website and by phone"
+msgstr "از سایت و تلفن"
+
+msgid "Customer Requests"
+msgstr "درخواست‌های مشتری"
+
+msgid "Showroom Settings"
+msgstr "تنظیمات سایت نمایشگاه"
+
+msgid "Open the Website"
+msgstr "باز کردن سایت"
+msgid "Sales Expert"
+msgstr "کارشناس فروش"
+

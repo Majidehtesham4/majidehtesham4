@@ -94,6 +94,9 @@ web_include_css = "/assets/iran_erp/css/persian_text.css"
 # automatically create page for each record of this doctype
 # website_generators = ["Web Page"]
 
+# The showroom website: one page for each car on it
+website_route_rules = [{"from_route": "/cars/<name>", "to_route": "cars/car"}]
+
 # automatically load and sync documents of this doctype from downstream apps
 # importable_doctypes = [doctype_1]
 
