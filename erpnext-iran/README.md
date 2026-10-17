@@ -61,6 +61,20 @@ docker compose exec backend bench --site frontend execute \
   iran_erp.api.create_jalali_fiscal_year --kwargs '{"jalali_year": 1405, "company": "نام شرکت"}'
 ```
 
+### شروع از صفر (پاک کردن همه‌چیز)
+
+همه‌ی داده‌ها (پایگاه داده، فایل‌ها و تنظیمات سایت) پاک می‌شوند و سایت تازه ساخته می‌شود. بعد یک دستور، کار ویزارد
+اولیه را با انتخاب‌های ایرانی (فارسی، Iran، Asia/Tehran، ریال، کدینگ حسابداری ایران، سال مالی شمسی جاری) انجام
+می‌دهد و داده‌ی نمونه‌ی نمایشگاه خودرو را می‌سازد:
+
+```bash
+cd deploy
+docker compose down -v                 # همه‌ی داده‌ها پاک می‌شود و برنمی‌گردد
+docker compose up -d
+docker compose logs -f create-site     # تا ساخت سایت تمام شود
+docker compose exec backend bench --site frontend execute iran_erp.fresh_start.run
+```
+
 ### داده‌ی نمونه
 
 برای آشنایی با سیستم، در «تنظیمات ایرانی» (`/desk/iran-erp-settings`) از منوی «داده‌ی نمونه» گزینه‌ی «ساخت داده‌ی نمونه»
