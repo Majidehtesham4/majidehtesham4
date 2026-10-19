@@ -60,6 +60,58 @@ MODELS = {
 # Brands whose cars come from abroad: their model year is Gregorian
 IMPORTED_BRANDS = ("تویوتا", "هیوندای", "کیا", "نیسان", "مزدا", "بی‌ام‌و", "مرسدس‌بنز")
 
+# Typical published specifications of common models, filled into the list once (a field already
+# written is never changed). They differ between versions and years: check them, add what is
+# missing (fuel consumption above all) and add a model of its own for another version.
+# engine, volume (cc), cylinders, power (hp), torque (Nm), gearbox, gears, fuel, tank (L), drive, seats
+_F, _M, _A, _C, _D = "Front-Wheel", "Manual Gearbox", "Automatic Gearbox", "CVT", "Dual-Clutch"
+SPECS = {
+	("ایران‌خودرو", "پژو ۲۰۶"): ("TU3", 1360, 4, 75, 118, _M, 5, "Petrol", 50, _F, 5),
+	("ایران‌خودرو", "پژو ۲۰۶ صندوق‌دار"): ("TU5", 1587, 4, 105, 142, _M, 5, "Petrol", 50, _F, 5),
+	("ایران‌خودرو", "پژو ۲۰۷"): ("TU5P", 1587, 4, 108, 142, _M, 5, "Petrol", 50, _F, 5),
+	("ایران‌خودرو", "پژو ۲۰۷ اتوماتیک"): ("TU5P", 1587, 4, 108, 142, _A, 6, "Petrol", 50, _F, 5),
+	("ایران‌خودرو", "پژو پارس"): ("TU5", 1587, 4, 105, 142, _M, 5, "Petrol", 70, _F, 5),
+	("ایران‌خودرو", "پژو ۴۰۵"): ("XU7", 1761, 4, 100, 153, _M, 5, "Petrol", 70, _F, 5),
+	("ایران‌خودرو", "سمند"): ("EF7", 1645, 4, 113, 155, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "سورن"): ("EF7", 1645, 4, 113, 155, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "دنا"): ("EF7", 1645, 4, 113, 155, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "دنا پلاس"): ("EF7 توربو", 1645, 4, 150, 215, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "رانا"): ("TU5", 1587, 4, 105, 142, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "تارا"): ("TU5P", 1587, 4, None, None, _M, 5, "Petrol", None, _F, 5),
+	("ایران‌خودرو", "تارا اتوماتیک"): ("TU5P", 1587, 4, None, None, _A, 6, "Petrol", None, _F, 5),
+	("سایپا", "پراید"): ("", 1323, 4, 63, None, _M, 5, "Petrol", 40, _F, 5),
+	("پارس‌خودرو", "ال۹۰"): ("K7M", 1598, 4, 87, None, _M, 5, "Petrol", 50, _F, 5),
+	("مدیران‌خودرو", "چری تیگو ۷"): ("1.5 توربو", 1498, 4, 147, None, _D, 6, "Petrol", None, _F, 5),
+	("مدیران‌خودرو", "چری آریزو ۵"): ("1.5 توربو", 1498, 4, 147, None, _C, None, "Petrol", None, _F, 5),
+	("مدیران‌خودرو", "ام‌وی‌ام X55"): ("1.5 توربو", 1498, 4, 147, None, _C, None, "Petrol", None, _F, 5),
+	("تویوتا", "کرولا"): ("", 1798, 4, 140, None, _C, None, "Petrol", None, _F, 5),
+	("تویوتا", "کمری"): ("", 2494, 4, 178, None, _A, 6, "Petrol", None, _F, 5),
+	("هیوندای", "النترا"): ("", 1999, 4, 147, None, _A, 6, "Petrol", None, _F, 5),
+	("هیوندای", "سوناتا"): ("", 2359, 4, 185, None, _A, 6, "Petrol", None, _F, 5),
+	("هیوندای", "توسان"): ("", 1999, 4, 155, None, _A, 6, "Petrol", None, _F, 5),
+	("هیوندای", "سانتافه"): ("", 2359, 4, 185, None, _A, 6, "Petrol", None, None, 7),
+	("کیا", "سراتو"): ("", 1999, 4, 147, None, _A, 6, "Petrol", None, _F, 5),
+	("کیا", "اسپورتیج"): ("", 2359, 4, 181, None, _A, 6, "Petrol", None, None, 5),
+	("کیا", "اپتیما"): ("", 2359, 4, 185, None, _A, 6, "Petrol", None, _F, 5),
+	("نیسان", "قشقایی"): ("", 1997, 4, 141, None, _C, None, "Petrol", None, None, 5),
+	("نیسان", "ایکس‌تریل"): ("", 2488, 4, 171, None, _C, None, "Petrol", None, None, 5),
+	("مزدا", "مزدا ۳"): ("", 1998, 4, 155, None, _A, 6, "Petrol", None, _F, 5),
+	("مزدا", "CX-5"): ("", 2488, 4, 187, None, _A, 6, "Petrol", None, None, 5),
+}
+SPEC_FIELDS = (
+	"engine",
+	"engine_volume",
+	"cylinders",
+	"power_hp",
+	"torque_nm",
+	"transmission",
+	"gears",
+	"fuel_type",
+	"fuel_tank",
+	"drive",
+	"seats",
+)
+
 COLORS = [
 	("سفید", "#ffffff"),
 	("سفید صدفی", "#f5f1e6"),
@@ -181,6 +233,18 @@ def seed():
 			if not frappe.db.exists("Iran Car Model", f"{brand} {model}"):
 				made_in = "Imported Car" if brand in IMPORTED_BRANDS else "Made in Iran"
 				_insert("Iran Car Model", {"brand": brand, "model": model, "made_in": made_in})
+	for (brand, model), values in SPECS.items():
+		name = f"{brand} {model}"
+		if not frappe.db.exists("Iran Car Model", name):
+			continue
+		current = frappe.db.get_value("Iran Car Model", name, SPEC_FIELDS, as_dict=True)
+		missing = {
+			field: value
+			for field, value in zip(SPEC_FIELDS, values, strict=True)
+			if value not in (None, "") and current.get(field) in (None, "", 0)
+		}
+		if missing:
+			frappe.db.set_value("Iran Car Model", name, missing, update_modified=False)
 	for name, code in COLORS:
 		if not frappe.db.exists("Iran Car Color", name):
 			_insert("Iran Car Color", {"color_name": name, "color_code": code})

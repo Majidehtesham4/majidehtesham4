@@ -9,6 +9,7 @@
   "title",
   "car_model",
   "made_in",
+  "specs_html",
   "year",
   "color",
   "plate",
@@ -134,6 +135,12 @@
    "hidden": 1
   },
   {
+   "fieldname": "specs_html",
+   "fieldtype": "HTML",
+   "label": "Technical Specifications",
+   "depends_on": "car_model"
+  },
+  {
    "fieldname": "year",
    "fieldtype": "Data",
    "label": "Model Year",
@@ -241,8 +248,9 @@
    "label": "Owned By",
    "options": "Business\nInvestor\nCustomer",
    "default": "Business",
-   "reqd": 1,
-   "in_standard_filter": 1
+   "reqd": 0,
+   "in_standard_filter": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "investor",
@@ -250,14 +258,16 @@
    "label": "Investor",
    "options": "Iran Investor",
    "depends_on": "eval:doc.ownership=='Investor'",
-   "mandatory_depends_on": "eval:doc.ownership=='Investor'"
+   "mandatory_depends_on": "eval:doc.ownership=='Investor'",
+   "permlevel": 1
   },
   {
    "fieldname": "investment_contract",
    "fieldtype": "Link",
    "label": "Investment Contract",
    "options": "Iran Investment Contract",
-   "depends_on": "eval:doc.ownership=='Investor'"
+   "depends_on": "eval:doc.ownership=='Investor'",
+   "permlevel": 1
   },
   {
    "fieldname": "owner_customer",
@@ -266,27 +276,31 @@
    "options": "Customer",
    "depends_on": "eval:doc.ownership=='Customer'",
    "mandatory_depends_on": "eval:doc.ownership=='Customer'",
-   "description": "A car left by its owner to be sold on their behalf"
+   "description": "A car left by its owner to be sold on their behalf",
+   "permlevel": 1
   },
   {
    "fieldname": "owner_mobile",
    "fieldtype": "Data",
    "label": "Owner's Mobile",
    "options": "Phone",
-   "depends_on": "eval:doc.ownership=='Customer'"
+   "depends_on": "eval:doc.ownership=='Customer'",
+   "permlevel": 1
   },
   {
    "fieldname": "owner_national_id",
    "fieldtype": "Data",
    "label": "Owner's National ID",
-   "depends_on": "eval:doc.ownership=='Customer'"
+   "depends_on": "eval:doc.ownership=='Customer'",
+   "permlevel": 1
   },
   {
    "fieldname": "commission_rate",
    "fieldtype": "Percent",
    "label": "Commission (%)",
    "depends_on": "eval:doc.ownership!='Business'",
-   "description": "What the business keeps of the sale price"
+   "description": "What the business keeps of the sale price",
+   "permlevel": 1
   },
   {
    "fieldname": "charge_costs_to_owner",
@@ -294,7 +308,8 @@
    "label": "Costs Are the Owner's",
    "default": "1",
    "depends_on": "eval:doc.ownership!='Business'",
-   "description": "Preparation and repair costs are taken from what the owner receives"
+   "description": "Preparation and repair costs are taken from what the owner receives",
+   "permlevel": 1
   },
   {
    "fieldname": "column_break_owner",
@@ -304,13 +319,15 @@
    "fieldname": "purchase_date",
    "fieldtype": "Date",
    "label": "Purchase Date",
-   "depends_on": "eval:doc.ownership=='Business'"
+   "depends_on": "eval:doc.ownership=='Business'",
+   "permlevel": 1
   },
   {
    "fieldname": "purchase_price",
    "fieldtype": "Currency",
    "label": "Purchase Price",
-   "depends_on": "eval:doc.ownership=='Business'"
+   "depends_on": "eval:doc.ownership=='Business'",
+   "permlevel": 1
   },
   {
    "fieldname": "seller",
@@ -318,7 +335,8 @@
    "label": "Bought From",
    "options": "Supplier",
    "depends_on": "eval:doc.ownership=='Business'",
-   "description": "Leave empty when paid right away"
+   "description": "Leave empty when paid right away",
+   "permlevel": 1
   },
   {
    "fieldname": "paid_from",
@@ -326,7 +344,8 @@
    "label": "Paid From",
    "options": "Account",
    "depends_on": "eval:doc.ownership=='Business'",
-   "description": "Bank or cash account, when the car was paid for right away"
+   "description": "Bank or cash account, when the car was paid for right away",
+   "permlevel": 1
   },
   {
    "fieldname": "purchase_entry",
@@ -334,7 +353,8 @@
    "label": "Purchase Entry",
    "options": "Journal Entry",
    "read_only": 1,
-   "depends_on": "eval:doc.purchase_entry"
+   "depends_on": "eval:doc.purchase_entry",
+   "permlevel": 1
   },
   {
    "fieldname": "section_price",
@@ -355,7 +375,8 @@
    "fieldname": "minimum_price",
    "fieldtype": "Currency",
    "label": "Lowest Price Accepted",
-   "description": "Seen by staff only, not printed"
+   "description": "Seen by staff only, not printed",
+   "permlevel": 1
   },
   {
    "fieldname": "section_documents",
@@ -465,7 +486,8 @@
    "fieldname": "costs",
    "fieldtype": "Table",
    "label": "Services and Costs",
-   "options": "Iran Vehicle Cost"
+   "options": "Iran Vehicle Cost",
+   "permlevel": 1
   },
   {
    "fieldname": "section_cost_totals",
@@ -476,13 +498,15 @@
    "fieldname": "preparation_total",
    "fieldtype": "Currency",
    "label": "Preparation",
-   "read_only": 1
+   "read_only": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "repair_total",
    "fieldtype": "Currency",
    "label": "Repairs",
-   "read_only": 1
+   "read_only": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "column_break_cost_totals",
@@ -492,14 +516,16 @@
    "fieldname": "paperwork_total",
    "fieldtype": "Currency",
    "label": "Paperwork and Other",
-   "read_only": 1
+   "read_only": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "total_cost",
    "fieldtype": "Currency",
    "label": "Total Cost",
    "read_only": 1,
-   "bold": 1
+   "bold": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "tab_sale",
@@ -511,20 +537,23 @@
    "fieldtype": "Link",
    "label": "Sale Contract",
    "options": "Iran Instalment Sale",
-   "read_only": 1
+   "read_only": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "sold_price",
    "fieldtype": "Currency",
    "label": "Sale Price",
-   "read_only": 1
+   "read_only": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "profit",
    "fieldtype": "Currency",
    "label": "Profit on the Car",
    "read_only": 1,
-   "bold": 1
+   "bold": 1,
+   "permlevel": 1
   },
   {
    "fieldname": "column_break_sale",
@@ -635,7 +664,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-20 10:00:00.000000",
+ "modified": "2026-10-21 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Vehicle",
@@ -697,6 +726,47 @@
    "report": 1,
    "export": 1,
    "share": 1
+  },
+  {
+   "role": "System Manager",
+   "permlevel": 1,
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "Accounts Manager",
+   "permlevel": 1,
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "Accounts User",
+   "permlevel": 1,
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "Sales User",
+   "permlevel": 1,
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "Stock User",
+   "permlevel": 1,
+   "read": 1,
+   "write": 1
+  },
+  {
+   "role": "Car Reception",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "print": 1,
+   "report": 1,
+   "export": 0,
+   "share": 0,
+   "email": 0
   }
  ],
  "sort_field": "creation",

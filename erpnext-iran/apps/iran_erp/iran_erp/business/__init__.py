@@ -42,6 +42,10 @@ DEALERSHIP_ICONS = (
 OLD_ICONS = ("Vehicles", "Instalment Sales", "Investors", "Cash Forecast")
 
 INVESTOR_ICON = ("My Account", "/desk/iran-my-account", "investors.svg", (INVESTOR_ROLE,))
+# Whoever receives cars: the car's file only (its specs, body, inspection, photos and website), not
+# its purchase price, costs, owner or the books
+RECEPTION_ROLE = "Car Reception"
+RECEPTION_ICON = ("Car Reception", "/desk/iran-vehicle", "vehicles.svg", (RECEPTION_ROLE,))
 
 # What a kind of business can choose to use, asked in the easy setup: key, label, explanation
 DEALERSHIP_FEATURES = (
@@ -133,10 +137,45 @@ def investor_group(company: str | None = None) -> str:
 
 
 def ensure_role():
-	if not frappe.db.exists("Role", INVESTOR_ROLE):
-		frappe.get_doc({"doctype": "Role", "role_name": INVESTOR_ROLE, "desk_access": 1}).insert(
-			ignore_permissions=True
+	for role in (INVESTOR_ROLE, RECEPTION_ROLE):
+		if not frappe.db.exists("Role", role):
+			frappe.get_doc({"doctype": "Role", "role_name": role, "desk_access": 1}).insert(
+				ignore_permissions=True
+			)
+	# Reception chooses the branch of a car (its own, unless an administrator moves it)
+	from frappe.permissions import add_permission
+
+	if not frappe.db.exists("Custom DocPerm", {"parent": "Branch", "role": RECEPTION_ROLE}):
+		add_permission("Branch", RECEPTION_ROLE, 0)
+
+
+@frappe.whitelist()
+def add_reception_user(full_name: str, email: str, password: str, branch: str | None = None) -> str:
+	"""A login for whoever receives cars: they see the car's file, not the books."""
+	frappe.only_for("System Manager")
+	ensure_role()
+	email = (email or "").strip().lower()
+	if frappe.db.exists("User", email):
+		user = frappe.get_doc("User", email)
+	else:
+		user = frappe.get_doc(
+			{
+				"doctype": "User",
+				"email": email,
+				"first_name": full_name.strip(),
+				"user_type": "System User",
+				"send_welcome_email": 0,
+				"language": "fa",
+			}
 		)
+		user.insert(ignore_permissions=True)
+	user.add_roles(RECEPTION_ROLE)
+	from frappe.utils.password import update_password
+
+	update_password(user.name, password)
+	if branch:
+		frappe.db.set_value("User", user.name, "iran_branch", branch)
+	return user.name
 
 
 # The menu entries of each choice of a car dealership, hidden when it is not chosen
@@ -181,7 +220,7 @@ def apply_pack(pack: str, company: str, features: list[str] | None = None):
 	ensure_user_branch_field()
 	if spec.get("seed"):
 		frappe.get_attr(spec["seed"])()
-	add_icons(spec["icons"] + (INVESTOR_ICON,))
+	add_icons(spec["icons"] + (INVESTOR_ICON, RECEPTION_ICON))
 	apply_features("Iran Dealership", features)
 	for label in spec["hide"]:
 		if frappe.db.exists("Desktop Icon", label):

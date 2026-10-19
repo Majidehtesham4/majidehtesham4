@@ -26,7 +26,7 @@ BY_TYPE = {
 	"Manufacturing": ("Selling", "Buying", "Stock", "Manufacturing", "Quality", "Subcontracting"),
 	"Services": ("Selling", "CRM", "Projects", "Support"),
 	"Contracting": ("Selling", "Buying", "Projects", "Assets"),
-	"Car Dealership": ("Car Dealership",),
+	"Car Dealership": ("Car Dealership", "Car Reception"),
 }
 # The page a business opens on after login
 HOME = {"Car Dealership": "iran-dealership"}
@@ -66,4 +66,10 @@ def apply(setup=None):
 
 
 def home_page() -> str:
+	from iran_erp.business import RECEPTION_ROLE
+
+	others = set(frappe.get_roles()) - {"All", "Guest", "Desk User", RECEPTION_ROLE}
+	if RECEPTION_ROLE in frappe.get_roles() and not others:
+		# Reception opens on the list of cars, to register the next one
+		return "iran-vehicle"
 	return HOME.get(frappe.db.get_single_value("Iran Setup", "business_type"), "iran-start")

@@ -351,9 +351,39 @@ class TestDealership(TestCase):
 		series = data["months"]["series"]
 		for i in range(6):
 			self.assertEqual(
-				series["net"][i], series["car_profit"][i] + series["interest"][i] - series["investor_profit"][i]
+				series["net"][i],
+				series["car_profit"][i] + series["interest"][i] - series["investor_profit"][i],
 			)
 		self.assertEqual(sum(a["count"] for a in data["ages"]), data["in_lot"])
+
+	def test_model_specifications(self):
+		from iran_erp.iran_dealership.doctype.iran_car_model.iran_car_model import spec_rows
+
+		frappe.db.set_value("Iran Car Model", self.car_model, {"engine": "TU5", "engine_volume": 1587})
+		frappe.clear_document_cache("Iran Car Model", self.car_model)
+		rows = {r["label"]: r["value"] for r in spec_rows(self.car_model)}
+		self.assertEqual(rows[frappe._("Engine")], "TU5")
+		self.assertIn("۱۵۸۷", rows[frappe._("Engine Volume")])
+
+	def test_reception_sees_the_car_not_the_books(self):
+		from iran_erp.business import RECEPTION_ROLE, add_reception_user
+
+		user = add_reception_user("پذیرش آزمایشی", "reception.test@example.com", "Reception-Test-1405")
+		self.assertIn(RECEPTION_ROLE, frappe.get_roles(user))
+		car = self.vehicle(purchase_price=1_000_000_000, seller=None)
+		frappe.set_user(user)
+		try:
+			doc = frappe.get_doc("Iran Vehicle", car.name)
+			doc.apply_fieldlevel_read_permissions()
+			self.assertFalse(doc.get("purchase_price"))
+			# Reception registers a car of its own; it belongs to the business
+			mine = frappe.get_doc(
+				{"doctype": "Iran Vehicle", "car_model": self.car_model, "year": "1402", "company": COMPANY}
+			).insert()
+			self.assertEqual(mine.ownership, "Business")
+			self.assertFalse(frappe.has_permission("Iran Instalment Sale", "read"))
+		finally:
+			frappe.set_user("Administrator")
 
 	def test_words(self):
 		self.assertEqual(number_words(1_250_000), "یک میلیون و دویست و پنجاه هزار")

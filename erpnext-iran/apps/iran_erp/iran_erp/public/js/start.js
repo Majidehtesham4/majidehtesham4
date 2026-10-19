@@ -105,5 +105,6 @@ $(document).on("startup", () => {
 	const home = () => /^\/(desk|app)(\/(desktop|home))?\/?$/.test(window.location.pathname);
 	if (!home()) return;
 	const page = frappe.boot.iran_home_page || "iran-start";
-	[300, 1500, 4000].forEach((wait) => setTimeout(() => home() && frappe.set_route(page), wait));
+	const go = () => (page === "iran-vehicle" ? frappe.set_route("List", "Iran Vehicle") : frappe.set_route(page));
+	[300, 1500, 4000].forEach((wait) => setTimeout(() => home() && go(), wait));
 });

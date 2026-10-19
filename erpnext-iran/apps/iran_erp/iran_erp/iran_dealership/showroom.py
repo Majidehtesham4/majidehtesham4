@@ -13,6 +13,7 @@ from frappe.utils import cint, escape_html, flt, getdate, nowdate
 
 from iran_erp.business import trade_profile
 from iran_erp.iran_dealership.doctype.iran_car_inquiry.iran_car_inquiry import normal_mobile
+from iran_erp.iran_dealership.doctype.iran_car_model.iran_car_model import spec_features, spec_rows
 from iran_erp.iran_dealership.doctype.iran_instalment_sale.iran_instalment_sale import calculate
 from iran_erp.iran_dealership.doctype.iran_showroom_settings.iran_showroom_settings import month_options
 from iran_erp.utils.jalali import to_persian_digits
@@ -260,7 +261,16 @@ def car_page(name: str) -> dict:
 		"status_label": STATUS_LABEL.get(car.status, ""),
 		"headline": esc(car.website_headline),
 		"description": esc(car.website_description),
-		"features": [esc(line.strip()) for line in (car.website_features or "").splitlines() if line.strip()],
+		"specs": [{"label": esc(r["label"]), "value": esc(r["value"])} for r in spec_rows(car.car_model)],
+		"features": [
+			esc(line)
+			for line in dict.fromkeys(
+				[
+					*spec_features(car.car_model),
+					*(line.strip() for line in (car.website_features or "").splitlines() if line.strip()),
+				]
+			)
+		],
 		"photos": [{"image": esc(p.image), "caption": esc(p.caption)} for p in car.photos],
 		"show_price": show_price,
 		"price": price_text(car.asking_price, s) if show_price else "",

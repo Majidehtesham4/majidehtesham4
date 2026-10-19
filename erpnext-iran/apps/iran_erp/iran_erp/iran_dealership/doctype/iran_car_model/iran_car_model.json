@@ -11,6 +11,27 @@
   "body_type",
   "made_in",
   "disabled",
+  "section_specs",
+  "engine",
+  "engine_volume",
+  "cylinders",
+  "power_hp",
+  "torque_nm",
+  "column_break_specs_1",
+  "transmission",
+  "gears",
+  "fuel_type",
+  "fuel_consumption",
+  "fuel_tank",
+  "drive",
+  "column_break_specs_2",
+  "seats",
+  "top_speed",
+  "acceleration",
+  "airbags",
+  "length_mm",
+  "trunk_volume",
+  "spec_note",
   "section_3d",
   "model_3d"
  ],
@@ -65,6 +86,118 @@
    "label": "Disabled"
   },
   {
+   "fieldname": "section_specs",
+   "fieldtype": "Section Break",
+   "label": "Technical Specifications",
+   "description": "Entered once for the model; every car of this model shows them on its file, its printout and the website"
+  },
+  {
+   "fieldname": "engine",
+   "fieldtype": "Data",
+   "label": "Engine",
+   "description": "For example «TU5» or «1.5 توربو»"
+  },
+  {
+   "fieldname": "engine_volume",
+   "fieldtype": "Int",
+   "label": "Engine Volume (cc)"
+  },
+  {
+   "fieldname": "cylinders",
+   "fieldtype": "Int",
+   "label": "Cylinders"
+  },
+  {
+   "fieldname": "power_hp",
+   "fieldtype": "Int",
+   "label": "Power (hp)"
+  },
+  {
+   "fieldname": "torque_nm",
+   "fieldtype": "Int",
+   "label": "Torque (Nm)"
+  },
+  {
+   "fieldname": "column_break_specs_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "transmission",
+   "fieldtype": "Select",
+   "label": "Gearbox",
+   "options": "\nManual Gearbox\nAutomatic Gearbox\nCVT\nDual-Clutch"
+  },
+  {
+   "fieldname": "gears",
+   "fieldtype": "Int",
+   "label": "Gears"
+  },
+  {
+   "fieldname": "fuel_type",
+   "fieldtype": "Select",
+   "label": "Fuel",
+   "options": "\nPetrol\nPetrol and CNG\nDiesel\nHybrid\nElectric"
+  },
+  {
+   "fieldname": "fuel_consumption",
+   "fieldtype": "Float",
+   "label": "Fuel Consumption (L/100 km)",
+   "precision": "1",
+   "description": "Combined"
+  },
+  {
+   "fieldname": "fuel_tank",
+   "fieldtype": "Int",
+   "label": "Fuel Tank (L)"
+  },
+  {
+   "fieldname": "drive",
+   "fieldtype": "Select",
+   "label": "Drive",
+   "options": "\nFront-Wheel\nRear-Wheel\nAll-Wheel"
+  },
+  {
+   "fieldname": "column_break_specs_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "seats",
+   "fieldtype": "Int",
+   "label": "Seats"
+  },
+  {
+   "fieldname": "top_speed",
+   "fieldtype": "Int",
+   "label": "Top Speed (km/h)"
+  },
+  {
+   "fieldname": "acceleration",
+   "fieldtype": "Float",
+   "label": "0 to 100 km/h (s)",
+   "precision": "1"
+  },
+  {
+   "fieldname": "airbags",
+   "fieldtype": "Int",
+   "label": "Airbags"
+  },
+  {
+   "fieldname": "length_mm",
+   "fieldtype": "Int",
+   "label": "Length (mm)"
+  },
+  {
+   "fieldname": "trunk_volume",
+   "fieldtype": "Int",
+   "label": "Trunk (L)"
+  },
+  {
+   "fieldname": "spec_note",
+   "fieldtype": "Small Text",
+   "label": "Other Features",
+   "description": "One per line; shown with the car's own options"
+  },
+  {
    "fieldname": "section_3d",
    "fieldtype": "Section Break",
    "label": "3D Model",
@@ -78,7 +211,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-20 09:00:00.000000",
+ "modified": "2026-10-21 11:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Car Model",
@@ -140,6 +273,12 @@
    "report": 1,
    "export": 1,
    "share": 1
+  },
+  {
+   "role": "Car Reception",
+   "read": 1,
+   "write": 1,
+   "create": 1
   }
  ],
  "sort_field": "modified",

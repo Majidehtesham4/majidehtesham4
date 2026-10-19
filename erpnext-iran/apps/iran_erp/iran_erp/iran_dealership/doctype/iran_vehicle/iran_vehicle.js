@@ -31,7 +31,43 @@ function iran_vehicle_year_hint(frm) {
 	);
 }
 
+// The model's technical specifications, kept in the list of car models, shown under the model
+function iran_vehicle_specs(frm) {
+	// Kept as the field's content: the form redraws HTML fields from it on every refresh
+	const show = (html) => {
+		frm.set_df_property("specs_html", "options", html);
+		frm.refresh_field("specs_html");
+	};
+	if (!frm.doc.car_model) {
+		show("");
+		return;
+	}
+	frappe
+		.xcall("iran_erp.iran_dealership.doctype.iran_car_model.iran_car_model.get_specs", { model: frm.doc.car_model })
+		.then(({ rows, features }) => {
+			const esc = frappe.utils.escape_html;
+			if (!rows.length && !features.length) {
+				show(
+					`<div class="iran-specs empty">${__("No specifications are written for this model yet.")}
+					<a href="/desk/iran-car-model/${encodeURIComponent(frm.doc.car_model)}">${__("Write them once for the model")}</a></div>`
+				);
+				return;
+			}
+			show(`<div class="iran-specs">
+				<div class="iran-specs-title">${__("Technical Specifications")}</div>
+				<div class="iran-specs-grid">${rows
+					.map((r) => `<div><span>${esc(r.label)}</span><b>${esc(r.value)}</b></div>`)
+					.join("")}</div>
+				${features.length ? `<div class="iran-specs-features">${features.map((f) => `<span>${esc(f)}</span>`).join("")}</div>` : ""}
+			</div>`);
+		});
+}
+
 frappe.ui.form.on("Iran Vehicle", {
+	car_model(frm) {
+		iran_vehicle_specs(frm);
+	},
+
 	// Fetched from the car model when one is chosen
 	made_in(frm) {
 		iran_vehicle_year_hint(frm);
@@ -67,8 +103,20 @@ frappe.ui.form.on("Iran Vehicle", {
 		const admin = frappe.user.has_role("System Manager");
 		frm.set_df_property("branch", "read_only", admin ? 0 : 1);
 		iran_vehicle_year_hint(frm);
+		iran_vehicle_specs(frm);
 		iran_vehicle_body.render(frm);
 		if (frm.is_new()) return;
+
+		// Prices, costs, owners and sales are for those who may see the books (not reception)
+		const books = Boolean(frm.perm[1] && frm.perm[1].read);
+		if (frm.doc.show_on_website && ["In Preparation", "Ready for Sale", "Reserved"].includes(frm.doc.status)) {
+			frm.add_custom_button(__("See on the Website"), () => window.open(`/cars/${frm.doc.name}`, "_blank"));
+		}
+		if (!books) {
+			const days = frappe.datetime.get_day_diff(frappe.datetime.get_today(), frm.doc.entry_date);
+			if (frm.doc.entry_date) frm.set_intro(__("{0} days in the lot", [days]), "blue");
+			return;
+		}
 
 		const intro = [];
 		if (frm.doc.total_cost) intro.push(__("Total cost of the car: {0}", [iran_erp.money.format(frm.doc.total_cost)]));

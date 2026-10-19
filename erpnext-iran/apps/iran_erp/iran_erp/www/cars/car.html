@@ -83,6 +83,12 @@
 				<div><dt>ساخت</dt><dd>{{ "وارداتی" if car.made_in == "Imported Car" else "داخل" }}</dd></div>
 				{% if car.plate_city %}<div><dt>پلاک</dt><dd>ایران {{ car.plate_city }}</dd></div>{% endif %}
 			</dl>
+			{% if car.specs %}
+			<h3>مشخصات فنی</h3>
+			<dl class="sr-specs">
+				{% for r in car.specs %}<div><dt>{{ r.label }}</dt><dd>{{ r.value }}</dd></div>{% endfor %}
+			</dl>
+			{% endif %}
 			{% if car.features %}
 			<h3>امکانات</h3>
 			<div class="sr-features">{% for f in car.features %}<span>✓ {{ f }}</span>{% endfor %}</div>

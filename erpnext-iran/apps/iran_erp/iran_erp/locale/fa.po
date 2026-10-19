@@ -20835,3 +20835,166 @@ msgstr "برای تأیید «{0}» را بنویسید"
 msgid "Sample data of the kind of business chosen in Easy Setup will be added: for a car dealership its cars, investors, instalment sales and website; for other businesses customers, suppliers, items, stock, production, invoices, CRM, projects and cheques. Continue?"
 msgstr "داده‌ی نمونه‌ی همان کسب‌وکاری که در «راه‌اندازی آسان» انتخاب شده اضافه می‌شود: برای نمایشگاه خودرو، خودروها، سرمایه‌گذاران، فروش‌های اقساطی و سایت؛ برای کسب‌وکارهای دیگر، مشتری‌ها، تأمین‌کننده‌ها، کالاها، انبار، تولید، فاکتورها، CRM، پروژه‌ها و چک‌ها. ادامه می‌دهید؟"
 
+
+#. Car model specifications, car reception
+msgid "Technical Specifications"
+msgstr "مشخصات فنی"
+
+msgid "Entered once for the model; every car of this model shows them on its file, its printout and the website"
+msgstr "یک بار برای مدل نوشته می‌شود؛ هر خودروی این مدل آن‌ها را در پرونده، چاپ و سایت نشان می‌دهد"
+
+msgid "Engine"
+msgstr "موتور"
+
+msgid "For example «TU5» or «1.5 توربو»"
+msgstr "مثلاً «TU5» یا «1.5 توربو»"
+
+msgid "Engine Volume (cc)"
+msgstr "حجم موتور (سی‌سی)"
+
+msgid "Engine Volume"
+msgstr "حجم موتور"
+
+msgid "Cylinders"
+msgstr "تعداد سیلندر"
+
+msgid "Power (hp)"
+msgstr "قدرت (اسب بخار)"
+
+msgid "Torque (Nm)"
+msgstr "گشتاور (نیوتن‌متر)"
+
+msgid "Torque"
+msgstr "گشتاور"
+
+msgid "Gearbox"
+msgstr "گیربکس"
+
+msgid "Gears"
+msgstr "تعداد دنده"
+
+msgid "Manual Gearbox"
+msgstr "دستی"
+
+msgid "Automatic Gearbox"
+msgstr "اتوماتیک"
+
+msgid "CVT"
+msgstr "CVT"
+
+msgid "Dual-Clutch"
+msgstr "دوکلاچه"
+
+msgid "Fuel"
+msgstr "سوخت"
+
+msgid "Petrol and CNG"
+msgstr "دوگانه‌سوز (بنزین و CNG)"
+
+msgid "Hybrid"
+msgstr "هیبرید"
+
+msgid "Fuel Consumption (L/100 km)"
+msgstr "مصرف سوخت (لیتر در ۱۰۰ کیلومتر)"
+
+msgid "Fuel Consumption"
+msgstr "مصرف سوخت"
+
+msgid "Combined"
+msgstr "ترکیبی"
+
+msgid "Fuel Tank (L)"
+msgstr "باک (لیتر)"
+
+msgid "Fuel Tank"
+msgstr "باک"
+
+msgid "Drive"
+msgstr "دیفرانسیل"
+
+msgid "Front-Wheel"
+msgstr "جلو"
+
+msgid "Rear-Wheel"
+msgstr "عقب"
+
+msgid "All-Wheel"
+msgstr "چهارچرخ"
+
+msgid "Seats"
+msgstr "تعداد سرنشین"
+
+msgid "Top Speed (km/h)"
+msgstr "حداکثر سرعت (کیلومتر بر ساعت)"
+
+msgid "Top Speed"
+msgstr "حداکثر سرعت"
+
+msgid "0 to 100 km/h (s)"
+msgstr "شتاب ۰ تا ۱۰۰ (ثانیه)"
+
+msgid "0 to 100 km/h"
+msgstr "شتاب ۰ تا ۱۰۰"
+
+msgid "Airbags"
+msgstr "کیسه هوا"
+
+msgid "Length (mm)"
+msgstr "طول (میلی‌متر)"
+
+msgid "Trunk (L)"
+msgstr "صندوق (لیتر)"
+
+msgid "Trunk"
+msgstr "صندوق"
+
+msgid "Other Features"
+msgstr "امکانات دیگر"
+
+msgid "One per line; shown with the car's own options"
+msgstr "هر مورد در یک خط؛ کنار امکانات خود خودرو نشان داده می‌شود"
+
+msgid "cc"
+msgstr "سی‌سی"
+
+msgid "hp"
+msgstr "اسب بخار"
+
+msgid "Nm"
+msgstr "نیوتن‌متر"
+
+msgid "L/100 km"
+msgstr "لیتر در ۱۰۰ کیلومتر"
+
+msgid "litres"
+msgstr "لیتر"
+
+msgid "km/h"
+msgstr "کیلومتر بر ساعت"
+
+msgid "seconds"
+msgstr "ثانیه"
+
+msgid "millimetres"
+msgstr "میلی‌متر"
+
+msgid "No specifications are written for this model yet."
+msgstr "هنوز مشخصات فنی این مدل نوشته نشده است."
+
+msgid "Write them once for the model"
+msgstr "یک بار برای مدل بنویسید"
+
+msgid "Car Reception"
+msgstr "پذیرش خودرو"
+
+msgid "New Reception Staff"
+msgstr "کارمند پذیرش جدید"
+
+msgid "Reception registers cars, their body condition, inspection and photos, and puts them on the website. They do not see purchase prices, costs, owners or the books."
+msgstr "پذیرش، خودروها را با وضعیت بدنه، کارشناسی و عکس‌ها ثبت می‌کند و روی سایت می‌گذارد. قیمت خرید، هزینه‌ها، مالک و حساب‌ها را نمی‌بیند."
+
+msgid "Email (their username)"
+msgstr "ایمیل (نام کاربری)"
+
+msgid "{0} can now log in."
+msgstr "{0} حالا می‌تواند وارد شود."

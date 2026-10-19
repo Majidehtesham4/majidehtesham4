@@ -77,6 +77,30 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 	page.set_primary_action(__("New Car"), () => frappe.new_doc("Iran Vehicle"), "plus");
 	page.add_inner_button(__("New Instalment Sale"), () => frappe.new_doc("Iran Instalment Sale"));
 	page.add_inner_button(__("New Investment Contract"), () => frappe.new_doc("Iran Investment Contract"));
+	if (frappe.user.has_role("System Manager")) {
+		page.add_inner_button(__("New Reception Staff"), () =>
+			frappe.prompt(
+				[
+					{
+						fieldtype: "HTML",
+						options: `<p class="text-muted">${__(
+							"Reception registers cars, their body condition, inspection and photos, and puts them on the website. They do not see purchase prices, costs, owners or the books."
+						)}</p>`,
+					},
+					{ fieldname: "full_name", fieldtype: "Data", label: __("Full Name"), reqd: 1 },
+					{ fieldname: "email", fieldtype: "Data", options: "Email", label: __("Email (their username)"), reqd: 1 },
+					{ fieldname: "password", fieldtype: "Password", label: __("Password"), reqd: 1 },
+					{ fieldname: "branch", fieldtype: "Link", options: "Branch", label: __("Branch") },
+				],
+				(values) =>
+					frappe
+						.xcall("iran_erp.business.add_reception_user", values)
+						.then((user) => frappe.show_alert({ message: __("{0} can now log in.", [user]), indicator: "green" }, 10)),
+				__("New Reception Staff"),
+				__("Create")
+			)
+		);
+	}
 	page.add_field({
 		fieldtype: "Select",
 		fieldname: "months",

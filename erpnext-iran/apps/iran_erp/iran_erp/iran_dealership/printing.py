@@ -57,3 +57,10 @@ def car_money(value, currency=None) -> str:
 
 	currency = currency or frappe.defaults.get_global_default("currency")
 	return to_persian_digits(fmt_money(value or 0, 0, currency))
+
+
+def car_specs(model) -> list[dict]:
+	"""The model's technical specifications for the Car File."""
+	from iran_erp.iran_dealership.doctype.iran_car_model.iran_car_model import spec_rows
+
+	return spec_rows(model)

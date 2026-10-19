@@ -73,6 +73,9 @@ class IranVehicle(Document):
 			self.fill_inspection()
 
 	def validate(self):
+		# Reception does not see the owner: a car they register belongs to the business until a
+		# manager says otherwise
+		self.ownership = self.ownership or "Business"
 		self.check_year()
 		model = frappe.db.get_value("Iran Car Model", self.car_model, "title") if self.car_model else ""
 		self.title = " ".join(str(part) for part in (model, self.year, self.color) if part)
@@ -188,7 +191,9 @@ class IranVehicle(Document):
 	def log_changes(self):
 		if self.is_new():
 			place = " / ".join(str(v) for v in (self.branch, self.parking, self.parking_spot) if v)
-			self.add_log(_("Car came in"), _("Entry date {0}; {1}").format(format_jalali(self.entry_date), place))
+			self.add_log(
+				_("Car came in"), _("Entry date {0}; {1}").format(format_jalali(self.entry_date), place)
+			)
 			return
 		before = self.get_doc_before_save()
 		if not before:
@@ -201,10 +206,8 @@ class IranVehicle(Document):
 		old_costs = {row.name for row in before.costs}
 		for row in self.costs:
 			if row.name not in old_costs:
-				self.add_log(
-					_("Service: {0}").format(row.service),
-					f"{car_money(row.amount)} — {_(row.status)}",
-				)
+				# Without its amount: the car's file is read by reception too, who do not see costs
+				self.add_log(_("Service: {0}").format(row.service), _(row.status))
 		if len(before.body_marks) != len(self.body_marks):
 			self.add_log(_("Body condition recorded"), self.summarize_body())
 		ticked = [d for d in DOCUMENTS if self.get(d) and not before.get(d)]
@@ -356,8 +359,7 @@ class IranVehicle(Document):
 		self.save()
 		self.append_log_now(
 			_("Sold") if sold else _("Sale cancelled"),
-			f"{contract.name} — {contract.customer_name or ''} — "
-			f"{car_money(contract.sale_price)}",
+			f"{contract.name} — {contract.customer_name or ''} — {car_money(contract.sale_price)}",
 		)
 
 
