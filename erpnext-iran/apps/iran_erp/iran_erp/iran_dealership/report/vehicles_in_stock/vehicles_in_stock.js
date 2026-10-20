@@ -15,6 +15,9 @@ frappe.query_reports["Vehicles in Stock"] = {
 			options: ["", "Business", "Investor", "Customer"].map((v) => ({ value: v, label: __(v) })),
 		},
 		{ fieldname: "car_model", label: __("Model"), fieldtype: "Link", options: "Iran Car Model" },
+		{ fieldname: "car_models", label: __("Models"), fieldtype: "Data", hidden: 1 },
+		{ fieldname: "year", label: __("Model Year"), fieldtype: "Data" },
+		{ fieldname: "color", label: __("Color"), fieldtype: "Link", options: "Iran Car Color" },
 	],
 	formatter(value, row, column, data, default_formatter) {
 		value = default_formatter(value, row, column, data);

@@ -5,7 +5,7 @@ from frappe import _
 
 from iran_erp.ai.tools import get_url_to_form
 from iran_erp.commands.catalog import DOCTYPES, REPORTS
-from iran_erp.commands.engine import NeedConfirm, NeedSlot
+from iran_erp.commands.engine import NeedConfirm, NeedSlot, Reroute
 from iran_erp.commands.handlers import link, list_url, money, report_url, require
 
 
@@ -38,6 +38,9 @@ def new_document(context):
 
 def open_report(context):
 	report = context.get("report")
+	if not report:
+		# «یک گزارش بده» names no report: ask which part of the business first
+		raise Reroute("report_menu")
 	if not frappe.has_permission("Report", "read", report) and not frappe.db.exists("Report", report):
 		raise frappe.PermissionError
 	return _open(_("Opening the report {0}.").format(_name(REPORTS, report)), report_url(report))
@@ -123,3 +126,36 @@ def submit_document(context):
 		"answer": _("{0} {1} was submitted.").format(_(doctype), name),
 		"actions": [{"updated": doctype, "name": name, "url": get_url_to_form(doctype, name)}],
 	}
+
+
+# The reports the assistant gives, by the part of the business they are about
+REPORT_AREAS = (
+	("sales", "فروش", ("sales_total", "sales_by_branch", "top_customers", "top_items", "last_sales_invoices", "overdue_sales")),
+	("buying", "خرید", ("purchases_total", "top_suppliers", "last_purchase_invoices", "overdue_purchases")),
+	("accounts", "حساب‌ها و مالی", ("receivables", "payables", "cash_position", "profit_loss", "expenses", "vat_report")),
+	("stock", "انبار و کالا", ("stock_balance", "stock_value", "low_stock")),
+	("cars", "خودروهای نمایشگاه", ("car_stock", "car_aging", "car_search")),
+	("cheques", "چک‌ها", ("cheques_due", "cheques_received", "cheques_issued", "bounced_cheques")),
+	("investors", "سرمایه‌گذاران", ("investor_info",)),
+)
+
+
+def report_menu(context):
+	"""A report asked for without its subject: which part of the business, then which report."""
+	from iran_erp.commands.engine import INTENT_BY_NAME
+
+	areas = [
+		(key, label, [i for i in intents if i in INTENT_BY_NAME])
+		for key, label, intents in REPORT_AREAS
+		if key != "cars" or frappe.db.exists("DocType", "Iran Vehicle")
+	]
+	area = next((a for a in areas if a[0] == context.get("area")), None)
+	if not area:
+		raise NeedSlot("area", _("A report on which part of the business?"), [(key, label) for key, label, _i in areas])
+	chosen = context.get("report_id")
+	if chosen not in area[2]:
+		raise NeedSlot(
+			"report_id", _("Which {0} report?").format(area[1]), [(i, INTENT_BY_NAME[i]["title"]) for i in area[2]]
+		)
+	# The chosen report runs with its own defaults; the number typed to choose it is not a detail
+	raise Reroute(chosen, "")

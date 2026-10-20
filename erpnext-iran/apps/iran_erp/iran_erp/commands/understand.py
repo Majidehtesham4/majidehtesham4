@@ -51,6 +51,10 @@ Rules:
 - Choose by what the user wants done or shown, not by single words: «اطلاعات سرمایه‌گذار X» asks \
 for the investor's record, not for a login or an invoice; «فاکتورهای فروش رو بیار» lists invoices, \
 it does not make one.
+- Choose the capability that gives the shape of answer asked for: one particular record (a car by \
+model, year and colour: car_search), a ranking («قدیمی‌ترین», «بیشترین زمان»: car_aging), a total \
+per group («هر شعبه»: sales_by_branch), a count, or the whole list only when «همه» is said. A \
+report with no subject is report_menu.
 - Parameters: copy names, periods, amounts and other details exactly as the request writes them \
 (Persian, with the user's spelling). Leave out what is not said; the capability's defaults apply. \
 Write «همه» when the request asks for everyone. Never invent a value.

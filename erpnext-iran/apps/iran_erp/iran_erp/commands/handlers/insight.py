@@ -1,5 +1,5 @@
-"""Read-only answers built from the ERP's own records: an investor's file, the cars in the lot, and
-the statement of every customer (or supplier) at once. Each says what it looked at (the defaults
+"""Read-only answers built from the ERP's own records: an investor's file and the statement of every
+customer (or supplier) at once (the cars are in cars.py). Each says what it looked at (the defaults
 it took) and links to the record, list or report it comes from."""
 
 from urllib.parse import quote
@@ -151,91 +151,6 @@ def _all_investors():
 		),
 		"actions": [link(_("Investors"), list_url("Iran Investor"))],
 	}
-
-
-# ---------------------------------------------------------------- cars in the lot
-
-LOT = ("Awaiting Delivery", "In Preparation", "Ready for Sale", "Reserved")
-OWNER_WORDS = (
-	("Customer", ("امانی", "امانت")),
-	("Investor", ("سرمایه گذار", "سرمایه گذاران", "سرمایهگذار")),
-	("Business", ("خود نمایشگاه", "متعلق به نمایشگاه", "دارایی", "ملکی", "خودمون", "خودمان")),
-)
-
-
-def car_stock(context):
-	"""The cars in the lot: how many, in what state, whose, and what they are worth."""
-	require("Iran Vehicle")
-	from iran_erp.iran_dealership.dashboard import can_see_books
-
-	text = " " + normalize(context.message.text) + " "
-	filters = {"status": ["in", list(LOT)]}
-	said = []
-	ownership = next((o for o, words in OWNER_WORDS if any(f" {normalize(w)} " in text for w in words)), None)
-	# Read from the words; kept with the other details so the answer's trace shows them
-	if ownership:
-		filters["ownership"] = context.values["ownership"] = ownership
-		said.append(_(ownership))
-	if " اماده " in text and " فروش " in text:
-		filters["status"] = context.values["status"] = "Ready for Sale"
-		said.append(_("Ready for Sale"))
-	branch = context.get("branch")
-	if branch:
-		filters["branch"] = branch
-		said.append(branch)
-	cars = frappe.get_list(
-		"Iran Vehicle",
-		filters=filters,
-		fields=["name", "title", "car_model", "year", "color", "status", "branch", "ownership", "asking_price", "entry_date"],
-		order_by="entry_date desc, creation desc",
-		limit_page_length=0,
-	)  # fmt: skip
-	scope = "، ".join(said) if said else _("every branch, every owner")
-	if not cars:
-		return {
-			"answer": _("No cars in the lot ({0}).").format(scope),
-			"actions": [link(_("Cars"), list_url("Iran Vehicle"))],
-		}
-	by = lambda key: {k: sum(1 for c in cars if c[key] == k) for k in dict.fromkeys(c[key] for c in cars)}  # noqa: E731
-	lines = [_("Cars in the lot ({0}): {1}").format(scope, number(len(cars))), ""]
-	lines.append("- " + "، ".join(f"{_(s)}: {number(n)}" for s, n in by("status").items()))
-	lines.append("- " + "، ".join(f"{_(o)}: {number(n)}" for o, n in by("ownership").items()))
-	branches = by("branch")
-	if len(branches) > 1:
-		lines.append("- " + "، ".join(f"{b or _('No branch set')}: {number(n)}" for b, n in branches.items()))
-	if can_see_books():
-		lines.append("- " + _("Asking prices in total: {0}").format(money(sum(flt(c.asking_price) for c in cars))))
-	shown = cars[:15]
-	lines += [
-		"",
-		table(
-			[_("Car"), _("Year"), _("Color"), _("Status"), _("Asking Price")],
-			[
-				[
-					f"[{c.car_model or c.title}](/desk/iran-vehicle/{c.name})",
-					c.year or "",
-					c.color or "",
-					_(c.status),
-					money(c.asking_price),
-				]
-				for c in shown
-			],
-		),
-	]
-	if len(cars) > len(shown):
-		lines.append(_("The newest {0} of {1}; the list has them all.").format(number(len(shown)), number(len(cars))))
-	list_filters = {k: v for k, v in filters.items()}
-	return {
-		"answer": "\n".join(lines),
-		"actions": [
-			link(_("Cars in the lot"), list_url("Iran Vehicle", list_filters)),
-			link(_("Dealership dashboard"), "/desk/iran-dealership"),
-		],
-	}
-
-
-def has_cars() -> bool:
-	return bool(frappe.db.table_exists("Iran Vehicle") and frappe.db.count("Iran Vehicle"))
 
 
 # ---------------------------------------------------------------- everyone's statement

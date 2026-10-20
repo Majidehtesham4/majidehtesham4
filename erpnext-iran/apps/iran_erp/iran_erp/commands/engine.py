@@ -28,6 +28,8 @@ UNSURE = 0.3
 MARGIN = 0.04
 # Messages this long usually ask for several things at once: better for the AI model
 LONG_MESSAGE = 40
+# Offered to choose from only when at least this share of the best score
+CHOICE_SHARE = 0.8
 # With an AI model available, commands below this score go to it instead
 SURE_WITH_AI = 0.6
 # Questions that ask for reasoning rather than a figure or a document
@@ -125,9 +127,11 @@ class Reroute(Exception):
 	"""A handler found the request is another command's: «بدهی مشتری‌ها» to balance is the
 	receivables. The answer and its trace are that command's."""
 
-	def __init__(self, intent: str):
+	def __init__(self, intent: str, text: str | None = None):
 		super().__init__(intent)
 		self.intent = intent
+		# What the other command reads its details from: the same message, unless given
+		self.text = text
 
 
 class Delegate(Exception):
@@ -355,7 +359,9 @@ def _unsure(question, ranked):
 	"""Not sure which command is meant: the closest ones to choose from, or «not understood»."""
 	if not ranked or ranked[0][1] < UNSURE:
 		return _not_understood(question, ranked, False)
-	choices = [r[0] for r in ranked[:3] if r[1] >= UNSURE]
+	# Only the ones nearly as close as the best: «فروش هر شعبه» is not about making a login
+	floor = max(UNSURE, ranked[0][1] * CHOICE_SHARE)
+	choices = [r[0] for r in ranked[:3] if r[1] >= floor]
 	return _reply(
 		_("Which one did you mean? Reply with its number.") + "\n\n" + _options_text([(c, _title(c)) for c in choices]),
 		state={"choose": choices, "question": question},
@@ -488,7 +494,7 @@ def _detail_score(intent_name: str, question: str) -> float:
 		_slots(intent_name), key=lambda s: order.get(s[1], 99)
 	):
 		# Free text takes whatever is left, so it tells nothing
-		if slot_type in ("name", "text"):
+		if slot_type in ("name", "text", "free"):
 			continue
 		try:
 			value = slot_readers.extract(slot_type, message, slot)
@@ -587,7 +593,7 @@ def _continue(question, state, ai_available):
 	if waiting:
 		slot_type = _slot_type(name, waiting)
 		value = None
-		if slot_type in ("name", "text"):
+		if slot_type in ("name", "text", "free"):
 			value = question
 		else:
 			try:
@@ -653,9 +659,9 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		try:
 			value = slot_readers.extract(slot_type, message, slot)
 		except slot_readers.Ambiguous as e:
-			return _ask(
-				intent_name, values, slot, _slot_question(intent_name, slot) or _("Which one?"), e.options
-			)
+			question = _slot_question(intent_name, slot) or _("Which one?")
+			# «خانم کریمی» not on record: say so, and offer only the similar names
+			return _ask(intent_name, values, slot, e.note or question, e.options)
 		if value not in (None, ""):
 			values[slot] = value
 
@@ -700,7 +706,7 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 			intent=intent_name,
 		)
 	except Reroute as e:
-		reply = _run(e.intent, {}, message, ai_available)
+		reply = _run(e.intent, {}, message if e.text is None else slot_readers.Message(e.text), ai_available)
 		if reply.get("trace"):
 			reply["trace"]["rerouted_from"] = intent_name
 		return reply
@@ -735,6 +741,9 @@ def trace(intent_name, values, reply) -> dict:
 		"tool": tool_of(intent_name),
 		"handler": INTENT_BY_NAME[intent_name]["handler"],
 		"links": [a.get("url") for a in reply.get("actions") or [] if a.get("url")],
+		# Records the answer shows, and how many matched the request
+		"records": reply.get("records"),
+		"matched": reply.get("matched"),
 		"asks": (reply.get("state") or {}).get("waiting") or bool((reply.get("state") or {}).get("confirm")),
 	}
 

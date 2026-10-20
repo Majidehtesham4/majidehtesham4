@@ -5,7 +5,7 @@ from frappe.utils import add_days, flt, nowdate
 from iran_erp.ai import tools
 from iran_erp.ai.tools import get_url_to_form
 from iran_erp.commands import entities
-from iran_erp.commands.engine import NeedConfirm, NeedSlot
+from iran_erp.commands.engine import NeedConfirm, NeedSlot, Reroute
 from iran_erp.commands.handlers import (
 	company,
 	count,
@@ -19,6 +19,7 @@ from iran_erp.commands.handlers import (
 	party_label,
 	party_of,
 	period_or,
+	report_url,
 	require,
 	table,
 )
@@ -51,6 +52,11 @@ def _totals(doctype, filters):
 
 def sales_total(context):
 	require("Sales Invoice")
+	from iran_erp.commands.query import shape
+
+	# «فروش هر شعبه», «به تفکیک شعبه»: one line per branch
+	if shape(context.message.text).get("group_by") == "branch":
+		raise Reroute("sales_by_branch")
 	filters, label = _invoice_filters(context)
 	row = _totals("Sales Invoice", filters)
 	who = f" {_('to')} {party_label('Customer', filters['customer'])}" if filters.get("customer") else ""
@@ -484,4 +490,78 @@ def set_item_price(context):
 	return {
 		"answer": _("The selling price of {0} is now {1}.").format(item_name, money(price)),
 		"actions": [link(_("Open"), get_url_to_form("Item", item))],
+	}
+
+
+def sales_by_branch(context):
+	"""Sales of each branch in a period: submitted sales invoices, and the dealership's instalment
+	sale contracts, by the branch recorded on them. With no period said, this Solar Hijri year."""
+	require("Sales Invoice")
+	start, end, label = period_or(context, "year")
+	context.values["group_by"] = "branch"
+	said_period = bool(context.get("period"))
+	invoice_filters = {"docstatus": 1, "company": company(), "posting_date": ["between", [start, end]]}
+	rows = {}
+
+	def add(branch, **values):
+		row = rows.setdefault(branch or "", frappe._dict(invoices=0, invoiced=0.0, contracts=0, contracted=0.0))
+		for key, value in values.items():
+			row[key] += value or 0
+
+	for r in frappe.get_list(
+		"Sales Invoice",
+		filters=invoice_filters,
+		fields=["branch", {"COUNT": "name", "as": "n"}, {"SUM": "base_net_total", "as": "total"}],
+		group_by="branch",
+	):
+		add(r.branch, invoices=r.n, invoiced=flt(r.total))
+	contract_filters = {"docstatus": 1, "status": ["!=", "Cancelled"], "posting_date": ["between", [start, end]]}
+	if frappe.db.exists("DocType", "Iran Instalment Sale") and frappe.has_permission("Iran Instalment Sale", "read"):
+		for r in frappe.get_list(
+			"Iran Instalment Sale",
+			filters=contract_filters,
+			fields=["branch", {"COUNT": "name", "as": "n"}, {"SUM": "sale_price", "as": "total"}],
+			group_by="branch",
+		):
+			add(r.branch, contracts=r.n, contracted=flt(r.total))
+	# Branches with no sales are shown too, so «nothing» is seen, not missed
+	for branch in frappe.get_all("Branch", pluck="name"):
+		rows.setdefault(branch, frappe._dict(invoices=0, invoiced=0.0, contracts=0, contracted=0.0))
+
+	period_note = label if said_period else _("{0} (no period was said)").format(label)
+	if not any(r.invoices or r.contracts for r in rows.values()):
+		return {
+			"answer": _("No sales in {0}, in any branch.").format(period_note),
+			"actions": [link(_("Sales invoices"), list_url("Sales Invoice", invoice_filters))],
+			"records": 0,
+		}
+	ordered = sorted(rows.items(), key=lambda kv: -(kv[1].invoiced + kv[1].contracted))
+
+	def branch_link(branch):
+		value = branch if branch else ["is", "not set"]
+		return f"[{branch or _('No branch set')}]({list_url('Sales Invoice', {**invoice_filters, 'branch': value})})"
+
+	lines = [f"**{_('Sales by branch')}** ({period_note})", ""]
+	lines.append(
+		table(
+			[_("Branch"), _("Invoices"), _("Invoiced (before tax)"), _("Instalment sales"), _("Contract amounts"), _("Total")],
+			[
+				[branch_link(b), number(r.invoices), money(r.invoiced), number(r.contracts), money(r.contracted), money(r.invoiced + r.contracted)]
+				for b, r in ordered
+			],
+		)
+	)
+	unassigned = rows.get("")
+	if unassigned and (unassigned.invoices or unassigned.contracts):
+		lines += ["", _("Sales with no branch on them are under «No branch set»; set the branch on the invoice to place them.")]
+	return {
+		"answer": "\n".join(lines),
+		"actions": [
+			link(
+				_("Sales Register ({0})").format(label),
+				report_url("Sales Register", {"company": company(), "from_date": start, "to_date": end}),
+			),
+			link(_("Instalment sales"), list_url("Iran Instalment Sale", contract_filters)),
+		],
+		"records": len(ordered),
 	}

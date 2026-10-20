@@ -1,6 +1,8 @@
 """The assistant's evaluation set (commands/evaluation.py) on data made for it, and the figures,
 drafts and links behind the answers."""
 
+import json
+
 import frappe
 from frappe.tests import IntegrationTestCase
 from frappe.utils import nowdate
@@ -56,9 +58,24 @@ class TestEvaluation(IntegrationTestCase):
 			}
 		).insert()
 		entry.submit()
+		self._cars()
 		for kind in ("customer", "investor", "user", "party"):
 			if kind in entities.SOURCES:
 				entities.forget(kind)
+
+	def _cars(self):
+		"""A black KMC K7 of 1401 in the lot, and one car that came in long before the others."""
+		from frappe.utils import add_days
+
+		if not frappe.db.exists("Iran Car Color", "مشکی"):
+			frappe.get_doc({"doctype": "Iran Car Color", "color_name": "مشکی"}).insert()
+		model = frappe.db.get_value("Iran Car Model", {"brand": "کی ام سی", "model": "K7"})
+		if not model:
+			model = frappe.get_doc({"doctype": "Iran Car Model", "brand": "کی ام سی", "model": "K7", "made_in": "Made in Iran"}).insert().name
+		car = {"doctype": "Iran Vehicle", "company": self.company, "status": "Ready for Sale"}
+		if not frappe.db.exists("Iran Vehicle", {"car_model": model, "color": "مشکی", "year": "1401"}):
+			frappe.get_doc({**car, "car_model": model, "year": "1401", "color": "مشکی", "entry_date": nowdate()}).insert()
+		self.old_car = frappe.get_doc({**car, "car_model": model, "year": "1399", "entry_date": add_days(nowdate(), -400)}).insert().name
 
 	def tearDown(self):
 		frappe.db.rollback()
@@ -102,3 +119,38 @@ class TestEvaluation(IntegrationTestCase):
 		self.assertTrue(any("Customer%20Ledger%20Summary" in link["url"] for link in out["links"]))
 		out = run_capability("set_user_password", "", {"user": "Administrator", "password": "Whatever-123"})
 		self.assertIn("needs_confirmation", out)
+
+	def test_answers_keep_to_what_was_asked(self):
+		from iran_erp.commands.engine import handle
+
+		# The oldest car: that one, not the stock list
+		reply = handle("قدیمی‌ترین ماشین که پذیرش شده کدومه؟")
+		self.assertEqual(reply["intent"], "car_aging")
+		self.assertEqual(reply["trace"]["records"], 1)
+		self.assertIn(self.old_car, reply["answer"])
+		self.assertIn("Vehicles%20in%20Stock", reply["actions"][0]["url"])
+		# Longest first, a few of them
+		reply = handle("کدوم ماشین‌ها بیشترین زمان رو تو پارکینگ موندن؟")
+		self.assertLessEqual(reply["trace"]["records"], 10)
+		self.assertLess(reply["answer"].index(self.old_car), 400)
+		# A sold car is found, and said to be sold
+		frappe.db.set_value("Iran Vehicle", self.old_car, {"status": "Sold", "exit_date": nowdate(), "color": "مشکی"})
+		reply = handle("ماشین کی ام سی K7 ۱۳۹۹ مشکی رو چک کن فروخته شده؟")
+		self.assertEqual((reply["intent"], reply["trace"]["records"]), ("car_search", 1))
+		self.assertIn("فروخته شده: بله", reply["answer"])
+		self.assertTrue(reply["actions"][0]["url"].endswith(self.old_car))
+		# Not on record: said, with the details
+		reply = handle("ماشین کی ام سی K7 ۱۴۰۰ سفید فروخته شده؟")
+		self.assertEqual(reply["trace"]["records"], 0)
+		self.assertIn("پیدا نشد", reply["answer"])
+		# Sales by branch, with the period said
+		reply = handle("یک گزارش از فروش هر شعبه بده")
+		self.assertEqual(reply["intent"], "sales_by_branch")
+		self.assertIn("امسال", reply["answer"])
+		# No subject: a question about the subject, nothing run
+		reply = handle("یک گزارش بهم بده")
+		self.assertEqual(reply["state"]["waiting"], "area")
+		self.assertNotIn("create_user_login", json.dumps(reply["state"]))
+		# «خانم کریمی» is not «آقای کریمی», and not every «خانم»
+		reply = handle("خانم کریمی چقدر بدهکار یا بستانکاره؟")
+		self.assertEqual([label for _v, label in reply["state"]["options"]], ["آقای کریمی"])

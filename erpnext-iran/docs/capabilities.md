@@ -194,13 +194,13 @@
 ## موجودی خودروهای نمایشگاه (تعداد، وضعیت، مالک، قیمت) (`car_stock`)
 
 - نوع: فقط خواندنی
-- ابزار: insight.car_stock → Iran Vehicle (in the lot: awaiting delivery, in preparation, ready, reserved)
-- پیش‌فرض: every branch and owner, cars still in the lot
+- ابزار: cars.car_stock → Iran Vehicle in the lot, with the filters read (model, year, colour, owner, state, branch)
+- پیش‌فرض: every branch and owner, cars still in the lot; totals and the newest 15
 - سؤال فقط وقتی: never
-- پاسخ: count by status, owner and branch, total asking price, the newest cars
-- لینک: the car list with the same filters, the dealership dashboard
-- معیار موفقیت: the cars of the lot with the filters said
-- جزئیات: `branch` (a branch)، `ownership` (امانی / خود نمایشگاه / سرمایه‌گذار in the words)، `status` (آماده فروش)
+- پاسخ: count by status, owner and branch, total asking price, and the cars asked for
+- لینک: the car list with exactly the same filters
+- معیار موفقیت: the filters said are applied; the whole list only when asked for
+- جزئیات: `branch` (a branch)، `model` (model or brand)، `year` (model year)، `color` (colour)، `ownership` (امانی / خود نمایشگاه / سرمایه‌گذار)، `status` (آماده فروش، رزرو)، `output` (count, all (only for «همه»), price ranking)
 - دسترسی لازم: Iran Vehicle
 - نمونه درخواست‌ها:
   - «موجودی خودرو رو بهم بده»
@@ -209,6 +209,80 @@
   - «خودروهای نمایشگاه»
   - «ماشین های موجود رو بیار»
   - «لیست خودروهای موجود»
+
+## پیدا کردن یک خودرو با مدل، سال، رنگ یا پلاک و وضعیت فروشش (`car_search`)
+
+- نوع: فقط خواندنی
+- ابزار: cars.car_search → Iran Vehicle in any state (sold and gone included), Iran Instalment Sale
+- پیش‌فرض: every state, so a sold car is found
+- سؤال فقط وقتی: no model, year, colour or plate: asks which car; several cars match: lists only them to choose from
+- پاسخ: whether it was sold (date, buyer, price for those who see the books) or where it stands
+- لینک: the car's file and its sale contract
+- معیار موفقیت: only cars matching every detail said; «not found» says the details
+- جزئیات: `model` (model or brand)، `year` (model year (Solar Hijri or Gregorian))، `color` (colour)، `chassis` (chassis number)
+- دسترسی لازم: Iran Vehicle
+- نمونه درخواست‌ها:
+  - «ماشین {model} {year} {color} رو چک کن فروخته شده»
+  - «خودرو {model} {color} فروخته شده یا نه»
+  - «این ماشین فروش رفته»
+  - «وضعیت خودرو {model} {year}»
+  - «ماشین {model} مشکی کجاست»
+  - «خودرو با شاسی {code} رو پیدا کن»
+
+## خودروهایی که بیشترین زمان در نمایشگاه مانده‌اند (مدت حضور از تاریخ ورود) (`car_aging`)
+
+- نوع: فقط خواندنی
+- ابزار: cars.car_aging → Iran Vehicle entry_date (days in the lot); report Vehicles in Stock
+- پیش‌فرض: cars still in the lot, the 10 longest
+- سؤال فقط وقتی: never
+- پاسخ: cars longest first with entry date and days; notes cars with no entry date or a shared import date
+- لینک: Vehicles in Stock report, sorted by entry date, with the same filters
+- معیار موفقیت: ranked by days in the lot; never the plain stock list
+- جزئیات: `output` (one (the oldest, with ties), top N, all)، `branch` (a branch)، `model` (model or brand)
+- دسترسی لازم: Iran Vehicle
+- نمونه درخواست‌ها:
+  - «کدوم ماشین ها بیشترین زمان رو تو پارکینگ موندن»
+  - «ماشین هایی که بیشترین زمان رو در نمایشگاه بودن»
+  - «قدیمی ترین ماشین که پذیرش شده کدومه»
+  - «قدیمی ترین خودروی نمایشگاه»
+  - «کدوم خودروها خیلی وقته موندن»
+  - «مدت حضور خودروها در نمایشگاه»
+
+## فروش هر شعبه (فاکتورها و قراردادهای فروش اقساطی، به تفکیک شعبه) (`sales_by_branch`)
+
+- نوع: فقط خواندنی
+- ابزار: selling.sales_by_branch → Sales Invoice and Iran Instalment Sale grouped by branch
+- پیش‌فرض: this Solar Hijri year, said in the answer
+- سؤال فقط وقتی: never
+- پاسخ: one line per branch: invoices, amount, instalment contracts, total
+- لینک: each branch's invoices; Sales Register for the period
+- معیار موفقیت: grouped by branch, with the period said
+- جزئیات: `period` (a period)
+- دسترسی لازم: Sales Invoice
+- نمونه درخواست‌ها:
+  - «یک گزارش از فروش هر شعبه بده»
+  - «فروش به تفکیک شعبه»
+  - «هر شعبه چقدر فروخته»
+  - «فروش شعبه ها {period}»
+  - «مقایسه فروش شعبه ها»
+  - «کدوم شعبه بیشتر فروخته»
+
+## یک گزارش، وقتی موضوعش گفته نشده (اول بخش، بعد گزارش) (`report_menu`)
+
+- نوع: فقط خواندنی
+- ابزار: navigation.report_menu → the report capabilities of each part of the business
+- پیش‌فرض: none
+- سؤال فقط وقتی: always: which part of the business, then which report
+- پاسخ: the chosen report
+- لینک: the chosen report's links
+- معیار موفقیت: asks; never picks a report by itself
+- نمونه درخواست‌ها:
+  - «یک گزارش بهم بده»
+  - «گزارش میخوام»
+  - «یه گزارش بده»
+  - «چه گزارش هایی داری»
+  - «یک گزارش لازم دارم»
+  - «گزارش بگیر»
 
 ## بقیه‌ی دستورها
 

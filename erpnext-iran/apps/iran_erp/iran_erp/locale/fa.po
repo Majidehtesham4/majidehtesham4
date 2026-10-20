@@ -21586,3 +21586,114 @@ msgstr "دستیار هوشمند برای یک درخواست چند قابلی
 
 msgid "By {0}"
 msgstr "توسط {0}"
+
+msgid "A report on which part of the business?"
+msgstr "گزارش کدام بخش را می‌خواهید؟"
+
+msgid "All cars in the lot ({0}): {1}"
+msgstr "همه‌ی خودروهای نمایشگاه ({0}): {1}"
+
+msgid "All cars in the lot, longest first"
+msgstr "همه‌ی خودروهای نمایشگاه، از بیشترین مدت حضور"
+
+msgid "Buyer: {0}"
+msgstr "خریدار: {0}"
+
+msgid "Cheapest"
+msgstr "ارزان‌ترین‌ها"
+
+msgid "Contract amounts"
+msgstr "مبلغ قراردادها"
+
+msgid "In the lot since {0} ({1} days)"
+msgstr "در نمایشگاه از {0} ({1} روز)"
+
+msgid "Instalment sales"
+msgstr "فروش اقساطی"
+
+msgid "Invoiced (before tax)"
+msgstr "مبلغ فاکتورها (بدون مالیات)"
+
+msgid "Longest in the lot"
+msgstr "بیشترین مدت حضور در نمایشگاه"
+
+msgid "Longest in the lot: {0} cars entered the same day"
+msgstr "بیشترین مدت حضور: {0} خودرو در یک روز وارد شده‌اند"
+
+msgid "Most expensive"
+msgstr "گران‌ترین‌ها"
+
+msgid "No car with {0} was found, among the cars in the lot, sold or gone."
+msgstr "خودرویی با مشخصات {0} پیدا نشد (در خودروهای موجود، فروخته‌شده و خارج‌شده هم گشته شد)."
+
+msgid "No record is named «{0}»; the closest:"
+msgstr "کسی با نام «{0}» ثبت نشده است؛ نزدیک‌ترین:"
+
+msgid "No sales in {0}, in any branch."
+msgstr "در {0} هیچ شعبه‌ای فروش نداشته است."
+
+msgid "Not the same, but close (one detail differs):"
+msgstr "همان نیست، ولی نزدیک است (یک مشخصه فرق دارد):"
+
+msgid "Sale price: {0}"
+msgstr "قیمت فروش: {0}"
+
+msgid "Sales Register ({0})"
+msgstr "دفتر فروش ({0})"
+
+msgid "Sales invoices"
+msgstr "فاکتورهای فروش"
+
+msgid "Sales with no branch on them are under «No branch set»; set the branch on the invoice to place them."
+msgstr "فروش‌هایی که شعبه ندارند زیر «بدون شعبه» آمده‌اند؛ برای جای‌گیری درست، شعبه را در فاکتور ثبت کنید."
+
+msgid "Sold: no; status in the lot: {0}"
+msgstr "فروخته شده: خیر؛ وضعیت در نمایشگاه: {0}"
+
+msgid "Sold: yes"
+msgstr "فروخته شده: بله"
+
+msgid "The entry date is not recorded for any of these {0} cars, so how long they have stood cannot be told. Fill in «Entry Date» on each car's file."
+msgstr "تاریخ ورود هیچ‌کدام از این {0} خودرو ثبت نشده، پس مدت حضورشان معلوم نیست. «تاریخ ورود» را در پرونده‌ی هر خودرو پر کنید."
+
+msgid "The {0} cars longest in the lot"
+msgstr "{0} خودرو با بیشترین مدت حضور در نمایشگاه"
+
+msgid "These cars"
+msgstr "همین خودروها"
+
+msgid "Vehicles in Stock, longest first"
+msgstr "گزارش خودروهای موجود، از قدیمی‌ترین"
+
+msgid "Which car? Write its model, year, colour or plate."
+msgstr "کدام خودرو؟ مدل، سال، رنگ یا پلاکش را بنویسید."
+
+msgid "Which one shall I show in full?"
+msgstr "کدام را کامل نشان بدهم؟"
+
+msgid "Which {0} report?"
+msgstr "کدام گزارش {0}؟"
+
+msgid "model year {0}"
+msgstr "مدل {0}"
+
+msgid "{0} (no period was said)"
+msgstr "{0} (بازه‌ای گفته نشد)"
+
+msgid "{0} cars have no entry date and are not in this list."
+msgstr "{0} خودرو تاریخ ورود ندارند و در این فهرست نیستند."
+
+msgid "{0} cars have the same entry date, the day their files were made; if they arrived earlier, correct «Entry Date» on their files for this report to be right."
+msgstr "تاریخ ورود {0} خودرو یکی و همان روز ثبت پرونده‌شان در سیستم است؛ اگر زودتر وارد نمایشگاه شده‌اند، «تاریخ ورود» را در پرونده‌شان اصلاح کنید تا این گزارش درست شود."
+
+msgid "{0} cars with {1}: {2} sold, {3} still here."
+msgstr "{0} خودرو با مشخصات {1}: {2} فروخته‌شده، {3} هنوز در نمایشگاه."
+
+msgid "Sales by branch"
+msgstr "فروش به تفکیک شعبه"
+
+msgid "Models"
+msgstr "مدل‌ها"
+
+msgid "No one named «{0}» is on record. Did you mean:"
+msgstr "کسی با نام «{0}» ثبت نشده است. منظورتان این است؟"

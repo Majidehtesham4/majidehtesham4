@@ -9,9 +9,13 @@ from frappe.utils import date_diff, flt, getdate, nowdate
 def execute(filters=None):
 	filters = frappe._dict(filters or {})
 	conditions = {"status": ("not in", ("Sold", "Exited"))}
-	for key in ("branch", "parking", "ownership", "status", "car_model"):
+	for key in ("branch", "parking", "ownership", "status", "car_model", "color"):
 		if filters.get(key):
 			conditions[key] = filters.get(key)
+	# Several models (a brand) and model years, as the assistant's links give them: comma separated
+	for key, field in (("car_models", "car_model"), ("year", "year")):
+		if filters.get(key):
+			conditions[field] = ("in", [v.strip() for v in str(filters.get(key)).split(",") if v.strip()])
 	today = getdate(nowdate())
 	rows = frappe.get_all(
 		"Iran Vehicle",

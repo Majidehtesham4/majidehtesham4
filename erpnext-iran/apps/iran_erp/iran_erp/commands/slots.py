@@ -62,12 +62,20 @@ NAME_MARKERS = {"اسم", "نام", "بهاسم", "بنام"}
 
 
 class Ambiguous(Exception):
-	"""Several records fit: the user has to pick one."""
+	"""Several records fit: the user has to pick one. note: what to say first («خانم کریمی» was
+	not found; these are the closest)."""
 
-	def __init__(self, slot, options):
+	def __init__(self, slot, options, note=None):
 		super().__init__(slot)
 		self.slot = slot
 		self.options = options
+		self.note = note
+
+
+def _not_exact(found) -> str | None:
+	from frappe import _
+
+	return _("No one named «{0}» is on record. Did you mean:").format(found.asked) if found.asked else None
 
 
 class Message:
@@ -117,7 +125,7 @@ def _entity(kind):
 		found = entities.find(kind, message.words, message.blocked())
 		if found.options:
 			message.used |= found.used
-			raise Ambiguous(slot_name or kind, found.options)
+			raise Ambiguous(slot_name or kind, found.options, _not_exact(found))
 		if found:
 			message.used |= found.used
 			return found.name
@@ -144,7 +152,7 @@ def _party(message, slot_name, kinds=("customer", "supplier")):
 				options.append((f"{tied_kind}:{tied_found.name}", tied_found.label))
 			options += [(f"{tied_kind}:{name}", label) for name, label in tied_found.options]
 		message.used |= found.used
-		raise Ambiguous(slot_name, options[:6])
+		raise Ambiguous(slot_name, options[:6], _not_exact(found))
 	message.used |= found.used
 	return f"{kind}:{found.name}"
 
@@ -550,7 +558,14 @@ def _user(message, slot_name):
 	return None
 
 
+def _car_spec(message, slot_name):
+	from iran_erp.commands.handlers.cars import car_spec
+
+	return car_spec(message.text)
+
+
 READERS = {
+	"car_spec": _car_spec,
 	**{kind: _entity(kind) for kind in ENTITY_KINDS},
 	"user": _user,
 	"party": _party,

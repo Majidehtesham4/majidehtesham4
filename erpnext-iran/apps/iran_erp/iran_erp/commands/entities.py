@@ -33,19 +33,23 @@ SOURCES = {
 	"user": ("User", ("full_name", "username", "name"), {"enabled": 1, "name": ["not in", ["Guest"]]}, "full_name"),
 	"branch": ("Branch", ("name",), {}, "name"),
 }
+# Titles say nothing about who is meant: «خانم کریمی» is not «خانم احمدی»
+HONORIFICS = {"اقای", "اقا", "خانم", "جناب", "سرکار", "دکتر", "مهندس", "حاج", "حاجی", "اقایان"}
 MAX_RECORDS = 20000
 MAX_WINDOW = 6
 CACHE_SECONDS = 120
 
 
 class Found:
-	def __init__(self, name=None, label=None, used=(), options=(), score=0):
+	def __init__(self, name=None, label=None, used=(), options=(), score=0, asked=None):
 		self.name = name
 		self.score = score
 		self.label = label
 		self.used = set(used)
 		# Several records fit equally well: the user has to choose
 		self.options = list(options)
+		# The name as asked, when no record has it exactly and the options are only the closest
+		self.asked = asked
 
 	def __bool__(self):
 		return bool(self.name)
@@ -169,7 +173,7 @@ def find(kind: str, words: list[str], skip: set[int] = frozenset()) -> Found:
 			if not candidates:
 				break
 			window = words[i:j]
-			if all(w in STOPWORDS or len(w) < 2 for w in window):
+			if all(w in STOPWORDS or w in HONORIFICS or len(w) < 2 for w in window):
 				continue
 			if j - i == 1 and window[0].isdigit() and len(window[0]) < 3:
 				continue
@@ -189,6 +193,16 @@ def find(kind: str, words: list[str], skip: set[int] = frozenset()) -> Found:
 						best.setdefault(name, (label, set(range(i, j))))
 	if not best:
 		return Found()
+	# «خانم کریمی» when only «آقای کریمی» is on record: the closest, to confirm, not taken as said
+	title = _title_before(words, min(min(u) for _l, u in best.values()))
+	if title:
+		same = {n: v for n, v in best.items() if not _other_title(records, n, title)}
+		if not same:
+			used = set().union(*(u for _, u in best.values())) | {min(min(u) for _l, u in best.values()) - 1}
+			asked = " ".join(words[min(used) : max(used) + 1])
+			options = [(name, label) for name, (label, _) in list(best.items())[:6]]
+			return Found(used=used, options=options, score=best_score, asked=asked)
+		best = same
 	if len(best) == 1:
 		name, (label, used) = next(iter(best.items()))
 		return Found(name, label, used, score=best_score)
@@ -196,3 +210,16 @@ def find(kind: str, words: list[str], skip: set[int] = frozenset()) -> Found:
 	return Found(
 		used=used, options=[(name, label) for name, (label, _) in list(best.items())[:6]], score=best_score
 	)
+
+
+def _title_before(words, start) -> str | None:
+	return words[start - 1] if start > 0 and words[start - 1] in HONORIFICS else None
+
+
+def _other_title(records, name, title) -> bool:
+	"""Whether the record's name carries a title other than the one asked («آقای» for «خانم»)."""
+	for record_name, _label, variants in records:
+		if record_name == name:
+			titles = {w for variant in variants for w in variant if w in HONORIFICS}
+			return bool(titles) and title not in titles
+	return False

@@ -158,6 +158,76 @@ CASES = [
 		"link": "/desk/user/",
 		"draft": True,
 	},
+	# Requests that ask for a particular result, not the whole list: the shape and the filters count
+	{
+		"capability": "car_aging",
+		"phrasings": [
+			["کدوم ماشین‌ها بیشترین زمان رو تو پارکینگ موندن؟"],
+			["ماشین‌هایی که بیشترین زمان رو در نمایشگاه بودن رو لیست کن"],
+			["کدوم خودروها خیلی وقته موندن"],
+		],
+		"parameters": {"order": "longest", "output": "top"},
+		"records": (1, 10),
+		"link": "Vehicles%20in%20Stock",
+	},
+	{
+		"capability": "car_aging",
+		"phrasings": [["قدیمی‌ترین ماشین که پذیرش شده کدومه؟"], ["قدیمی ترین خودروی نمایشگاه"]],
+		"parameters": {"order": "longest", "output": "one"},
+		# The oldest one, or the few tied with it; never the whole stock
+		"records": (1, 10),
+		"link": "Vehicles%20in%20Stock",
+	},
+	{
+		"capability": "sales_by_branch",
+		"phrasings": [["یک گزارش از فروش هر شعبه بده"], ["فروش به تفکیک شعبه"], ["هر شعبه چقدر فروخته"], ["فروش این ماه به تفکیک شعبه"]],
+		"parameters": {"group_by": "branch"},
+		"answer_has": "شعبه",
+		"link": "Sales%20Register",
+	},
+	{
+		"capability": "car_search",
+		"phrasings": [["ماشین کی‌ام‌سی ۱۴۰۳ مشکی رو چک کن فروخته شده؟"], ["خودرو کی ام سی ۱۴۰۳ مشکی فروخته شده یا نه"]],
+		"parameters": {"model": True, "year": "1403", "color": "مشکی"},
+		# Not on record: said so, with the details, and nothing else passed off as it
+		"records": (0, 0),
+		"answer_has": "پیدا نشد",
+	},
+	{
+		"capability": "car_search",
+		"phrasings": [["ماشین کی ام سی K7 مشکی رو چک کن فروخته شده؟"]],
+		"parameters": {"model": True, "color": "مشکی"},
+		"records": (1, 1),
+		"link": "/desk/iran-vehicle/",
+		"answer_has": "فروخته شده",
+	},
+	{
+		"capability": "balance",
+		"phrasings": [["خانم کریمی چقدر بدهکار یا بستانکاره؟"]],
+		# No «خانم کریمی» on record: only the similar name is offered, not every «خانم»
+		"asks": "party",
+		"options_have": "کریمی",
+		"answer_has": "خانم کریمی",
+	},
+	{
+		"capability": "report_menu",
+		"phrasings": [["یک گزارش بهم بده"], ["گزارش میخوام"]],
+		"asks": "area",
+		"options_have": "",
+	},
+	{
+		"capability": "sales_by_branch",
+		"phrasings": [["یک گزارش بهم بده", "فروش", "فروش هر شعبه"], ["یک گزارش بهم بده", "1", "2"]],
+		"parameters": {"group_by": "branch"},
+		"link": "Sales%20Register",
+	},
+	{
+		"capability": "car_stock",
+		"phrasings": [["فهرست همه خودروها"], ["لیست کامل ماشین ها"]],
+		"parameters": {"output": "all"},
+		"records": (2, 10000),
+		"link": "iran-vehicle",
+	},
 	{
 		"capability": "stock_balance",
 		"phrasings": [["موجودی انبار رو بده"], ["موجودی کالاها"]],
@@ -191,8 +261,18 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 		problems.append("handed to the AI model")
 	if reply.get("intent") not in (case["capability"], *case.get("also", ())):
 		problems.append(f"intent {reply.get('intent')}")
-	waiting = (reply.get("state") or {}).get("waiting") or (reply.get("state") or {}).get("choose")
-	if waiting:
+	state = reply.get("state") or {}
+	waiting = state.get("waiting") or state.get("choose")
+	if case.get("asks"):
+		# A question was right here: about that detail, offering only related answers
+		if state.get("waiting") != case["asks"]:
+			problems.append(f"asked {waiting or 'nothing'}, not {case['asks']}")
+		labels = [label for _v, label in state.get("options") or []]
+		if not labels:
+			problems.append("no options offered")
+		elif case.get("options_have") and any(case["options_have"] not in label for label in labels):
+			problems.append(f"unrelated options: {labels}")
+	elif waiting:
 		problems.append(f"still asking ({waiting})")
 	if case.get("link") and case["link"] not in links:
 		problems.append(f"no link with {case['link']}")
@@ -210,14 +290,24 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 			problems.append(f"{slot} is {found}, not {expected}")
 	if not problems and trace.get("capability") not in (reply.get("intent"), None):
 		problems.append(f"ran {trace.get('capability')}")
-	if not problems and not trace.get("tool"):
+	if not problems and not case.get("asks") and not trace.get("tool"):
 		problems.append("no tool in the trace")
+	# How many records the answer gives: one, a few, or all, as asked
+	if case.get("records") and not case.get("asks"):
+		low, high = case["records"]
+		got = trace.get("records")
+		if got is None or not low <= got <= high:
+			problems.append(f"{got} records, not {low}–{high}")
 	ran = {
 		"intent": reply.get("intent"),
 		"understood_by": trace.get("understood_by"),
 		"parameters": parameters,
 		"tool": trace.get("handler"),
 		"links": trace.get("links") or [],
+		"records": trace.get("records"),
+		"matched": trace.get("matched"),
+		"asks": state.get("waiting"),
+		"options": [label for _v, label in state.get("options") or []][:6],
 		"answer": (reply.get("answer") or "").split("\n")[0][:120],
 	}
 	frappe.db.rollback(save_point="iran_eval")
@@ -248,5 +338,7 @@ def report():
 					"         "
 					+ f"{ran['intent']} ({ran['understood_by']}) {json.dumps(ran['parameters'], ensure_ascii=False, default=str)}"
 					+ f" → {ran['tool']} → {', '.join(l[:60] for l in ran['links'][:2])}"
+					+ (f" | records {ran['records']} of {ran['matched']}" if ran.get("records") is not None else "")
+					+ (f" | asks {ran['asks']}: {' / '.join(ran['options'])}" if ran.get("asks") else "")
 				)
 				print("         «" + ran["answer"] + "»")

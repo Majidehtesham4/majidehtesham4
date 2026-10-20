@@ -110,7 +110,7 @@ def stock_balance(context):
 
 def _all_stock(context):
 	"""Nothing named: the cars in the lot for a dealership, else every warehouse's stock."""
-	from iran_erp.commands.handlers.insight import car_stock, has_cars
+	from iran_erp.commands.handlers.cars import car_stock, has_cars
 
 	words = set(context.message.words)
 	if has_cars() and (words & {"خودرو", "خودروها", "ماشین", "ماشینها", "ماشین‌ها"} or not frappe.db.count("Bin", {"actual_qty": ["!=", 0]})):
