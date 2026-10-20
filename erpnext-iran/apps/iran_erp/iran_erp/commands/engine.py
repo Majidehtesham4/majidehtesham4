@@ -102,6 +102,10 @@ MAKES = {
 }
 # Commands that only open a page; a command that answers the question wins over them on a near tie
 NAVIGATION = {"open_list", "new_document", "open_report"}
+# Lists that «دیگه چی» / «بعدی» continue, without repeating what was shown
+PAGED = {"car_aging", "car_stock", "car_search", "last_sales_invoices", "last_purchase_invoices"}
+# Records remembered as shown, for the next «دیگه چی»
+MAX_SHOWN = 300
 _cache = {}
 
 
@@ -247,29 +251,74 @@ def _options_text(options) -> str:
 def handle(question: str, state: dict | None = None, ai_available: bool = False) -> dict:
 	frappe.local.iran_cmd_last = None
 	frappe.local.iran_cmd_via = "Matcher"
+	frappe.local.iran_cmd_frame = None
+	# Records already shown, when this message continues that list
+	frappe.local.iran_cmd_shown_before = []
 	result = _handle(question, state, ai_available)
 	if result.get("trace"):
 		result["trace"]["understood_by"] = frappe.local.iran_cmd_via
-	# What was just answered, so a follow-up («همه», «امسال») can redo it
-	last = getattr(frappe.local, "iran_cmd_last", None)
-	if last and not result.get("state") and not result.get("delegate") and not result.get("error"):
-		result["state"] = {"last": last[0], "last_values": last[1]}
+		if frappe.local.iran_cmd_frame:
+			result["trace"]["frame"] = frappe.local.iran_cmd_frame
+	result.pop("shown", None)
+	remember(result)
 	return result
 
 
-def _follow_up(question: str, state: dict, ai_available: bool):
-	"""A short message that only changes the last request: «همه», or a new period («امسال»)."""
+def remember(result):
+	"""What was just answered, so a follow-up («همه», «امسال», «دیگه چی») can redo or continue it:
+	the capability, its details, and the records shown so far."""
+	last = getattr(frappe.local, "iran_cmd_last", None)
+	if last and not result.get("state") and not result.get("delegate") and not result.get("error"):
+		name, values, shown = (*last, None)[:3]
+		state = {"last": name, "last_values": values}
+		if shown is not None:
+			state["shown"] = (list(getattr(frappe.local, "iran_cmd_shown_before", None) or []) + list(shown))[-MAX_SHOWN:]
+		result["state"] = state
+
+
+def _follow_up(question: str, state: dict, ai_available: bool, refers: str | None = None):
+	"""A short message that only continues or changes the last request: «دیگه چی» / «بعدی» (the
+	next records, none shown twice), «همه» (everyone, or the whole list), «همون ...» (the same
+	with other details), or a new period («امسال»)."""
+	from iran_erp.commands import frame as frame_reader
+
 	name, values = state.get("last"), dict(state.get("last_values") or {})
 	if not name or name not in INTENT_BY_NAME:
 		return None
 	slots = {s[0]: s[1] for s in _slots(name)}
 	normalized = normalize(question)
-	if normalized in EVERYONE_WORDS:
+	refers = refers or frame_reader.refers(question)
+	frappe.local.iran_cmd_frame = {"refers": refers, "previous": name} if refers else None
+	if refers == "more":
+		if name not in PAGED:
+			return _reply(_("That was the whole answer. Ask for something else, or for it in another way."), intent=name)
+		shown = list(state.get("shown") or [])
+		values["_exclude"] = shown
+		if values.get("output") in ("one", "all", None):
+			values["output"] = "top"
+		frappe.local.iran_cmd_shown_before = shown
+		return _run(name, values, slot_readers.Message(""), ai_available)
+	if normalized in EVERYONE_WORDS or refers == "all":
 		slot = next((slot for intent, slot in EVERYONE_SLOTS if intent == name), None)
 		if slot:
 			values[slot] = "*"
 			return _run(name, values, slot_readers.Message(question), ai_available)
+		if name in PAGED:
+			values["output"] = "all"
+			values.pop("limit", None)
+			return _run(name, values, slot_readers.Message(""), ai_available)
 		return None
+	if refers == "same":
+		# The same request, with the details this message gives in place of the old ones
+		message = slot_readers.Message(question)
+		for slot, kind in slots.items():
+			try:
+				value = slot_readers.extract(kind, message, slot)
+			except slot_readers.Ambiguous:
+				value = None
+			if value not in (None, ""):
+				values[slot] = value
+		return _run(name, values, message, ai_available)
 	period_slot = next((slot for slot, kind in slots.items() if kind == "period"), None)
 	if period_slot and len(tokens(question)) <= 4:
 		message = slot_readers.Message(question)
@@ -316,6 +365,17 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 
 	words = tokens(question)
 	ranked = get_matcher().rank(_without_names(question))
+	# The request as a frame (subject, named records, shape): it decides when the samples cannot
+	from iran_erp.commands import frame as frame_reader
+
+	frame = frame_reader.read(question)
+	frappe.local.iran_cmd_frame = frame
+	routed = None if set(words) & ASKING_HOW else frame_reader.route(frame, ranked)
+	if routed:
+		intent_name, values, rule = routed
+		frame["rule"] = rule
+		frappe.local.iran_cmd_via = "Frame"
+		return _run(intent_name, values, slot_readers.Message(question, _keywords(intent_name)), ai_available)
 	# «How do I ...» questions the system knows the answer to are answered here, AI model or not
 	how_to = _how_to(words, ranked) or _how_to_make(words, ranked)
 	if how_to:
@@ -640,6 +700,30 @@ def _ask(intent_name, values, slot, question, options=None, again=False):
 	return _reply(text, state=state, intent=intent_name)
 
 
+def _not_on_record(intent_name, values, slot, slot_type):
+	"""The customer (or supplier) named is not on record: say so, offer the similar names on record,
+	and a link to register them; the rest of the request waits."""
+	from iran_erp.commands import entities
+
+	named = values["_named"]
+	kind = "supplier" if slot_type == "supplier" else "customer"
+	doctype = "Supplier" if kind == "supplier" else "Customer"
+	similar = []
+	for word in [w for w in tokens(named) if w not in entities.HONORIFICS]:
+		found = entities.find(kind, [word])
+		similar += [(found.name, found.label)] if found else list(found.options)
+	similar = list(dict.fromkeys(similar))[:6]
+	text = (
+		_("No supplier named «{0}» is on record. Write the exact name, or register them first.")
+		if kind == "supplier"
+		else _("No customer named «{0}» is on record. Write the exact name, or register them first.")
+	).format(named)
+	reply = _ask(intent_name, values, slot, text, similar or None)
+	field = "supplier_name" if kind == "supplier" else "customer_name"
+	reply["actions"] = [{"label": _("New {0}: {1}").format(_(doctype), named), "url": f"/desk/{frappe.scrub(doctype).replace('_', '-')}/new?{field}={named}"}]
+	return reply
+
+
 def _run(intent_name, values, message, ai_available, confirmed=False):
 	"""Read the slots still missing from the message, then run the command's handler."""
 	if intent_name.startswith("howto:"):
@@ -664,6 +748,13 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 			return _ask(intent_name, values, slot, e.note or question, e.options)
 		if value not in (None, ""):
 			values[slot] = value
+		elif slot_type in ("customer", "supplier", "party") and not values.get("_named"):
+			# «برای خانم شریفی ...» with no such customer: the name is kept as the customer asked
+			# for, so it is not read as an item, and the question says it is not on record
+			named = slot_readers.person_phrase(message)
+			if named:
+				message.used |= named[0]
+				values["_named"] = named[1]
 
 	items = values.get("items")
 	if isinstance(items, dict) and items.get("unknown"):
@@ -679,19 +770,12 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 			).format("، ".join(items["unknown"])),
 		)
 
-	for slot, _type, required, question in slot_list:
+	for slot, slot_type, required, question in slot_list:
 		if required and values.get(slot) in (None, ""):
+			if slot_type in ("customer", "supplier", "party") and values.get("_named"):
+				return _not_on_record(intent_name, values, slot, slot_type)
 			return _ask(intent_name, values, slot, question)
 
-	# Remembered for follow-ups only when it read something; never a password
-	from iran_erp.commands.capabilities import kind_of
-
-	if kind_of(intent_name) == "read":
-		secret = {slot for slot, kind, _r, _q in slot_list if kind in ("password", "username")}
-		frappe.local.iran_cmd_last = (
-			intent_name,
-			{k: v for k, v in values.items() if not k.startswith("_") and k not in secret},
-		)
 	module, function = intent["handler"].rsplit(".", 1)
 	handler = getattr(importlib.import_module(f"iran_erp.commands.handlers.{module}"), function)
 	context = Context(intent_name, values, message, confirmed=confirmed, ai_available=ai_available)
@@ -719,6 +803,17 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		return _reply(_("You do not have permission for this."), intent=intent_name)
 	if isinstance(result, str):
 		result = {"answer": result}
+	shown = result.pop("shown", None)
+	# Remembered for follow-ups only when it read something; never a password
+	from iran_erp.commands.capabilities import kind_of
+
+	if kind_of(intent_name) == "read":
+		secret = {slot for slot, kind, _r, _q in slot_list if kind in ("password", "username")}
+		frappe.local.iran_cmd_last = (
+			intent_name,
+			{k: v for k, v in values.items() if not k.startswith("_") and k not in secret},
+			shown,
+		)
 	reply = _reply(intent=intent_name, **result)
 	reply["trace"] = trace(intent_name, values, reply)
 	return reply
@@ -744,6 +839,7 @@ def trace(intent_name, values, reply) -> dict:
 		# Records the answer shows, and how many matched the request
 		"records": reply.get("records"),
 		"matched": reply.get("matched"),
+		"groups": reply.get("groups"),
 		"asks": (reply.get("state") or {}).get("waiting") or bool((reply.get("state") or {}).get("confirm")),
 	}
 

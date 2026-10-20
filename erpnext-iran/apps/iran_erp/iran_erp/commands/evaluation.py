@@ -228,6 +228,71 @@ CASES = [
 		"records": (2, 10000),
 		"link": "iran-vehicle",
 	},
+	# The frame decides where samples alone go wrong; follow-ups continue the previous answer
+	{
+		"capability": "car_stock",
+		"phrasings": [["لیست ماشین‌ها رو بر اساس هر شعبه بنویس"], ["خودروها رو به تفکیک شعبه لیست کن"]],
+		"parameters": {"group_by": "branch"},
+		"records": (1, 10000),
+		"link": "iran-vehicle",
+		"answer_has": "شعبه",
+	},
+	{
+		"capability": "create_sales_invoice",
+		"phrasings": [["برای خانم شریفی فاکتور بزن"]],
+		# No such customer: said so, with a link to register her; her name is not taken for items
+		"asks": "customer",
+		"answer_has": "خانم شریفی",
+		"not_values": ["items"],
+		"link": "/desk/customer/new",
+	},
+	{
+		"capability": "create_sales_invoice",
+		"phrasings": [["برای آقای کریمی فاکتور بزن"]],
+		# A customer on record: only the items are asked
+		"asks": "items",
+		"values": {"customer": True},
+		"not_values": ["items"],
+	},
+	{
+		"capability": "last_sales_invoices",
+		"phrasings": [["۶ فاکتور آخر"]],
+		"parameters": {"limit": 6},
+		"records": (1, 6),
+		"link": "sales-invoice",
+	},
+	{
+		"capability": "last_sales_invoices",
+		"phrasings": [["۵ فاکتور آخر"], ["موجودی خودرو رو بهم بده", "۵ فاکتور آخر"]],
+		"parameters": {"limit": 5},
+		"records": (1, 5),
+		"link": "sales-invoice",
+	},
+	{
+		"capability": "party_statement",
+		"phrasings": [["آقای کریمی حسابشو بیار"], ["صورتحساب آقای کریمی رو نشون بده"], ["حساب آقای کریمی رو بیار"]],
+		"parameters": {"party": True},
+		"link": "General%20Ledger",
+		"answer_has": "کریمی",
+	},
+	{
+		"capability": "car_aging",
+		"phrasings": [
+			["کدام ماشین طولانی‌ترین زمان در نمایشگاه مانده؟", "دیگه چی"],
+			["کدوم ماشین‌ها بیشترین زمان رو تو پارکینگ موندن؟", "بعدی"],
+		],
+		# The next ones of the same ranking, none shown twice
+		"continues": True,
+		"records": (1, 10),
+		"link": "Vehicles%20in%20Stock",
+	},
+	{
+		"capability": "open_document",
+		"phrasings": [["سند {journal_entry} را باز کن"], ["{journal_entry} رو باز کن"]],
+		"parameters": {"document": True},
+		"link": "/desk/journal-entry/",
+		"link_has_document": True,
+	},
 	{
 		"capability": "stock_balance",
 		"phrasings": [["موجودی انبار رو بده"], ["موجودی کالاها"]],
@@ -236,21 +301,32 @@ CASES = [
 ]
 
 
-def run_case(turns: list[str], ai_available: bool = False) -> dict:
+def _fill(turns: list[str]) -> list[str]:
+	"""Turns that name a record of this site: «{journal_entry}» is its latest journal entry."""
+	if not any("{" in t for t in turns):
+		return turns
+	values = {"journal_entry": frappe.db.get_value("Journal Entry", {}, "name", order_by="creation desc") or "ACC-JV-0000-00000"}
+	return [t.format(**values) for t in turns]
+
+
+def run_case(turns: list[str], ai_available: bool = False, states: list | None = None) -> dict:
 	from iran_erp.commands.engine import handle
 
 	state, reply = None, {}
-	for text in turns:
+	for text in _fill(turns):
 		reply = handle(text, state, ai_available=ai_available)
 		state = reply.get("state")
+		if states is not None:
+			states.append(state or {})
 	return reply
 
 
 def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[bool, str, dict]:
 	"""(passed, why not, what ran) for one phrasing."""
 	frappe.db.savepoint("iran_eval")
+	states = []
 	try:
-		reply = run_case(turns, ai_available)
+		reply = run_case(turns, ai_available, states)
 	except Exception as e:
 		frappe.db.rollback(save_point="iran_eval")
 		return False, f"error: {e}", {}
@@ -268,7 +344,7 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 		if state.get("waiting") != case["asks"]:
 			problems.append(f"asked {waiting or 'nothing'}, not {case['asks']}")
 		labels = [label for _v, label in state.get("options") or []]
-		if not labels:
+		if case.get("options_have") is not None and not labels:
 			problems.append("no options offered")
 		elif case.get("options_have") and any(case["options_have"] not in label for label in labels):
 			problems.append(f"unrelated options: {labels}")
@@ -278,6 +354,24 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 		problems.append(f"no link with {case['link']}")
 	if case.get("answer_has") and case["answer_has"] not in (reply.get("answer") or ""):
 		problems.append(f"answer lacks {case['answer_has']}")
+	# Details read (also while a question is asked), and details that must not be read
+	values = {**(state.get("values") or {}), **(trace.get("parameters") or {})}
+	for slot, expected in (case.get("values") or {}).items():
+		if expected is True and values.get(slot) in (None, ""):
+			problems.append(f"{slot} not read")
+	for slot in case.get("not_values") or ():
+		if values.get(slot) not in (None, ""):
+			problems.append(f"{slot} read as {values.get(slot)}")
+	# «دیگه چی»: new records, after the ones already shown, none twice
+	if case.get("continues"):
+		before = (states[-2] if len(states) > 1 else {}).get("shown") or []
+		after = state.get("shown") or []
+		if len(after) <= len(before) or len(after) != len(set(after)):
+			problems.append(f"did not continue: {len(before)} shown, then {len(after)}")
+	if case.get("link_has_document") and not any(
+		(trace.get("parameters") or {}).get("document", "").endswith(l.rsplit("/", 1)[-1]) for l in trace.get("links") or []
+	):
+		problems.append("the link is not the document named")
 	# The details read, and the tool that ran: the capability's own handler
 	parameters = trace.get("parameters") or {}
 	for slot, expected in (case.get("parameters") or {}).items():

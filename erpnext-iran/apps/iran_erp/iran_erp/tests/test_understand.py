@@ -182,3 +182,20 @@ class TestUnderstand(IntegrationTestCase):
 			for secret in ("Other-99999", "Ali-55555", "ali.test"):
 				self.assertNotIn(secret, f"{row.phrase} {row.parameters}")
 		self.assertTrue(frappe.db.exists("Iran Intent Example", {"capability": "set_user_password"}))
+
+	def test_reading_is_limited_to_the_catalog_and_continues_the_previous_answer(self):
+		from iran_erp.commands.understand import _parse, answer
+
+		# Unknown result values and tool names are dropped, never run
+		parsed = _parse(json.dumps({"capability": "drop_table", "result": {"output": "sql", "group_by": "branch", "limit": 5000}}))
+		self.assertEqual(parsed["result"], {"group_by": "branch"})
+		self.assertIsNone(answer("هرچی", None, parsed))
+		# «یه چند تای دیگه هم نشون بده» read as «more»: the next cars of the same ranking
+		first = handle("کدوم ماشین‌ها بیشترین زمان رو تو پارکینگ موندن؟")
+		if not first["state"].get("shown"):
+			self.skipTest("no cars")
+		reading = _parse(json.dumps({"capability": "car_aging", "refers_to_previous": "more", "confidence": 0.9}))
+		reply = answer("یه چند تای دیگه هم نشون بده", first["state"], reading)
+		self.assertEqual(reply["intent"], "car_aging")
+		self.assertFalse(set(first["state"]["shown"]) & set(reply["state"]["shown"][len(first["state"]["shown"]) :]))
+		self.assertGreaterEqual(len(reply["state"]["shown"]), len(first["state"]["shown"]))

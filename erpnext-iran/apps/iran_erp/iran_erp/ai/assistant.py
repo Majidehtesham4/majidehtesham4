@@ -233,7 +233,9 @@ def _understand_first(request) -> bool:
 	previous = frappe.get_doc("Iran AI Request", request.previous_request) if request.previous_request else None
 	state = json.loads(previous.command_state or "{}") if previous and previous.command_state else {}
 	try:
-		reading = understand.interpret(request.question, previous.question if previous else None)
+		reading = understand.interpret(
+			request.question, previous.question if previous else None, previous_capability=state.get("last") or state.get("intent")
+		)
 	except Exception as e:
 		# No AI model to ask: the answer the matcher had (the closest commands, or «not understood»)
 		fallback = dict(pending.get("fallback") or {})

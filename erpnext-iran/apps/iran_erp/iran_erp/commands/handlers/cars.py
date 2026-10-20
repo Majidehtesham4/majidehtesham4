@@ -193,9 +193,31 @@ def vehicle_filters(context, statuses=LOT, read_status=True) -> tuple[dict, list
 
 
 def _shape(context) -> dict:
+	"""The shape read from the words, or given as details (by a follow-up or the AI reader)."""
 	result = shape(_text(context))
-	context.values.update({k: v for k, v in result.items()})
+	for key in ("output", "order", "limit", "group_by"):
+		if context.values.get(key) not in (None, ""):
+			result[key] = context.values[key]
+	context.values.update(result)
 	return result
+
+
+def _continuing(context, filters) -> list:
+	"""«دیگه چی»: the records already shown are left out."""
+	shown = context.get("_exclude") or []
+	if shown:
+		filters["name"] = ["not in", list(shown)]
+	return shown
+
+
+def _no_more(context, scope):
+	return {
+		"answer": _("No more cars ({0}); all {1} were shown.").format(scope, number(len(context.get("_exclude")))),
+		"actions": [],
+		"records": 0,
+		"matched": 0,
+		"shown": [],
+	}
 
 
 def _car(c) -> str:
@@ -241,11 +263,16 @@ def car_stock(context):
 		"price_low": "asking_price asc",
 		"newest": "entry_date desc, creation desc",
 	}.get(result.get("order"), "entry_date desc, creation desc")
+	actions = [link(_("These cars"), list_url("Iran Vehicle", filters)), link(_("Dealership dashboard"), "/desk/iran-dealership")]
+	continuing = _continuing(context, filters)
 	cars = frappe.get_list("Iran Vehicle", filters=filters, fields=FIELDS, order_by=order_by, limit_page_length=0)
 	scope = "، ".join(said) if said else _("every branch, every owner")
-	actions = [link(_("These cars"), list_url("Iran Vehicle", filters)), link(_("Dealership dashboard"), "/desk/iran-dealership")]
 	if not cars:
+		if continuing:
+			return _no_more(context, scope)
 		return {"answer": _("No cars in the lot ({0}).").format(scope), "actions": actions, "records": 0, "matched": 0}
+	if result.get("group_by"):
+		return _grouped(cars, result["group_by"], scope, filters, actions)
 
 	output = result.get("output")
 	if output == "count":
@@ -253,19 +280,49 @@ def car_stock(context):
 	if result.get("order") in ("price_high", "price_low"):
 		top = cars[: 1 if output == "one" else result.get("limit") or 10]
 		title = _("Most expensive") if result["order"] == "price_high" else _("Cheapest")
-		return {"answer": f"**{title}** ({scope})\n\n" + _car_table(top), "actions": actions, "records": len(top), "matched": len(cars)}
+		return {"answer": f"**{title}** ({scope})\n\n" + _car_table(top), "actions": actions, "records": len(top), "matched": len(cars), "shown": [c.name for c in top]}
 	if output == "all":
 		return {
 			"answer": _("All cars in the lot ({0}): {1}").format(scope, number(len(cars))) + "\n\n" + _car_table(cars),
 			"actions": actions,
 			"records": len(cars),
 			"matched": len(cars),
+			"shown": [c.name for c in cars],
 		}
-	shown = cars[:15]
-	lines = [_("Cars in the lot ({0}): {1}").format(scope, number(len(cars))), "", _breakdown(cars), "", _car_table(shown)]
+	if continuing:
+		shown = cars[: result.get("limit") or 15]
+		lines = [_("The next {0} cars ({1}), of {2} not shown yet:").format(number(len(shown)), scope, number(len(cars))), "", _car_table(shown)]
+	else:
+		shown = cars[:15]
+		lines = [_("Cars in the lot ({0}): {1}").format(scope, number(len(cars))), "", _breakdown(cars), "", _car_table(shown)]
 	if len(cars) > len(shown):
-		lines.append(_("The newest {0} of {1}; the list has them all.").format(number(len(shown)), number(len(cars))))
-	return {"answer": "\n".join(lines), "actions": actions, "records": len(shown), "matched": len(cars)}
+		lines.append(_("{0} of {1} shown; «دیگه چی» shows the next ones.").format(number(len(shown)), number(len(cars))))
+	return {"answer": "\n".join(lines), "actions": actions, "records": len(shown), "matched": len(cars), "shown": [c.name for c in shown]}
+
+
+GROUP_FIELDS = {"branch": "branch", "model": "car_model", "status": "status", "owner": "ownership"}
+# Cars listed under each group; the rest are counted and linked
+PER_GROUP = 15
+
+
+def _grouped(cars, group_by, scope, filters, actions) -> dict:
+	"""The cars under each branch (or model, state, owner): how many, and which."""
+	field = GROUP_FIELDS.get(group_by, "branch")
+	groups = {}
+	for c in cars:
+		groups.setdefault(c[field] or "", []).append(c)
+	labels = {"branch": _("Branch"), "model": _("Model"), "status": _("Status"), "owner": _("Owned By")}
+	lines = [f"**{_('Cars by {0}').format(labels.get(group_by, group_by))}** ({scope}): {number(len(cars))}", ""]
+	shown = []
+	for key, rows in sorted(groups.items(), key=lambda kv: -len(kv[1])):
+		name = (_(key) if field in ("status", "ownership") else key) or _("Not set")
+		value = key if key else ["is", "not set"]
+		lines += [f"### [{name}]({list_url('Iran Vehicle', {**filters, field: value})}) — {number(len(rows))}", "", _car_table(rows[:PER_GROUP])]
+		if len(rows) > PER_GROUP:
+			lines.append(_("{0} of {1} shown; the link has them all.").format(number(PER_GROUP), number(len(rows))))
+		lines.append("")
+		shown += [c.name for c in rows[:PER_GROUP]]
+	return {"answer": "\n".join(lines), "actions": actions, "records": len(shown), "matched": len(cars), "groups": len(groups), "shown": shown}
 
 
 def _breakdown(cars) -> str:
@@ -303,9 +360,12 @@ def car_search(context):
 	filters, said, spec = vehicle_filters(context, statuses=None, read_status=False)
 	if not ({"model", "year", "color", "chassis"} & set(spec)):
 		raise NeedSlot("car", _("Which car? Write its model, year, colour or plate."))
+	actions = [link(_("These cars"), list_url("Iran Vehicle", filters))]
+	continuing = _continuing(context, filters)
 	cars = frappe.get_list("Iran Vehicle", filters=filters, fields=FIELDS, order_by="entry_date desc", limit_page_length=0)
 	scope = "، ".join(said)
-	actions = [link(_("These cars"), list_url("Iran Vehicle", filters))]
+	if not cars and continuing:
+		return _no_more(context, scope)
 	if not cars:
 		answer = _("No car with {0} was found, among the cars in the lot, sold or gone.").format(scope)
 		near = _near(filters)
@@ -316,21 +376,21 @@ def car_search(context):
 			)
 		return {"answer": answer, "actions": [link(_("Cars"), list_url("Iran Vehicle"))], "records": 0, "matched": 0}
 	if len(cars) == 1:
-		return {**_one_car(frappe.get_doc("Iran Vehicle", cars[0].name)), "matched": 1}
+		return {**_one_car(frappe.get_doc("Iran Vehicle", cars[0].name)), "matched": 1, "shown": [cars[0].name]}
 	sold = [c for c in cars if c.status in ("Sold", "Exited")]
 	summary = _("{0} cars with {1}: {2} sold, {3} still here.").format(
 		number(len(cars)), scope, number(len(sold)), number(len(cars) - len(sold))
 	)
 	rows = [[_car(c), c.year or "", c.color or "", _(c.status), jdate(c.entry_date) if c.entry_date else ""] for c in cars]
 	answer = summary + "\n\n" + table([_("Car"), _("Year"), _("Color"), _("Status"), _("Entry Date")], rows)
-	if len(cars) <= 6:
+	if len(cars) <= 6 and not continuing:
 		# Only the matching cars to choose from, to see one in full
 		raise NeedSlot(
 			"vehicle",
 			answer + "\n\n" + _("Which one shall I show in full?"),
 			[(c.name, f"{c.title or c.car_model} — {_(c.status)}") for c in cars],
 		)
-	return {"answer": answer, "actions": actions, "records": len(cars), "matched": len(cars)}
+	return {"answer": answer, "actions": actions, "records": len(cars), "matched": len(cars), "shown": [c.name for c in cars]}
 
 
 def _near(filters, limit=5) -> list:
@@ -380,9 +440,12 @@ def car_aging(context):
 	require("Iran Vehicle")
 	result = _shape(context)
 	filters, said, _spec = vehicle_filters(context)
+	actions = [link(_("Vehicles in Stock, longest first"), report_url("Vehicles in Stock", _report_filters(filters)))]
+	continuing = _continuing(context, filters)
 	cars = frappe.get_list("Iran Vehicle", filters=filters, fields=FIELDS, order_by="entry_date asc, creation asc", limit_page_length=0)
 	scope = "، ".join(said) if said else _("every branch, every owner")
-	actions = [link(_("Vehicles in Stock, longest first"), report_url("Vehicles in Stock", _report_filters(filters)))]
+	if not cars and continuing:
+		return _no_more(context, scope)
 	if not cars:
 		return {"answer": _("No cars in the lot ({0}).").format(scope), "actions": actions, "records": 0, "matched": 0}
 	dated = [c for c in cars if c.entry_date]
@@ -407,7 +470,7 @@ def car_aging(context):
 		shown, title = dated, _("All cars in the lot, longest first")
 	else:
 		shown = dated[: result.get("limit") or 10]
-		title = _("The {0} cars longest in the lot").format(number(len(shown)))
+		title = (_("The next {0} cars longest in the lot") if continuing else _("The {0} cars longest in the lot")).format(number(len(shown)))
 	lines = [f"**{title}** ({scope})", ""]
 	lines.append(
 		table(
@@ -427,4 +490,6 @@ def car_aging(context):
 		)
 	if notes:
 		lines += [""] + [f"- {n}" for n in notes]
-	return {"answer": "\n".join(lines), "actions": actions, "records": len(shown), "matched": len(dated)}
+	if len(dated) > len(shown):
+		lines += ["", _("{0} of {1} shown; «دیگه چی» shows the next ones.").format(number(len(shown)), number(len(dated)))]
+	return {"answer": "\n".join(lines), "actions": actions, "records": len(shown), "matched": len(dated), "shown": [c.name for c in shown]}

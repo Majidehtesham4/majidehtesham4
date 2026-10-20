@@ -21697,3 +21697,45 @@ msgstr "مدل‌ها"
 
 msgid "No one named «{0}» is on record. Did you mean:"
 msgstr "کسی با نام «{0}» ثبت نشده است. منظورتان این است؟"
+
+msgid "No customer named «{0}» is on record. Write the exact name, or register them first."
+msgstr "مشتری‌ای با نام «{0}» ثبت نشده است. نام دقیق را بنویسید، یا اول او را تعریف کنید."
+
+msgid "No supplier named «{0}» is on record. Write the exact name, or register them first."
+msgstr "تأمین‌کننده‌ای با نام «{0}» ثبت نشده است. نام دقیق را بنویسید، یا اول او را تعریف کنید."
+
+msgid "New {0}: {1}"
+msgstr "{0} جدید: {1}"
+
+msgid "Cars by {0}"
+msgstr "خودروها به تفکیک {0}"
+
+msgid "{0} of {1} shown; the link has them all."
+msgstr "{0} از {1} نشان داده شد؛ لینک همه را دارد."
+
+msgid "{0} of {1} shown; «دیگه چی» shows the next ones."
+msgstr "{0} از {1} نشان داده شد؛ «دیگه چی» بعدی‌ها را می‌آورد."
+
+msgid "Showing {0} of {1}; «دیگه چی» shows the next ones."
+msgstr "{0} از {1} نشان داده شد؛ «دیگه چی» بعدی‌ها را می‌آورد."
+
+msgid "The next {0} cars ({1}), of {2} not shown yet:"
+msgstr "{0} خودروی بعدی ({1})، از {2} خودرویی که هنوز نشان داده نشده:"
+
+msgid "The next {0} cars longest in the lot"
+msgstr "{0} خودروی بعدی با بیشترین مدت حضور"
+
+msgid "No more cars ({0}); all {1} were shown."
+msgstr "خودروی دیگری نیست ({0})؛ هر {1} مورد نشان داده شد."
+
+msgid "No more; all {0} were shown."
+msgstr "مورد دیگری نیست؛ هر {0} مورد نشان داده شد."
+
+msgid "That was the whole answer. Ask for something else, or for it in another way."
+msgstr "جواب قبلی کامل بود. چیز دیگری بپرسید، یا همان را به شکل دیگری بخواهید."
+
+msgid "of"
+msgstr "از"
+
+msgid "Frame"
+msgstr "چارچوب درخواست"

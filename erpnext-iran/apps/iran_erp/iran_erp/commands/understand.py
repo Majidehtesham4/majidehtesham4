@@ -29,6 +29,10 @@ from iran_erp.commands import slots as slot_readers
 
 # The model's confidence needed to run a capability without asking
 CONFIDENT = 0.7
+# The values the model may give for the shape of the answer; anything else is dropped
+RESULT_OUTPUTS = {"one", "top", "all", "count"}
+RESULT_ORDERS = {"longest", "newest", "price_high", "price_low"}
+RESULT_GROUPS = {"branch", "model", "status", "owner"}
 # Examples of each capability shown to the model
 EXAMPLES_SHOWN = 3
 # How long the model may take before the answer the matcher had is given instead
@@ -43,9 +47,15 @@ Reply with one JSON object and nothing else:
   "parameters": {{"<parameter>": "<the words of the request for it, copied as written>"}},
   "confidence": <0 to 1, how sure you are that this capability is what the user wants>,
   "alternatives": ["<other ids that fit almost as well>"],
+  "result": {{"output": "<one | top | all | count, or null>", "order": "<longest | newest | price_high | \
+price_low, or null>", "limit": <a number the user gave, or null>, "group_by": "<branch | model | status | \
+owner, or null>"}},
+  "refers_to_previous": "<more (the next records of the previous answer: «دیگه چی», «بعدی») | all \
+(all of it) | same (the same request with other details) | null>",
   "conversation": <true when the request needs reasoning, an explanation, several steps or tools at \
 once, attached files, or nothing in the catalog does it; otherwise false>,
   "reason": "<a few words>"}}
+Only ids from the catalog and the values listed are accepted; anything else is ignored.
 
 Rules:
 - Choose by what the user wants done or shown, not by single words: «اطلاعات سرمایه‌گذار X» asks \
@@ -95,9 +105,17 @@ def _parse(content: str) -> dict:
 		confidence = max(0.0, min(1.0, float(data.get("confidence") or 0)))
 	except (TypeError, ValueError):
 		confidence = 0.0
+	result = data.get("result") if isinstance(data.get("result"), dict) else {}
+	allowed = {"output": RESULT_OUTPUTS, "order": RESULT_ORDERS, "group_by": RESULT_GROUPS}
+	shape = {k: result[k] for k, values in allowed.items() if result.get(k) in values}
+	if isinstance(result.get("limit"), int) and 0 < result["limit"] <= 100:
+		shape["limit"] = result["limit"]
+	refers = data.get("refers_to_previous")
 	return {
 		"capability": capability if isinstance(capability, str) else None,
 		"parameters": data.get("parameters") if isinstance(data.get("parameters"), dict) else {},
+		"result": shape,
+		"refers": refers if refers in ("more", "all", "same") else None,
 		"confidence": confidence,
 		"alternatives": [a for a in data.get("alternatives") or [] if isinstance(a, str)][:3],
 		"conversation": bool(data.get("conversation")),
@@ -105,13 +123,16 @@ def _parse(content: str) -> dict:
 	}
 
 
-def interpret(question: str, previous: str | None = None, settings=None) -> dict:
+def interpret(question: str, previous: str | None = None, settings=None, previous_capability: str | None = None) -> dict:
 	"""Ask the AI model which capability a request is for. Raises AIError when it cannot be reached."""
 	from iran_erp.ai.openrouter import chat_completion, get_settings
 
 	settings = settings or get_settings()
 	settings = frappe._dict(settings, timeout=TIMEOUT)
-	content = question if not previous else f"Previous request: {previous}\nThis request: {question}"
+	content = question
+	if previous:
+		answered = f" (answered by {previous_capability})" if previous_capability else ""
+		content = f"Previous request: {previous}{answered}\nThis request: {question}"
 	response = chat_completion(
 		settings,
 		[{"role": "system", "content": PROMPT.format(catalog=catalog_text())}, {"role": "user", "content": content}],
@@ -126,6 +147,13 @@ def answer(question: str, state: dict | None, reading: dict, candidates=(), requ
 	from iran_erp.commands.capabilities import ParameterProblem, read_parameters
 	from iran_erp.commands.learning import propose
 
+	# A follow-up of the previous answer: continued with what was shown, not started over
+	if reading.get("refers") and (state or {}).get("last"):
+		reply = engine._follow_up(question, state, False, refers=reading["refers"])
+		if reply:
+			reply.setdefault("trace", {}).update(understood_by="AI Interpreter", reading=_reading(reading))
+			engine.remember(reply)
+			return reply
 	capability = reading.get("capability")
 	known = capability in engine.INTENT_BY_NAME
 	alternatives = [a for a in reading.get("alternatives") or [] if a in engine.INTENT_BY_NAME and a != capability]
@@ -177,12 +205,12 @@ def answer(question: str, state: dict | None, reading: dict, candidates=(), requ
 			reply["trace"] = {"understood_by": "AI Interpreter", "capability": capability, "reading": _reading(reading)}
 			return reply
 
+	# The shape of the answer the model read (one, top, all, count, a grouping), as details
+	values.update(reading.get("result") or {})
 	message = slot_readers.Message(question, engine._keywords(capability))
 	frappe.local.iran_cmd_last = None
 	reply = engine._run(capability, values, message, ai_available=False)
-	last = getattr(frappe.local, "iran_cmd_last", None)
-	if last and not reply.get("state"):
-		reply["state"] = {"last": last[0], "last_values": last[1]}
+	engine.remember(reply)
 	reply["score"] = reading["confidence"]
 	reply.setdefault("trace", {"capability": capability})
 	reply["trace"].update(understood_by="AI Interpreter", reading=_reading(reading))
@@ -195,6 +223,6 @@ def answer(question: str, state: dict | None, reading: dict, candidates=(), requ
 def _reading(reading: dict) -> dict:
 	"""The model's reading as kept in the trace, without secrets."""
 	parameters = {k: v for k, v in (reading.get("parameters") or {}).items() if k not in ("password", "username")}
-	return {k: reading.get(k) for k in ("capability", "confidence", "alternatives", "conversation", "reason")} | {
+	return {k: reading.get(k) for k in ("capability", "confidence", "alternatives", "conversation", "reason", "result", "refers")} | {
 		"parameters": parameters
 	}

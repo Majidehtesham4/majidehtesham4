@@ -128,15 +128,17 @@ def total(doctype: str, filters, field: str) -> float:
 	return flt(rows[0].total) if rows else 0.0
 
 
-def document_list(doctype, filters, columns, title, order_by="creation desc", limit=MAX_LINES, empty=None):
+def document_list(doctype, filters, columns, title, order_by="creation desc", limit=MAX_LINES, empty=None, exclude=None):
 	"""A markdown table of documents, with a link to the whole filtered list.
 
 	columns: (field, header, kind) with kind "money", "date", "status" or "" for plain text.
+	exclude: documents already shown («دیگه چی» gives the next ones).
 	"""
 	require(doctype)
+	query_filters = {**filters, "name": ["not in", list(exclude)]} if exclude else filters
 	rows = frappe.get_list(
 		doctype,
-		filters=filters,
+		filters=query_filters,
 		fields=["name", *[c[0] for c in columns if c[0] != "name"]],
 		order_by=order_by,
 		limit=limit,
@@ -144,7 +146,9 @@ def document_list(doctype, filters, columns, title, order_by="creation desc", li
 	total_count = count(doctype, filters)
 	url = list_url(doctype, filters)
 	if not rows:
-		return {"answer": empty or _("Nothing found."), "actions": [link(_("Open the list"), url)]}
+		if exclude:
+			return {"answer": _("No more; all {0} were shown.").format(number(len(exclude))), "actions": [link(_("Open the list"), url)], "records": 0, "shown": []}
+		return {"answer": empty or _("Nothing found."), "actions": [link(_("Open the list"), url)], "records": 0, "matched": 0}
 	body = []
 	for row in rows:
 		cells = []
@@ -160,10 +164,16 @@ def document_list(doctype, filters, columns, title, order_by="creation desc", li
 				value = f"[{value}]({get_url_to_form(doctype, row.name)})"
 			cells.append(value)
 		body.append(cells)
-	answer = f"**{title}** ({number(total_count)})\n\n" + table([c[1] for c in columns], body)
-	if total_count > len(rows):
-		answer += "\n\n" + _("Showing {0} of {1}.").format(number(len(rows)), number(total_count))
-	return {"answer": answer, "actions": [link(_("Open the full list"), url)]}
+	answer = f"**{title}** ({number(len(rows))} {_('of')} {number(total_count)})\n\n" + table([c[1] for c in columns], body)
+	if total_count > len(rows) + len(exclude or ()):
+		answer += "\n\n" + _("Showing {0} of {1}; «دیگه چی» shows the next ones.").format(number(len(rows) + len(exclude or ())), number(total_count))
+	return {
+		"answer": answer,
+		"actions": [link(_("Open the full list"), url)],
+		"records": len(rows),
+		"matched": total_count,
+		"shown": [r.name for r in rows],
+	}
 
 
 def date_filter(field: str, start: str, end: str) -> list:
@@ -172,3 +182,17 @@ def date_filter(field: str, start: str, end: str) -> list:
 
 def getdate_str(value) -> str:
 	return str(getdate(value))
+
+
+def document_of(name: str) -> str | None:
+	"""«doctype:name» of a document named in full, among the kinds the assistant opens, if the user
+	may read it."""
+	from iran_erp.commands.slots import DOCUMENT_DOCTYPES
+
+	for doctype in DOCUMENT_DOCTYPES:
+		if not frappe.db.exists("DocType", doctype):
+			continue
+		found = frappe.db.get_value(doctype, {"name": name.upper()}) or frappe.db.get_value(doctype, {"name": name})
+		if found and frappe.has_permission(doctype, "read", found):
+			return f"{doctype}:{found}"
+	return None

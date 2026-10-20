@@ -56,6 +56,9 @@ DOCUMENT_DOCTYPES = (
 	"Material Request",
 	"Work Order",
 	"Iran Cheque",
+	"Iran Vehicle",
+	"Iran Instalment Sale",
+	"Iran Investment Contract",
 )
 CITY_MARKERS = {"از", "شهر", "ساکن", "در"}
 NAME_MARKERS = {"اسم", "نام", "بهاسم", "بنام"}
@@ -70,6 +73,33 @@ class Ambiguous(Exception):
 		self.slot = slot
 		self.options = options
 		self.note = note
+
+
+def person_phrase(message) -> tuple[set[int], str] | None:
+	"""A person named after «برای» or a title («برای خانم شریفی فاکتور بزن»), who is not on record:
+	(their words, the name as written). The words are not read as items or anything else."""
+	words = message.words
+	command_words = entities._command_words()
+	for i, word in enumerate(words):
+		if word != "برای" and word not in entities.HONORIFICS:
+			continue
+		start = i + 1 if word == "برای" else i
+		taken = []
+		for j in range(start, min(len(words), start + 4)):
+			w = words[j]
+			if j in message.used or w in STOPWORDS or w.isdigit() or w == SEPARATOR:
+				break
+			if w not in entities.HONORIFICS and stem(w) in command_words:
+				break
+			taken.append(j)
+		names = [j for j in taken if words[j] not in entities.HONORIFICS]
+		if not names:
+			continue
+		# An item named after «برای» is an item
+		if entities.find("item", [words[j] if j in taken else "" for j in range(len(words))]):
+			continue
+		return set(taken), message.text_of(taken)
+	return None
 
 
 def _not_exact(found) -> str | None:

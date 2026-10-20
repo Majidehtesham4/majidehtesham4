@@ -156,7 +156,8 @@ def last_sales_invoices(context):
 			("status", _("Status"), "status"),
 		],
 		_("Latest sales invoices"),
-		limit=context.get("limit", 10),
+		limit=500 if context.get("output") == "all" else context.get("limit", 10),
+		exclude=context.get("_exclude"),
 	)
 
 
