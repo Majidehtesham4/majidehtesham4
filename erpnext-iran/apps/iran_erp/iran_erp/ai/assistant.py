@@ -147,6 +147,8 @@ def run_request(request_name: str):
 	total_tokens = 0
 	history = []
 
+	if request.understand_first and _understand_first(request):
+		return
 	try:
 		settings = get_settings()
 		history, earlier_files = [], []
@@ -220,6 +222,39 @@ def run_request(request_name: str):
 		)
 
 
+def _understand_first(request) -> bool:
+	"""The matcher was not sure: the AI model reads the request into a capability, which runs on the
+	ERP and answers. True when the request was answered so; False when the AI assistant should work
+	on it (reasoning, several steps, nothing in the catalog)."""
+	from iran_erp.ai.api import command_values, run_safely
+	from iran_erp.commands import understand
+
+	pending = json.loads(request.trace or "{}")
+	previous = frappe.get_doc("Iran AI Request", request.previous_request) if request.previous_request else None
+	state = json.loads(previous.command_state or "{}") if previous and previous.command_state else {}
+	try:
+		reading = understand.interpret(request.question, previous.question if previous else None)
+	except Exception as e:
+		# No AI model to ask: the answer the matcher had (the closest commands, or «not understood»)
+		fallback = dict(pending.get("fallback") or {})
+		fallback["trace"] = {"understood_by": "Matcher", "ai_error": frappe.utils.strip_html(str(e))[:300]}
+		request.db_set(command_values(fallback, previous, request.question), commit=True)
+		return True
+	reply = run_safely(
+		lambda: understand.answer(request.question, state, reading, pending.get("candidates") or (), request.name)
+	)
+	if reply is None:
+		request.db_set(
+			{"trace": json.dumps({**pending, "reading": understand._reading(reading)}, ensure_ascii=False, default=str)},
+			commit=True,
+		)
+		return False
+	values = command_values(reply, previous, request.question)
+	values["total_tokens"] = reading.get("tokens") or 0
+	request.db_set(values, commit=True)
+	return True
+
+
 def user_message(request, earlier_files: list | None = None) -> dict:
 	"""The question, with attached images and PDFs as parts the model can see.
 
@@ -281,14 +316,15 @@ RECIPE_MIN_WORDS = 5
 def _learn(request, actions, run_messages=(), had_files=False):
 	"""Teach the command engine what the AI model just did; never fails the request.
 
-	A request that one command does teaches that command its wording. Anything else the AI model
-	did with tools becomes a learned recipe, so the same request is done without it next time."""
+	A request that one capability does is proposed as an example of it (commands/learning.py).
+	Anything else the AI model did with tools becomes a learned recipe, switched off until an
+	administrator checks and enables it."""
 	from iran_erp.commands.learning import learn_from_ai
 	from iran_erp.commands.recipes import learn_recipe
 	from iran_erp.commands.text import tokens
 
 	try:
-		if learn_from_ai(request, actions):
+		if learn_from_ai(request, actions, run_messages):
 			frappe.db.commit()
 			return
 		if had_files or request.get("attachments"):

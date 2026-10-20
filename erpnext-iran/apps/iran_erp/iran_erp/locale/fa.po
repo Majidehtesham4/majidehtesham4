@@ -21436,3 +21436,153 @@ msgstr "باقی‌مانده‌ی طلب او (سود و اصل)"
 
 msgid "Next payment"
 msgstr "پرداخت بعدی"
+
+msgid "System commands, understood with AI"
+msgstr "دستورهای سیستم، با فهم هوش مصنوعی"
+
+msgid "The AI model read the request; the answer and its figures come from the system"
+msgstr "هوش مصنوعی درخواست را فهمید؛ پاسخ و ارقامش از خود سیستم است"
+
+msgid "Iran Intent Example"
+msgstr "نمونه‌ی درخواست آموخته"
+
+msgid "Phrase"
+msgstr "عبارت"
+
+msgid "Capability"
+msgstr "قابلیت"
+
+msgid "Capability Title"
+msgstr "عنوان قابلیت"
+
+msgid "Tool"
+msgstr "ابزار"
+
+msgid "Proposed"
+msgstr "پیشنهادی"
+
+msgid "Approved"
+msgstr "تأییدشده"
+
+msgid "Needs Review"
+msgstr "نیازمند بررسی"
+
+msgid "Rejected"
+msgstr "ردشده"
+
+msgid "AI Interpreter"
+msgstr "فهم با هوش مصنوعی"
+
+msgid "User Choice"
+msgstr "انتخاب کاربر"
+
+msgid "Earlier Learning"
+msgstr "یادگیری قبلی"
+
+msgid "Confidence"
+msgstr "اطمینان"
+
+msgid "Competing Capabilities"
+msgstr "قابلیت‌های رقیب"
+
+msgid "Times Seen"
+msgstr "دفعات دیده‌شده"
+
+msgid "Checks"
+msgstr "بررسی‌ها"
+
+msgid "Evaluation"
+msgstr "ارزیابی"
+
+msgid "Not Checked"
+msgstr "بررسی‌نشده"
+
+msgid "Passed"
+msgstr "قبول"
+
+msgid "Evaluation Notes"
+msgstr "یادداشت ارزیابی"
+
+msgid "Why It Needs Review"
+msgstr "چرا نیازمند بررسی است"
+
+msgid "Last Request"
+msgstr "آخرین درخواست"
+
+msgid "Understood By"
+msgstr "فهمیده‌شده توسط"
+
+msgid "Matcher"
+msgstr "تطبیق‌دهنده‌ی سیستم"
+
+msgid "Trace"
+msgstr "ردگیری"
+
+msgid "Approve"
+msgstr "تأیید"
+
+msgid "Reject"
+msgstr "رد"
+
+msgid "Check Again"
+msgstr "بررسی دوباره"
+
+msgid "Choose the capability before approving"
+msgstr "پیش از تأیید، قابلیت را انتخاب کنید"
+
+msgid "Unknown capability {0}"
+msgstr "قابلیت ناشناخته: {0}"
+
+msgid "The AI model was not sure ({0:.0%})."
+msgstr "هوش مصنوعی مطمئن نبود ({0:.0%})."
+
+msgid "Other capabilities may fit: {0}"
+msgstr "قابلیت‌های دیگری هم ممکن است مناسب باشند: {0}"
+
+msgid "No capability fits this request; a new tool may be needed."
+msgstr "هیچ قابلیتی با این درخواست جور نیست؛ شاید ابزار تازه‌ای لازم باشد."
+
+msgid "No capability fits: {0}"
+msgstr "هیچ قابلیتی جور نیست: {0}"
+
+msgid "The AI model named a capability the catalog does not have: {0}"
+msgstr "هوش مصنوعی قابلیتی را نام برد که در کاتالوگ نیست: {0}"
+
+msgid "Details found in the ERP: {0}"
+msgstr "جزئیاتی که در ERP پیدا شد: {0}"
+
+msgid "A detail is not on record or matches several: {0}"
+msgstr "یک جزء در سیستم نیست یا با چند رکورد جور است: {0}"
+
+msgid "The wording already leads to {0} ({1:.2f})"
+msgstr "این عبارت الان به {0} می‌رسد ({1:.2f})"
+
+msgid "An approved example gives the same wording to {0}"
+msgstr "یک نمونه‌ی تأییدشده همین عبارت را به {0} داده است"
+
+msgid "The capability gave no answer"
+msgstr "قابلیت پاسخی نداد"
+
+msgid "The capability ran and asks for {0}"
+msgstr "قابلیت اجرا شد و {0} را می‌پرسد"
+
+msgid "The capability ran: {0} link(s)"
+msgstr "قابلیت اجرا شد: {0} لینک"
+
+msgid "The capability failed: {0}"
+msgstr "اجرای قابلیت خطا داد: {0}"
+
+msgid "Not run: it makes or changes records ({0}); only its details were checked"
+msgstr "اجرا نشد چون سند می‌سازد یا تغییر می‌دهد ({0})؛ فقط جزئیاتش بررسی شد"
+
+msgid "No such capability"
+msgstr "چنین قابلیتی نیست"
+
+msgid "The user said the answer was wrong."
+msgstr "کاربر گفت پاسخ اشتباه بود."
+
+msgid "The AI assistant used several capabilities for one request."
+msgstr "دستیار هوشمند برای یک درخواست چند قابلیت به کار برد."
+
+msgid "By {0}"
+msgstr "توسط {0}"

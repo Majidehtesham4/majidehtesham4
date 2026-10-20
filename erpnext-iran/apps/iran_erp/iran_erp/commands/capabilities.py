@@ -13,9 +13,18 @@ the ways people ask for it) with what the assistant needs to know to do it well:
   (commands/evaluation.py checks the intent, the details read and the link).
 - permission: the record types the user must be allowed to read (or create).
 
-Commands with no entry here still work; their kind is taken from their name (create_… → draft).
-The AI model sees this catalog (find_capability) and runs a capability with the details it
-understood (run_capability), so live figures always come from these handlers, not from the model.
+Commands with no entry here still work; their kind comes from ACTIONS, DRAFTS, NAVIGATE or their
+name (create_… → draft).
+
+At run time the catalog is used by
+- the engine: the kind decides what is remembered for a follow-up («همه», «امسال») and the trace of
+  every answer names the capability's tool;
+- the AI reader (commands/understand.py): the catalog, with defaults and ways of asking, is what the
+  AI model maps a request onto; read_parameters turns its details into records;
+- learning (commands/learning.py): only wordings of capabilities that read are approved without an
+  administrator;
+- the AI assistant: find_capability / run_capability, so live figures always come from these
+  handlers, not from the model.
 """
 
 import frappe
@@ -145,19 +154,43 @@ CAPABILITIES = {
 }
 
 # Intents that change something and ask yes first
-ACTIONS = {"set_user_password"}
+ACTIONS = {"set_user_password", "set_item_price", "submit_document"}
+# Intents that make a draft though their name does not say so
+DRAFTS = {
+	"receive_payment",
+	"make_payment",
+	"journal_entry",
+	"stock_receipt",
+	"stock_issue",
+	"stock_transfer",
+	"register_received_cheque",
+	"register_issued_cheque",
+}
+# Intents that only open a page
+NAVIGATE = {"open_list", "open_report", "open_document", "print_document", "new_document"}
 
 
 def kind_of(name: str) -> str:
+	"""read, draft, action or navigate. Learning approves wordings by itself only for what reads."""
 	if name in CAPABILITIES:
 		return CAPABILITIES[name]["kind"]
 	if name in ACTIONS:
 		return "action"
-	if name.startswith(("create_", "new_")):
+	if name in DRAFTS or name.startswith(("create_", "new_")):
 		return "draft"
-	if name.startswith(("open_",)):
+	if name in NAVIGATE:
 		return "navigate"
 	return "read"
+
+
+def tool_of(name: str) -> str:
+	"""The handler that runs a capability, and what it uses in the ERP when the catalog says."""
+	from iran_erp.commands.engine import INTENT_BY_NAME
+
+	intent = INTENT_BY_NAME.get(name)
+	if not intent:
+		return ""
+	return (CAPABILITIES.get(name) or {}).get("tool") or intent["handler"]
 
 
 def catalog() -> list[dict]:
@@ -207,36 +240,61 @@ def find_capability(request: str, limit: int = 3) -> dict:
 	}
 
 
+class ParameterProblem(Exception):
+	"""A detail the AI model understood that is not on record, or matches several records."""
+
+	def __init__(self, slot, text, kind, options=None):
+		super().__init__(f"«{text}» for {slot}")
+		self.slot, self.text, self.kind, self.options = slot, text, kind, options or []
+
+
+def read_parameters(capability: str, parameters: dict | None) -> dict:
+	"""The details the AI model understood, each given as the user said it («آقای کریمی», «امسال»,
+	«همه»), read by the same readers as a typed request: names become records, periods dates.
+	Raises ParameterProblem for a detail that is not on record or matches several."""
+	from iran_erp.commands import engine
+	from iran_erp.commands import slots as slot_readers
+
+	values = {}
+	types = {slot: kind for slot, kind, _required, _question in engine._slots(capability)}
+	for slot, text in (parameters or {}).items():
+		if slot not in types or text in (None, "", [], {}):
+			continue
+		if not isinstance(text, str):
+			text = " ".join(map(str, text)) if isinstance(text, list) else str(text)
+		if text.strip() in ("*", "همه") and (capability, slot) in engine.EVERYONE_SLOTS:
+			values[slot] = "*"
+			continue
+		if types[slot] in ("name", "text", "password", "username"):
+			values[slot] = text
+			continue
+		message = slot_readers.Message(text)
+		message.answering = slot
+		try:
+			value = slot_readers.extract(types[slot], message, slot)
+		except slot_readers.Ambiguous as e:
+			raise ParameterProblem(slot, text, types[slot], e.options) from None
+		if value in (None, ""):
+			raise ParameterProblem(slot, text, types[slot])
+		values[slot] = value
+	return values
+
+
 def run_capability(capability: str, request: str = "", parameters: dict | None = None) -> dict:
-	"""Run a capability with the details the AI model understood. Each detail is given as the user
-	would say it («آقای کریمی», «امسال», «همه») and read by the same readers as a typed request,
-	so names become records. A capability that needs a yes, or a detail still missing, returns the
-	question for the user; it is never confirmed from here."""
+	"""Run a capability with the details the AI model understood (see read_parameters). A
+	capability that needs a yes, or a detail still missing, returns the question for the user; it
+	is never confirmed from here."""
 	from iran_erp.commands import engine
 	from iran_erp.commands import slots as slot_readers
 
 	if capability not in engine.INTENT_BY_NAME:
 		return {"error": f"Unknown capability {capability}. Call find_capability first."}
-	values = {}
-	types = {slot: kind for slot, kind, _required, _question in engine._slots(capability)}
-	for slot, text in (parameters or {}).items():
-		if slot not in types or text in (None, ""):
-			continue
-		if str(text).strip() in ("*", "همه"):
-			values[slot] = "*"
-			continue
-		if types[slot] in ("name", "text", "password", "username"):
-			values[slot] = str(text)
-			continue
-		message = slot_readers.Message(str(text))
-		message.answering = slot
-		try:
-			value = slot_readers.extract(types[slot], message, slot)
-		except slot_readers.Ambiguous as e:
-			return {"question": f"Several records match «{text}» for {slot}", "options": [label for _v, label in e.options]}
-		if value in (None, ""):
-			return {"error": f"«{text}» was not found as {types[slot]}. Ask the user, or search for it."}
-		values[slot] = value
+	try:
+		values = read_parameters(capability, parameters)
+	except ParameterProblem as e:
+		if e.options:
+			return {"question": f"Several records match «{e.text}» for {e.slot}", "options": [label for _v, label in e.options]}
+		return {"error": f"«{e.text}» was not found as {e.kind}. Ask the user, or search for it."}
 	result = engine._run(capability, values, slot_readers.Message(request or ""), ai_available=False)
 	state = result.get("state") or {}
 	out = {"answer": result.get("answer"), "links": result.get("actions") or []}

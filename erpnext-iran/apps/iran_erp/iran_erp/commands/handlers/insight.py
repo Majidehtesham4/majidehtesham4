@@ -45,6 +45,9 @@ def find_investors(text: str) -> list[dict]:
 def investor_info(context):
 	require("Iran Investor")
 	name = context.get("investor")
+	if name:
+		# The words left over once the investor was found are not a name
+		context.values.pop("name", None)
 	typed = (context.get("name") or "").strip()
 	if not name and typed:
 		found = find_investors(typed)
@@ -169,11 +172,12 @@ def car_stock(context):
 	filters = {"status": ["in", list(LOT)]}
 	said = []
 	ownership = next((o for o, words in OWNER_WORDS if any(f" {normalize(w)} " in text for w in words)), None)
+	# Read from the words; kept with the other details so the answer's trace shows them
 	if ownership:
-		filters["ownership"] = ownership
+		filters["ownership"] = context.values["ownership"] = ownership
 		said.append(_(ownership))
 	if " اماده " in text and " فروش " in text:
-		filters["status"] = "Ready for Sale"
+		filters["status"] = context.values["status"] = "Ready for Sale"
 		said.append(_("Ready for Sale"))
 	branch = context.get("branch")
 	if branch:
@@ -236,14 +240,30 @@ def has_cars() -> bool:
 
 # ---------------------------------------------------------------- everyone's statement
 
-PLURAL_WORDS = {"مشتریان", "مشتری‌ها", "مشتریها", "مشتریا", "همه", "همشون", "همه‌شون", "کل", "تامین‌کنندگان", "تامینکنندگان"}
+PLURAL_WORDS = {
+	"مشتریان",
+	"مشتری‌ها",
+	"مشتری ها",
+	"مشتریها",
+	"مشتریا",
+	"همه",
+	"همشون",
+	"همه‌شون",
+	"کل",
+	"تامین‌کنندگان",
+	"تامینکنندگان",
+}
 
 
 def wants_everyone(context) -> bool:
+	"""«صورتحساب مشتریان», «همه»: everyone's. The answer's detail is then «*», as if «همه» was said."""
 	if context.get("party") == "*":
 		return True
-	words = set(normalize(context.message.text).split())
-	return bool(words & {normalize(w) for w in PLURAL_WORDS})
+	text = f" {normalize(context.message.text)} "
+	if any(f" {normalize(w)} " in text for w in PLURAL_WORDS):
+		context.values["party"] = "*"
+		return True
+	return False
 
 
 def all_statements(context):

@@ -301,19 +301,29 @@ iran_erp.ai.Panel = class {
 	}
 
 	// Who answered: the built-in commands on this server, or the AI model
-	add_source($msg, handled_by, question, request_name) {
+	// The AI model may have read the request (understood_by "AI Interpreter"); the answer and its
+	// figures still come from the system's capability
+	add_source($msg, handled_by, question, request_name, understood_by) {
 		if (!handled_by) return;
 		const by_ai = handled_by === "AI";
+		const read_by_ai = !by_ai && understood_by === "AI Interpreter";
 		const $source = $(`<div class="iran-ai-source ${by_ai ? "iran-ai-source-ai" : "iran-ai-source-system"}"></div>`)
 			.append(frappe.utils.icon(by_ai ? "sparkles" : "settings", "xs"))
-			.append($("<span></span>").text(by_ai ? __("AI model") : __("System commands")))
+			.append(
+				$("<span></span>").text(
+					by_ai ? __("AI model") : read_by_ai ? __("System commands, understood with AI") : __("System commands")
+				)
+			)
 			.attr(
 				"title",
 				by_ai
 					? __("Answered by the AI model")
+					: read_by_ai
+					? __("The AI model read the request; the answer and its figures come from the system")
 					: __("Answered by the built-in commands on this server, without an AI service")
 			);
 		if (!by_ai && frappe.boot.iran_ai_model_enabled && question) {
+			// Not the way to a right answer for everyday requests: those are understood without it
 			$(`<button class="btn btn-xs btn-link iran-ai-wrong"></button>`)
 				.text(__("Not right? Ask the AI model"))
 				.on("click", (e) => {
@@ -404,7 +414,7 @@ iran_erp.ai.Panel = class {
 				this.previous_request = request_name;
 				if (r.status === "Done") {
 					const $msg = this.add_message("assistant", r.answer, r.actions);
-					this.add_source($msg, r.handled_by, question, request_name);
+					this.add_source($msg, r.handled_by, question, request_name, r.understood_by);
 					this.render_replies($msg, r);
 					// "Open the list of customers": go there straight away
 					const open = (r.actions || []).find((a) => a.open && a.url);

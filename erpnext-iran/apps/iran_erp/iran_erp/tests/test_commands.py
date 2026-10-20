@@ -252,19 +252,26 @@ class TestBankAndLearning(IntegrationTestCase):
 		self.assertEqual((payment.bank_account, payment.paid_to), (self.bank_account, self.ledger))
 		self.assertEqual(payment.paid_amount, 5_000_000)
 
-	def test_learned_sentence_is_understood_next_time(self):
+	def test_learned_sentence_is_understood_once_approved(self):
 		from iran_erp.commands import engine
-		from iran_erp.commands.learning import learn
+		from iran_erp.commands.learning import learn, set_status
 
 		sentence = "مشتری آزمون چت بابت تسویه حساب ده میلیون پول نقد آورد"
 		self.assertTrue(learn("receive_payment", sentence))
-		engine._cache.clear()
-		ranked = engine.get_matcher().rank(
-			engine._without_names("یکی بابت تسویه حساب بیست میلیون پول نقد آورد")
-		)
-		self.assertEqual(ranked[0][0], "receive_payment")
-		# Learning the same wording twice adds nothing
+		name = frappe.db.get_value("Iran Intent Example", {"capability": "receive_payment"})
+		# A draft's wording waits for an administrator, even when the user picked it
+		self.assertEqual(frappe.db.get_value("Iran Intent Example", name, "status"), "Proposed")
+
+		def best():
+			engine._cache.clear()
+			return engine.get_matcher().rank(engine._without_names("یکی بابت تسویه حساب بیست میلیون پول نقد آورد"))[0]
+
+		self.assertFalse(best()[0] == "receive_payment" and best()[1] > 0.8)
+		set_status(name, "Approved")
+		self.assertEqual(best()[0], "receive_payment")
+		# Now understood: learning the same wording again adds nothing
 		self.assertFalse(learn("receive_payment", sentence))
+		self.assertEqual(frappe.db.count("Iran Intent Example", {"capability": "receive_payment"}), 1)
 
 
 class TestJalaliPeriods(UnitTestCase):
@@ -350,7 +357,12 @@ class TestRecipes(IntegrationTestCase):
 		]
 		name = learn_recipe(request, messages, question)
 		self.recipes.append(name)
-		return frappe.get_doc("Iran Learned Recipe", name)
+		# A new recipe is off until an administrator switches it on
+		doc = frappe.get_doc("Iran Learned Recipe", name)
+		self.assertFalse(doc.enabled)
+		doc.enabled = 1
+		doc.save()
+		return doc
 
 	def test_read_recipe_takes_new_names_and_period(self):
 		from iran_erp.commands.text import find_period

@@ -4,7 +4,7 @@ from frappe.utils import flt, nowdate
 
 from iran_erp.ai.tools import get_url_to_form
 from iran_erp.commands import entities
-from iran_erp.commands.engine import Delegate, NeedSlot
+from iran_erp.commands.engine import Delegate, NeedSlot, Reroute
 from iran_erp.commands.handlers import (
 	company,
 	doc_link,
@@ -35,9 +35,9 @@ def balance(context):
 		# «بدهی مشتری‌ها», «طلب تامین‌کننده‌ها»: everyone's
 		words = set(context.message.words)
 		if words & {"مشتریها", "مشتریان", "مشتری‌ها", "مشتریا"}:
-			return receivables(context)
+			raise Reroute("receivables")
 		if words & {"تامینکنندگان", "تامین‌کنندگان", "تامینکنندهها", "تامین‌کننده‌ها", "فروشندهها"}:
-			return payables(context)
+			raise Reroute("payables")
 		raise NeedSlot("party", _("Balance of whom, or which account?"))
 	doctype, name = party_of(context.get("party"))
 	if doctype == "Account":

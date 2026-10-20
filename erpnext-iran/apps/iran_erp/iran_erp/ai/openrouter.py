@@ -191,7 +191,9 @@ def post_with_retries(settings, url: str, request_for_key):
 	for wait in (*RETRY_WAITS, None):
 		while True:
 			try:
-				response = requests.post(url, timeout=TIMEOUT_SECONDS, **request_for_key(keys[0]))
+				response = requests.post(
+					url, timeout=settings.get("timeout") or TIMEOUT_SECONDS, **request_for_key(keys[0])
+				)
 			except requests.RequestException as e:
 				raise AIError(_("Could not reach the AI service: {0}").format(e)) from e
 			if response.status_code in KEY_SWITCH_STATUSES and len(keys) > 1:

@@ -5,11 +5,11 @@ as a recipe. The customers, items, numbers, dates and periods of the user's mess
 those calls become placeholders; the rest stays as it was. The sentence (without names and numbers)
 is added to the command matcher, so the next request worded the same way runs the recipe: its
 details are read from the new message, put in place of the placeholders, and the same tools run,
-with no AI model involved. Recipes that create documents ask the user first. Each AI-handled
-request can teach one more, so the share of requests that need the AI model keeps shrinking.
+with no AI model involved. Recipes that create documents ask the user first.
 
-Recipes live in Iran Learned Recipe, where an administrator can review, edit, add wordings or
-switch them off; a «not right» from the user switches one off too.
+A new recipe is switched off: it is what the AI model did once, not yet a rule. Recipes live in
+Iran Learned Recipe, where an administrator reviews, edits and switches them on; a «not right» from
+the user switches one off again.
 """
 
 import copy
@@ -217,7 +217,8 @@ def learn_recipe(request, messages: list, question: str) -> str | None:
 			"slots": json.dumps(slots, ensure_ascii=False, indent=1),
 			"writes": int(writes),
 			"learned_from": request.name,
-			"enabled": 1,
+			# A guess from one AI run: an administrator checks and enables it
+			"enabled": 0,
 		}
 	)
 	doc.insert(ignore_permissions=True)

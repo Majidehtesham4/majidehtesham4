@@ -46,35 +46,25 @@ def ask(
 		"previous_request": previous_request,
 		"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
 	}
-	# Files need the AI model to read them
+	# Files need the AI model to read them; «ask the AI model» goes straight to it
 	if settings.commands_enabled and not attachments and not (force_ai and ai_on):
 		result = _run_command(question, previous, ai_on)
 		if not result.get("delegate"):
-			history = json.loads(previous.messages or "[]") if previous else []
-			history += [
-				{"role": "user", "content": question},
-				{"role": "assistant", "content": result.get("answer") or ""},
-			]
-			failed = bool(result.get("error"))
-			request = frappe.get_doc(
-				{
-					**values,
-					"status": "Failed" if failed else "Done",
-					"handled_by": "Not Understood" if result.get("unrecognized") else "Command",
-					"intent": result.get("intent"),
-					"score": result.get("score"),
-					"answer": None if failed else result.get("answer"),
-					"error": result.get("error"),
-					"actions": json.dumps(result.get("actions") or [], ensure_ascii=False, default=str),
-					"messages": json.dumps(history, ensure_ascii=False, default=str),
-					"command_state": json.dumps(result["state"], ensure_ascii=False, default=str)
-					if result.get("state")
-					else None,
-					"model": "commands",
-				}
-			).insert(ignore_permissions=True)
+			request = frappe.get_doc({**values, **command_values(result, previous, question)}).insert(
+				ignore_permissions=True
+			)
 			return request.name
 		values.update(intent=result.get("intent"), score=result.get("score"))
+		if result.get("understand"):
+			# Not sure on its own: the AI model reads the request into a capability first
+			values.update(
+				understand_first=1,
+				trace=json.dumps(
+					{"fallback": result.get("fallback"), "candidates": result.get("candidates")},
+					ensure_ascii=False,
+					default=str,
+				),
+			)
 
 	if not ai_on:
 		frappe.throw(_("The AI assistant is disabled in Iran AI Settings."))
@@ -91,12 +81,35 @@ def ask(
 	return request.name
 
 
-def _run_command(question: str, previous, ai_on: bool) -> dict:
-	from iran_erp.commands.engine import handle
+def command_values(result: dict, previous, question: str) -> dict:
+	"""The fields of a request a capability answered, wherever it was understood."""
+	history = json.loads(previous.messages or "[]") if previous else []
+	history += [
+		{"role": "user", "content": question},
+		{"role": "assistant", "content": result.get("answer") or ""},
+	]
+	failed = bool(result.get("error"))
+	trace = result.get("trace") or {}
+	return {
+		"status": "Failed" if failed else "Done",
+		"handled_by": "Not Understood" if result.get("unrecognized") else "Command",
+		"understood_by": trace.get("understood_by") or ("Matcher" if result.get("intent") else None),
+		"intent": result.get("intent"),
+		"score": result.get("score"),
+		"answer": None if failed else result.get("answer"),
+		"error": result.get("error"),
+		"actions": json.dumps(result.get("actions") or [], ensure_ascii=False, default=str),
+		"messages": json.dumps(history, ensure_ascii=False, default=str),
+		"command_state": json.dumps(result["state"], ensure_ascii=False, default=str) if result.get("state") else None,
+		"trace": json.dumps(trace, ensure_ascii=False, default=str) if trace else None,
+		"model": "commands",
+	}
 
-	state = json.loads(previous.command_state or "{}") if previous else {}
+
+def run_safely(run) -> dict:
+	"""A command's reply, or the error it raised as a reply."""
 	try:
-		return handle(question, state, ai_available=ai_on)
+		return run()
 	except Exception as e:
 		frappe.db.rollback()
 		if not isinstance(e, frappe.ValidationError):
@@ -107,6 +120,13 @@ def _run_command(question: str, previous, ai_on: bool) -> dict:
 		return {"error": message, "answer": message, "intent": None}
 
 
+def _run_command(question: str, previous, ai_on: bool) -> dict:
+	from iran_erp.commands.engine import handle
+
+	state = json.loads(previous.command_state or "{}") if previous else {}
+	return run_safely(lambda: handle(question, state, ai_available=ai_on))
+
+
 @frappe.whitelist()
 def get_result(request_name: str) -> dict:
 	from iran_erp.commands.engine import quick_replies
@@ -115,6 +135,7 @@ def get_result(request_name: str) -> dict:
 	return {
 		"status": request.status,
 		"handled_by": request.handled_by,
+		"understood_by": request.understood_by,
 		"answer": request.answer,
 		"error": request.error,
 		"actions": json.loads(request.actions or "[]"),

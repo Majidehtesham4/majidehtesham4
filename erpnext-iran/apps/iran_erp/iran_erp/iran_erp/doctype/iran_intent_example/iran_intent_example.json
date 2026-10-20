@@ -1,0 +1,164 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-20 10:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "description": "A way of asking for a capability, learned from a request. Only approved examples teach the assistant; the answers and figures of the request are never kept.",
+ "field_order": [
+  "phrase",
+  "capability",
+  "capability_title",
+  "tool",
+  "status",
+  "column_break_1",
+  "source",
+  "confidence",
+  "alternatives",
+  "times_seen",
+  "section_check",
+  "parameters",
+  "evaluation",
+  "evaluation_notes",
+  "review_reason",
+  "last_request"
+ ],
+ "fields": [
+  {
+   "fieldname": "phrase",
+   "fieldtype": "Small Text",
+   "label": "Phrase",
+   "reqd": 1,
+   "in_list_view": 1,
+   "description": "The request without names and numbers; the wording is what is learned."
+  },
+  {
+   "fieldname": "capability",
+   "fieldtype": "Data",
+   "label": "Capability",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The capability id (see docs/capabilities.md). Empty when no capability fits the request yet."
+  },
+  {
+   "fieldname": "capability_title",
+   "fieldtype": "Data",
+   "label": "Capability Title",
+   "read_only": 1
+  },
+  {
+   "fieldname": "tool",
+   "fieldtype": "Data",
+   "label": "Tool",
+   "read_only": 1
+  },
+  {
+   "default": "Proposed",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Proposed\nApproved\nNeeds Review\nRejected",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Proposed: waiting for checks and approval. Approved: the assistant recognizes this wording. Needs Review: the AI model was unsure, capabilities compete or none fits. Rejected: never used."
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "AI Interpreter\nAI Assistant\nUser Choice\nEarlier Learning\nAdministrator",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "confidence",
+   "fieldtype": "Float",
+   "label": "Confidence",
+   "read_only": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "alternatives",
+   "fieldtype": "Data",
+   "label": "Competing Capabilities",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "times_seen",
+   "fieldtype": "Int",
+   "label": "Times Seen",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_check",
+   "fieldtype": "Section Break",
+   "label": "Checks"
+  },
+  {
+   "fieldname": "parameters",
+   "fieldtype": "Code",
+   "label": "Parameters",
+   "options": "JSON",
+   "read_only": 1,
+   "description": "The details read from the request, as the user said them (no passwords)."
+  },
+  {
+   "default": "Not Checked",
+   "fieldname": "evaluation",
+   "fieldtype": "Select",
+   "label": "Evaluation",
+   "options": "Not Checked\nPassed\nFailed",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "evaluation_notes",
+   "fieldtype": "Small Text",
+   "label": "Evaluation Notes",
+   "read_only": 1
+  },
+  {
+   "fieldname": "review_reason",
+   "fieldtype": "Small Text",
+   "label": "Why It Needs Review",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_request",
+   "fieldtype": "Link",
+   "label": "Last Request",
+   "options": "Iran AI Request",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-20 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Iran ERP",
+ "name": "Iran Intent Example",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "phrase",
+ "track_changes": 1
+}

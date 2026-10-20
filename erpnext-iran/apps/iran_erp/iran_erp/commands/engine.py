@@ -1,8 +1,11 @@
 """Run a chat message as a command: pick the command, read its details, ask for what is missing.
 
 handle() returns a dict with the answer and links, the conversation state to keep for the next
-message (a question the user still has to answer), and "delegate": True when the message should go
-to the AI model instead.
+message (a question the user still has to answer), a trace (how it was understood, the capability,
+the details read, the tool that ran, the links), and "delegate": True when the message should go to
+the AI model instead. With "understand": True the AI model is only asked to read the request into a
+capability, which then runs here (commands/understand.py); "fallback" is the answer to give when no
+AI model can be reached.
 """
 
 import importlib
@@ -118,6 +121,15 @@ class NeedConfirm(Exception):
 		self.summary = summary
 
 
+class Reroute(Exception):
+	"""A handler found the request is another command's: «بدهی مشتری‌ها» to balance is the
+	receivables. The answer and its trace are that command's."""
+
+	def __init__(self, intent: str):
+		super().__init__(intent)
+		self.intent = intent
+
+
 class Delegate(Exception):
 	"""A handler found the request too complex: let the AI model do it."""
 
@@ -181,6 +193,12 @@ def get_matcher() -> Matcher:
 			for phrase in (command.phrases or "").splitlines():
 				if phrase.strip():
 					samples.append((intent, phrase.strip(), {}))
+		# Wordings learned from requests, once checked and approved (commands/learning.py)
+		from iran_erp.commands.learning import approved_examples
+
+		for example in approved_examples():
+			if example.capability in INTENT_BY_NAME:
+				samples.append((example.capability, example.phrase, {}))
 		for recipe in learned_recipes():
 			for phrase in (recipe.phrases or "").splitlines():
 				if phrase.strip():
@@ -224,7 +242,10 @@ def _options_text(options) -> str:
 
 def handle(question: str, state: dict | None = None, ai_available: bool = False) -> dict:
 	frappe.local.iran_cmd_last = None
+	frappe.local.iran_cmd_via = "Matcher"
 	result = _handle(question, state, ai_available)
+	if result.get("trace"):
+		result["trace"]["understood_by"] = frappe.local.iran_cmd_via
 	# What was just answered, so a follow-up («همه», «امسال») can redo it
 	last = getattr(frappe.local, "iran_cmd_last", None)
 	if last and not result.get("state") and not result.get("delegate") and not result.get("error"):
@@ -263,6 +284,7 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 	if state.get("last"):
 		follow_up = _follow_up(question, state, ai_available)
 		if follow_up:
+			frappe.local.iran_cmd_via = "Follow-up"
 			return follow_up
 		state = {}
 
@@ -275,6 +297,7 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 			from iran_erp.commands.learning import learn
 
 			learn(chosen, state.get("question") or "")
+			frappe.local.iran_cmd_via = "User Choice"
 			return _run(
 				chosen,
 				dict(state.get("values") or {}),
@@ -284,6 +307,7 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 	if state.get("intent"):
 		follow_up = _continue(question, state, ai_available)
 		if follow_up:
+			frappe.local.iran_cmd_via = "Reply"
 			return follow_up
 
 	words = tokens(question)
@@ -292,32 +316,26 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 	how_to = _how_to(words, ranked) or _how_to_make(words, ranked)
 	if how_to:
 		return how_to
+	# Reasoning or several things at once: the AI model reads it first, and works on it when no
+	# single capability does it
 	if ai_available and (len(words) > LONG_MESSAGE or set(words) & ANALYSIS_WORDS):
-		return _reply(None, delegate=True)
+		return _understand(question, ranked)
 
 	if not ranked or ranked[0][1] < UNSURE:
-		return _not_understood(question, ranked, ai_available)
-	ranked = _prefer_specific(ranked)
-	ranked = _prefer_fitting(question, ranked)
-	best, score, values = ranked[0]
-	runner_up = next((r for r in ranked[1:] if r[0] != best and r[0] not in NAVIGATION), None)
-	close_call = runner_up and best not in NAVIGATION and score - runner_up[1] < MARGIN
-	if score < (SURE_WITH_AI if ai_available else SURE) or close_call:
 		if ai_available:
-			return _reply(None, delegate=True, intent=best, score=score)
-		choices = [r[0] for r in ranked[:3] if r[1] >= UNSURE]
-		return _reply(
-			_("Which one did you mean? Reply with its number.")
-			+ "\n\n"
-			+ _options_text([(c, _title(c)) for c in choices]),
-			state={"choose": choices, "question": question},
-			intent=best,
-			score=score,
-		)
+			return _understand(question, ranked)
+		return _not_understood(question, ranked, ai_available)
+	# Details first, then an answer over opening a page (re-sorting by details must not undo that)
+	ranked = _prefer_specific(_prefer_fitting(question, ranked))
+	best, score, values = ranked[0]
+	if score < (SURE_WITH_AI if ai_available else SURE) or _close_call(ranked):
+		if ai_available:
+			return _understand(question, ranked)
+		return _unsure(question, ranked)
 
 	# A learned recipe repeats what was done once; with the AI model at hand, only for a close match
 	if best.startswith("recipe:") and ai_available and score < recipes.MIN_SCORE:
-		return _reply(None, delegate=True, intent=best, score=score)
+		return _understand(question, ranked)
 	intent = INTENT_BY_NAME.get(best)
 	if intent and intent.get("ai") and ai_available:
 		return _reply(None, delegate=True, intent=best, score=score)
@@ -325,6 +343,41 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 	result = _run(best, values, slot_readers.Message(question, _keywords(best)), ai_available)
 	result["score"] = score
 	return result
+
+
+def _close_call(ranked) -> bool:
+	best, score, _values = ranked[0]
+	runner_up = next((r for r in ranked[1:] if r[0] != best and r[0] not in NAVIGATION), None)
+	return bool(runner_up and best not in NAVIGATION and score - runner_up[1] < MARGIN)
+
+
+def _unsure(question, ranked):
+	"""Not sure which command is meant: the closest ones to choose from, or «not understood»."""
+	if not ranked or ranked[0][1] < UNSURE:
+		return _not_understood(question, ranked, False)
+	choices = [r[0] for r in ranked[:3] if r[1] >= UNSURE]
+	return _reply(
+		_("Which one did you mean? Reply with its number.") + "\n\n" + _options_text([(c, _title(c)) for c in choices]),
+		state={"choose": choices, "question": question},
+		intent=ranked[0][0],
+		score=ranked[0][1],
+	)
+
+
+def _understand(question, ranked):
+	"""Not sure on its own: the AI model reads the request into a capability in the background, and
+	the user gets the capability's answer, without asking for the AI model. Nothing runs here; the
+	answer without an AI model is kept for when it cannot be reached."""
+	fallback = _unsure(question, _prefer_specific(_prefer_fitting(question, ranked)) if ranked else ranked)
+	return _reply(
+		None,
+		delegate=True,
+		understand=True,
+		fallback={k: fallback.get(k) for k in ("answer", "actions", "state", "intent", "score", "unrecognized")},
+		candidates=[(r[0], r[1]) for r in ranked[:5]],
+		intent=ranked[0][0] if ranked else None,
+		score=ranked[0][1] if ranked else 0,
+	)
 
 
 def _how_to(words, ranked):
@@ -400,7 +453,7 @@ def _without_names(question: str) -> str:
 
 	words = [w for w, _ in pieces(question)]
 	skip = set()
-	for kind in ("customer", "supplier", "item"):
+	for kind in ("customer", "supplier", "item", "investor"):
 		for _attempt in range(3):
 			found = entities.find(kind, words, skip)
 			# Only whole names or several words: one common word may just be part of the request
@@ -646,6 +699,11 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 			state={"intent": intent_name, "values": values, "confirm": True},
 			intent=intent_name,
 		)
+	except Reroute as e:
+		reply = _run(e.intent, {}, message, ai_available)
+		if reply.get("trace"):
+			reply["trace"]["rerouted_from"] = intent_name
+		return reply
 	except Delegate:
 		if ai_available:
 			return _reply(None, delegate=True, intent=intent_name)
@@ -655,7 +713,30 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		return _reply(_("You do not have permission for this."), intent=intent_name)
 	if isinstance(result, str):
 		result = {"answer": result}
-	return _reply(intent=intent_name, **result)
+	reply = _reply(intent=intent_name, **result)
+	reply["trace"] = trace(intent_name, values, reply)
+	return reply
+
+
+def trace(intent_name, values, reply) -> dict:
+	"""What ran for an answer, kept with the request: the capability, the details read (without
+	passwords), the tool, and the links given. The answer itself is not part of it."""
+	from iran_erp.commands.capabilities import kind_of, tool_of
+
+	secret = {slot for slot, kind, _r, _q in _slots(intent_name) if kind in ("password", "username")}
+	return {
+		"capability": intent_name,
+		"kind": kind_of(intent_name),
+		"parameters": {
+			k: v if isinstance(v, (str, int, float)) else json.loads(json.dumps(v, default=str))
+			for k, v in values.items()
+			if not k.startswith("_") and k not in secret and v not in (None, "")
+		},
+		"tool": tool_of(intent_name),
+		"handler": INTENT_BY_NAME[intent_name]["handler"],
+		"links": [a.get("url") for a in reply.get("actions") or [] if a.get("url")],
+		"asks": (reply.get("state") or {}).get("waiting") or bool((reply.get("state") or {}).get("confirm")),
+	}
 
 
 def _run_recipe(intent_name, values, message, ai_available, confirmed):

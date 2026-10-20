@@ -13,3 +13,4 @@ iran_erp.patches.v1_1.vehicle_file
 iran_erp.patches.v1_2.model_year_calendar
 iran_erp.patches.v1_3.icon_grid
 iran_erp.patches.v1_4.page_modules
+iran_erp.patches.v1_5.learned_examples
