@@ -72,7 +72,7 @@ def allow_username_login():
 		frappe.db.set_single_value("System Settings", "allow_login_using_user_name", 1)
 
 
-def _new_user(full_name, username, password, roles, email=None, mobile=None, website=False):
+def _new_user(full_name, username, password, roles, email=None, mobile=None, website=False, enabled=1):
 	username = normal_username(username)
 	password = check_password(password)
 	email = (email or "").strip().lower() or f"{username}@{NO_MAIL_DOMAIN}"
@@ -88,6 +88,7 @@ def _new_user(full_name, username, password, roles, email=None, mobile=None, web
 			"last_name": names[1] if len(names) > 1 else "",
 			"mobile_no": mobile,
 			"user_type": "Website User" if website else "System User",
+			"enabled": 1 if enabled else 0,
 			"language": "fa",
 			"send_welcome_email": 0,
 			"roles": [{"role": role} for role in roles],
@@ -103,6 +104,7 @@ def _new_user(full_name, username, password, roles, email=None, mobile=None, web
 
 def _result(user, password_set=True):
 	return {
+		"enabled": bool(frappe.db.get_value("User", user.name, "enabled")),
 		"user": user.name,
 		"username": user.username,
 		"login_url": (frappe.request.host_url.rstrip("/") if getattr(frappe.local, "request", None) else frappe.utils.get_url())
@@ -120,6 +122,7 @@ def create_user(
 	email: str | None = None,
 	mobile: str | None = None,
 	branch: str | None = None,
+	enabled: int = 1,
 ) -> dict:
 	"""A login for someone who works with the business (or a customer), by what they do."""
 	_can_manage()
@@ -128,7 +131,9 @@ def create_user(
 	ensure_role()
 	if branch and not frappe.db.exists("Branch", branch):
 		frappe.throw(_("There is no branch {0}").format(branch))
-	user = _new_user(full_name, username, password, KINDS[kind][1], email, mobile, website=kind == "customer")
+	user = _new_user(
+		full_name, username, password, KINDS[kind][1], email, mobile, website=kind == "customer", enabled=enabled
+	)
 	if kind == "customer":
 		_link_customer(user, full_name)
 	# Staff of a branch work at that branch; a general manager has none (they see every branch)
@@ -175,7 +180,9 @@ def find_user(text: str) -> str | None:
 
 
 @frappe.whitelist()
-def investor_login(investor: str, username: str, password: str, email: str | None = None) -> dict:
+def investor_login(
+	investor: str, username: str, password: str, email: str | None = None, enabled: int = 1
+) -> dict:
 	"""The investor's login: it opens on their own account (contracts, profit, cheques, cars) and
 	shows nothing else. An investor who has one gets the new username and password instead."""
 	_can_manage(investor=True)
@@ -193,7 +200,7 @@ def investor_login(investor: str, username: str, password: str, email: str | Non
 			user.add_roles(INVESTOR_ROLE)
 		allow_username_login()
 		return {**_result(user), "updated": True}
-	user = _new_user(doc.full_name, username, password, (INVESTOR_ROLE,), email or None, doc.mobile)
+	user = _new_user(doc.full_name, username, password, (INVESTOR_ROLE,), email or None, doc.mobile, enabled=enabled)
 	doc.db_set("user", user.name)
 	return {**_result(user), "created": True}
 

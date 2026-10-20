@@ -31,6 +31,14 @@ def _balance_on(**kwargs):
 
 def balance(context):
 	require("GL Entry")
+	if not context.get("party"):
+		# «بدهی مشتری‌ها», «طلب تامین‌کننده‌ها»: everyone's
+		words = set(context.message.words)
+		if words & {"مشتریها", "مشتریان", "مشتری‌ها", "مشتریا"}:
+			return receivables(context)
+		if words & {"تامینکنندگان", "تامین‌کنندگان", "تامینکنندهها", "تامین‌کننده‌ها", "فروشندهها"}:
+			return payables(context)
+		raise NeedSlot("party", _("Balance of whom, or which account?"))
 	doctype, name = party_of(context.get("party"))
 	if doctype == "Account":
 		value = _balance_on(account=name)
@@ -51,6 +59,11 @@ def balance(context):
 		text = _("{0} owes us {1}.").format(label, money(value))
 	else:
 		text = _("We owe {0} {1}.").format(label, money(-value))
+	# «بستانکار / بدهکار» are the side of the account in the company's books
+	if abs(value) >= 1:
+		text += "\n\n" + _("In the company's books the account of {0} is {1} {2}.").format(
+			label, money(abs(value)), _("debit (they owe us)") if value > 0 else _("credit (we owe them)")
+		)
 	field = "customer" if doctype == "Customer" else "supplier"
 	invoice_doctype = "Sales Invoice" if doctype == "Customer" else "Purchase Invoice"
 	unpaid = frappe.get_list(
@@ -81,6 +94,13 @@ def balance(context):
 
 def party_statement(context):
 	require("GL Entry")
+	from iran_erp.commands.handlers.insight import all_statements, wants_everyone
+
+	# «صورتحساب مشتریان», or «همه» as the answer: everyone's at once
+	if wants_everyone(context):
+		return all_statements(context)
+	if not context.get("party"):
+		raise NeedSlot("party", _("Statement of which customer or supplier? (or «همه» for all customers)"))
 	doctype, name = party_of(context.get("party"))
 	start, end, label = period_or(context, "year")
 	rows = frappe.db.sql(

@@ -105,7 +105,39 @@ def stock_balance(context):
 				)
 			],
 		}
-	raise NeedSlot("item", _("Stock of which item? (or which warehouse)"))
+	return _all_stock(context)
+
+
+def _all_stock(context):
+	"""Nothing named: the cars in the lot for a dealership, else every warehouse's stock."""
+	from iran_erp.commands.handlers.insight import car_stock, has_cars
+
+	words = set(context.message.words)
+	if has_cars() and (words & {"خودرو", "خودروها", "ماشین", "ماشینها", "ماشین‌ها"} or not frappe.db.count("Bin", {"actual_qty": ["!=", 0]})):
+		return car_stock(context)
+	rows = frappe.get_list(
+		"Bin",
+		filters={"actual_qty": ["!=", 0], "warehouse": ["in", _warehouses()]},
+		fields=["item_code", {"SUM": "actual_qty", "as": "qty"}, {"SUM": "stock_value", "as": "value"}],
+		group_by="item_code",
+		order_by="value desc",
+		limit=15,
+	)
+	url = report_url("Stock Balance", {"company": company()})
+	if not rows:
+		return {"answer": _("Nothing is in stock in any warehouse."), "actions": [link(_("Stock Balance"), url)]}
+	names = dict(
+		frappe.get_all("Item", filters={"name": ["in", [r.item_code for r in rows]]}, fields=["name", "item_name"], as_list=True)
+	)
+	return {
+		"answer": _("Stock in every warehouse (no item or warehouse was named); the most valuable first:")
+		+ "\n\n"
+		+ table(
+			[_("Item"), _("Quantity"), _("Value")],
+			[[names.get(r.item_code, r.item_code), number(r.qty), money(r.value)] for r in rows],
+		),
+		"actions": [link(_("Stock Balance"), url)],
+	}
 
 
 def stock_value(context):

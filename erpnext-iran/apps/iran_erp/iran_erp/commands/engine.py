@@ -71,6 +71,12 @@ HOW_WORDS = {
 HOWTO_SURE = 0.42
 # "چطور مشتری جدید تعریف کنم" asks how it is done; it is not the name of a new customer
 ASKING_HOW = {"چطور", "چطوری", "چجوری", "چگونه", "چیجوری", "نحوه"}
+# Questions «همه» answers: the command then covers everyone
+EVERYONE_SLOTS = {("party_statement", "party")}
+EVERYONE_WORDS = {
+	normalize(w)
+	for w in ("همه", "همشون", "همه شون", "همه‌شون", "همه رو", "همه را", "کل", "همه مشتریان", "همه مشتری ها", "همه‌ی مشتری‌ها")
+}
 # Words that ask for something to be made: "چطور حساب بانکی تعریف کنم"
 MAKING_WORDS = {"تعریف", "بسازم", "بسازیم", "ساخت", "ایجاد", "ثبت", "بزنم", "بزنیم", "اضافه", "درست"}
 # The document each command that makes one makes
@@ -217,8 +223,48 @@ def _options_text(options) -> str:
 
 
 def handle(question: str, state: dict | None = None, ai_available: bool = False) -> dict:
+	frappe.local.iran_cmd_last = None
+	result = _handle(question, state, ai_available)
+	# What was just answered, so a follow-up («همه», «امسال») can redo it
+	last = getattr(frappe.local, "iran_cmd_last", None)
+	if last and not result.get("state") and not result.get("delegate") and not result.get("error"):
+		result["state"] = {"last": last[0], "last_values": last[1]}
+	return result
+
+
+def _follow_up(question: str, state: dict, ai_available: bool):
+	"""A short message that only changes the last request: «همه», or a new period («امسال»)."""
+	name, values = state.get("last"), dict(state.get("last_values") or {})
+	if not name or name not in INTENT_BY_NAME:
+		return None
+	slots = {s[0]: s[1] for s in _slots(name)}
+	normalized = normalize(question)
+	if normalized in EVERYONE_WORDS:
+		slot = next((slot for intent, slot in EVERYONE_SLOTS if intent == name), None)
+		if slot:
+			values[slot] = "*"
+			return _run(name, values, slot_readers.Message(question), ai_available)
+		return None
+	period_slot = next((slot for slot, kind in slots.items() if kind == "period"), None)
+	if period_slot and len(tokens(question)) <= 4:
+		message = slot_readers.Message(question)
+		period = slot_readers.extract("period", message, period_slot)
+		ranked = get_matcher().rank(question)
+		# Only a period: not a request of its own
+		if period and not (ranked and ranked[0][1] >= SURE and ranked[0][0] != name):
+			values[period_slot] = period
+			return _run(name, values, message, ai_available)
+	return None
+
+
+def _handle(question: str, state: dict | None = None, ai_available: bool = False) -> dict:
 	question = (question or "").strip()
 	state = state or {}
+	if state.get("last"):
+		follow_up = _follow_up(question, state, ai_available)
+		if follow_up:
+			return follow_up
+		state = {}
 
 	if state and is_cancel(question):
 		return _reply(_("Cancelled."))
@@ -468,6 +514,10 @@ def _continue(question, state, ai_available):
 	waiting = state.get("waiting")
 	# The reply answers this slot; a one-word reply is not read as any other
 	message.answering = waiting
+	# «همه» to a question that has an «everyone» answer
+	if waiting and (name, waiting) in EVERYONE_SLOTS and normalize(question) in EVERYONE_WORDS:
+		values[waiting] = "*"
+		return _run(name, values, message, ai_available)
 	if name.startswith("recipe:") and waiting:
 		# The recipe reads what it still needs from the reply itself
 		# A reply that is only a name is the answer; a full new request starts over
@@ -493,6 +543,10 @@ def _continue(question, state, ai_available):
 				return _ask(name, values, waiting, _slot_question(name, waiting), e.options)
 		if value not in (None, ""):
 			values[waiting] = value
+			return _run(name, values, message, ai_available)
+		# A name that is not on record, to a command that says so itself (and offers to register it)
+		if slot_type in slot_readers.ENTITY_KINDS and "name" in {s[0] for s in _slots(name)} and not values.get("name"):
+			values["name"] = question
 			return _run(name, values, message, ai_available)
 	# A plain "no" instead of an answer drops the request
 	if yes_no(question) is False:
@@ -570,6 +624,15 @@ def _run(intent_name, values, message, ai_available, confirmed=False):
 		if required and values.get(slot) in (None, ""):
 			return _ask(intent_name, values, slot, question)
 
+	# Remembered for follow-ups only when it read something; never a password
+	from iran_erp.commands.capabilities import kind_of
+
+	if kind_of(intent_name) == "read":
+		secret = {slot for slot, kind, _r, _q in slot_list if kind in ("password", "username")}
+		frappe.local.iran_cmd_last = (
+			intent_name,
+			{k: v for k, v in values.items() if not k.startswith("_") and k not in secret},
+		)
 	module, function = intent["handler"].rsplit(".", 1)
 	handler = getattr(importlib.import_module(f"iran_erp.commands.handlers.{module}"), function)
 	context = Context(intent_name, values, message, confirmed=confirmed, ai_available=ai_available)
@@ -636,7 +699,8 @@ def quick_replies(state: dict | None) -> dict:
 	common answers, or a list to pick a customer, item, ... from. Each reply is sent as typed text."""
 	from iran_erp.commands import entities
 
-	if not state:
+	# Only the memory of the last answer: nothing to answer
+	if not state or not (set(state) - {"last", "last_values"}):
 		return {}
 	replies, pick = [], None
 	if state.get("confirm"):
@@ -663,6 +727,8 @@ def quick_replies(state: dict | None) -> dict:
 			pick = {"doctype": doctype, "filters": filters}
 		elif kind in ("party", "party_or_account"):
 			pick = {"doctype": "Customer", "filters": {"disabled": 0}}
+	if (state.get("intent"), state.get("waiting")) in EVERYONE_SLOTS:
+		replies.insert(0, {"label": "همه", "text": "همه"})
 	replies.append({"label": _("Cancel"), "text": "انصراف", "cancel": True})
 	return {"replies": replies, "pick": pick}
 

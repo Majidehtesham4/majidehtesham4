@@ -21262,3 +21262,177 @@ msgstr "برای {0} ({1}) دسترسی ورود ساخته شد."
 
 msgid "The password of {0} was changed."
 msgstr "رمز {0} عوض شد."
+
+msgid "A login was prepared for {0} with the username «{1}» and the password you gave, switched off."
+msgstr "برای {0} دسترسی ورود با نام کاربری «{1}» و رمزی که دادید آماده شد، فعلاً غیرفعال."
+
+msgid "Active capital"
+msgstr "سرمایه‌ی فعال"
+
+msgid "All investors (no name was given):"
+msgstr "همه‌ی سرمایه‌گذاران (نامی گفته نشد):"
+
+msgid "Asking prices in total: {0}"
+msgstr "جمع قیمت‌های پیشنهادی فروش: {0}"
+
+msgid "Balance of whom, or which account?"
+msgstr "مانده‌ی حساب چه کسی یا کدام حساب؟ (برای همه‌ی مشتری‌ها بنویسید «بدهی مشتری‌ها»)"
+
+msgid "Balance today"
+msgstr "مانده امروز"
+
+msgid "Cars in the lot"
+msgstr "خودروهای نمایشگاه"
+
+msgid "Cars in the lot ({0}): {1}"
+msgstr "خودروهای نمایشگاه ({0}): {1}"
+
+msgid "Change the password of {0} to the one you gave?"
+msgstr "رمز {0} به رمزی که دادید عوض شود؟"
+
+msgid "Check the spelling, or register them."
+msgstr "املای نام را بررسی کنید یا او را ثبت کنید."
+
+msgid "Color"
+msgstr "رنگ"
+
+msgid "Contract"
+msgstr "قرارداد"
+
+msgid "Contracts"
+msgstr "قراردادها"
+
+msgid "Dealership dashboard"
+msgstr "داشبورد نمایشگاه"
+
+msgid "For which investor?"
+msgstr "برای کدام سرمایه‌گذار؟"
+
+msgid "From"
+msgstr "از"
+
+msgid "IBAN"
+msgstr "شماره شبا"
+
+msgid "In the company's books the account of {0} is {1} {2}."
+msgstr "در دفاتر شرکت، حساب {0} به مبلغ {1} {2} است."
+
+msgid "Investor (sees only their own account)"
+msgstr "سرمایه‌گذار (فقط حساب خودش را می‌بیند)"
+
+msgid "Investor's file"
+msgstr "پرونده‌ی سرمایه‌گذار"
+
+msgid "Kept, since they have a sale or contract: {0}"
+msgstr "این‌ها چون فروش یا قرارداد دارند نگه داشته شدند: {0}"
+
+msgid "Login"
+msgstr "دسترسی ورود"
+
+msgid "Monthly Rate"
+msgstr "سود ماهانه"
+
+msgid "More than one investor has this name; which one?"
+msgstr "چند سرمایه‌گذار با این نام هست؛ کدام؟"
+
+msgid "New Investor"
+msgstr "سرمایه‌گذار جدید"
+
+msgid "No cars in the lot ({0})."
+msgstr "خودرویی در نمایشگاه نیست ({0})."
+
+msgid "No contracts yet."
+msgstr "هنوز قراردادی ندارد."
+
+msgid "No investor named «{0}» was found."
+msgstr "سرمایه‌گذاری با نام «{0}» پیدا نشد."
+
+msgid "No investor named «{0}» was found; register them first, then ask again."
+msgstr "سرمایه‌گذاری با نام «{0}» پیدا نشد؛ اول او را ثبت کنید و دوباره بخواهید."
+
+msgid "No investors are registered yet."
+msgstr "هنوز سرمایه‌گذاری ثبت نشده است."
+
+msgid "No transactions for {0} ({1})."
+msgstr "برای {0} گردشی نیست ({1})."
+
+msgid "None yet"
+msgstr "هنوز ندارد"
+
+msgid "Nothing is in stock in any warehouse."
+msgstr "در هیچ انباری موجودی نیست."
+
+msgid "Review and enable the login"
+msgstr "بررسی و فعال کردن دسترسی"
+
+msgid "Statement of which customer or supplier? (or «همه» for all customers)"
+msgstr "صورتحساب کدام مشتری یا تأمین‌کننده؟ (یا «همه» برای همه‌ی مشتری‌ها)"
+
+msgid "Statement of {0} ({1}); balance today is in the company's books (debit: they owe us)."
+msgstr "صورتحساب {0} ({1})؛ مانده‌ی امروز از دید دفاتر شرکت است (بدهکار یعنی به ما بدهکارند)."
+
+msgid "Stock in every warehouse (no item or warehouse was named); the most valuable first:"
+msgstr "موجودی همه‌ی انبارها (کالا یا انباری گفته نشد)؛ از باارزش‌ترین:"
+
+msgid "The newest {0} of {1}; the list has them all."
+msgstr "{0} مورد تازه‌تر از {1}؛ همه در فهرست هستند."
+
+msgid "The username and password of {0} were changed."
+msgstr "نام کاربری و رمز {0} عوض شد."
+
+msgid "Their password? (at least 6 characters; it is not shown again)"
+msgstr "رمز عبورش چه باشد؟ (دست‌کم ۶ حرف یا عدد؛ دوباره نمایش داده نمی‌شود)"
+
+msgid "To"
+msgstr "تا"
+
+msgid "To let them in, open it, check the roles and tick «Enabled». They then log in at {0}."
+msgstr "برای فعال شدن، آن را باز کنید، نقش‌ها را بررسی کنید و «فعال» را تیک بزنید. بعد از آن از {0} وارد می‌شود."
+
+msgid "Total balance: {0}"
+msgstr "جمع مانده: {0}"
+
+msgid "What does this person do? Their access comes from it."
+msgstr "این شخص چه کاره است؟ دسترسی‌اش بر همین اساس داده می‌شود."
+
+msgid "Which investor? (an investor's login shows their own account)"
+msgstr "کدام سرمایه‌گذار؟ (دسترسی سرمایه‌گذار فقط حساب خودش را نشان می‌دهد)"
+
+msgid "Year"
+msgstr "سال"
+
+msgid "all customers"
+msgstr "همه‌ی مشتری‌ها"
+
+msgid "all suppliers"
+msgstr "همه‌ی تأمین‌کننده‌ها"
+
+msgid "credit (we owe them)"
+msgstr "بستانکار (ما به او بدهکاریم)"
+
+msgid "debit (they owe us)"
+msgstr "بدهکار (او به ما بدهکار است)"
+
+msgid "every branch, every owner"
+msgstr "همه‌ی شعبه‌ها و همه‌ی مالکان"
+
+msgid "investor {0}"
+msgstr "سرمایه‌گذار {0}"
+
+msgid "{0} already has a login ({1}). Change its username to «{2}» and its password to the one you gave?"
+msgstr "{0} دسترسی ورود دارد ({1}). نام کاربری‌اش به «{2}» و رمزش به رمزی که دادید عوض شود؟"
+
+msgid "{0} cars were loaded."
+msgstr "{0} خودرو بارگذاری شد."
+
+msgid "Profit earned to date"
+msgstr "سود تا امروز"
+
+msgid "Paid to them so far"
+msgstr "پرداخت‌شده به او تا امروز"
+
+msgid "Still owed to them (profit and capital)"
+msgstr "باقی‌مانده‌ی طلب او (سود و اصل)"
+
+msgid "Next payment"
+msgstr "پرداخت بعدی"

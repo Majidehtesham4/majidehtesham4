@@ -164,6 +164,8 @@ services:
     environment:
       ERP: http://frontend:8080
       ERP_HOST: ${WEBSITE_ERP_HOST:-localhost}
+      # The panel's address for visitors' browsers (the site's «ورود»); empty: this host, port 8080
+      ERP_PUBLIC_URL: ${ERP_PUBLIC_URL:-}
     ports:
       - "${WEBSITE_PORT:-80}:80"
 

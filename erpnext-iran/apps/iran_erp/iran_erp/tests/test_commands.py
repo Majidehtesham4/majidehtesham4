@@ -117,10 +117,13 @@ class TestLogins(IntegrationTestCase):
 			"Chat-1405",
 			"chat.investor",
 		)
-		self.assertIsNone(reply.get("state"))
+		# Done, and nothing of it (the password least of all) is kept for a follow-up
+		self.assertFalse(reply.get("state"))
 		user = frappe.db.get_value("Iran Investor", investor.name, "user")
 		self.assertEqual(frappe.db.get_value("User", user, "username"), "chat.investor")
 		self.assertIn("Investor", frappe.get_roles(user))
+		# A draft: switched off until enabled in the user's form
+		self.assertEqual(frappe.db.get_value("User", user, "enabled"), 0)
 		from frappe.utils.password import check_password
 
 		self.assertEqual(check_password(user, "Chat-1405"), user)
@@ -130,7 +133,7 @@ class TestLogins(IntegrationTestCase):
 		self.assertEqual(reply["intent"], "create_user_login")
 		user = frappe.db.get_value("User", {"username": "ali.test"})
 		self.assertIn("Accounts User", frappe.get_roles(user))
-		reply = self.talk("رمز کاربر ali.test رو عوض کن", "Other-999")
+		reply = self.talk("رمز کاربر ali.test رو عوض کن", "Other-999", "بله")
 		self.assertEqual(reply["intent"], "set_user_password")
 		from frappe.utils.password import check_password
 

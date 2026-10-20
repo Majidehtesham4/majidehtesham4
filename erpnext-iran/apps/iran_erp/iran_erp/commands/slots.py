@@ -537,12 +537,15 @@ def _user(message, slot_name):
 		return found
 	from iran_erp.users import find_user
 
-	for i, original in enumerate(message.originals):
-		if i in message.blocked() or not re.match(r"^[A-Za-z0-9._@-]{3,}$", original or ""):
+	# As typed: the tokenizer splits «sara.test» at the dot
+	for token in message.text.split():
+		token = token.strip("«»\"'،,")
+		if not re.match(r"^[A-Za-z0-9._@-]{3,}$", token):
 			continue
-		name = find_user(original)
+		name = find_user(token)
 		if name:
-			message.used.add(i)
+			parts = set(normalize(token).split())
+			message.used |= {i for i, w in enumerate(message.words) if w in parts}
 			return name
 	return None
 

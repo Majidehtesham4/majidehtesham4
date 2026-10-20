@@ -635,23 +635,36 @@ def create_login(
 		)
 		if not name:
 			return {"error": f"No investor {investor}. Ask the user which investor."}
-		result = investor_login(name, username, password, email)
-		return {"created": "User", "name": result["user"], "username": result["username"], "login_url": result["login_url"]}
-	result = create_user(full_name or username, username, password, kind, email=email, branch=branch)
-	return {"created": "User", "name": result["user"], "username": result["username"], "login_url": result["login_url"]}
+		result = investor_login(name, username, password, email, enabled=0)
+	else:
+		result = create_user(full_name or username, username, password, kind, email=email, branch=branch, enabled=0)
+	return {
+		"created": "User",
+		"name": result["user"],
+		"username": result["username"],
+		"url": get_url_to_form("User", result["user"]),
+		"note": "Made switched off: the user checks it and ticks Enabled in the ERP. Never repeat the password.",
+	}
 
 
-def set_user_password(user: str, password: str):
-	"""A new password for a login, found by its username, email or full name."""
-	from iran_erp.users import set_password
+def find_capability(request: str):
+	"""The assistant's capabilities closest to a request (commands/capabilities.py)."""
+	from iran_erp.commands.capabilities import find_capability as find
 
-	result = set_password(user, password)
-	return {"updated": "User", "name": result["user"], "username": result["username"]}
+	return find(request)
+
+
+def run_capability(capability: str, request: str = "", parameters: dict | None = None):
+	"""Run one of the assistant's capabilities with the details as the user said them."""
+	from iran_erp.commands.capabilities import run_capability as run
+
+	return run(capability, request, parameters)
 
 
 TOOLS = {
+	"find_capability": find_capability,
+	"run_capability": run_capability,
 	"create_login": create_login,
-	"set_user_password": set_user_password,
 	"get_company_info": get_company_info,
 	"describe_doctype": describe_doctype,
 	"search_documents": search_documents,
@@ -707,10 +720,23 @@ TOOL_SCHEMAS = [
 		["kind", "username", "password"],
 	),  # fmt: skip
 	_fn(
-		"set_user_password",
-		"Give a login a new password. user: its username, email or full name.",
-		{"user": {"type": "string"}, "password": {"type": "string"}},
-		["user", "password"],
+		"find_capability",
+		"The ERP capabilities closest to the user's request (reports, lists, a record's details, drafts), "
+		"with their parameters. Call it first for any request about records, figures or making something.",
+		{"request": {"type": "string", "description": "The user's request as they wrote it"}},
+		["request"],
+	),
+	_fn(
+		"run_capability",
+		"Run a capability found by find_capability. Give each parameter as the user said it (a name, "
+		"«امسال», «همه»); the system finds the records. Relay its answer and links as they are; if it "
+		"returns question_for_user or needs_confirmation, ask the user that and do nothing else.",
+		{
+			"capability": {"type": "string", "description": "id from find_capability"},
+			"request": {"type": "string", "description": "The user's request as they wrote it"},
+			"parameters": {"type": "object", "description": "parameter name → value as said"},
+		},
+		["capability"],
 	),
 	_fn(
 		"get_company_info",
