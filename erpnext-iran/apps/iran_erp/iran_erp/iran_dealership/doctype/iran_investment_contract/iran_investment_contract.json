@@ -190,9 +190,10 @@
    "fieldname": "profit_payment",
    "fieldtype": "Select",
    "label": "Profit Paid",
-   "options": "Monthly\nAt the End",
-   "default": "Monthly",
-   "depends_on": "eval:doc.contract_type=='Partnership'"
+   "options": "Monthly with Principal\nMonthly\nAt the End",
+   "default": "Monthly with Principal",
+   "depends_on": "eval:doc.contract_type=='Partnership'",
+   "description": "Monthly with Principal: each month the investor gets an equal cheque of (amount + total profit) ÷ months, so the money comes back month by month."
   },
   {
    "fieldname": "monthly_profit",
@@ -302,7 +303,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-17 09:00:00.000000",
+ "modified": "2026-10-20 14:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Investment Contract",

@@ -204,7 +204,7 @@ def create_dealership_demo(company: str | None = None):
 			"start_date": add_months(today, -3),
 			"months": 6,
 			"monthly_rate": 4,
-			"profit_payment": "Monthly",
+			"profit_payment": "Monthly with Principal",
 		},
 		submit=True,
 	)
@@ -216,7 +216,7 @@ def create_dealership_demo(company: str | None = None):
 	contract.reload()
 	contract.accrue_profit(today)
 	for row in contract.schedule:
-		if row.kind == "Profit" and getdate(row.due_date) <= today:
+		if row.kind in ("Profit", "Profit and Principal") and getdate(row.due_date) <= today:
 			frappe.get_doc("Iran Cheque", row.cheque).take_action("clear", date=row.due_date)
 	contract.reload()
 	contract.update_status()

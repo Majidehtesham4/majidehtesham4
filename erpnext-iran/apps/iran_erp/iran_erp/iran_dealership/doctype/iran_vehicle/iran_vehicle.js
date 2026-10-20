@@ -104,6 +104,7 @@ frappe.ui.form.on("Iran Vehicle", {
 		frm.set_df_property("branch", "read_only", admin ? 0 : 1);
 		iran_vehicle_year_hint(frm);
 		iran_vehicle_specs(frm);
+		iran_erp.plate.editor(frm);
 		iran_vehicle_body.render(frm);
 		if (frm.is_new()) return;
 

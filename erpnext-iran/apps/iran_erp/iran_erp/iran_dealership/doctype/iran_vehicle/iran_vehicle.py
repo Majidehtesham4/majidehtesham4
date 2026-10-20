@@ -77,6 +77,7 @@ class IranVehicle(Document):
 		# manager says otherwise
 		self.ownership = self.ownership or "Business"
 		self.check_year()
+		self.check_plate()
 		model = frappe.db.get_value("Iran Car Model", self.car_model, "title") if self.car_model else ""
 		self.title = " ".join(str(part) for part in (model, self.year, self.color) if part)
 		if self.plate:
@@ -123,6 +124,18 @@ class IranVehicle(Document):
 				)
 			)
 		self.year = year
+
+	def check_plate(self):
+		"""«12 ب 345 ایران 67»: two digits, a letter, three digits and the city's code."""
+		from iran_erp.iran_dealership.plate import normal
+
+		if not (self.plate or "").strip():
+			self.plate = ""
+			return
+		plate = normal(self.plate)
+		if not plate:
+			frappe.throw(_("Write the plate like «۱۲ ب ۳۴۵ ایران ۶۷»: two digits, a letter, three digits and the city's two digits"))
+		self.plate = plate
 
 	def check_owner(self):
 		if self.ownership != "Business" and self.purchase_entry:

@@ -38,6 +38,7 @@ app_include_css = ["/assets/iran_erp/css/persian_text.css", "/assets/iran_erp/cs
 app_include_js = [
 	"/assets/iran_erp/js/jalaali_core.js",
 	"/assets/iran_erp/js/jalali.js",
+	"/assets/iran_erp/js/fields.js",
 	"/assets/iran_erp/js/money.js",
 	"/assets/iran_erp/js/brand.js",
 	"/assets/iran_erp/js/charts.js",
@@ -111,6 +112,7 @@ jinja = {
 		"iran_erp.iran_dealership.printing.body_svg",
 		"iran_erp.iran_dealership.printing.car_money",
 		"iran_erp.iran_dealership.printing.car_specs",
+		"iran_erp.iran_dealership.plate.plate_html",
 		"iran_erp.business.trade_profile",
 	],
 }

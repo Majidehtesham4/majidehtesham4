@@ -117,6 +117,14 @@
 }
 
 /* Jalali date picker */
+/* It carries Frappe's «datepicker» class (so list filters know clicks in it), whose style keeps a
+   picker invisible until Frappe's own picker opens it */
+.iran-jalali-picker,
+.iran-jalali-picker.datepicker {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
 .iran-jalali-picker {
 	position: absolute;
 	z-index: 1060;
@@ -171,6 +179,31 @@
 	color: var(--primary);
 }
 .iran-jalali-day.selected {
+	background: var(--primary);
+	color: var(--white, #fff);
+}
+/* The month and year in the header open the month grid, then the year grid */
+.iran-jalali-nav b[data-action] {
+	font-size: var(--text-base, 14px);
+	font-weight: 600;
+	padding: 4px 10px;
+	background: var(--control-bg);
+}
+.iran-jalali-cells {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+	text-align: center;
+}
+.iran-jalali-cell {
+	cursor: pointer;
+	padding: 10px 0;
+	border-radius: var(--border-radius-sm);
+}
+.iran-jalali-cell:hover {
+	background: var(--control-bg);
+}
+.iran-jalali-cell.selected {
 	background: var(--primary);
 	color: var(--white, #fff);
 }
@@ -1071,8 +1104,29 @@
 	opacity: 0.8;
 	margin-top: 4px;
 }
+.iran-dash-holdings {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
 .iran-dash-hero-stat {
 	text-align: left;
+	display: block;
+	min-width: 170px;
+	padding: 8px 14px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.1);
+	color: inherit !important;
+	text-decoration: none !important;
+	cursor: pointer;
+}
+.iran-dash-hero-stat:hover {
+	background: rgba(255, 255, 255, 0.18);
+}
+.iran-dash-hero-stat small {
+	display: block;
+	opacity: 0.8;
+	font-size: 11px;
 }
 .iran-dash-hero-stat span {
 	display: block;
@@ -1714,4 +1768,150 @@
 	max-height: 160px;
 	overflow: auto;
 	margin: 8px 0 0;
+}
+
+/* Iranian number plate: the blue strip, the number, and the city's code beside it. Kept as
+   written in the right-to-left build (rtlcss would mirror it) */
+/*rtl:begin:ignore*/
+.iran-plate {
+	display: inline-flex;
+	align-items: stretch;
+	height: 38px;
+	border: 2px solid #1f2937;
+	border-radius: 6px;
+	background: #fff;
+	color: #111;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 1;
+	overflow: hidden;
+	/* A plate reads left to right whatever the page's direction */
+	direction: ltr !important;
+	unicode-bidi: isolate;
+}
+.iran-plate > span {
+	direction: ltr !important;
+}
+.iran-plate-flag {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 3px 4px;
+	background: #1e3f9c;
+	color: #fff;
+	font: 700 6px/1.1 Arial, sans-serif;
+	text-align: center;
+}
+.iran-plate-flag i {
+	display: block;
+	width: 14px;
+	height: 9px;
+	background: linear-gradient(#239f40 33%, #fff 33% 66%, #da0000 66%);
+}
+.iran-plate-number {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 10px;
+}
+.iran-plate-number em {
+	font-style: normal;
+}
+.iran-plate-city {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 8px;
+	border-left: 2px solid #1f2937;
+	font-size: 16px;
+}
+.iran-plate-city small {
+	font-size: 8px;
+	font-weight: 600;
+}
+.iran-plate-editor {
+	margin-top: 2px;
+}
+.iran-plate-editor input,
+.iran-plate-editor select {
+	border: 0;
+	background: #f3f4f6;
+	border-radius: 4px;
+	color: #111;
+	font: inherit;
+	text-align: center;
+	height: 26px;
+	padding: 0 2px;
+}
+.iran-plate-editor input[data-part="left"],
+.iran-plate-editor input[data-part="city"] {
+	width: 34px;
+}
+.iran-plate-editor input[data-part="middle"] {
+	width: 48px;
+}
+.iran-plate-editor select {
+	width: 52px;
+	-webkit-appearance: none;
+	appearance: none;
+}
+.iran-plate-editor .iran-plate-city input {
+	height: 20px;
+	font-size: 15px;
+}
+/*rtl:end:ignore*/
+.iran-plate-field .control-input-wrapper {
+	display: none;
+}
+
+/* The branches beside each other, and the cars behind a figure */
+.iran-dash-branches {
+	margin-bottom: 12px;
+}
+.iran-dash-table-wrap {
+	overflow-x: auto;
+}
+.iran-dash-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+.iran-dash-table th,
+.iran-dash-table td {
+	padding: 8px 10px;
+	border-bottom: 1px solid var(--border-color);
+	text-align: right;
+	vertical-align: top;
+	white-space: nowrap;
+}
+.iran-dash-table thead th {
+	color: var(--text-muted);
+	font-weight: 500;
+	font-size: 12px;
+}
+.iran-dash-table tfoot th,
+.iran-dash-table tfoot td {
+	font-weight: 700;
+	border-bottom: 0;
+}
+.iran-dash-table small {
+	display: block;
+	color: var(--text-muted);
+	font-size: 11px;
+}
+.iran-dash-table a {
+	color: inherit;
+	cursor: pointer;
+}
+.iran-dash-table a:hover {
+	color: var(--primary);
+}
+.iran-dash-table .bad {
+	color: var(--red-600, #dc2626);
+}
+.iran-dash-cars .iran-plate {
+	height: 28px;
+	font-size: 13px;
 }

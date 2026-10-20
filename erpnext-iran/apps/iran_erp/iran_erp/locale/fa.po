@@ -21103,3 +21103,54 @@ msgstr "چنین کسب‌وکاری روی این سرور نیست."
 
 msgid "Business Environment"
 msgstr "کسب‌وکار"
+
+msgid "Monthly with Principal"
+msgstr "ماهانه، سود و بخشی از اصل"
+
+msgid "Profit and Principal"
+msgstr "سود و اصل"
+
+msgid "Of Which Profit"
+msgstr "سهم سود"
+
+msgid "Monthly with Principal: each month the investor gets an equal cheque of (amount + total profit) ÷ months, so the money comes back month by month."
+msgstr "ماهانه، سود و بخشی از اصل: سرمایه‌گذار هر ماه یک چک برابر می‌گیرد: (سرمایه + کل سود) ÷ تعداد ماه؛ یعنی سرمایه‌اش ماه‌به‌ماه برمی‌گردد."
+
+msgid "Write the plate like «۱۲ ب ۳۴۵ ایران ۶۷»: two digits, a letter, three digits and the city's two digits"
+msgstr "پلاک را مثل «۱۲ ب ۳۴۵ ایران ۶۷» وارد کنید: دو رقم، یک حرف، سه رقم و دو رقم کد شهر."
+
+msgid "Choose the month and year"
+msgstr "انتخاب ماه و سال"
+
+msgid "Choose the year"
+msgstr "انتخاب سال"
+
+msgid "The business's own cars"
+msgstr "دارایی مجموعه"
+
+msgid "Cars left for sale (consignment)"
+msgstr "خودروهای امانی"
+
+msgid "Investors' cars"
+msgstr "خودروهای سرمایه‌گذاران"
+
+msgid "{0} cars"
+msgstr "{0} خودرو"
+
+msgid "Cars of the Other Branches"
+msgstr "خودروهای شعبه‌های دیگر"
+
+msgid "You may sell these cars too."
+msgstr "این خودروها را هم می‌توانید بفروشید."
+
+msgid "All branches"
+msgstr "همه‌ی شعبه‌ها"
+
+msgid "No branch set"
+msgstr "بدون شعبه"
+
+msgid "Profit This Month"
+msgstr "سود این ماه"
+
+msgid "{0} km"
+msgstr "{0} کیلومتر"

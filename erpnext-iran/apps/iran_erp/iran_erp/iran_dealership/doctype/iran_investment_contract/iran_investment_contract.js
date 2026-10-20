@@ -60,7 +60,7 @@ function pending_options(frm, filter) {
 		.filter((r) => r.status === "Pending" && (!filter || filter(r)))
 		.map((r) => ({
 			value: String(r.idx),
-			label: `${r.kind === "Profit" ? "سود" : "اصل سرمایه"} — ${frappe.format(r.due_date, { fieldtype: "Date" })} — ${iran_erp.money.format(r.amount)}${r.cheque ? " (" + __("cheque") + ")" : ""}`,
+			label: `${{ Profit: "سود", Principal: "اصل سرمایه" }[r.kind] || "سود و اصل"} — ${frappe.format(r.due_date, { fieldtype: "Date" })} — ${iran_erp.money.format(r.amount)}${r.cheque ? " (" + __("cheque") + ")" : ""}`,
 		}));
 }
 

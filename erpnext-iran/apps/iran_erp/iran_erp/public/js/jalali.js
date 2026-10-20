@@ -107,7 +107,8 @@ iran_erp.JalaliPicker = class {
 	show() {
 		const today = iran_erp.parse_db_date(frappe.datetime.nowdate());
 		const current = iran_erp.parse_db_date(this.control.value) || today;
-		this.view = { jy: current.jy, jm: current.jm };
+		// mode: days of a month; months of a year; years (twelve at a time)
+		this.view = { jy: current.jy, jm: current.jm, mode: "days" };
 		this.render();
 		const rect = this.control.$input[0].getBoundingClientRect();
 		const height = this.$el.outerHeight();
@@ -124,6 +125,8 @@ iran_erp.JalaliPicker = class {
 	}
 
 	render() {
+		if (this.view.mode === "months") return this.render_months();
+		if (this.view.mode === "years") return this.render_years();
 		const { jy, jm } = this.view;
 		const selected = iran_erp.parse_db_date(this.control.value);
 		const today = iran_erp.parse_db_date(frappe.datetime.nowdate());
@@ -145,7 +148,7 @@ iran_erp.JalaliPicker = class {
 		this.$el.html(`
 			<div class="iran-jalali-nav">
 				<span data-action="prev" title="${__("Previous")}">›</span>
-				<b>${JALALI_MONTHS[jm - 1]} ${iran_erp.to_persian_digits(jy)}</b>
+				<b data-action="months" title="${__("Choose the month and year")}">${JALALI_MONTHS[jm - 1]} ${iran_erp.to_persian_digits(jy)} ▾</b>
 				<span data-action="next" title="${__("Next")}">‹</span>
 			</div>
 			<div class="iran-jalali-grid">
@@ -158,14 +161,67 @@ iran_erp.JalaliPicker = class {
 			</div>`);
 	}
 
+	// The twelve months of the year in view: pick one to see its days
+	render_months() {
+		const { jy, jm } = this.view;
+		const months = JALALI_MONTHS.map(
+			(name, i) =>
+				`<span class="iran-jalali-cell ${i + 1 === jm ? "selected" : ""}" data-action="month" data-month="${i + 1}">${name}</span>`
+		).join("");
+		this.$el.html(`
+			<div class="iran-jalali-nav">
+				<span data-action="prev-year" title="${__("Previous")}">›</span>
+				<b data-action="years" title="${__("Choose the year")}">${iran_erp.to_persian_digits(jy)} ▾</b>
+				<span data-action="next-year" title="${__("Next")}">‹</span>
+			</div>
+			<div class="iran-jalali-cells">${months}</div>
+			<div class="iran-jalali-footer"><span data-action="days">${__("Back")}</span></div>`);
+	}
+
+	// Twelve years around the one in view: pick one to see its months
+	render_years() {
+		const { jy } = this.view;
+		const first = this.view.first_year || jy - 7;
+		this.view.first_year = first;
+		let years = "";
+		for (let y = first; y < first + 12; y++) {
+			years += `<span class="iran-jalali-cell ${y === jy ? "selected" : ""}" data-action="year" data-year="${y}">${iran_erp.to_persian_digits(y)}</span>`;
+		}
+		this.$el.html(`
+			<div class="iran-jalali-nav">
+				<span data-action="prev-years" title="${__("Previous")}">›</span>
+				<b>${iran_erp.to_persian_digits(first)} – ${iran_erp.to_persian_digits(first + 11)}</b>
+				<span data-action="next-years" title="${__("Next")}">‹</span>
+			</div>
+			<div class="iran-jalali-cells">${years}</div>
+			<div class="iran-jalali-footer"><span data-action="months">${__("Back")}</span></div>`);
+	}
+
 	on_action($target) {
 		const action = $target.data("action");
+		const view = this.view;
+		const moves = {
+			months: () => Object.assign(view, { mode: "months" }),
+			years: () => Object.assign(view, { mode: "years", first_year: null }),
+			days: () => Object.assign(view, { mode: "days" }),
+			month: () => Object.assign(view, { mode: "days", jm: Number($target.data("month")) }),
+			year: () => Object.assign(view, { mode: "months", jy: Number($target.data("year")) }),
+			"prev-year": () => (view.jy -= 1),
+			"next-year": () => (view.jy += 1),
+			"prev-years": () => (view.first_year -= 12),
+			"next-years": () => (view.first_year += 12),
+		};
+		if (moves[action]) {
+			moves[action]();
+			this.render();
+			return;
+		}
 		if (action === "prev" || action === "next") {
 			let { jy, jm } = this.view;
 			jm += action === "next" ? 1 : -1;
 			if (jm > 12) [jy, jm] = [jy + 1, 1];
 			if (jm < 1) [jy, jm] = [jy - 1, 12];
-			this.view = { jy, jm };
+			Object.assign(this.view, { jy, jm });
 			this.render();
 			return;
 		}

@@ -3,8 +3,10 @@
 
 """An investor's money in the business for a number of months at a monthly profit rate.
 
-Partnership: the money comes in («واریز به حساب»), the profit is a fixed percent of it each month
-and is paid monthly or at the end, and the money itself is paid back at the end. Profit is
+Partnership: the money comes in («واریز به حساب») and the profit is a fixed percent of it each
+month. Usually (Monthly with Principal) the investor gets the same amount every month: the money
+and all its profit divided by the months, so part of the money comes back each month. Or the profit
+is paid monthly or at the end, and the money itself is paid back at the end. Profit is
 counted day by day (amount × monthly rate × 12 ÷ 365 a day), so the investor can see at any time
 what they have earned so far. Many investors take cheques for every payment when they hand the
 money over: «صدور چک‌ها» issues them all at once.
@@ -26,6 +28,23 @@ from frappe.model.document import Document
 from frappe.utils import add_months, cint, date_diff, flt, getdate, nowdate
 
 from iran_erp.business import account, cancel_entries, journal, party_account, require_cash_account
+
+
+# Payments are whole thousands of rials; what rounding leaves goes on the last one
+ROUND_TO = 1000
+PROFIT_KINDS = ("Profit", "Profit and Principal")
+
+
+def profit_of(row) -> float:
+	"""The profit in a payment: all of a profit payment, the profit share of a monthly payment."""
+	if row.kind == "Profit":
+		return flt(row.amount)
+	return flt(row.profit_part) if row.kind == "Profit and Principal" else 0
+
+
+def split(amount, parts) -> list:
+	each = (flt(amount) // parts // ROUND_TO) * ROUND_TO
+	return [each] * (parts - 1) + [flt(amount) - each * (parts - 1)]
 
 
 def daily_profit(amount, monthly_rate):
@@ -59,7 +78,24 @@ class IranInvestmentContract(Document):
 		cheques = {(row.kind, str(row.due_date)): row.cheque for row in self.schedule if row.cheque}
 		self.schedule = []
 		rows = []
-		if self.contract_type == "Partnership":
+		months = cint(self.months)
+		if self.contract_type == "Partnership" and self.profit_payment == "Monthly with Principal":
+			# (money + all its profit) ÷ months, every month; each payment's profit share is kept
+			totals = split(flt(self.amount) + flt(self.total_profit), months)
+			profits = split(self.total_profit, months)
+			for i, (total, profit) in enumerate(zip(totals, profits, strict=True), 1):
+				self.append(
+					"schedule",
+					{
+						"kind": "Profit and Principal",
+						"due_date": add_months(self.start_date, i),
+						"amount": total,
+						"profit_part": profit,
+						"status": "Pending",
+						"cheque": cheques.get(("Profit and Principal", str(add_months(self.start_date, i)))),
+					},
+				)
+		elif self.contract_type == "Partnership":
 			if self.profit_payment == "Monthly":
 				rows = [
 					("Profit", add_months(self.start_date, i), self.monthly_profit)
@@ -86,9 +122,7 @@ class IranInvestmentContract(Document):
 		end = min(today, getdate(self.end_date))
 		days = max(0, date_diff(end, self.start_date))
 		self.accrued_profit = flt(daily_profit(self.amount, self.monthly_rate) * days, 0)
-		self.paid_profit = sum(
-			flt(r.amount) for r in self.schedule if r.kind == "Profit" and r.status in ("Paid", "Reinvested")
-		)
+		self.paid_profit = sum(profit_of(r) for r in self.schedule if r.status in ("Paid", "Reinvested"))
 
 	# ------------------------------------------------------------ submit
 
@@ -141,15 +175,15 @@ class IranInvestmentContract(Document):
 		rows = rows or [
 			r
 			for r in self.schedule
-			if r.kind == "Profit"
+			if r.kind in PROFIT_KINDS
 			and not r.accrual_entry
 			and r.status == "Pending"
 			and getdate(r.due_date) <= upto
 		]
-		rows = [r for r in rows if r.kind == "Profit" and not r.accrual_entry]
+		rows = [r for r in rows if r.kind in PROFIT_KINDS and not r.accrual_entry]
 		if not rows:
 			return None
-		amount = sum(flt(r.amount) for r in rows)
+		amount = sum(profit_of(r) for r in rows)
 		entry = journal(
 			self.company,
 			min(upto, max(getdate(r.due_date) for r in rows)),

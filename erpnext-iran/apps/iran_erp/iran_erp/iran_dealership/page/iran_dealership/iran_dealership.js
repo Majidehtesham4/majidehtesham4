@@ -148,6 +148,99 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 			${sub ? `<div class="iran-dash-tile-sub">${sub}</div>` : ""}
 		</a>`;
 
+	// Whose the cars are: the business's own at cost, customers' cars left for sale and the
+	// investors' cars; each opens the list of those cars
+	const OWNERS = [
+		["Business", "The business's own cars", "cost"],
+		["Customer", "Cars left for sale (consignment)", "asking"],
+		["Investor", "Investors' cars", "cost"],
+	];
+	// No branch key: every branch; "" : the cars with no branch set
+	const cars_link = (args) => {
+		if (args.branch === null || args.branch === undefined) delete args.branch;
+		return `data-cars='${esc(JSON.stringify(args))}'`;
+	};
+	const holdings_html = (d) => {
+		if (!d.holdings) return "";
+		return `<div class="iran-dash-holdings">${OWNERS.map(([owner, label, value]) => {
+			const h = d.holdings[owner];
+			return `<a class="iran-dash-hero-stat" ${cars_link({ ownership: owner, branch: d.branch || null })}>
+				<span>${__(label)}</span>
+				<b>${money(h[value])}</b>
+				<small>${__("{0} cars", [num(h.count)])}</small>
+			</a>`;
+		}).join("")}</div>`;
+	};
+
+	// The general manager: every branch beside the others. A branch's manager: the cars of the
+	// other branches, which they may sell too
+	const branches_html = (d) => {
+		if (d.branches && d.branches.length) {
+			const total = (key) => d.branches.reduce((sum, r) => sum + (r[key] || 0), 0);
+			const cell = (r, owner, count_key, value_key) =>
+				`<td><a ${cars_link({ branch: r.branch, ownership: owner })}>${money(r[value_key])}<small>${__("{0} cars", [num(r[count_key])])}</small></a></td>`;
+			const rows = d.branches.map((r) => `<tr>
+				<th><a ${cars_link({ branch: r.branch })}>${esc(r.branch || __("No branch set"))}</a></th>
+				<td><a ${cars_link({ branch: r.branch })}>${num(r.cars)}<small>${__("{0} ready for sale", [num(r.ready)])}</small></a></td>
+				${cell(r, "Business", "business", "business_value")}
+				${cell(r, "Customer", "customer", "customer_value")}
+				${cell(r, "Investor", "investor", "investor_value")}
+				<td>${money(r.sales)}<small>${__("{0} cars", [num(r.sold)])}</small></td>
+				<td class="${r.profit < 0 ? "bad" : ""}">${money(r.profit)}</td>
+			</tr>`).join("");
+			return `<div class="iran-dash-box iran-dash-branches">
+				<div class="iran-dash-title">${__("Branches")}</div>
+				<div class="iran-dash-table-wrap"><table class="iran-dash-table">
+					<thead><tr><th>${__("Branch")}</th><th>${__("Cars in the Lot")}</th><th>${__("The business's own cars")}</th>
+					<th>${__("Cars left for sale (consignment)")}</th><th>${__("Investors' cars")}</th>
+					<th>${__("Sales This Month")}</th><th>${__("Profit This Month")}</th></tr></thead>
+					<tbody>${rows}</tbody>
+					<tfoot><tr><th><a ${cars_link({})}>${__("Total")}</a></th><td>${num(total("cars"))}</td>
+					<td>${money(total("business_value"))}</td><td>${money(total("customer_value"))}</td>
+					<td>${money(total("investor_value"))}</td><td>${money(total("sales"))}</td><td>${money(total("profit"))}</td></tr></tfoot>
+				</table></div>
+			</div>`;
+		}
+		if (d.other_branches && d.other_branches.length) {
+			return `<div class="iran-dash-box iran-dash-branches">
+				<div class="iran-dash-title">${__("Cars of the Other Branches")}</div>
+				<div class="text-muted small">${__("You may sell these cars too.")}</div>
+				${d.other_branches.map((r) => `<a class="iran-dash-line" ${d.books ? cars_link({ branch: r.branch || "" }) : `data-route='${esc(JSON.stringify(["List", "Iran Vehicle", { branch: r.branch }]))}'`}>
+					<span class="grow">${esc(r.branch || __("No branch set"))}</span><b>${__("{0} cars", [num(r.count)])}</b></a>`).join("")}
+			</div>`;
+		}
+		return "";
+	};
+
+	// The cars behind a figure: price, owner and description of each
+	const show_cars = async (args) => {
+		const cars = await frappe.xcall("iran_erp.iran_dealership.dashboard.get_lot_cars", args);
+		const costs = cars.some((c) => c.total_cost !== null);
+		const sum = (key) => cars.reduce((t, c) => t + (c[key] || 0), 0);
+		const title = [
+			args.branch === undefined ? __("All branches") : args.branch || __("No branch set"),
+			args.ownership ? __({ Business: "The business's own cars", Customer: "Cars left for sale (consignment)", Investor: "Investors' cars" }[args.ownership]) : "",
+		].filter(Boolean).join(" — ");
+		const rows = cars.map((c) => `<tr>
+			<td><a href="/app/iran-vehicle/${encodeURIComponent(c.name)}">${esc(c.car_model || c.title)}</a>
+				<small>${esc(digits(c.year || ""))} ${c.year ? (c.made_in === "Imported Car" ? __("Gregorian") : __("Jalali")) : ""} · ${esc(c.color || "")} · ${c.mileage ? __("{0} km", [num(c.mileage)]) : __("New")}</small></td>
+			<td>${c.plate ? iran_erp.plate.html(c.plate) : ""}</td>
+			<td>${esc(c.branch || "")}</td>
+			<td>${__(c.status)}<small>${__("{0} days", [num(c.days)])}</small></td>
+			<td>${__(c.ownership)}${c.owner_name ? `<small>${esc(c.owner_name)}</small>` : ""}</td>
+			${costs ? `<td>${c.total_cost === null ? "—" : money(c.total_cost)}</td>` : ""}
+			<td>${money(c.asking_price)}</td>
+		</tr>`).join("");
+		const dialog = new frappe.ui.Dialog({ title, size: "extra-large" });
+		dialog.$body.html(`<div class="iran-dash-table-wrap"><table class="iran-dash-table iran-dash-cars">
+			<thead><tr><th>${__("Car")}</th><th>${__("Plate")}</th><th>${__("Branch")}</th><th>${__("Status in the Lot")}</th>
+			<th>${__("Owned By")}</th>${costs ? `<th>${__("Total Cost")}</th>` : ""}<th>${__("Asking Price")}</th></tr></thead>
+			<tbody>${rows || `<tr><td colspan="7" class="text-muted">${__("No cars in the lot")}</td></tr>`}</tbody>
+			<tfoot><tr><th colspan="5">${__("{0} cars", [num(cars.length)])}</th>${costs ? `<td>${money(sum("total_cost"))}</td>` : ""}<td>${money(sum("asking_price"))}</td></tr></tfoot>
+		</table></div>`);
+		dialog.show();
+	};
+
 	const render = (d) => {
 		const c = d.counts;
 		const tm = d.this_month;
@@ -180,10 +273,7 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 					<div class="iran-dash-hero-name">${esc(d.trade_name || __("Car Dealership"))}</div>
 					<div class="iran-dash-hero-sub">${esc(digits(d.today))}${d.branch ? ` — ${esc(d.branch)}` : ""}</div>
 				</div>
-				<div class="iran-dash-hero-stat">
-					<span>${__("Value of own cars")}</span>
-					<b>${money(d.stock_value)}</b>
-				</div>
+				${holdings_html(d)}
 			</div>
 
 			<div class="iran-dash-tiles">
@@ -208,6 +298,8 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 				${tile({ label: __("Cheques This Week"), value: `${num(d.cheques_in.count + d.cheques_out.count)}`, icon_name: "cheque", tone: "calm",
 					route: ["List", "Iran Cheque"], sub: __("{0} to receive, {1} to pay", [num(d.cheques_in.count), num(d.cheques_out.count)]) })}
 			</div>
+
+			${branches_html(d)}
 
 			<div class="iran-dash-row">
 				<div class="iran-dash-box">
@@ -416,6 +508,10 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 		$(e.currentTarget).toggleClass("on", state.table);
 		draw();
 	});
+	$body.on("click", "[data-cars]", (e) => {
+		e.preventDefault();
+		show_cars(JSON.parse(e.currentTarget.getAttribute("data-cars")));
+	});
 	$body.on("click", "[data-route]", (e) => {
 		e.preventDefault();
 		const route = JSON.parse(e.currentTarget.dataset.route);
@@ -435,7 +531,7 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 		});
 		$body.removeClass("loading");
 		state.data = d;
-		if (d.is_admin && !page.branch_field) {
+		if (d.is_general && !page.branch_field) {
 			page.branch_field = page.add_field({
 				fieldtype: "Link",
 				options: "Branch",

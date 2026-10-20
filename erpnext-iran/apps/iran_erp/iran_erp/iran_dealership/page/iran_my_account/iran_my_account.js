@@ -87,7 +87,7 @@ frappe.pages["iran-my-account"].on_page_load = function (wrapper) {
 							.map(
 								(p) => `<tr>
 									<td>${date(p.due_date)}</td>
-									<td>${p.kind === "Profit" ? "سود" : "اصل سرمایه"}</td>
+									<td>${{ Profit: "سود", Principal: "اصل سرمایه" }[p.kind] || "سود و بخشی از اصل"}</td>
 									<td>${money(p.amount)}</td>
 									<td>${p.cheque_number ? esc(p.cheque_number) + " " + `<span class="text-muted">(${__(p.cheque_status)})</span>` : "—"}</td>
 									<td>${pill(p.status)}</td>

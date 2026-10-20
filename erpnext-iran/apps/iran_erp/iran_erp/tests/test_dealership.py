@@ -204,6 +204,34 @@ class TestDealership(TestCase):
 		new.submit()
 		self.assertEqual([c.name for c in new.chain()], [contract.name, new.name])
 
+	def test_monthly_payments_return_the_money_with_its_profit(self):
+		investor = frappe.get_doc({"doctype": "Iran Investor", "full_name": "سرمایه‌گذار ماهانه"}).insert()
+		contract = frappe.get_doc(
+			{
+				"doctype": "Iran Investment Contract",
+				"investor": investor.name,
+				"company": COMPANY,
+				"amount": 1_200_000_000,
+				"received_to": self.bank,
+				"start_date": nowdate(),
+				"months": 12,
+				"monthly_rate": 4,
+			}
+		).insert()
+		self.assertEqual(contract.profit_payment, "Monthly with Principal")
+		# (1.2 billion + 12 × 48 million) ÷ 12 every month, one cheque each
+		self.assertEqual([r.kind for r in contract.schedule], ["Profit and Principal"] * 12)
+		self.assertEqual({r.amount for r in contract.schedule}, {148_000_000})
+		self.assertEqual(sum(r.profit_part for r in contract.schedule), 576_000_000)
+		contract.submit()
+		contract.reload()
+		self.assertEqual(len(contract.issue_cheques(bank_account=self.bank, first_number="700001")), 12)
+		# Only the profit share is the business's expense when a payment falls due
+		contract.reload()
+		before = balance(account(COMPANY, "investor_profit"))
+		contract.accrue_profit(contract.schedule[0].due_date)
+		self.assertEqual(balance(account(COMPANY, "investor_profit")) - before, 48_000_000)
+
 	def test_car_remittance(self):
 		investor = frappe.get_doc({"doctype": "Iran Investor", "full_name": "خریدار حواله"}).insert()
 		car = self.vehicle(status="Awaiting Delivery")
