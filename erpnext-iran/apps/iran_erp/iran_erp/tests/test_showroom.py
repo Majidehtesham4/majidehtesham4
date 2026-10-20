@@ -89,6 +89,27 @@ class TestShowroom(TestCase):
 			self.assertNotIn(private, text)
 		self.assertRaises(frappe.PageDoesNotExistError, showroom.car_page, self.hidden.name)
 
+	def test_inventory_for_the_separate_website(self):
+		part = frappe.db.get_value("Iran Body Part", {"diagram_key": "hood"})
+		condition = frappe.db.get_value("Iran Body Condition", {"name": ("like", "%تعویض%")})
+		car = frappe.get_doc("Iran Vehicle", self.shown.name)
+		car.website_show_report = 1
+		car.append("body_marks", {"body_part": part, "condition": condition})
+		car.save()
+		data = showroom.get_inventory()
+		cars = {c["id"]: c for c in data["cars"]}
+		self.assertNotIn(self.hidden.name, cars)
+		listed = cars[self.shown.name]
+		# Toman as a number, the year with its calendar
+		self.assertEqual(listed["price"], 2_000_000_000)
+		self.assertEqual(listed["yearLabel"], "۱۴۰۳ شمسی")
+		self.assertIn(listed["carId"], data["models"])
+		panel = listed["inspection"]["panels"][0]
+		self.assertEqual((panel["key"], panel["kind"]), ("hood", "replaced"))
+		text = frappe.as_json(data)
+		for private in ("purchase_price", "minimum_price", "17000000000", "19000000000"):
+			self.assertNotIn(private, text)
+
 	def test_a_sold_car_leaves_the_website(self):
 		frappe.db.set_value("Iran Vehicle", self.shown.name, "status", "Sold")
 		try:

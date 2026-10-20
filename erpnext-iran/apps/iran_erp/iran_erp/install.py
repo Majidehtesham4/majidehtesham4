@@ -12,6 +12,19 @@ def after_install():
 
 	# The home page is a grid of the business's icons, not the «Apps» page of two app folders
 	use_icon_grid()
+	no_update_notices()
+	from iran_erp.owner import record_code_version
+
+	record_code_version()
+
+
+def no_update_notices():
+	"""Customers are not told about new versions of the software underneath, nor shown its change
+	log: updates are made centrally, for every business at once (deploy/update.ps1)."""
+	frappe.db.set_single_value(
+		"System Settings",
+		{"disable_system_update_notification": 1, "disable_change_log_notification": 1},
+	)
 
 
 def get_custom_fields():

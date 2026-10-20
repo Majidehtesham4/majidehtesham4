@@ -1669,3 +1669,49 @@
 	border: 1px solid var(--border-color);
 	font-size: 12px;
 }
+
+/* The owner's panel of customer systems */
+.iran-owner {
+	padding: 8px 0 24px;
+}
+.iran-owner-summary {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 12px;
+	margin-bottom: 16px;
+}
+.iran-owner-summary > div {
+	background: var(--card-bg);
+	border: 1px solid var(--border-color);
+	border-radius: 10px;
+	padding: 12px 16px;
+}
+.iran-owner-summary small {
+	display: block;
+	color: var(--text-muted);
+}
+.iran-owner-summary strong {
+	font-size: 22px;
+}
+.iran-owner-summary .warn strong {
+	color: var(--orange-600, #c2410c);
+}
+.iran-owner-table td {
+	vertical-align: middle;
+}
+.iran-owner-actions {
+	white-space: nowrap;
+}
+.iran-owner-actions .btn + .btn {
+	margin-inline-start: 6px;
+}
+.iran-owner-help {
+	margin-top: 16px;
+	color: var(--text-muted);
+	font-size: 13px;
+}
+.iran-owner-status pre {
+	max-height: 160px;
+	overflow: auto;
+	margin: 8px 0 0;
+}

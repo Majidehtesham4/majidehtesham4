@@ -66,10 +66,11 @@ def _setup(company: str, abbr: str):
 	frappe.db.set_single_value("Iran ERP Settings", "trade_name", company)
 
 	from iran_erp.desktop import use_icon_grid
-	from iran_erp.install import jalali_fiscal_year_names
+	from iran_erp.install import jalali_fiscal_year_names, no_update_notices
 
 	# Again after the setup, which may have set the home page back to «Apps»
 	use_icon_grid()
+	no_update_notices()
 
 	# The fiscal year ERPNext made (1 Farvardin to the end of Esfand) takes its Jalali name
 	jalali_fiscal_year_names()

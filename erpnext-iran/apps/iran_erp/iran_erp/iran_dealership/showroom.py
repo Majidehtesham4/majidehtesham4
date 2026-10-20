@@ -6,6 +6,7 @@ know: never the purchase price, the lowest price accepted, the owner or the book
 """
 
 import re
+from html import unescape
 
 import frappe
 from frappe import _
@@ -344,12 +345,12 @@ def simulate(vehicle: str, down_payment: float, months: int) -> dict:
 	}
 
 
-def _check_rate(limit: int = 6):
-	"""At most `limit` requests an hour from one address. (frappe.rate_limiter's decorator fails
-	with a TypeError in this version of Frappe.)"""
+def _check_rate(limit: int, by: str | None = None):
+	"""At most `limit` requests an hour from one address, or for one `by` (a mobile number).
+	(frappe.rate_limiter's decorator fails with a TypeError in this version of Frappe.)"""
 	if not getattr(frappe.local, "request", None):
 		return
-	key = f"iran_showroom_requests:{frappe.local.request_ip or 'unknown'}"
+	key = f"iran_showroom_requests:{by or frappe.local.request_ip or 'unknown'}"
 	count = cint(frappe.cache.get_value(key)) + 1
 	frappe.cache.set_value(key, count, expires_in_sec=60 * 60)
 	if count > limit:
@@ -370,7 +371,10 @@ def send_inquiry(
 ) -> dict:
 	"""A customer's request from the website: it goes to the next expert in turn."""
 	frappe.local.lang = "fa"
-	_check_rate()
+	# Per mobile number, and loosely per address: visitors behind one proxy (the showroom's own
+	# website server, a shared office connection) share an address
+	_check_rate(4, by=f"mobile:{normal_mobile(mobile)}")
+	_check_rate(40)
 	if kind not in ("Call Me Back", "Test Drive", "Instalment Plan", "Question"):
 		kind = "Call Me Back"
 	full_name = (full_name or "").strip()[:100]
@@ -410,3 +414,134 @@ def send_inquiry(
 		)
 	inquiry.insert(ignore_permissions=True)
 	return {"name": inquiry.name}
+
+
+# ---------------------------------------------------------------- the showroom's own website
+# A website built separately (such as the React site of automodiran) reads the same cars as JSON.
+# Same rules as the pages above: only what a buyer may see. Prices are in toman, text is plain
+# (the site escapes it), photo addresses are relative to the ERP (/files/...).
+
+
+def _mark_kind(condition) -> str:
+	"""replaced, structure or painted: the three colours of the site's inspection map."""
+	if "تعویض" in (condition.name or ""):
+		return "replaced"
+	return "structure" if condition.severity == "High" else "painted"
+
+
+def _site_inspection(car) -> dict | None:
+	if not cint(car.website_show_report) or not car.body_marks:
+		return None
+	from iran_erp.utils.jalali import format_jalali
+
+	keys = dict(frappe.get_all("Iran Body Part", fields=["name", "diagram_key"], as_list=True))
+	conditions = {
+		c.name: c for c in frappe.get_all("Iran Body Condition", fields=["name", "severity", "color_code"])
+	}
+	panels, notes = [], []
+	for row in car.body_marks:
+		condition = conditions.get(row.condition) or frappe._dict(name=row.condition, severity="")
+		status = row.condition or ""
+		if not keys.get(row.body_part):
+			# Chassis, pillars and the like are not on the map: they are written out
+			notes.append(" ".join(filter(None, [f"{row.body_part}: {status}", row.description])))
+			continue
+		panels.append(
+			{
+				"number": len(panels) + 1,
+				"name": row.body_part,
+				"status": status,
+				"kind": _mark_kind(condition),
+				"key": keys[row.body_part],
+				"description": row.description or "",
+				"color": condition.get("color_code") or "",
+			}
+		)
+	body_parts = frappe.db.count("Iran Body Part", {"disabled": 0, "diagram_key": ("is", "set")})
+	return {
+		"date": format_jalali(car.entry_date, "long") if car.entry_date else "",
+		"summary": {
+			"healthy": max(body_parts - len({p["key"] for p in panels}), 0),
+			"withIssue": len(notes) + sum(1 for p in panels if p["kind"] == "structure"),
+			"panelsWithHistory": len(panels),
+		},
+		"panels": panels,
+		"structureNotes": notes,
+		"note": car.inspection_note or "",
+	}
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def get_inventory() -> dict:
+	"""Every car on the website with its model's specifications, in the shape the site uses."""
+	frappe.local.lang = "fa"
+	s = settings()
+	if not s.enabled:
+		return {"cars": [], "models": {}, "branches": []}
+	names = frappe.get_all(
+		"Iran Vehicle",
+		filters={"show_on_website": 1, "status": ("in", PUBLIC)},
+		pluck="name",
+		order_by="featured desc, entry_date desc",
+	)
+	models, cars = {}, []
+	for name in names:
+		car = frappe.get_doc("Iran Vehicle", name)
+		if car.car_model and car.car_model not in models:
+			model = frappe.db.get_value(
+				"Iran Car Model",
+				car.car_model,
+				["brand", "model", "title", "body_type", "engine", "model_3d"],
+				as_dict=True,
+			) or frappe._dict(model=car.car_model)
+			models[car.car_model] = {
+				"id": car.car_model,
+				"name": model.title or car.car_model,
+				"nameFa": " ".join(filter(None, [model.brand, model.model])) or car.car_model,
+				"brand": model.brand or "",
+				"bodyFa": _(model.body_type) if model.body_type else "",
+				"engine": model.engine or "",
+				"model3d": model.model_3d or "",
+				"specs": [[r["label"], r["value"]] for r in spec_rows(car.car_model)],
+				"features": spec_features(car.car_model),
+			}
+		show_price = bool(s.show_prices and cint(car.website_show_price) and flt(car.asking_price))
+		year = (car.year or "").strip()
+		cars.append(
+			{
+				"id": car.name,
+				"carId": car.car_model or "",
+				"trim": (models.get(car.car_model) or {}).get("engine", ""),
+				"color": car.color or "",
+				"branch": car.branch or "",
+				"status": STATUS_LABEL.get(car.status, ""),
+				"statusCode": car.status,
+				# Toman whatever unit the showroom's own pages use; 0 when the price is not shown
+				"price": round(flt(car.asking_price) / 10) if show_price else 0,
+				"year": cint(year) if year.isdigit() else year,
+				"yearLabel": to_persian_digits(year)
+				+ (" میلادی" if car.made_in == "Imported Car" else " شمسی" if year else ""),
+				"mileage": cint(car.mileage),
+				"photos": [p.image for p in car.photos if p.image],
+				"headline": car.website_headline or "",
+				"description": car.website_description or "",
+				"features": [line.strip() for line in (car.website_features or "").splitlines() if line.strip()],
+				"featured": cint(car.featured),
+				"documents": [_(car.meta.get_label(d)) for d in DOCUMENTS if car.get(d)],
+				"inspection": _site_inspection(car),
+			}
+		)
+	return {
+		"showroom": {
+			# settings() escapes for the HTML pages; the site escapes on its own
+			"title": unescape(s.title),
+			"phone": s.phone,
+			"address": unescape(s.address),
+			"monthlyRate": s.monthly_rate,
+			"months": s.months,
+			"minDownPercent": s.min_down_percent,
+		},
+		"branches": sorted({c["branch"] for c in cars if c["branch"]}),
+		"models": models,
+		"cars": cars,
+	}

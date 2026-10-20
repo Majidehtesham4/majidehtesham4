@@ -84,6 +84,9 @@ IRAN_ICONS = (
 )
 
 
+OWNER_ICONS = (("Customer Systems", "/desk/iran-owner-panel", "environments.svg", ("System Manager",)),)
+
+
 def add_iran_icons():
 	"""Home-screen icons for this app's own pages, which otherwise only search can find.
 
@@ -91,6 +94,11 @@ def add_iran_icons():
 	an App icon of an installed app is shown to anyone with one of its roles.
 	"""
 	add_icons(IRAN_ICONS)
+	from iran_erp.owner import is_owner_site
+
+	# Only the main site, where the owner sees every business on the server
+	if is_owner_site():
+		add_icons(OWNER_ICONS)
 
 
 def add_icons(icons):

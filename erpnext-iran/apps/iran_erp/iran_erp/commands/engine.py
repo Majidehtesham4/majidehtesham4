@@ -14,6 +14,7 @@ from frappe import _
 from iran_erp.commands import recipes
 from iran_erp.commands import slots as slot_readers
 from iran_erp.commands.catalog import DOCTYPES, INTENTS, REPORTS
+from iran_erp.commands.howto import HOWTO
 from iran_erp.commands.matcher import Matcher, features
 from iran_erp.commands.text import is_cancel, normalize, tokens, yes_no
 
@@ -44,6 +45,50 @@ ANALYSIS_WORDS = {
 }
 
 INTENT_BY_NAME = {intent["name"]: intent for intent in INTENTS}
+HOWTO_BY_NAME = {entry["name"]: entry for entry in HOWTO}
+# Words that ask how something is done: with them, a how-to answer wins a near tie with a command
+HOW_WORDS = {
+	"چطور",
+	"چطوری",
+	"چجوری",
+	"چگونه",
+	"چیجوری",
+	"کجا",
+	"کجاست",
+	"کجای",
+	"نحوه",
+	"روش",
+	"نمیدونم",
+	"نمیدانم",
+	"بلد",
+	"اموزش",
+	"اصلا",
+	"چیکار",
+	"میشه",
+	"باید",
+}
+# A how-to answer is given only for a close match
+HOWTO_SURE = 0.42
+# "چطور مشتری جدید تعریف کنم" asks how it is done; it is not the name of a new customer
+ASKING_HOW = {"چطور", "چطوری", "چجوری", "چگونه", "چیجوری", "نحوه"}
+# Words that ask for something to be made: "چطور حساب بانکی تعریف کنم"
+MAKING_WORDS = {"تعریف", "بسازم", "بسازیم", "ساخت", "ایجاد", "ثبت", "بزنم", "بزنیم", "اضافه", "درست"}
+# The document each command that makes one makes
+MAKES = {
+	"create_sales_invoice": "Sales Invoice",
+	"create_quotation": "Quotation",
+	"create_sales_order": "Sales Order",
+	"create_customer": "Customer",
+	"create_purchase_invoice": "Purchase Invoice",
+	"create_purchase_order": "Purchase Order",
+	"create_supplier": "Supplier",
+	"create_material_request": "Material Request",
+	"create_item": "Item",
+	"create_lead": "Lead",
+	"create_todo": "ToDo",
+	"create_work_order": "Work Order",
+	"create_fiscal_year": "Fiscal Year",
+}
 # Commands that only open a page; a command that answers the question wins over them on a near tie
 NAVIGATION = {"open_list", "new_document", "open_report"}
 _cache = {}
@@ -123,6 +168,8 @@ def get_matcher() -> Matcher:
 	if _cache.get("version") != version or "matcher" not in _cache:
 		samples = [(intent["name"], example, {}) for intent in INTENTS for example in intent["examples"]]
 		samples += _generated_samples()
+		for entry in HOWTO:
+			samples += [(f"howto:{entry['name']}", question, {}) for question in entry["questions"]]
 		for command in custom_commands():
 			intent = command.intent if command.action == "Built-in Command" else f"custom:{command.name}"
 			for phrase in (command.phrases or "").splitlines():
@@ -194,10 +241,14 @@ def handle(question: str, state: dict | None = None, ai_available: bool = False)
 			return follow_up
 
 	words = tokens(question)
+	ranked = get_matcher().rank(_without_names(question))
+	# «How do I ...» questions the system knows the answer to are answered here, AI model or not
+	how_to = _how_to(words, ranked) or _how_to_make(words, ranked)
+	if how_to:
+		return how_to
 	if ai_available and (len(words) > LONG_MESSAGE or set(words) & ANALYSIS_WORDS):
 		return _reply(None, delegate=True)
 
-	ranked = get_matcher().rank(_without_names(question))
 	if not ranked or ranked[0][1] < UNSURE:
 		return _not_understood(question, ranked, ai_available)
 	ranked = _prefer_specific(ranked)
@@ -228,6 +279,67 @@ def handle(question: str, state: dict | None = None, ai_available: bool = False)
 	result = _run(best, values, slot_readers.Message(question, _keywords(best)), ai_available)
 	result["score"] = score
 	return result
+
+
+def _how_to(words, ranked):
+	"""The how-to answer a question asks for, when it is a close match: the best match of all, or
+	a near tie with a command when the message asks how something is done."""
+	best = next((r for r in ranked if r[0].startswith("howto:")), None)
+	if not best or best[1] < HOWTO_SURE:
+		return None
+	asks_how = bool(set(words) & HOW_WORDS)
+	if best is ranked[0] or (asks_how and ranked[0][1] - best[1] < MARGIN * 3):
+		return _answer_how_to(best[0], best[1])
+	return None
+
+
+def _how_to_make(words, ranked):
+	"""«How do I make a ...» gets the steps of that form and an offer to make it from here."""
+	if not ranked or not set(words) & ASKING_HOW:
+		return None
+	making = bool(set(words) & MAKING_WORDS)
+	near = [r for r in ranked[:3] if r[1] >= UNSURE and ranked[0][1] - r[1] <= 0.15]
+	found = None
+	for intent_name, score, values in near:
+		doctype = MAKES.get(intent_name)
+		if intent_name == "new_document" or (intent_name == "open_list" and making):
+			doctype = values.get("doctype")
+		if doctype and frappe.db.exists("DocType", doctype):
+			found = intent_name, score, doctype
+			break
+	if not found:
+		return None
+	intent_name, score, doctype = found
+	from iran_erp.help import _builtin_guide
+
+	label = _(doctype)
+	steps = _builtin_guide("doctype", doctype).get("steps") or [
+		_("Open a new {0} form.").format(label),
+		_("Fill in the fields marked with a star; the others are optional."),
+		_("Save."),
+	]
+	lines = [f"**{_('How to make a new {0}').format(label)}**", ""]
+	lines += [f"{i}. {step}" for i, step in enumerate(steps, 1)]
+	example = (INTENT_BY_NAME.get(intent_name) or {}).get("examples", [""])[0]
+	if intent_name in MAKES and example:
+		example = example.replace("{", "«").replace("}", "»")
+		lines += ["", _("Or tell me here and I will make it, for example: «{0}»").format(example)]
+	return _reply(
+		"\n".join(lines),
+		actions=[{"label": _("New {0}").format(label), "url": f"/app/{frappe.scrub(doctype).replace('_', '-')}/new"}],
+		intent=f"how:{intent_name}",
+		score=score,
+	)
+
+
+def _answer_how_to(intent_name, score=None):
+	entry = HOWTO_BY_NAME[intent_name[6:]]
+	return _reply(
+		f"**{entry['title']}**\n\n{entry['answer']}",
+		actions=[{"label": label, "url": url} for label, url in entry.get("links", ())],
+		intent=intent_name,
+		score=score,
+	)
 
 
 def _without_names(question: str) -> str:
@@ -306,6 +418,8 @@ def _title(intent_name: str) -> str:
 		return frappe.db.get_value("Iran Learned Recipe", intent_name[7:], "title") or intent_name
 	if intent_name.startswith("custom:"):
 		return frappe.db.get_value("Iran Chat Command", intent_name[7:], "command_name") or intent_name
+	if intent_name.startswith("howto:"):
+		return HOWTO_BY_NAME[intent_name[6:]]["title"]
 	return INTENT_BY_NAME[intent_name]["title"]
 
 
@@ -409,6 +523,8 @@ def _ask(intent_name, values, slot, question, options=None, again=False):
 
 def _run(intent_name, values, message, ai_available, confirmed=False):
 	"""Read the slots still missing from the message, then run the command's handler."""
+	if intent_name.startswith("howto:"):
+		return _answer_how_to(intent_name)
 	if intent_name.startswith("custom:"):
 		from iran_erp.commands.handlers import custom
 

@@ -67,6 +67,24 @@ class TestMatching(IntegrationTestCase):
 		self.assertTrue(handle("تحلیل کن چرا فروش کم شده", ai_available=True).get("delegate"))
 		self.assertTrue(handle("یه چیزی بگو", ai_available=False).get("unrecognized"))
 
+	def test_how_to_questions_answered_without_ai(self):
+		cases = {
+			"یک مشتری تنظیم کردم ولی نمیدونم چطوری باید پسورد بهش بدهم": "howto:user_password",
+			"توی قسمت کاربر یک نقش بعنوان مشتری درست کردم ولی نمیدونم چجوری بهش رمز عبور بدهم": "howto:customer_login",
+			"رمزم یادم رفته": "howto:forgot_password",
+			"چطوری از اکسل کالا وارد کنم": "howto:import_excel",
+			# Asking how a document is made gets its steps; it does not make a customer named «چطور»
+			"چطور مشتری جدید تعریف کنم": "how:create_customer",
+		}
+		for question, expected in cases.items():
+			for ai_available in (False, True):
+				reply = handle(question, ai_available=ai_available)
+				self.assertEqual(reply.get("intent"), expected, question)
+				self.assertFalse(reply.get("delegate"))
+		self.assertTrue(handle("رمز عبور کاربر")["actions"])
+		# Commands are still commands
+		self.assertEqual(handle("لیست مشتری ها")["intent"], "open_list")
+
 
 class TestConversation(IntegrationTestCase):
 	def setUp(self):

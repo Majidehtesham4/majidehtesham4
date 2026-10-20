@@ -126,6 +126,7 @@ after_migrate = [
 	"iran_erp.desktop.add_iran_icons",
 	"iran_erp.install.mark_translated_doctypes",
 	"iran_erp.install.apply_branding",
+	"iran_erp.install.no_update_notices",
 	"iran_erp.install.setup_rial",
 	"iran_erp.install.fix_upstream_reports",
 	"iran_erp.install.jalali_fiscal_year_names",
@@ -133,6 +134,8 @@ after_migrate = [
 	"iran_erp.accounts.categories.persian_descriptions",
 	"iran_erp.business.after_migrate",
 	"iran_erp.install.clear_translation_cache",
+	# Last: the database now matches the code (the owner's panel shows who still needs the update)
+	"iran_erp.owner.record_code_version",
 ]
 
 # Uninstallation

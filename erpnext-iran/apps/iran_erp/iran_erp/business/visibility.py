@@ -16,6 +16,8 @@ COMMON = (
 	"AI Assistant",
 	"Iran ERP Settings",
 	"Users",
+	# Only made on the main site (the owner's panel of every business)
+	"Customer Systems",
 	# Shown only to investors, by its roles
 	"My Account",
 )

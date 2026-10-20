@@ -20998,3 +20998,108 @@ msgstr "ایمیل (نام کاربری)"
 
 msgid "{0} can now log in."
 msgstr "{0} حالا می‌تواند وارد شود."
+
+msgid "My Settings"
+msgstr "تنظیمات من"
+
+msgid "Website User"
+msgstr "کاربر وب‌سایت"
+
+msgid "System User"
+msgstr "کاربر سیستم"
+
+msgid "How-to"
+msgstr "راهنمای انجام کار"
+
+msgid "Questions I can answer: «how do I …»"
+msgstr "سؤال‌هایی که جواب می‌دهم: «چطور …»"
+
+msgid "Open a new {0} form."
+msgstr "فرم «{0}» جدید را باز کنید."
+
+msgid "Fill in the fields marked with a star; the others are optional."
+msgstr "فیلدهای ستاره‌دار را پر کنید؛ بقیه اختیاری‌اند."
+
+msgid "Save."
+msgstr "ذخیره کنید."
+
+msgid "How to make a new {0}"
+msgstr "ساختن «{0}» جدید"
+
+msgid "Or tell me here and I will make it, for example: «{0}»"
+msgstr "یا همین‌جا به من بگویید تا بسازم، مثلاً: «{0}»"
+
+msgid "New {0}"
+msgstr "{0} جدید"
+
+msgid "Customer Systems"
+msgstr "پنل مشتری‌ها"
+
+msgid "Update All"
+msgstr "بروزرسانی همه"
+
+msgid "Not set up yet"
+msgstr "هنوز راه‌اندازی نشده"
+
+msgid "Not reachable"
+msgstr "در دسترس نیست"
+
+msgid "Up to date"
+msgstr "به‌روز"
+
+msgid "Needs update"
+msgstr "نیاز به بروزرسانی"
+
+msgid "Businesses"
+msgstr "کسب‌وکارها"
+
+msgid "Need the last update"
+msgstr "منتظر بروزرسانی"
+
+msgid "This main site"
+msgstr "همین سایت اصلی"
+
+msgid "Kind of business"
+msgstr "نوع کسب‌وکار"
+
+msgid "Last activity"
+msgstr "آخرین فعالیت"
+
+msgid "No business environments yet."
+msgstr "هنوز محیط کسب‌وکاری ساخته نشده است."
+
+msgid "Make a new business: on the server, in the deploy folder: {0}"
+msgstr "ساختن کسب‌وکار تازه: روی سرور، در پوشه‌ی deploy بزنید {0}"
+
+msgid "Log in to a business as its Administrator without its password: {0}"
+msgstr "ورود به سیستم یک کسب‌وکار به‌عنوان مدیر، بدون رمز: {0}"
+
+msgid "A new version: {0} on the server gets it, rebuilds and updates every business. «Update All» here only repeats the last step."
+msgstr "نسخه‌ی تازه: {0} روی سرور آن را می‌گیرد، می‌سازد و همه‌ی کسب‌وکارها را بروزرسانی می‌کند. «بروزرسانی همه» در این صفحه فقط مرحله‌ی آخر را دوباره انجام می‌دهد."
+
+msgid "Updating {0} of {1}: {2}"
+msgstr "در حال بروزرسانی {0} از {1}: {2}"
+
+msgid "Last update: {0} done"
+msgstr "آخرین بروزرسانی: {0} انجام شد"
+
+msgid "failed"
+msgstr "ناموفق"
+
+msgid "Update {0} now? Its users may see errors for a few minutes."
+msgstr "{0} همین حالا بروزرسانی شود؟ کاربرانش ممکن است چند دقیقه خطا ببینند."
+
+msgid "Update every business and this main site now? Their users may see errors for a few minutes."
+msgstr "همه‌ی کسب‌وکارها و همین سایت اصلی همین حالا بروزرسانی شوند؟ کاربرانشان ممکن است چند دقیقه خطا ببینند."
+
+msgid "The panel of customer systems is only on the main site."
+msgstr "صفحه‌ی سیستم مشتری‌ها فقط در سایت اصلی است."
+
+msgid "An update is already running."
+msgstr "یک بروزرسانی در حال اجراست."
+
+msgid "No such business on this server."
+msgstr "چنین کسب‌وکاری روی این سرور نیست."
+
+msgid "Business Environment"
+msgstr "کسب‌وکار"

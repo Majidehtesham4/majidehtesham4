@@ -29,6 +29,10 @@ def help(context):
 		for row in rows:
 			example = row["example"].replace("{", "«").replace("}", "»")
 			lines.append(f"- {row['title']} — «{example}»")
+	from iran_erp.commands.howto import HOWTO
+
+	lines.append(f"\n**{_('Questions I can answer: «how do I …»')}**")
+	lines += [f"- {entry['title']} — «{entry['questions'][0]}»" for entry in HOWTO]
 	return "\n".join(lines)
 
 
