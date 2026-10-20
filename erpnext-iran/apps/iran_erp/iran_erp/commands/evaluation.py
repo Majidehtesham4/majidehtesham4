@@ -237,23 +237,7 @@ CASES = [
 		"link": "iran-vehicle",
 		"answer_has": "شعبه",
 	},
-	{
-		"capability": "create_sales_invoice",
-		"phrasings": [["برای خانم شریفی فاکتور بزن"]],
-		# No such customer: said so, with a link to register her; her name is not taken for items
-		"asks": "customer",
-		"answer_has": "خانم شریفی",
-		"not_values": ["items"],
-		"link": "/desk/customer/new",
-	},
-	{
-		"capability": "create_sales_invoice",
-		"phrasings": [["برای آقای کریمی فاکتور بزن"]],
-		# A customer on record: only the items are asked
-		"asks": "items",
-		"values": {"customer": True},
-		"not_values": ["items"],
-	},
+	# «برای ... فاکتور بزن» with a customer on record, and without: the dialog cases below
 	{
 		"capability": "last_sales_invoices",
 		"phrasings": [["۶ فاکتور آخر"]],
@@ -293,6 +277,77 @@ CASES = [
 		"link": "/desk/journal-entry/",
 		"link_has_document": True,
 	},
+	# Operations read from their parts, in any order, carried out step by step. «answers» replies to
+	# each question by the field it asks; «never_asks» are details the first message already gave.
+	{
+		"capability": "create_sales_invoice",
+		"phrasings": [
+			["برای خانم شریفی فاکتور بزن"],
+			["فاکتور فروش برای خانم شریفی ثبت کن"],
+			["برای خانم شریفی یک فاکتور جدید درست کن"],
+			["ما به خانم شریفی کالا فروختیم؛ فاکتور کن"],
+			["خانم شریفی یه فاکتور فروش براش صادر کن"],
+		],
+		"fixtures": {"customers": ["خانم شریفی"]},
+		"first_asks": "item",
+		"answers": {"item": "{item}", "qty": "3", "rate": "5 میلیون تومان", "more": "نه", "vat": "نه", "paid": "نه"},
+		"never_asks": ["customer"],
+		"values": {"customer": True},
+		"link": "/desk/sales-invoice/",
+	},
+	{
+		"capability": "create_sales_invoice",
+		"phrasings": [["۲ تا {item} به قیمت ۵ میلیون تومان برای خانم شریفی فاکتور کن"]],
+		"fixtures": {"customers": ["خانم شریفی"]},
+		# Item, quantity and price were said: none of them is asked; it was paid, all of it
+		"answers": {"more": "نه", "vat": "نه", "paid": "بله", "paid_amount": "همه", "paid_to": "1"},
+		"never_asks": ["customer", "item", "qty", "rate"],
+		"link": "/desk/payment-entry/",
+	},
+	{
+		"capability": "create_sales_invoice",
+		"phrasings": [["برای خانم شریفزاده فاکتور بزن"]],
+		"fixtures": {"absent": ["خانم شریفزاده"]},
+		# Not on record: said, with registering offered; then the invoice goes on
+		"first_asks": "customer",
+		"first_answer_has": "ثبت نشده",
+		"answers": {"customer": "ثبت خانم شریفزاده", "item": "{item}", "qty": "1", "rate": "1 میلیون تومان", "more": "نه", "vat": "نه", "paid": "نه"},
+		"link": "/desk/sales-invoice/",
+	},
+	{
+		"capability": "create_customer_login",
+		"phrasings": [
+			["برای خانم کاظمی کاربر با نقش مشتری تعریف کن و براش یوزرنیم و پسورد بساز و بهم اطلاع بده"],
+			["یه یوزر و پسورد مشتری برای خانم کاظمی بساز"],
+		],
+		"fixtures": {"customers": ["خانم زهرا کاظمی:zahra.eval@example.com", "خانم مریم کاظمی"]},
+		# Two customers have the name: only they are offered
+		"first_asks": "customer",
+		"first_options_have": "کاظمی",
+		"answers": {"customer": "خانم زهرا کاظمی", "password_way": "لینک ایمیل"},
+		"never_asks": ["username"],
+		"link": "/desk/user/",
+	},
+	{
+		"capability": "create_customer_login",
+		"phrasings": [["کاربر پورتال با نقش مشتری برای خانم مریم کاظمی تعریف کن"]],
+		"fixtures": {"customers": ["خانم زهرا کاظمی:zahra.eval@example.com", "خانم مریم کاظمی"]},
+		"answers": {"username": "maryam.eval", "password_way": "رمز را می‌نویسم", "password": "Maryam-1405"},
+		"never_asks": ["customer"],
+		"secret": "Maryam-1405",
+		"link": "/desk/user/",
+	},
+	{
+		"capability": "create_investment_contract",
+		"phrasings": [
+			["مبلغ ۲ میلیارد تومان از خانم شریفی بابت سرمایه‌گذاری جدید گرفتیم ثبتش کن"],
+			["سرمایه گذاری جدید خانم شریفی ۲ میلیارد تومان ثبت کن"],
+		],
+		"fixtures": {"absent_investors": ["خانم شریفی"]},
+		"answers": {"investor": "ثبت خانم شریفی", "monthly_rate": "4", "received_to": "1"},
+		"never_asks": ["amount"],
+		"link": "/desk/iran-investment-contract/",
+	},
 	{
 		"capability": "stock_balance",
 		"phrasings": [["موجودی انبار رو بده"], ["موجودی کالاها"]],
@@ -301,12 +356,71 @@ CASES = [
 ]
 
 
+def _placeholders() -> dict:
+	return {
+		"journal_entry": frappe.db.get_value("Journal Entry", {}, "name", order_by="creation desc") or "ACC-JV-0000-00000",
+		"item": frappe.db.get_value("Item", {"disabled": 0, "is_sales_item": 1, "has_variants": 0}, "item_name", order_by="creation asc") or "-",
+	}
+
+
 def _fill(turns: list[str]) -> list[str]:
-	"""Turns that name a record of this site: «{journal_entry}» is its latest journal entry."""
+	"""Turns that name a record of this site: «{journal_entry}» its latest journal entry, «{item}» an item."""
 	if not any("{" in t for t in turns):
 		return turns
-	values = {"journal_entry": frappe.db.get_value("Journal Entry", {}, "name", order_by="creation desc") or "ACC-JV-0000-00000"}
+	values = _placeholders()
 	return [t.format(**values) for t in turns]
+
+
+def _fixtures(case):
+	"""The customers a case talks about, made (or taken away) inside the case's savepoint."""
+	from iran_erp.commands import entities
+
+	spec = case.get("fixtures") or {}
+	for entry in spec.get("customers") or ():
+		name, _sep, email = entry.partition(":")
+		if not frappe.db.exists("Customer", {"customer_name": name}):
+			frappe.get_doc(
+				{
+					"doctype": "Customer",
+					"customer_name": name,
+					"email_id": email or None,
+					"customer_group": frappe.db.get_value("Customer Group", {"is_group": 0}),
+					"territory": frappe.db.get_value("Territory", {"is_group": 0}) or "All Territories",
+				}
+			).insert(ignore_permissions=True)
+	for name in spec.get("absent") or ():
+		for found in frappe.get_all("Customer", filters={"customer_name": name}, pluck="name"):
+			frappe.db.set_value("Customer", found, "disabled", 1)
+	for name in spec.get("absent_investors") or ():
+		for found in frappe.get_all("Iran Investor", filters={"full_name": name}, pluck="name"):
+			frappe.db.set_value("Iran Investor", found, "full_name", f"{name} (old)")
+	for kind in ("customer", "investor", "item"):
+		entities.forget(kind)
+
+
+def run_dialog(case, turns, ai_available=False, states=None, asked=None) -> dict:
+	"""The first turns, then each question answered by the field it asks, up to MAX_TURNS."""
+	from iran_erp.commands.engine import handle
+
+	reply = run_case(turns, ai_available, states)
+	values = _placeholders()
+	answers = {k: v.format(**values) for k, v in (case.get("answers") or {}).items()}
+	for _turn in range(MAX_TURNS):
+		state = reply.get("state") or {}
+		field = (state.get("operation") or {}).get("asking") or state.get("waiting")
+		if not field:
+			break
+		if asked is not None:
+			asked.append(field)
+		if field not in answers:
+			break
+		reply = handle(answers[field], state, ai_available=ai_available)
+		if states is not None:
+			states.append(reply.get("state") or {})
+	return reply
+
+
+MAX_TURNS = 12
 
 
 def run_case(turns: list[str], ai_available: bool = False, states: list | None = None) -> dict:
@@ -324,9 +438,14 @@ def run_case(turns: list[str], ai_available: bool = False, states: list | None =
 def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[bool, str, dict]:
 	"""(passed, why not, what ran) for one phrasing."""
 	frappe.db.savepoint("iran_eval")
-	states = []
+	states, asked, first = [], [], {}
 	try:
-		reply = run_case(turns, ai_available, states)
+		_fixtures(case)
+		if case.get("answers"):
+			first = run_case(turns, ai_available)
+			reply = run_dialog(case, turns, ai_available, states, asked)
+		else:
+			reply = run_case(turns, ai_available, states)
 	except Exception as e:
 		frappe.db.rollback(save_point="iran_eval")
 		return False, f"error: {e}", {}
@@ -338,7 +457,25 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 	if reply.get("intent") not in (case["capability"], *case.get("also", ())):
 		problems.append(f"intent {reply.get('intent')}")
 	state = reply.get("state") or {}
-	waiting = state.get("waiting") or state.get("choose")
+	waiting = state.get("waiting") or state.get("choose") or (state.get("operation") or {}).get("asking")
+	if case.get("answers"):
+		# The dialog: its first question, the questions never asked, the end reached
+		first_state = (first.get("state") or {}).get("operation") or first.get("state") or {}
+		if case.get("first_asks") and first_state.get("asking", first_state.get("waiting")) != case["first_asks"]:
+			problems.append(f"first asked {first_state.get('asking') or first_state.get('waiting')}, not {case['first_asks']}")
+		labels = [label for _v, label in first_state.get("options") or []]
+		if case.get("first_options_have") and (not labels or any(case["first_options_have"] not in l for l in labels)):
+			problems.append(f"first options: {labels}")
+		if case.get("first_answer_has") and case["first_answer_has"] not in (first.get("answer") or ""):
+			problems.append(f"first answer lacks {case['first_answer_has']}")
+		repeated = [f for f in case.get("never_asks") or () if f in asked]
+		if repeated:
+			problems.append(f"asked again: {repeated}")
+		if waiting:
+			problems.append(f"stopped at {waiting} (asked {asked})")
+		if case.get("secret") and (case["secret"] in (reply.get("answer") or "") or case["secret"] in str(states)):
+			problems.append("the password was shown or kept")
+		waiting = None
 	if case.get("asks"):
 		# A question was right here: about that detail, offering only related answers
 		if state.get("waiting") != case["asks"]:
@@ -355,7 +492,7 @@ def check(case: dict, turns: list[str], ai_available: bool = False) -> tuple[boo
 	if case.get("answer_has") and case["answer_has"] not in (reply.get("answer") or ""):
 		problems.append(f"answer lacks {case['answer_has']}")
 	# Details read (also while a question is asked), and details that must not be read
-	values = {**(state.get("values") or {}), **(trace.get("parameters") or {})}
+	values = {**(state.get("values") or {}), **((state.get("operation") or {}).get("known") or {}), **(trace.get("parameters") or {})}
 	for slot, expected in (case.get("values") or {}).items():
 		if expected is True and values.get(slot) in (None, ""):
 			problems.append(f"{slot} not read")

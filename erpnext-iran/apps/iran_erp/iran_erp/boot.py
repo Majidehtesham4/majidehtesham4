@@ -18,6 +18,9 @@ def boot_session(bootinfo):
 	start_page = frappe.db.get_singles_dict("Iran ERP Settings").get("open_start_page")
 	bootinfo.iran_open_start_page = start_page is None or bool(int(start_page))
 	bootinfo.iran_version = frappe.get_attr("iran_erp.__version__")
+	from iran_erp.build import build_label
+
+	bootinfo.iran_build = build_label()
 	bootinfo.iran_trade_name = frappe.db.get_single_value("Iran ERP Settings", "trade_name") or ""
 	from iran_erp.business.visibility import home_page
 

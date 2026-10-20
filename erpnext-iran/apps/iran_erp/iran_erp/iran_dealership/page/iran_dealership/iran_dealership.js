@@ -272,6 +272,7 @@ frappe.pages["iran-dealership"].on_page_load = function (wrapper) {
 				<div>
 					<div class="iran-dash-hero-name">${esc(d.trade_name || __("Car Dealership"))}</div>
 					<div class="iran-dash-hero-sub">${esc(digits(d.today))}${d.branch ? ` — ${esc(d.branch)}` : ""}</div>
+					${frappe.boot.iran_build ? `<div class="iran-dash-hero-sub iran-build">${esc(__("Version"))} ${esc(frappe.boot.iran_build)}</div>` : ""}
 				</div>
 				${holdings_html(d)}
 			</div>

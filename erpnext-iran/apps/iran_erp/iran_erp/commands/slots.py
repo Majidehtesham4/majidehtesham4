@@ -75,7 +75,7 @@ class Ambiguous(Exception):
 		self.note = note
 
 
-def person_phrase(message) -> tuple[set[int], str] | None:
+def person_phrase(message, stop=frozenset()) -> tuple[set[int], str] | None:
 	"""A person named after «برای» or a title («برای خانم شریفی فاکتور بزن»), who is not on record:
 	(their words, the name as written). The words are not read as items or anything else."""
 	words = message.words
@@ -89,7 +89,7 @@ def person_phrase(message) -> tuple[set[int], str] | None:
 			w = words[j]
 			if j in message.used or w in STOPWORDS or w.isdigit() or w == SEPARATOR:
 				break
-			if w not in entities.HONORIFICS and stem(w) in command_words:
+			if w not in entities.HONORIFICS and (stem(w) in command_words or stem(w) in stop):
 				break
 			taken.append(j)
 		names = [j for j in taken if words[j] not in entities.HONORIFICS]
@@ -472,7 +472,7 @@ def _items(message, slot_name):
 			elif rate is None:
 				rate = to_rial(n, message.currency)
 				used |= span
-		lines.append({"item": found.name, "label": found.label, "qty": qty or 1, "rate": rate})
+		lines.append({"item": found.name, "label": found.label, "qty": qty or 1, "qty_said": qty is not None, "rate": rate})
 		# Only what was read; warehouses and other details in the line stay for the other slots
 		message.used |= used
 	if unknown:

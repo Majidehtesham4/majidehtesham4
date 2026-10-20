@@ -73,8 +73,9 @@ def allow_username_login():
 
 
 def _new_user(full_name, username, password, roles, email=None, mobile=None, website=False, enabled=1):
+	"""password None: none is set; the person sets it from the link «Reset Password» sends."""
 	username = normal_username(username)
-	password = check_password(password)
+	password = check_password(password) if password is not None else None
 	email = (email or "").strip().lower() or f"{username}@{NO_MAIL_DOMAIN}"
 	if frappe.db.exists("User", {"username": username}) or frappe.db.exists("User", email):
 		frappe.throw(_("The username {0} is taken; choose another").format(username))
@@ -97,7 +98,8 @@ def _new_user(full_name, username, password, roles, email=None, mobile=None, web
 	user.flags.ignore_permissions = True
 	user.flags.ignore_password_policy = True
 	user.insert()
-	update_password(user.name, password)
+	if password is not None:
+		update_password(user.name, password)
 	allow_username_login()
 	return user
 
@@ -117,14 +119,16 @@ def _result(user, password_set=True):
 def create_user(
 	full_name: str,
 	username: str,
-	password: str,
+	password: str | None,
 	kind: str,
 	email: str | None = None,
 	mobile: str | None = None,
 	branch: str | None = None,
 	enabled: int = 1,
+	customer: str | None = None,
 ) -> dict:
-	"""A login for someone who works with the business (or a customer), by what they do."""
+	"""A login for someone who works with the business (or a customer), by what they do. A customer's
+	login is tied to that customer record (`customer`), so the portal shows only theirs."""
 	_can_manage()
 	if kind not in KINDS:
 		frappe.throw(_("Choose what this person does: {0}").format("، ".join(_(k[0]) for k in KINDS.values())))
@@ -135,16 +139,16 @@ def create_user(
 		full_name, username, password, KINDS[kind][1], email, mobile, website=kind == "customer", enabled=enabled
 	)
 	if kind == "customer":
-		_link_customer(user, full_name)
+		_link_customer(user, full_name, customer)
 	# Staff of a branch work at that branch; a general manager has none (they see every branch)
 	if branch and kind != "general_manager":
 		frappe.db.set_value("User", user.name, "iran_branch", branch)
 	return _result(user)
 
 
-def _link_customer(user, full_name):
+def _link_customer(user, full_name, customer=None):
 	"""A customer's login sees that customer's orders and invoices on the website."""
-	customer = frappe.db.get_value("Customer", {"customer_name": full_name}) if full_name else None
+	customer = customer or (frappe.db.get_value("Customer", {"customer_name": full_name}) if full_name else None)
 	if customer:
 		doc = frappe.get_doc("Customer", customer)
 		doc.append("portal_users", {"user": user.name})

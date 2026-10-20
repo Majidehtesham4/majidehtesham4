@@ -39,10 +39,14 @@ def ask(
 		file = get_file(file_url)
 		attachments.append({"file_url": file.file_url, "file_name": file.file_name})
 
+	# A password typed in answer to a question is not kept in the request as typed
+	from iran_erp.commands.operations import masks_reply
+
+	masked = bool(previous and previous.command_state and masks_reply(json.loads(previous.command_state)))
 	values = {
 		"doctype": "Iran AI Request",
 		"user": frappe.session.user,
-		"question": question[:4000],
+		"question": "••••••" if masked else question[:4000],
 		"previous_request": previous_request,
 		"attachments": json.dumps(attachments, ensure_ascii=False) if attachments else None,
 	}
@@ -50,7 +54,7 @@ def ask(
 	if settings.commands_enabled and not attachments and not (force_ai and ai_on):
 		result = _run_command(question, previous, ai_on)
 		if not result.get("delegate"):
-			request = frappe.get_doc({**values, **command_values(result, previous, question)}).insert(
+			request = frappe.get_doc({**values, **command_values(result, previous, values["question"])}).insert(
 				ignore_permissions=True
 			)
 			return request.name

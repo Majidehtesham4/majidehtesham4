@@ -1,3 +1,4 @@
 deploy/.env
 __pycache__/
 *.pyc
+apps/iran_erp/iran_erp/build_info.json

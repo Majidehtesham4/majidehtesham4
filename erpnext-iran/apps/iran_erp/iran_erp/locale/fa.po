@@ -21739,3 +21739,186 @@ msgstr "از"
 
 msgid "Frame"
 msgstr "چارچوب درخواست"
+
+msgid "A portal login for {0} is ready, switched off. It is tied to this customer, so it shows only their own orders and invoices."
+msgstr "کاربر پورتال برای {0} آماده شد، فعلاً غیرفعال. به همین مشتری متصل است و فقط سفارش‌ها و فاکتورهای خودش را می‌بیند."
+
+msgid "Add value added tax to this invoice?"
+msgstr "مالیات بر ارزش افزوده به این فاکتور اضافه شود؟"
+
+msgid "All of it"
+msgstr "همه‌ی مبلغ"
+
+msgid "Another item? (write it, or «نه»)"
+msgstr "کالای دیگری هم هست؟ (بنویسید، یا «نه»)"
+
+msgid "Cancelled. Nothing was made."
+msgstr "لغو شد. چیزی ساخته نشد."
+
+msgid "Choose one of the accounts by its number."
+msgstr "یکی از حساب‌ها را با شماره‌اش انتخاب کنید."
+
+msgid "Draft investment contract {0}: {1} from {2}, {3} months at {4}% a month."
+msgstr "پیش‌نویس قرارداد سرمایه‌گذاری {0}: {1} از {2}، {3} ماهه با سود ماهانه‌ی {4}٪."
+
+msgid "Draft receipt {0}: {1} into {2}. Submit the invoice first, then the receipt, and allocate it to the invoice."
+msgstr "پیش‌نویس دریافت {0}: {1} به {2}. اول فاکتور را ثبت نهایی کنید، بعد دریافت را، و آن را به فاکتور تخصیص دهید."
+
+msgid "Draft sales invoice {0} for {1}:"
+msgstr "پیش‌نویس فاکتور فروش {0} برای {1}:"
+
+msgid "Email them a link to set it"
+msgstr "لینک تعیین رمز به ایمیلش برود"
+
+msgid "For sales invoice {0}"
+msgstr "بابت فاکتور فروش {0}"
+
+msgid "For which customer is the invoice?"
+msgstr "فاکتور برای کدام مشتری است؟"
+
+msgid "For which customer is the login?"
+msgstr "کاربر برای کدام مشتری است؟"
+
+msgid "From which investor?"
+msgstr "از کدام سرمایه‌گذار؟"
+
+msgid "Has anything been paid for this invoice?"
+msgstr "بابت این فاکتور پرداختی انجام شده است؟"
+
+msgid "How many «{0}»?"
+msgstr "چند عدد «{0}»؟"
+
+msgid "How much was invested? (rials, or say «تومان»)"
+msgstr "مبلغ سرمایه‌گذاری چقدر است؟ (ریال، یا با «تومان» بنویسید)"
+
+msgid "How much was paid? (or «همه» for the whole invoice)"
+msgstr "چه مبلغی پرداخت شده؟ (یا «همه» برای کل فاکتور)"
+
+msgid "I am preparing a sales invoice for {0}. Which product?"
+msgstr "فاکتور فروش برای {0} را آماده می‌کنم. چه محصولی می‌خواهید؟"
+
+msgid "I will write the password"
+msgstr "رمز را خودم می‌نویسم"
+
+msgid "Into which cash box or bank account did it come?"
+msgstr "به کدام صندوق یا حساب بانکی واریز شد؟"
+
+msgid "Into which cash box or bank account?"
+msgstr "به کدام صندوق یا حساب بانکی؟"
+
+msgid "Investment of {0} from {1}, for {2} months. Monthly profit rate, in percent?"
+msgstr "سرمایه‌گذاری {0} از {1}، {2} ماهه. سود ماهانه چند درصد است؟"
+
+msgid "Login for {0} (customer), username «{1}»{2}. How is the password set?"
+msgstr "کاربر {0} (مشتری)، نام کاربری «{1}»{2}. رمز چطور تعیین شود؟"
+
+msgid "No VAT"
+msgstr "بدون ارزش افزوده"
+
+msgid "No {0} named «{1}» is on record."
+msgstr "هیچ {0} با نام «{1}» ثبت نشده است."
+
+msgid "No, that is all"
+msgstr "نه، همین‌ها"
+
+msgid "Nothing is final: review the drafts in the ERP and submit them there."
+msgstr "هیچ‌کدام نهایی نشده؛ پیش‌نویس‌ها را در ERP بررسی و همان‌جا ثبت نهایی کنید."
+
+msgid "Please answer yes or no."
+msgstr "لطفاً بله یا نه جواب دهید."
+
+msgid "Prices not said were taken from the price list."
+msgstr "قیمت‌هایی که گفته نشد از لیست قیمت برداشته شد."
+
+msgid "Register «{0}» as a new {1}"
+msgstr "ثبت «{0}» به‌عنوان {1} جدید"
+
+msgid "Sales invoice for {0}"
+msgstr "فاکتور فروش برای {0}"
+
+msgid "Several items have this name; which one?"
+msgstr "چند کالا با این نام هست؛ کدام؟"
+
+msgid "More than one {0} has this name; which one?"
+msgstr "بیش از یک {0} با این نام ثبت شده؛ کدام؟"
+
+msgid "Some of the items you wrote were not found; choose them from the list."
+msgstr "بعضی کالاهایی که نوشتید پیدا نشد؛ از فهرست انتخابشان کنید."
+
+msgid "That username is not usable or is taken; write another (English letters)."
+msgstr "این نام کاربری قابل استفاده نیست یا گرفته شده؛ یکی دیگر بنویسید (حروف انگلیسی)."
+
+msgid "The money is recorded as received when the contract is submitted in the ERP."
+msgstr "دریافت پول هنگام ثبت نهایی قرارداد در ERP ثبت می‌شود."
+
+msgid "The password needs at least 6 characters."
+msgstr "رمز باید دست‌کم ۶ حرف باشد."
+
+msgid "The password? (at least 6 characters; it is not shown or kept in the chat)"
+msgstr "رمز؟ (دست‌کم ۶ حرف؛ در گفت‌وگو نشان داده یا نگه داشته نمی‌شود)"
+
+msgid "Their username? (English letters)"
+msgstr "نام کاربری؟ (حروف انگلیسی)"
+
+msgid "To let them in, open it and tick «Enabled»."
+msgstr "برای فعال شدن، فرم کاربر را باز کنید و تیک «فعال» را بزنید."
+
+msgid "What is the price of each «{0}»? (rials, or say «تومان»)"
+msgstr "قیمت هر «{0}» چقدر است؟ (ریال، یا با «تومان» بنویسید)"
+
+msgid "Which product?"
+msgstr "چه محصولی؟"
+
+msgid "Write another name, or register «{0}»."
+msgstr "نام دیگری بنویسید، یا «{0}» را ثبت کنید."
+
+msgid "Write the amount as a number."
+msgstr "مبلغ را به عدد بنویسید."
+
+msgid "Write the amount, or «همه»."
+msgstr "مبلغ را بنویسید، یا «همه»."
+
+msgid "Write the monthly profit rate in percent, for example 4."
+msgstr "سود ماهانه را به درصد بنویسید، مثلاً ۴."
+
+msgid "Write the price as a number, for example 12 میلیون تومان."
+msgstr "قیمت را به عدد بنویسید، مثلاً ۱۲ میلیون تومان."
+
+msgid "Write the quantity as a number."
+msgstr "تعداد را به عدد بنویسید."
+
+msgid "Yes, with VAT"
+msgstr "بله، با ارزش افزوده"
+
+msgid "customer"
+msgstr "مشتری"
+
+msgid "investor"
+msgstr "سرمایه‌گذار"
+
+msgid "no password yet: once enabled, «Reset Password» on the form emails {0} a link to set one"
+msgstr "هنوز تعیین نشده؛ پس از فعال‌سازی، «بازنشانی رمز» در فرم کاربر لینک تعیین رمز را به {0} می‌فرستد"
+
+msgid "or the email {0}"
+msgstr "یا ایمیل {0}"
+
+msgid "the password you gave"
+msgstr "همان رمزی که نوشتید"
+
+msgid "{0} already has a portal login ({1})."
+msgstr "{0} از قبل کاربر پورتال دارد ({1})."
+
+msgid "{0} has no email on record. Their username? (English letters, for example sara.kazemi)"
+msgstr "برای {0} ایمیلی ثبت نشده. نام کاربری؟ (حروف انگلیسی، مثلاً sara.kazemi)"
+
+msgid "«{0}» was not found among the items. Write its exact name, or choose from the list."
+msgstr "«{0}» در کالاها پیدا نشد. نام دقیقش را بنویسید، یا از فهرست انتخاب کنید."
+
+msgid "Sign in at"
+msgstr "آدرس ورود"
+
+msgid "Username"
+msgstr "نام کاربری"
+
+msgid "Version"
+msgstr "نسخه"

@@ -89,7 +89,7 @@
    "fieldname": "understood_by",
    "fieldtype": "Select",
    "label": "Understood By",
-   "options": "\nMatcher\nFrame\nAI Interpreter\nFollow-up\nUser Choice\nReply",
+   "options": "\nMatcher\nComposition\nFrame\nAI Interpreter\nFollow-up\nUser Choice\nReply",
    "read_only": 1,
    "in_standard_filter": 1,
    "description": "How the request was understood: the built-in matcher, the request's frame (subject, named records, shape), the AI model reading it into a capability (the capability still ran on the ERP), a follow-up of the last answer, the user's choice, or a reply to a question."
@@ -193,7 +193,7 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-10-21 10:00:00.000000",
+ "modified": "2026-10-22 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran ERP",
  "name": "Iran AI Request",

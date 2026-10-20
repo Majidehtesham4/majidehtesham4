@@ -14,6 +14,12 @@ Write-Host "1/4  Getting the new version..."
 git -C .. pull
 if ($LASTEXITCODE -ne 0) { Write-Host "git pull failed; see above. Nothing was changed."; exit 1 }
 
+# Which version this is: shown on the home page and in the assistant, so the update can be seen
+$commit = (git -C .. rev-parse --short HEAD).Trim()
+$built = Get-Date -Format "yyyy-MM-dd HH:mm"
+"{""commit"": ""$commit"", ""built"": ""$built""}" | Out-File -Encoding utf8 ..\apps\iran_erp\iran_erp\build_info.json
+Write-Host "     version $commit ($built)"
+
 Write-Host "2/4  Building (a few minutes)..."
 docker build -t iran-erp:latest ..
 if ($LASTEXITCODE -ne 0) { Write-Host "The build failed; see above. The running system was not changed."; exit 1 }

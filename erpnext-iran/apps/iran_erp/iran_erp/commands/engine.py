@@ -332,8 +332,17 @@ def _follow_up(question: str, state: dict, ai_available: bool, refers: str | Non
 
 
 def _handle(question: str, state: dict | None = None, ai_available: bool = False) -> dict:
+	from iran_erp.commands import operations
+
 	question = (question or "").strip()
 	state = state or {}
+	# The reply to a question an operation in progress asked (a product, a quantity, yes/no ...)
+	if state.get("operation"):
+		reply = operations.resume(question, state)
+		if reply:
+			frappe.local.iran_cmd_via = "Composition"
+			return reply
+		state = {}
 	if state.get("last"):
 		follow_up = _follow_up(question, state, ai_available)
 		if follow_up:
@@ -364,6 +373,14 @@ def _handle(question: str, state: dict | None = None, ai_available: bool = False
 			return follow_up
 
 	words = tokens(question)
+	# An operation read from the request's parts (action, subject, the people it names), in any order
+	if not set(words) & ASKING_HOW:
+		parsed = operations.parse(question)
+		if parsed:
+			reply = operations.start(parsed, question)
+			if reply:
+				frappe.local.iran_cmd_via = "Composition"
+				return reply
 	ranked = get_matcher().rank(_without_names(question))
 	# The request as a frame (subject, named records, shape): it decides when the samples cannot
 	from iran_erp.commands import frame as frame_reader
@@ -886,8 +903,12 @@ def quick_replies(state: dict | None) -> dict:
 	from iran_erp.commands import entities
 
 	# Only the memory of the last answer: nothing to answer
-	if not state or not (set(state) - {"last", "last_values"}):
+	if not state or not (set(state) - {"last", "last_values", "shown"}):
 		return {}
+	if state.get("operation"):
+		from iran_erp.commands.operations import quick_replies as operation_replies
+
+		return operation_replies(state["operation"])
 	replies, pick = [], None
 	if state.get("confirm"):
 		replies = [{"label": "بله، انجام بده", "text": "بله"}, {"label": "نه", "text": "نه"}]

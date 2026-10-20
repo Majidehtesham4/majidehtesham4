@@ -169,14 +169,25 @@ class TestConversation(IntegrationTestCase):
 		frappe.cache.delete_keys("iran_cmd_entities")
 		frappe.local.iran_cmd_index = {}
 
+	def _dialog(self, first, answers):
+		"""The request, then each question answered by the field it asks."""
+		reply, asked = handle(first), []
+		while (reply.get("state") or {}).get("operation"):
+			field = reply["state"]["operation"]["asking"]
+			asked.append(field)
+			self.assertIn(field, answers, f"asked {field}: {reply['answer']}")
+			reply = handle(answers[field], reply["state"])
+		return reply, asked
+
 	def test_invoice_with_follow_up_questions(self):
-		reply = handle("برای مشتری آزمون چت فاکتور بزن")
-		self.assertEqual(reply["state"]["waiting"], "items")
-		reply = handle("۳ تا کالای آزمون چت به قیمت ۲ میلیون", reply["state"])
-		if reply.get("state"):
-			# The company has a default VAT template: the invoice asks about it
-			self.assertEqual(reply["state"]["waiting"], "vat")
-			reply = handle("بدون مالیات", reply["state"])
+		reply, asked = self._dialog(
+			"برای مشتری آزمون چت فاکتور بزن",
+			{"item": "۳ تا کالای آزمون چت به قیمت ۲ میلیون", "more": "نه", "vat": "بدون مالیات", "paid": "نه"},
+		)
+		# The customer was in the request: never asked; the item, its quantity and price came in one reply
+		self.assertEqual(asked[0], "item")
+		self.assertNotIn("customer", asked)
+		self.assertNotIn("qty", asked)
 		invoice = frappe.get_doc("Sales Invoice", reply["actions"][0]["name"])
 		self.assertEqual(invoice.docstatus, 0)
 		self.assertEqual(invoice.customer, "مشتری آزمون چت")
@@ -191,7 +202,7 @@ class TestConversation(IntegrationTestCase):
 		self.assertEqual(reply["intent"], "balance")
 		self.assertIn("مشتری آزمون چت", reply["answer"])
 		reply = handle("فاکتور بزن")
-		self.assertEqual(reply["state"]["waiting"], "customer")
+		self.assertEqual(reply["state"]["operation"]["asking"], "customer")
 		self.assertIsNone(handle("لغو", reply["state"])["state"])
 
 

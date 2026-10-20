@@ -19,7 +19,9 @@ iran_erp.ai.Panel = class {
 		this.$panel = $(`
 			<div class="iran-ai-panel" dir="rtl" style="display:none">
 				<div class="iran-ai-header">
-					<div class="iran-ai-title">${frappe.utils.icon("sparkles", "sm")} ${__("AI Assistant")}</div>
+					<div class="iran-ai-title">${frappe.utils.icon("sparkles", "sm")} ${__("AI Assistant")}${
+						frappe.boot.iran_build ? ` <small class="text-muted iran-build" dir="ltr">${frappe.utils.escape_html(frappe.boot.iran_build)}</small>` : ""
+					}</div>
 					<div class="iran-ai-header-actions">
 						<button class="btn btn-xs btn-default iran-ai-new">${__("New Chat")}</button>
 						<button class="btn btn-xs btn-default iran-ai-close">${frappe.utils.icon("x", "sm")}</button>
