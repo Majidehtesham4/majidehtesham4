@@ -288,6 +288,10 @@ def _how_to(words, ranked):
 	if not best or best[1] < HOWTO_SURE:
 		return None
 	asks_how = bool(set(words) & HOW_WORDS)
+	# Told to do something a command does («رمز کاربر علی رو عوض کن»): the command does it
+	command = next((r for r in ranked if not r[0].startswith("howto:") and r[0] not in NAVIGATION), None)
+	if not asks_how and command and best[1] - command[1] < MARGIN * 3:
+		return None
 	if best is ranked[0] or (asks_how and ranked[0][1] - best[1] < MARGIN * 3):
 		return _answer_how_to(best[0], best[1])
 	return None
@@ -462,6 +466,8 @@ def _continue(question, state, ai_available):
 		return _run(name, values, message, ai_available, confirmed=True)
 
 	waiting = state.get("waiting")
+	# The reply answers this slot; a one-word reply is not read as any other
+	message.answering = waiting
 	if name.startswith("recipe:") and waiting:
 		# The recipe reads what it still needs from the reply itself
 		# A reply that is only a name is the answer; a full new request starts over

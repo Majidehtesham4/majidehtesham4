@@ -36,6 +36,9 @@ ENTITY_KINDS = {
 	"project",
 	"employee",
 	"lead",
+	"investor",
+	"user",
+	"branch",
 }
 # Document names look like ACC-SINV-2026-00006 or CHQ-2026-00012
 DOCUMENT_NAME = re.compile(r"^[a-z]{2,}(-[a-z0-9]+)*-\d+$")
@@ -455,8 +458,98 @@ def _extra_words(message, segment, name_positions, numbers) -> bool:
 	return False
 
 
+# ---------------------------------------------------------------- logins
+# Read from the text as typed: a password or username keeps its letters' case, dots and signs
+PASSWORD_MARKERS = re.compile(r"(?:رمز\s*عبور|رمزعبور|رمزش|رمز|پسوردش|پسورد|گذرواژه|password|pass)", re.I)
+USERNAME_MARKERS = re.compile(
+	r"(?:نام\s*کاربری|نام‌کاربری|یوزر\s*نیم|یوزرنیم|یوزرش|یوزر|username|user\s*name|user)", re.I
+)
+LATIN_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+SECRET_TOKEN = re.compile(r"[A-Za-z0-9۰-۹٠-٩]")
+# Words between a marker and its value: "رمزش رو بذار 1234abcd", "نام کاربری: ali"
+FILLER = {"رو", "را", "ش", "اش", "هم", "بذار", "بزار", "بگذار", "باشه", "باشد", "بشه", "کن", "بده", ":", "=", "-", "به", "با", "و", "اون", "این"}
+
+
+def _after_marker(message, markers, slot_name, token_pattern):
+	"""The word after «رمز …» / «نام کاربری …» as typed, or the whole reply when it is one word
+	(the answer to the question asked for it)."""
+	text = message.text.strip()
+	value = None
+	for match in markers.finditer(text):
+		for token in text[match.end() :].split():
+			token = token.strip("«»\"'،,")
+			if not token or token in FILLER:
+				continue
+			if token_pattern.match(token) and SECRET_TOKEN.search(token):
+				value = token
+			break
+		if value:
+			break
+	# A one-word reply is the answer to the question asked, and only to that one
+	if value is None and getattr(message, "answering", None) == slot_name and len(text.split()) == 1 and SECRET_TOKEN.search(text):
+		value = text.strip("«»\"'")
+	if value is None:
+		return None
+	# The words read as the marker and the value are not a name
+	parts = set(normalize(value).split())
+	for i, word in enumerate(message.words):
+		if word in parts or markers.fullmatch(word) or word in ("کاربری", "عبور", "نیم"):
+			message.used.add(i)
+	return value.translate(LATIN_DIGITS)
+
+
+def _password(message, slot_name):
+	return _after_marker(message, PASSWORD_MARKERS, slot_name, re.compile(r"^\S{4,}$"))
+
+
+def _username(message, slot_name):
+	value = _after_marker(message, USERNAME_MARKERS, slot_name, re.compile(r"^[A-Za-z0-9][A-Za-z0-9._@-]{2,}$"))
+	return value.lower() if value else None
+
+
+USER_KINDS = (
+	("general_manager", ("مدیر کل", "مدیرکل", "مدیر عامل", "مدیرعامل")),
+	("branch_manager", ("مدیر شعبه", "مدیرشعبه", "رئیس شعبه")),
+	("accounts_manager", ("مدیر مالی", "مدیرمالی")),
+	("accountant", ("حسابدار",)),
+	("reception", ("پذیرش",)),
+	("sales", ("فروشنده", "کارشناس فروش", "فروش")),
+	("customer", ("مشتری",)),
+)
+
+
+def _user_kind(message, slot_name):
+	"""What the new login's person does, from words like «حسابدار» or «مدیر شعبه»."""
+	text = " " + " ".join(message.words) + " "
+	for kind, phrases in USER_KINDS:
+		for phrase in phrases:
+			if f" {normalize(phrase)} " in text:
+				used = set(normalize(phrase).split())
+				message.used |= {i for i, w in enumerate(message.words) if w in used}
+				return kind
+	return None
+
+
+def _user(message, slot_name):
+	"""A login by its name, or by its username or email as typed («kazemi», «ali@example.com»)."""
+	found = _entity("user")(message, slot_name)
+	if found:
+		return found
+	from iran_erp.users import find_user
+
+	for i, original in enumerate(message.originals):
+		if i in message.blocked() or not re.match(r"^[A-Za-z0-9._@-]{3,}$", original or ""):
+			continue
+		name = find_user(original)
+		if name:
+			message.used.add(i)
+			return name
+	return None
+
+
 READERS = {
 	**{kind: _entity(kind) for kind in ENTITY_KINDS},
+	"user": _user,
 	"party": _party,
 	"party_or_account": _party_or_account,
 	"doctype": _dictionary(DOCTYPES),
@@ -476,6 +569,9 @@ READERS = {
 	"vat": _vat,
 	"payment_mode": _payment_mode,
 	"items": _items,
+	"password": _password,
+	"username": _username,
+	"user_kind": _user_kind,
 }
 
 # The order slots are read in: names and lists first, since they may contain numbers of their own
@@ -494,6 +590,12 @@ ORDER = [
 	"project",
 	"employee",
 	"lead",
+	"investor",
+	"user",
+	"branch",
+	"user_kind",
+	"password",
+	"username",
 	"doctype",
 	"report",
 	"mobile",

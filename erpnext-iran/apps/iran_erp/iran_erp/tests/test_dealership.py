@@ -287,12 +287,23 @@ class TestDealership(TestCase):
 		if frappe.db.exists("User", email):
 			frappe.db.set_value("Iran Investor", {"user": email}, "user", None)
 			frappe.delete_doc("User", email, force=True)
-		mine.create_login(email, "Strong-Pass-1405")
+		for name in frappe.get_all("User", filters={"username": "investor.test"}, pluck="name"):
+			frappe.db.set_value("Iran Investor", {"user": name}, "user", None)
+			frappe.delete_doc("User", name, force=True)
+		result = mine.create_login("investor.test", "Strong-Pass-1405", email)
+		self.assertEqual(result["username"], "investor.test")
+		# Logs in with the username and opens on their own account
+		self.assertTrue(frappe.db.get_single_value("System Settings", "allow_login_using_user_name"))
 		frappe.set_user(email)
 		try:
+			from iran_erp.business.visibility import home_page
+
+			self.assertEqual(home_page(), "iran-my-account")
 			data = get_my_account(investor=other.name)
 			self.assertEqual(data["investors"][0]["name"], mine.name)
 			self.assertFalse(data["staff"])
+			for part in ("chart", "cheques", "cars", "statement", "next_payment"):
+				self.assertIn(part, data["investors"][0])
 		finally:
 			frappe.set_user("Administrator")
 

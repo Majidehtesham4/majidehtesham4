@@ -68,10 +68,14 @@ def apply(setup=None):
 
 
 def home_page() -> str:
-	from iran_erp.business import RECEPTION_ROLE
+	from iran_erp.business import INVESTOR_ROLE, RECEPTION_ROLE
 
-	others = set(frappe.get_roles()) - {"All", "Guest", "Desk User", RECEPTION_ROLE}
-	if RECEPTION_ROLE in frappe.get_roles() and not others:
+	roles = set(frappe.get_roles())
+	others = roles - {"All", "Guest", "Desk User", RECEPTION_ROLE}
+	if RECEPTION_ROLE in roles and not others:
 		# Reception opens on the list of cars, to register the next one
 		return "iran-vehicle"
+	if INVESTOR_ROLE in roles and not roles - {"All", "Guest", "Desk User", INVESTOR_ROLE}:
+		# An investor opens on their own account
+		return "iran-my-account"
 	return HOME.get(frappe.db.get_single_value("Iran Setup", "business_type"), "iran-start")

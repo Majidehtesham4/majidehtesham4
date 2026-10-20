@@ -21154,3 +21154,111 @@ msgstr "سود این ماه"
 
 msgid "{0} km"
 msgstr "{0} کیلومتر"
+
+msgid "Address of the Showroom's Website"
+msgstr "نشانی سایت نمایشگاه"
+
+msgid "Where «Open the Website» and «See on the Website» lead, for example https://automodiran.ir. Empty: this server's address on port 80, where the showroom's website runs beside the system (docker-compose «website»)."
+msgstr "«باز کردن سایت» و «دیدن در سایت» به این نشانی می‌روند؛ مثلاً https://automodiran.ir. خالی: نشانی همین سرور روی پورت ۸۰، که سایت نمایشگاه کنار سیستم اجرا می‌شود (سرویس «website» در docker-compose)."
+
+msgid "The investor logs in at {0} with the username {1} and sees their own account."
+msgstr "سرمایه‌گذار در {0} با نام کاربری {1} وارد می‌شود و حساب خودش را می‌بیند."
+
+msgid "Change Username or Password"
+msgstr "تغییر نام کاربری یا رمز"
+
+msgid "The investor logs in with this username and password and sees only their own account: contracts, profit, cheques, cars and statement."
+msgstr "سرمایه‌گذار با همین نام کاربری و رمز وارد می‌شود و فقط حساب خودش را می‌بیند: قراردادها، سود، چک‌ها، خودروها و گردش حساب."
+
+msgid "English letters or digits, for example: ali.rezaei"
+msgstr "حروف انگلیسی یا عدد، مثلاً: ali.rezaei"
+
+msgid "At least 6 characters"
+msgstr "دست‌کم ۶ حرف یا عدد"
+
+msgid "Email (optional)"
+msgstr "ایمیل (اختیاری)"
+
+msgid "The investor can now log in at {0} with the username {1} and the password you chose."
+msgstr "سرمایه‌گذار حالا می‌تواند در {0} با نام کاربری {1} و رمزی که گذاشتید وارد شود."
+
+msgid "The username is 3 to 40 English letters or digits (dots, dashes and _ too), for example: ali.rezaei"
+msgstr "نام کاربری ۳ تا ۴۰ حرف انگلیسی یا عدد است (نقطه، خط تیره و _ هم مجاز است)؛ مثلاً ali.rezaei"
+
+msgid "The password needs at least 6 characters"
+msgstr "رمز باید دست‌کم ۶ حرف یا عدد باشد."
+
+msgid "The username {0} is taken; choose another"
+msgstr "نام کاربری {0} قبلاً گرفته شده؛ نام دیگری انتخاب کنید."
+
+msgid "Choose what this person does: {0}"
+msgstr "مشخص کنید این شخص چه کاره است: {0}"
+
+msgid "There is no branch {0}"
+msgstr "شعبه‌ای به نام {0} وجود ندارد."
+
+msgid "No login was found for {0}"
+msgstr "کاربری با مشخصات {0} پیدا نشد."
+
+msgid "Only the Administrator changes their own password"
+msgstr "رمز مدیر اصلی (Administrator) را فقط خودش عوض می‌کند."
+
+msgid "Car reception"
+msgstr "پذیرش خودرو"
+
+msgid "Salesperson"
+msgstr "فروشنده"
+
+msgid "Accountant"
+msgstr "حسابدار"
+
+msgid "Head of accounts"
+msgstr "مدیر مالی"
+
+msgid "Branch manager"
+msgstr "مدیر شعبه"
+
+msgid "General manager"
+msgstr "مدیر کل"
+
+msgid "Customer (sees their own invoices on the website)"
+msgstr "مشتری (فاکتورهای خودش را در سایت می‌بیند)"
+
+msgid "Cheque {0} given to you, due {1}"
+msgstr "چک شماره‌ی {0} به سررسید {1} به شما داده شد"
+
+msgid "Payment {0}"
+msgstr "پرداخت {0}"
+
+msgid "They log in at {0} with the username «{1}» and the password you gave."
+msgstr "ورود از {0} با نام کاربری «{1}» و همان رمزی که دادید."
+
+msgid "What should it be?"
+msgstr "چه باشد؟"
+
+msgid "The login of investor {0} now has this username and password."
+msgstr "نام کاربری و رمز سرمایه‌گذار {0} به‌روز شد."
+
+msgid "A login was made for investor {0}; it opens on their own account (contracts, profit, cheques, cars, statement)."
+msgstr "برای سرمایه‌گذار {0} دسترسی ورود ساخته شد؛ بعد از ورود فقط حساب خودش را می‌بیند (قراردادها، سود، چک‌ها، خودروها، گردش حساب)."
+
+msgid "What does this person do?"
+msgstr "این شخص چه کاره است؟"
+
+msgid "Their full name?"
+msgstr "نام و نام خانوادگی‌اش؟"
+
+msgid "Their username? (English letters, for example ali.rezaei)"
+msgstr "نام کاربری‌اش چه باشد؟ (حروف انگلیسی، مثلاً ali.rezaei)"
+
+msgid "Their password? (at least 6 characters)"
+msgstr "رمز عبورش چه باشد؟ (دست‌کم ۶ حرف یا عدد)"
+
+msgid "Which branch do they work at?"
+msgstr "در کدام شعبه کار می‌کند؟"
+
+msgid "A login was made for {0} ({1})."
+msgstr "برای {0} ({1}) دسترسی ورود ساخته شد."
+
+msgid "The password of {0} was changed."
+msgstr "رمز {0} عوض شد."

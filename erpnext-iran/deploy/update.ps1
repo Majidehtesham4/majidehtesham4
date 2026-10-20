@@ -18,6 +18,13 @@ Write-Host "2/4  Building (a few minutes)..."
 docker build -t iran-erp:latest ..
 if ($LASTEXITCODE -ne 0) { Write-Host "The build failed; see above. The running system was not changed."; exit 1 }
 
+# The showroom's website, when it runs here (COMPOSE_PROFILES=website in .env)
+if ((Get-Content .env -ErrorAction SilentlyContinue) -match "^\s*COMPOSE_PROFILES\s*=.*website") {
+	Write-Host "     and the showroom's website..."
+	docker compose build website
+	if ($LASTEXITCODE -ne 0) { Write-Host "The website did not build (see above); the system itself is updated." }
+}
+
 Write-Host "3/4  Restarting with the new version..."
 docker compose up -d
 # Wait until the backend answers

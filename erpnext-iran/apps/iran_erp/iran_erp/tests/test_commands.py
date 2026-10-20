@@ -86,6 +86,57 @@ class TestMatching(IntegrationTestCase):
 		self.assertEqual(handle("لیست مشتری ها")["intent"], "open_list")
 
 
+class TestLogins(IntegrationTestCase):
+	"""The assistant makes logins itself, asking for what is missing."""
+
+	def setUp(self):
+		frappe.set_user("Administrator")
+		from iran_erp.commands import entities
+
+		for kind in ("investor", "user"):
+			entities.forget(kind)
+
+	def tearDown(self):
+		frappe.db.rollback()
+
+	def talk(self, *lines):
+		state, reply = None, None
+		for line in lines:
+			reply = handle(line, state)
+			state = reply.get("state")
+		return reply
+
+	def test_investor_login_from_the_chat(self):
+		investor = frappe.get_doc({"doctype": "Iran Investor", "full_name": "سرمایه‌گذار گفتگو"}).insert()
+		first = handle("میتونی برای یک سرمایه گذار دسترسی درست کنی بتونه با یوزر نیم و پسورد لوگین کنه")
+		self.assertEqual(first["intent"], "create_investor_login")
+		self.assertEqual(first["state"]["waiting"], "investor")
+		reply = self.talk(
+			"میتونی برای یک سرمایه گذار دسترسی درست کنی بتونه با یوزر نیم و پسورد لوگین کنه",
+			"سرمایه‌گذار گفتگو",
+			"Chat-1405",
+			"chat.investor",
+		)
+		self.assertIsNone(reply.get("state"))
+		user = frappe.db.get_value("Iran Investor", investor.name, "user")
+		self.assertEqual(frappe.db.get_value("User", user, "username"), "chat.investor")
+		self.assertIn("Investor", frappe.get_roles(user))
+		from frappe.utils.password import check_password
+
+		self.assertEqual(check_password(user, "Chat-1405"), user)
+
+	def test_staff_login_in_one_sentence_and_new_password(self):
+		reply = handle("یک کاربر حسابدار بساز به اسم علی آزمون نام کاربری ali.test رمز Ali-12345")
+		self.assertEqual(reply["intent"], "create_user_login")
+		user = frappe.db.get_value("User", {"username": "ali.test"})
+		self.assertIn("Accounts User", frappe.get_roles(user))
+		reply = self.talk("رمز کاربر ali.test رو عوض کن", "Other-999")
+		self.assertEqual(reply["intent"], "set_user_password")
+		from frappe.utils.password import check_password
+
+		self.assertEqual(check_password(user, "Other-999"), user)
+
+
 class TestConversation(IntegrationTestCase):
 	def setUp(self):
 		frappe.set_user("Administrator")

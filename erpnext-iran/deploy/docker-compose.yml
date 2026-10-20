@@ -145,6 +145,28 @@ services:
     ports:
       - "${HTTP_PORT:-8080}:8080"
 
+  # The showroom's website (github.com/Majidehtesham4/automodiran), built from GitHub: it reads
+  # the cars from this system and sends customers' requests to it. http://localhost (port 80),
+  # or WEBSITE_PORT in .env. WEBSITE_ERP_HOST picks a business environment (shop.localhost).
+  # Started only when asked for: docker compose --profile website up -d (or COMPOSE_PROFILES=website
+  # in .env), so a site that cannot be built never stops the system itself.
+  website:
+    profiles: ["website"]
+    build:
+      context: https://github.com/Majidehtesham4/automodiran.git#${WEBSITE_REF:-main}
+      dockerfile: deploy/Dockerfile
+    image: automodiran-site:latest
+    networks:
+      - frappe_network
+    depends_on:
+      - frontend
+    restart: unless-stopped
+    environment:
+      ERP: http://frontend:8080
+      ERP_HOST: ${WEBSITE_ERP_HOST:-localhost}
+    ports:
+      - "${WEBSITE_PORT:-80}:80"
+
   queue-long:
     image: iran-erp:latest
     networks:

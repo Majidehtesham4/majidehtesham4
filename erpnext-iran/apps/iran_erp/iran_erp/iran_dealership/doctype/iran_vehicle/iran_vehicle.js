@@ -111,7 +111,7 @@ frappe.ui.form.on("Iran Vehicle", {
 		// Prices, costs, owners and sales are for those who may see the books (not reception)
 		const books = Boolean(frm.perm[1] && frm.perm[1].read);
 		if (frm.doc.show_on_website && ["In Preparation", "Ready for Sale", "Reserved"].includes(frm.doc.status)) {
-			frm.add_custom_button(__("See on the Website"), () => window.open(`/cars/${frm.doc.name}`, "_blank"));
+			frm.add_custom_button(__("See on the Website"), () => window.open(`/showroom?car=${encodeURIComponent(frm.doc.name)}`, "_blank"));
 		}
 		if (!books) {
 			const days = frappe.datetime.get_day_diff(frappe.datetime.get_today(), frm.doc.entry_date);

@@ -7,6 +7,7 @@
   "enabled",
   "site_title",
   "tagline",
+  "website_url",
   "column_break_site",
   "hero_image",
   "show_prices",
@@ -46,6 +47,13 @@
    "fieldtype": "Data",
    "label": "Tagline",
    "description": "For example «خرید نقد و اقساط، با کارشناسی شفاف»"
+  },
+  {
+   "fieldname": "website_url",
+   "fieldtype": "Data",
+   "options": "URL",
+   "label": "Address of the Showroom's Website",
+   "description": "Where «Open the Website» and «See on the Website» lead, for example https://automodiran.ir. Empty: this server's address on port 80, where the showroom's website runs beside the system (docker-compose «website»)."
   },
   {
    "fieldname": "column_break_site",
@@ -154,7 +162,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-20 10:00:00.000000",
+ "modified": "2026-10-20 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "Iran Dealership",
  "name": "Iran Showroom Settings",

@@ -613,7 +613,45 @@ def create_sales_invoice_draft(
 	}
 
 
+def create_login(
+	kind: str,
+	username: str,
+	password: str,
+	full_name: str | None = None,
+	investor: str | None = None,
+	branch: str | None = None,
+	email: str | None = None,
+):
+	"""A login with a username and password: for an investor (opens on their own account) or for
+	someone by what they do (reception, sales, accountant, accounts_manager, branch_manager,
+	general_manager, customer)."""
+	from iran_erp.users import create_user, investor_login
+
+	if kind == "investor":
+		if not investor:
+			return {"error": "Give the investor (Iran Investor name or full name)."}
+		name = frappe.db.get_value("Iran Investor", investor) or frappe.db.get_value(
+			"Iran Investor", {"full_name": ["like", f"%{investor}%"]}
+		)
+		if not name:
+			return {"error": f"No investor {investor}. Ask the user which investor."}
+		result = investor_login(name, username, password, email)
+		return {"created": "User", "name": result["user"], "username": result["username"], "login_url": result["login_url"]}
+	result = create_user(full_name or username, username, password, kind, email=email, branch=branch)
+	return {"created": "User", "name": result["user"], "username": result["username"], "login_url": result["login_url"]}
+
+
+def set_user_password(user: str, password: str):
+	"""A new password for a login, found by its username, email or full name."""
+	from iran_erp.users import set_password
+
+	result = set_password(user, password)
+	return {"updated": "User", "name": result["user"], "username": result["username"]}
+
+
 TOOLS = {
+	"create_login": create_login,
+	"set_user_password": set_user_password,
 	"get_company_info": get_company_info,
 	"describe_doctype": describe_doctype,
 	"search_documents": search_documents,
@@ -645,6 +683,35 @@ def _fn(name, description, properties, required=()):
 
 
 TOOL_SCHEMAS = [
+	_fn(
+		"create_login",
+		"Make a login with a username and password. kind=investor gives an investor (Iran Investor) "
+		"access to their own account only; other kinds are what the person does: reception, sales, "
+		"accountant, accounts_manager, branch_manager, general_manager, customer. Ask the user for the "
+		"username and password if they did not give them; never invent a password.",
+		{
+			"kind": {
+				"type": "string",
+				"enum": [
+					"investor", "reception", "sales", "accountant", "accounts_manager",
+					"branch_manager", "general_manager", "customer",
+				],
+			},
+			"username": {"type": "string", "description": "English letters/digits, e.g. ali.rezaei"},
+			"password": {"type": "string", "description": "At least 6 characters, as the user gave it"},
+			"full_name": {"type": "string"},
+			"investor": {"type": "string", "description": "For kind=investor: the investor's name or IVR code"},
+			"branch": {"type": "string", "description": "Branch of staff working at one branch"},
+			"email": {"type": "string"},
+		},
+		["kind", "username", "password"],
+	),  # fmt: skip
+	_fn(
+		"set_user_password",
+		"Give a login a new password. user: its username, email or full name.",
+		{"user": {"type": "string"}, "password": {"type": "string"}},
+		["user", "password"],
+	),
 	_fn(
 		"get_company_info",
 		"Company details from the system settings: name, address, phone, email, website, national ID, "

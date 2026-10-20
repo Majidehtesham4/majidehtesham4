@@ -197,6 +197,7 @@ after_migrate = [
 # Hook on document methods and events
 
 doc_events = {
+	"User": {"on_update": "iran_erp.users.link_investor"},
 	"Customer": {"validate": "iran_erp.validations.validate_iranian_ids"},
 	"Supplier": {"validate": "iran_erp.validations.validate_iranian_ids"},
 	"Company": {

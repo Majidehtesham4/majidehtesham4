@@ -29,6 +29,9 @@ SOURCES = {
 	"lead": ("Lead", ("lead_name", "company_name", "name"), {}, "lead_name"),
 	"item_group": ("Item Group", ("name",), {"is_group": 0}, "name"),
 	"bom": ("BOM", ("name", "item_name"), {"is_active": 1, "docstatus": 1}, "name"),
+	"investor": ("Iran Investor", ("full_name", "name"), {}, "full_name"),
+	"user": ("User", ("full_name", "username", "name"), {"enabled": 1, "name": ["not in", ["Guest"]]}, "full_name"),
+	"branch": ("Branch", ("name",), {}, "name"),
 }
 MAX_RECORDS = 20000
 MAX_WINDOW = 6
