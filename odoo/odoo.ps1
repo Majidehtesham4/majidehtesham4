@@ -29,6 +29,17 @@ function Get-Oca {
 	}
 }
 
+# Odoo needs every folder of addons_path (web_responsive is in oca\web): the repositories missing are
+# fetched before Odoo runs. True when something was fetched, so a running Odoo is restarted to see it.
+function Confirm-Oca {
+	$missing = Get-Content oca-repos.txt | ForEach-Object { $_.Trim() } |
+		Where-Object { $_ -and -not $_.StartsWith("#") -and -not (Test-Path "oca\$_\.git") }
+	if (-not $missing) { return $false }
+	Write-Host "Fetching the OCA modules missing: $($missing -join ', ')..."
+	Get-Oca | Out-Host
+	return $true
+}
+
 switch ($Action) {
 	"oca" {
 		Write-Host "Fetching the OCA modules..."
@@ -37,10 +48,10 @@ switch ($Action) {
 		Write-Host "Done. Install what you need with: .\odoo.ps1 install <module> <database>"
 	}
 	"start" {
-		# The OCA folders must be there before Odoo starts
-		if (-not (Test-Path "oca\web\.git")) { Write-Host "Fetching the OCA modules (first time)..."; Get-Oca }
+		$fetched = Confirm-Oca
 		docker compose up -d
 		if ($LASTEXITCODE -ne 0) { Write-Host "Could not start; is Docker Desktop running?"; exit 1 }
+		if ($fetched) { docker compose restart odoo }
 		Write-Host "Odoo is starting: open http://localhost:8069 in a minute."
 	}
 	"createdb" {
@@ -48,6 +59,7 @@ switch ($Action) {
 		# without demo data, the administrator signing in as admin / admin
 		$name = if ($Module) { $Module } else { $Database }
 		Write-Host "Creating the database $name (a few minutes; the lines below are its progress)..."
+		Confirm-Oca | Out-Null
 		docker compose up -d db
 		docker compose stop odoo
 		docker compose run --rm odoo -d $name -i base --load-language=fa_IR --stop-after-init
@@ -62,6 +74,7 @@ switch ($Action) {
 	"install" {
 		# A module in the addons folder installed into a database, without the Apps menu
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 install web_responsive trial"; exit 1 }
+		Confirm-Oca | Out-Null
 		docker compose stop odoo
 		docker compose run --rm odoo -d $Database -i $Module --stop-after-init
 		$ok = $LASTEXITCODE -eq 0
@@ -70,6 +83,7 @@ switch ($Action) {
 	}
 	"update" {
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 update veron_base trial"; exit 1 }
+		Confirm-Oca | Out-Null
 		# Python changes need Odoo restarted; the module's data and views are read again with -u
 		docker compose stop odoo
 		docker compose run --rm odoo -d $Database -u $Module --stop-after-init
