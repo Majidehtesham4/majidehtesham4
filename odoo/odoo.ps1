@@ -40,11 +40,14 @@ function Confirm-Oca {
 	return $true
 }
 
+# Odoo is always brought up with «up», never «start» or «restart»: those reuse the container as it was
+# first made, without what docker-compose.yml has gained since (the oca folder, for one)
 switch ($Action) {
 	"oca" {
 		Write-Host "Fetching the OCA modules..."
 		Get-Oca
-		docker compose restart odoo
+		# Created again, not restarted: a container made before oca was mounted would never see it
+		docker compose up -d --force-recreate odoo
 		Write-Host "Done. Install what you need with: .\odoo.ps1 install <module> <database>"
 	}
 	"start" {
@@ -64,7 +67,7 @@ switch ($Action) {
 		docker compose stop odoo
 		docker compose run --rm odoo -d $name -i base --load-language=fa_IR --stop-after-init
 		$ok = $LASTEXITCODE -eq 0
-		docker compose start odoo
+		docker compose up -d odoo
 		if (-not $ok) { Write-Host "It did not finish; the lines above say why."; exit 1 }
 		Write-Host ""
 		Write-Host "Database $name is ready. Open http://localhost:8069 and sign in with admin / admin, then change the password."
@@ -78,7 +81,7 @@ switch ($Action) {
 		docker compose stop odoo
 		docker compose run --rm odoo -d $Database -i $Module --stop-after-init
 		$ok = $LASTEXITCODE -eq 0
-		docker compose start odoo
+		docker compose up -d odoo
 		if ($ok) { Write-Host "Installed $Module in $Database. Reload the page in the browser." } else { Write-Host "It did not install; the lines above say why."; exit 1 }
 	}
 	"update" {
@@ -87,7 +90,7 @@ switch ($Action) {
 		# Python changes need Odoo restarted; the module's data and views are read again with -u
 		docker compose stop odoo
 		docker compose run --rm odoo -d $Database -u $Module --stop-after-init
-		docker compose start odoo
+		docker compose up -d odoo
 	}
 	"remove" {
 		$answer = Read-Host "This deletes Odoo, its database and its files (your addons folder stays). Type yes"
