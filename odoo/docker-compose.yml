@@ -32,6 +32,8 @@ services:
       - ./config:/etc/odoo
       # Your modules, edited on Windows; Odoo itself is never changed
       - ./addons:/mnt/extra-addons
+      # Free modules of the Odoo Community Association, fetched by odoo.ps1 oca
+      - ./oca:/mnt/oca
     # Views and reports are read from the files on every load while developing
     command: ["--dev=xml"]
     restart: unless-stopped

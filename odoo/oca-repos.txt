@@ -1,0 +1,11 @@
+# OCA repositories used here, all on their 19.0 branch. odoo.ps1 oca fetches them into the oca folder.
+# Add a line for another repository, run odoo.ps1 oca, then add it to addons_path in config/odoo.conf.
+web
+account-financial-reporting
+account-financial-tools
+account-reconcile
+bank-statement-import
+mis-builder
+reporting-engine
+server-ux
+l10n-iran

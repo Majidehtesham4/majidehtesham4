@@ -4,6 +4,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 createdb trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 stop
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 logs
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 oca
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install web_responsive trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
@@ -11,8 +12,33 @@
 param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
 Set-Location $PSScriptRoot
 
+# The OCA repositories of oca-repos.txt, on their 19.0 branch: fetched once, brought up to date after
+function Get-Oca {
+	New-Item -ItemType Directory -Force -Path oca | Out-Null
+	foreach ($line in Get-Content oca-repos.txt) {
+		$repo = $line.Trim()
+		if (-not $repo -or $repo.StartsWith("#")) { continue }
+		if (Test-Path "oca\$repo\.git") {
+			Write-Host "     updating $repo"
+			git -C "oca\$repo" pull --quiet --ff-only
+		} else {
+			Write-Host "     fetching $repo"
+			git clone --quiet --depth 1 --branch 19.0 "https://github.com/OCA/$repo.git" "oca\$repo"
+		}
+		if ($LASTEXITCODE -ne 0) { Write-Host "Could not fetch $repo; check the internet connection and try again."; exit 1 }
+	}
+}
+
 switch ($Action) {
+	"oca" {
+		Write-Host "Fetching the OCA modules..."
+		Get-Oca
+		docker compose restart odoo
+		Write-Host "Done. Install what you need with: .\odoo.ps1 install <module> <database>"
+	}
 	"start" {
+		# The OCA folders must be there before Odoo starts
+		if (-not (Test-Path "oca\web\.git")) { Write-Host "Fetching the OCA modules (first time)..."; Get-Oca }
 		docker compose up -d
 		if ($LASTEXITCODE -ne 0) { Write-Host "Could not start; is Docker Desktop running?"; exit 1 }
 		Write-Host "Odoo is starting: open http://localhost:8069 in a minute."
@@ -56,5 +82,5 @@ switch ($Action) {
 		docker image rm odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, createdb [name], stop, logs, install <module> [database], update <module> [database], remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], remove" }
 }
