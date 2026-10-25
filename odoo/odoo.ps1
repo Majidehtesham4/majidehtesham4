@@ -80,7 +80,10 @@ switch ($Action) {
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 install web_responsive trial"; exit 1 }
 		Confirm-Oca | Out-Null
 		docker compose stop odoo
-		docker compose run --rm odoo -d $Database -i $Module --stop-after-init
+		# Our own modules already installed are brought up to date with it (Odoo skips the others):
+		# a module installed before a git pull would otherwise keep its old menus and names
+		$ours = (Get-ChildItem addons -Directory | Where-Object { Test-Path (Join-Path $_.FullName "__manifest__.py") } | ForEach-Object { $_.Name }) -join ","
+		docker compose run --rm odoo -d $Database -i $Module -u $ours --stop-after-init
 		$ok = $LASTEXITCODE -eq 0
 		docker compose up -d odoo
 		if ($ok) { Write-Host "Installed $Module in $Database. Reload the page in the browser." } else { Write-Host "It did not install; the lines above say why."; exit 1 }
