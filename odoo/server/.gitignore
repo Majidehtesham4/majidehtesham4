@@ -1,0 +1,5 @@
+# Made on the server by ./veron: passwords, customers' addresses, backups
+.env
+config/
+sites/
+backups/

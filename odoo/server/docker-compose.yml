@@ -1,0 +1,55 @@
+# ERP-VERON on a server: one Odoo for every customer, one database each, chosen by the web address.
+# Run through ./veron (setup, new, list, backup, update), not by hand.
+name: veron
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?run ./veron setup first}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+
+  odoo:
+    image: odoo:19.0
+    depends_on:
+      - db
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: ${DB_PASSWORD:?run ./veron setup first}
+    volumes:
+      - odoo-data:/var/lib/odoo
+      # Made by ./veron setup: the passwords are only on the server
+      - ./config:/etc/odoo
+      - ../addons:/mnt/extra-addons
+      - ../oca:/mnt/oca
+    # No port of its own: only Caddy, on 80 and 443, is reached from the internet
+    restart: always
+
+  caddy:
+    image: caddy:2
+    depends_on:
+      - odoo
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # One file per customer's address, written by ./veron new
+      - ./sites:/etc/caddy/sites:ro
+      # The HTTPS certificates
+      - caddy-data:/data
+      - caddy-config:/config
+    restart: always
+
+volumes:
+  db-data:
+  odoo-data:
+  caddy-data:
+  caddy-config:

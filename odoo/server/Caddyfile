@@ -1,0 +1,14 @@
+# The door from the internet. Each customer's address is a file in sites/, made by ./veron new;
+# Caddy gets and renews its HTTPS certificate by itself.
+{
+	email {$ACME_EMAIL}
+}
+
+(odoo) {
+	encode gzip
+	# Live updates (chat, notifications) go to Odoo's websocket port
+	reverse_proxy /websocket odoo:8072
+	reverse_proxy odoo:8069
+}
+
+import sites/*.caddy

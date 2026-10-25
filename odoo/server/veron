@@ -1,0 +1,193 @@
+#!/usr/bin/env bash
+# ERP-VERON on a server (Ubuntu 24.04), run as root from this folder:
+#
+#   ./veron setup <your email>                      once: Docker, firewall, passwords, OCA, start
+#   ./veron new <address> [modules] [company name]  a customer: database, apps, admin password, HTTPS
+#   ./veron list                                    the customers' addresses
+#   ./veron backup                                  every database and its files (also every night)
+#   ./veron update                                  new version: git pull, OCA, our modules updated
+#   ./veron password <address>                      a new administrator password
+#
+# The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
+
+set -euo pipefail
+cd "$(dirname "$(readlink -f "$0")")"
+
+ROOT=$(cd .. && pwd)
+KEEP_DAYS=14
+compose() { docker compose "$@"; }
+
+die() { echo "$*" >&2; exit 1; }
+
+# A random password; tr is stopped by head once it has enough, which is not a failure
+secret() { (set +o pipefail; tr -dc 'A-Za-z0-9' </dev/urandom | head -c "${1:-24}"); }
+
+# The OCA repositories of oca-repos.txt on their 19.0 branch, as odoo.ps1 oca does on Windows
+fetch_oca() {
+	mkdir -p "$ROOT/oca"
+	grep -v '^\s*#' "$ROOT/oca-repos.txt" | while read -r repo; do
+		[ -n "$repo" ] || continue
+		if [ -d "$ROOT/oca/$repo/.git" ]; then
+			git -C "$ROOT/oca/$repo" pull --quiet --ff-only
+		else
+			echo "  fetching $repo"
+			git clone --quiet --depth 1 --branch 19.0 "https://github.com/OCA/$repo.git" "$ROOT/oca/$repo"
+		fi
+	done
+}
+
+# Our own modules, the folders of addons with a manifest
+ours() { find "$ROOT/addons" -mindepth 2 -maxdepth 2 -name __manifest__.py -printf '%h\n' | xargs -n1 basename | paste -sd, -; }
+
+databases() {
+	compose exec -T db psql -U odoo -d postgres -At -c \
+		"select datname from pg_database where not datistemplate and datname <> 'postgres' order by 1"
+}
+
+valid_address() {
+	[[ "$1" =~ ^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$ ]] || die "Not a web address: $1 (for example erp.automodiran.ir)"
+}
+
+# Python run inside Odoo for one database; the values come in as environment variables, never in the code
+odoo_shell() {
+	local db=$1; shift
+	compose run --rm -T "$@" odoo odoo shell -d "$db" --no-http --log-level=warn
+}
+
+set_admin() {
+	local db=$1 password=$2 company=${3:-}
+	odoo_shell "$db" -e VERON_PASSWORD="$password" -e VERON_COMPANY="$company" >/dev/null <<'PY'
+import os
+admin = env.ref("base.user_admin")
+admin.write({"password": os.environ["VERON_PASSWORD"], "tz": "Asia/Tehran"})
+if os.environ.get("VERON_COMPANY"):
+    env.company.name = os.environ["VERON_COMPANY"]
+env.cr.commit()
+PY
+}
+
+case "${1:-}" in
+setup)
+	[ "$(id -u)" = 0 ] || die "Run as root: sudo ./veron setup <email>"
+	email=${2:-}
+	[ -n "$email" ] || die "Your email, for the HTTPS certificates: ./veron setup you@example.com"
+	if ! command -v docker >/dev/null; then
+		echo "Installing Docker..."
+		apt-get update -q
+		apt-get install -y -q docker.io docker-compose-v2 git ufw
+	fi
+	# Docker Hub refuses servers in Iran: images come through a mirror inside Iran
+	if [ ! -f /etc/docker/daemon.json ]; then
+		echo '{"registry-mirrors": ["https://docker.arvancloud.ir"]}' >/etc/docker/daemon.json
+		systemctl restart docker
+	fi
+	# Only SSH and the web are open; Odoo and the database are not reachable from outside
+	ufw allow OpenSSH >/dev/null
+	ufw allow 80/tcp >/dev/null
+	ufw allow 443/tcp >/dev/null
+	ufw --force enable >/dev/null
+	if [ ! -f .env ]; then
+		printf 'DB_PASSWORD=%s\nACME_EMAIL=%s\n' "$(secret 32)" "$email" >.env
+		chmod 600 .env
+	fi
+	if [ ! -f config/odoo.conf ]; then
+		mkdir -p config sites
+		addons=$(grep '^addons_path' "$ROOT/config/odoo.conf" | cut -d= -f2- | xargs)
+		cat >config/odoo.conf <<EOF
+[options]
+addons_path = $addons
+data_dir = /var/lib/odoo
+; Each address opens only its own database; the list of databases and their manager are closed
+dbfilter = ^%h\$
+list_db = False
+admin_passwd = $(secret 32)
+proxy_mode = True
+; Only Caddy reaches Odoo, inside Docker's own network
+http_interface = 0.0.0.0
+workers = 4
+max_cron_threads = 1
+gevent_port = 8072
+limit_time_cpu = 600
+limit_time_real = 1200
+EOF
+	fi
+	# Readable by Odoo's own user in its container, and by no other user
+	chown "$(docker run --rm --entrypoint id odoo:19.0 -u odoo)" config/odoo.conf
+	chmod 600 config/odoo.conf
+	mkdir -p sites backups
+	echo "Fetching the OCA modules..."
+	fetch_oca
+	compose up -d
+	# Every night at 2:30, a backup of every database
+	echo "30 2 * * * root $(pwd)/veron backup >>$(pwd)/backups/backup.log 2>&1" >/etc/cron.d/veron
+	echo
+	echo "The server is ready. Add a customer with: ./veron new erp.example.ir"
+	;;
+
+new)
+	address=${2:-}
+	[ -n "$address" ] || die "Which address? ./veron new erp.automodiran.ir [modules] [company name]"
+	address=${address,,}
+	valid_address "$address"
+	modules=${3:-veron_apps}
+	company=${4:-}
+	databases | grep -qx "$address" && die "$address already has a database."
+	echo "Creating $address with $modules (a few minutes)..."
+	compose run --rm -T odoo -d "$address" -i "$modules" --load-language=fa_IR --stop-after-init --log-level=warn
+	password=$(secret 16)
+	set_admin "$address" "$password" "$company"
+	# The local test (VERON_TLS=internal) has no public address: Caddy signs its own certificate
+	tls=""
+	[ "${VERON_TLS:-}" = internal ] && tls=$'\ttls internal\n'
+	printf '%s {\n%s\timport odoo\n}\n' "$address" "$tls" >"sites/$address.caddy"
+	compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1
+	echo
+	echo "Ready: https://$address"
+	echo "  user:     admin"
+	echo "  password: $password"
+	echo "Give these to the customer and ask them to change the password after signing in."
+	echo "Shown only now: it is kept nowhere else. A new one: ./veron password $address"
+	;;
+
+password)
+	address=${2:-}
+	[ -n "$address" ] || die "Which address? ./veron password erp.automodiran.ir"
+	databases | grep -qx "$address" || die "No database for $address."
+	password=$(secret 16)
+	set_admin "$address" "$password"
+	echo "New password of admin on $address: $password"
+	;;
+
+list)
+	databases
+	;;
+
+backup)
+	day=$(date +%F)
+	mkdir -p "backups/$day"
+	for db in $(databases); do
+		compose exec -T db pg_dump -U odoo -Fc "$db" >"backups/$day/$db.dump"
+		# The attachments and images, kept by Odoo outside the database
+		compose exec -T odoo tar -C /var/lib/odoo/filestore -czf - "$db" >"backups/$day/$db.files.tar.gz" 2>/dev/null || true
+		echo "$day: $db"
+	done
+	find backups -mindepth 1 -maxdepth 1 -type d -mtime +"$KEEP_DAYS" -exec rm -rf {} +
+	;;
+
+update)
+	"$0" backup
+	git -C "$ROOT" pull --ff-only
+	fetch_oca
+	compose up -d
+	for db in $(databases); do
+		echo "Updating $db..."
+		compose run --rm -T odoo -d "$db" -u "$(ours)" --stop-after-init --log-level=warn
+	done
+	compose restart odoo
+	echo "Updated."
+	;;
+
+*)
+	sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
+	;;
+esac
