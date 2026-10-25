@@ -1,0 +1,41 @@
+# Odoo 19 Community for a trial, next to ERP-VERON (which stays on port 8080).
+#   cd D:\majidehtesham4\odoo
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 start
+# then open http://localhost:8069
+name: odoo-trial
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-odoo}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  odoo:
+    # A fixed version: Odoo is updated only when this line is changed
+    image: odoo:19.0
+    depends_on:
+      - db
+    ports:
+      - "8069:8069"
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: ${DB_PASSWORD:-odoo}
+    volumes:
+      # Odoo's own files: the attachments and the session store
+      - odoo-data:/var/lib/odoo
+      - ./config:/etc/odoo
+      # Your modules, edited on Windows; Odoo itself is never changed
+      - ./addons:/mnt/extra-addons
+    # Views and reports are read from the files on every load while developing
+    command: ["--dev=xml"]
+    restart: unless-stopped
+
+volumes:
+  db-data:
+  odoo-data:

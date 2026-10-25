@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="veron_note_list" model="ir.ui.view">
+		<field name="name">veron.note.list</field>
+		<field name="model">veron.note</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="date"/>
+				<field name="name"/>
+				<field name="partner_id"/>
+				<field name="amount" sum="جمع"/>
+				<field name="state" widget="badge" decoration-success="state == 'done'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="veron_note_form" model="ir.ui.view">
+		<field name="name">veron.note.form</field>
+		<field name="model">veron.note</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_done" type="object" string="انجام شد" class="btn-primary" invisible="state == 'done'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="date"/>
+						</group>
+						<group>
+							<field name="partner_id"/>
+							<field name="amount"/>
+						</group>
+					</group>
+					<field name="body" placeholder="متن یادداشت..."/>
+					<group>
+						<field name="words"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="veron_note_action" model="ir.actions.act_window">
+		<field name="name">یادداشت‌ها</field>
+		<field name="res_model">veron.note</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<menuitem id="veron_menu_root" name="ERP-VERON" sequence="5" web_icon="base,static/description/icon.png"/>
+	<menuitem id="veron_note_menu" name="یادداشت‌ها" parent="veron_menu_root" action="veron_note_action" sequence="10"/>
+</odoo>
