@@ -51,6 +51,9 @@ powershell -ExecutionPolicy Bypass -File .\odoo.ps1 start
 برمی‌گرداند: با کلیک روی آیکون بالای صفحه، همه‌ی برنامه‌ها با آیکون و یک جست‌وجوی منو باز می‌شوند. روی گوشی هم
 ظاهر را مرتب‌تر می‌کند.
 
+آیکون ۹ مربع مثل نسخه‌ی پولی باز و بسته می‌کند: کلیک اول صفحه‌ی برنامه‌ها را باز می‌کند و کلیک دوم (یا Esc) به
+صفحه‌ای که باز بود برمی‌گرداند. برای رفتن به یک برنامه، روی آیکون خود آن برنامه بزنید.
+
 **نصب، ساده‌ترین راه:** نام پایگاه داده‌ی خودتان را به جای `trial` بنویسید:
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install web_responsive trial
@@ -98,7 +101,7 @@ cd odoo
 powershell -ExecutionPolicy Bypass -File .\odoo.ps1 oca
 powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_accounting trial
 ```
-- `oca` مخزن‌های OCA را (حدود ۱۰۰ مگ) در پوشه‌ی `oca` می‌گیرد. بعدها همین دستور به‌روزشان می‌کند.
+- `oca` مخزن‌های OCA را (حدود ۳۰۰ مگ) در پوشه‌ی `oca` می‌گیرد. بعدها همین دستور به‌روزشان می‌کند.
 - به جای `trial` نام پایگاه داده‌ی خودتان را بنویسید.
 
 **جدول حساب‌های ایرانی:** اگر در شرکت هنوز هیچ سندی ثبت نشده باشد، موقع نصب خودکار جایگزین جدول حساب‌های عمومی می‌شود.
@@ -106,9 +109,40 @@ powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_accounting tri
 یک پایگاه داده‌ی تازه بسازید (`.\odoo.ps1 createdb erp`) و `veron_accounting` را روی آن نصب کنید.
 
 **هنوز کامل نشده:**
-- چند منو هنوز انگلیسی است (Assets، Reconcile، MIS Reports)، چون ترجمه‌ی فارسی ندارند.
 - نمودارهای داشبورد حسابداری تاریخ میلادی نشان می‌دهند.
 - چک، سامانه‌ی مؤدیان و حقوق ایرانی در مراحل بعد ساخته می‌شوند.
+
+## همه‌ی برنامه‌ها به جای نسخه‌ی پولی (`addons/veron_apps`)
+برنامه‌هایی که در فهرست «برنامه‌ها» دکمه‌ی «ارتقا» دارند، مال نسخه‌ی پولی‌اند و در نسخه‌ی رایگان نصب نمی‌شوند. ماژول
+`veron_apps` به جای هر کدام که جایگزین رایگان دارد، آن را نصب می‌کند، همه با یک دستور:
+
+```powershell
+cd D:\majidehtesham4
+git pull
+cd odoo
+powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
+```
+به جای `trial` نام پایگاه داده‌ی خودتان را بنویسید. بار اول ماژول‌های OCA تازه را هم می‌گیرد؛ نصب چند دقیقه طول
+می‌کشد. اگر `veron_accounting` را قبلاً نصب کرده‌اید، برای نام‌های فارسی تازه این را هم بزنید:
+`.\odoo.ps1 update veron_accounting trial`
+
+| برنامه‌ی پولی | جایگزین رایگان | در منو |
+|---|---|---|
+| حسابداری | `veron_accounting` (بالا) و بودجه (`account_budget_oca`) | حسابداری |
+| اسناد | OCA `dms` | اسناد |
+| امضا | OCA `sign_oca` | امضای الکترونیک |
+| پشتیبانی (Helpdesk) | OCA `helpdesk_mgmt`، با نوع تیکت و SLA | پشتیبانی |
+| خدمات در محل | OCA `fieldservice` | خدمات در محل |
+| اشتراک | OCA `subscription_oca` و قراردادها (`contract`) | اشتراک‌ها |
+| دانش | OCA `document_page` | دانش |
+| حقوق و دستمزد | OCA `payroll` (پایه؛ قانون کار ایران بعداً) | حقوق و دستمزد |
+| کیفیت | OCA `quality_control_oca` | کنترل کیفیت |
+| صفحه‌گسترده | OCA `spreadsheet_oca` | صفحه‌گسترده |
+| برنامه‌ریزی | نمای خط زمانی پروژه (`project_timeline`) | پروژه |
+
+برنامه‌های پولی که هنوز جایگزین رایگان برای Odoo 19 ندارند: اجاره، تأییدیه‌ها، ارزیابی عملکرد، قرار ملاقات، بارکد،
+PLM، استودیو، اتوماسیون مارکتینگ، شبکه‌های اجتماعی، VoIP، IoT و واتس‌اپ. این‌ها در فهرست «برنامه‌ها» همچنان «ارتقا»
+دارند؛ آن دکمه به خرید نسخه‌ی پولی می‌رود و نباید زده شود. هر کدام را که لازم شد، خودمان می‌سازیم (`MODULES.md`).
 
 ## ماژول‌های OCA
 مخزن‌هایی که استفاده می‌شوند در `oca-repos.txt` فهرست شده‌اند، همه روی شاخه‌ی 19.0. پوشه‌ی `oca` در گیت این پروژه
@@ -137,7 +171,7 @@ powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_accounting tri
 .\odoo.ps1 oca      # گرفتن یا به‌روز کردن ماژول‌های OCA
 .\odoo.ps1 stop     # خاموش کردن (داده‌ها می‌مانند)
 .\odoo.ps1 logs     # دیدن گزارش اجرا و خطاها
-.\odoo.ps1 install web_responsive trial   # نصب یک ماژول از پوشه‌ی addons
+.\odoo.ps1 install veron_apps trial   # نصب یک ماژول (این یکی: همه‌ی برنامه‌ها)
 .\odoo.ps1 update veron_base trial   # به‌روز کردن ماژول بعد از تغییر کد
 .\odoo.ps1 remove   # حذف کامل (پوشه‌ی addons می‌ماند)
 ```

@@ -6,6 +6,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 logs
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 oca
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install web_responsive trial
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 

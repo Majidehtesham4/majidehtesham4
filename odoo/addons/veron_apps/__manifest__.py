@@ -1,0 +1,52 @@
+{
+	"name": "ERP-VERON Apps",
+	"summary": "Every app Odoo sells in Enterprise that has a free replacement, installed at once",
+	"description": """
+The free replacements for the paid apps of Odoo 19, from our modules and the Odoo Community
+Association (OCA), with the free apps they build on (sales, inventory, manufacturing, project,
+employees):
+
+- Accounting: veron_accounting (full menus, reports, reconciliation, assets, MIS, Iranian chart) and budgets
+- Documents: dms
+- Sign: sign_oca
+- Helpdesk: helpdesk_mgmt, with ticket types and SLA
+- Field Service: fieldservice
+- Subscriptions: subscription_oca and contract
+- Knowledge: document_page
+- Payroll: payroll (the base; Iranian rules come later)
+- Quality: quality_control_oca
+- Spreadsheet and dashboards: spreadsheet_oca, spreadsheet_dashboard_oca
+- Planning: the project timeline
+- The full-screen apps menu: web_responsive
+
+Not on OCA for Odoo 19: Rental, Approvals, Appraisals, Appointments, Barcode, PLM, Studio,
+Marketing Automation, Social Marketing, VoIP, IoT and WhatsApp.
+""",
+	"version": "19.0.1.0.0",
+	"category": "Productivity",
+	"author": "ERP-VERON",
+	"license": "LGPL-3",
+	"depends": [
+		"web_responsive",
+		"veron_accounting",
+		"account_budget_oca",
+		"dms",
+		"sign_oca",
+		"helpdesk_mgmt",
+		"helpdesk_type",
+		"helpdesk_mgmt_sla",
+		"fieldservice",
+		"subscription_oca",
+		"contract",
+		"document_page",
+		"document_knowledge",
+		"payroll",
+		"quality_control_oca",
+		"spreadsheet_oca",
+		"spreadsheet_dashboard_oca",
+		"project_timeline",
+	],
+	"data": ["data/groups.xml", "data/menus.xml"],
+	"installable": True,
+	"application": True,
+}

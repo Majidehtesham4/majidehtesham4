@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- «Invoicing» is the whole of accounting here: named so, as in the paid edition. Written as
+	translations, so the Persian name is set too, not only the English one -->
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account.menu_finance')], 'name', {'en_US': 'Accounting', 'fa_IR': 'حسابداری'}]"/>
+	<!-- The OCA accounting menus, which have no Persian translation -->
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.menu_finance_assets')], 'name', {'fa_IR': 'دارایی‌ها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.account_asset_menu')], 'name', {'fa_IR': 'دارایی‌ها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.account_asset_compute_menu')], 'name', {'fa_IR': 'محاسبه‌ی استهلاک'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.account_asset_report_menu')], 'name', {'fa_IR': 'دارایی‌های ثابت'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.wiz_account_asset_report_menu')], 'name', {'fa_IR': 'گزارش دارایی‌های ثابت'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.menu_finance_config_assets')], 'name', {'fa_IR': 'دارایی‌ها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.account_asset_group_menu')], 'name', {'fa_IR': 'گروه‌های دارایی'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.account_asset_profile_menu')], 'name', {'fa_IR': 'الگوهای دارایی'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_reconcile_oca.account_account_reconcile_menu')], 'name', {'fa_IR': 'تطبیق'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_reconcile_oca.menu_account_reconcile_model')], 'name', {'fa_IR': 'الگوهای تطبیق'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.mis_report_finance_menu')], 'name', {'fa_IR': 'گزارش‌ساز مالی'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.mis_report_instance_view_menu')], 'name', {'fa_IR': 'گزارش‌های مالی'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.last_wizard_mis_report_instance_view_menu')], 'name', {'fa_IR': 'آخرین گزارش‌های ساخته‌شده'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.mis_report_conf_menu')], 'name', {'fa_IR': 'گزارش‌ساز مالی'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.mis_report_view_menu')], 'name', {'fa_IR': 'الگوهای گزارش'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('mis_builder.mis_report_style_view_menu')], 'name', {'fa_IR': 'سبک‌های گزارش'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('date_range_account.menu_date_range_root')], 'name', {'fa_IR': 'بازه‌های تاریخ'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('date_range_account.menu_date_range')], 'name', {'fa_IR': 'بازه‌های تاریخ'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('date_range_account.menu_date_range_type')], 'name', {'fa_IR': 'انواع بازه‌ی تاریخ'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('date_range_account.menu_date_range_generator')], 'name', {'fa_IR': 'ساخت بازه‌های تاریخ'}]"/>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The OCA apps and their menus without a Persian translation, named in Persian -->
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('sign_oca.sign_oca_root_menu')], 'name', {'fa_IR': 'امضای الکترونیک'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('fieldservice.root')], 'name', {'fa_IR': 'خدمات در محل'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('quality_control_oca.qc_menu')], 'name', {'fa_IR': 'کنترل کیفیت'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('spreadsheet_oca.spreadsheet_spreadsheet_menu')], 'name', {'fa_IR': 'صفحه‌گسترده'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('subscription_oca.sale_subscription_root')], 'name', {'fa_IR': 'اشتراک‌ها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_contract_contract_customer')], 'name', {'fa_IR': 'قراردادهای مشتری'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_contract_contract_supplier')], 'name', {'fa_IR': 'قراردادهای تأمین‌کننده'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.sale_contract_manually_create_invoice_menu')], 'name', {'fa_IR': 'صدور دستی فاکتور قراردادهای فروش'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.purchase_contract_manually_create_invoice_menu')], 'name', {'fa_IR': 'صدور دستی صورتحساب قراردادهای خرید'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_contract_reporting')], 'name', {'fa_IR': 'قراردادها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_customer_contract_line_report')], 'name', {'fa_IR': 'ردیف‌های قرارداد مشتری'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_supplier_contract_line_report')], 'name', {'fa_IR': 'ردیف‌های قرارداد تأمین‌کننده'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.menu_config_contract')], 'name', {'fa_IR': 'قراردادها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.contract_template_menu')], 'name', {'fa_IR': 'الگوهای قرارداد'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('contract.contract_tag_menu')], 'name', {'fa_IR': 'برچسب‌های قرارداد'}]"/>
+</odoo>

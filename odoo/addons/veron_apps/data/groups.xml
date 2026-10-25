@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Sign gives no one access on install: the administrator gets it, as with the other apps -->
+	<record id="base.user_admin" model="res.users">
+		<field name="group_ids" eval="[(4, ref('sign_oca.sign_oca_group_admin'))]"/>
+	</record>
+</odoo>

@@ -9,3 +9,14 @@ mis-builder
 reporting-engine
 server-ux
 l10n-iran
+account-budgeting
+contract
+dms
+field-service
+helpdesk
+knowledge
+manufacture
+payroll
+project
+sign
+spreadsheet

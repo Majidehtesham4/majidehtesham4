@@ -1,0 +1,113 @@
+# Persian names of the menus, the same as data/menus.xml: set again when translations are reloaded
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fa\n"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account.menu_finance
+msgid "Accounting"
+msgstr "حسابداری"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.menu_finance_assets
+msgid "Assets"
+msgstr "دارایی‌ها"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.account_asset_menu
+msgid "Assets"
+msgstr "دارایی‌ها"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.account_asset_compute_menu
+msgid "Compute Assets"
+msgstr "محاسبه‌ی استهلاک"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.account_asset_report_menu
+msgid "Financial Assets"
+msgstr "دارایی‌های ثابت"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.wiz_account_asset_report_menu
+msgid "Financial Assets report"
+msgstr "گزارش دارایی‌های ثابت"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.menu_finance_config_assets
+msgid "Assets"
+msgstr "دارایی‌ها"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.account_asset_group_menu
+msgid "Asset Groups"
+msgstr "گروه‌های دارایی"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_asset_management.account_asset_profile_menu
+msgid "Asset Profiles"
+msgstr "الگوهای دارایی"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_reconcile_oca.account_account_reconcile_menu
+msgid "Reconcile"
+msgstr "تطبیق"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:account_reconcile_oca.menu_account_reconcile_model
+msgid "Reconciliation Models"
+msgstr "الگوهای تطبیق"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.mis_report_finance_menu
+msgid "MIS Reporting"
+msgstr "گزارش‌ساز مالی"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.mis_report_instance_view_menu
+msgid "MIS Reports"
+msgstr "گزارش‌های مالی"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.last_wizard_mis_report_instance_view_menu
+msgid "Last Reports Generated"
+msgstr "آخرین گزارش‌های ساخته‌شده"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.mis_report_conf_menu
+msgid "MIS Reporting"
+msgstr "گزارش‌ساز مالی"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.mis_report_view_menu
+msgid "MIS Report Templates"
+msgstr "الگوهای گزارش"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:mis_builder.mis_report_style_view_menu
+msgid "MIS Report Styles"
+msgstr "سبک‌های گزارش"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:date_range_account.menu_date_range_root
+msgid "Date Ranges"
+msgstr "بازه‌های تاریخ"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:date_range_account.menu_date_range
+msgid "Date Ranges"
+msgstr "بازه‌های تاریخ"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:date_range_account.menu_date_range_type
+msgid "Date Range Types"
+msgstr "انواع بازه‌ی تاریخ"
+
+#. module: veron_accounting
+#: model:ir.ui.menu,name:date_range_account.menu_date_range_generator
+msgid "Generate Date Ranges"
+msgstr "ساخت بازه‌های تاریخ"
