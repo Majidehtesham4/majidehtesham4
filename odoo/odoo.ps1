@@ -4,6 +4,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 createdb trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 stop
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 logs
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install web_responsive trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
@@ -32,6 +33,15 @@ switch ($Action) {
 	}
 	"stop" { docker compose stop }
 	"logs" { docker compose logs -f --tail 100 odoo }
+	"install" {
+		# A module in the addons folder installed into a database, without the Apps menu
+		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 install web_responsive trial"; exit 1 }
+		docker compose stop odoo
+		docker compose run --rm odoo -d $Database -i $Module --stop-after-init
+		$ok = $LASTEXITCODE -eq 0
+		docker compose start odoo
+		if ($ok) { Write-Host "Installed $Module in $Database. Reload the page in the browser." } else { Write-Host "It did not install; the lines above say why."; exit 1 }
+	}
 	"update" {
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 update veron_base trial"; exit 1 }
 		# Python changes need Odoo restarted; the module's data and views are read again with -u
@@ -46,5 +56,5 @@ switch ($Action) {
 		docker image rm odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, createdb [name], stop, logs, update <module> [database], remove" }
+	default { Write-Host "Use: start, createdb [name], stop, logs, install <module> [database], update <module> [database], remove" }
 }
