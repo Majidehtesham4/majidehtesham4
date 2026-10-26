@@ -1,0 +1,721 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_appraisal
+#: model:ir.model,name:veron_appraisal.model_veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__appraisal_id
+msgid "Appraisal"
+msgstr "ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model,name:veron_appraisal.model_veron_appraisal_line
+msgid "Appraisal Answer"
+msgstr "پاسخ ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model,name:veron_appraisal.model_veron_appraisal_template
+msgid "Appraisal Form"
+msgstr "فرم ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model,name:veron_appraisal.model_veron_appraisal_template_line
+msgid "Appraisal Form Question"
+msgstr "سؤال فرم ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.actions.act_window,name:veron_appraisal.action_templates
+#: model:ir.ui.menu,name:veron_appraisal.menu_templates
+msgid "Appraisal Forms"
+msgstr "فرم‌های ارزیابی"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Appraisal done"
+msgstr "ارزیابی انجام شد"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Appraisal of %(employee)s"
+msgstr "ارزیابی %(employee)s"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Appraisal of %s"
+msgstr "ارزیابی %s"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/hr_employee.py:0
+#: model:ir.actions.act_window,name:veron_appraisal.action_appraisals
+#: model:ir.ui.menu,name:veron_appraisal.menu_appraisals
+#: model:ir.ui.menu,name:veron_appraisal.menu_root
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.employee_view_form
+msgid "Appraisals"
+msgstr "ارزیابی‌ها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__state__cancel
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Close Appraisal"
+msgstr "بستن ارزیابی"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Comments"
+msgstr "نظرها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_appraisal
+#: model:ir.ui.menu,name:veron_appraisal.menu_config
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__create_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__create_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__create_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__create_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__create_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__create_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_customers
+msgid "Customer focus"
+msgstr "مشتری‌مداری"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__deadline
+msgid "Deadline"
+msgstr "مهلت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__department_id
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "Department"
+msgstr "دپارتمان"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__display_name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__display_name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__display_name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__state__done
+msgid "Done"
+msgstr "انجام شده"
+
+#. module: veron_appraisal
+#: model:ir.model,name:veron_appraisal.model_hr_employee
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__employee_id
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__employee_comment
+msgid "Employee's Answer"
+msgstr "پاسخ کارمند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__employee_feedback
+msgid "Employee's Comments"
+msgstr "نظر کارمند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__result__4
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__4
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__4
+msgid "Exceeds expectations"
+msgstr "بالاتر از انتظار"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__template_id
+msgid "Form"
+msgstr "فرم"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.template_view_form
+msgid "Form name"
+msgstr "نام فرم"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template,name:veron_appraisal.template_default
+msgid "General appraisal"
+msgstr "ارزیابی عمومی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__id
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__id
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__id
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__id
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__message_has_error
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__state__pending
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "In Progress"
+msgstr "در جریان"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__is_employee
+msgid "Is Employee"
+msgstr "خود کارمند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__is_manager
+msgid "Is Manager"
+msgstr "مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__kind
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__veron_last_appraisal
+msgid "Last Appraisal"
+msgstr "آخرین ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__write_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__write_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__write_uid
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__write_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__write_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__write_date
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_learning
+msgid "Learning and growth"
+msgstr "یادگیری و رشد"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_id
+msgid "Manager"
+msgstr "مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__manager_comment
+msgid "Manager's Answer"
+msgstr "پاسخ مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_feedback
+msgid "Manager's Comments"
+msgstr "نظر مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__manager_rating
+msgid "Manager's Rating"
+msgstr "امتیاز مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__result__3
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__3
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__3
+msgid "Meets expectations"
+msgstr "در حد انتظار"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "My Appraisals"
+msgstr "ارزیابی‌های من"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "My Team"
+msgstr "تیم من"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__result__2
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__2
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__2
+msgid "Needs improvement"
+msgstr "نیازمند بهبود"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__0
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__0
+msgid "Not rated"
+msgstr "امتیاز داده نشده"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only HR changes the appraisal itself."
+msgstr "فقط منابع انسانی مشخصات ارزیابی را تغییر می‌دهد."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only HR starts appraisals."
+msgstr "فقط منابع انسانی ارزیابی را شروع می‌کند."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only the employee fills in the self-assessment."
+msgstr "خودارزیابی را فقط خود کارمند پر می‌کند."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only the employee writes the employee's comments."
+msgstr "نظر کارمند را فقط خود کارمند می‌نویسد."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only the manager or HR can close an appraisal."
+msgstr "فقط مدیر یا منابع انسانی می‌تواند ارزیابی را ببندد."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only the manager rates the employee."
+msgstr "فقط مدیر به کارمند امتیاز می‌دهد."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Only the manager writes the manager's comments."
+msgstr "نظر مدیر را فقط خود مدیر می‌نویسد."
+
+#. module: veron_appraisal
+#: model_terms:ir.actions.act_window,help:veron_appraisal.action_appraisals
+msgid ""
+"Or select employees in Employees and use «Start Appraisals» from the Actions"
+" menu."
+msgstr ""
+"یا در «کارمندان» چند کارمند را انتخاب کنید و از منوی «عملیات»، «شروع "
+"ارزیابی» را بزنید."
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__result__5
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__5
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__5
+msgid "Outstanding"
+msgstr "عالی"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "Period"
+msgstr "دوره"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__date_from
+msgid "Period From"
+msgstr "از تاریخ"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__date_to
+msgid "Period To"
+msgstr "تا تاریخ"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__result__1
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__employee_rating__1
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__manager_rating__1
+msgid "Poor"
+msgstr "ضعیف"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_productivity
+msgid "Productivity and meeting deadlines"
+msgstr "بهره‌وری و انجام به‌موقع کارها"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_discipline
+msgid "Punctuality and discipline"
+msgstr "وقت‌شناسی و نظم"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_quality
+msgid "Quality of work"
+msgstr "کیفیت کار"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__name
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__name
+msgid "Question"
+msgstr "سؤال"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__line_ids
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template__line_ids
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Questions"
+msgstr "سؤال‌ها"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Rate every question first: %s"
+msgstr "اول به همه‌ی سؤال‌ها امتیاز دهید: %s"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__kind__rating
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_template_line__kind__rating
+msgid "Rating"
+msgstr "امتیاز"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__employee_user_id
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__manager_user_id
+msgid "Related user name for the resource to manage its access."
+msgstr "نام کاربری مرتبط برای منبع برای مدیریت حق دسترسی آن."
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Reset"
+msgstr "تنظیم مجدد"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__result
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_search
+msgid "Result"
+msgstr "نتیجه"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__score
+msgid "Score"
+msgstr "امتیاز"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__employee_rating
+msgid "Self-Assessment"
+msgstr "خودارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__sequence
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_appraisal
+#: model_terms:ir.ui.view,arch_db:veron_appraisal.appraisal_view_form
+msgid "Start"
+msgstr "شروع"
+
+#. module: veron_appraisal
+#: model:ir.actions.server,name:veron_appraisal.action_start_appraisals
+msgid "Start Appraisals"
+msgstr "شروع ارزیابی"
+
+#. module: veron_appraisal
+#: model_terms:ir.actions.act_window,help:veron_appraisal.action_appraisals
+msgid "Start the first appraisal"
+msgstr "اولین ارزیابی را شروع کنید"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_strengths
+msgid "Strengths"
+msgstr "نقاط قوت"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_teamwork
+msgid "Teamwork and cooperation"
+msgstr "کار گروهی و همکاری"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__template_id
+msgid "Template"
+msgstr "پوسته"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "The questions of an appraisal are set by HR."
+msgstr "سؤال‌های ارزیابی را منابع انسانی تعیین می‌کند."
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "This appraisal is closed."
+msgstr "این ارزیابی بسته شده است."
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal__state__new
+msgid "To Start"
+msgstr "شروع‌نشده"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__employee_user_id
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_user_id
+msgid "User"
+msgstr "کاربر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__veron_appraisal_ids
+msgid "Veron Appraisal"
+msgstr "ارزیابی"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__veron_appraisal_count
+msgid "Veron Appraisal Count"
+msgstr "تعداد ارزیابی‌ها"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__weight
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_template_line__weight
+msgid "Weight"
+msgstr "وزن"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__score
+msgid "Weighted average of the manager's ratings, out of 5"
+msgstr "میانگین وزنی امتیازهای مدیر، از ۵"
+
+#. module: veron_appraisal
+#: model:veron.appraisal.template.line,name:veron_appraisal.q_improve
+msgid "What to improve, and goals for the next period"
+msgstr "زمینه‌های بهبود و هدف‌های دوره‌ی بعد"
+
+#. module: veron_appraisal
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_line__kind__text
+#: model:ir.model.fields.selection,name:veron_appraisal.selection__veron_appraisal_template_line__kind__text
+msgid "Written answer"
+msgstr "پاسخ نوشتاری"
+
+#. module: veron_appraisal
+#. odoo-python
+#: code:addons/veron_appraisal/models/appraisal.py:0
+msgid "Your self-assessment"
+msgstr "خودارزیابی شما"

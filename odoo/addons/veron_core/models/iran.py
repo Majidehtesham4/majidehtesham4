@@ -221,6 +221,7 @@ class VeronIran(models.AbstractModel):
 DEFAULT_NAMES = [
 	("base.main_company", "My Company", "شرکت من"),
 	("base.partner_admin", "Administrator", "مدیر سیستم"),
+	("hr.employee_admin", "Administrator", "مدیر سیستم"),
 	("website.default_website", "My Website", "وب‌سایت من"),
 ]
 
@@ -276,6 +277,7 @@ MODULE_NAMES = {
 	"voip_oca": ("تلفن اینترنتی", "تماس تلفنی از داخل برنامه با مرکز تلفن اینترنتی (VoIP)"),
 	"veron_barcode": ("بارکد", "دریافت، ارسال و انبارگردانی با بارکدخوان یا دوربین گوشی"),
 	"veron_planning": ("برنامه‌ریزی نیرو", "شیفت کارکنان بر اساس نقش روی خط زمانی، با هشدار تداخل با مرخصی"),
+	"veron_appraisal": ("ارزیابی کارکنان", "خودارزیابی کارمند، امتیاز مدیر و نمره‌ی وزنی"),
 	"veron_accounting": ("حسابداری ERP-VERON", "حسابداری کامل: منوها، گزارش‌های مالی و سرفصل حساب‌های ایران"),
 	"veron_apps": ("همه‌ی برنامه‌های ERP-VERON", "همه‌ی برنامه‌ها، با جایگزین رایگان برنامه‌های پولی"),
 	"veron_base": ("یادداشت‌های ERP-VERON", "نمونه‌ی یک ماژول: یادداشت‌ها با منو، فهرست و فرم"),

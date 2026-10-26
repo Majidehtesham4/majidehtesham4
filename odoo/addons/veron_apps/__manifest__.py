@@ -24,9 +24,10 @@ employees):
 - SMS: veron_sms_iran (Kavenegar, SMS.ir, Melipayamak) instead of Odoo's paid SMS
 - Barcode: veron_barcode, receipts, deliveries and stock counts with a scanner or the phone's camera
 - Planning: veron_planning, staff shifts by role on a timeline, with conflicts against time off
+- Appraisals: veron_appraisal, self-assessment, the manager's rating and a weighted score
 - The full-screen apps menu: web_responsive
 
-Not on OCA for Odoo 19: Rental, Approvals, Appraisals, PLM, Studio, Marketing Automation,
+Not on OCA for Odoo 19: Rental, Approvals, PLM, Studio, Marketing Automation,
 Social Marketing, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
@@ -63,6 +64,7 @@ Social Marketing, IoT and WhatsApp.
 		# Our own replacements of the paid apps
 		"veron_barcode",
 		"veron_planning",
+		"veron_appraisal",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

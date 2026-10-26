@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="template_default" model="veron.appraisal.template">
+		<field name="name">General appraisal</field>
+	</record>
+	<record id="q_quality" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">1</field><field name="name">Quality of work</field><field name="weight">2</field></record>
+	<record id="q_productivity" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">2</field><field name="name">Productivity and meeting deadlines</field><field name="weight">2</field></record>
+	<record id="q_teamwork" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">3</field><field name="name">Teamwork and cooperation</field></record>
+	<record id="q_customers" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">4</field><field name="name">Customer focus</field></record>
+	<record id="q_discipline" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">5</field><field name="name">Punctuality and discipline</field></record>
+	<record id="q_learning" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">6</field><field name="name">Learning and growth</field></record>
+	<record id="q_strengths" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">7</field><field name="name">Strengths</field><field name="kind">text</field></record>
+	<record id="q_improve" model="veron.appraisal.template.line"><field name="template_id" ref="template_default"/><field name="sequence">8</field><field name="name">What to improve, and goals for the next period</field><field name="kind">text</field></record>
+</odoo>
