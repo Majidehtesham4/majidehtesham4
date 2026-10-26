@@ -48,7 +48,6 @@ msgstr "همه‌ی درخواست‌ها"
 #: code:addons/veron_approval/models/approval.py:0
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_amount
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__amount
-#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_amount
 msgid "Amount"
 msgstr "مبلغ"
 
@@ -167,7 +166,6 @@ msgstr "پیکربندی"
 #. odoo-python
 #: code:addons/veron_approval/models/approval.py:0
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_partner
-#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_partner
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__partner_id
 msgid "Contact"
 msgstr "طرف حساب"
@@ -199,7 +197,6 @@ msgstr "ارز"
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__date
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_date
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__date
-#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_date
 msgid "Date"
 msgstr "تاریخ"
 
@@ -245,9 +242,29 @@ msgid "General"
 msgstr "عمومی"
 
 #. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_amount
+msgid "Has Amount"
+msgstr "مبلغ دارد"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_date
+msgid "Has Date"
+msgstr "تاریخ دارد"
+
+#. module: veron_approval
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_message
 msgid "Has Message"
 msgstr "آیا دارای پیام است"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_partner
+msgid "Has Partner"
+msgstr "طرف حساب دارد"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_product
+msgid "Has Product"
+msgstr "کالا دارد"
 
 #. module: veron_approval
 #: model:ir.model.fields,help:veron_approval.field_veron_approval_category__minimum
@@ -314,6 +331,11 @@ msgstr "مرخصی و مأموریت"
 #: model:veron.approval.category,name:veron_approval.category_loan
 msgid "Loan"
 msgstr "وام"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_main_partner_id
+msgid "Main Contact"
+msgstr "مخاطب اصلی"
 
 #. module: veron_approval
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_has_error
@@ -438,7 +460,6 @@ msgstr "در جریان"
 #. odoo-python
 #: code:addons/veron_approval/models/approval.py:0
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_product
-#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_product
 #: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__product_id
 msgid "Product"
 msgstr "محصول"
