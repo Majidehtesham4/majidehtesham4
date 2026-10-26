@@ -121,9 +121,13 @@ class VeronIran(models.AbstractModel):
 
 	def _work_week(self):
 		"""Odoo's default working week, Monday to Friday, as Iran's 44 hours: Saturday to Wednesday
-		8 to 17 with an hour for lunch, Thursday 8 to 12. A schedule changed by hand is kept."""
+		8 to 17 with an hour for lunch, Thursday 8 to 12. A schedule changed by hand is kept. Schedules
+		and resources left in UTC are set in Tehran time."""
 		if "resource.calendar" not in self.env:
 			return
+		# Work hours in Tehran time: in UTC, 8 o'clock would be 11:30 here
+		self.env["resource.calendar"].search([("tz", "in", [False, "UTC"])]).write({"tz": "Asia/Tehran"})
+		self.env["resource.resource"].with_context(active_test=False).search([("tz", "in", [False, "UTC"])]).write({"tz": "Asia/Tehran"})
 		iranian = [(0, 0, line) for line in _iranian_week()]
 		for calendar in self.env["resource.calendar"].search([]):
 			days = set(calendar.attendance_ids.mapped("dayofweek"))
@@ -247,6 +251,8 @@ MODULE_NAMES = {
 	"mrp_multi_level": ("برنامه‌ریزی مواد چندسطحی", "برنامه‌ریزی نیاز مواد (MRP) برای چند سطح ساخت"),
 	"project_forecast_line": ("پیش‌بینی پروژه", "پیش‌بینی ظرفیت و نیاز نیروی پروژه‌ها"),
 	"subscription_oca": ("اشتراک‌ها", "فاکتورهای دوره‌ای اشتراک‌ها"),
+	"resource_booking": ("نوبت‌دهی", "رزرو نوبت مشتری با تقویم و زمان‌های آزاد کارکنان و امکانات"),
+	"voip_oca": ("تلفن اینترنتی", "تماس تلفنی از داخل برنامه با مرکز تلفن اینترنتی (VoIP)"),
 	"veron_accounting": ("حسابداری ERP-VERON", "حسابداری کامل: منوها، گزارش‌های مالی و سرفصل حساب‌های ایران"),
 	"veron_apps": ("همه‌ی برنامه‌های ERP-VERON", "همه‌ی برنامه‌ها، با جایگزین رایگان برنامه‌های پولی"),
 	"veron_base": ("یادداشت‌های ERP-VERON", "نمونه‌ی یک ماژول: یادداشت‌ها با منو، فهرست و فرم"),

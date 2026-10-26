@@ -26,6 +26,7 @@ services:
       HOST: db
       USER: odoo
       PASSWORD: ${DB_PASSWORD:-odoo}
+      PYTHONPATH: /mnt/python
     volumes:
       # Odoo's own files: the attachments and the session store
       - odoo-data:/var/lib/odoo
@@ -34,6 +35,8 @@ services:
       - ./addons:/mnt/extra-addons
       # Free modules of the Odoo Community Association, fetched by odoo.ps1 oca
       - ./oca:/mnt/oca
+      # Python libraries some OCA modules need (python/README.md)
+      - ./python:/mnt/python
     # Views and reports are read from the files on every load while developing
     command: ["--dev=xml"]
     restart: unless-stopped

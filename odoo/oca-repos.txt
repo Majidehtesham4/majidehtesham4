@@ -20,3 +20,6 @@ payroll
 project
 sign
 spreadsheet
+calendar
+connector-telephony
+timesheet

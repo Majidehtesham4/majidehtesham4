@@ -810,6 +810,295 @@ msgstr "به‌روز نشده"
 #. module: veron_core
 #. odoo-javascript
 #: code:addons/veron_core/static/src/branding.js:0
+msgid "%(minutes)s min %(seconds)s sec"
+msgstr "%(minutes)s دقیقه و %(seconds)s ثانیه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "%(minutes)s minutes"
+msgstr "%(minutes)s دقیقه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "%(seconds)s seconds"
+msgstr "%(seconds)s ثانیه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "1 minute"
+msgstr "۱ دقیقه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "1 second"
+msgstr "۱ ثانیه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "2 minutes"
+msgstr "۲ دقیقه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Accept"
+msgstr "پذیرفتن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"An error occurred during the connection:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"هنگام اتصال خطایی رخ داد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"An error occurred during the instantiation of the User Agent:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"هنگام راه‌اندازی تلفن نرم‌افزاری خطایی رخ داد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"An error occurred during the registration of the User Agent:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"هنگام ثبت تلفن نرم‌افزاری در مرکز تلفن خطایی رخ داد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Call"
+msgstr "تماس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"Call rejected. Reason:\n"
+"\n"
+"%(reason)s"
+msgstr ""
+"تماس رد شد. دلیل:\n"
+"\n"
+"%(reason)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Calls"
+msgstr "تماس‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Cancel activity"
+msgstr "لغو فعالیت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Contacts"
+msgstr "مخاطبان"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Edit activity"
+msgstr "ویرایش فعالیت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Enter number"
+msgstr "شماره را وارد کنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Enter number..."
+msgstr "شماره را وارد کنید..."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"Failed to establish the call:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"تماس برقرار نشد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"Failed to load the SIP.js library:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"کتابخانه‌ی SIP.js بارگذاری نشد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"Failed to put the call on hold/unhold:\n"
+"\n"
+"%(error)s"
+msgstr ""
+"نگه‌داشتن یا ادامه‌ی تماس ممکن نشد:\n"
+"\n"
+"%(error)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Failed to reconnect the User Agent. Please reload the page."
+msgstr ""
+"اتصال دوباره‌ی تلفن نرم‌افزاری ممکن نشد. لطفاً صفحه را دوباره بارگذاری کنید."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "In call for:"
+msgstr "مدت تماس:"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Info contact"
+msgstr "اطلاعات مخاطب"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Mark as done"
+msgstr "علامت به عنوان انجام شده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Mute"
+msgstr "بی‌صدا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "New contact"
+msgstr "مخاطب جدید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "No contact info"
+msgstr "اطلاعات مخاطب موجود نیست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Open Numpad"
+msgstr "باز کردن صفحه‌کلید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Pause"
+msgstr "مکث"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Related activity"
+msgstr "فعالیت مرتبط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Related document"
+msgstr "سند مرتبط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Schedule activity"
+msgstr "برنامه ریزی فعالیت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Search"
+msgstr "جستجو"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Send email"
+msgstr "ارسال ایمیل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Softphone"
+msgstr "تلفن نرم‌افزاری"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Transfer"
+msgstr "انتقال"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Transfer to"
+msgstr "انتقال به"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "VoIP"
+msgstr "تلفن اینترنتی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "less than a second"
+msgstr "کمتر از یک ثانیه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
 msgid "C"
 msgstr "بستانکار"
 

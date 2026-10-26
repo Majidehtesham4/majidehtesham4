@@ -21,12 +21,15 @@ services:
       HOST: db
       USER: odoo
       PASSWORD: ${DB_PASSWORD:?run ./veron setup first}
+      PYTHONPATH: /mnt/python
     volumes:
       - odoo-data:/var/lib/odoo
       # Made by ./veron setup: the passwords are only on the server
       - ./config:/etc/odoo
       - ../addons:/mnt/extra-addons
       - ../oca:/mnt/oca
+      # Python libraries some OCA modules need (python/README.md)
+      - ../python:/mnt/python
     # No port of its own: only Caddy, on 80 and 443, is reached from the internet
     restart: always
 
