@@ -19,7 +19,7 @@
 					<div class="oe_title"><h1><field name="display_name"/></h1></div>
 					<group>
 						<group string="Wage and Allowances (a month)">
-							<field name="year" readonly="state == 'confirmed'" options="{'format': false}"/>
+							<field name="year" readonly="state == 'confirmed'" options="{'enable_formatting': false}"/>
 							<field name="min_monthly" readonly="state == 'confirmed'"/>
 							<field name="min_daily"/>
 							<field name="housing" readonly="state == 'confirmed'"/>
@@ -79,7 +79,7 @@
 		<field name="model">veron.payroll.year</field>
 		<field name="arch" type="xml">
 			<list decoration-warning="state == 'draft'">
-				<field name="year" options="{'format': false}"/>
+				<field name="year" options="{'enable_formatting': false}"/>
 				<field name="min_monthly"/>
 				<field name="housing"/>
 				<field name="food"/>
