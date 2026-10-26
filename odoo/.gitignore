@@ -1,1 +1,3 @@
 oca/
+__pycache__/
+*.pyc
