@@ -1,0 +1,644 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_approval
+#: model:ir.actions.act_window,name:veron_approval.action_all
+#: model:ir.ui.menu,name:veron_approval.menu_all
+msgid "All Requests"
+msgstr "همه‌ی درخواست‌ها"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_amount
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__amount
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_amount
+msgid "Amount"
+msgstr "مبلغ"
+
+#. module: veron_approval
+#: model:ir.actions.act_window,name:veron_approval.action_categories
+#: model:ir.ui.menu,name:veron_approval.menu_categories
+msgid "Approval Categories"
+msgstr "دسته‌های تأییدیه"
+
+#. module: veron_approval
+#: model:ir.model,name:veron_approval.model_veron_approval_category
+msgid "Approval Category"
+msgstr "دسته‌ی تأییدیه"
+
+#. module: veron_approval
+#: model:ir.model,name:veron_approval.model_veron_approval_request
+msgid "Approval Request"
+msgstr "درخواست تأییدیه"
+
+#. module: veron_approval
+#: model:ir.ui.menu,name:veron_approval.menu_root
+msgid "Approvals"
+msgstr "تأییدیه‌ها"
+
+#. module: veron_approval
+#: model:res.groups,name:veron_approval.group_approval_manager
+msgid "Approvals Manager"
+msgstr "مدیر تأییدیه‌ها"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__minimum
+msgid "Approvals Needed"
+msgstr "تعداد تأیید لازم"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Approve"
+msgstr "موافقت"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "Approve: %s"
+msgstr "تأیید: %s"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_approver__status__approved
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__state__approved
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__user_status__approved
+msgid "Approved"
+msgstr "تأییدشده"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__user_id
+msgid "Approver"
+msgstr "تأییدکننده"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__approver_user_ids
+msgid "Approver User"
+msgstr "کاربر تأییدکننده"
+
+#. module: veron_approval
+#: model:ir.model,name:veron_approval.model_veron_approval_approver
+msgid "Approver of a Request"
+msgstr "تأییدکننده‌ی درخواست"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__approver_ids
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__approver_line_ids
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Approvers"
+msgstr "تأییدکنندگان"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Back to New"
+msgstr "برگرداندن به جدید"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.refuse_view_form
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_approval
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__state__cancel
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__category_id
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_search
+msgid "Category"
+msgstr "دسته بندی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__company_id
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_approval
+#: model:ir.ui.menu,name:veron_approval.menu_config
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_partner
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_partner
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__partner_id
+msgid "Contact"
+msgstr "طرف حساب"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__create_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__create_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__create_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__create_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__create_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__create_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__description
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__description
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__display_name
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__display_name
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__display_name
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "Fill in first: %s"
+msgstr "اول این‌ها را پر کنید: %s"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_approval
+#: model:veron.approval.category,name:veron_approval.category_general
+msgid "General"
+msgstr "عمومی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_category__minimum
+msgid "How many of the approvers must approve; 0 means all of them"
+msgstr "چند نفر از تأییدکنندگان باید تأیید کنند؛ ۰ یعنی همه"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__id
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__id
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__id
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__message_has_error
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__write_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__write_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__write_uid
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__write_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__write_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__write_date
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_approval
+#: model:veron.approval.category,name:veron_approval.category_absence
+msgid "Leave of Absence"
+msgstr "مرخصی و مأموریت"
+
+#. module: veron_approval
+#: model:veron.approval.category,name:veron_approval.category_loan
+msgid "Loan"
+msgstr "وام"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_approval
+#: model:ir.actions.act_window,name:veron_approval.action_my_requests
+#: model:ir.ui.menu,name:veron_approval.menu_mine
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_search
+msgid "My Requests"
+msgstr "درخواست‌های من"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__state__new
+msgid "New"
+msgstr "جدید"
+
+#. module: veron_approval
+#: model:ir.actions.act_window,name:veron_approval.action_new
+#: model:ir.ui.menu,name:veron_approval.menu_new
+#: model_terms:ir.ui.view,arch_db:veron_approval.category_view_kanban
+msgid "New Request"
+msgstr "درخواست جدید"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_approval
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_amount__no
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_date__no
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_partner__no
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_product__no
+msgid "None"
+msgstr "ندارد"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "Only the requester cancels the request."
+msgstr "فقط درخواست‌کننده درخواست را لغو می‌کند."
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "Only the requester submits the request."
+msgstr "فقط درخواست‌کننده درخواست را ارسال می‌کند."
+
+#. module: veron_approval
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_amount__optional
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_date__optional
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_partner__optional
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_product__optional
+msgid "Optional"
+msgstr "اختیاری"
+
+#. module: veron_approval
+#: model:veron.approval.category,name:veron_approval.category_payment
+msgid "Payment"
+msgstr "پرداخت"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_search
+msgid "Pending"
+msgstr "در جریان"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__has_product
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__has_product
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__product_id
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_approval
+#: model:veron.approval.category,name:veron_approval.category_purchase
+msgid "Purchase Request"
+msgstr "درخواست خرید"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__quantity
+msgid "Quantity"
+msgstr "تعداد"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__comment
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__reason
+msgid "Reason"
+msgstr "دلیل"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__reference
+msgid "Reference"
+msgstr "مرجع‌"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.refuse_view_form
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Refuse"
+msgstr "رد"
+
+#. module: veron_approval
+#: model:ir.model,name:veron_approval.model_veron_approval_refuse
+msgid "Refuse a Request"
+msgstr "رد درخواست"
+
+#. module: veron_approval
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_approver__status__refused
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__state__refused
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__user_status__refused
+msgid "Refused"
+msgstr "ردشده"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "Refused by %(user)s: %(reason)s"
+msgstr "%(user)s رد کرد: %(reason)s"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__request_id
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_refuse__request_id
+msgid "Request"
+msgstr "درخواست"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__request_to_approve_count
+msgid "Request To Approve Count"
+msgstr "تعداد منتظر تأیید"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_list
+msgid "Requested on"
+msgstr "تاریخ درخواست"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__requester_id
+msgid "Requester"
+msgstr "درخواست‌کننده"
+
+#. module: veron_approval
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_amount__required
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_date__required
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_partner__required
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_category__has_product__required
+msgid "Required"
+msgstr "الزامی"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_category__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_approver__status
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_search
+msgid "Status"
+msgstr "وضعیت"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__name
+msgid "Subject"
+msgstr "موضوع"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Submit"
+msgstr "ارسال"
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "The category %s has no approvers."
+msgstr "دسته‌ی %s تأییدکننده ندارد."
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "The request is approved."
+msgstr "درخواست تأیید شد."
+
+#. module: veron_approval
+#. odoo-python
+#: code:addons/veron_approval/models/approval.py:0
+msgid "This request is not waiting for your approval."
+msgstr "این درخواست منتظر تأیید شما نیست."
+
+#. module: veron_approval
+#: model:ir.actions.act_window,name:veron_approval.action_to_approve
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_approver__status__waiting
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__state__pending
+#: model:ir.model.fields.selection,name:veron_approval.selection__veron_approval_request__user_status__waiting
+#: model:ir.ui.menu,name:veron_approval.menu_to_approve
+msgid "To Approve"
+msgstr "منتظر تأیید"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_search
+msgid "To Approve by Me"
+msgstr "منتظر تأیید من"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__user_status
+msgid "User Status"
+msgstr "وضعیت من"
+
+#. module: veron_approval
+#: model:ir.model.fields,field_description:veron_approval.field_veron_approval_request__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_approval
+#: model:ir.model.fields,help:veron_approval.field_veron_approval_request__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "What is asked"
+msgstr "چه چیزی درخواست می‌شود"
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.category_view_form
+msgid "When to use this category..."
+msgstr "این دسته برای چه درخواست‌هایی است..."
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.request_view_form
+msgid "Why, and the details..."
+msgstr "چرا، و جزئیات..."
+
+#. module: veron_approval
+#: model_terms:ir.ui.view,arch_db:veron_approval.category_view_kanban
+msgid "to approve"
+msgstr "منتظر تأیید"

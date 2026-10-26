@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_category_user,category user,model_veron_approval_category,base.group_user,1,0,0,0
+access_category_manager,category manager,model_veron_approval_category,group_approval_manager,1,1,1,1
+access_request_user,request user,model_veron_approval_request,base.group_user,1,1,1,1
+access_approver_user,approver user,model_veron_approval_approver,base.group_user,1,0,0,0
+access_approver_manager,approver manager,model_veron_approval_approver,group_approval_manager,1,1,1,1
+access_refuse_user,refuse user,model_veron_approval_refuse,base.group_user,1,1,1,0

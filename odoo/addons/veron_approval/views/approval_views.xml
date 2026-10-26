@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="request_view_form" model="ir.ui.view">
+		<field name="name">veron.approval.request.form</field>
+		<field name="model">veron.approval.request</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_submit" type="object" string="Submit" class="btn-primary" invisible="state != 'new'"/>
+					<button name="action_approve" type="object" string="Approve" class="btn-success" invisible="state != 'pending' or user_status != 'waiting'"/>
+					<button name="action_open_refuse" type="object" string="Refuse" class="btn-danger" invisible="state != 'pending' or user_status != 'waiting'"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state not in ('new', 'pending')"/>
+					<button name="action_draft" type="object" string="Back to New" invisible="state not in ('refused', 'cancel')"/>
+					<field name="state" widget="statusbar" statusbar_visible="new,pending,approved"/>
+				</header>
+				<sheet>
+					<field name="user_status" invisible="1"/>
+					<div class="oe_title">
+						<field name="reference" class="text-muted"/>
+						<h1><field name="name" placeholder="What is asked" readonly="state != 'new'"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="category_id" readonly="state != 'new'" options="{'no_create': True}"/>
+							<field name="requester_id" widget="many2one_avatar_user"/>
+							<field name="amount" invisible="has_amount == 'no'" required="has_amount == 'required'" readonly="state != 'new'"/>
+							<field name="currency_id" invisible="1"/>
+							<field name="date" invisible="has_date == 'no'" required="has_date == 'required'" readonly="state != 'new'"/>
+						</group>
+						<group>
+							<field name="partner_id" invisible="has_partner == 'no'" required="has_partner == 'required'" readonly="state != 'new'"/>
+							<field name="product_id" invisible="has_product == 'no'" required="has_product == 'required'" readonly="state != 'new'"/>
+							<field name="quantity" invisible="has_product == 'no'" readonly="state != 'new'"/>
+						</group>
+					</group>
+					<field name="has_amount" invisible="1"/>
+					<field name="has_date" invisible="1"/>
+					<field name="has_product" invisible="1"/>
+					<field name="has_partner" invisible="1"/>
+					<notebook>
+						<page string="Description" name="description">
+							<field name="description" readonly="state != 'new'" placeholder="Why, and the details..."/>
+						</page>
+						<page string="Approvers" name="approvers" invisible="not approver_line_ids">
+							<field name="approver_line_ids" readonly="1">
+								<list>
+									<field name="user_id" widget="many2one_avatar_user"/>
+									<field name="status" widget="badge" decoration-success="status == 'approved'" decoration-danger="status == 'refused'"/>
+									<field name="date"/>
+									<field name="comment"/>
+								</list>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="request_view_list" model="ir.ui.view">
+		<field name="name">veron.approval.request.list</field>
+		<field name="model">veron.approval.request</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="reference"/>
+				<field name="name"/>
+				<field name="category_id"/>
+				<field name="requester_id" widget="many2one_avatar_user"/>
+				<field name="amount" optional="show"/>
+				<field name="currency_id" column_invisible="True"/>
+				<field name="create_date" string="Requested on" optional="show"/>
+				<field name="state" widget="badge" decoration-info="state == 'pending'" decoration-success="state == 'approved'" decoration-danger="state == 'refused'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="request_view_search" model="ir.ui.view">
+		<field name="name">veron.approval.request.search</field>
+		<field name="model">veron.approval.request</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="reference"/>
+				<field name="category_id"/>
+				<field name="requester_id"/>
+				<filter name="mine" string="My Requests" domain="[('requester_id', '=', uid)]"/>
+				<filter name="to_approve" string="To Approve by Me" domain="[('state', '=', 'pending'), ('approver_line_ids', 'any', [('user_id', '=', uid), ('status', '=', 'waiting')])]"/>
+				<filter name="pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+				<group>
+					<filter name="by_category" string="Category" context="{'group_by': 'category_id'}"/>
+					<filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="refuse_view_form" model="ir.ui.view">
+		<field name="name">veron.approval.refuse.form</field>
+		<field name="model">veron.approval.refuse</field>
+		<field name="arch" type="xml">
+			<form>
+				<field name="request_id" invisible="1"/>
+				<group><field name="reason"/></group>
+				<footer>
+					<button name="action_refuse" type="object" string="Refuse" class="btn-danger"/>
+					<button special="cancel" string="Cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="category_view_kanban" model="ir.ui.view">
+		<field name="name">veron.approval.category.kanban</field>
+		<field name="model">veron.approval.category</field>
+		<field name="arch" type="xml">
+			<kanban create="0" action="action_new_request" type="object">
+				<templates>
+					<t t-name="card" class="p-3">
+						<field name="name" class="fs-5 fw-bold"/>
+						<field name="description" class="text-muted"/>
+						<div class="mt-2">
+							<button name="action_new_request" type="object" class="btn btn-primary btn-sm">New Request</button>
+							<span class="ms-2 text-muted" invisible="not request_to_approve_count"><field name="request_to_approve_count"/> to approve</span>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="category_view_form" model="ir.ui.view">
+		<field name="name">veron.approval.category.form</field>
+		<field name="model">veron.approval.category</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group>
+							<field name="approver_ids" widget="many2many_avatar_user"/>
+							<field name="minimum"/>
+						</group>
+						<group>
+							<field name="has_amount"/>
+							<field name="has_date"/>
+							<field name="has_partner"/>
+							<field name="has_product"/>
+						</group>
+					</group>
+					<field name="description" placeholder="When to use this category..."/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_new" model="ir.actions.act_window">
+		<field name="name">New Request</field>
+		<field name="res_model">veron.approval.category</field>
+		<field name="view_mode">kanban</field>
+	</record>
+	<record id="action_my_requests" model="ir.actions.act_window">
+		<field name="name">My Requests</field>
+		<field name="res_model">veron.approval.request</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'search_default_mine': 1}</field>
+	</record>
+	<record id="action_to_approve" model="ir.actions.act_window">
+		<field name="name">To Approve</field>
+		<field name="res_model">veron.approval.request</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'search_default_to_approve': 1}</field>
+	</record>
+	<record id="action_all" model="ir.actions.act_window">
+		<field name="name">All Requests</field>
+		<field name="res_model">veron.approval.request</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<record id="action_categories" model="ir.actions.act_window">
+		<field name="name">Approval Categories</field>
+		<field name="res_model">veron.approval.category</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<menuitem id="menu_root" name="Approvals" web_icon="veron_approval,static/description/icon.png" sequence="59"/>
+	<menuitem id="menu_new" name="New Request" parent="menu_root" action="action_new" sequence="1"/>
+	<menuitem id="menu_mine" name="My Requests" parent="menu_root" action="action_my_requests" sequence="2"/>
+	<menuitem id="menu_to_approve" name="To Approve" parent="menu_root" action="action_to_approve" sequence="3"/>
+	<menuitem id="menu_all" name="All Requests" parent="menu_root" action="action_all" sequence="4" groups="group_approval_manager"/>
+	<menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="10" groups="group_approval_manager"/>
+	<menuitem id="menu_categories" name="Approval Categories" parent="menu_config" action="action_categories"/>
+</odoo>

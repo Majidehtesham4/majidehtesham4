@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_order,rental order,model_veron_rental_order,group_rental_user,1,1,1,1
+access_line,rental line,model_veron_rental_line,group_rental_user,1,1,1,1

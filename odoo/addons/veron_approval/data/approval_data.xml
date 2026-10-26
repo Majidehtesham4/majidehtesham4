@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="seq_request" model="ir.sequence">
+		<field name="name">Approval Request</field>
+		<field name="code">veron.approval.request</field>
+		<field name="prefix">APR/</field>
+		<field name="padding">4</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="category_purchase" model="veron.approval.category">
+		<field name="name">Purchase Request</field>
+		<field name="sequence">1</field>
+		<field name="has_amount">required</field>
+		<field name="has_product">optional</field>
+		<field name="has_partner">optional</field>
+		<field name="approver_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+	<record id="category_payment" model="veron.approval.category">
+		<field name="name">Payment</field>
+		<field name="sequence">2</field>
+		<field name="has_amount">required</field>
+		<field name="has_partner">required</field>
+		<field name="has_date">optional</field>
+		<field name="approver_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+	<record id="category_absence" model="veron.approval.category">
+		<field name="name">Leave of Absence</field>
+		<field name="sequence">3</field>
+		<field name="has_date">required</field>
+		<field name="approver_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+	<record id="category_loan" model="veron.approval.category">
+		<field name="name">Loan</field>
+		<field name="sequence">4</field>
+		<field name="has_amount">required</field>
+		<field name="approver_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+	<record id="category_general" model="veron.approval.category">
+		<field name="name">General</field>
+		<field name="sequence">10</field>
+		<field name="approver_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+</odoo>

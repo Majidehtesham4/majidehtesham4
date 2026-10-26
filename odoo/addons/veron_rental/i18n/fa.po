@@ -1,0 +1,588 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "%(product)s, %(days)s days"
+msgstr "%(product)s، %(days)s روز"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "%(product)s, late fee for %(days)s days"
+msgstr "%(product)s، جریمه‌ی تأخیر %(days)s روز"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid ""
+"%(product)s: %(free)s free for these dates, %(wanted)s asked (rented in "
+"%(orders)s)."
+msgstr ""
+"%(product)s: در این تاریخ‌ها %(free)s عدد آزاد است و %(wanted)s عدد خواسته "
+"شده (اجاره‌شده در %(orders)s)."
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "<span class=\"o_stat_text\">Invoice</span>"
+msgstr "<span class=\"o_stat_text\">فاکتور</span>"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "A rental already picked up cannot be cancelled."
+msgstr "اجاره‌ای که تحویل گرفته شده لغو نمی‌شود."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "Add the products to rent first."
+msgstr "اول کالاهای اجاره را اضافه کنید."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Back to Quotation"
+msgstr "برگرداندن به پیش‌فاکتور"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_product__rent_ok
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__rent_ok
+msgid "Can Be Rented"
+msgstr "قابل اجاره"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__cancel
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_product_product__rental_late_fee_day
+#: model:ir.model.fields,help:veron_rental.field_product_template__rental_late_fee_day
+msgid "Charged for each day returned after the agreed end"
+msgstr "برای هر روز تأخیر در بازگرداندن"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Conditions of the rental..."
+msgstr "شرایط اجاره..."
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Create Invoice"
+msgstr "صدور فاکتور"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__create_uid
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__create_date
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__currency_id
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__partner_id
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Customer"
+msgstr "مشتری"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__days
+msgid "Days"
+msgstr "روزها"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__deposit
+msgid "Deposit"
+msgstr "ودیعه"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__display_name
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__display_name
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_product_product__rental_units
+#: model:ir.model.fields,help:veron_rental.field_product_template__rental_units
+msgid "How many can be rented out at the same time"
+msgstr "چند عدد را هم‌زمان می‌شود اجاره داد"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__id
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__id
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__message_has_error
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__invoice_id
+msgid "Invoice"
+msgstr "فاکتور"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "Invoice the rental once the products are back."
+msgstr "فاکتور اجاره پس از بازگشت کالاها صادر می‌شود."
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__invoiced
+msgid "Invoiced"
+msgstr "فاکتورشده"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__is_late
+msgid "Is Late"
+msgstr "دیر شده"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__deposit
+msgid "Kept until the products come back"
+msgstr "تا بازگشت کالاها نگه داشته می‌شود"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__write_uid
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__write_date
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Late"
+msgstr "دیرکرد"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__late_days
+msgid "Late Days"
+msgstr "روزهای تأخیر"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_product__rental_late_fee_day
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__rental_late_fee_day
+msgid "Late Fee per Day"
+msgstr "جریمه‌ی تأخیر روزانه"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__amount_late
+msgid "Late Fees"
+msgstr "جریمه‌ی تأخیر"
+
+#. module: veron_rental
+#: model_terms:ir.actions.act_window,help:veron_rental.action_orders
+msgid ""
+"Mark the products that can be rented (product form, Rental tab), with their "
+"price per day."
+msgstr ""
+"کالاهای قابل اجاره را در فرم کالا، زبانه‌ی «اجاره»، با اجاره‌بهای روزانه "
+"مشخص کنید."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "New"
+msgstr "جدید"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Not Returned on Time"
+msgstr "برنگشته در موعد"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__order_id
+msgid "Order"
+msgstr "سفارش"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Out"
+msgstr "در دست مشتری"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__price_day
+msgid "Per Day"
+msgstr "روزانه"
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__picked_up
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Picked Up"
+msgstr "تحویل داده شد"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__start_date
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Pickup"
+msgstr "تحویل"
+
+#. module: veron_rental
+#: model:ir.model,name:veron_rental.model_product_template
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__product_id
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__line_ids
+msgid "Products"
+msgstr "محصولات"
+
+#. module: veron_rental
+#: model:ir.actions.act_window,name:veron_rental.action_products
+#: model:ir.ui.menu,name:veron_rental.menu_products
+msgid "Products for Rent"
+msgstr "کالاهای اجاره‌ای"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__quantity
+msgid "Quantity"
+msgstr "تعداد"
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__draft
+msgid "Quotation"
+msgstr "پیش‌فاکتور"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__amount_rent
+msgid "Rent"
+msgstr "اجاره‌بها"
+
+#. module: veron_rental
+#: model_terms:ir.actions.act_window,help:veron_rental.action_orders
+msgid "Rent out the first product"
+msgstr "اولین اجاره را ثبت کنید"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_product__rental_price_day
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__rental_price_day
+msgid "Rent per Day"
+msgstr "اجاره‌بهای روزانه"
+
+#. module: veron_rental
+#: model:ir.ui.menu,name:veron_rental.menu_root
+#: model:res.groups,name:veron_rental.group_rental_user
+#: model_terms:ir.ui.view,arch_db:veron_rental.product_view_form
+msgid "Rental"
+msgstr "اجاره"
+
+#. module: veron_rental
+#: model:ir.model,name:veron_rental.model_veron_rental_order
+msgid "Rental Order"
+msgstr "قرارداد اجاره"
+
+#. module: veron_rental
+#: model:ir.model,name:veron_rental.model_veron_rental_line
+msgid "Rental Order Line"
+msgstr "ردیف قرارداد اجاره"
+
+#. module: veron_rental
+#: model:ir.actions.act_window,name:veron_rental.action_orders
+#: model:ir.ui.menu,name:veron_rental.menu_orders
+msgid "Rental Orders"
+msgstr "قراردادهای اجاره"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Reserve"
+msgstr "رزرو"
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__reserved
+msgid "Reserved"
+msgstr "رزروشده"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__end_date
+msgid "Return"
+msgstr "بازگشت"
+
+#. module: veron_rental
+#: model:ir.model.fields.selection,name:veron_rental.selection__veron_rental_order__state__returned
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+msgid "Returned"
+msgstr "برگشت"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "Returned %s days late."
+msgstr "با %s روز تأخیر برگشت."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__returned_date
+msgid "Returned On"
+msgstr "تاریخ بازگشت"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__user_id
+msgid "Salesperson"
+msgstr "فروشنده"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "Status"
+msgstr "وضعیت"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_line__subtotal
+msgid "Subtotal"
+msgstr "جمع جزء"
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "The quantity must be at least one."
+msgstr "تعداد باید دست‌کم یک باشد."
+
+#. module: veron_rental
+#. odoo-python
+#: code:addons/veron_rental/models/rental.py:0
+msgid "The return must be after the pickup."
+msgstr "بازگشت باید بعد از تحویل باشد."
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "To Invoice"
+msgstr "برای فاکتور"
+
+#. module: veron_rental
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_search
+msgid "To Pick Up"
+msgstr "برای تحویل"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__amount_total
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_form
+#: model_terms:ir.ui.view,arch_db:veron_rental.order_view_list
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_product_product__rental_units
+#: model:ir.model.fields,field_description:veron_rental.field_product_template__rental_units
+msgid "Units to Rent"
+msgstr "تعداد قابل اجاره"
+
+#. module: veron_rental
+#: model:ir.model.fields,field_description:veron_rental.field_veron_rental_order__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_rental
+#: model:ir.model.fields,help:veron_rental.field_veron_rental_order__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"

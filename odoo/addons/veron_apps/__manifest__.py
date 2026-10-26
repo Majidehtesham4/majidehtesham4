@@ -30,9 +30,11 @@ employees):
 - Social Marketing: veron_social, posts to Bale, Eitaa and Telegram channels, now or scheduled
 - Marketing Automation: veron_marketing_automation, emails, SMS, to-dos and actions in steps
 - Android and iPhone: the web client installs as an app (PWA), as ERP-VERON
+- Approvals: veron_approval, requests approved by the right people, as many as needed
+- Rental: veron_rental, reservations without double booking, pickup, return, late fees, invoices
 - The full-screen apps menu: web_responsive
 
-Not built: Rental, Approvals, Studio, IoT and WhatsApp.
+Not built: Studio, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
 	"category": "Productivity",
@@ -73,6 +75,8 @@ Not built: Rental, Approvals, Studio, IoT and WhatsApp.
 		"veron_plm",
 		"veron_social",
 		"veron_marketing_automation",
+		"veron_approval",
+		"veron_rental",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

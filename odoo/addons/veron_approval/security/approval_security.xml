@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="group_approval_manager" model="res.groups">
+		<field name="name">Approvals Manager</field>
+		<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		<field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+
+	<!-- A user sees their own requests and those they approve; changes their own while new; approving goes through the buttons -->
+	<record id="rule_request_read" model="ir.rule">
+		<field name="name">Approval requests: one's own and those to approve</field>
+		<field name="model_id" ref="model_veron_approval_request"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">['|', ('requester_id', '=', user.id), ('approver_line_ids.user_id', '=', user.id)]</field>
+		<field name="perm_write" eval="False"/>
+		<field name="perm_create" eval="False"/>
+		<field name="perm_unlink" eval="False"/>
+	</record>
+	<record id="rule_request_write" model="ir.rule">
+		<field name="name">Approval requests: one's own, while new</field>
+		<field name="model_id" ref="model_veron_approval_request"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('requester_id', '=', user.id), ('state', '=', 'new')]</field>
+		<field name="perm_read" eval="False"/>
+	</record>
+	<record id="rule_request_manager" model="ir.rule">
+		<field name="name">Approval requests: all, for managers</field>
+		<field name="model_id" ref="model_veron_approval_request"/>
+		<field name="groups" eval="[(4, ref('group_approval_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_request_company" model="ir.rule">
+		<field name="name">Approval requests: the user's companies</field>
+		<field name="model_id" ref="model_veron_approval_request"/>
+		<field name="global" eval="True"/>
+		<field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+	</record>
+</odoo>
