@@ -1,0 +1,135 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_shopfloor
+#. odoo-python
+#: code:addons/veron_shopfloor/models/shopfloor.py:0
+msgid "%s is done."
+msgstr "%s انجام شد."
+
+#. module: veron_shopfloor
+#: model:ir.model.fields,field_description:veron_shopfloor.field_veron_shopfloor__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Done"
+msgstr "انجام شد"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Expected"
+msgstr "زمان پیش‌بینی‌شده"
+
+#. module: veron_shopfloor
+#: model:ir.model.fields,field_description:veron_shopfloor.field_veron_shopfloor__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "In progress"
+msgstr "در حال انجام"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "No work order to do."
+msgstr "دستور کاری برای انجام نیست."
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Pause"
+msgstr "توقف"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Quantity:"
+msgstr "مقدار:"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Refresh"
+msgstr "تازه کردن"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Scrap"
+msgstr "ضایعات"
+
+#. module: veron_shopfloor
+#: model:ir.actions.client,name:veron_shopfloor.action_shopfloor
+#: model:ir.ui.menu,name:veron_shopfloor.menu_shopfloor_root
+msgid "Shop Floor"
+msgstr "کارگاه"
+
+#. module: veron_shopfloor
+#: model:ir.model,name:veron_shopfloor.model_veron_shopfloor
+msgid "Shop floor screen"
+msgstr "صفحه‌ی کارگاه"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "Start"
+msgstr "شروع"
+
+#. module: veron_shopfloor
+#. odoo-python
+#: code:addons/veron_shopfloor/models/shopfloor.py:0
+msgid "The quantity produced must be more than zero."
+msgstr "مقدار تولیدشده باید بیشتر از صفر باشد."
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "The work center is blocked."
+msgstr "ایستگاه کاری متوقف است."
+
+#. module: veron_shopfloor
+#. odoo-python
+#: code:addons/veron_shopfloor/models/shopfloor.py:0
+msgid "This work order no longer exists."
+msgstr "این دستور کار دیگر وجود ندارد."
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "To do"
+msgstr "برای انجام"
+
+#. module: veron_shopfloor
+#. odoo-python
+#: code:addons/veron_shopfloor/models/shopfloor.py:0
+msgid "Unknown action: %s"
+msgstr "عملیات ناشناخته: %s"
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid ""
+"Work orders come from manufacturing orders whose bill of materials has operations\n"
+"                    (Manufacturing > Configuration > Settings > Work Orders)."
+msgstr ""
+"دستورهای کار از سفارش‌های تولیدی می‌آیند که فرمول ساختشان عملیات دارد\n"
+"                    (تولید ← پیکربندی ← تنظیمات ← دستورهای کار)."
+
+#. module: veron_shopfloor
+#. odoo-javascript
+#: code:addons/veron_shopfloor/static/src/shopfloor.xml:0
+msgid "of"
+msgstr "از"

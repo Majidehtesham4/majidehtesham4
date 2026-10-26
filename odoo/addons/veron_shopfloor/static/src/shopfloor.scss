@@ -1,0 +1,14 @@
+.o_veron_shopfloor {
+    .o_veron_shopfloor_centers {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: inherit;
+    }
+    .o_veron_wo_qty {
+        max-width: 8rem;
+    }
+    .o_veron_wo.border-success {
+        border-width: 2px;
+    }
+}

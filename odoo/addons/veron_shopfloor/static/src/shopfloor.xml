@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="veron_shopfloor.Shopfloor">
+        <div class="o_veron_shopfloor o_action h-100 overflow-auto bg-view">
+            <div class="d-flex flex-wrap gap-2 p-2 border-bottom o_veron_shopfloor_centers">
+                <t t-foreach="state.centers" t-as="center" t-key="center.id">
+                    <button t-attf-class="btn btn-lg #{center.id === state.center ? 'btn-primary' : 'btn-outline-primary'}"
+                            t-on-click="() => this.openCenter(center.id)">
+                        <t t-esc="center.name"/>
+                        <span t-if="center.progress" class="badge text-bg-success ms-2" t-esc="center.progress" title="In progress"/>
+                        <span class="badge text-bg-secondary ms-1" t-esc="center.todo" title="To do"/>
+                    </button>
+                </t>
+                <button class="btn btn-light btn-lg ms-auto" t-on-click="loadCenters" title="Refresh"><i class="fa fa-refresh"/></button>
+            </div>
+            <div t-if="!state.centers.length" class="container py-5 text-center text-muted">
+                <i class="fa fa-industry fa-3x d-block mb-3"/>
+                <p class="fs-5">No work order to do.</p>
+                <p>Work orders come from manufacturing orders whose bill of materials has operations
+                    (Manufacturing &gt; Configuration &gt; Settings &gt; Work Orders).</p>
+            </div>
+            <div class="container-fluid py-3">
+                <div class="row g-3">
+                    <t t-foreach="state.workorders" t-as="wo" t-key="wo.id">
+                        <div class="col-12 col-lg-6 col-xxl-4">
+                            <div t-attf-class="card h-100 o_veron_wo #{wo.state === 'progress' ? 'border-success' : wo.state === 'blocked' ? 'border-danger' : ''}">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <span class="fs-5 fw-bold"><t t-esc="wo.name"/> <small class="text-muted" t-esc="wo.step"/></span>
+                                    <span class="text-muted" t-esc="wo.production"/>
+                                </div>
+                                <div class="card-body">
+                                    <div class="fs-5 mb-2"><t t-esc="wo.product"/></div>
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <span>Quantity:</span>
+                                        <input type="number" min="0" step="any" class="form-control form-control-lg o_veron_wo_qty"
+                                               t-att-value="state.quantities[wo.id] ?? wo.producing" t-on-change="(ev) => this.setQuantity(wo, ev)"/>
+                                        <span>of <t t-esc="qty(wo.quantity)"/> <t t-esc="wo.uom"/></span>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span t-attf-class="fs-3 font-monospace #{wo.working ? 'text-success' : ''}" t-esc="elapsed(wo)"/>
+                                        <span class="text-muted">Expected <t t-esc="expected(wo)"/></span>
+                                    </div>
+                                    <ul t-if="wo.components.length" class="list-unstyled small mb-0">
+                                        <li t-foreach="wo.components" t-as="c" t-key="c_index">
+                                            <i class="fa fa-cube me-1 text-muted"/><t t-esc="c.product"/>: <t t-esc="qty(c.quantity)"/> <t t-esc="c.uom"/>
+                                        </li>
+                                    </ul>
+                                    <div t-if="wo.state === 'blocked'" class="alert alert-danger mt-2 mb-0">The work center is blocked.</div>
+                                </div>
+                                <div class="card-footer d-flex gap-2">
+                                    <button t-if="!wo.working" class="btn btn-success btn-lg flex-grow-1" t-att-disabled="wo.state === 'blocked'" t-on-click="() => this.act(wo, 'start')">
+                                        <i class="fa fa-play me-1"/> Start
+                                    </button>
+                                    <button t-else="" class="btn btn-warning btn-lg flex-grow-1" t-on-click="() => this.act(wo, 'pause')">
+                                        <i class="fa fa-pause me-1"/> Pause
+                                    </button>
+                                    <button class="btn btn-primary btn-lg flex-grow-1" t-att-disabled="wo.state === 'blocked'" t-on-click="() => this.act(wo, 'done')">
+                                        <i class="fa fa-check me-1"/> Done
+                                    </button>
+                                    <button class="btn btn-light btn-lg" t-on-click="() => this.scrap(wo)" title="Scrap">
+                                        <i class="fa fa-trash"/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

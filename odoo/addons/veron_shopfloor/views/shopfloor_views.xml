@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_shopfloor" model="ir.actions.client">
+		<field name="name">Shop Floor</field>
+		<field name="tag">veron_shopfloor.app</field>
+		<field name="target">main</field>
+	</record>
+	<menuitem id="menu_shopfloor_root" name="Shop Floor" action="action_shopfloor"
+		web_icon="veron_shopfloor,static/description/icon.png" groups="mrp.group_mrp_user" sequence="46"/>
+</odoo>
