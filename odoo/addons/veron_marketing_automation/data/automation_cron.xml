@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="cron_run" model="ir.cron">
+		<field name="name">Marketing Automation: run the campaigns</field>
+		<field name="model_id" ref="model_veron_automation_campaign"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_run()</field>
+		<field name="interval_number">15</field>
+		<field name="interval_type">minutes</field>
+	</record>
+</odoo>

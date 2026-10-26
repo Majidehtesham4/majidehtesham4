@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_campaign,campaign,model_veron_automation_campaign,group_automation_user,1,1,1,1
+access_activity,activity,model_veron_automation_activity,group_automation_user,1,1,1,1
+access_participant,participant,model_veron_automation_participant,group_automation_user,1,1,1,1
+access_trace,trace,model_veron_automation_trace,group_automation_user,1,1,1,1

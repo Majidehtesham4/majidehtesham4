@@ -1,0 +1,550 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "(deleted)"
+msgstr "(حذف‌شده)"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.activity_view_form
+msgid "<span>after</span>"
+msgstr "<span>بعد از</span>"
+
+#. module: veron_marketing_automation
+#: model:ir.model.constraint,message:veron_marketing_automation.constraint_veron_automation_participant_unique_record
+msgid "A record takes part in a campaign once."
+msgstr "هر رکورد فقط یک بار در یک کمپین شرکت می‌کند."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__server_action_id
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__kind__action
+msgid "Action"
+msgstr "عملیات"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "Add the steps of the campaign first."
+msgstr "اول مرحله‌های کمپین را اضافه کنید."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__parent_id
+msgid "After Step"
+msgstr "بعد از مرحله‌ی"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__model_id
+msgid "Applies To"
+msgstr "روی"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__campaign_id
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__campaign_id
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__campaign_id
+msgid "Campaign"
+msgstr "کمپین"
+
+#. module: veron_marketing_automation
+#: model:ir.model,name:veron_marketing_automation.model_veron_automation_participant
+msgid "Campaign Participant"
+msgstr "شرکت‌کننده‌ی کمپین"
+
+#. module: veron_marketing_automation
+#: model:ir.model,name:veron_marketing_automation.model_veron_automation_activity
+msgid "Campaign Step"
+msgstr "مرحله‌ی کمپین"
+
+#. module: veron_marketing_automation
+#: model:ir.model,name:veron_marketing_automation.model_veron_automation_trace
+msgid "Campaign Step Done"
+msgstr "مرحله‌ی انجام‌شده"
+
+#. module: veron_marketing_automation
+#: model:ir.actions.act_window,name:veron_marketing_automation.action_campaigns
+#: model:ir.ui.menu,name:veron_marketing_automation.menu_campaigns
+msgid "Campaigns"
+msgstr "کمپین‌ها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_trace__state__canceled
+msgid "Canceled"
+msgstr "لغو شده"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__domain
+msgid "Condition"
+msgstr "شرط"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_trace__state__skipped
+msgid "Condition not met"
+msgstr "شرط برقرار نبود"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.actions.act_window,help:veron_marketing_automation.action_campaigns
+msgid "Create the first automatic campaign"
+msgstr "اولین کمپین خودکار را بسازید"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__create_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__create_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__create_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__create_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__create_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__create_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__delay_unit__days
+msgid "Days"
+msgstr "روز"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__delay_count
+msgid "Delay"
+msgstr "تأخیر"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__delay_unit
+msgid "Delay Unit"
+msgstr "واحد تأخیر"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__display_name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__display_name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__display_name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__done_count
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_participant__state__done
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_trace__state__processed
+msgid "Done"
+msgstr "انجام شده"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__done_date
+msgid "Done On"
+msgstr "زمان انجام"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_campaign__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__kind__email
+msgid "Email"
+msgstr "پست الکترونیک"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__mail_template_id
+msgid "Email Template"
+msgstr "قالب ایمیل"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_activity__parent_id
+msgid "Empty: counted from when the record joins the campaign"
+msgstr "خالی: از زمان ورود رکورد به کمپین شمرده می‌شود"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_activity__todo_user_id
+msgid "Empty: the record's salesperson, or the campaign's creator"
+msgstr "خالی: فروشنده‌ی رکورد، یا سازنده‌ی کمپین"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_trace__state__error
+msgid "Error"
+msgstr "خطا"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__error_count
+msgid "Errors"
+msgstr "خطاها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__domain
+msgid "Filter"
+msgstr "فیلتر"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.actions.act_window,help:veron_marketing_automation.action_campaigns
+msgid ""
+"For example: an SMS to each new customer, a discount email a week later to "
+"those who have not ordered yet."
+msgstr ""
+"مثلاً یک پیامک به هر مشتری تازه، و یک هفته بعد ایمیل تخفیف به کسانی که هنوز "
+"سفارش نداده‌اند."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__delay_unit__hours
+msgid "Hours"
+msgstr "ساعت"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__id
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__id
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__id
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__message_has_error
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__write_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__write_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__write_uid
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__write_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__write_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__write_date
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_marketing_automation
+#: model:ir.ui.menu,name:veron_marketing_automation.menu_root
+#: model:res.groups,name:veron_marketing_automation.group_automation_user
+msgid "Marketing Automation"
+msgstr "بازاریابی خودکار"
+
+#. module: veron_marketing_automation
+#: model:ir.actions.server,name:veron_marketing_automation.cron_run_ir_actions_server
+msgid "Marketing Automation: run the campaigns"
+msgstr "بازاریابی خودکار: اجرای کمپین‌ها"
+
+#. module: veron_marketing_automation
+#: model:ir.model,name:veron_marketing_automation.model_veron_automation_campaign
+msgid "Marketing Campaign"
+msgstr "کمپین بازاریابی"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__message
+msgid "Message"
+msgstr "پیام"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__model_name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__model_name
+msgid "Model"
+msgstr "مدل"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__delay_unit__months
+msgid "Months"
+msgstr "ماه"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "No action."
+msgstr "عملیاتی تعیین نشده است."
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "No email template."
+msgstr "قالب ایمیل تعیین نشده است."
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "No phone number."
+msgstr "شماره تلفن ندارد."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__participant_ids
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__participant_id
+msgid "Participant"
+msgstr "شرکت کننده"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__participant_count
+msgid "Participant Count"
+msgstr "تعداد شرکت‌کنندگان"
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.campaign_view_form
+msgid "Participants"
+msgstr "شرکت‌کنندگان"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_activity__sms_body
+msgid "Placeholders like {{ object.name }} are replaced for each record"
+msgstr ""
+"عبارت‌هایی مثل {{ object.name }} برای هر رکورد با مقدار خودش جایگزین می‌شوند"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__record_name
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__record_name
+msgid "Record"
+msgstr "رکورد"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__res_id
+msgid "Record ID"
+msgstr "شناسه‌ی رکورد"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_campaign__state__running
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_participant__state__running
+msgid "Running"
+msgstr "در حال اجرا"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__running_count
+msgid "Running Count"
+msgstr "در جریان"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__kind__sms
+msgid "SMS"
+msgstr "پیامک"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__sms_body
+msgid "SMS Text"
+msgstr "متن پیامک"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__schedule_date
+msgid "Scheduled On"
+msgstr "زمان‌بندی‌شده برای"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.campaign_view_form
+msgid "Start"
+msgstr "شروع"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__state
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__state
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_trace__activity_id
+msgid "Step"
+msgstr "مرحله"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__activity_ids
+msgid "Steps"
+msgstr "مرحله‌ها"
+
+#. module: veron_marketing_automation
+#: model:ir.actions.act_window,name:veron_marketing_automation.action_traces
+#: model:ir.ui.menu,name:veron_marketing_automation.menu_traces
+msgid "Steps Done"
+msgstr "مرحله‌های انجام‌شده"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.campaign_view_form
+msgid "Stop"
+msgstr "توقف"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_campaign__state__stopped
+msgid "Stopped"
+msgstr "متوقف"
+
+#. module: veron_marketing_automation
+#. odoo-python
+#: code:addons/veron_marketing_automation/models/automation.py:0
+msgid "The record was deleted."
+msgstr "رکورد حذف شده است."
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_activity__domain
+msgid "The step is done only for the records matching this, at that time"
+msgstr ""
+"مرحله فقط برای رکوردهایی انجام می‌شود که در آن زمان این شرط را داشته باشند"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__todo_summary
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__kind__todo
+msgid "To-Do"
+msgstr "کار"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__todo_user_id
+msgid "To-Do For"
+msgstr "کار برای"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__trace_ids
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_participant__trace_ids
+msgid "Trace"
+msgstr "سابقه"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_activity__scheduled_count
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_trace__state__scheduled
+msgid "Waiting"
+msgstr "در انتظار"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,field_description:veron_marketing_automation.field_veron_automation_campaign__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields.selection,name:veron_marketing_automation.selection__veron_automation_activity__delay_unit__weeks
+msgid "Weeks"
+msgstr "هفته"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.activity_view_form
+msgid "When"
+msgstr "زمان"
+
+#. module: veron_marketing_automation
+#: model:ir.model.fields,help:veron_marketing_automation.field_veron_automation_campaign__domain
+msgid "Which records take part"
+msgstr "کدام رکوردها شرکت کنند"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.campaign_view_form
+msgid "e.g. Welcome new customers"
+msgstr "مثلاً خوش‌آمد به مشتری‌های تازه"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.activity_view_form
+msgid "joining the campaign"
+msgstr "ورود به کمپین"
+
+#. module: veron_marketing_automation
+#: model_terms:ir.ui.view,arch_db:veron_marketing_automation.activity_view_form
+msgid "{{ object.name }} عزیز، ..."
+msgstr "{{ object.name }} عزیز، ..."

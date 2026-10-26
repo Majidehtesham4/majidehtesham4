@@ -28,9 +28,11 @@ employees):
 - MRP II: veron_shopfloor, a tablet screen to start, pause and finish work orders
 - PLM: veron_plm, engineering changes on new versions of bills of materials, approved before use
 - Social Marketing: veron_social, posts to Bale, Eitaa and Telegram channels, now or scheduled
+- Marketing Automation: veron_marketing_automation, emails, SMS, to-dos and actions in steps
+- Android and iPhone: the web client installs as an app (PWA), as ERP-VERON
 - The full-screen apps menu: web_responsive
 
-Not on OCA for Odoo 19: Rental, Approvals, Studio, Marketing Automation, IoT and WhatsApp.
+Not built: Rental, Approvals, Studio, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
 	"category": "Productivity",
@@ -70,6 +72,7 @@ Not on OCA for Odoo 19: Rental, Approvals, Studio, Marketing Automation, IoT and
 		"veron_shopfloor",
 		"veron_plm",
 		"veron_social",
+		"veron_marketing_automation",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

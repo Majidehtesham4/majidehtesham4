@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="activity_view_form" model="ir.ui.view">
+		<field name="name">veron.automation.activity.form</field>
+		<field name="model">veron.automation.activity</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<group>
+							<field name="name"/>
+							<field name="kind" widget="radio" options="{'horizontal': true}"/>
+							<field name="campaign_id" invisible="1"/>
+							<field name="model_name" invisible="1"/>
+						</group>
+						<group>
+							<label for="delay_count" string="When"/>
+							<div class="o_row">
+								<field name="delay_count" class="oe_inline"/>
+								<field name="delay_unit" class="oe_inline"/>
+								<span>after</span>
+								<field name="parent_id" placeholder="joining the campaign" class="oe_inline"/>
+							</div>
+						</group>
+					</group>
+					<group>
+						<field name="mail_template_id" invisible="kind != 'email'" required="kind == 'email'" context="{'default_model': model_name}"/>
+						<field name="sms_body" invisible="kind != 'sms'" required="kind == 'sms'" placeholder="{{ object.name }} عزیز، ..."/>
+						<field name="todo_summary" invisible="kind != 'todo'"/>
+						<field name="todo_user_id" invisible="kind != 'todo'"/>
+						<field name="server_action_id" invisible="kind != 'action'" required="kind == 'action'"/>
+						<field name="domain" widget="domain" options="{'model': 'model_name', 'in_dialog': true}"/>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="campaign_view_form" model="ir.ui.view">
+		<field name="name">veron.automation.campaign.form</field>
+		<field name="model">veron.automation.campaign</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_start" type="object" string="Start" class="btn-primary" invisible="state == 'running'"/>
+					<button name="action_stop" type="object" string="Stop" invisible="state != 'running'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_participants" type="object" class="oe_stat_button" icon="fa-users">
+							<field name="participant_count" widget="statinfo" string="Participants"/>
+						</button>
+					</div>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. Welcome new customers"/></h1></div>
+					<group>
+						<field name="model_id" options="{'no_create': True}" readonly="state != 'draft'"/>
+						<field name="model_name" invisible="1"/>
+						<field name="domain" widget="domain" options="{'model': 'model_name', 'in_dialog': true}"/>
+					</group>
+					<field name="activity_ids">
+						<list>
+							<field name="sequence" widget="handle"/>
+							<field name="name"/>
+							<field name="kind"/>
+							<field name="delay_count"/>
+							<field name="delay_unit"/>
+							<field name="parent_id"/>
+							<field name="scheduled_count"/>
+							<field name="done_count"/>
+							<field name="error_count" decoration-danger="error_count"/>
+						</list>
+					</field>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="campaign_view_list" model="ir.ui.view">
+		<field name="name">veron.automation.campaign.list</field>
+		<field name="model">veron.automation.campaign</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="model_id"/>
+				<field name="participant_count"/>
+				<field name="running_count"/>
+				<field name="state" widget="badge" decoration-success="state == 'running'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="participant_view_list" model="ir.ui.view">
+		<field name="name">veron.automation.participant.list</field>
+		<field name="model">veron.automation.participant</field>
+		<field name="arch" type="xml">
+			<list create="0">
+				<field name="record_name"/>
+				<field name="state" widget="badge"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="participant_view_form" model="ir.ui.view">
+		<field name="name">veron.automation.participant.form</field>
+		<field name="model">veron.automation.participant</field>
+		<field name="arch" type="xml">
+			<form create="0">
+				<sheet>
+					<group>
+						<field name="campaign_id" readonly="1"/>
+						<field name="record_name"/>
+						<field name="state" readonly="1"/>
+					</group>
+					<field name="trace_ids" readonly="1">
+						<list>
+							<field name="activity_id"/>
+							<field name="schedule_date"/>
+							<field name="done_date"/>
+							<field name="state" widget="badge" decoration-success="state == 'processed'" decoration-danger="state == 'error'"/>
+							<field name="message"/>
+						</list>
+					</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="trace_view_list" model="ir.ui.view">
+		<field name="name">veron.automation.trace.list</field>
+		<field name="model">veron.automation.trace</field>
+		<field name="arch" type="xml">
+			<list create="0">
+				<field name="campaign_id"/>
+				<field name="activity_id"/>
+				<field name="record_name"/>
+				<field name="schedule_date"/>
+				<field name="done_date"/>
+				<field name="state" widget="badge" decoration-success="state == 'processed'" decoration-danger="state == 'error'"/>
+				<field name="message"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_campaigns" model="ir.actions.act_window">
+		<field name="name">Campaigns</field>
+		<field name="res_model">veron.automation.campaign</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Create the first automatic campaign</p>
+			<p>For example: an SMS to each new customer, a discount email a week later to those who have not ordered yet.</p>
+		</field>
+	</record>
+	<record id="action_traces" model="ir.actions.act_window">
+		<field name="name">Steps Done</field>
+		<field name="res_model">veron.automation.trace</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<menuitem id="menu_root" name="Marketing Automation" web_icon="veron_marketing_automation,static/description/icon.png" groups="group_automation_user" sequence="58"/>
+	<menuitem id="menu_campaigns" name="Campaigns" parent="menu_root" action="action_campaigns" sequence="1"/>
+	<menuitem id="menu_traces" name="Steps Done" parent="menu_root" action="action_traces" sequence="2"/>
+</odoo>
