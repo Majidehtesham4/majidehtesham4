@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The cards of Iranian banks, paid through the gateway's page -->
+	<record id="payment_method_shetab" model="payment.method">
+		<field name="name">Shetab Card</field>
+		<field name="code">shetab</field>
+		<field name="sequence">5</field>
+		<field name="image" type="base64" file="veron_payment_iran/static/img/shetab.png"/>
+		<field name="support_tokenization">False</field>
+		<field name="support_express_checkout">False</field>
+		<field name="support_refund">none</field>
+	</record>
+</odoo>

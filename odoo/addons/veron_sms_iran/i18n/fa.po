@@ -1,0 +1,86 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_provider
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_provider
+msgid "Iranian SMS Panel"
+msgstr "پنل پیامک ایرانی"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__kavenegar
+msgid "Kavenegar"
+msgstr "کاوه‌نگار"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__melipayamak
+msgid "Melipayamak"
+msgstr "ملی پیامک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_key
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_key
+msgid "SMS API Key"
+msgstr "کلید API یا رمز پنل پیامک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_line
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_line
+msgid "SMS Sender Line"
+msgstr "خط ارسال پیامک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_username
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_username
+msgid "SMS Username"
+msgstr "نام کاربری پنل پیامک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__smsir
+msgid "SMS.ir"
+msgstr "اس‌ام‌اس دات آی‌آر (SMS.ir)"
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "The SMS panel could not be reached or refused the message."
+msgstr "پنل پیامک در دسترس نبود یا پیامک را نپذیرفت."
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "The SMS panel has no credit left."
+msgstr "اعتبار پنل پیامک تمام شده است."
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "The SMS panel's key, username or line is not valid."
+msgstr "کلید، نام کاربری یا خط پنل پیامک درست نیست."
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "The number is not valid for the SMS panel."
+msgstr "این شماره برای پنل پیامک معتبر نیست."
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,help:veron_sms_iran.field_res_company__veron_sms_line
+#: model:ir.model.fields,help:veron_sms_iran.field_res_config_settings__veron_sms_line
+msgid "The panel's line number the SMS are sent from"
+msgstr "شماره‌ی خطی از پنل که پیامک‌ها با آن فرستاده می‌شوند"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,help:veron_sms_iran.field_res_company__veron_sms_provider
+#: model:ir.model.fields,help:veron_sms_iran.field_res_config_settings__veron_sms_provider
+msgid ""
+"When set, every SMS goes through this panel instead of Odoo's paid service"
+msgstr ""
+"اگر انتخاب شود، همه‌ی پیامک‌ها به جای سرویس پولی Odoo از این پنل فرستاده "
+"می‌شوند"

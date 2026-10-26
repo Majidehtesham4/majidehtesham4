@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="payment_provider_form" model="ir.ui.view">
+		<field name="name">Iranian gateway provider form</field>
+		<field name="model">payment.provider</field>
+		<field name="inherit_id" ref="payment.payment_provider_form"/>
+		<field name="arch" type="xml">
+			<group name="provider_credentials" position="inside">
+				<group invisible="code not in ('zarinpal', 'zibal')">
+					<field name="veron_merchant" password="True"
+						required="code == 'zarinpal' and state != 'disabled' or code == 'zibal' and state == 'enabled'"/>
+					<div class="text-muted" colspan="2" invisible="code != 'zibal'">
+						In test mode without a merchant code, Zibal's test merchant is used: payments are simulated.
+					</div>
+					<div class="text-muted" colspan="2" invisible="code != 'zarinpal'">
+						In test mode, payments go to Zarinpal's sandbox.
+					</div>
+				</group>
+			</group>
+		</field>
+	</record>
+</odoo>

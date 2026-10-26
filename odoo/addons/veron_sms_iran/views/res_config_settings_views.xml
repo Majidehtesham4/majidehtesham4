@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.inherit.veron.sms</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="sms.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//widget[@service_name='sms']" position="before">
+				<div class="content-group">
+					<div class="row mt8">
+						<label for="veron_sms_provider" class="col-lg-4 o_light_label"/>
+						<field name="veron_sms_provider" class="col-lg-8"/>
+					</div>
+					<div class="row" invisible="veron_sms_provider != 'melipayamak'">
+						<label for="veron_sms_username" class="col-lg-4 o_light_label"/>
+						<field name="veron_sms_username" class="col-lg-8"/>
+					</div>
+					<div class="row" invisible="not veron_sms_provider">
+						<label for="veron_sms_key" class="col-lg-4 o_light_label"/>
+						<field name="veron_sms_key" class="col-lg-8" password="True"/>
+					</div>
+					<div class="row" invisible="not veron_sms_provider">
+						<label for="veron_sms_line" class="col-lg-4 o_light_label"/>
+						<field name="veron_sms_line" class="col-lg-8" required="veron_sms_provider in ('smsir', 'melipayamak')"/>
+					</div>
+				</div>
+			</xpath>
+			<xpath expr="//widget[@service_name='sms']" position="attributes">
+				<attribute name="invisible">veron_sms_provider</attribute>
+			</xpath>
+		</field>
+	</record>
+</odoo>

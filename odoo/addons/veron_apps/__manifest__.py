@@ -20,6 +20,8 @@ employees):
 - Appointments: resource_booking, booked from the portal too
 - VoIP: voip_oca, with a PBX of your own (Issabel, Asterisk...)
 - Timesheets: hr_timesheet with the start/stop timer of hr_timesheet_time_control
+- Online payment: veron_payment_iran (Zarinpal, Zibal)
+- SMS: veron_sms_iran (Kavenegar, SMS.ir, Melipayamak) instead of Odoo's paid SMS
 - The full-screen apps menu: web_responsive
 
 Not on OCA for Odoo 19: Rental, Approvals, Appraisals, Barcode, PLM, Studio, Marketing Automation,
@@ -53,6 +55,9 @@ Social Marketing, IoT and WhatsApp.
 		"resource_booking",
 		"voip_oca",
 		"hr_timesheet_time_control",
+		# Iranian online payment and SMS, in place of the foreign gateways and Odoo's paid SMS
+		"veron_payment_iran",
+		"veron_sms_iran",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

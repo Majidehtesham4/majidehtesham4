@@ -1,0 +1,83 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_payment_iran
+#: model_terms:ir.ui.view,arch_db:veron_payment_iran.payment_provider_form
+msgid ""
+"In test mode without a merchant code, Zibal's test merchant is used: "
+"payments are simulated."
+msgstr ""
+"در حالت آزمایشی و بدون کد پذیرنده، پذیرنده‌ی آزمایشی زیبال به کار می‌رود و "
+"پرداخت‌ها شبیه‌سازی می‌شوند."
+
+#. module: veron_payment_iran
+#: model_terms:ir.ui.view,arch_db:veron_payment_iran.payment_provider_form
+msgid "In test mode, payments go to Zarinpal's sandbox."
+msgstr ""
+"در حالت آزمایشی، پرداخت‌ها به محیط آزمایشی (سندباکس) زرین‌پال می‌روند."
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_merchant
+msgid "Merchant Code"
+msgstr "کد پذیرنده (مرچنت)"
+
+#. module: veron_payment_iran
+#: model:payment.method,name:veron_payment_iran.payment_method_shetab
+msgid "Shetab Card"
+msgstr "کارت شتاب"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_transaction.py:0
+msgid "The customer did not pay on the gateway's page."
+msgstr "مشتری در صفحه‌ی درگاه پرداخت نکرد."
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_transaction.py:0
+msgid "The gateway did not confirm the payment: %s"
+msgstr "درگاه پرداخت را تأیید نکرد: %s"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,help:veron_payment_iran.field_payment_provider__veron_merchant
+msgid ""
+"The merchant code the gateway gave for this website (Zarinpal's merchant ID,"
+" Zibal's merchant)"
+msgstr ""
+"کدی که درگاه برای این وب‌سایت داده است (مرچنت آی‌دی زرین‌پال یا مرچنت زیبال)"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_transaction.py:0
+msgid "The payment returned does not belong to this transaction."
+msgstr "پرداختی که برگشته مال این تراکنش نیست."
+
+#. module: veron_payment_iran
+#: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__zarinpal
+#: model:payment.provider,name:veron_payment_iran.payment_provider_zarinpal
+msgid "Zarinpal"
+msgstr "زرین‌پال"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_transaction.py:0
+msgid "Zarinpal refused the payment: %s"
+msgstr "زرین‌پال درخواست پرداخت را نپذیرفت: %s"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__zibal
+#: model:payment.provider,name:veron_payment_iran.payment_provider_zibal
+msgid "Zibal"
+msgstr "زیبال"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_transaction.py:0
+msgid "Zibal refused the payment: %s"
+msgstr "زیبال درخواست پرداخت را نپذیرفت: %s"
