@@ -1,0 +1,209 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "%(product)s: %(quantity)s counted"
+msgstr "%(product)s: %(quantity)s شمرده شد"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "%(product)s: %(quantity)s of %(demand)s"
+msgstr "%(product)s: %(quantity)s از %(demand)s"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "%s is done."
+msgstr "%s انجام شد."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "%s is not in this transfer."
+msgstr "%s در این انتقال نیست."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "%s is not kept in stock."
+msgstr "%s کالای انباری نیست."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "All of it"
+msgstr "همه‌اش"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Apply"
+msgstr "اعمال"
+
+#. module: veron_barcode
+#: model:ir.actions.client,name:veron_barcode.action_barcode
+#: model:ir.ui.menu,name:veron_barcode.menu_barcode_root
+msgid "Barcode"
+msgstr "بارکد"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Barcode home"
+msgstr "صفحه‌ی اول بارکد"
+
+#. module: veron_barcode
+#: model:ir.model,name:veron_barcode.model_veron_barcode
+msgid "Barcode screen"
+msgstr "صفحه‌ی بارکد"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.js:0
+msgid "Deliveries"
+msgstr "ارسال‌ها"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Done"
+msgstr "انجام شد"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "In stock:"
+msgstr "موجودی:"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.js:0
+msgid "Internal Transfers"
+msgstr "انتقال‌های داخلی"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "Nothing counted yet."
+msgstr "هنوز چیزی شمرده نشده است."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "Nothing has the barcode %s."
+msgstr "هیچ چیزی با بارکد %s پیدا نشد."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Nothing to do."
+msgstr "کاری نمانده است."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "One less"
+msgstr "یکی کمتر"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "One more"
+msgstr "یکی بیشتر"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Price:"
+msgstr "قیمت:"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.js:0
+msgid "Receipts"
+msgstr "دریافت‌ها"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid ""
+"Scan a transfer to open it, a location to count it, or a product to see its "
+"stock."
+msgstr ""
+"بارکد یک انتقال را بزنید تا باز شود، بارکد یک مکان را تا شمارش آن شروع شود، "
+"یا بارکد یک کالا را تا موجودی‌اش را ببینید."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "Scan the products first."
+msgstr "اول بارکد کالاها را بزنید."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Scan the products of this location."
+msgstr "بارکد کالاهای این مکان را بزنید."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Scan with the camera"
+msgstr "اسکن با دوربین"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Scan, or type a barcode and press Enter"
+msgstr "بارکد را اسکن کنید، یا تایپ کنید و Enter بزنید"
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Stock count"
+msgstr "انبارگردانی"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "The count is applied to the stock."
+msgstr "شمارش در موجودی اعمال شد."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "This location no longer exists."
+msgstr "این مکان دیگر وجود ندارد."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "This transfer is already done."
+msgstr "این انتقال قبلاً انجام شده است."
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "This transfer no longer exists."
+msgstr "این انتقال دیگر وجود ندارد."
+
+#. module: veron_barcode
+#. odoo-javascript
+#: code:addons/veron_barcode/static/src/barcode_app.xml:0
+msgid "Validate"
+msgstr "تأیید"
+
+#. module: veron_barcode
+#. odoo-python
+#: code:addons/veron_barcode/models/barcode.py:0
+msgid "more than ordered"
+msgstr "بیشتر از سفارش"

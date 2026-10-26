@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="veron_barcode.BarcodeApp">
+        <div class="o_veron_barcode o_action h-100 overflow-auto bg-view">
+            <div class="o_veron_barcode_bar d-flex align-items-center gap-2 p-2 border-bottom">
+                <button t-if="state.screen !== 'home'" class="btn btn-light" t-on-click="goHome" title="Barcode home">
+                    <i class="fa fa-home"/>
+                </button>
+                <input class="form-control" t-ref="input" t-model="state.typed" t-on-keydown="onTyped"
+                       placeholder="Scan, or type a barcode and press Enter"/>
+                <button t-if="camera" class="btn btn-primary" t-on-click="onCamera" title="Scan with the camera">
+                    <i class="fa fa-camera"/>
+                </button>
+            </div>
+
+            <!-- Home -->
+            <div t-if="state.screen === 'home'" class="container py-4">
+                <div class="row g-3">
+                    <t t-foreach="['incoming', 'outgoing', 'internal']" t-as="kind" t-key="kind">
+                        <div class="col-12 col-md-4">
+                            <button class="btn btn-outline-primary w-100 py-4 o_veron_barcode_tile" t-on-click="() => this.openList(kind)">
+                                <i t-attf-class="fa fa-2x d-block mb-2 #{kind === 'incoming' ? 'fa-download' : kind === 'outgoing' ? 'fa-truck' : 'fa-exchange'}"/>
+                                <span class="fs-4" t-esc="kindTitles[kind]"/>
+                                <span class="badge text-bg-primary ms-2" t-esc="state.home.counts[kind]"/>
+                            </button>
+                        </div>
+                    </t>
+                    <div class="col-12 col-md-6">
+                        <button class="btn btn-outline-secondary w-100 py-4 o_veron_barcode_tile"
+                                t-att-disabled="!state.home.stock_location"
+                                t-on-click="() => this.openCount(state.home.stock_location)">
+                            <i class="fa fa-2x fa-cubes d-block mb-2"/>
+                            <span class="fs-4">Stock count</span>
+                        </button>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="border rounded p-3 h-100 text-muted">
+                            <i class="fa fa-barcode me-2"/>
+                            Scan a transfer to open it, a location to count it, or a product to see its stock.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transfers -->
+            <div t-if="state.screen === 'list'" class="container py-3">
+                <h3 t-esc="kindTitles[state.kind]"/>
+                <div t-if="!state.list.length" class="text-muted py-4">Nothing to do.</div>
+                <div class="list-group">
+                    <t t-foreach="state.list" t-as="p" t-key="p.id">
+                        <button class="list-group-item list-group-item-action d-flex justify-content-between" t-on-click="() => this.openPicking(p.id)">
+                            <span>
+                                <strong t-esc="p.name"/>
+                                <span class="text-muted ms-2" t-esc="p.partner"/>
+                                <span class="text-muted ms-2" t-esc="p.origin"/>
+                            </span>
+                            <span class="text-muted" t-esc="date(p.date)"/>
+                        </button>
+                    </t>
+                </div>
+            </div>
+
+            <!-- A transfer -->
+            <div t-if="state.screen === 'picking'" class="container py-3">
+                <t t-set="d" t-value="state.data"/>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h3 class="mb-0" t-esc="d.name"/>
+                        <div class="text-muted"><t t-if="d.partner"><span t-esc="d.partner"/> · </t><span t-esc="d.from"/> → <span t-esc="d.to"/></div>
+                    </div>
+                    <button t-if="!d.done" class="btn btn-success btn-lg" t-on-click="validate">
+                        <i class="fa fa-check me-1"/> Validate
+                    </button>
+                    <span t-else="" class="badge text-bg-success fs-6">Done</span>
+                </div>
+                <div class="list-group">
+                    <t t-foreach="d.lines" t-as="line" t-key="line.move_id">
+                        <div t-attf-class="list-group-item d-flex align-items-center gap-2 #{line.complete ? 'list-group-item-success' : ''}">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold" t-esc="line.product"/>
+                                <div class="text-muted small" t-esc="line.barcode"/>
+                            </div>
+                            <span class="fs-5 text-nowrap"><t t-esc="qty(line.quantity)"/> / <t t-esc="qty(line.demand)"/> <small t-esc="line.uom"/></span>
+                            <t t-if="!d.done">
+                                <button class="btn btn-light" t-on-click="() => this.setMove(line, line.quantity - 1)" title="One less">−</button>
+                                <button class="btn btn-light" t-on-click="() => this.setMove(line, line.quantity + 1)" title="One more">+</button>
+                                <button class="btn btn-light" t-on-click="() => this.setMove(line, line.demand)" title="All of it"><i class="fa fa-check"/></button>
+                            </t>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- A stock count -->
+            <div t-if="state.screen === 'count'" class="container py-3">
+                <t t-set="d" t-value="state.data"/>
+                <div class="d-flex justify-content-between align-items-start mb-2">
+                    <div>
+                        <h3 class="mb-0">Stock count</h3>
+                        <div class="text-muted" t-esc="d.name"/>
+                    </div>
+                    <button class="btn btn-success btn-lg" t-on-click="applyCount" t-att-disabled="!d.lines.length">
+                        <i class="fa fa-check me-1"/> Apply
+                    </button>
+                </div>
+                <div t-if="!d.lines.length" class="text-muted py-4">Scan the products of this location.</div>
+                <div class="list-group">
+                    <t t-foreach="d.lines" t-as="line" t-key="line.quant_id">
+                        <div class="list-group-item d-flex align-items-center gap-2">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold" t-esc="line.product"/>
+                                <div class="text-muted small">In stock: <t t-esc="qty(line.on_hand)"/></div>
+                            </div>
+                            <span class="fs-5 text-nowrap"><t t-esc="qty(line.counted)"/> <small t-esc="line.uom"/></span>
+                            <button class="btn btn-light" t-on-click="() => this.setQuant(line, line.counted - 1)" title="One less">−</button>
+                            <button class="btn btn-light" t-on-click="() => this.setQuant(line, line.counted + 1)" title="One more">+</button>
+                        </div>
+                    </t>
+                </div>
+            </div>
+
+            <!-- A product -->
+            <div t-if="state.screen === 'product'" class="container py-3">
+                <t t-set="d" t-value="state.data"/>
+                <h3 t-esc="d.name"/>
+                <div class="text-muted mb-3" t-esc="d.barcode"/>
+                <div class="d-flex gap-4 fs-5 mb-3">
+                    <span>In stock: <strong t-esc="qty(d.on_hand)"/> <t t-esc="d.uom"/></span>
+                    <span>Price: <strong t-esc="qty(d.price)"/> <t t-esc="d.currency"/></span>
+                </div>
+                <ul class="list-group">
+                    <li t-foreach="d.locations" t-as="l" t-key="l_index" class="list-group-item d-flex justify-content-between">
+                        <span t-esc="l.name"/><strong t-esc="qty(l.quantity)"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </t>
+</templates>

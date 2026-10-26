@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_barcode" model="ir.actions.client">
+		<field name="name">Barcode</field>
+		<field name="tag">veron_barcode.app</field>
+		<field name="target">main</field>
+	</record>
+	<menuitem id="menu_barcode_root" name="Barcode" action="action_barcode"
+		web_icon="veron_barcode,static/description/icon.png"
+		groups="stock.group_stock_user" sequence="45"/>
+</odoo>

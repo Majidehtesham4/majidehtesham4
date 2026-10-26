@@ -22,9 +22,10 @@ employees):
 - Timesheets: hr_timesheet with the start/stop timer of hr_timesheet_time_control
 - Online payment: veron_payment_iran (Zarinpal, Zibal)
 - SMS: veron_sms_iran (Kavenegar, SMS.ir, Melipayamak) instead of Odoo's paid SMS
+- Barcode: veron_barcode, receipts, deliveries and stock counts with a scanner or the phone's camera
 - The full-screen apps menu: web_responsive
 
-Not on OCA for Odoo 19: Rental, Approvals, Appraisals, Barcode, PLM, Studio, Marketing Automation,
+Not on OCA for Odoo 19: Rental, Approvals, Appraisals, PLM, Studio, Marketing Automation,
 Social Marketing, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
@@ -58,6 +59,8 @@ Social Marketing, IoT and WhatsApp.
 		# Iranian online payment and SMS, in place of the foreign gateways and Odoo's paid SMS
 		"veron_payment_iran",
 		"veron_sms_iran",
+		# Our own replacements of the paid apps
+		"veron_barcode",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

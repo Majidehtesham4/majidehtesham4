@@ -63,6 +63,7 @@ class VeronIran(models.AbstractModel):
 		self._default_names()
 		self._module_names(lang.code)
 		self._holidays()
+		self._location_names()
 
 	def _persian(self):
 		lang = self.env["res.lang"].with_context(active_test=False).search([("code", "=", "fa_IR")], limit=1)
@@ -158,6 +159,14 @@ class VeronIran(models.AbstractModel):
 			if module.summary != summary:
 				module.update_field_translations("summary", {lang: summary})
 
+	def _location_names(self):
+		"""The locations stock makes with English names (a plain field, not translated), while unchanged"""
+		if "stock.location" not in self.env:
+			return
+		Locations = self.env["stock.location"].with_context(active_test=False)
+		for english, persian in LOCATION_NAMES.items():
+			Locations.search([("name", "=", english)]).write({"name": persian})
+
 	def _holidays(self):
 		"""Iran's official holidays as public time off of each company: the solar ones of this Shamsi year
 		and the next, and the lunar ones whose official date is known (HOLIDAYS_LUNAR). The other lunar
@@ -215,6 +224,18 @@ DEFAULT_NAMES = [
 	("website.default_website", "My Website", "وب‌سایت من"),
 ]
 
+LOCATION_NAMES = {
+	"Vendors": "تأمین‌کنندگان",
+	"Customers": "مشتریان",
+	"Partners": "طرف‌حساب‌ها",
+	"Inter-company transit": "ترانزیت بین شرکتی",
+	"Inventory adjustment": "تعدیل موجودی",
+	"Production": "تولید",
+	"Scrap": "ضایعات",
+	"Virtual Locations": "مکان‌های مجازی",
+	"Physical Locations": "مکان‌های فیزیکی",
+}
+
 # The official holidays on a fixed Shamsi day: (month, day, name)
 HOLIDAYS_SOLAR = [
 	(1, 1, "عید نوروز"),
@@ -253,6 +274,7 @@ MODULE_NAMES = {
 	"subscription_oca": ("اشتراک‌ها", "فاکتورهای دوره‌ای اشتراک‌ها"),
 	"resource_booking": ("نوبت‌دهی", "رزرو نوبت مشتری با تقویم و زمان‌های آزاد کارکنان و امکانات"),
 	"voip_oca": ("تلفن اینترنتی", "تماس تلفنی از داخل برنامه با مرکز تلفن اینترنتی (VoIP)"),
+	"veron_barcode": ("بارکد", "دریافت، ارسال و انبارگردانی با بارکدخوان یا دوربین گوشی"),
 	"veron_accounting": ("حسابداری ERP-VERON", "حسابداری کامل: منوها، گزارش‌های مالی و سرفصل حساب‌های ایران"),
 	"veron_apps": ("همه‌ی برنامه‌های ERP-VERON", "همه‌ی برنامه‌ها، با جایگزین رایگان برنامه‌های پولی"),
 	"veron_base": ("یادداشت‌های ERP-VERON", "نمونه‌ی یک ماژول: یادداشت‌ها با منو، فهرست و فرم"),
