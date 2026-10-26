@@ -1,0 +1,29 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: hr
+#: model:ir.model.fields,help:hr.field_hr_job__user_id
+msgid ""
+"The Recruiter will be the default value for all Applicants in this job"
+"             position. The Recruiter is automatically added to all meetings "
+"with the Applicant."
+msgstr ""
+"استخدام‌کننده مقدار پیش‌فرض برای همه متقاضیان در این موقعیت شغلی خواهد بود.\n"
+"             استخدام‌کننده به طور خودکار به همه جلسات با متقاضی اضافه می‌شود."
+
+#. module: hr
+#: model_terms:ir.ui.view,arch_db:hr.hr_version_list_view
+msgid "View"
+msgstr "نما"
+
+#. module: hr
+#. odoo-javascript
+#: code:addons/hr/static/src/components/avatar_card/avatar_card_popover_patch.xml:0
+msgid "View Profile"
+msgstr "مشاهده پروفایل"

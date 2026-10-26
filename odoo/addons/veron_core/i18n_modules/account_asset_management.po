@@ -1,0 +1,1585 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"\n"
+"Error while processing asset '%(ref)s': %(exception)s"
+msgstr ""
+"\n"
+"خطا در پردازش دارایی «%(ref)s»: %(exception)s"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+msgid ""
+"<span class=\"o_form_label oe_inline\" invisible=\"salvage_type != "
+"'percent'\">%</span>"
+msgstr ""
+"<span class=\"o_form_label oe_inline\" invisible=\"salvage_type != "
+"'percent'\">%</span>"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.view_move_form
+msgid "<span class=\"o_stat_text\"> Asset(s)</span>"
+msgstr "<span class=\"o_stat_text\"> دارایی</span>"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model,name:account_asset_management.model_account_account
+msgid "Account"
+msgstr "حساب"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__carry_forward_missed_depreciations
+msgid "Accumulate missed depreciations"
+msgstr "جمع کردن استهلاک‌های جاافتاده"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__active
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Active Assets"
+msgstr "دارایی‌های فعال"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Add an internal note here..."
+msgstr "یادداشت داخلی را این‌جا بنویسید..."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_compute__date_end
+msgid "All depreciation lines prior to this date will be automatically posted"
+msgstr "همه‌ی ردیف‌های استهلاک پیش از این تاریخ خودکار ثبت می‌شوند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__allow_reversal
+msgid "Allow Reversal of journal entries"
+msgstr "اجازه‌ی برگرداندن اسناد"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__depreciated_value
+msgid "Amount Already Depreciated"
+msgstr "مبلغ مستهلک‌شده"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__analytic_distribution
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "توزیع تحلیلی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+msgid "Analytic Information"
+msgstr "اطلاعات تحلیلی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__analytic_precision
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__analytic_precision
+msgid "Analytic Precision"
+msgstr "دقت تحلیلی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_search
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Are you sure ?"
+msgstr "مطمئنید؟"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__asset_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_move_line__asset_id
+msgid "Asset"
+msgstr "دارایی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid "Asset '%s' Removal Journal Entry"
+msgstr "سند حذف دارایی «%s»"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_asset_id
+msgid "Asset Account"
+msgstr "حساب دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_bank_statement_line__asset_count
+#: model:ir.model.fields,field_description:account_asset_management.field_account_move__asset_count
+msgid "Asset Count"
+msgstr "تعداد دارایی"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset_group
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__asset_group_id
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_group_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_group_view_search
+msgid "Asset Group"
+msgstr "گروه دارایی"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.account_asset_group_action
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__group_ids
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__group_ids
+#: model:ir.ui.menu,name:account_asset_management.account_asset_group_menu
+msgid "Asset Groups"
+msgstr "گروه‌های دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__line_id
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Asset Line"
+msgstr "ردیف دارایی"
+
+#. module: account_asset_management
+#: model:ir.actions.server,name:account_asset_management.ir_cron_assets_generator_ir_actions_server
+msgid "Asset Management: Generate assets"
+msgstr "مدیریت دارایی: ساخت دارایی‌ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__name
+msgid "Asset Name"
+msgstr "نام دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_account__asset_profile_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__profile_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_move_line__asset_profile_id
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_search
+msgid "Asset Profile"
+msgstr "الگوی دارایی"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.account_asset_profile_action
+#: model:ir.ui.menu,name:account_asset_management.account_asset_profile_menu
+msgid "Asset Profiles"
+msgstr "الگوهای دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_line__type__remove
+msgid "Asset Removal"
+msgstr "حذف دارایی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__date_remove
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__date_remove
+msgid "Asset Removal Date"
+msgstr "تاریخ حذف دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__account_sale_id
+msgid "Asset Sale Account"
+msgstr "حساب فروش دارایی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__date_start
+msgid "Asset Start Date"
+msgstr "تاریخ شروع دارایی"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset_line
+msgid "Asset depreciation table line"
+msgstr "ردیف جدول استهلاک"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid "Asset name must be set in the label of the line."
+msgstr "نام دارایی باید در شرح ردیف باشد."
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset_profile
+msgid "Asset profile"
+msgstr "الگوی دارایی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Asset removal."
+msgstr "حذف دارایی."
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset_recompute_trigger
+msgid "Asset table recompute triggers"
+msgstr "رویدادهای محاسبه‌ی دوباره‌ی جدول دارایی"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.account_asset_action
+#: model:ir.ui.menu,name:account_asset_management.account_asset_menu
+#: model:ir.ui.menu,name:account_asset_management.menu_finance_assets
+#: model:ir.ui.menu,name:account_asset_management.menu_finance_config_assets
+msgid "Assets"
+msgstr "دارایی ها"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Assets to be corrected"
+msgstr "دارایی‌های نیازمند اصلاح"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__asset_product_item
+msgid ""
+"By default during the validation of an invoice, an asset is created by "
+"invoice line as long as an accounting entry is created by invoice line. With"
+" this setting, an accounting entry will be created by product item. So, "
+"there will be an asset by product item."
+msgstr ""
+"به طور پیش‌فرض با تأیید فاکتور برای هر ردیف یک دارایی ساخته می‌شود. با این "
+"گزینه برای هر واحد کالا یک ردیف حسابداری و یک دارایی ساخته می‌شود."
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__days_calc
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__days_calc
+msgid "Calculate by days"
+msgstr "محاسبه بر اساس روز"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__open_asset
+msgid ""
+"Check this if you want to automatically confirm the assets of this profile "
+"when created by invoices."
+msgstr ""
+"برای تأیید خودکار دارایی‌های این الگو هنگام ساخت از فاکتور علامت بزنید."
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__child_ids
+msgid "Child Asset Groups"
+msgstr "زیرگروه‌های دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__method_time
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__method_time
+msgid ""
+"Choose the method to use to compute the dates and number of depreciation lines.\n"
+"  * Number of Years: Specify the number of years for the depreciation.\n"
+"  * Number of Depreciations: Fix the number of depreciation lines and the time between 2 depreciations.\n"
+msgstr ""
+"روش محاسبه‌ی تاریخ و تعداد ردیف‌های استهلاک:\n"
+"  * تعداد سال: تعداد سال‌های استهلاک را تعیین کنید.\n"
+"  * تعداد استهلاک: تعداد ردیف‌ها و فاصله‌ی میان دو استهلاک را تعیین کنید.\n"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__method
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__method
+msgid ""
+"Choose the method to use to compute the depreciation lines.\n"
+"  * Linear: Calculated on basis of: Depreciation Base / Number of Depreciations. Depreciation Base = Purchase Value - Salvage Value.\n"
+"  * Linear-Limit: Linear up to Salvage Value. Depreciation Base = Purchase Value.\n"
+"  * Degressive: Calculated on basis of: Residual Value * Degressive Factor.\n"
+"  * Degressive-Linear (only for Time Method = Year): Degressive becomes linear when the annual linear depreciation exceeds the annual degressive depreciation.\n"
+"   * Degressive-Limit: Degressive up to Salvage Value. The Depreciation Base is equal to the asset value."
+msgstr ""
+"روش محاسبه‌ی ردیف‌های استهلاک:\n"
+"  * خط مستقیم: مبنای استهلاک / تعداد استهلاک. مبنای استهلاک = بهای خرید - ارزش اسقاط.\n"
+"  * خط مستقیم تا ارزش اسقاط: مبنای استهلاک = بهای خرید.\n"
+"  * نزولی: ارزش باقی‌مانده × ضریب نزولی.\n"
+"  * نزولی-خط مستقیم (فقط برای روش سالانه): وقتی استهلاک سالانه‌ی خط مستقیم از نزولی بیشتر شود، خط مستقیم می‌شود.\n"
+"   * نزولی تا ارزش اسقاط: مبنای استهلاک برابر ارزش دارایی است."
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset__state__close
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Close"
+msgstr "بستن"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__code
+msgid "Code"
+msgstr "کد"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__company_id
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__currency_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__currency_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__currency_id
+msgid "Company Currency"
+msgstr "ارز شرکت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__date_completed
+msgid "Completion Date"
+msgstr "تاریخ تکمیل"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Comput. Method"
+msgstr "روش محاسبه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__method
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_search
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Computation Method"
+msgstr "روش محاسبه"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_compute_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Compute"
+msgstr "محاسبه"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.account_asset_compute_action
+#: model:ir.model,name:account_asset_management.model_account_asset_compute
+#: model:ir.ui.menu,name:account_asset_management.account_asset_compute_menu
+msgid "Compute Assets"
+msgstr "محاسبه‌ی استهلاک"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_compute.py:0
+msgid "Compute Assets errors"
+msgstr "خطاهای محاسبه‌ی استهلاک"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_compute.py:0
+msgid "Compute Assets result"
+msgstr "نتیجه‌ی محاسبه‌ی استهلاک"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.wiz_asset_move_reverse_view_form
+msgid "Confirm"
+msgstr "تایید کردن"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Confirm Asset"
+msgstr "تأیید دارایی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Create Move"
+msgstr "ساخت سند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__asset_product_item
+msgid "Create an asset by product item"
+msgstr "یک دارایی برای هر واحد کالا"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_compute.py:0
+msgid "Created Asset Moves"
+msgstr "اسناد ساخته‌شده‌ی دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_compute__date_end
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__line_date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_recompute_trigger__date_trigger
+msgid "Date of the event triggering the need to recompute the Asset Tables."
+msgstr "تاریخ رویدادی که محاسبه‌ی دوباره‌ی جدول دارایی را لازم کرد."
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__line_days
+msgid "Days"
+msgstr "روز"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_account__asset_profile_id
+msgid "Default Asset Profile when creating invoice lines with this account."
+msgstr "الگوی پیش‌فرض دارایی برای ردیف‌های فاکتور با این حساب."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Degressive"
+msgstr "نزولی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Degressive  up to Salvage Value"
+msgstr "نزولی تا ارزش اسقاط"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method_progress_factor
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__method_progress_factor
+msgid "Degressive Factor"
+msgstr "ضریب نزولی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Degressive-Linear"
+msgstr "نزولی-خط مستقیم"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Degressive-Linear is only supported for Time Method = Year."
+msgstr "روش نزولی-خط مستقیم فقط برای روش زمانی سالانه است."
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Delete/Reverse Move"
+msgstr "حذف / برگرداندن سند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_expense_depreciation_id
+msgid "Depr. Expense Account"
+msgstr "حساب هزینه‌ی استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__value_depreciated
+msgid "Depreciated Value"
+msgstr "مبلغ مستهلک‌شده"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_line__type__depreciate
+msgid "Depreciation"
+msgstr "استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_depreciation_id
+msgid "Depreciation Account"
+msgstr "حساب استهلاک انباشته"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__depreciation_base
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__depreciation_base
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_line__type__create
+msgid "Depreciation Base"
+msgstr "مبنای استهلاک"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Depreciation Board"
+msgstr "جدول استهلاک"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Depreciation Dates"
+msgstr "تاریخ‌های استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__move_id
+msgid "Depreciation Entry"
+msgstr "سند استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__depreciation_line_ids
+msgid "Depreciation Lines"
+msgstr "ردیف‌های استهلاک"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Depreciation Method"
+msgstr "روش استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__name
+msgid "Depreciation Name"
+msgstr "شرح استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__distribution_analytic_account_ids
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "حساب تحلیلی توزیعی"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_recompute_trigger__state__done
+msgid "Done"
+msgstr "انجام شده"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset__state__draft
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Duplicate reporting entries"
+msgstr "ردیف‌های تکراری گزارش"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_report_account_asset_management_asset_report_xls
+msgid "Dynamic XLS asset report generator"
+msgstr "سازنده‌ی گزارش اکسل دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__date_to
+msgid "End Date"
+msgstr "تاریخ پایان"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method_end
+msgid "Ending Date"
+msgstr "تاریخ پایان"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__account_move_line_ids
+msgid "Entries"
+msgstr "داده ها"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"Error while processing asset '%(ref)s': \n"
+"\n"
+"%(tb)s"
+msgstr ""
+"خطا در پردازش دارایی «%(ref)s»: \n"
+"\n"
+"%(tb)s"
+
+#. module: account_asset_management
+#: model:ir.ui.menu,name:account_asset_management.account_asset_report_menu
+msgid "Financial Assets"
+msgstr "دارایی‌های ثابت"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.wiz_account_asset_report_action
+#: model:ir.model,name:account_asset_management.model_wiz_account_asset_report
+#: model:ir.ui.menu,name:account_asset_management.wiz_account_asset_report_menu
+msgid "Financial Assets report"
+msgstr "گزارش دارایی‌های ثابت"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_profile__salvage_type__fixed
+msgid "Fixed"
+msgstr "ثابت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__force_date
+msgid "Force accounting date"
+msgstr "تاریخ حسابداری اجباری"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid "Gain/Loss on Sale"
+msgstr "سود / زیان فروش"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid "Generate Asset Removal entries"
+msgstr "ساخت اسناد حذف دارایی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_remove_view_form
+msgid "Generate Removal entries"
+msgstr "ساخت اسناد حذف"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.wiz_account_asset_report_view_form
+msgid "Generate Report"
+msgstr "ساخت گزارش"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__move_line_check
+msgid "Has accounting entries"
+msgstr "سند حسابداری دارد"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "History"
+msgstr "تاریخچه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__carry_forward_missed_depreciations
+msgid ""
+"If create an asset in a fiscal period that is now closed\n"
+"        the accumulated amount of depreciations that cannot be posted will be\n"
+"        carried forward to the first depreciation line of the current open\n"
+"        period."
+msgstr ""
+"اگر دارایی در دوره‌ی مالی بسته‌شده ساخته شود،\n"
+"        جمع استهلاک‌هایی که ثبت نمی‌شوند به نخستین ردیف استهلاک\n"
+"        دوره‌ی باز فعلی منتقل می‌شود\n"
+"        ."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_wiz_asset_move_reverse__journal_id
+msgid "If empty, uses the journal of the journal entry to be reversed."
+msgstr "اگر خالی باشد، از روزنامه ورودی روزنامه برای معکوس استفاده می‌کند."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__use_leap_years
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__use_leap_years
+msgid ""
+"If not set, the system will distribute evenly the amount to amortize across the years, based on the number of years. So the amount per year will be the depreciation base / number of years.\n"
+" If set, the system will consider if the current year is a leap year. The amount to depreciate per year will be calculated as depreciation base / (depreciation end date - start date + 1) * days in the current year."
+msgstr ""
+"اگر خاموش باشد، مبلغ استهلاک به طور مساوی میان سال‌ها پخش می‌شود: مبنای استهلاک / تعداد سال.\n"
+" اگر روشن باشد، سال کبیسه هم حساب می‌شود: مبنای استهلاک / (تاریخ پایان - تاریخ شروع + ۱) × روزهای سال جاری."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__allow_reversal
+msgid ""
+"If set, when pressing the Delete/Reverse Move button in a posted "
+"depreciation line will prompt the option to reverse the journal entry, "
+"instead of deleting them."
+msgstr ""
+"اگر روشن باشد، دکمه‌ی حذف / برگرداندن سند در ردیف ثبت‌شده به جای حذف، "
+"برگرداندن سند را پیشنهاد می‌کند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid "Illegal value %s in asset.method."
+msgstr "مقدار نامعتبر %s در روش دارایی."
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__draft
+msgid "Include draft assets"
+msgstr "با دارایی‌های پیش‌نویس"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid ""
+"Inconsistent reporting structure.\n"
+"Please correct Asset Group '%(group)s' (id %(id)s)"
+msgstr ""
+"ساختار گزارش ناسازگار است.\n"
+"گروه دارایی «%(group)s» (شناسه‌ی %(id)s) را اصلاح کنید"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__prorata
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__prorata
+msgid ""
+"Indicates that the first depreciation entry for this asset has to be done "
+"from the depreciation start date instead of the first day of the fiscal "
+"year."
+msgstr "نخستین استهلاک از تاریخ شروع استهلاک حساب می‌شود، نه از اول سال مالی."
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Init"
+msgstr "اولیه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__init_entry
+msgid "Initial Balance Entry"
+msgstr "سند مانده‌ی اول دوره"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__journal_id
+msgid "Journal"
+msgstr "روزنامه"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Journal Entries"
+msgstr "داده های روزنامه"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+#: model:ir.model,name:account_asset_management.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_move_line
+msgid "Journal Item"
+msgstr "آیتم روزنامه"
+
+#. module: account_asset_management
+#: model:ir.actions.act_window,name:account_asset_management.act_entries_open
+msgid "Journal Items"
+msgstr "آیتم های روزنامه"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Linear"
+msgstr "خطی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Linear up to Salvage Value"
+msgstr "خط مستقیم تا ارزش اسقاط"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_min_value_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__account_min_value_id
+msgid "Min-Value Account"
+msgstr "حساب زیان فروش"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Missing depreciation table"
+msgstr "جدول استهلاک نیست"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Month"
+msgstr "ماه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "New Acquisitions"
+msgstr "خریدهای تازه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__remaining_value
+msgid "Next Period Depreciation"
+msgstr "استهلاک دوره‌ی بعد"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "No"
+msgstr "خیر"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__note
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_compute__note
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__note
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_profile_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_remove_view_form
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Notes"
+msgstr "یادداشت‌ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Number of Depreciations"
+msgstr "تعداد استهلاک"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method_number
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__method_number
+msgid "Number of Years"
+msgstr "تعداد سال"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Number of Years or end date"
+msgstr "تعداد سال یا تاریخ پایان"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_recompute_trigger__state__open
+msgid "Open"
+msgstr "باز"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Other Information"
+msgstr "اطلاعات دیگر"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__parent_id
+msgid "Parent Asset Group"
+msgstr "گروه دارایی بالاتر"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_group__parent_path
+msgid "Parent Path"
+msgstr "مسیر مادر"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__partner_id
+msgid "Partner"
+msgstr "همکار"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset_profile__salvage_type__percent
+msgid "Percentage of Price"
+msgstr "درصد بها"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Period Depreciation"
+msgstr "استهلاک دوره"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Period End Value"
+msgstr "ارزش پایان دوره"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method_period
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__method_period
+msgid "Period Length"
+msgstr "طول دوره"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Period Start Value"
+msgstr "ارزش شروع دوره"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__method_period
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__method_period
+msgid "Period length for the depreciation accounting entries"
+msgstr "طول دوره‌ی اسناد استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_plus_value_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__account_plus_value_id
+msgid "Plus-Value Account"
+msgstr "حساب سود فروش"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__move_check
+msgid "Posted"
+msgstr "سند ثبت شد"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__previous_id
+msgid "Previous Depreciation Line"
+msgstr "ردیف استهلاک قبلی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Profile"
+msgstr "پروفایل"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__prorata
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__prorata
+msgid "Prorata Temporis"
+msgstr "به نسبت زمان"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__purchase_value
+msgid "Purchase Value"
+msgstr "ارزش خرید"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Quarter"
+msgstr "ربع"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__reason
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__reason
+msgid "Reason"
+msgstr "علت"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__code
+msgid "Reference"
+msgstr "مرجع‌"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__posting_regime
+msgid "Removal Entry Policy"
+msgstr "روش سند حذف"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_remove__posting_regime
+msgid ""
+"Removal Entry Policy \n"
+"  * Residual Value: The non-depreciated value will be posted on the 'Residual Value Account' \n"
+"  * Gain/Loss on Sale: The Gain or Loss will be posted on the 'Plus-Value Account' or 'Min-Value Account' "
+msgstr ""
+"روش سند حذف \n"
+"  * ارزش باقی‌مانده: ارزش مستهلک‌نشده به «حساب ارزش باقی‌مانده» می‌رود \n"
+"  * سود / زیان فروش: سود یا زیان به «حساب سود فروش» یا «حساب زیان فروش» می‌رود "
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_remove__date_remove
+msgid ""
+"Removal date must be after the last posted entry in case of early removal"
+msgstr "در حذف زودهنگام، تاریخ حذف باید بعد از آخرین سند ثبت‌شده باشد"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Remove"
+msgstr "حذف"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_account_asset_remove
+msgid "Remove Asset"
+msgstr "حذف دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset__state__removed
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Removed"
+msgstr "حذف شده"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Removed Assets"
+msgstr "دارایی‌های حذف‌شده"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__value_residual
+msgid "Residual Value"
+msgstr "ارزش برجا"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__account_residual_value_id
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__account_residual_value_id
+msgid "Residual Value Account"
+msgstr "حساب ارزش باقی‌مانده"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_compute_view_form_result
+msgid "Results :"
+msgstr "نتیجه:"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__date_reversal
+msgid "Reversal date"
+msgstr "تاریخ معکوس"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.wiz_asset_move_reverse_view_form
+msgid "Reverse Journal Entry"
+msgstr "ورود دفترروزنامه‌ معکوس"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid "Reverse Move"
+msgstr "برگرداندن سند"
+
+#. module: account_asset_management
+#: model:ir.model,name:account_asset_management.model_wiz_asset_move_reverse
+msgid "Reverse posted journal entry on depreciation line"
+msgstr "برگرداندن سند ثبت‌شده‌ی ردیف استهلاک"
+
+#. module: account_asset_management
+#: model:ir.model.fields.selection,name:account_asset_management.selection__account_asset__state__open
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Running"
+msgstr "در حال اجرا"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_remove__sale_value
+msgid "Sale Value"
+msgstr "بهای فروش"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__salvage_type
+msgid "Salvage Type"
+msgstr "نوع ارزش اسقاط"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__salvage_value
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__salvage_value
+msgid "Salvage Value"
+msgstr "ارزش اسقاط"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_group_view_search
+msgid "Search Asset Group"
+msgstr "جست‌وجوی گروه دارایی"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_line__init_entry
+msgid ""
+"Set this flag for entries of previous fiscal years for which Odoo has not "
+"generated accounting entries."
+msgstr ""
+"برای ردیف‌های سال‌های مالی گذشته که سند آن‌ها در سیستم ساخته نشده علامت "
+"بزنید."
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Set to Draft"
+msgstr "تبدیل به پیشنویس"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__open_asset
+msgid "Skip Draft State"
+msgstr "رد شدن از پیش‌نویس"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_account_asset_report__date_from
+msgid "Start Date"
+msgstr "تاریخ آغاز"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_line__parent_state
+msgid "State of Asset"
+msgstr "وضعیت دارایی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__state
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_search
+msgid "Status"
+msgstr "وضعیت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"The '_compute_year_amount' method is only intended for Time Method 'Number "
+"of Years'."
+msgstr "متد '_compute_year_amount' فقط برای روش «تعداد سال» است."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid ""
+"The 'account' field is a mandatory entry of the '_xls_%s_fields' list !"
+msgstr "فیلد 'account' در فهرست '_xls_%s_fields' لازم است!"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_account.py:0
+msgid ""
+"The Asset Account defined in the Asset Profile must be equal to the account."
+msgstr "حساب دارایی الگو باید همان حساب باشد."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid "The Sale Value must be positive!"
+msgstr "بهای فروش باید مثبت باشد!"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+#: code:addons/account_asset_management/wizard/wiz_account_asset_report.py:0
+msgid "The Start Date must precede the Ending Date."
+msgstr "تاریخ شروع باید پیش از تاریخ پایان باشد."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid ""
+"The duration of the asset conflicts with the posted depreciation table entry"
+" dates."
+msgstr "مدت دارایی با تاریخ ردیف‌های ثبت‌شده‌ی جدول استهلاک ناسازگار است."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__salvage_value
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__salvage_value
+msgid ""
+"The estimated value that an asset will realize upon its sale at the end of its useful life.\n"
+"This value is used to determine the depreciation amounts."
+msgstr ""
+"ارزشی که انتظار می‌رود دارایی در پایان عمر مفید با فروش به دست دهد.\n"
+"در محاسبه‌ی مبلغ استهلاک به کار می‌رود."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__method_number
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__method_number
+msgid "The number of years needed to depreciate your asset"
+msgstr "تعداد سال‌های استهلاک دارایی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid "The removal date must be after the last depreciation date."
+msgstr "تاریخ حذف باید بعد از آخرین تاریخ استهلاک باشد."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__depreciation_base
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_line__depreciation_base
+msgid ""
+"This amount represent the depreciation base of the asset (Purchase Value - "
+"Salvage Value)."
+msgstr "مبنای استهلاک دارایی (بهای خرید - ارزش اسقاط)."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__purchase_value
+msgid ""
+"This amount represent the initial value of the asset.\n"
+"The Depreciation Base is calculated as follows:\n"
+"Purchase Value - Salvage Value."
+msgstr ""
+"ارزش اولیه‌ی دارایی.\n"
+"مبنای استهلاک این‌طور حساب می‌شود:\n"
+"بهای خرید - ارزش اسقاط."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid "This invoice created the asset(s): %s"
+msgstr "این فاکتور این دارایی‌ها را ساخت: %s"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__method_time
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__method_time
+msgid "Time Method"
+msgstr "روش زمانی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Tot. Depreciation"
+msgstr "جمع استهلاک"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "Total Days"
+msgstr "جمع روزها"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Totals"
+msgstr "جمع‌ها"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_recompute_trigger__date_trigger
+msgid "Trigger Date"
+msgstr "تاریخ رهاساز"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/report/account_asset_report_xls.py:0
+msgid "Undetermined error"
+msgstr "خطای نامشخص"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__use_leap_years
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset_profile__use_leap_years
+msgid "Use Leap Years"
+msgstr "حساب کردن سال کبیسه"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_wiz_asset_move_reverse__journal_id
+msgid "Use Specific Journal"
+msgstr "استفاده از روزنامه بخصوص"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__days_calc
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_profile__days_calc
+msgid "Use number of days to calculate depreciation amount"
+msgstr "محاسبه‌ی استهلاک بر اساس تعداد روز"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_compute_view_form_result
+msgid "View Asset Moves"
+msgstr "اسناد دارایی"
+
+#. module: account_asset_management
+#: model_terms:ir.ui.view,arch_db:account_asset_management.account_asset_view_form
+msgid "View Move"
+msgstr "مشاهده‌ی سند"
+
+#. module: account_asset_management
+#: model:ir.model.fields,field_description:account_asset_management.field_account_asset__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__state
+#: model:ir.model.fields,help:account_asset_management.field_account_asset_line__parent_state
+msgid ""
+"When an asset is created, the status is 'Draft'.\n"
+"If the asset is confirmed, the status goes in 'Running' and the depreciation lines can be posted to the accounting.\n"
+"If the last depreciation line is posted, the asset goes into the 'Close' status.\n"
+"When the removal entries are generated, the asset goes into the 'Removed' status."
+msgstr ""
+"دارایی تازه «پیش‌نویس» است.\n"
+"با تأیید، «در جریان» می‌شود و ردیف‌های استهلاک ثبت می‌شوند.\n"
+"با ثبت آخرین ردیف، «بسته» می‌شود.\n"
+"با ساخت اسناد حذف، «حذف‌شده» می‌شود."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "Year"
+msgstr "سال"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid ""
+"You are not allowed to link an accounting entry to an asset.\n"
+"You should generate such entries from the asset."
+msgstr ""
+"نمی‌توانید سند حسابداری را به دارایی پیوند دهید.\n"
+"این اسناد را از خود دارایی بسازید."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid ""
+"You are not allowed to remove an accounting entry linked to an asset.\n"
+"You should remove such entries from the asset."
+msgstr ""
+"سند حسابداری مربوط به دارایی را نمی‌توانید حذف کنید.\n"
+"آن را از خود دارایی حذف کنید."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid "You can only delete assets in draft state."
+msgstr "فقط دارایی‌های پیش‌نویس حذف می‌شوند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid ""
+"You can't make an early removal if all the depreciation lines for previous "
+"periods are not posted."
+msgstr ""
+"تا همه‌ی ردیف‌های استهلاک دوره‌های قبل ثبت نشده‌اند، حذف زودهنگام ممکن نیست."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid ""
+"You cannot change a depreciation line with an associated accounting entry."
+msgstr "ردیف استهلاکی که سند دارد تغییر نمی‌کند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid ""
+"You cannot change an accounting entry linked to an asset depreciation line."
+msgstr "سند مربوط به ردیف استهلاک تغییر نمی‌کند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_move.py:0
+msgid ""
+"You cannot change an accounting item linked to an asset depreciation line."
+msgstr "ردیف سند مربوط به ردیف استهلاک تغییر نمی‌کند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid "You cannot change the profile of an asset with accounting entries."
+msgstr "الگوی دارایی‌ای که سند دارد تغییر نمی‌کند."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid ""
+"You cannot delete a depreciation line with an associated accounting entry."
+msgstr "ردیف استهلاکی که سند دارد حذف نمی‌شود."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset.py:0
+msgid "You cannot delete an asset that contains posted depreciation lines."
+msgstr "دارایی‌ای که ردیف استهلاک ثبت‌شده دارد حذف نمی‌شود."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid "You cannot remove an asset line of type 'Depreciation Base'."
+msgstr "ردیف «مبنای استهلاک» حذف نمی‌شود."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid ""
+"You cannot set the 'Initial Balance Entry' flag on a depreciation line with "
+"prior posted entries."
+msgstr ""
+"«سند مانده‌ی اول دوره» برای ردیفی که پیش از آن سند ثبت‌شده هست مجاز نیست."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid "You cannot set the Asset Start Date after already posted entries."
+msgstr "تاریخ شروع دارایی نمی‌تواند بعد از اسناد ثبت‌شده باشد."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_line.py:0
+msgid ""
+"You cannot set the date on a depreciation line prior to already posted "
+"entries."
+msgstr "تاریخ ردیف استهلاک نمی‌تواند پیش از اسناد ثبت‌شده باشد."
+
+#. module: account_asset_management
+#: model:ir.model.fields,help:account_asset_management.field_account_asset__date_start
+msgid ""
+"You should manually add depreciation lines with the depreciations of "
+"previous fiscal years if the Depreciation Start Date is different from the "
+"date for which accounting entries need to be generated."
+msgstr ""
+"اگر تاریخ شروع استهلاک با تاریخ ساخت اسناد فرق دارد، استهلاک سال‌های مالی "
+"گذشته را دستی اضافه کنید."
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "degr-limit"
+msgstr "نزولی تا اسقاط"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "degr-linear"
+msgstr "نزولی-خط مستقیم"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "degressive"
+msgstr "نزولی"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/wizard/account_asset_remove.py:0
+msgid "gain_loss_on_sale"
+msgstr "سود / زیان فروش"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "linear-limit"
+msgstr "خط مستقیم تا اسقاط"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "number"
+msgstr "تعداد"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "quarter"
+msgstr "ربع"
+
+#. module: account_asset_management
+#. odoo-python
+#: code:addons/account_asset_management/models/account_asset_profile.py:0
+msgid "year"
+msgstr "سال"

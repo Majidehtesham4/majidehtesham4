@@ -1,0 +1,11 @@
+{
+"%(code)s (copy)": "%(code)s (رونوشت)",
+"Close Batch": "بستن دسته",
+"Details by Salary Rule Category": "جزئیات بر اساس دسته‌ی قاعده‌ی حقوق",
+"Employee Contract / Version": "قرارداد کارمند / نسخه",
+"Only draft payslips can be verified, the payslip %(nm)s is in %(st)s state": "فقط فیش‌های پیش‌نویس تأیید می‌شوند؛ فیش %(nm)s در وضعیت %(st)s است",
+"Recursion error. Only one line should be parent of %(rule)s": "خطای حلقه: فقط یک ردیف می‌تواند والد %(rule)s باشد",
+"Refund: %(name)s": "برگشت: %(name)s",
+"period": "دوره",
+"<div style=\"margin: 0px; padding: 0px;\">\n                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n            Dear <t t-out=\"object.employee_id.name\"/>,\n            <br/><br/>\n            Please find attached the payslip for <t t-out=\"object.payslip_run_id.name\"/>.\n            <br/><br/>\n            Do not hesitate to contact us if you have any questions.\n            <br/><br/>\n            <t t-out=\"user.signature\"/>\n        </p>\n                </div>\n            ": "<div style=\"margin: 0px; padding: 0px;\">\n                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n            <t t-out=\"object.employee_id.name\"/> گرامی،\n            <br/><br/>\n            فیش حقوق <t t-out=\"object.payslip_run_id.name\"/> پیوست است.\n            <br/><br/>\n            اگر پرسشی دارید، با ما تماس بگیرید.\n            <br/><br/>\n            <t t-out=\"user.signature\"/>\n        </p>\n                </div>\n            "
+}

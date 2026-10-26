@@ -1,0 +1,5 @@
+{
+"<p>Hello <t t-out=\"object.user_id.name\"/>,</p>\n                <p>\n                    The ticket <t t-out=\"object.display_name\"/>\n                    stage has changed to <t t-out=\"object.stage_id.name\"/>.\n                </p>\n            ": "<p>سلام <t t-out=\"object.user_id.name\"/>،</p>\n                <p>\n                    مرحله‌ی تیکت <t t-out=\"object.display_name\"/>\n                    به <t t-out=\"object.stage_id.name\"/> تغییر کرد.\n                </p>\n            ",
+"<p>Hello <t t-out=\"object.user_id.name\"/>,</p>\n                <p>The ticket <t t-out=\"object.display_name\"/> has been closed.</p>\n            ": "<p>سلام <t t-out=\"object.user_id.name\"/>،</p>\n                <p>تیکت <t t-out=\"object.display_name\"/> بسته شد.</p>\n            ",
+"Ticket Properties": "ویژگی‌های تیکت"
+}

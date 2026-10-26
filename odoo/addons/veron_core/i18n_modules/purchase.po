@@ -1,0 +1,19 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order_line__qty_received_method
+msgid ""
+"According to product configuration, the received quantity can be automatically computed by mechanism:\n"
+"  - Manual: the quantity is set manually on the line\n"
+"  - Stock Moves: the quantity comes from confirmed pickings\n"
+msgstr ""
+"بر اساس پیکربندی محصول، مقدار تحویل داده شده می‌تواند به صورت خودکار توسط مکانیسم زیر محاسبه شود:\n"
+"  - دستی: مقدار به صورت دستی در سطر تنظیم می‌شود\n"
+"  - انتقال انبار: مقدار از برداشت‌های تأیید شده دریافت می‌شود\n"

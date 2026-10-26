@@ -1,0 +1,35 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: hr_calendar
+#: model:ir.model,name:hr_calendar.model_calendar_event
+msgid "Calendar Event"
+msgstr "رخداد گاهشمار"
+
+#. module: hr_calendar
+#: model:ir.model,name:hr_calendar.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: hr_calendar
+#: model:ir.model,website_form_label:hr_calendar.model_res_partner
+msgid "Create a Customer"
+msgstr "ایجاد مشتری"
+
+#. module: hr_calendar
+#: model:ir.model.fields,field_description:hr_calendar.field_calendar_event__display_name
+#: model:ir.model.fields,field_description:hr_calendar.field_res_partner__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: hr_calendar
+#: model:ir.model.fields,field_description:hr_calendar.field_calendar_event__id
+#: model:ir.model.fields,field_description:hr_calendar.field_res_partner__id
+msgid "ID"
+msgstr "شناسه"

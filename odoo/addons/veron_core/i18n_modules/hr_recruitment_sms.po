@@ -1,0 +1,28 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: hr_recruitment_sms
+#: model:ir.model,name:hr_recruitment_sms.model_hr_applicant
+msgid "Applicant"
+msgstr "متقاضی"
+
+#. module: hr_recruitment_sms
+#: model:ir.model,website_form_label:hr_recruitment_sms.model_hr_applicant
+msgid "Apply for a Job"
+msgstr "درخواست شغل"
+
+#. module: hr_recruitment_sms
+#: model:ir.model.fields,field_description:hr_recruitment_sms.field_hr_applicant__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: hr_recruitment_sms
+#: model:ir.model.fields,field_description:hr_recruitment_sms.field_hr_applicant__id
+msgid "ID"
+msgstr "شناسه"

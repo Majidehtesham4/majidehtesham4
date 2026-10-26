@@ -1,0 +1,22 @@
+{
+"App Icon": "آیکون برنامه",
+"Apps Menu Preferences": "تنظیمات منوی برنامه‌ها",
+"Apps Menu Search Type": "نوع جست‌وجوی منوی برنامه‌ها",
+"Apps Menu Theme": "پوسته‌ی منوی برنامه‌ها",
+"Canonical": "معمولی",
+"Command Palette": "پالت فرمان",
+"Exit": "خروج",
+"Fuse": "هوشمند (Fuse)",
+"Maximize": "بزرگ کردن",
+"Milk": "روشن",
+"Minimize": "کوچک کردن",
+"Nothing to show": "چیزی برای نمایش نیست",
+"Redirect to Home": "رفتن به صفحه‌ی برنامه‌ها",
+"Redirect to dashboard after signing in": "بعد از ورود، صفحه‌ی برنامه‌ها باز شود",
+"Search Type": "نوع جست‌وجو",
+"Search Type Help": "راهنمای نوع جست‌وجو",
+"Search menus...": "جست‌وجوی منو...",
+"a new search algorithm is used": "روش جست‌وجوی تازه به کار می‌رود",
+"the standard odoo search tool": "ابزار جست‌وجوی معمول سیستم",
+"uses a standard algorithm": "روش جست‌وجوی معمول"
+}

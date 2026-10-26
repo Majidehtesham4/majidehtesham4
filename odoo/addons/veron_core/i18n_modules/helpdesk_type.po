@@ -1,0 +1,29 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: helpdesk_type
+#: model_terms:ir.ui.view,arch_db:helpdesk_type.helpdesk_ticket_type_form
+#: model_terms:ir.ui.view,arch_db:helpdesk_type.helpdesk_ticket_type_search
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: helpdesk_type
+#: model_terms:ir.ui.view,arch_db:helpdesk_type.helpdesk_ticket_type_search
+msgid "Displayed in portal"
+msgstr "نمایش داده شده در پورتال"
+
+#. module: helpdesk_type
+#: model_terms:ir.ui.view,arch_db:helpdesk_type.helpdesk_ticket_type_form
+msgid "Helpdesk Type"
+msgstr "نوع تیکت"
+
+#. module: helpdesk_type
+#: model_terms:ir.ui.view,arch_db:helpdesk_type.helpdesk_ticket_type_form
+msgid "Helpdesk type name..."
+msgstr "نام نوع تیکت..."

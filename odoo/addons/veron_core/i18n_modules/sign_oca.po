@@ -1,0 +1,1590 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "%(name)s (%(email)s) has sent the signed document."
+msgstr "%(name)s (%(email)s) سند امضاشده را فرستاد."
+
+#. module: sign_oca
+#: model:ir.actions.report,print_report_name:sign_oca.action_report_signature_certificate
+msgid "'Signature Certificate'"
+msgstr "'گواهی امضا'"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_mail
+msgid ""
+")\n"
+"                has requested your signature on a document."
+msgstr ""
+")\n"
+"                امضای شما را روی یک سند خواسته است."
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid ""
+"<span class=\"d-none d-md-inline\">Sign Request #</span>\n"
+"                            <span class=\"d-block d-md-none\">Ref.</span>"
+msgstr ""
+"<span class=\"d-none d-md-inline\">درخواست امضای شماره‌ی</span>\n"
+"                            <span class=\"d-block d-md-none\">مرجع</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "<span class=\"fa fa-hourglass mx-2\" title=\"Not fully signed!\"/>"
+msgstr "<span class=\"fa fa-hourglass mx-2\" title=\"هنوز کامل امضا نشده!\"/>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "<span class=\"fa fa-save mx-2\" title=\"Download\"/>"
+msgstr "<span class=\"fa fa-save mx-2\" title=\"دریافت\"/>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Created by:</span>"
+msgstr "<span class=\"fw-bold\">ساخته‌ی:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Created on:</span>"
+msgstr "<span class=\"fw-bold\">تاریخ ساخت:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Current hash:</span>"
+msgstr "<span class=\"fw-bold\">هش فعلی:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Document ID:</span>"
+msgstr "<span class=\"fw-bold\">شناسه‌ی سند:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Print date:</span>"
+msgstr "<span class=\"fw-bold\">تاریخ چاپ:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Related record:</span>"
+msgstr "<span class=\"fw-bold\">رکورد مربوط:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Responsible:</span>"
+msgstr "<span class=\"fw-bold\">مسئول:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Signature filename:</span>"
+msgstr "<span class=\"fw-bold\">نام فایل امضا:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"fw-bold\">Signers:</span>"
+msgstr "<span class=\"fw-bold\">امضاکنندگان:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+msgid "<span class=\"o_stat_text\"> Signed</span>"
+msgstr "<span class=\"o_stat_text\"> امضاشده</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"text-muted\">Inalterability hash:</span>"
+msgstr "<span class=\"text-muted\">هش تغییرناپذیری:</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span class=\"text-muted\">Not available</span>"
+msgstr "<span class=\"text-muted\">در دسترس نیست</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span>(UTC)</span>"
+msgstr "<span>(UTC)</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span>-</span>"
+msgstr "<span>-</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_my_home_menu_sign
+msgid "<span>Sign Requests</span>"
+msgstr "<span>درخواست‌های امضا</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span>remaining</span>"
+msgstr "<span>مانده</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span>signed,</span>"
+msgstr "<span>امضاشده،</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "<span>signers →</span>"
+msgstr "<span>امضاکننده ←</span>"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_mail
+msgid ""
+"<strong>Warning</strong> do not forward this email to other people!<br/>\n"
+"                    They will be able to access this document and sign it as yourself.<br/>"
+msgstr ""
+"<strong>هشدار</strong> این ایمیل را برای دیگران نفرستید!<br/>\n"
+"                    آن‌ها می‌توانند سند را ببینند و به جای شما امضا کنند.<br/>"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__access_token
+msgid "Access Token"
+msgstr "توکن دسترسی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__access_warning
+msgid "Access warning"
+msgstr "هشدار دسترسی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__action
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Action"
+msgstr "عمل"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_needaction
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_needaction
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__active
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_exception_decoration
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+msgid "Activity Log"
+msgstr "گزارش فعالیت"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Activity Logs"
+msgstr "گزارش‌های فعالیت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_state
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_type_icon
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__add_field
+msgid "Add field"
+msgstr "افزودن فیلد"
+
+#. module: sign_oca
+#: model:res.groups,name:sign_oca.sign_oca_group_admin
+msgid "Administrator"
+msgstr "مدیر"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "All"
+msgstr "همه"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__altered_hash
+msgid "Altered Hash"
+msgstr "هش تغییرکرده"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid ""
+"An error occurred when computing the inalterability. Impossible to get the "
+"unique previous signer information."
+msgstr ""
+"در محاسبه‌ی تغییرناپذیری خطا رخ داد؛ اطلاعات امضاکننده‌ی قبلی پیدا نشد."
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_kanban_view
+msgid "Archive"
+msgstr "بایگانی"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid ""
+"As soon as all signers have signed the document, you will receive an email "
+"with the full document"
+msgstr "وقتی همه امضا کردند، سند کامل با ایمیل برایتان فرستاده می‌شود"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__ask_location
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__ask_location
+msgid "Ask Location"
+msgstr "پرسیدن موقعیت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_attachment_count
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_attachment_count
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/elements/elements.xml:0
+msgid ""
+"By clicking Adopt and Sign, I agree that the chosen signature/initials will "
+"be a valid electronic representation of my hand-written signature/initials "
+"for all purposes when it is used on documents, including legally binding "
+"contracts."
+msgstr ""
+"با زدن «پذیرش و امضا» می‌پذیرم که امضای انتخاب‌شده در همه‌ی اسناد، از جمله "
+"قراردادهای الزام‌آور، نسخه‌ی الکترونیکی معتبر امضای دست‌نویس من است."
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__cancel
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_generate_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_generate_multi_form_view
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Canceled"
+msgstr "لغو شده"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request__state__3_cancel
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_field__field_type__check
+msgid "Check"
+msgstr "کنترل"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_navigator.esm.js:0
+msgid "Click on Validate Button"
+msgstr "دکمه‌ی تأیید را بزنید"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid "Click on the field that you want to add"
+msgstr "روی فیلدی که می‌خواهید اضافه کنید کلیک کنید"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_navigator.esm.js:0
+msgid "Click to start"
+msgstr "برای شروع کلیک کنید"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_res_config_settings
+msgid "Config Settings"
+msgstr "تنظیمات پیکربندی"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__configure
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_kanban_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_tree_view
+msgid "Configure"
+msgstr "پیکربندی"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__create
+msgid "Create"
+msgstr "ایجاد"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_signer_search_view
+msgid "Create date"
+msgstr "تاریخ ساخت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__create_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__create_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__current_hash
+msgid "Current Hash"
+msgstr "هش فعلی"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__access_url
+msgid "Customer Portal URL"
+msgstr "آدرس پرتال مشتری"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__data
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__data
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__data
+msgid "Data"
+msgstr "داده"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid "Data is saved automatically when editing"
+msgstr "داده‌ها هنگام ویرایش خودکار ذخیره می‌شوند"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid "Data is saved automatically when editing."
+msgstr "داده‌ها هنگام ویرایش خودکار ذخیره می‌شوند."
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Date (UTC)"
+msgstr "تاریخ (UTC)"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_role__partner_selection_policy__default
+msgid "Default"
+msgstr "پیش‌فرض"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__default_value
+msgid "Default Value"
+msgstr "مقدار پیش‌فرض"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__default_partner_id
+msgid "Default partner"
+msgstr "طرف حساب پیش‌فرض"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+msgid "Delete"
+msgstr "حذف"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__delete_field
+msgid "Delete field"
+msgstr "حذف فیلد"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_kanban_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_signer_kanban_view
+msgid "Details"
+msgstr "جزییات"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_res_company__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_res_partner__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_res_users__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__display_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Document Information"
+msgstr "اطلاعات سند"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/js/systray_service.esm.js:0
+msgid "Documents to be Signed"
+msgstr "اسناد منتظر امضا"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__domain
+msgid "Domain"
+msgstr "دامنه"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request__state__1_draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.esm.js:0
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__edit_field
+msgid "Edit field"
+msgstr "ویرایش فیلد"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Email"
+msgstr "پست الکترونیک"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_role__partner_selection_policy__empty
+msgid "Empty"
+msgstr "خالی"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_role__expression_partner
+msgid "Example: {{object.partner_id.id}}"
+msgstr "مثلاً {{object.partner_id.id}}"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__expression_partner
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_role__partner_selection_policy__expression
+msgid "Expression"
+msgstr "عبارت"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__field_id
+msgid "Field"
+msgstr "فیلد"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "Field %(name)s is not filled"
+msgstr "فیلد %(name)s پر نشده است"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__field_type
+msgid "Field Type"
+msgstr "نوع فیلد"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_field_act_window
+#: model:ir.ui.menu,name:sign_oca.sign_oca_field_menu
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_form_view
+msgid "Fields"
+msgstr "فیلدها"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__filename
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__filename
+msgid "Filename"
+msgstr "نام فایل"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+msgid "Filled by"
+msgstr "پرشده توسط"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_follower_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_follower_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_partner_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_partner_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__activity_type_icon
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+msgid "Fully Signed"
+msgstr "کامل امضاشده"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Future Activities"
+msgstr "فعالیت های آینده"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_general_settings_act_window
+msgid "General Settings"
+msgstr "تنظیمات عمومی"
+
+#. module: sign_oca
+#: model:ir.ui.menu,name:sign_oca.sign_oca_general_settings_menu
+msgid "General settings"
+msgstr "تنظیمات کلی"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_generate_multi_form_view
+msgid "Generate"
+msgstr "ایجاد"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_generate_form_view
+msgid "Generate & sign"
+msgstr "ساخت و امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_template_generate
+msgid "Generate a signature request"
+msgstr "ساخت درخواست امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_template_generate_multi
+msgid "Generate signature requests"
+msgstr "ساخت درخواست‌های امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Geolocation"
+msgstr "موقعیت جغرافیایی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__has_message
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__has_message
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__height
+msgid "Height"
+msgstr "ارتفاع"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid "Help"
+msgstr "راهنما"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_res_company__id
+#: model:ir.model.fields,field_description:sign_oca.field_res_config_settings__id
+#: model:ir.model.fields,field_description:sign_oca.field_res_partner__id
+#: model:ir.model.fields,field_description:sign_oca.field_res_users__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "IP address"
+msgstr "نشانی IP"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_exception_icon
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__activity_exception_icon
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__message_needaction
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__message_needaction
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_template__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__message_has_error
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__message_has_error
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_template__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid ""
+"If you do a click over a field, you will be able to change the default "
+"configurations of the field"
+msgstr "با کلیک روی هر فیلد، تنظیمات پیش‌فرض آن را تغییر می‌دهید"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid ""
+"In order to add a new field, do a right click over the PDF page. You will be"
+" able to select the field that you will import"
+msgstr "برای افزودن فیلد، روی صفحه‌ی PDF راست‌کلیک کنید و فیلد را انتخاب کنید"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid ""
+"In order to add a new field, do a right click over the PDF page. You will be able to select the field that you will import.\n"
+"                Then, you can move and resize the fields over the PDF page using the move icons.\n"
+"                If you do a click over a field, you will be able to change the default configurations of the field"
+msgstr ""
+"برای افزودن فیلد، روی صفحه‌ی PDF راست‌کلیک کنید و فیلد را انتخاب کنید.\n"
+"                بعد با آیکون جابه‌جایی، فیلدها را روی صفحه جابه‌جا و اندازه‌شان را تنظیم کنید.\n"
+"                با کلیک روی هر فیلد، تنظیمات پیش‌فرض آن را تغییر می‌دهید"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__inalterable_hash
+msgid "Inalterability Hash"
+msgstr "هش تغییرناپذیری"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__secure_sequence_number
+msgid "Inalteralbility No Gap Sequence #"
+msgstr "شماره‌ی پیاپی تغییرناپذیری"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__ip
+msgid "Ip"
+msgstr "Ip"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__is_allow_signature
+msgid "Is Allow Signature"
+msgstr "امضا مجاز است"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_is_follower
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_is_follower
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__item_ids
+msgid "Item"
+msgstr "آیتم"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__write_uid
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__write_date
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Late Activities"
+msgstr "فعالیتهای اخیر"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__latitude
+msgid "Latitude"
+msgstr "عرض جغرافیایی"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_request_log
+msgid "Log access and edition on requests"
+msgstr "ثبت دسترسی و ویرایش درخواست‌ها"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_pdf_portal.xml:0
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid "Logo"
+msgstr "نشان"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__longitude
+msgid "Longitude"
+msgstr "طول جغرافیایی"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf/sign_oca_pdf.xml:0
+msgid "Main actions"
+msgstr "اقدامات اصلی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__message
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__message
+msgid "Message"
+msgstr "پیام"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_has_error
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_has_error
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__model
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__model_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__model
+msgid "Model"
+msgstr "مدل"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__model
+msgid "Model name"
+msgstr "مدل"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__my_activity_date_deadline
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "My Documents"
+msgstr "اسناد من"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "My Requests"
+msgstr "درخواست‌های من"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_field__name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__partner_name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__name
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__name
+msgid "Name"
+msgstr "نام"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_common/sign_oca_pdf_common.esm.js:0
+msgid "Need a valid PDF to add signature fields !"
+msgstr "برای افزودن فیلد امضا یک PDF معتبر لازم است!"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "New document to sign"
+msgstr "سند تازه برای امضا"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "Newest"
+msgstr "جدیدترین"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_navigator.esm.js:0
+msgid "Next"
+msgstr "بعدی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_date_deadline
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_summary
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_type_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__next_item_id
+msgid "Next Item"
+msgstr "مورد بعدی"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/xml/systray.xml:0
+msgid "No requests to sign."
+msgstr "درخواستی برای امضا نیست."
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Not available"
+msgstr "در دسترس نیست"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_needaction_counter
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_needaction_counter
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__message_has_error_counter
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__message_has_error_counter
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__message_needaction_counter
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__message_needaction_counter
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_template__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__message_has_error_counter
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__message_has_error_counter
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_template__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__record_ref
+msgid "Object"
+msgstr "شی"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "Oldest"
+msgstr "قدیمی‌ترین"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_res_company__sign_oca_send_sign_request_copy
+#: model:ir.model.fields,help:sign_oca.field_res_config_settings__sign_oca_send_sign_request_copy
+#: model_terms:ir.ui.view,arch_db:sign_oca.res_config_settings_view_form
+msgid ""
+"Once all signers have signed the request, a copy of the final document will "
+"be sent to each of them."
+msgstr ""
+"وقتی همه امضا کردند، نسخه‌ای از سند نهایی برای هر کدام فرستاده می‌شود."
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__page
+msgid "Page"
+msgstr "صفحه"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__partner_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__partner_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__partner_id
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Partner"
+msgstr "همکار"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_role__partner_selection_policy
+msgid "Partner Selection Policy"
+msgstr "روش انتخاب طرف حساب"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/xml/systray.xml:0
+msgid "Pending"
+msgstr "معلق"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__placeholder
+msgid "Placeholder"
+msgstr "مکان‌نما"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_pdf_portal.xml:0
+msgid "Please Review And Act On This Document"
+msgstr "لطفاً این سند را بررسی و امضا کنید"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__access_url
+msgid "Portal Access URL"
+msgstr "آدرس دسترسی پرتال"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__position_x
+msgid "Position X"
+msgstr "موقعیت X"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__position_y
+msgid "Position Y"
+msgstr "موقعیت Y"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__request_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__request_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__request_ids
+msgid "Request"
+msgstr "درخواست"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__request_count
+msgid "Request Count"
+msgstr "تعداد درخواست"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "Request cannot be signed"
+msgstr "این درخواست امضا نمی‌شود"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/xml/systray.xml:0
+#: model:ir.ui.menu,name:sign_oca.sign_oca_request_menu
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_form_view
+msgid "Requests"
+msgstr "درخواست ها"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__required
+msgid "Required"
+msgstr "لازم"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__res_id
+msgid "Res"
+msgstr "رکورد"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__user_id
+msgid "Responsible"
+msgstr "پاسخگو"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__activity_user_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_kanban_view
+msgid "Restore"
+msgstr "بازگردانی"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__role_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__role_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__role_id
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_signer_search_view
+msgid "Role"
+msgstr "نقش"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_role_act_window
+#: model:ir.ui.menu,name:sign_oca.sign_oca_role_menu
+msgid "Roles"
+msgstr "نقش ها"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure_field_dialog.xml:0
+msgid "Save"
+msgstr "ذخیره"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__access_token
+msgid "Security Token"
+msgstr "توکن امنیتی"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_kanban_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_tree_view
+msgid "Send"
+msgstr "ارسال"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_res_company__sign_oca_send_sign_request_copy
+#: model:ir.model.fields,field_description:sign_oca.field_res_config_settings__sign_oca_send_sign_request_copy
+msgid "Send signers a copy of the final signed document"
+msgstr "فرستادن نسخه‌ی نهایی امضاشده برای امضاکنندگان"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_form_view
+msgid "Send to sign"
+msgstr "فرستادن برای امضا"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request__state__0_sent
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Sent"
+msgstr "ارسال"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "Sent to Signed"
+msgstr "از ارسال تا امضا"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__sequence_id
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: sign_oca
+#: model:ir.ui.menu,name:sign_oca.sign_oca_settings_menu
+msgid "Settings"
+msgstr "تنظیمات"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Show all records which has next action date is before today"
+msgstr "نمایش همه رکوردهایی که تاریخ اقدام بعدی آن‌ها قبل از امروز است"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf/sign_oca_pdf.xml:0
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__sign
+#: model:ir.ui.menu,name:sign_oca.sign_oca_root_menu
+#: model:res.groups.privilege,name:sign_oca.sign_oca_privilege
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_signer_form_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_tree_view
+msgid "Sign"
+msgstr "امضا"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__sign_now
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_kanban_view
+msgid "Sign Now"
+msgstr "همین حالا امضا کنید"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.res_config_settings_view_form
+msgid "Sign Oca"
+msgstr "امضای الکترونیک"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_template
+msgid "Sign Oca Template"
+msgstr "الگوی امضا"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_template_generate_act_window
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_generate_form_view
+msgid "Sign Oca Template Generate"
+msgstr "ساخت از الگوی امضا"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_template_generate_multi_act_window
+msgid "Sign Oca Template Generate Multi"
+msgstr "ساخت گروهی از الگوی امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_template_item
+msgid "Sign Oca Template Item"
+msgstr "فیلد الگوی امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_request
+msgid "Sign Request"
+msgstr "درخواست امضا"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_request_signer_act_window
+msgid "Sign Request Signers"
+msgstr "امضاکنندگان درخواست"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_request_signer
+msgid "Sign Request Value"
+msgstr "مقدار درخواست امضا"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/xml/systray.xml:0
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_request_act_window
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_request_log_act_window
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_request_template_act_window
+#: model_terms:ir.ui.view,arch_db:sign_oca.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:sign_oca.view_partner_form
+msgid "Sign Requests"
+msgstr "درخواست‌های امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_role
+msgid "Sign Role"
+msgstr "نقش امضاکننده"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_mail
+msgid "Sign document"
+msgstr "امضای سند"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/js/sign_oca.esm.js:0
+msgid "Sign from template"
+msgstr "امضا از الگو"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_template_tree_view
+msgid "Sign now"
+msgstr "همین حالا امضا کنید"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signatory_data
+msgid "Signatory Data"
+msgstr "اطلاعات امضاکننده"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_field__field_type__signature
+msgid "Signature"
+msgstr "امضا"
+
+#. module: sign_oca
+#: model:ir.actions.report,name:sign_oca.action_report_signature_certificate
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Signature Certificate"
+msgstr "گواهی امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "Signature Date"
+msgstr "تاریخ امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_field
+msgid "Signature Field Type"
+msgstr "نوع فیلد امضا"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__signature_hash
+msgid "Signature Hash"
+msgstr "هش امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_my_home
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "Signature Requests"
+msgstr "درخواست‌های امضا"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid "Signature configuration"
+msgstr "تنظیمات امضا"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_sign_oca_template_generate_signer
+msgid "Signature request signers"
+msgstr "امضاکنندگان درخواست امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Signatures"
+msgstr "امضاها"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signed
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request__state__2_signed
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Signed"
+msgstr "امضا شده"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signed_count
+msgid "Signed Count"
+msgstr "تعداد امضاشده"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__signed_on
+msgid "Signed On"
+msgstr "امضاء شده در"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "Signed document"
+msgstr "سند امضاشده"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Signed on"
+msgstr "امضاشده در"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "Signed to Sent"
+msgstr "از امضا تا ارسال"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Signed?"
+msgstr "امضاشده؟"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_res_partner__signer_ids
+#: model:ir.model.fields,field_description:sign_oca.field_res_users__signer_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signer_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__signer_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__signer_ids
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+msgid "Signer"
+msgstr "امضاکننده"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_res_partner__signer_count
+#: model:ir.model.fields,field_description:sign_oca.field_res_users__signer_count
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signer_count
+msgid "Signer Count"
+msgstr "تعداد امضاکننده"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__signer_ids
+#: model_terms:ir.ui.view,arch_db:sign_oca.report_signature_certificate_doc
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_tree_view
+msgid "Signers"
+msgstr "امضاکنندگان"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__state
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "State"
+msgstr "وضعیت"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__activity_state
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__template_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate__template_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_multi__template_id
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__template_id
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_kanban_view
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Template"
+msgstr "پوسته"
+
+#. module: sign_oca
+#: model:ir.actions.act_window,name:sign_oca.sign_oca_template_act_window
+#: model:ir.ui.menu,name:sign_oca.sign_oca_template_menu
+msgid "Templates"
+msgstr "قالبها"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_field__field_type__text
+msgid "Text"
+msgstr "متن"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid "Thanks for signing"
+msgstr "سپاس از امضای شما"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid "The document has been cancelled"
+msgstr "سند لغو شد"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__signer_id
+msgid "The signer related to the active user."
+msgstr "امضاکننده‌ی مربوط به کاربر فعلی."
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_configure/sign_oca_configure.xml:0
+msgid ""
+"Then, you can move and resize the fields over the PDF page using the move "
+"icons."
+msgstr ""
+"بعد با آیکون جابه‌جایی، فیلدها را روی صفحه جابه‌جا و اندازه‌شان را تنظیم "
+"کنید."
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_requests
+msgid "There are currently no sign requests for your account."
+msgstr "فعلاً درخواست امضایی برای شما نیست."
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "There are no signers, please fill them before configuring it"
+msgstr "امضاکننده‌ای تعیین نشده؛ پیش از تنظیم، امضاکنندگان را وارد کنید"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_role__partner_selection_policy
+msgid ""
+"This field is used to define how the partner will be calculated in the "
+"different roles of a request. This field will be used when the 'Sign from "
+"Template' action is triggered."
+msgstr "روش تعیین طرف حساب در نقش‌های مختلف درخواست، هنگام «امضا از الگو»."
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__to_sign
+msgid "To Sign"
+msgstr "منتظر امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "To sign"
+msgstr "منتظر امضا"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_search_view
+msgid "Today Activities"
+msgstr "فعالیت های امروز"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__activity_exception_decoration
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_log__uid
+msgid "Uid"
+msgstr "شناسه"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/res_users.py:0
+msgid "Undefined"
+msgstr "تعریف نشده"
+
+#. module: sign_oca
+#: model:ir.model,name:sign_oca.model_res_users
+msgid "User"
+msgstr "کاربر"
+
+#. module: sign_oca
+#: model:res.groups,name:sign_oca.sign_oca_group_manager
+msgid "User: All Documents"
+msgstr "کاربر: همه مدارک"
+
+#. module: sign_oca
+#: model:res.groups,name:sign_oca.sign_oca_group_user
+msgid "User: Own Documents Only"
+msgstr "کاربر: فقط مدارک خود"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "Users %(name)s has already signed the document"
+msgstr "کاربر %(name)s قبلاً سند را امضا کرده است"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__validate
+msgid "Validate"
+msgstr "تایید اعتبار"
+
+#. module: sign_oca
+#. odoo-javascript
+#: code:addons/sign_oca/static/src/components/sign_oca_pdf_portal/sign_oca_pdf_portal.xml:0
+msgid "Validate & Send document"
+msgstr "تأیید و ارسال سند"
+
+#. module: sign_oca
+#: model:ir.model.fields.selection,name:sign_oca.selection__sign_oca_request_log__action__view
+msgid "View Document"
+msgstr "مشاهده‌ی سند"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_my_home
+msgid "View, or sign documents"
+msgstr "مشاهده یا امضای اسناد"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request__website_message_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_request_signer__website_message_ids
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: sign_oca
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request__website_message_ids
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_request_signer__website_message_ids
+#: model:ir.model.fields,help:sign_oca.field_sign_oca_template__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_item__width
+msgid "Width"
+msgstr "عرض"
+
+#. module: sign_oca
+#: model:ir.model.fields,field_description:sign_oca.field_sign_oca_template_generate_signer__wizard_id
+msgid "Wizard"
+msgstr "تَردست"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "You are not allowed to sign this document."
+msgstr "اجازه‌ی امضای این سند را ندارید."
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/models/sign_oca_request.py:0
+msgid "You can only configure requests in draft state"
+msgstr "فقط درخواست‌های پیش‌نویس تنظیم می‌شوند"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid ""
+"You should have received an email with the final document.<br/>\n"
+"                            Check on your mailbox."
+msgstr ""
+"سند نهایی باید با ایمیل برایتان آمده باشد.<br/>\n"
+"                            صندوق ایمیل خود را ببینید."
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.sign_oca_request_form_view
+msgid ""
+"You will cancel the request and all the accesses. Are you sure about it?"
+msgstr "درخواست و همه‌ی دسترسی‌ها لغو می‌شود. مطمئنید؟"
+
+#. module: sign_oca
+#: model_terms:ir.ui.view,arch_db:sign_oca.portal_sign_document_signed
+msgid "document"
+msgstr "سند"
+
+#. module: sign_oca
+#. odoo-python
+#: code:addons/sign_oca/controllers/main.py:0
+msgid "sent"
+msgstr "ارسال شده"

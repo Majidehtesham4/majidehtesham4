@@ -1,0 +1,23 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_envia
+msgid "Envia.com Connector"
+msgstr "رابط Envia.com"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_sale_gelato
+msgid "Gelato"
+msgstr "جلاتو (Gelato)"
+
+#. module: sale
+#: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_starshipit
+msgid "Starshipit Connector"
+msgstr "رابط Starshipit"

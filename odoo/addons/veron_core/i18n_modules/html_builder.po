@@ -1,0 +1,14 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: html_builder
+#. odoo-javascript
+#: code:addons/html_builder/static/src/plugins/date_time_field_option.xml:0
+msgid "Date"
+msgstr "تاریخ"

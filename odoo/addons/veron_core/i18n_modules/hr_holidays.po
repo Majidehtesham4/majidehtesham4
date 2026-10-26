@@ -1,0 +1,19 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: hr_holidays
+#: model:ir.model,name:hr_holidays.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.js:0
+msgid "day(s)"
+msgstr "روز"

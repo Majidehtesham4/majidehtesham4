@@ -1,0 +1,43 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: report_xlsx_helper
+#. odoo-python
+#: code:addons/report_xlsx_helper/models/ir_actions_report.py:0
+msgid "%s model was not found"
+msgstr "مدل %s پیدا نشد"
+
+#. module: report_xlsx_helper
+#: model:ir.model,name:report_xlsx_helper.model_report_report_xlsx_abstract
+msgid "Abstract XLSX Report"
+msgstr "گزارش اکسل پایه"
+
+#. module: report_xlsx_helper
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_ir_actions_report__display_name
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_report_report_xlsx_abstract__display_name
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_report_report_xlsx_helper_test_partner_xlsx__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: report_xlsx_helper
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_ir_actions_report__id
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_report_report_xlsx_abstract__id
+#: model:ir.model.fields,field_description:report_xlsx_helper.field_report_report_xlsx_helper_test_partner_xlsx__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: report_xlsx_helper
+#: model:ir.model,name:report_xlsx_helper.model_ir_actions_report
+msgid "Report Action"
+msgstr "اکشن گزارش"
+
+#. module: report_xlsx_helper
+#: model:ir.model,name:report_xlsx_helper.model_report_report_xlsx_helper_test_partner_xlsx
+msgid "Test Partner XLSX Report"
+msgstr "گزارش اکسل آزمایشی طرف حساب"

@@ -1,0 +1,74 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: pos_sale
+#: model:ir.model,website_form_label:pos_sale.model_res_partner
+msgid "Create a Customer"
+msgstr "ایجاد مشتری"
+
+#. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_account_move__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_crm_team__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_pos_config__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_pos_session__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_product_template__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_res_partner__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_sale_report__display_name
+#: model:ir.model.fields,field_description:pos_sale.field_stock_picking__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: pos_sale
+#: model:ir.model.fields,field_description:pos_sale.field_account_move__id
+#: model:ir.model.fields,field_description:pos_sale.field_account_move_line__id
+#: model:ir.model.fields,field_description:pos_sale.field_crm_team__id
+#: model:ir.model.fields,field_description:pos_sale.field_pos_config__id
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order__id
+#: model:ir.model.fields,field_description:pos_sale.field_pos_order_line__id
+#: model:ir.model.fields,field_description:pos_sale.field_pos_session__id
+#: model:ir.model.fields,field_description:pos_sale.field_product_template__id
+#: model:ir.model.fields,field_description:pos_sale.field_res_config_settings__id
+#: model:ir.model.fields,field_description:pos_sale.field_res_partner__id
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order__id
+#: model:ir.model.fields,field_description:pos_sale.field_sale_order_line__id
+#: model:ir.model.fields,field_description:pos_sale.field_sale_report__id
+#: model:ir.model.fields,field_description:pos_sale.field_stock_picking__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_account_move_line
+msgid "Journal Item"
+msgstr "آیتم روزنامه"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_product_template
+msgid "Product"
+msgstr "محصول"
+
+#. module: pos_sale
+#: model:ir.model,name:pos_sale.model_stock_picking
+msgid "Transfer"
+msgstr "انتقال"

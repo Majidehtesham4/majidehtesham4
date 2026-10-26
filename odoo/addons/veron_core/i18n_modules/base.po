@@ -1,0 +1,75 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: base
+#: model:ir.module.module,shortdesc:base.module_bakery
+msgid "Bakery"
+msgstr "نانوایی"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__update_path
+#: model:ir.model.fields,field_description:base.field_ir_cron__update_path
+msgid "Field to Update Path"
+msgstr "مسیر فیلد به‌روزرسانی"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__value
+#: model:ir.model.fields,help:base.field_ir_cron__value
+msgid ""
+"For Python expressions, this field may hold a Python expression that can use the same values as for the code field on the server action,e.g. `env.user.name` to set the current user's name as the value or `record.id` to set the ID of the record on which the action is run.\n"
+"\n"
+"For Static values, the value will be used directly without evaluation, e.g.`42` or `My custom name` or the selected record."
+msgstr ""
+"برای عبارت‌های پایتون، این فیلد می‌تواند حاوی یک عبارت پایتون باشد و از همان مقادیر فیلد کد در عملیات سرور استفاده کند؛ به عنوان مثال `env.user.name` برای تنظیم نام کاربر جاری به عنوان مقدار یا `record.id` برای تنظیم شناسه رکوردی که عملیات روی آن اجرا می‌شود.\n"
+"\n"
+"برای مقادیر ثابت، مقدار بدون ارزیابی به طور مستقیم استفاده می‌شود، به عنوان مثال `۴۲` یا «نام سفارشی من» یا رکورد انتخاب شده."
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__link_field_id
+#: model:ir.model.fields,field_description:base.field_ir_cron__link_field_id
+msgid "Link Field"
+msgstr "فیلد لینک"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__model_id
+#: model:ir.model.fields,help:base.field_ir_cron__model_id
+msgid "Model on which the server action runs."
+msgstr "مدلی که عملیات سرور بر روی آن اجرا می‌شود."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__update_path
+#: model:ir.model.fields,help:base.field_ir_cron__update_path
+msgid "Path to the field to update, e.g. 'partner_id.name'"
+msgstr "مسیر به فیلد نیازمند به‌روزرسانی، مثال «partner_id.name»"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_actions_server__crud_model_id
+#: model:ir.model.fields,field_description:base.field_ir_cron__crud_model_id
+msgid "Record to Create"
+msgstr "رکورد برای ایجاد"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__link_field_id
+#: model:ir.model.fields,help:base.field_ir_cron__link_field_id
+msgid ""
+"Specify a field used to link the newly created record on the record used by "
+"the server action."
+msgstr ""
+"فیلدی را مشخص کنید که برای ایجاد ارتباط بین رکورد ایجاد شده جدید و رکورد "
+"استفاده شده در عملیات سرور استفاده می‌شود."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__crud_model_id
+#: model:ir.model.fields,help:base.field_ir_cron__crud_model_id
+msgid ""
+"Specify which kind of record should be created. Set this field only to "
+"specify a different model than the base model."
+msgstr ""
+"نوع رکوردی که باید ایجاد شود را مشخص کنید. این فیلد را فقط برای مشخص کردن "
+"مدلی متفاوتی نسبت به مدل پایه تنظیم کنید."

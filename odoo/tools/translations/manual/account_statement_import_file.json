@@ -1,0 +1,19 @@
+{
+"<span>Import (OCA)</span>": "<span>ورود صورت‌حساب</span>",
+"Could not find any bank account with number '%(account_number)s'  linked to partner '%(partner_name)s'. You should create the bank account and set it on the related bank journal. If the related bank journal doesn't exist yet, you should create a new one.": "هیچ حساب بانکی با شماره‌ی «%(account_number)s» مربوط به «%(partner_name)s» پیدا نشد. حساب بانکی را بسازید و آن را روی دفتر بانک مربوط تنظیم کنید. اگر آن دفتر بانک هنوز وجود ندارد، یک دفتر تازه بسازید.",
+"Download bank statement files from your bank and upload them here.": "فایل صورت‌حساب را از بانک بگیرید و این‌جا بارگذاری کنید.",
+"Import (OCA) (%s)": "ورود صورت‌حساب (%s)",
+"Import Statement (OCA)": "ورود صورت‌حساب بانکی",
+"Import and View": "ورود و نمایش",
+"Missing currency code in the bank statement file.": "کد ارز در فایل صورت‌حساب بانکی نیست.",
+"Supported formats:": "قالب‌های پشتیبانی‌شده:",
+"The Bank Accounting Account is not set on the journal '%s'.": "حساب معین بانک روی دفتر «%s» تنظیم نشده است.",
+"The bank account with number '%(account_number)s' exists in Odoo but it is not set on any bank journal. You should set it on the related bank journal. If the related bank journal doesn't  exist yet, you should create a new one.": "حساب بانکی با شماره‌ی «%(account_number)s» در سیستم هست ولی روی هیچ دفتر بانکی تنظیم نشده است. آن را روی دفتر بانک مربوط تنظیم کنید. اگر آن دفتر بانک هنوز وجود ندارد، یک دفتر تازه بسازید.",
+"The bank statement file uses currency '%s' but there is no such currency in Odoo.": "فایل صورت‌حساب ارز «%s» دارد ولی این ارز در سیستم نیست.",
+"The currency of the bank statement (%(currency_name)s) is not the same as the currency of the journal '%(journal_name)s' (%(journal_currency_name)s).": "ارز صورت‌حساب بانکی (%(currency_name)s) با ارز دفتر «%(journal_name)s» (%(journal_currency_name)s) یکی نیست.",
+"The format of this bank statement file doesn't contain the bank account number, so you must start the wizard from the right bank journal in the dashboard.": "این قالب صورت‌حساب شماره‌ی حساب بانکی را ندارد؛ ورود را از دفتر بانک درست در داشبورد شروع کنید.",
+"The journal found for the file (%(journal_match)s) is different from the selected journal (%(journal_selected)s).": "دفتری که برای فایل پیدا شد (%(journal_match)s) با دفتر انتخاب‌شده (%(journal_selected)s) فرق دارد.",
+"The parsing of the statement file returned an invalid result.": "خواندن فایل صورت‌حساب نتیجه‌ی نامعتبری داد.",
+"This bank statement file format is not supported.\nDid you install the Odoo module to support this format?": "این قالب فایل صورت‌حساب پشتیبانی نمی‌شود.\nماژول این قالب نصب شده است؟",
+"You have already imported this file, or this file only contains already imported transactions.": "این فایل قبلاً وارد شده است، یا فقط تراکنش‌هایی دارد که قبلاً وارد شده‌اند."
+}

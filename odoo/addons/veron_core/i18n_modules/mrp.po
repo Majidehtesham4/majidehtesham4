@@ -1,0 +1,23 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: mrp
+#: model:ir.model,name:mrp.model_mrp_production_serials
+msgid "Assign serial numbers to production order"
+msgstr "تخصیص شماره سریال به سفارش تولید"
+
+#. module: mrp
+#: model:ir.model,name:mrp.model_stock_replenish_mixin
+msgid "Product Replenish Mixin"
+msgstr "میکسین تجدید موجودی محصول"
+
+#. module: mrp
+#: model:ir.model,name:mrp.model_stock_reference
+msgid "Reference between stock documents"
+msgstr "ارجاع بین اسناد انبار"

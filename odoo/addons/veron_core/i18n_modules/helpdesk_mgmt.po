@@ -1,0 +1,56 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: helpdesk_mgmt
+#: model:mail.template,body_html:helpdesk_mgmt.changed_stage_template
+msgid ""
+"<p>Hello <t t-out=\"object.user_id.name\"/>,</p>\n"
+"                <p>\n"
+"                    The ticket <t t-out=\"object.display_name\"/>\n"
+"                    stage has changed to <t t-out=\"object.stage_id.name\"/>.\n"
+"                </p>\n"
+"            "
+msgstr ""
+"<p>سلام <t t-out=\"object.user_id.name\"/>،</p>\n"
+"                <p>\n"
+"                    مرحله‌ی تیکت <t t-out=\"object.display_name\"/>\n"
+"                    به <t t-out=\"object.stage_id.name\"/> تغییر کرد.\n"
+"                </p>\n"
+"            "
+
+#. module: helpdesk_mgmt
+#: model:mail.template,body_html:helpdesk_mgmt.closed_ticket_template
+msgid ""
+"<p>Hello <t t-out=\"object.user_id.name\"/>,</p>\n"
+"                <p>The ticket <t t-out=\"object.display_name\"/> has been closed.</p>\n"
+"            "
+msgstr ""
+"<p>سلام <t t-out=\"object.user_id.name\"/>،</p>\n"
+"                <p>تیکت <t t-out=\"object.display_name\"/> بسته شد.</p>\n"
+"            "
+
+#. module: helpdesk_mgmt
+#: model:ir.model.fields,field_description:helpdesk_mgmt.field_helpdesk_ticket__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: helpdesk_mgmt
+#: model:ir.model.fields,field_description:helpdesk_mgmt.field_helpdesk_ticket__properties
+msgid "Properties"
+msgstr "مشخصات"
+
+#. module: helpdesk_mgmt
+#: model:ir.model.fields,field_description:helpdesk_mgmt.field_helpdesk_ticket_team__ticket_properties
+msgid "Ticket Properties"
+msgstr "ویژگی‌های تیکت"
+
+#. module: helpdesk_mgmt
+#: model_terms:ir.ui.view,arch_db:helpdesk_mgmt.helpdesk_ticket_view_search
+msgid "Unread Messages"
+msgstr "پیام های ناخوانده"

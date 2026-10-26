@@ -1,0 +1,12 @@
+{
+"<i class=\"fa fa-xs fa-file\"/>\n                                            <span>&amp;nbsp;</span>": "<i class=\"fa fa-xs fa-file\"/>\n                                            <span>&amp;nbsp;</span>",
+"<i class=\"fa fa-xs fa-folder\"/>\n                                            <span>&amp;nbsp;</span>": "<i class=\"fa fa-xs fa-folder\"/>\n                                            <span>&amp;nbsp;</span>",
+"<span class=\"ms-1\">Directories</span>": "<span class=\"ms-1\">پوشه‌ها</span>",
+"<span class=\"ms-1\">Files</span>": "<span class=\"ms-1\">فایل‌ها</span>",
+"<span>Views</span>": "<span>نمایش‌ها</span>",
+"DMS file actions": "کارهای فایل",
+"Dms Path Field": "فیلد مسیر",
+"Manage your documents": "اسناد خود را مدیریت کنید",
+"Preview Record": "پیش‌نمایش رکورد",
+"You are not allowed to upload a file here.": "اجازه‌ی بارگذاری فایل در این‌جا را ندارید."
+}

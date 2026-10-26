@@ -2,4 +2,7 @@
 <odoo>
 	<!-- Signing in opens the apps menu for the users there already; new users get it by default -->
 	<function model="res.users" name="_veron_redirect_home"/>
+
+	<!-- Iran's settings again, now that the apps are in: price lists made in dollars become rial -->
+	<function model="veron.iran" name="_apply_later"/>
 </odoo>

@@ -1,0 +1,256 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_section_mobile
+msgid "App Store"
+msgstr "اپ استور"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_content_card_7
+msgid "Be the first to find out all the latest new, products and trends."
+msgstr "اولین کسی باشید که از آخرین اخبار، محصولات و ترندها مطلع می‌شوید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_describing_benefits
+msgid ""
+"Benefit from tax-free shopping, simplifying your purchase and enhancing your"
+" savings without any extra costs."
+msgstr ""
+"از خرید معاف از مالیات بهره‌مند شوید، خرید خود را ساده کرده و پس‌انداز خود "
+"را بدون هیچ هزینه اضافی افزایش دهید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_left_cta
+msgid "Buy Now"
+msgstr "اکنون خرید کنید"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_contact
+msgid "Closed"
+msgstr "بسته شد"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid ""
+"Consistent performance and uptime ensure efficient, reliable service with "
+"minimal interruptions and quick response times."
+msgstr ""
+"عملکرد و زمان کارکرد پایدار، خدمات کارآمد و قابل اعتماد را با حداقل وقفه و "
+"زمان پاسخ سریع تضمین می‌کند."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_mail_block_header_logo_and_inline_menu
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_mail_block_header_logo_and_stacked_menu
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_mail_block_header_name_and_inline_menu
+msgid "Contact Us"
+msgstr "تماس با ما"
+
+#. module: mass_mailing
+#. odoo-javascript
+#: code:addons/mass_mailing/static/src/builder/options/company_team_options.xml:0
+msgid "Content Width"
+msgstr "عرض محتوا"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_pricelist_boxed
+msgid "Diavola"
+msgstr "دیاوولا"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_image_text
+msgid "Discover New <strong>Opportunities</strong>"
+msgstr "فرصت‌های جدید را <strong>کشف کنید</strong>"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_image
+msgid "Enhance Your <strong>Experience</strong>"
+msgstr "تجربه خود را <strong>بهبود بخشید</strong>"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_describing_benefits
+msgid "Fair pricing"
+msgstr "قیمت‌گذاری منصفانه"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid ""
+"Growth capability is a system's ability to scale and adapt, meeting "
+"increasing demands and evolving needs for long-term success."
+msgstr ""
+"توانایی رشد، قابلیت سیستم برای مقیاس‌پذیری و تطبیق، برآورده کردن تقاضاهای "
+"فزاینده و نیازهای در حال تحول برای موفقیت بلندمدت است."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_need_help
+msgid "In this section, you can address common questions efficiently."
+msgstr "در این بخش می‌توانید به طور مؤثر به سؤالات متداول پاسخ دهید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_mailing_list_advertisement
+msgid ""
+"Join our mailing list to receive carefully curated resources, tips, and "
+"updates straight to your inbox."
+msgstr ""
+"به لیست ارسال ما بپیوندید تا منابع، نکات و به‌روزرسانی‌های گلچین شده را "
+"مستقیماً در صندوق ورودی خود دریافت کنید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_pricelist_boxed
+msgid "Lasagna al Forno"
+msgstr "لازانیا آل فورنو"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_content_card_2
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_content_card_4
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_membership_advertisement
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_card
+msgid "Learn More"
+msgstr "بیشتر بدانید"
+
+#. module: mass_mailing
+#: model:ir.model,name:mass_mailing.model_mailing_trace
+msgid "Mailing Statistics"
+msgstr "آمار ارسال"
+
+#. module: mass_mailing
+#: model:ir.model.fields,field_description:mass_mailing.field_mailing_mailing__mailing_type
+msgid "Mailing Type"
+msgstr "نوع ارسال"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.email_designer_snippets
+msgid "Menu"
+msgstr "منو"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.email_designer_snippets
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_need_help
+msgid "Need help?"
+msgstr "به کمک نیاز دارید؟"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_section_mobile
+msgid "Odoo Mobile"
+msgstr "Odoo موبایل"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_describing_benefits
+msgid ""
+"Our support team is available 24/7 to assist with any inquiries or issues, "
+"ensuring you get help whenever you need it."
+msgstr ""
+"تیم پشتیبانی ما 24/7 در دسترس است تا به هر سؤال یا مشکلی کمک کند و اطمینان "
+"حاصل کند که هر زمان به کمک نیاز دارید، در دسترس هستیم."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_need_help
+msgid ""
+"Our website is designed for easy navigation, allowing you to find the "
+"information you need quickly and efficiently."
+msgstr ""
+"وب سایت ما برای پیمایش آسان طراحی شده است و به شما امکان می‌دهد اطلاعات مورد"
+" نیاز خود را به سرعت و به راحتی پیدا کنید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid "Performance"
+msgstr "کارایی"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.email_designer_snippets
+msgid "Product Description"
+msgstr "شرح محصول"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_pricelist_boxed
+msgid "Quattro Stagioni"
+msgstr "چهار فصل"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_product_showcase
+msgid "Read More"
+msgstr "بیشتر بخوانید"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid "Reliability"
+msgstr "قابلیت اطمینان"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid "Scalability"
+msgstr "مقیاس‌پذیری"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_centered_cta_badge
+msgid "Shop Now"
+msgstr "ورود به فروشگاه"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_pricelist_boxed
+msgid "Spaghetti Carbonara"
+msgstr "اسپاگتی کاربونارا"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_features_column
+msgid ""
+"Speed and efficiency ensure tasks are completed quickly and resources are "
+"used optimally, enhancing productivity and satisfaction."
+msgstr ""
+"سرعت و کارایی اطمینان می‌دهند که کارها به سرعت انجام می‌شوند و منابع به طور "
+"بهینه استفاده می‌شوند، که بهره‌وری و رضایت را افزایش می‌دهد."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_content_card_7
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_mailing_list_advertisement
+msgid "Subscribe"
+msgstr "عضویت"
+
+#. module: mass_mailing
+#: model:ir.model,website_form_label:mass_mailing.model_mailing_contact
+msgid "Subscribe to Newsletter"
+msgstr "عضویت در خبرنامه"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_describing_benefits
+msgid "Tax free"
+msgstr "معاف از مالیات"
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_need_help
+msgid ""
+"We deliver personalized solutions, ensuring that every customer receives "
+"top-tier service tailored to their needs."
+msgstr ""
+"ما راهکارهای شخصی‌سازی‌ای شده ارائه می‌دهیم تا اطمینان حاصل کنیم که هر مشتری"
+" خدمات سطح بالایی متناسب با نیازهای خود دریافت می‌کند."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_need_help
+msgid ""
+"We provide 24/7 support through various channels, including live chat, "
+"email, and phone, to assist with any queries."
+msgstr ""
+"را از طریق کانال‌های مختلف، از جمله چت زنده، ایمیل و تلفن، برای کمک به "
+"هرگونه سؤال پشتیبانی 24/7 ارائه می‌دهیم."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.s_text_describing_benefits
+msgid ""
+"We provide transparent pricing that offers great value, ensuring you always "
+"get the best deal without hidden costs."
+msgstr ""
+"ما قیمت‌گذاری شفاف ارائه می‌دهیم که ارزش بالایی دارد و اطمینان حاصل می‌کند "
+"که همیشه بهترین معامله را بدون هزینه‌های پنهان دریافت می‌کنید."
+
+#. module: mass_mailing
+#: model_terms:ir.ui.view,arch_db:mass_mailing.email_designer_snippets
+msgid "Website"
+msgstr "تارنما"

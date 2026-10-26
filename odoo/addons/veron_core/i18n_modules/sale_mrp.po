@@ -1,0 +1,23 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: sale_mrp
+#: model:ir.model,name:sale_mrp.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "سفارش تولید"
+
+#. module: sale_mrp
+#: model:ir.model,name:sale_mrp.model_stock_warehouse_orderpoint
+msgid "Minimum Inventory Rule"
+msgstr "قاعده حداقل انبارداری"
+
+#. module: sale_mrp
+#: model:ir.model,name:sale_mrp.model_stock_rule
+msgid "Stock Rule"
+msgstr "قانون موجودی انبار"

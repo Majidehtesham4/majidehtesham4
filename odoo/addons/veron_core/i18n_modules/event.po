@@ -1,0 +1,55 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: event
+#: model:event.event,name:event.event_2
+#: model_terms:event.event,description:event.event_2
+msgid "Conference for Architects"
+msgstr "کنفرانس برای معماران"
+
+#. module: event
+#: model:event.event,subtitle:event.event_2
+msgid "Enhance your architectural business and improve professional skills."
+msgstr ""
+"کسب‌وکار معماری خود را ارتقا دهید و مهارت‌های حرفه‌ای خود را بهبود بخشید."
+
+#. module: event
+#: model:ir.model,name:event.model_event_question_answer
+msgid "Event Question Answer"
+msgstr "پاسخ به سؤال رویداد"
+
+#. module: event
+#: model:ir.model,name:event.model_event_slot
+msgid "Event Slot"
+msgstr "بازه زمانی رویداد"
+
+#. module: event
+#: model:event.event,name:event.event_5
+msgid "Hockey Tournament"
+msgstr "مسابقات هاکی"
+
+#. module: event
+#: model_terms:event.event,description:event.event_2
+msgid "John DOE"
+msgstr "علی داوودی"
+
+#. module: event
+#: model_terms:event.event,description:event.event_2
+msgid "John Doe's avatar"
+msgstr "آواتار علی داوودی"
+
+#. module: event
+#: model:event.event,name:event.event_3
+msgid "Live Music Festival"
+msgstr "جشنواره موسیقی زنده"
+
+#. module: event
+#: model:event.event,name:event.event_7
+msgid "OpenWood Collection Online Reveal"
+msgstr "افتتاح آنلاین دکوراسیون داخلی افرا"

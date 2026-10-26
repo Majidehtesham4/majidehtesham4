@@ -1,0 +1,9 @@
+{
+"Gives label to tickets on project's kanban view.": "نامی که تیکت‌ها در کانبان پروژه با آن نشان داده می‌شوند.",
+"No tickets found. Let's create one!": "هیچ تیکتی نیست. یکی بسازید!",
+"Ticket Count": "تعداد تیکت",
+"Use Tickets as": "نام تیکت‌ها",
+"Use these keywords in the title to set new tasks:\n\n            #tags Set tags on the task\n            @user Assign the task to a user\n            ! Set the task a medium priority\n            !! Set the task a high priority\n            !!! Set the task a urgent priority\n\n            Make sure to use the right format and order e.g. Improve the configuration screen #feature #v16 @Mitchell !": "این کلیدواژه‌ها را در عنوان بنویسید تا کار تازه تنظیم شود:\n\n            #برچسب برچسب کار را تعیین می‌کند\n            @کاربر کار را به یک کاربر می‌سپارد\n            ! اولویت متوسط\n            !! اولویت بالا\n            !!! اولویت فوری\n\n            ترتیب و قالب درست را رعایت کنید، مثلاً: بهبود صفحه‌ی تنظیمات #ویژگی @مریم !",
+"View Helpdesk Tickets": "تیکت‌های پشتیبانی",
+"View Tickets": "تیکت‌ها"
+}

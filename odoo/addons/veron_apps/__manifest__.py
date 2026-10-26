@@ -27,6 +27,7 @@ Marketing Automation, Social Marketing, VoIP, IoT and WhatsApp.
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
 	"depends": [
+		"veron_core",
 		"web_responsive",
 		"veron_accounting",
 		"account_budget_oca",

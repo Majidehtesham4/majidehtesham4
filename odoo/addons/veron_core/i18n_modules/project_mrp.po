@@ -1,0 +1,46 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_mrp_bom
+msgid "Bill of Material"
+msgstr "صورت مواد اولیه"
+
+#. module: project_mrp
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_production__display_name
+#: model:ir.model.fields,field_description:project_mrp.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_mrp.field_stock_move__display_name
+#: model:ir.model.fields,field_description:project_mrp.field_stock_rule__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: project_mrp
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_bom__id
+#: model:ir.model.fields,field_description:project_mrp.field_mrp_production__id
+#: model:ir.model.fields,field_description:project_mrp.field_project_project__id
+#: model:ir.model.fields,field_description:project_mrp.field_stock_move__id
+#: model:ir.model.fields,field_description:project_mrp.field_stock_rule__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_mrp_production
+msgid "Manufacturing Order"
+msgstr "سفارش تولید"
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_stock_move
+msgid "Stock Move"
+msgstr "انتقال موجودی"
+
+#. module: project_mrp
+#: model:ir.model,name:project_mrp.model_stock_rule
+msgid "Stock Rule"
+msgstr "قانون موجودی انبار"

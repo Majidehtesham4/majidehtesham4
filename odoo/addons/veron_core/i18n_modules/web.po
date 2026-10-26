@@ -1,0 +1,26 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
+msgid "A"
+msgstr "م"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/core/emoji_picker/emoji_data.js:0
+msgid "C"
+msgstr "بستانکار"
+
+#. module: web
+#. odoo-javascript
+#: code:addons/web/static/src/webclient/debug/profiling/profiling_item.xml:0
+msgid "Time Limit (seconds)"
+msgstr "محدودیت زمانی (ثانیه)"

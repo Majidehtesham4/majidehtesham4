@@ -1,0 +1,31 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: spreadsheet_dashboard_purchase_stock_oca
+#. odoo-javascript
+#: code:addons/spreadsheet_dashboard_purchase_stock_oca/data/files/purchase_dashboard.json:0
+msgid "% On time deliveries by vendor"
+msgstr "% تحویل به‌موقع هر تأمین‌کننده"
+
+#. module: spreadsheet_dashboard_purchase_stock_oca
+#. odoo-javascript
+#: code:addons/spreadsheet_dashboard_purchase_stock_oca/data/files/purchase_dashboard.json:0
+msgid "On time deliveries"
+msgstr "تحویل‌های به‌موقع"
+
+#. module: spreadsheet_dashboard_purchase_stock_oca
+#: model:spreadsheet.dashboard,name:spreadsheet_dashboard_purchase_stock_oca.spreadsheet_dashboard_purchase
+msgid "Purchase Receipts"
+msgstr "رسیدهای خرید"
+
+#. module: spreadsheet_dashboard_purchase_stock_oca
+#. odoo-javascript
+#: code:addons/spreadsheet_dashboard_purchase_stock_oca/data/files/purchase_dashboard.json:0
+msgid "Supplier service level"
+msgstr "سطح خدمت تأمین‌کننده"

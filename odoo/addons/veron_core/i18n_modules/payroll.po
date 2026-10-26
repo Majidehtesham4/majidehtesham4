@@ -1,0 +1,88 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: payroll
+#. odoo-python
+#: code:addons/payroll/models/hr_payroll_structure.py:0
+msgid "%(code)s (copy)"
+msgstr "%(code)s (رونوشت)"
+
+#. module: payroll
+#: model:mail.template,body_html:payroll.mail_template_hr_payslip
+msgid ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"            Dear <t t-out=\"object.employee_id.name\"/>,\n"
+"            <br/><br/>\n"
+"            Please find attached the payslip for <t t-out=\"object.payslip_run_id.name\"/>.\n"
+"            <br/><br/>\n"
+"            Do not hesitate to contact us if you have any questions.\n"
+"            <br/><br/>\n"
+"            <t t-out=\"user.signature\"/>\n"
+"        </p>\n"
+"                </div>\n"
+"            "
+msgstr ""
+"<div style=\"margin: 0px; padding: 0px;\">\n"
+"                    <p style=\"margin: 0px; padding: 0px; font-size: 13px;\">\n"
+"            <t t-out=\"object.employee_id.name\"/> گرامی،\n"
+"            <br/><br/>\n"
+"            فیش حقوق <t t-out=\"object.payslip_run_id.name\"/> پیوست است.\n"
+"            <br/><br/>\n"
+"            اگر پرسشی دارید، با ما تماس بگیرید.\n"
+"            <br/><br/>\n"
+"            <t t-out=\"user.signature\"/>\n"
+"        </p>\n"
+"                </div>\n"
+"            "
+
+#. module: payroll
+#: model_terms:ir.ui.view,arch_db:payroll.hr_payslip_run_view_form
+msgid "Close Batch"
+msgstr "بستن دسته"
+
+#. module: payroll
+#: model_terms:ir.ui.view,arch_db:payroll.report_payslipdetails
+msgid "Details by Salary Rule Category"
+msgstr "جزئیات بر اساس دسته‌ی قاعده‌ی حقوق"
+
+#. module: payroll
+#: model:ir.model,name:payroll.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "قرارداد کارمند / نسخه"
+
+#. module: payroll
+#. odoo-python
+#: code:addons/payroll/wizard/hr_payslip_change_state.py:0
+msgid ""
+"Only draft payslips can be verified, the payslip %(nm)s is in %(st)s state"
+msgstr "فقط فیش‌های پیش‌نویس تأیید می‌شوند؛ فیش %(nm)s در وضعیت %(st)s است"
+
+#. module: payroll
+#. odoo-python
+#: code:addons/payroll/models/hr_payslip_line.py:0
+msgid "Recursion error. Only one line should be parent of %(rule)s"
+msgstr "خطای حلقه: فقط یک ردیف می‌تواند والد %(rule)s باشد"
+
+#. module: payroll
+#. odoo-python
+#: code:addons/payroll/models/hr_payslip.py:0
+msgid "Refund: %(name)s"
+msgstr "برگشت: %(name)s"
+
+#. module: payroll
+#: model:ir.model.fields,field_description:payroll.field_hr_employee__resource_calendar_id
+#: model:ir.model.fields,field_description:payroll.field_hr_version__resource_calendar_id
+msgid "Working Hours"
+msgstr "ساعت های کاری"
+
+#. module: payroll
+#: model_terms:ir.ui.view,arch_db:payroll.hr_payslip_view_form
+msgid "period"
+msgstr "دوره"

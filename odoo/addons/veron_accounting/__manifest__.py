@@ -13,6 +13,7 @@ Iranian chart of accounts with the provinces and cities, loaded for a company th
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
 	"depends": [
+		"veron_core",
 		"account",
 		"account_financial_report",
 		"account_reconcile_oca",

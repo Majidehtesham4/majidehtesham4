@@ -1,0 +1,37 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: pos_mrp
+#: model:ir.model.fields,field_description:pos_mrp.field_pos_order__display_name
+#: model:ir.model.fields,field_description:pos_mrp.field_pos_order_line__display_name
+#: model:ir.model.fields,field_description:pos_mrp.field_stock_move__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: pos_mrp
+#: model:ir.model.fields,field_description:pos_mrp.field_pos_order__id
+#: model:ir.model.fields,field_description:pos_mrp.field_pos_order_line__id
+#: model:ir.model.fields,field_description:pos_mrp.field_stock_move__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: pos_mrp
+#: model:ir.model,name:pos_mrp.model_pos_order_line
+msgid "Point of Sale Order Lines"
+msgstr "سطرهای سفارش پایانه فروش"
+
+#. module: pos_mrp
+#: model:ir.model,name:pos_mrp.model_pos_order
+msgid "Point of Sale Orders"
+msgstr "سفارشات پایانه فروش"
+
+#. module: pos_mrp
+#: model:ir.model,name:pos_mrp.model_stock_move
+msgid "Stock Move"
+msgstr "انتقال موجودی"

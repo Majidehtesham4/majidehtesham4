@@ -1,0 +1,18 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: auth_passkey
+#: model:ir.model.fields,field_description:auth_passkey.field_res_users_identitycheck__auth_method
+msgid "Auth Method"
+msgstr "روش احراز هویت"
+
+#. module: auth_passkey
+#: model:ir.model,name:auth_passkey.model_res_users_identitycheck
+msgid "Password Check Wizard"
+msgstr "ویزارد بررسی رمز عبور"

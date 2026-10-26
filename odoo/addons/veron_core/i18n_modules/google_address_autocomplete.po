@@ -1,0 +1,18 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: google_address_autocomplete
+#: model:ir.model,name:google_address_autocomplete.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: google_address_autocomplete
+#: model:ir.model,website_form_label:google_address_autocomplete.model_res_partner
+msgid "Create a Customer"
+msgstr "ایجاد مشتری"

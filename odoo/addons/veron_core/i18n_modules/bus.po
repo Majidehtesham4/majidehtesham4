@@ -1,0 +1,23 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: bus
+#: model:ir.model,name:bus.model_bus_listener_mixin
+msgid "Can send messages via bus.bus"
+msgstr "ارسال پیام از bus.bus امکان‌پذیر است"
+
+#. module: bus
+#: model:ir.model.fields,field_description:bus.field_bus_bus__create_date
+msgid "Create Date"
+msgstr "ایجاد تاریخ"
+
+#. module: bus
+#: model:ir.model,name:bus.model_ir_qweb
+msgid "Qweb"
+msgstr "Qweb"

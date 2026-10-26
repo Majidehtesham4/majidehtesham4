@@ -1,0 +1,5 @@
+{
+"<b>UNASSIGNED</b>": "<b>بدون مسئول</b>",
+"Timeline view has not defined 'date_start' attribute.": "نمای خط زمانی ویژگی «date_start» را ندارد.",
+"Timeline view has not defined 'default_group_by' attribute.": "نمای خط زمانی ویژگی «default_group_by» را ندارد."
+}

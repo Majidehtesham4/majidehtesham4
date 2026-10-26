@@ -1,0 +1,38 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: payment
+#: model:ir.model,name:payment.model_res_config_settings
+msgid "Config Settings"
+msgstr "تنظیمات پیکربندی"
+
+#. module: payment
+#: model:ir.model,website_form_label:payment.model_res_partner
+msgid "Create a Customer"
+msgstr "ایجاد مشتری"
+
+#. module: payment
+#: model:payment.method,name:payment.payment_method_kiosk
+msgid "Kiosk"
+msgstr "کیوسک"
+
+#. module: payment
+#: model:payment.method,name:payment.payment_method_mobile
+msgid "Mobile"
+msgstr "موبایل"
+
+#. module: payment
+#: model:ir.model,name:payment.model_payment_provider
+msgid "Payment Provider"
+msgstr "سرویس دهنده پرداخت"
+
+#. module: payment
+#: model:payment.provider,name:payment.payment_provider_xendit
+msgid "Xendit"
+msgstr "Xendit"

@@ -1,0 +1,55 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: point_of_sale
+#: model:product.template,name:point_of_sale.product_cinnamon_roll_product_template
+msgid "Cinnamon Roll"
+msgstr "رول دارچین"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_pos_preset
+msgid "Easily load a set of configuration options"
+msgstr "بارگذاری آسان مجموعه‌ای از گزینه‌های پیکربندی"
+
+#. module: point_of_sale
+#: model:pos.category,name:point_of_sale.pos_category_pastries
+msgid "Pastries"
+msgstr "شیرینی‌ها"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_pos_load_mixin
+msgid "PoS data loading mixin"
+msgstr "mixin بارگذاری داده"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/screens/feedback_screen/feedback_screen.xml:0
+msgid "Processing..."
+msgstr "درحال پردازش ..."
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_product_template_attribute_exclusion
+msgid "Product Template Attribute Exclusion"
+msgstr "حذف مشخصه قالب محصول"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_stock_reference
+msgid "Reference between stock documents"
+msgstr "ارجاع بین اسناد انبار"
+
+#. module: point_of_sale
+#. odoo-javascript
+#: code:addons/point_of_sale/static/src/app/models/utils/indexed_db.js:0
+msgid "Reload"
+msgstr "بارگزاری مجدد"
+
+#. module: point_of_sale
+#: model:ir.model,name:point_of_sale.model_product_removal
+msgid "Removal Strategy"
+msgstr "استراتژی برداشت"

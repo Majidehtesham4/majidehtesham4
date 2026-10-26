@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Each time ERP-VERON is installed or updated: Persian, Saturday, rial, Tehran -->
+	<function model="veron.iran" name="_apply_later"/>
+
+	<!-- The paid apps, which ask to buy the Enterprise edition, are not listed -->
+	<record id="base.open_module_tree" model="ir.actions.act_window">
+		<field name="domain">[('to_buy', '=', False)]</field>
+	</record>
+</odoo>

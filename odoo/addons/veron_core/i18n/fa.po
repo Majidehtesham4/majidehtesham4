@@ -1,0 +1,958 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Account"
+msgstr "حساب"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add all"
+msgstr "افزودن همه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Amount in currency"
+msgstr "مبلغ ارزی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Create"
+msgstr "ایجاد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Credit"
+msgstr "بستانکار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Debit"
+msgstr "بدهکار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Global Balance"
+msgstr "مانده‌ی کل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Label"
+msgstr "بر چسب"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Open Balance"
+msgstr "مانده‌ی باز"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Partner"
+msgstr "همکار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "DMS file actions"
+msgstr "کارهای فایل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Dms Path Field"
+msgstr "فیلد مسیر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Preview Record"
+msgstr "پیش‌نمایش رکورد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "View Profile"
+msgstr "مشاهده پروفایل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "day(s)"
+msgstr "روز"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "%(label)s, back on %(date)s"
+msgstr "%(label)s، بازگشت در %(date)s"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Unspecified"
+msgstr "نامشخص"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Click to select"
+msgstr "کلیک کنید برای انتخاب"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Connection to IoT Box failed"
+msgstr "اتصال به جعبه اینترنت اشیا با موفقیت انجام نشد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Content Width"
+msgstr "عرض محتوا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Annotate"
+msgstr "یادداشت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Confirm"
+msgstr "تایید کردن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Export"
+msgstr "خروجی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Insert note here"
+msgstr "یادداشت را این‌جا بنویسید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Print"
+msgstr "چاپ"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Refresh"
+msgstr "تازه سازی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Remove"
+msgstr "حذف"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Settings"
+msgstr "تنظیمات"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Processing..."
+msgstr "درحال پردازش ..."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Reload"
+msgstr "بارگزاری مجدد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"By clicking Adopt and Sign, I agree that the chosen signature/initials will "
+"be a valid electronic representation of my hand-written signature/initials "
+"for all purposes when it is used on documents, including legally binding "
+"contracts."
+msgstr ""
+"با زدن «پذیرش و امضا» می‌پذیرم که امضای انتخاب‌شده در همه‌ی اسناد، از جمله "
+"قراردادهای الزام‌آور، نسخه‌ی الکترونیکی معتبر امضای دست‌نویس من است."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Click on Validate Button"
+msgstr "دکمه‌ی تأیید را بزنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Click on the field that you want to add"
+msgstr "روی فیلدی که می‌خواهید اضافه کنید کلیک کنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Click to start"
+msgstr "برای شروع کلیک کنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Data is saved automatically when editing"
+msgstr "داده‌ها هنگام ویرایش خودکار ذخیره می‌شوند"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Data is saved automatically when editing."
+msgstr "داده‌ها هنگام ویرایش خودکار ذخیره می‌شوند."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Delete"
+msgstr "حذف"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Documents to be Signed"
+msgstr "اسناد منتظر امضا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Edit field"
+msgstr "ویرایش فیلد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Field"
+msgstr "فیلد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Filled by"
+msgstr "پرشده توسط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Help"
+msgstr "راهنما"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"If you do a click over a field, you will be able to change the default "
+"configurations of the field"
+msgstr "با کلیک روی هر فیلد، تنظیمات پیش‌فرض آن را تغییر می‌دهید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"In order to add a new field, do a right click over the PDF page. You will be"
+" able to select the field that you will import"
+msgstr "برای افزودن فیلد، روی صفحه‌ی PDF راست‌کلیک کنید و فیلد را انتخاب کنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"In order to add a new field, do a right click over the PDF page. You will be able to select the field that you will import.\n"
+"                Then, you can move and resize the fields over the PDF page using the move icons.\n"
+"                If you do a click over a field, you will be able to change the default configurations of the field"
+msgstr ""
+"برای افزودن فیلد، روی صفحه‌ی PDF راست‌کلیک کنید و فیلد را انتخاب کنید.\n"
+"                بعد با آیکون جابه‌جایی، فیلدها را روی صفحه جابه‌جا و اندازه‌شان را تنظیم کنید.\n"
+"                با کلیک روی هر فیلد، تنظیمات پیش‌فرض آن را تغییر می‌دهید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Logo"
+msgstr "نشان"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Main actions"
+msgstr "اقدامات اصلی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Need a valid PDF to add signature fields !"
+msgstr "برای افزودن فیلد امضا یک PDF معتبر لازم است!"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Next"
+msgstr "بعدی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "No requests to sign."
+msgstr "درخواستی برای امضا نیست."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Pending"
+msgstr "معلق"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Placeholder"
+msgstr "مکان‌نما"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Please Review And Act On This Document"
+msgstr "لطفاً این سند را بررسی و امضا کنید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Requests"
+msgstr "درخواست ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Required"
+msgstr "لازم"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Save"
+msgstr "ذخیره"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sign"
+msgstr "امضا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sign Requests"
+msgstr "درخواست‌های امضا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sign from template"
+msgstr "امضا از الگو"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Signature configuration"
+msgstr "تنظیمات امضا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid ""
+"Then, you can move and resize the fields over the PDF page using the move "
+"icons."
+msgstr ""
+"بعد با آیکون جابه‌جایی، فیلدها را روی صفحه جابه‌جا و اندازه‌شان را تنظیم "
+"کنید."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Validate & Send document"
+msgstr "تأیید و ارسال سند"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "A"
+msgstr "م"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "No"
+msgstr "خیر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Yes"
+msgstr "بله"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "KPI"
+msgstr "شاخص کلیدی عملکرد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Actions"
+msgstr "کنش‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Active shares"
+msgstr "اشتراک‌گذاری‌های فعال"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add to dashboard"
+msgstr "افزودن به داشبورد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Close"
+msgstr "بستن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Copied"
+msgstr "کپی شده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Dashboard"
+msgstr "داشبورد"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Manage shares"
+msgstr "مدیریت اشتراک‌گذاری"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "No shares yet."
+msgstr "هنوز اشتراک‌گذاری نشده است."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Revoke"
+msgstr "لغو کردن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Share link"
+msgstr "پیوند اشتراک"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Qty Ordered"
+msgstr "تعداد سفارش داده شده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Top Products"
+msgstr "برترین محصولات"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "% On time deliveries by vendor"
+msgstr "% تحویل به‌موقع هر تأمین‌کننده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "On time deliveries"
+msgstr "تحویل‌های به‌موقع"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Supplier service level"
+msgstr "سطح خدمت تأمین‌کننده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add date"
+msgstr "افزودن تاریخ"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add relation"
+msgstr "افزودن رابطه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add text"
+msgstr "افزودن متن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add to spreadesheet"
+msgstr "افزودن به صفحه‌گسترده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Add to spreadsheet"
+msgstr "افزودن به صفحه‌گسترده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "After next"
+msgstr "پس از بعدی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Are you sure you want to delete this list?"
+msgstr "این فهرست حذف شود؟"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Automatically filter on the current user"
+msgstr "فیلتر خودکار روی کاربر فعلی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Before Previous"
+msgstr "پیش از قبلی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Change name"
+msgstr "تغییر نام"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Comparisons in pivot are not supported"
+msgstr "مقایسه در جدول محوری پشتیبانی نمی‌شود"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Default value"
+msgstr "مقدار پیش‌فرض"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Domain"
+msgstr "دامنه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Download XLSX"
+msgstr "دریافت اکسل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Duplicated groupbys in pivot are not supported"
+msgstr "گروه‌بندی تکراری در جدول محوری پشتیبانی نمی‌شود"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Edit domain"
+msgstr "ویرایش شرط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Filters"
+msgstr "فیلترها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Include children"
+msgstr "با زیرمجموعه‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Insert list"
+msgstr "درج فهرست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Last updated at"
+msgstr "آخرین به‌روزرسانی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Link to Odoo menu"
+msgstr "پیوند به منوی سیستم"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "List name"
+msgstr "نام فهرست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Menu Items"
+msgstr "آیتم‌های منو"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Model"
+msgstr "مدل"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Possible values"
+msgstr "مقدارهای ممکن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Previous"
+msgstr "قبلی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Re-insert Dynamic"
+msgstr "درج دوباره‌ی پویا"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Re-insert Static"
+msgstr "درج دوباره‌ی ثابت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Refresh all data"
+msgstr "به‌روزرسانی همه‌ی داده‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Related model"
+msgstr "مدل مربوط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Restrict values with a domain"
+msgstr "محدود کردن مقدارها با شرط"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Rows:"
+msgstr "ردیف‌ها:"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Select a menu..."
+msgstr "یک منو انتخاب کنید..."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sorting"
+msgstr "مرتب‌سازی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Stacked"
+msgstr "Stacked"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Toggle Dropdown"
+msgstr "باز و بسته کردن فهرست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Total rows used when inserting list"
+msgstr "تعداد ردیف‌ها هنگام درج فهرست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Upload"
+msgstr "آپلود"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Upload a Spreadsheet"
+msgstr "بارگذاری صفحه‌گسترده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "ascending"
+msgstr "صعودی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "descending"
+msgstr "نزولی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "name is required"
+msgstr "نام لازم است"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "not updated"
+msgstr "به‌روز نشده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "C"
+msgstr "بستانکار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Time Limit (seconds)"
+msgstr "محدودیت زمانی (ثانیه)"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "App Icon"
+msgstr "آیکون برنامه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Discard"
+msgstr "رها کردن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Exit"
+msgstr "خروج"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Home Menu"
+msgstr "منوی صفحه اصلی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Log note"
+msgstr "ثبت یادداشت"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Maximize"
+msgstr "بزرگ کردن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Minimize"
+msgstr "کوچک کردن"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "New"
+msgstr "جدید"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Nothing to show"
+msgstr "چیزی برای نمایش نیست"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Search menus..."
+msgstr "جست‌وجوی منو..."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Send message"
+msgstr "ارسال پیام"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "<b>UNASSIGNED</b>"
+msgstr "<b>بدون مسئول</b>"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Are you sure you want to delete this record?"
+msgstr "مطمئنید می‌خواهید این رکورد را حذف کنید؟"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Month"
+msgstr "ماه"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Timeline"
+msgstr "جدول زمانی"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Timeline view has not defined 'date_start' attribute."
+msgstr "نمای خط زمانی ویژگی «date_start» را ندارد."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Timeline view has not defined 'default_group_by' attribute."
+msgstr "نمای خط زمانی ویژگی «default_group_by» را ندارد."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Today"
+msgstr "امروز"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Warning"
+msgstr "هشدار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Week"
+msgstr "هفته"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Year"
+msgstr "سال"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "D"
+msgstr "بدهکار"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "App Menu Preferences"
+msgstr "تنظیمات منوی برنامه‌ها"

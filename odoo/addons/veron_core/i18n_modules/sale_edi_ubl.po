@@ -1,0 +1,18 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: sale_edi_ubl
+#: model:ir.model,name:sale_edi_ubl.model_product_product
+msgid "Product Variant"
+msgstr "گونه محصول"
+
+#. module: sale_edi_ubl
+#: model:ir.model,name:sale_edi_ubl.model_sale_order
+msgid "Sales Order"
+msgstr "سفارش فروش"

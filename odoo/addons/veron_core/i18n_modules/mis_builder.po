@@ -1,0 +1,1798 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_annotation__annotation_context
+msgid ""
+"\n"
+"        Context used when adding annotation\n"
+"        "
+msgstr ""
+"\n"
+"        زمینه‌ی افزودن یادداشت\n"
+"        "
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report.py:0
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "%s (copy)"
+msgstr "%s (کپی)"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>AccountingNone</code> : a null value that behaves as 0 in\n"
+"                                        arithmetic operations."
+msgstr ""
+"<code>AccountingNone</code> : مقدار تهی که در\n"
+"                                        محاسبه مثل صفر رفتار می‌کند."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>bal</code>, <code>crd</code>, <code>deb</code>, <code>pbal</code>, <code>nbal</code>, <code>fld</code> : balance, debit, credit,\n"
+"                                        positive balance, negative balance,\n"
+"                                        other numerical field."
+msgstr ""
+"<code>bal</code>، <code>crd</code>، <code>deb</code>، <code>pbal</code>، <code>nbal</code>، <code>fld</code> : مانده، بدهکار، بستانکار،\n"
+"                                        مانده‌ی مثبت، مانده‌ی منفی،\n"
+"                                        فیلد عددی دیگر."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>bal[70]</code> : variation of the balance of account 70 over\n"
+"                                        the period (it is the same as <code>balp[70]</code>."
+msgstr ""
+"<code>bal[70]</code> : تغییر مانده‌ی حساب ۷۰ در\n"
+"                                        دوره (همان <code>balp[70]</code>)."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>bale[1%]</code> : balance of accounts starting with 1 at\n"
+"                                        end of period."
+msgstr ""
+"<code>bale[1%]</code> : مانده‌ی حساب‌های آغازشده با ۱ در\n"
+"                                        پایان دوره."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "<code>bali[70,60]</code> : initial balance of accounts 70 and 60."
+msgstr "<code>bali[70,60]</code> : مانده‌ی اول دوره‌ی حساب‌های ۷۰ و ۶۰."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>balu[]</code> : (<code>u</code> for unallocated) is a special expression\n"
+"                                        that shows the unallocated profit/loss of previous fiscal\n"
+"                                        years."
+msgstr ""
+"<code>balu[]</code> : (<code>u</code> برای تخصیص‌نیافته) عبارتی ویژه\n"
+"                                        برای سود و زیان تخصیص‌نیافته‌ی سال‌های مالی\n"
+"                                        گذشته."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>crdp[40%]</code> : sum of all credits on accounts starting\n"
+"                                        with 40 during the period."
+msgstr ""
+"<code>crdp[40%]</code> : جمع بستانکار حساب‌های آغازشده\n"
+"                                        با ۴۰ در دوره."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>date_from</code>, <code>date_to</code> : beginning and end date of the\n"
+"                                        period."
+msgstr ""
+"<code>date_from</code>، <code>date_to</code> : تاریخ شروع و پایان\n"
+"                                        دوره."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>datetime</code>, <code>datetime</code>, <code>dateutil</code> : the "
+"python modules."
+msgstr ""
+"<code>datetime</code>، <code>datetime</code>، <code>dateutil</code> : "
+"ماژول‌های پایتون."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>p</code>, <code>i</code>, <code>e</code> : respectively variation over the period,\n"
+"                                        initial balance, ending balance"
+msgstr ""
+"<code>p</code>، <code>i</code>، <code>e</code> : به ترتیب تغییر در دوره،\n"
+"                                        مانده‌ی اول دوره، مانده‌ی پایان دوره"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>pbale[55%]</code> : sum of all ending balances of accounts\n"
+"                                        starting with 55 whose ending balance is positive."
+msgstr ""
+"<code>pbale[55%]</code> : جمع مانده‌ی پایان دوره‌ی حساب‌های\n"
+"                                        آغازشده با ۵۵ که مانده‌شان مثبت است."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"<code>sum</code>, <code>min</code>,\n"
+"                                        <code>max</code>, <code>len</code>,\n"
+"                                        <code>avg</code> : behave as expected, very\n"
+"                                        similar to the python builtins."
+msgstr ""
+"<code>sum</code>، <code>min</code>،\n"
+"                                        <code>max</code>، <code>len</code>،\n"
+"                                        <code>avg</code> : مثل توابع\n"
+"                                        پایتون."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.report_mis_report_instance
+msgid "<span>-</span>"
+msgstr "<span>-</span>"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__source_aml_model_id
+msgid ""
+"A 'move line like' model, ie having at least debit, credit, date, account_id"
+" and company_id fields."
+msgstr ""
+"مدلی شبیه ردیف سند، یعنی دست‌کم با فیلدهای بدهکار، بستانکار، تاریخ، حساب و "
+"شرکت."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report__move_lines_source
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__source_aml_model_id
+msgid ""
+"A 'move line like' model, ie having at least debit, credit, date, account_id"
+" and company_id fields. This model is the data source for column Actuals."
+msgstr ""
+"مدلی شبیه ردیف سند، یعنی دست‌کم با فیلدهای بدهکار، بستانکار، تاریخ، حساب و "
+"شرکت؛ منبع داده‌ی ستون «واقعی»."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "A date filter is mandatory for this source in column %s."
+msgstr "برای این منبع در ستون %s فیلتر تاریخ لازم است."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__analytic_domain
+msgid "A domain to additionally filter move lines considered in this column."
+msgstr "شرط اضافه برای ردیف‌های سند این ستون."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__analytic_domain
+msgid ""
+"A domain to additionally filter move lines considered in this report. "
+"Caution: when using different move line sources in different columns, such "
+"as budgets by account, make sure to use only fields that are available in "
+"all move line sources."
+msgstr ""
+"شرط اضافه برای ردیف‌های سند این گزارش. اگر ستون‌ها منبع‌های مختلف دارند "
+"(مثلاً بودجه)، فقط فیلدهای مشترک همه‌ی منبع‌ها را به کار ببرید."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__account_model
+msgid "Account Model"
+msgstr "مدل حساب"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__accumulation_method
+msgid "Accumulation Method"
+msgstr "روش انباشت"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid ""
+"Actual (alternative) models used in columns must have the same account model"
+" in the Account field and must be the same defined in the report template: "
+"%s"
+msgstr ""
+"مدل‌های واقعی (جایگزین) ستون‌ها باید همان مدل حساب الگوی گزارش را داشته "
+"باشند: %s"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__source__actuals
+msgid "Actuals"
+msgstr "واقعی"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__source__actuals_alt
+msgid "Actuals (alternative)"
+msgstr "واقعی (جایگزین)"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__source
+msgid ""
+"Actuals: current data, from accounting and other queries.\n"
+"Actuals (alternative): current data from an alternative source (eg a database view providing look-alike account move lines).\n"
+"Sum columns: summation (+/-) of other columns.\n"
+"Compare to column: compare to other column.\n"
+msgstr ""
+"واقعی: داده‌ی فعلی از حسابداری و پرس‌وجوهای دیگر.\n"
+"واقعی (جایگزین): داده‌ی فعلی از منبعی دیگر.\n"
+"جمع ستون‌ها: جمع (+/-) ستون‌های دیگر.\n"
+"مقایسه با ستون: مقایسه با ستونی دیگر.\n"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_prorata_read_group_mixin
+msgid "Adapt model with date_from/date_to for pro-rata temporis read_group"
+msgstr "مدل با تاریخ شروع و پایان برای محاسبه‌ی به نسبت زمان"
+
+#. module: mis_builder
+#: model:ir.actions.act_window,name:mis_builder.mis_report_instance_add_to_dashboard_action
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_add_to_dashboard_form_view
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Add to dashboard"
+msgstr "افزودن به داشبورد"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"Additionally following variables are available\n"
+"                                    in the evaluation context:"
+msgstr ""
+"این متغیرها هم\n"
+"                                    در عبارت‌ها در دسترس‌اند:"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__aggregate
+msgid "Aggregate"
+msgstr "مجموع"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance__target_move__all
+msgid "All Entries"
+msgstr "همه ثبت‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__all_kpi_ids
+msgid "All Kpi"
+msgstr "همه‌ی شاخص‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance__target_move__posted
+msgid "All Posted Entries"
+msgstr "همه‌ی ثبت‌های قطعی‌شده"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__allowed_cmpcol_ids
+msgid "Allowed Cmpcol"
+msgstr "ستون‌های مقایسه‌ی مجاز"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__company_ids
+msgid "Allowed companies"
+msgstr "شرکت‌های مجاز"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__company_id
+msgid "Allowed company"
+msgstr "شرکت مجاز"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_kpi__style_expression
+msgid ""
+"An expression that returns a style depending on the KPI value. Such style is"
+" applied on top of the row style."
+msgstr ""
+"عبارتی که بر اساس مقدار شاخص سبکی برمی‌گرداند؛ روی سبک ردیف اعمال می‌شود."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__analytic_domain
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__analytic_domain
+msgid "Analytic Domain"
+msgstr "شرط تحلیلی"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/components/mis_report_widget.esm.js:0
+#: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
+msgid "Annotate"
+msgstr "یادداشت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__annotation_context
+msgid "Annotation Context"
+msgstr "زمینه‌ی یادداشت"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Auto expand"
+msgstr "باز شدن خودکار"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__accumulation_method__avg
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_query__aggregate__avg
+msgid "Average"
+msgstr "متوسط"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__background_color
+msgid "Background Color"
+msgstr "رنگ پس‌زمینه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__background_color_inherit
+msgid "Background Color Inherit"
+msgstr "رنگ پس‌زمینه از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_style__background_color
+msgid "Background color in valid RGB code (from #000000 to #FFFFFF)"
+msgstr "رنگ پس‌زمینه با کد RGB (از #000000 تا #FFFFFF)"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__date
+msgid "Base date"
+msgstr "تاریخ مبنا"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_weight__bold
+msgid "Bold"
+msgstr "پررنگ"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_add_to_dashboard_form_view
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__multi_company
+msgid ""
+"Check if you wish to specify several companies to be searched for data."
+msgstr "برای جست‌وجو در داده‌ی چند شرکت علامت بزنید."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Color"
+msgstr "رنگ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__color_inherit
+msgid "Color Inherit"
+msgstr "رنگ از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__period_to_sum_id
+msgid "Column"
+msgstr "ستون"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "Column %s cannot be compared to itrec."
+msgstr "ستون %s را نمی‌توان با خودش مقایسه کرد."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "Column %s with move lines source must have from/to dates."
+msgstr "ستون %s با منبع ردیف سند باید تاریخ شروع و پایان داشته باشد."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Columns"
+msgstr "ستون‌ها"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/kpimatrix.py:0
+msgid "Columns %(descr)s and %(base_descr)s are not comparable"
+msgstr "ستون‌های %(descr)s و %(base_descr)s قابل مقایسه نیستند"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "Columns to compare must belong to the same report in %s"
+msgstr "ستون‌های مقایسه باید از یک گزارش باشند: %s"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_sumcol_ids
+msgid "Columns to sum"
+msgstr "ستون‌های جمع"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__query_company_ids
+msgid "Companies for which data will be searched."
+msgstr "شرکت‌هایی که داده‌شان جست‌وجو می‌شود."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__company_field_id
+msgid "Company Field"
+msgstr "فیلد شرکت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_cmpcol_to_id
+msgid "Compare"
+msgstr "مقایسه کنید"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__source__cmpcol
+msgid "Compare columns"
+msgstr "مقایسه‌ی ستون‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__compare_method
+msgid "Comparison Method"
+msgstr "روش مقایسه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__comparison_mode
+msgid "Comparison Mode"
+msgstr "حالت مقایسه"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
+msgid "Confirm"
+msgstr "تایید کردن"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__create_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__create_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__dashboard_id
+msgid "Dashboard"
+msgstr "داشبورد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_prorata_read_group_mixin__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__date_field
+msgid "Date Field"
+msgstr "فیلد تاریخ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_prorata_read_group_mixin__date_from
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__date_range_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__date_range_id
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__type__date_range
+msgid "Date Range"
+msgstr "دامنه تاریخ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__date_range_type_id
+msgid "Date Range Type"
+msgstr "نوع بازه‌ی تاریخ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_prorata_read_group_mixin__date_to
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_period_view_form
+msgid "Dates"
+msgstr "تاریخ ها"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__type__d
+msgid "Day"
+msgstr "روز"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_style__description
+msgid "Describe specific values that are not inherited"
+msgstr "مقدارهایی که از والد گرفته نمی‌شوند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__description
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__description
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__description
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__description
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__description
+msgid "Description"
+msgstr "توصیف"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_kpi__accumulation_method
+msgid ""
+"Determines how values of this kpi spanning over a time period are transformed to match the reporting period. Sum: values of shorter period are added, values of longest or partially overlapping periods are adjusted pro-rata temporis.\n"
+"Average: values of included period are averaged with a pro-rata temporis weight."
+msgstr ""
+"مقدارهای دوره‌دار این شاخص چطور با دوره‌ی گزارش جور شوند. جمع: مقدارهای دوره‌های کوتاه‌تر جمع و دوره‌های بلندتر به نسبت زمان تعدیل می‌شوند.\n"
+"میانگین: مقدارها با وزن زمان میانگین گرفته می‌شوند."
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__compare_method__diff
+msgid "Difference"
+msgstr "تفاوت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__no_auto_expand_accounts
+msgid "Disable account details expansion"
+msgstr "بدون باز کردن جزئیات حساب"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__display_columns_description
+msgid "Display Columns Description"
+msgstr "نمایش شرح ستون‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_ir_actions_report__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_prorata_read_group_mixin__display_name
+#: model:ir.model.fields,field_description:mis_builder.field_report_mis_builder_mis_report_instance_xlsx__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__auto_expand_accounts
+msgid "Display details by account"
+msgstr "نمایش جزئیات هر حساب"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__display_columns_description
+msgid "Display the date range details in the column headers."
+msgstr "جزئیات بازه‌ی تاریخ در عنوان ستون‌ها."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__divider_inherit
+msgid "Divider Inherit"
+msgstr "مقسوم‌علیه از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__domain
+msgid "Domain"
+msgstr "دامنه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__dp_inherit
+msgid "Dp Inherit"
+msgstr "اعشار از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_prorata_read_group_mixin__date
+msgid ""
+"Dummy field that adapts searches on date to searches on date_from/date_to."
+msgstr "فیلد کمکی جست‌وجوی تاریخ."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__duration
+msgid "Duration"
+msgstr "مدت زمان"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__query_company_ids
+msgid "Effective companies"
+msgstr "شرکت‌های مؤثر"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Enter expression here, for example balp[70%]. See also help tab."
+msgstr "عبارت را این‌جا وارد کنید، مثلاً balp[70%]. راهنما را هم ببینید."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/aep.py:0
+msgid ""
+"Error while querying move line source \"%(model_name)s\". This is likely due to a filter or expression referencing a field that does not exist in the model.\n"
+"\n"
+"The technical error message is: %(exception)s. "
+msgstr ""
+"خطا در پرس‌وجوی منبع «%(model_name)s»؛ احتمالاً فیلتر یا عبارتی به فیلدی اشاره می‌کند که در مدل نیست.\n"
+"\n"
+"پیام فنی: %(exception)s. "
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Examples:"
+msgstr "نمونه‌ها:"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_list
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "Export"
+msgstr "خروجی"
+
+#. module: mis_builder
+#: model:ir.actions.server,name:mis_builder.mis_builder_print_xls_report
+msgid "Export XLS"
+msgstr "خروجی اکسل"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__expression
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__expression_ids
+msgid "Expression"
+msgstr "عبارت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__expression_ids
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Expressions"
+msgstr "عبارت‌ها"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Expressions can be any valid python expressions."
+msgstr "عبارت‌ها هر عبارت معتبر پایتون می‌توانند باشند."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"Expressions can involve other KPI, sub KPI and\n"
+"                                    query results by name (eg <code>kpi1 + kpi2</code>,\n"
+"                                    <code>kpi2.subkpi1</code>, <code>query1.field1</code>)."
+msgstr ""
+"عبارت‌ها می‌توانند شاخص‌ها، زیرشاخص‌ها و\n"
+"                                    نتیجه‌ی پرس‌وجوها را با نام به کار ببرند (مثلاً <code>kpi1 + kpi2</code>،\n"
+"                                    <code>kpi2.subkpi1</code>، <code>query1.field1</code>)."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__normalize_factor
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__divider
+msgid "Factor"
+msgstr "فاکتور"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Factor inherit"
+msgstr "ضریب از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__normalize_factor
+msgid "Factor to use to normalize the period (used in comparison"
+msgstr "ضریب یکسان‌سازی دوره (برای مقایسه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__field_names
+msgid "Fetched fields name"
+msgstr "نام فیلدهای خوانده‌شده"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_query__company_field_id
+msgid ""
+"Field that defines company on related model.When set, it will be "
+"automatically be added in search domain of query."
+msgstr ""
+"فیلد شرکت در مدل مربوط؛ اگر تعیین شود، خودکار به شرط پرس‌وجو افزوده می‌شود."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__field_ids
+msgid "Fields to fetch"
+msgstr "فیلدهای خواندنی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__widget_search_view_id
+msgid "Filter box search view"
+msgstr "نمای جست‌وجوی فیلتر"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_period_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Filters"
+msgstr "فیلترها"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__mode__fix
+msgid "Fixed dates"
+msgstr "تاریخ‌های ثابت"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Font"
+msgstr "فونت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_size
+msgid "Font Size"
+msgstr "اندازه فونت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_size_inherit
+msgid "Font Size Inherit"
+msgstr "اندازه‌ی قلم از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_style
+msgid "Font Style"
+msgstr "سبک قلم"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_style_inherit
+msgid "Font Style Inherit"
+msgstr "سبک قلم از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_weight
+msgid "Font Weight"
+msgstr "ضخامت قلم"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__font_weight_inherit
+msgid "Font Weight Inherit"
+msgstr "ضخامت قلم از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__is_ytd
+msgid "Forces the start date to Jan 1st of the relevant year"
+msgstr "تاریخ شروع را اول سال قرار می‌دهد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__date_from
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__date_from
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__manual_date_from
+msgid "From"
+msgstr "از"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__date_from
+msgid "From (computed)"
+msgstr "از (محاسبه‌شده)"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/report/mis_report_instance_xlsx.py:0
+msgid "Generated on %(gen_date)s at %(gen_time)s"
+msgstr "ساخته‌شده در %(gen_date)s ساعت %(gen_time)s"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "Help (for KPI expressions)"
+msgstr "راهنما (عبارت‌های شاخص)"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__hide_always
+msgid "Hide Always"
+msgstr "همیشه پنهان"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__hide_always_inherit
+msgid "Hide Always Inherit"
+msgstr "همیشه پنهان از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__hide_empty
+msgid "Hide Empty"
+msgstr "پنهان کردن خالی‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__hide_empty_inherit
+msgid "Hide Empty Inherit"
+msgstr "پنهان کردن خالی‌ها از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__id
+#: model:ir.model.fields,field_description:mis_builder.field_ir_actions_report__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__id
+#: model:ir.model.fields,field_description:mis_builder.field_prorata_read_group_mixin__id
+#: model:ir.model.fields,field_description:mis_builder.field_report_mis_builder_mis_report_instance_xlsx__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/aep.py:0
+msgid ""
+"If currency_id is not provided, all companies must have the same currency."
+msgstr "اگر ارز تعیین نشود، همه‌ی شرکت‌ها باید یک ارز داشته باشند."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Indent"
+msgstr "تورفتگی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__indent_level
+msgid "Indent Level"
+msgstr "سطح تورفتگی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__indent_level_inherit
+msgid "Indent Level Inherit"
+msgstr "سطح تورفتگی از والد"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_style.py:0
+msgid "Indent level must be greater than or equal to 0"
+msgstr "سطح تورفتگی باید صفر یا بیشتر باشد"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
+msgid "Insert note here"
+msgstr "یادداشت را این‌جا بنویسید"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_style__italic
+msgid "Italic"
+msgstr "مورب"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__kpi_expression_id
+msgid "KPI"
+msgstr "شاخص کلیدی عملکرد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__seq1
+msgid "KPI Sequence"
+msgstr "ترتیب شاخص"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report.py:0
+msgid "KPI name (%s) must be a valid python identifier"
+msgstr "نام شاخص (%s) باید شناسه‌ی معتبر پایتون باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__kpi_ids
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_form
+msgid "KPI's"
+msgstr "شاخص‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report__all_kpi_ids
+msgid "KPIs of this report and subreports."
+msgstr "شاخص‌های این گزارش و زیرگزارش‌ها."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__kpi_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__kpi_id
+msgid "Kpi"
+msgstr "شاخص"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__name
+msgid "Label"
+msgstr "بر چسب"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__landscape_pdf
+msgid "Landscape PDF"
+msgstr "PDF افقی"
+
+#. module: mis_builder
+#: model:ir.actions.act_window,name:mis_builder.last_mis_report_instance_view_action
+#: model:ir.ui.menu,name:mis_builder.last_wizard_mis_report_instance_view_menu
+msgid "Last Reports Generated"
+msgstr "آخرین گزارش‌های ساخته‌شده"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__write_uid
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__write_date
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Layout"
+msgstr "طرح بندی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_report_mis_builder_mis_report_instance_xlsx
+msgid "MIS Builder XLSX report"
+msgstr "گزارش اکسل گزارش‌ساز مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_kpi_data
+msgid "MIS Kpi Data Abtract class"
+msgstr "پایه‌ی داده‌ی شاخص"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_form
+msgid "MIS Report"
+msgstr "گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_subreport
+msgid "MIS Report - Sub Reports Relation"
+msgstr "گزارش مالی - زیرگزارش‌ها"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_add_mis_report_instance_dashboard_wizard
+msgid "MIS Report Add to Dashboard Wizard"
+msgstr "افزودن گزارش مالی به داشبورد"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_instance
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "MIS Report Instance"
+msgstr "گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_instance_period
+msgid "MIS Report Instance Period"
+msgstr "دوره‌ی گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_instance_period_sum
+msgid "MIS Report Instance Period Sum"
+msgstr "جمع دوره‌ی گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_kpi
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid "MIS Report KPI"
+msgstr "شاخص گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_kpi_expression
+msgid "MIS Report KPI Expression"
+msgstr "عبارت شاخص گزارش مالی"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_result_view_form
+msgid "MIS Report Preview"
+msgstr "پیش‌نمایش گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_query
+msgid "MIS Report Query"
+msgstr "پرس‌وجوی گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_style
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "MIS Report Style"
+msgstr "سبک گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.actions.act_window,name:mis_builder.mis_report_style_view_action
+#: model:ir.ui.menu,name:mis_builder.mis_report_style_view_menu
+msgid "MIS Report Styles"
+msgstr "سبک‌های گزارش"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_subkpi
+msgid "MIS Report Sub-KPI"
+msgstr "زیرشاخص گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report
+msgid "MIS Report Template"
+msgstr "الگوی گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.actions.act_window,name:mis_builder.mis_report_view_action
+#: model:ir.ui.menu,name:mis_builder.mis_report_view_menu
+msgid "MIS Report Templates"
+msgstr "الگوهای گزارش"
+
+#. module: mis_builder
+#: model:res.groups,name:mis_builder.group_edit_annotation
+msgid "MIS Report: add annotations"
+msgstr "گزارش مالی: افزودن یادداشت"
+
+#. module: mis_builder
+#: model:res.groups,name:mis_builder.group_read_annotation
+msgid "MIS Report: view annotations"
+msgstr "گزارش مالی: دیدن یادداشت‌ها"
+
+#. module: mis_builder
+#: model:ir.ui.menu,name:mis_builder.mis_report_conf_menu
+#: model:ir.ui.menu,name:mis_builder.mis_report_finance_menu
+msgid "MIS Reporting"
+msgstr "گزارش‌ساز مالی"
+
+#. module: mis_builder
+#: model:ir.actions.act_window,name:mis_builder.mis_report_instance_view_action
+#: model:ir.ui.menu,name:mis_builder.mis_report_instance_view_menu
+msgid "MIS Reports"
+msgstr "گزارش‌های مالی"
+
+#. module: mis_builder
+#: model:ir.actions.report,name:mis_builder.qweb_pdf_export
+msgid "MIS report instance QWEB PDF report"
+msgstr "گزارش PDF گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.actions.report,name:mis_builder.xls_export
+msgid "MIS report instance XLS report"
+msgstr "گزارش اکسل گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_query__aggregate__max
+msgid "Max"
+msgstr "مکس"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_query__aggregate__min
+msgid "Min"
+msgstr "حداقل"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_mis_report_instance_annotation
+msgid "Mis Report Instance Annotation"
+msgstr "یادداشت گزارش مالی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__mode
+msgid "Mode"
+msgstr "حالت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__source_aml_model_name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__model_id
+msgid "Model"
+msgstr "مدل"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__type__m
+msgid "Month"
+msgstr "ماه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__move_lines_source
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__source_aml_model_id
+msgid "Move Lines Source"
+msgstr "منبع ردیف‌های سند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_aml_model_id
+msgid "Move lines source"
+msgstr "منبع ردیف‌های سند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_aml_model_name
+msgid "Move lines source model name"
+msgstr "نام مدل منبع ردیف‌های سند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__multi
+msgid "Multi"
+msgstr "چندگانه"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__multi_company
+msgid "Multiple companies"
+msgstr "چند شرکت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_add_mis_report_instance_dashboard_wizard__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__name
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__name
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_period_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Name"
+msgstr "نام"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__mode__none
+msgid "No date filter"
+msgstr "بدون فیلتر تاریخ"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "No date filter is allowed for this source in column %s."
+msgstr "برای این منبع در ستون %s فیلتر تاریخ مجاز نیست."
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__accumulation_method__none
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__compare_method__none
+msgid "None"
+msgstr "هیچکدام"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_style__normal
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_weight__nornal
+msgid "Normal"
+msgstr "عادی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Number"
+msgstr "شماره"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__duration
+msgid "Number of periods"
+msgstr "تعداد دوره"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__type__num
+msgid "Numeric"
+msgstr "عددی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__offset
+msgid "Offset"
+msgstr "فاصله"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance_period__offset
+msgid "Offset from current period"
+msgstr "فاصله از دوره‌ی فعلی"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__wide_display_by_default
+msgid "Open report in wide mode by default"
+msgstr "باز شدن گزارش در حالت پهن"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__period_id
+msgid "Parent column"
+msgstr "ستون والد"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__compare_method__pct
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__type__pct
+msgid "Percentage"
+msgstr "درصد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__period_id
+msgid "Period"
+msgstr "دوره"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_instance_period_name_unique
+msgid "Period name should be unique by report"
+msgstr "نام دوره در هر گزارش باید یکتا باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__type
+msgid "Period type"
+msgstr "نوع دوره"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__period_ids
+msgid "Periods"
+msgstr "دوره ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__pivot_date
+msgid "Pivot Date"
+msgstr "تاریخ مبنا"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "Please provide both columns to compare in %s."
+msgstr "هر دو ستون مقایسه را در %s تعیین کنید."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid ""
+"Please select a report template and/or save the report before adding "
+"columns."
+msgstr "پیش از افزودن ستون، الگوی گزارش را انتخاب و گزارش را ذخیره کنید."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__prefix
+msgid "Prefix"
+msgstr "پیشوند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__prefix_inherit
+msgid "Prefix Inherit"
+msgstr "پیشوند از والد"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_list
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "Preview"
+msgstr "پیش‌نمایش"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_list
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "Print"
+msgstr "چاپ"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__query_ids
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_form
+msgid "Queries"
+msgstr "پرس‌وجوها"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report.py:0
+msgid "Query name (%s) must be valid python identifier"
+msgstr "نام پرس‌وجو (%s) باید شناسه‌ی معتبر پایتون باشد"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
+msgid "Refresh"
+msgstr "تازه سازی"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__mode__relative
+msgid "Relative to report base date"
+msgstr "نسبت به تاریخ مبنای گزارش"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/annotation_dialog/annotation_dialog.xml:0
+msgid "Remove"
+msgstr "حذف"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__report_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__report_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__report_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_query__report_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__report_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__report_id
+msgid "Report"
+msgstr "گزارش"
+
+#. module: mis_builder
+#: model:ir.model,name:mis_builder.model_ir_actions_report
+msgid "Report Action"
+msgstr "اکشن گزارش"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__report_instance_id
+msgid "Report Instance"
+msgstr "گزارش"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__date
+msgid "Report base date (leave empty to use current date)"
+msgstr "تاریخ مبنای گزارش (خالی برای امروز)"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__dp
+msgid "Rounding"
+msgstr "گرد کردن"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Rounding inherit"
+msgstr "گرد کردن از والد"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "Save"
+msgstr "ذخیره"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__widget_search_view_id
+msgid "Search view to customize the filter box in the report widget."
+msgstr "نمای جست‌وجو برای فیلتر گزارش."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__company_ids
+msgid "Select companies for which data will be searched."
+msgstr "شرکت‌هایی را که داده‌شان جست‌وجو می‌شود انتخاب کنید."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__currency_id
+msgid ""
+"Select target currency for the report. Required if companies have different "
+"currencies."
+msgstr "ارز گزارش؛ اگر شرکت‌ها ارز متفاوت دارند لازم است."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__sequence
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__sequence
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__sequence
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__sequence
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subkpi__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: mis_builder
+#. odoo-javascript
+#: code:addons/mis_builder/static/src/components/mis_report_widget.xml:0
+msgid "Settings"
+msgstr "تنظیمات"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_subreport_subreport_unique
+msgid ""
+"Should not include the same report more than once as sub report of a given "
+"report"
+msgstr "یک گزارش نباید بیش از یک بار زیرگزارش گزارشی دیگر باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__widget_show_pivot_date
+msgid "Show Pivot Date"
+msgstr "نمایش تاریخ مبنا"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__widget_show_filters
+msgid "Show filters box"
+msgstr "نمایش فیلترها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__widget_show_settings_button
+msgid "Show settings button"
+msgstr "نمایش دکمه‌ی تنظیمات"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__widget_show_pivot_date
+msgid "Show the Pivot Date in the report widget filter bar."
+msgstr "تاریخ مبنا در نوار فیلتر گزارش."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__widget_show_filters
+msgid "Show the filter bar in the report widget."
+msgstr "نوار فیلتر در گزارش."
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_instance__widget_show_settings_button
+msgid "Show the settings button in the report widget."
+msgstr "دکمه‌ی تنظیمات در گزارش."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period_sum__sign
+msgid "Sign"
+msgstr "امضا"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_period_view_form
+msgid "Source"
+msgstr "مبدا"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__type__str
+msgid "String"
+msgstr "رشته"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__style_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__style_id
+msgid "Style"
+msgstr "استایل"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__style_expression
+msgid "Style Expression"
+msgstr "عبارت سبک"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__auto_expand_accounts_style_id
+msgid "Style for account detail rows"
+msgstr "سبک ردیف‌های جزئیات حساب"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__name
+msgid "Style name"
+msgstr "نام استایل"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_style_style_name_uniq
+msgid "Style name should be unique"
+msgstr "نام سبک باید یکتا باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__subkpi_ids
+msgid "Sub KPI"
+msgstr "زیرشاخص"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__subkpi_ids
+msgid "Sub KPI Filter"
+msgstr "فیلتر زیرشاخص"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_kpi_expression_subkpi_kpi_unique
+msgid "Sub KPI must be used once and only once for each KPI"
+msgstr "هر زیرشاخص برای هر شاخص فقط یک بار به کار می‌رود"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_form
+msgid "Sub KPI's"
+msgstr "زیرشاخص‌ها"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_form
+msgid "Sub Reports"
+msgstr "زیرگزارش‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report__subreport_ids
+msgid "Sub reports"
+msgstr "زیرگزارش‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__seq2
+msgid "Sub-KPI Sequence"
+msgstr "ترتیب زیرشاخص"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report.py:0
+msgid "Sub-KPI name (%s) must be a valid python identifier"
+msgstr "نام زیرشاخص (%s) باید شناسه‌ی معتبر پایتون باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_annotation__subkpi_id
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi_expression__subkpi_id
+msgid "Subkpi"
+msgstr "زیرشاخص"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_subreport__subreport_id
+msgid "Subreport"
+msgstr "زیرگزارش"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_subreport.py:0
+msgid "Subreport loop detected"
+msgstr "حلقه در زیرگزارش‌ها"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_subreport.py:0
+msgid "Subreport name (%s) must be a valid python identifier"
+msgstr "نام زیرگزارش (%s) باید شناسه‌ی معتبر پایتون باشد"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_subreport_name_unique
+msgid "Subreport name should be unique by report"
+msgstr "نام زیرگزارش در هر گزارش باید یکتا باشد"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__suffix
+msgid "Suffix"
+msgstr "پسوند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__suffix_inherit
+msgid "Suffix Inherit"
+msgstr "پسوند از والد"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_kpi__accumulation_method__sum
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_query__aggregate__sum
+msgid "Sum"
+msgstr "مجموع"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_sumcol_accdet
+msgid "Sum account details"
+msgstr "جمع جزئیات حساب"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/kpimatrix.py:0
+msgid ""
+"Sum cannot be computed in column %s because the columns to sum have no "
+"common subkpis"
+msgstr "جمع ستون %s حساب نمی‌شود، چون ستون‌ها زیرشاخص مشترک ندارند"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__source__sumcol
+msgid "Sum columns"
+msgstr "جمع ستون‌ها"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__target_move
+msgid "Target Moves"
+msgstr "حرکت‌های هدف"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_list
+msgid "Template"
+msgstr "پوسته"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__temporary
+msgid "Temporary"
+msgstr "موقت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_style__color
+msgid "Text color"
+msgstr "رنگ متن"
+
+#. module: mis_builder
+#: model:ir.model.fields,help:mis_builder.field_mis_report_style__color
+msgid "Text color in valid RGB code (from #000000 to #FFFFFF)"
+msgstr "رنگ متن با کد RGB (از #000000 تا #FFFFFF)"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"The <b>account selector</b> is a like expression on the\n"
+"                                        account code (eg <code>70%</code>, etc), or a domain over accounts\n"
+"                                        (eg <code>[('code', 'like', '60%')]</code>)."
+msgstr ""
+"<b>انتخاب حساب</b> الگویی روی\n"
+"                                        کد حساب است (مثلاً <code>70%</code>)، یا شرطی روی حساب‌ها\n"
+"                                        (مثلاً <code>[('code', 'like', '60%')]</code>)."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"The <b>journal items domain</b> is an Odoo domain filter on\n"
+"                                        journal items."
+msgstr ""
+"<b>شرط ردیف‌های سند</b> فیلتری روی\n"
+"                                        ردیف‌های سند است."
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_view_kpi_form
+msgid ""
+"The following special elements are recognized in the expressions\n"
+"                                    to compute accounting data: <code>{bal|crd|deb|pbal|nbal|fld}{pieu}(.fieldname)[account\n"
+"                                    selector][journal items domain]</code>."
+msgstr ""
+"این اجزای ویژه در عبارت‌ها\n"
+"                                    داده‌ی حسابداری را حساب می‌کنند: <code>{bal|crd|deb|pbal|nbal|fld}{pieu}(.fieldname)[account\n"
+"                                    selector][journal items domain]</code>."
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_kpi_data__date_to
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__date_to
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__manual_date_to
+msgid "To"
+msgstr "تا"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__date_to
+msgid "To (computed)"
+msgstr "تا (محاسبه‌شده)"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_kpi_data.py:0
+msgid "Unexpected accumulation method %(method)s for %(name)s."
+msgstr "روش انباشت نامنتظر %(method)s برای %(name)s."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report.py:0
+msgid "Unexpected value %s for target_move."
+msgstr "مقدار نامنتظر %s برای target_move."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/prorata_read_group_mixin.py:0
+msgid "Unsupported operator %s for searching on date"
+msgstr "عملگر %s برای جست‌وجوی تاریخ پشتیبانی نمی‌شود"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__user_can_edit_annotation
+msgid "User Can Edit Annotation"
+msgstr "کاربر یادداشت را ویرایش می‌کند"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance__user_can_read_annotation
+msgid "User Can Read Annotation"
+msgstr "کاربر یادداشت را می‌خواند"
+
+#. module: mis_builder
+#: model:ir.actions.server,name:mis_builder.ir_cron_vacuum_temp_reports_ir_actions_server
+msgid "Vacuum temporary reports"
+msgstr "پاک کردن گزارش‌های موقت"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__valid
+msgid "Valid"
+msgstr "معتبر"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_kpi__type
+msgid "Value type"
+msgstr "نوع مقدار"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_style_view_form
+msgid "Visibility"
+msgstr "قابلیت مشاهده"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__type__w
+msgid "Week"
+msgstr "هفته"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_view_form
+msgid "Widget"
+msgstr "ویجت"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_instance_period_duration
+msgid "Wrong duration, it must be positive!"
+msgstr "مدت نادرست؛ باید مثبت باشد!"
+
+#. module: mis_builder
+#: model:ir.model.constraint,message:mis_builder.constraint_mis_report_instance_period_normalize_factor
+msgid "Wrong normalize factor, it must be positive!"
+msgstr "ضریب نادرست؛ باید مثبت باشد!"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_instance_period__type__y
+msgid "Year"
+msgstr "سال"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__is_ytd
+msgid "Year to date"
+msgstr "از ابتدای سال تا امروز"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "You cannot sum period %s with itself."
+msgstr "دوره‌ی %s با خودش جمع نمی‌شود."
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance_annotation.py:0
+msgid "You do not have the rights to edit annotations"
+msgstr "اجازه‌ی ویرایش یادداشت‌ها را ندارید"
+
+#. module: mis_builder
+#. odoo-python
+#: code:addons/mis_builder/models/mis_report_instance.py:0
+msgid "from %(date_from)s to %(date_to)s"
+msgstr "از %(date_from)s تا %(date_to)s"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__large
+msgid "large"
+msgstr "بزرگ"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__medium
+msgid "medium"
+msgstr "متوسط"
+
+#. module: mis_builder
+#: model_terms:ir.ui.view,arch_db:mis_builder.mis_report_instance_add_to_dashboard_form_view
+#: model_terms:ir.ui.view,arch_db:mis_builder.wizard_mis_report_instance_view_form
+msgid "or"
+msgstr "یا"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__small
+msgid "small"
+msgstr "کوچک"
+
+#. module: mis_builder
+#: model:ir.model.fields,field_description:mis_builder.field_mis_report_instance_period__source_cmpcol_from_id
+msgid "versus"
+msgstr "در برابر"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__x-large
+msgid "x-large"
+msgstr "خیلی بزرگ"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__x-small
+msgid "x-small"
+msgstr "خیلی کوچک"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__xx-large
+msgid "xx-large"
+msgstr "بسیار بزرگ"
+
+#. module: mis_builder
+#: model:ir.model.fields.selection,name:mis_builder.selection__mis_report_style__font_size__xx-small
+msgid "xx-small"
+msgstr "بسیار کوچک"

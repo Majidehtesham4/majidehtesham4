@@ -1,0 +1,28 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: hr_homeworking
+#: model:ir.model,name:hr_homeworking.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: hr_homeworking
+#: model:ir.model,website_form_label:hr_homeworking.model_res_partner
+msgid "Create a Customer"
+msgstr "ایجاد مشتری"
+
+#. module: hr_homeworking
+#: model:ir.model,name:hr_homeworking.model_hr_employee_public
+msgid "Public Employee"
+msgstr "کارمند عمومی"
+
+#. module: hr_homeworking
+#: model:ir.model,name:hr_homeworking.model_res_users
+msgid "User"
+msgstr "کاربر"

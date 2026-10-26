@@ -1,0 +1,1131 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: subscription_oca
+#: model:sale.subscription.stage,description:subscription_oca.subscription_stage_ready
+msgid ""
+"\n"
+"                A subscription is ready to start when is not marked as in progress but it can be at any moment. If there's no 'Closed'-type stage defined, when a subscription comes to an end by automatic means, it will be marked with this stage.\n"
+"            "
+msgstr ""
+"\n"
+"                اشتراک «آماده‌ی شروع» هنوز در جریان نیست ولی هر لحظه می‌تواند شروع شود. اگر مرحله‌ای از نوع «بسته» تعریف نشده باشد، اشتراکی که خودکار تمام شود این مرحله را می‌گیرد.\n"
+"            "
+
+#. module: subscription_oca
+#: model:sale.subscription.stage,description:subscription_oca.subscription_stage_in_progress
+msgid ""
+"\n"
+"                As an 'In progress'-type of stage, it will trigger the recurring invoicing process if applicable. If this stage is the first - sequence order - of the available 'In progress' types and there's a stage change from any other non-'In progress' types to this one, an invoice will be created automatically if the start date is the present day.\n"
+"            "
+msgstr ""
+"\n"
+"                مرحله‌ی «در جریان» صدور دوره‌ای فاکتور را راه می‌اندازد. اگر این نخستین مرحله‌ی «در جریان» باشد و اشتراک از مرحله‌ی دیگری به آن بیاید، و تاریخ شروع امروز باشد، فاکتور خودکار صادر می‌شود.\n"
+"            "
+
+#. module: subscription_oca
+#: model:sale.subscription.stage,description:subscription_oca.subscription_stage_draft
+msgid ""
+"\n"
+"                Draft, still working on the specifics.\n"
+"            "
+msgstr ""
+"\n"
+"                پیش‌نویس؛ جزئیات هنوز در حال تنظیم است.\n"
+"            "
+
+#. module: subscription_oca
+#: model:sale.subscription.stage,description:subscription_oca.subscription_stage_closed
+msgid ""
+"\n"
+"                The final stage of a subscription. There are two ways to mark a subscription as closed. The easiest one is using the kanban card-moving capabilities, pressing the 'Close subscription' button (only available if a subscription is in progress).\n"
+"            "
+msgstr ""
+"\n"
+"                آخرین مرحله‌ی اشتراک. برای بستن اشتراک، کارت آن را در کانبان جابه‌جا کنید یا دکمه‌ی «بستن اشتراک» را بزنید (فقط برای اشتراک در جریان).\n"
+"            "
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "<span class=\"every\">Every</span>"
+msgstr "<span class=\"every\">هر</span>"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "<span class=\"mr-1\">For</span>"
+msgstr "<span class=\"mr-1\">برای</span>"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.res_partner_view_form
+msgid "<span class=\"o_stat_text\">Subscriptions</span>"
+msgstr "<span class=\"o_stat_text\">اشتراک‌ها</span>"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "<span>This subscription is paused.</span>"
+msgstr "<span>این اشتراک متوقف است.</span>"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid ""
+"A given subscription can be marked as closed when, for example, renewal is "
+"not desired."
+msgstr "اشتراک را وقتی می‌بندید که مثلاً تمدیدش را نمی‌خواهید."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Active and not paused"
+msgstr "فعال و متوقف‌نشده"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_subscription_stage_form
+msgid "Add new description..."
+msgstr "افزودن شرح تازه..."
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__partner_invoice_id
+msgid ""
+"Address the recurring invoices are addressed to. Defaults to the customer's "
+"invoice address."
+msgstr "نشانی فاکتورهای دوره‌ای؛ پیش‌فرض، نشانی صورت‌حساب مشتری."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__amount_tax
+msgid "Amount Tax"
+msgstr "مبلغ مالیات"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__amount_total
+msgid "Amount Total"
+msgstr "مبلغ کل"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__analytic_distribution
+msgid "Analytic Distribution"
+msgstr "توزیع تحلیلی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__analytic_precision
+msgid "Analytic Precision"
+msgstr "دقت تحلیلی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__recurring_rule_boundary
+msgid "Boundary"
+msgstr "مرز"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.close_reason_wizard_view
+#: model_terms:ir.ui.view,arch_db:subscription_oca.pause_subscription_wizard_view
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Cannot pause a closed subscription."
+msgstr "اشتراک بسته متوقف نمی‌شود."
+
+#. module: subscription_oca
+#: model_terms:ir.actions.act_window,help:subscription_oca.subscription_stage_action
+msgid "Click to create a new subscription stage."
+msgstr "برای ساختن مرحله‌ی تازه‌ی اشتراک کلیک کنید."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__close_reason_id
+msgid "Close Reason"
+msgstr "علت بستن"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.close_reason_wizard_act_window
+#: model_terms:ir.ui.view,arch_db:subscription_oca.close_reason_wizard_view
+msgid "Close reason"
+msgstr "علت بستن"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription_close_reason
+msgid "Close reason model"
+msgstr "علت بستن"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_close_reason_wizard
+msgid "Close reason wizard"
+msgstr "علت بستن"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.subscription_close_reason_action
+#: model:ir.ui.menu,name:subscription_oca.subscription_close_reason_menu
+msgid "Close reasons"
+msgstr "علت‌های بستن"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Close subscription"
+msgstr "بستن اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_stage__type__post
+#: model:sale.subscription.stage,name:subscription_oca.subscription_stage_closed
+msgid "Closed"
+msgstr "بسته شد"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__code
+msgid "Code"
+msgstr "کد"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__color
+msgid "Color Index"
+msgstr "رنگ پس زمینه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__user_id
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Commercial agent"
+msgstr "نماینده‌ی فروش"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__company_id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: subscription_oca
+#: model:ir.ui.menu,name:subscription_oca.sale_subscription_configuration_menu
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.close_reason_wizard_view
+msgid "Confirm"
+msgstr "تایید کردن"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Create Invoice"
+msgstr "ایجاد فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__create_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Created invoice with reference"
+msgstr "فاکتور ساخته شد با مرجع"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__create_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__currency_id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_type__days
+msgid "Day(s)"
+msgstr "روز"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_kanban
+msgid "Delete"
+msgstr "حذف"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__partner_shipping_id
+msgid "Delivery address"
+msgstr "آدرس تحویل"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__partner_shipping_id
+msgid ""
+"Delivery address used on the recurring invoices and orders. Defaults to the "
+"customer's delivery address."
+msgstr "نشانی تحویل فاکتورها و سفارش‌های دوره‌ای؛ پیش‌فرض، نشانی تحویل مشتری."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__description
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__description
+msgid "Description"
+msgstr "توصیف"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__discount
+msgid "Discount (%)"
+msgstr "تخفیف(٪)"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_account_move__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_product_template__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_res_partner__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order_line__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__display_name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__distribution_analytic_account_ids
+msgid "Distribution Analytic Account"
+msgstr "حساب تحلیلی توزیعی"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_stage__type__draft
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__invoicing_mode__draft
+#: model:sale.subscription.stage,name:subscription_oca.subscription_stage_draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__recurring_rule_boundary
+msgid "Duration"
+msgstr "مدت زمان"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_kanban
+msgid "Edit"
+msgstr "ویرایش"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__date
+msgid "Finish date"
+msgstr "تاریخ پایان"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__fiscal_position_id
+msgid "Fiscal Position"
+msgstr "موقعیت مالی"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_boundary__limited
+msgid "Fixed"
+msgstr "ثابت"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_boundary__unlimited
+msgid "Forever"
+msgstr "برای همیشه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_account_move__id
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__id
+#: model:ir.model.fields,field_description:subscription_oca.field_product_template__id
+#: model:ir.model.fields,field_description:subscription_oca.field_res_partner__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order_line__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__paused_until
+msgid ""
+"If set, the cron will automatically resume this subscription on or after "
+"this date."
+msgstr "اگر تعیین شود، اشتراک از این تاریخ خودکار ادامه می‌یابد."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__image
+msgid "Image"
+msgstr "تصویر"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__in_progress
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__in_progress
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_stage__type__in_progress
+#: model:sale.subscription.stage,name:subscription_oca.subscription_stage_in_progress
+msgid "In progress"
+msgstr "در حال پیشرفت"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__invoicing_mode__invoice
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "Invoice"
+msgstr "فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__invoicing_mode__invoice_send
+msgid "Invoice & send"
+msgstr "صدور و ارسال فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__account_invoice_ids_count
+msgid "Invoice Count"
+msgstr "تعداد فاکتورها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__invoice_mail_template_id
+msgid "Invoice Email"
+msgstr "ایمیل فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__partner_invoice_id
+msgid "Invoice address"
+msgstr "نشانی صورت‌حساب"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__invoice_ids
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Invoices"
+msgstr "فاکتورها"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "Invoicing"
+msgstr "صدور فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__invoicing_mode
+msgid "Invoicing mode"
+msgstr "روش صدور فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__journal_id
+msgid "Journal"
+msgstr "روزنامه"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__fold
+msgid "Kanban folded"
+msgstr "جمع‌شده در کانبان"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__write_uid
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__write_date
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Misc"
+msgstr "متفرقه"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_type__months
+msgid "Month(s)"
+msgstr "ماه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_close_reason__name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__name
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__name
+msgid "Name"
+msgstr "نام"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "New subscription"
+msgstr "اشتراک تازه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__recurring_next_date
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Next invoice date"
+msgstr "تاریخ فاکتور بعدی"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_order.py:0
+msgid "No pricelist found to create subscription."
+msgstr "برای ساختن اشتراک لیست قیمتی پیدا نشد."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription_pause_wizard__paused_until
+msgid ""
+"Optional date on which the subscription is automatically resumed by the "
+"cron. Leave empty to pause indefinitely."
+msgstr "تاریخ ادامه‌ی خودکار اشتراک؛ برای توقف نامحدود خالی بگذارید."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__sale_order_ids
+msgid "Orders"
+msgstr "سفارشات"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__sale_order_id
+msgid "Origin sale order"
+msgstr "سفارش فروش مبدأ"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Other info"
+msgstr "اطلاعات دیگر"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__partner_id
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Partner"
+msgstr "همکار"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.pause_subscription_wizard_view
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Pause"
+msgstr "مکث"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+#: model_terms:ir.ui.view,arch_db:subscription_oca.pause_subscription_wizard_view
+msgid "Pause subscription"
+msgstr "توقف اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription_pause_wizard
+msgid "Pause subscription wizard"
+msgstr "توقف اشتراک"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Pause the subscription so the cron skips it until resumed."
+msgstr "توقف اشتراک تا ادامه‌ی دوباره."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__is_paused
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Paused"
+msgstr "متوقف"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Pending subscriptions"
+msgstr "اشتراک‌های در انتظار"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__pricelist_id
+msgid "Pricelist"
+msgstr "لیست قیمت"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_product_template
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__product_id
+msgid "Product"
+msgstr "محصول"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.subscription_product_template_action
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__product_ids
+#: model:ir.ui.menu,name:subscription_oca.product_subscription_menu
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "Products"
+msgstr "محصولات"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__product_uom_qty
+msgid "Quantity"
+msgstr "تعداد"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_stage__type__pre
+#: model:sale.subscription.stage,name:subscription_oca.subscription_stage_ready
+msgid "Ready to start"
+msgstr "آماده‌ی شروع"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_close_reason_wizard__close_reason_id
+msgid "Reason"
+msgstr "علت"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__recurring_rule_type
+msgid "Recurrence"
+msgstr "تکرار"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__recurring_total
+msgid "Recurring price"
+msgstr "قیمت دوره‌ای"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__code
+msgid "Reference"
+msgstr "مرجع‌"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__recurring_interval
+msgid "Repeat every"
+msgstr "تکرار در هر"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Resume"
+msgstr "رزومه"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__paused_until
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_pause_wizard__paused_until
+msgid "Resume on"
+msgstr "ادامه در"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Resume scheduled on"
+msgstr "ادامه‌ی برنامه‌ریزی‌شده در"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__recurring_rule_count
+msgid "Rule count"
+msgstr "تعداد قاعده"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__sale_subscription_line_ids
+msgid "Sale Subscription Line"
+msgstr "ردیف اشتراک فروش"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__invoicing_mode__sale_and_invoice
+msgid "Sale order & Invoice"
+msgstr "سفارش فروش و فاکتور"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__sale_order_ids_count
+msgid "Sale orders"
+msgstr "سفارش‌های فروش"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__crm_team_id
+msgid "Sale team"
+msgstr "تیم فروش"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Sales"
+msgstr "فروش ها"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_order
+msgid "Sales Order"
+msgstr "سفارش فروش"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "سطر سفارش‌فروش"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__sequence
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__stage_id
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_pending_filter
+msgid "Stage"
+msgstr "مرحله"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_subscription_stage_form
+msgid ""
+"Stages define the life-cycle of a given subscription; this is,"
+"                 a subscription can be a 'Ready to start', 'In progress' or "
+"'Closed' type of stage.                 Bear in mind that there can only be "
+"one 'Closed'-type stage."
+msgstr ""
+"مرحله‌ها چرخه‌ی عمر اشتراک‌اند: «آماده‌ی شروع»، «در جریان» یا «بسته». فقط یک"
+" مرحله از نوع «بسته» می‌تواند باشد."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__date_start
+msgid "Start date"
+msgstr "تاریخ شروع"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_product_product__subscribable
+#: model:ir.model.fields,field_description:subscription_oca.field_product_template__subscribable
+msgid "Subscribable product"
+msgstr "کالای اشتراکی"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription
+#: model:ir.model.fields,field_description:subscription_oca.field_account_bank_statement_line__subscription_id
+#: model:ir.model.fields,field_description:subscription_oca.field_account_move__subscription_id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order__order_subscription_id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__sale_subscription_id
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_move_form
+msgid "Subscription"
+msgstr "اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_res_partner__subscription_count
+#: model:ir.model.fields,field_description:subscription_oca.field_res_users__subscription_count
+msgid "Subscription Count"
+msgstr "تعداد اشتراک"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_form
+msgid "Subscription lines"
+msgstr "ردیف‌های اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription_line
+msgid "Subscription lines added to a given subscription"
+msgstr "ردیف‌های افزوده‌شده به اشتراک"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Subscription paused until %(date)s."
+msgstr "اشتراک تا %(date)s متوقف شد."
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Subscription paused."
+msgstr "اشتراک متوقف شد."
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Subscription resumed automatically."
+msgstr "اشتراک خودکار ادامه یافت."
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "Subscription resumed."
+msgstr "اشتراک ادامه یافت."
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription_stage
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_subscription_stage_form
+msgid "Subscription stage"
+msgstr "مرحله‌ی اشتراک"
+
+#. module: subscription_oca
+#: model:ir.ui.menu,name:subscription_oca.subscription_stage_menu
+msgid "Subscription stages"
+msgstr "مرحله‌های اشتراک"
+
+#. module: subscription_oca
+#: model:ir.ui.menu,name:subscription_oca.subscription_tag_menu
+msgid "Subscription tags"
+msgstr "برچسب‌های اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_product_product__subscription_template_id
+#: model:ir.model.fields,field_description:subscription_oca.field_product_template__subscription_template_id
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__template_id
+msgid "Subscription template"
+msgstr "الگوی اشتراک"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.sale_subscription_template_act_window
+#: model:ir.model,name:subscription_oca.model_sale_subscription_template
+#: model:ir.ui.menu,name:subscription_oca.sale_template_subscription_menu
+msgid "Subscription templates"
+msgstr "الگوهای اشتراک"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.sale_subscription_action
+#: model:ir.model.fields,field_description:subscription_oca.field_res_partner__subscription_ids
+#: model:ir.model.fields,field_description:subscription_oca.field_res_users__subscription_ids
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order__subscription_ids
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__subscription_ids
+#: model:ir.ui.menu,name:subscription_oca.sale_subscription_menu
+#: model:ir.ui.menu,name:subscription_oca.sale_subscription_root
+#: model:ir.ui.menu,name:subscription_oca.subscription_menu
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_sale_order_form
+msgid "Subscriptions"
+msgstr "اشتراک ها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_order__subscriptions_count
+msgid "Subscriptions Count"
+msgstr "تعداد اشتراک‌ها"
+
+#. module: subscription_oca
+#: model:ir.actions.server,name:subscription_oca.ir_cron_subscription_management_ir_actions_server
+msgid "Subscriptions management"
+msgstr "مدیریت اشتراک"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__price_subtotal
+msgid "Subtotal"
+msgstr "جمع جزء"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.subscription_stage_action
+msgid "Susbcription stages"
+msgstr "مرحله‌های اشتراک"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_product_suscribable_filter
+msgid "Suscribable products"
+msgstr "کالاهای اشتراکی"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_tag__name
+msgid "Tag name"
+msgstr "نام برچسب"
+
+#. module: subscription_oca
+#: model:ir.actions.act_window,name:subscription_oca.subscription_tag_action
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__tag_ids
+msgid "Tags"
+msgstr "برچسب‌ها"
+
+#. module: subscription_oca
+#: model:ir.model,name:subscription_oca.model_sale_subscription_tag
+msgid "Tags for sale subscription"
+msgstr "برچسب‌های اشتراک فروش"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__tax_ids
+msgid "Taxes"
+msgstr "مالیات ها"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__amount_tax_line_amount
+msgid "Taxes Amount"
+msgstr "مبلغ مالیات"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "Terms and Conditions"
+msgstr "شرایط و ضوابط"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__terms
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_template__description
+msgid "Terms and conditions"
+msgstr "شرایط و ضوابط"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription_stage.py:0
+msgid "There is already a Closed-type stage declared"
+msgstr "مرحله‌ای از نوع «بسته» از قبل تعریف شده است"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_kanban
+msgid ""
+"This bar allows to filter the opportunities based on scheduled activities."
+msgstr ""
+"این نوار اجازه می دهد تا فرصت ها را بر اساس فعالیت های برنامه ریزی شده فیلتر"
+" کنید."
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.view_subscription_stage_form
+msgid ""
+"This field dictates the stages' visual order on the Kanban and form view. "
+"Although is purely visual, mind that if the order isn't                 "
+"consequent with your needs, you could have a 'Closed'-type stage before a "
+"'Ready to start' one."
+msgstr ""
+"ترتیب نمایش مرحله‌ها در کانبان و فرم؛ فقط نمایشی است، ولی ترتیب نادرست ممکن "
+"است مرحله‌ی «بسته» را پیش از «آماده‌ی شروع» نشان دهد."
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "This subscription is already paused."
+msgstr "این اشتراک از قبل متوقف است."
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "This subscription is not paused."
+msgstr "این اشتراک متوقف نیست."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__to_renew
+msgid "To renew"
+msgstr "برای تمدید"
+
+#. module: subscription_oca
+#. odoo-python
+#: code:addons/subscription_oca/models/sale_subscription.py:0
+msgid "To validate"
+msgstr "برای تأیید"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__price_total
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_tree
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_tree
+msgid "Total Tax"
+msgstr "مالیات کل"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_tree
+msgid "Total subtotal"
+msgstr "جمع جزء"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__stage_type
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_stage__type
+msgid "Type"
+msgstr "نوع"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription_line__price_unit
+msgid "Unit price"
+msgstr "قیمت واحد"
+
+#. module: subscription_oca
+#: model:ir.model.fields,field_description:subscription_oca.field_sale_subscription__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_type__weeks
+msgid "Week(s)"
+msgstr "هفته"
+
+#. module: subscription_oca
+#: model:ir.model.fields,help:subscription_oca.field_sale_subscription__is_paused
+msgid ""
+"When ticked, the recurring cron will skip this subscription until it is "
+"resumed manually or until `paused_until` is reached."
+msgstr ""
+"با علامت این گزینه، صدور دوره‌ای این اشتراک تا ادامه‌ی دستی یا رسیدن تاریخ "
+"ادامه انجام نمی‌شود."
+
+#. module: subscription_oca
+#: model:ir.model.fields.selection,name:subscription_oca.selection__sale_subscription_template__recurring_rule_type__years
+msgid "Year(s)"
+msgstr "سال"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "e.g. Monthly Subscription"
+msgstr "مثلاً اشتراک ماهانه"
+
+#. module: subscription_oca
+#: model_terms:ir.ui.view,arch_db:subscription_oca.sale_subscription_template_form
+msgid "month(s)"
+msgstr "ماه"

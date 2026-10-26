@@ -1,0 +1,76 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.view_dms_directory_kanban
+msgid ""
+"<i class=\"fa fa-xs fa-file\"/>\n"
+"                                            <span>&amp;nbsp;</span>"
+msgstr ""
+"<i class=\"fa fa-xs fa-file\"/>\n"
+"                                            <span>&amp;nbsp;</span>"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.view_dms_directory_kanban
+msgid ""
+"<i class=\"fa fa-xs fa-folder\"/>\n"
+"                                            <span>&amp;nbsp;</span>"
+msgstr ""
+"<i class=\"fa fa-xs fa-folder\"/>\n"
+"                                            <span>&amp;nbsp;</span>"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.view_dms_directory_kanban
+msgid "<span class=\"ms-1\">Directories</span>"
+msgstr "<span class=\"ms-1\">پوشه‌ها</span>"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.view_dms_directory_kanban
+msgid "<span class=\"ms-1\">Files</span>"
+msgstr "<span class=\"ms-1\">فایل‌ها</span>"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.view_dms_directory_kanban
+msgid "<span>Views</span>"
+msgstr "<span>نمایش‌ها</span>"
+
+#. module: dms
+#. odoo-javascript
+#: code:addons/dms/static/src/js/views/file_kanban_renderer.xml:0
+msgid "DMS file actions"
+msgstr "کارهای فایل"
+
+#. module: dms
+#. odoo-javascript
+#: code:addons/dms/static/src/js/fields/path_json/path_owl.esm.js:0
+msgid "Dms Path Field"
+msgstr "فیلد مسیر"
+
+#. module: dms
+#: model_terms:ir.ui.view,arch_db:dms.portal_my_home_dms
+msgid "Manage your documents"
+msgstr "اسناد خود را مدیریت کنید"
+
+#. module: dms
+#. odoo-javascript
+#: code:addons/dms/static/src/js/fields/preview_binary/preview_record.esm.js:0
+msgid "Preview Record"
+msgstr "پیش‌نمایش رکورد"
+
+#. module: dms
+#. odoo-python
+#: code:addons/dms/controllers/main.py:0
+msgid "Something horrible happened"
+msgstr "چیز وحشتناکی اتفاق افتاد"
+
+#. module: dms
+#. odoo-python
+#: code:addons/dms/controllers/main.py:0
+msgid "You are not allowed to upload a file here."
+msgstr "اجازه‌ی بارگذاری فایل در این‌جا را ندارید."

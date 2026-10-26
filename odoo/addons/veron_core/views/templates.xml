@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- ERP-VERON in place of Odoo: the window title, the sign-in page and the «Powered by» lines -->
+	<template id="layout" inherit_id="web.layout">
+		<xpath expr="//title" position="replace">
+			<title t-esc="title or 'ERP-VERON'"/>
+		</xpath>
+	</template>
+
+	<template id="login_layout" inherit_id="web.login_layout">
+		<xpath expr="//a[contains(@href, 'www.odoo.com')]" position="replace">
+			<span>ERP-VERON</span>
+		</xpath>
+	</template>
+
+	<template id="brand_promotion_message" inherit_id="web.brand_promotion_message">
+		<xpath expr="//t[@t-out]" position="replace">
+			<span>ERP-VERON</span>
+		</xpath>
+	</template>
+</odoo>

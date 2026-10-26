@@ -1,0 +1,126 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.view_bank_statement_form
+msgid "<span class=\"o_stat_text\">Journal Items</span>"
+msgstr "<span class=\"o_stat_text\">آیتم‌های دفتر روزنامه</span>"
+
+#. module: account_statement_base
+#: model:ir.model,name:account_statement_base.model_account_bank_statement
+#: model_terms:ir.ui.view,arch_db:account_statement_base.view_bank_statement_form
+msgid "Bank Statement"
+msgstr "صورت حساب بانک"
+
+#. module: account_statement_base
+#: model:ir.model,name:account_statement_base.model_account_bank_statement_line
+msgid "Bank Statement Line"
+msgstr "سطر صورتحساب بانک"
+
+#. module: account_statement_base
+#: model:ir.actions.act_window,name:account_statement_base.account_bank_statement_line_action
+msgid "Bank Statement Lines"
+msgstr "ردیف‌های صورت‌حساب بانکی"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: account_statement_base
+#: model:ir.model.fields,field_description:account_statement_base.field_account_bank_statement__display_name
+#: model:ir.model.fields,field_description:account_statement_base.field_account_bank_statement_line__display_name
+#: model:ir.model.fields,field_description:account_statement_base.field_account_journal__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: account_statement_base
+#: model:ir.model.fields,field_description:account_statement_base.field_account_bank_statement__id
+#: model:ir.model.fields,field_description:account_statement_base.field_account_bank_statement_line__id
+#: model:ir.model.fields,field_description:account_statement_base.field_account_journal__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: account_statement_base
+#: model:ir.model,name:account_statement_base.model_account_journal
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Journal"
+msgstr "روزنامه"
+
+#. module: account_statement_base
+#. odoo-python
+#: code:addons/account_statement_base/models/account_bank_statement.py:0
+msgid "Journal Items"
+msgstr "آیتم های روزنامه"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Label, Ref or Notes"
+msgstr "شرح، مرجع یا یادداشت"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Not Reconciled"
+msgstr "تطبیق‌نشده"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_form
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_tree
+msgid "Notes"
+msgstr "یادداشت‌ها"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_tree
+msgid "Open Journal Entry"
+msgstr "باز کردن سند حسابداری"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.view_bank_statement_tree
+msgid "Open Statement Lines"
+msgstr "باز کردن ردیف‌های صورت‌حساب"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Partner"
+msgstr "همکار"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Reconciled"
+msgstr "تسویه شد"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_tree
+msgid "Revert reconciliation"
+msgstr "برگرداندن تطبیق"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_form
+msgid "Technical Information"
+msgstr "اطلاعات فنی"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "To check"
+msgstr "نیاز به بررسی"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.account_bank_statement_line_search
+msgid "Transaction Type"
+msgstr "نوع تراکنش"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.view_bank_statement_form
+msgid "Transactions"
+msgstr "تراکنش ها"
+
+#. module: account_statement_base
+#: model_terms:ir.ui.view,arch_db:account_statement_base.view_bank_statement_form
+msgid "e.g. BNK/2021/0001"
+msgstr "مثلاً BNK/1405/0001"

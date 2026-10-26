@@ -1,0 +1,388 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: document_page
+#. odoo-python
+#: code:addons/document_page/models/document_page.py:0
+msgid "%s (copy)"
+msgstr "%s (کپی)"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__backend_url
+msgid "Backend URL"
+msgstr "آدرس در سیستم"
+
+#. module: document_page
+#: model:ir.actions.act_window,name:document_page.action_browse_all_content
+#: model:ir.actions.act_window,name:document_page.action_browse_top_content
+#: model:ir.ui.menu,name:document_page.menu_browse_content
+msgid "Browse Wiki Content"
+msgstr "مرور محتوای دانش"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__child_ids
+msgid "Children"
+msgstr "فرزندان"
+
+#. module: document_page
+#: model_terms:ir.actions.act_window,help:document_page.action_page
+msgid "Click to create a new web page."
+msgstr "برای ساختن صفحه‌ی تازه کلیک کنید."
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_show_diff
+msgid "Close"
+msgstr "بستن"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__color
+msgid "Color Index"
+msgstr "رنگ پس زمینه"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__company_id
+#: model:ir.model.fields,field_description:document_page.field_document_page_history__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__draft_summary
+msgid "Describe the changes made"
+msgstr "تغییرها را شرح دهید"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page_history__diff
+#: model:ir.model.fields,field_description:document_page.field_wizard_document_page_history_show_diff__diff
+msgid "Diff"
+msgstr "تفاوت"
+
+#. module: document_page
+#: model:ir.actions.act_window,name:document_page.action_view_wiki_show_diff_values
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_show_diff
+msgid "Difference"
+msgstr "تفاوت"
+
+#. module: document_page
+#: model:ir.actions.report,name:document_page.report_document_page
+#: model:ir.model,name:document_page.model_document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_filter
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_menu_form
+msgid "Document Page"
+msgstr "صفحه‌ی دانش"
+
+#. module: document_page
+#: model:ir.model,name:document_page.model_document_page_history
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_history_filter
+#: model_terms:ir.ui.view,arch_db:document_page.wiki_history_form
+msgid "Document Page History"
+msgstr "تاریخچه‌ی صفحه"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__history_head
+msgid "HEAD"
+msgstr "آخرین نسخه"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__message_has_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__company_id
+#: model:ir.model.fields,help:document_page.field_document_page_history__company_id
+msgid "If set, page is accessible only from this company"
+msgstr "اگر تعیین شود، صفحه فقط در این شرکت دیده می‌شود"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__image
+msgid "Image"
+msgstr "تصویر"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__content_date
+msgid "Last Contribution Date"
+msgstr "تاریخ آخرین تغییر"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__content_uid
+#: model_terms:ir.ui.view,arch_db:document_page.view_document_category_filter
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_filter
+msgid "Last Contributor"
+msgstr "آخرین مشارکت کننده"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__draft_name
+msgid "Name for the changes made"
+msgstr "عنوان تغییرها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: document_page
+#: model:ir.actions.act_window,name:document_page.action_related_page_history
+msgid "Page History"
+msgstr "تاریخچه‌ی صفحه"
+
+#. module: document_page
+#: model:ir.actions.act_window,name:document_page.action_history
+msgid "Page history"
+msgstr "تاریخچه‌ی صفحه"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__type
+msgid "Page type"
+msgstr "نوع صفحه"
+
+#. module: document_page
+#: model:ir.actions.act_window,name:document_page.action_page
+#: model:ir.ui.menu,name:document_page.menu_page
+#: model:ir.ui.menu,name:document_page.menu_wiki
+msgid "Pages"
+msgstr "صفحات"
+
+#. module: document_page
+#: model:ir.ui.menu,name:document_page.menu_page_history
+msgid "Pages history"
+msgstr "تاریخچه‌ی صفحه‌ها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page_create_menu__menu_parent_id
+msgid "Parent Menu"
+msgstr "منوی مادر"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+#: model_terms:ir.ui.view,arch_db:document_page.wiki_history_form
+msgid "Rev 01"
+msgstr "نسخه‌ی ۰۱"
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+msgid "Revision"
+msgstr "بازبینی"
+
+#. module: document_page
+#. odoo-python
+#: code:addons/document_page/wizard/document_page_show_diff.py:0
+msgid "Select one or maximum two history revisions!"
+msgstr "یک یا حداکثر دو نسخه از تاریخچه را انتخاب کنید!"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__template
+msgid ""
+"Template that will be used as a content template for all new page of this "
+"category."
+msgstr "الگویی که محتوای هر صفحه‌ی تازه‌ی این دسته از آن شروع می‌شود."
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_browse_top_document_filter
+msgid "Top Level Ressources"
+msgstr "منابع سطح بالا"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__backend_url
+msgid "Use it to link resources univocally"
+msgstr "برای پیوند یکتای منابع"
+
+#. module: document_page
+#: model:ir.model.fields,field_description:document_page.field_document_page__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: document_page
+#: model:ir.model.fields,help:document_page.field_document_page__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: document_page
+#: model:ir.model,name:document_page.model_document_page_create_menu
+msgid "Wizard Create Menu"
+msgstr "ساخت منو"
+
+#. module: document_page
+#. odoo-python
+#: code:addons/document_page/models/document_page.py:0
+msgid "You cannot create recursive categories."
+msgstr "شما نمی توانید دسته های بازگشتی ایجاد کنید."
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_category_form
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+#: model_terms:ir.ui.view,arch_db:document_page.wiki_history_form
+msgid "e.g. Once upon a time..."
+msgstr "مثلاً: یکی بود یکی نبود..."
+
+#. module: document_page
+#: model_terms:ir.ui.view,arch_db:document_page.view_wiki_form
+#: model_terms:ir.ui.view,arch_db:document_page.wiki_history_form
+msgid "eg: Changed ... for ..."
+msgstr "مثلاً: ... را برای ... تغییر دادم"
+
+#. module: document_page
+#. odoo-python
+#: code:addons/document_page/models/document_page.py:0
+msgid "summary"
+msgstr "خلاصه"
