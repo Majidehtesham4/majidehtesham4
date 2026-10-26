@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.veron.moadian</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="account.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//app[@name='account']" position="inside">
+				<block title="Moadian" name="veron_moadian">
+					<setting string="Tax Memory" help="The memory id and the address of the Moadian service">
+						<div class="content-group">
+							<div class="row mt8"><label for="veron_moadian_memory_id" class="col-lg-5 o_light_label"/><field name="veron_moadian_memory_id"/></div>
+							<div class="row"><label for="veron_moadian_url" class="col-lg-5 o_light_label"/><field name="veron_moadian_url"/></div>
+						</div>
+					</setting>
+					<setting string="Key and Certificate" groups="base.group_system"
+						help="The key signs the invoices; it is kept in the database and never shown. Make one here and give the downloaded request to the tax organization, or paste a key you already have.">
+						<div class="content-group">
+							<div class="mt8">
+								<span invisible="not veron_moadian_key_set" class="text-success">The key is set.</span>
+								<span invisible="veron_moadian_key_set" class="text-warning">No key yet.</span>
+								<span invisible="not veron_moadian_certificate_set" class="text-success"> The certificate is set.</span>
+								<span invisible="veron_moadian_certificate_set" class="text-warning"> No certificate yet.</span>
+							</div>
+							<button name="action_veron_moadian_new_key" type="object" string="Make a Key" class="btn-link" icon="fa-key"
+								invisible="veron_moadian_key_set"/>
+							<div class="row mt8"><label for="veron_moadian_new_key" class="col-lg-5 o_light_label"/><field name="veron_moadian_new_key" widget="password" placeholder="-----BEGIN PRIVATE KEY-----"/></div>
+							<div class="row"><label for="veron_moadian_new_certificate" class="col-lg-5 o_light_label"/><field name="veron_moadian_new_certificate" placeholder="-----BEGIN CERTIFICATE-----"/></div>
+						</div>
+					</setting>
+					<setting string="Send to Moadian" help="Each invoice is still sent by an accounting manager, after its check">
+						<field name="veron_moadian_active"/>
+					</setting>
+				</block>
+			</xpath>
+		</field>
+	</record>
+</odoo>

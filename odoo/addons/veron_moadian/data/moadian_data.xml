@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sequence_moadian_serial" model="ir.sequence">
+		<field name="name">Moadian serial</field>
+		<field name="code">veron.moadian.serial</field>
+		<field name="padding">1</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="cron_moadian_inquire" model="ir.cron">
+		<field name="name">Moadian: results of the sent invoices</field>
+		<field name="model_id" ref="account.model_account_move"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_veron_moadian_inquire()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">hours</field>
+	</record>
+	<!-- The unit «عدد» of the tax organization's list, as the service's SDKs use it -->
+	<record id="uom.product_uom_unit" model="uom.uom">
+		<field name="veron_moadian_unit">1627</field>
+	</record>
+</odoo>

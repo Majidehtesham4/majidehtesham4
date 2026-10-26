@@ -1,0 +1,521 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "%s is already sent to Moadian."
+msgstr "%s قبلاً به سامانه مودیان ارسال شده است."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/res_partner.py:0
+msgid ""
+"%s is not a valid national code (10 digits) or national id (11 digits)."
+msgstr "%s کد ملی (۱۰ رقمی) یا شناسه ملی (۱۱ رقمی) معتبر نیست."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "-----BEGIN CERTIFICATE-----"
+msgstr "-----BEGIN CERTIFICATE-----"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "-----BEGIN PRIVATE KEY-----"
+msgstr "-----BEGIN PRIVATE KEY-----"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid ""
+"<span invisible=\"not veron_moadian_key_set\" class=\"text-success\">The key is set.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"veron_moadian_key_set\" class=\"text-warning\">No key yet.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"not veron_moadian_certificate_set\" class=\"text-success\"> The certificate is set.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"veron_moadian_certificate_set\" class=\"text-warning\"> No certificate yet.</span>"
+msgstr ""
+"<span invisible=\"not veron_moadian_key_set\" class=\"text-success\">کلید تعیین شده است.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"veron_moadian_key_set\" class=\"text-warning\">هنوز کلیدی نیست.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"not veron_moadian_certificate_set\" class=\"text-success\"> گواهی تعیین شده است.</span>\n"
+"\t\t\t\t\t\t\t\t<span invisible=\"veron_moadian_certificate_set\" class=\"text-warning\"> هنوز گواهی نیست.</span>"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/res_config_settings.py:0
+msgid ""
+"A key is already set. Making a new one needs a new certificate from the tax "
+"organization."
+msgstr ""
+"کلید قبلاً تعیین شده است. ساخت کلید تازه، گواهی تازه از سازمان امور مالیاتی "
+"لازم دارد."
+
+#. module: veron_moadian
+#: model:ir.model.fields.selection,name:veron_moadian.selection__account_move__veron_moadian_state__accepted
+msgid "Accepted"
+msgstr "پذیرفته‌شده"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_certificate_set
+msgid "Certificate Set"
+msgstr "گواهی تعیین شده"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_res_config_settings
+msgid "Config Settings"
+msgstr "تنظیمات پیکربندی"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__display_name
+#: model:ir.model.fields,field_description:veron_moadian.field_product_template__display_name
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__display_name
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:veron_moadian.field_res_partner__display_name
+#: model:ir.model.fields,field_description:veron_moadian.field_uom_uom__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "Each invoice is still sent by an accounting manager, after its check"
+msgstr "هر فاکتور باز هم پس از بررسی، توسط مدیر حسابداری ارسال می‌شود"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid ""
+"Fix the problems of %s first:\n"
+"%s"
+msgstr ""
+"ابتدا ایرادهای %s را برطرف کنید:\n"
+"%s"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__id
+#: model:ir.model.fields,field_description:veron_moadian.field_product_template__id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_partner__id
+#: model:ir.model.fields,field_description:veron_moadian.field_uom_uom__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_res_company__veron_moadian_active
+#: model:ir.model.fields,help:veron_moadian.field_res_config_settings__veron_moadian_active
+msgid ""
+"Invoices are sent only when this is on, the key and the certificate are set,"
+" and someone sends each one"
+msgstr ""
+"فاکتورها فقط وقتی ارسال می‌شوند که این گزینه روشن باشد، کلید و گواهی تعیین "
+"شده باشند و کسی هر فاکتور را ارسال کند"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_key_set
+msgid "Key Set"
+msgstr "کلید تعیین شده"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "Key and Certificate"
+msgstr "کلید و گواهی امضا"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "Make a Key"
+msgstr "ساخت کلید"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_state
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_state
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid "Moadian"
+msgstr "سامانه مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__veron_moadian_url
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_url
+msgid "Moadian Address"
+msgstr "نشانی سامانه مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__veron_moadian_certificate
+msgid "Moadian Certificate"
+msgstr "گواهی امضای مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_payload
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_payload
+msgid "Moadian Invoice"
+msgstr "صورتحساب الکترونیکی مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__veron_moadian_private_key
+msgid "Moadian Private Key"
+msgstr "کلید خصوصی مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_problems
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_problems
+msgid "Moadian Problems"
+msgstr "ایرادهای مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_product_product__veron_sstid
+#: model:ir.model.fields,field_description:veron_moadian.field_product_template__veron_sstid
+msgid "Moadian Product ID"
+msgstr "شناسه کالا/خدمت مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_reference
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_reference
+msgid "Moadian Reference"
+msgstr "شماره ارجاع مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_uid
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_uid
+msgid "Moadian Request ID"
+msgstr "شناسه درخواست مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_result
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_result
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid "Moadian Result"
+msgstr "نتیجه مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_serial
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_serial
+msgid "Moadian Serial"
+msgstr "سریال مودیان"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_uom_uom__veron_moadian_unit
+msgid "Moadian Unit Code"
+msgstr "کد واحد مودیان"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Moadian accepted the invoice."
+msgstr "سامانه مودیان صورتحساب را پذیرفت."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Moadian did not take %(invoice)s: %(error)s"
+msgstr "سامانه مودیان %(invoice)s را نپذیرفت: %(error)s"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Moadian rejected the invoice: %s"
+msgstr "سامانه مودیان صورتحساب را رد کرد: %s"
+
+#. module: veron_moadian
+#: model:ir.actions.server,name:veron_moadian.cron_moadian_inquire_ir_actions_server
+msgid "Moadian: results of the sent invoices"
+msgstr "مودیان: استعلام نتیجه‌ی صورتحساب‌های ارسالی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_fsm_location__veron_national_id
+#: model:ir.model.fields,field_description:veron_moadian.field_fsm_person__veron_national_id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_partner__veron_national_id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_users__veron_national_id
+msgid "National ID"
+msgstr "کد ملی / شناسه ملی"
+
+#. module: veron_moadian
+#: model:ir.model.fields.selection,name:veron_moadian.selection__account_move__veron_moadian_state__problems
+msgid "Needs Fixes"
+msgstr "نیاز به اصلاح"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_new_certificate
+msgid "New Certificate"
+msgstr "گواهی جدید"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_new_key
+msgid "New Private Key"
+msgstr "کلید خصوصی جدید"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Only a posted customer invoice or credit note goes to Moadian."
+msgstr "فقط فاکتور فروش یا برگشت از فروش ثبت‌شده به سامانه مودیان می‌رود."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Only an accounting manager sends invoices to Moadian."
+msgstr "فقط مدیر حسابداری صورتحساب‌ها را به سامانه مودیان ارسال می‌کند."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/res_config_settings.py:0
+msgid "Only an administrator makes the key."
+msgstr "فقط مدیر سیستم کلید را می‌سازد."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Only rial invoices are sent; this one is in %(currency)s."
+msgstr "فقط فاکتورهای ریالی ارسال می‌شوند؛ این فاکتور به %(currency)s است."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid "Prepare Again"
+msgstr "آماده‌سازی دوباره"
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid "Prepare for Moadian"
+msgstr "آماده‌سازی برای مودیان"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_product_template
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_moadian
+#: model:ir.model,name:veron_moadian.model_uom_uom
+msgid "Product Unit of Measure"
+msgstr "واحد اندازه گیری محصول"
+
+#. module: veron_moadian
+#: model:ir.model.fields.selection,name:veron_moadian.selection__account_move__veron_moadian_state__prepared
+msgid "Ready to Send"
+msgstr "آماده‌ی ارسال"
+
+#. module: veron_moadian
+#: model:ir.model.fields.selection,name:veron_moadian.selection__account_move__veron_moadian_state__rejected
+msgid "Rejected"
+msgstr "ردشده"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Row %(row)s: set the 13-digit Moadian product ID of %(product)s."
+msgstr "ردیف %(row)s: شناسه ۱۳ رقمی کالا/خدمت «%(product)s» را وارد کنید."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Row %(row)s: set the Moadian unit code of the unit %(unit)s."
+msgstr "ردیف %(row)s: کد واحد مودیان برای واحد «%(unit)s» را وارد کنید."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid ""
+"Send this invoice to the tax organization? A sent invoice is corrected only "
+"with a credit note."
+msgstr ""
+"این صورتحساب به سازمان امور مالیاتی ارسال شود؟ صورتحساب ارسال‌شده فقط با "
+"برگشت از فروش اصلاح می‌شود."
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__veron_moadian_active
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_active
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+#: model_terms:ir.ui.view,arch_db:veron_moadian.view_move_form
+msgid "Send to Moadian"
+msgstr "ارسال به سامانه مودیان"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Sending to Moadian is off. Turn it on in Accounting settings, Moadian."
+msgstr ""
+"ارسال به سامانه مودیان خاموش است. آن را در تنظیمات حسابداری، بخش مودیان روشن"
+" کنید."
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_moadian_sent
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_moadian_sent
+msgid "Sent to Moadian"
+msgstr "تاریخ ارسال به مودیان"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Sent to Moadian; reference %s. The result comes with the next inquiry."
+msgstr ""
+"به سامانه مودیان ارسال شد؛ شماره ارجاع %s. نتیجه با استعلام بعدی می‌آید."
+
+#. module: veron_moadian
+#: model:ir.model.fields.selection,name:veron_moadian.selection__account_move__veron_moadian_state__sent
+msgid "Sent, Awaiting the Result"
+msgstr "ارسال‌شده، در انتظار نتیجه"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Set the economic code (Tax ID) of the company."
+msgstr "کد اقتصادی (شناسه مالیاتی) شرکت را وارد کنید."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid ""
+"Set the private key and the certificate of Moadian in Accounting settings."
+msgstr "کلید خصوصی و گواهی مودیان را در تنظیمات حسابداری وارد کنید."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "Set the tax memory ID in Accounting settings, Moadian."
+msgstr "شناسه حافظه مالیاتی را در تنظیمات حسابداری، بخش مودیان وارد کنید."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "Tax Memory"
+msgstr "حافظه مالیاتی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_res_company__veron_moadian_memory_id
+#: model:ir.model.fields,field_description:veron_moadian.field_res_config_settings__veron_moadian_memory_id
+msgid "Tax Memory ID"
+msgstr "شناسه حافظه مالیاتی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,field_description:veron_moadian.field_account_bank_statement_line__veron_tax_id
+#: model:ir.model.fields,field_description:veron_moadian.field_account_move__veron_tax_id
+msgid "Tax Number"
+msgstr "شماره منحصر به فرد مالیاتی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_fsm_location__veron_national_id
+#: model:ir.model.fields,help:veron_moadian.field_fsm_person__veron_national_id
+#: model:ir.model.fields,help:veron_moadian.field_res_partner__veron_national_id
+#: model:ir.model.fields,help:veron_moadian.field_res_users__veron_national_id
+msgid ""
+"The 10-digit national code of a person, or the 11-digit national id of a "
+"company"
+msgstr "کد ملی ۱۰ رقمی شخص حقیقی یا شناسه ملی ۱۱ رقمی شخص حقوقی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_product_product__veron_sstid
+#: model:ir.model.fields,help:veron_moadian.field_product_template__veron_sstid
+msgid ""
+"The 13-digit id of the goods or the service (شناسه کالا/خدمت) in the tax "
+"organization's list"
+msgstr "شناسه ۱۳ رقمی کالا یا خدمت در فهرست سازمان امور مالیاتی"
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_account_bank_statement_line__veron_tax_id
+#: model:ir.model.fields,help:veron_moadian.field_account_move__veron_tax_id
+msgid ""
+"The 22-character unique tax number of the invoice (شماره منحصر به فرد "
+"مالیاتی)"
+msgstr "شماره منحصر به فرد مالیاتی ۲۲ کاراکتری صورتحساب"
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_res_company__veron_moadian_memory_id
+#: model:ir.model.fields,help:veron_moadian.field_res_config_settings__veron_moadian_memory_id
+msgid "The 6-character id of the tax memory (شناسه یکتای حافظه مالیاتی)"
+msgstr "شناسه یکتای ۶ کاراکتری حافظه مالیاتی"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/product.py:0
+msgid "The Moadian product id has 13 digits."
+msgstr "شناسه کالا/خدمت مودیان ۱۳ رقم است."
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_res_company__veron_moadian_certificate
+msgid "The certificate (PEM) the tax organization issued for the key"
+msgstr "گواهی (PEM) که سازمان امور مالیاتی برای کلید صادر کرده است"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/res_config_settings.py:0
+msgid "The certificate is not a PEM certificate."
+msgstr "گواهی در قالب PEM نیست."
+
+#. module: veron_moadian
+#: model:ir.model.fields,help:veron_moadian.field_uom_uom__veron_moadian_unit
+msgid ""
+"The code of the unit in the tax organization's list, as 1627 for a piece"
+msgstr "کد واحد در فهرست سازمان امور مالیاتی، مثلاً 1627 برای «عدد»"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid ""
+"The computed total %(computed)s differs from the invoice total %(total)s; "
+"check the taxes that are not VAT."
+msgstr ""
+"جمع محاسبه‌شده %(computed)s با جمع فاکتور %(total)s فرق دارد؛ مالیات‌های غیر"
+" از ارزش افزوده را بررسی کنید."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "The inquiry did not go through: %s"
+msgstr "استعلام انجام نشد: %s"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "The invoice is sent to Moadian. Correct it with a credit note instead."
+msgstr ""
+"صورتحساب به سامانه مودیان ارسال شده است. به جای آن، با برگشت از فروش اصلاح "
+"کنید."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "The invoice this credit note reverses has no tax number yet."
+msgstr ""
+"فاکتوری که این برگشت از فروش به آن برمی‌گردد هنوز شماره مالیاتی ندارد."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid ""
+"The key signs the invoices; it is kept in the database and never shown. Make"
+" one here and give the downloaded request to the tax organization, or paste "
+"a key you already have."
+msgstr ""
+"صورتحساب‌ها با این کلید امضا می‌شوند؛ کلید در پایگاه داده می‌ماند و هیچ‌وقت "
+"نمایش داده نمی‌شود. اینجا کلید بسازید و درخواست دانلودشده را به سازمان امور "
+"مالیاتی بدهید، یا کلیدی را که دارید وارد کنید."
+
+#. module: veron_moadian
+#: model_terms:ir.ui.view,arch_db:veron_moadian.res_config_settings_view_form
+msgid "The memory id and the address of the Moadian service"
+msgstr "شناسه حافظه و نشانی سامانه مودیان"
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/res_config_settings.py:0
+msgid "The private key is not a PEM key without a password."
+msgstr "کلید خصوصی در قالب PEM و بدون رمز نیست."
+
+#. module: veron_moadian
+#. odoo-python
+#: code:addons/veron_moadian/models/account_move.py:0
+msgid "The tax memory ID is 6 letters or digits."
+msgstr "شناسه حافظه مالیاتی ۶ حرف یا رقم است."

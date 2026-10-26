@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_partner_form" model="ir.ui.view">
+		<field name="name">res.partner.form.moadian</field>
+		<field name="model">res.partner</field>
+		<field name="inherit_id" ref="base.view_partner_form"/>
+		<field name="arch" type="xml">
+			<field name="vat" position="after">
+				<field name="veron_national_id"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="product_template_form_view" model="ir.ui.view">
+		<field name="name">product.template.form.moadian</field>
+		<field name="model">product.template</field>
+		<field name="inherit_id" ref="product.product_template_form_view"/>
+		<field name="arch" type="xml">
+			<group name="group_general" position="inside">
+				<field name="veron_sstid"/>
+			</group>
+		</field>
+	</record>
+
+	<record id="product_uom_form_view" model="ir.ui.view">
+		<field name="name">uom.uom.form.moadian</field>
+		<field name="model">uom.uom</field>
+		<field name="inherit_id" ref="uom.product_uom_form_view"/>
+		<field name="arch" type="xml">
+			<group name="uom_details" position="inside">
+				<field name="veron_moadian_unit"/>
+			</group>
+		</field>
+	</record>
+</odoo>

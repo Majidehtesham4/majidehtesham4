@@ -32,6 +32,7 @@ employees):
 - Android and iPhone: the web client installs as an app (PWA), as ERP-VERON
 - Approvals: veron_approval, requests approved by the right people, as many as needed
 - Rental: veron_rental, reservations without double booking, pickup, return, late fees, invoices
+- Moadian: veron_moadian, electronic invoices to the tax organization, sent on request
 - Cheques: veron_cheque, received and issued cheques with Sayad ids, cheque books and their entries
 - The full-screen apps menu: web_responsive
 
@@ -80,6 +81,7 @@ Not built: Studio, IoT and WhatsApp.
 		"veron_rental",
 		"veron_cheque",
 		"veron_payroll_iran",
+		"veron_moadian",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

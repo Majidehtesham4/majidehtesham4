@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_move_form" model="ir.ui.view">
+		<field name="name">account.move.form.moadian</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form"/>
+		<field name="arch" type="xml">
+			<header position="inside">
+				<button name="action_veron_moadian_prepare" type="object" string="Prepare for Moadian" groups="account.group_account_invoice"
+					invisible="state != 'posted' or move_type not in ('out_invoice', 'out_refund') or veron_moadian_state in ('sent', 'accepted', 'rejected')"/>
+				<button name="action_veron_moadian_send" type="object" string="Send to Moadian" class="btn-primary" groups="account.group_account_manager"
+					invisible="veron_moadian_state != 'prepared'"
+					confirm="Send this invoice to the tax organization? A sent invoice is corrected only with a credit note."/>
+				<button name="action_veron_moadian_inquire" type="object" string="Moadian Result" groups="account.group_account_invoice"
+					invisible="veron_moadian_state != 'sent'"/>
+				<button name="action_veron_moadian_retry" type="object" string="Prepare Again" groups="account.group_account_invoice"
+					invisible="veron_moadian_state != 'rejected'"/>
+			</header>
+			<page name="other_info" position="after">
+				<page name="veron_moadian" string="Moadian" invisible="move_type not in ('out_invoice', 'out_refund') or not veron_moadian_state">
+					<div class="alert alert-warning" role="alert" invisible="veron_moadian_state != 'problems'">
+						<field name="veron_moadian_problems"/>
+					</div>
+					<group>
+						<group>
+							<field name="veron_moadian_state"/>
+							<field name="veron_tax_id"/>
+							<field name="veron_moadian_serial"/>
+						</group>
+						<group>
+							<field name="veron_moadian_reference"/>
+							<field name="veron_moadian_sent"/>
+							<field name="veron_moadian_result" invisible="not veron_moadian_result"/>
+						</group>
+					</group>
+					<field name="veron_moadian_payload" widget="ace" options="{'mode': 'js'}"/>
+				</page>
+			</page>
+		</field>
+	</record>
+
+	<record id="view_invoice_tree" model="ir.ui.view">
+		<field name="name">account.move.list.moadian</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_invoice_tree"/>
+		<field name="arch" type="xml">
+			<field name="status_in_payment" position="before">
+				<field name="veron_moadian_state" optional="show" widget="badge"
+					column_invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund')"
+					decoration-success="veron_moadian_state == 'accepted'" decoration-info="veron_moadian_state in ('prepared', 'sent')"
+					decoration-danger="veron_moadian_state in ('problems', 'rejected')"/>
+			</field>
+		</field>
+	</record>
+</odoo>
