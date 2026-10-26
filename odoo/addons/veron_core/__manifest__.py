@@ -22,8 +22,15 @@ The base of every ERP-VERON installation:
 			"veron_core/static/src/jalali/luxon_setup.js",
 			"veron_core/static/src/jalali/datetime_picker.js",
 			"veron_core/static/src/jalali/calendar.js",
+			"veron_core/static/src/jalali/search_dates.js",
 			"veron_core/static/src/jalali/calendar.scss",
 			"veron_core/static/src/branding.js",
+		],
+		# The website and the portal: dates and the date picker in Shamsi too
+		"web.assets_frontend": [
+			"veron_core/static/src/jalali/jalali.js",
+			"veron_core/static/src/jalali/luxon_setup.js",
+			"veron_core/static/src/jalali/datetime_picker.js",
 		],
 	},
 	"installable": True,

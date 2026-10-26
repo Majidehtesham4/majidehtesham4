@@ -2,6 +2,7 @@
 import { CalendarController } from "@web/views/calendar/calendar_controller";
 import { CalendarModel } from "@web/views/calendar/calendar_model";
 import { CalendarCommonRenderer } from "@web/views/calendar/calendar_common/calendar_common_renderer";
+import { CalendarYearRenderer } from "@web/views/calendar/calendar_year/calendar_year_renderer";
 import { localization } from "@web/core/l10n/localization";
 import { patch } from "@web/core/utils/patch";
 import * as jalali from "./jalali";
@@ -10,6 +11,10 @@ const weekOf = (date) => jalali.week(date, localization.weekStart || 6);
 
 patch(CalendarModel.prototype, {
     computeRange() {
+        if (jalali.isActive() && this.meta.scale === "year") {
+            const start = jalali.startOfYear(this.meta.date);
+            return { start, end: jalali.addMonths(start, 12).minus({ days: 1 }).endOf("day") };
+        }
         if (!jalali.isActive() || this.meta.scale !== "month") {
             return super.computeRange();
         }
@@ -110,5 +115,42 @@ patch(CalendarCommonRenderer.prototype, {
             props.day = jalali.toJalali(luxon.DateTime.fromJSDate(date, options).plus({ hour: 1 })).day;
         }
         return props;
+    },
+});
+
+patch(CalendarYearRenderer.prototype, {
+    /** The twelve Shamsi months of the year: each one a grid of its weeks, the other days left empty */
+    getOptionsForMonth(month) {
+        const options = super.getOptionsForMonth(month);
+        if (!jalali.isActive()) {
+            return options;
+        }
+        const { year } = jalali.toJalali(this.props.model.date);
+        const index = this.months.indexOf(month) + 1;
+        const start = jalali.fromJalali(year, index, 1);
+        const end = jalali.addMonths(start, 1).minus({ days: 1 });
+        const firstDay = this.props.model.firstDayOfWeek;
+        const gridStart = start.minus({ days: (start.weekday - firstDay + 7) % 7 });
+        const gridEnd = end.plus({ days: (firstDay + 6 - end.weekday + 7) % 7 });
+        const [first, last] = [start.toISODate(), end.toISODate()];
+        const dayOf = (date) => luxon.DateTime.fromJSDate(date, { zone: "UTC" });
+        return {
+            ...options,
+            initialDate: start.toISODate(),
+            initialView: "veronShamsiMonth",
+            views: {
+                veronShamsiMonth: {
+                    type: "dayGrid",
+                    visibleRange: { start: gridStart.toISODate(), end: gridEnd.plus({ days: 1 }).toISODate() },
+                },
+            },
+            titleFormat: () => `${jalali.MONTHS[index - 1]} ${year}`,
+            dayCellContent: ({ date }) => String(jalali.toJalali(dayOf(date)).day),
+            dayCellClassNames: (info) => {
+                const classes = this.getDayCellClassNames(info);
+                const day = dayOf(info.date).toISODate();
+                return day < first || day > last ? [...classes, "o_veron_outside"] : classes;
+            },
+        };
     },
 });

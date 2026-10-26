@@ -40,7 +40,10 @@ class Base(models.AbstractModel):
 	def _web_read_group_groupby_formatter(self, groupby_spec, values):
 		shamsi = self._veron_shamsi_group(groupby_spec)
 		if not shamsi:
-			return super()._web_read_group_groupby_formatter(groupby_spec, values)
+			formatter = super()._web_read_group_groupby_formatter(groupby_spec, values)
+			if groupby_spec.endswith(":week") and get_lang(self.env).code.startswith("fa"):
+				return self._veron_week_formatter(formatter)
+			return formatter
 		field, granularity = shamsi
 		fmt = DEFAULT_SERVER_DATETIME_FORMAT if field.type == "datetime" else DEFAULT_SERVER_DATE_FORMAT
 		tz = None
@@ -62,6 +65,19 @@ class Base(models.AbstractModel):
 			return (start.strftime(fmt), label), domain
 
 		return formatter
+
+	def _veron_week_formatter(self, formatter):
+		"""Odoo's week groups with a Shamsi label instead of «W44 2026»"""
+		week_start = int(get_lang(self.env).week_start)
+
+		def shamsi(value):
+			result, domain = formatter(value)
+			if value and isinstance(result, tuple):
+				day = value.date() if isinstance(value, datetime.datetime) else value
+				result = (result[0], jalali.week_label(day, week_start))
+			return result, domain
+
+		return shamsi
 
 	def _web_read_group_fill_temporal(self, groups, groupby, aggregates, fill_from=False, fill_to=False, min_groups=False):
 		shamsi = groupby and self._veron_shamsi_group(groupby[0])

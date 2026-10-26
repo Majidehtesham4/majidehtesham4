@@ -81,6 +81,15 @@ def period_label(start, granularity):
 	return str(jy)
 
 
+def week_label(start, week_start=6):
+	"""«هفته 32 1405» for a week starting on start; week_start as Odoo's (1 = Monday ... 7 = Sunday).
+	The first week of a Shamsi year is the one holding 1 Farvardin."""
+	jy = to_jalali(start + datetime.timedelta(days=6))[0]
+	year_start = to_gregorian(jy, 1, 1)
+	offset = (year_start.weekday() - (week_start - 1)) % 7
+	return f"هفته {max(0, (start - year_start).days + offset) // 7 + 1} {jy}"
+
+
 def format_pattern(value, pattern, other):
 	"""value (a date, or a datetime already in its time zone) formatted with an LDML pattern, the
 	date fields in Shamsi; other(field) formats the rest (weekday, hours...) as babel does."""

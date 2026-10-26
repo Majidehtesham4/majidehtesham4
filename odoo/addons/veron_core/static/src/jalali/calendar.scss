@@ -2,3 +2,9 @@
 .o_veron_shamsi .o_calendar_widget .fc-daygrid-month-start {
     font-weight: inherit !important;
 }
+
+// The days of the year page outside each Shamsi month, as Odoo leaves the other months' days empty
+.o_veron_shamsi .fc-dayGridYear-view .o_veron_outside {
+    visibility: hidden;
+    pointer-events: none;
+}

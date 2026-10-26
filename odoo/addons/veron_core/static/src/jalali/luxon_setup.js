@@ -31,7 +31,8 @@ DateTime.fromFormat = function (text, format, options = {}) {
 registry.category("services").add("veron_jalali", {
     dependencies: ["localization"],
     start() {
-        if (isActive()) {
+        // On the website, luxon gets the visitor's language after the services: the page's language then
+        if (isActive() || /^fa/i.test(document.documentElement.lang)) {
             Settings.defaultOutputCalendar = "persian";
             // Digits of dates as in amounts
             Settings.defaultNumberingSystem = "latn";

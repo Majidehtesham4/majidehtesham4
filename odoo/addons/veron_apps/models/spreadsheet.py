@@ -37,8 +37,9 @@ class SpreadsheetDashboard(models.Model):
 		if module:
 			for message in code_translations.get_web_translations(module, lang)["messages"]:
 				words[message["id"]] = message["string"]
-		# Some of Odoo's Persian keeps HTML around a title («<div>فاکتورها برتر</div>»)
-		words = {source: TAGS.sub("", text).strip() for source, text in words.items()}
+		# Some of Odoo's Persian keeps HTML around a title («<div>فاکتورها برتر</div>»); the spaces
+		# around the source stay, as in « days» after a number
+		words = {source: _clean(source, text) for source, text in words.items()}
 		for sheet in data["snapshot"].get("sheets", []):
 			for figure in sheet.get("figures", []):
 				_translate(figure.get("data"), words)
@@ -53,6 +54,13 @@ class SpreadsheetDashboard(models.Model):
 					cell = TRANSLATE.sub(lambda m: _quoted(words[m.group(1)]) if m.group(1) in words else m.group(0), cell)
 					sheet["cells"][ref] = cell
 		return json.dumps(data)
+
+
+def _clean(source, text):
+	text = TAGS.sub("", text).strip()
+	before = source[: len(source) - len(source.lstrip())]
+	after = source[len(source.rstrip()) :]
+	return f"{before}{text}{after}"
 
 
 def _quoted(text):

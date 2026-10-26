@@ -1,6 +1,11 @@
+import datetime
 import logging
 
-from odoo import api, models
+import pytz
+
+from odoo import api, fields, models
+
+from . import jalali
 
 _logger = logging.getLogger(__name__)
 
@@ -56,6 +61,8 @@ class VeronIran(models.AbstractModel):
 		self._work_week()
 		self._provinces()
 		self._default_names()
+		self._module_names(lang.code)
+		self._holidays()
 
 	def _persian(self):
 		lang = self.env["res.lang"].with_context(active_test=False).search([("code", "=", "fa_IR")], limit=1)
@@ -137,6 +144,48 @@ class VeronIran(models.AbstractModel):
 			if record and record.name == english:
 				record.name = persian
 
+	def _module_names(self, lang):
+		"""The apps with no Persian name of their own, mostly OCA's, named in Persian on the Apps page"""
+		modules = self.env["ir.module.module"].with_context(lang=lang).search([("name", "in", list(MODULE_NAMES))])
+		for module in modules:
+			name, summary = MODULE_NAMES[module.name]
+			if module.shortdesc != name:
+				module.update_field_translations("shortdesc", {lang: name})
+			if module.summary != summary:
+				module.update_field_translations("summary", {lang: summary})
+
+	def _holidays(self):
+		"""Iran's official holidays as public time off of each company: the solar ones of this Shamsi year
+		and the next, and the lunar ones whose official date is known (HOLIDAYS_LUNAR). The other lunar
+		holidays follow the moon and are added by hand from the official calendar."""
+		if "resource.calendar.leaves" not in self.env:
+			return
+		tehran = pytz.timezone("Asia/Tehran")
+		this_year = jalali.to_jalali(fields.Date.context_today(self))[0]
+		days = [(year, month, day, name) for year in (this_year, this_year + 1) for month, day, name in HOLIDAYS_SOLAR]
+		days += HOLIDAYS_LUNAR
+		Leaves = self.env["resource.calendar.leaves"]
+		for company in self.env["res.company"].search([("partner_id.country_id.code", "=", "IR")]):
+			for year, month, day, name in days:
+				date = jalali.to_gregorian(year, month, day)
+				start = tehran.localize(datetime.datetime.combine(date, datetime.time())).astimezone(pytz.utc)
+				start = start.replace(tzinfo=None)
+				end = start + datetime.timedelta(days=1, seconds=-1)
+				exists = Leaves.search_count([
+					("company_id", "=", company.id),
+					("resource_id", "=", False),
+					("date_from", "<=", end),
+					("date_to", ">=", start),
+				])
+				if not exists:
+					Leaves.create({
+						"name": name,
+						"company_id": company.id,
+						"calendar_id": False,
+						"date_from": start,
+						"date_to": end,
+					})
+
 	def _provinces(self):
 		"""OCA's provinces and cities of Iran are typed with Arabic letters (ي، ك) and some names are
 		misspelt: the official names, and the cities in Persian letters."""
@@ -161,6 +210,48 @@ DEFAULT_NAMES = [
 	("base.partner_admin", "Administrator", "مدیر سیستم"),
 	("website.default_website", "My Website", "وب‌سایت من"),
 ]
+
+# The official holidays on a fixed Shamsi day: (month, day, name)
+HOLIDAYS_SOLAR = [
+	(1, 1, "عید نوروز"),
+	(1, 2, "عید نوروز"),
+	(1, 3, "عید نوروز"),
+	(1, 4, "عید نوروز"),
+	(1, 12, "روز جمهوری اسلامی"),
+	(1, 13, "روز طبیعت"),
+	(3, 14, "رحلت امام خمینی"),
+	(3, 15, "قیام ۱۵ خرداد"),
+	(11, 22, "پیروزی انقلاب اسلامی"),
+	(12, 29, "روز ملی شدن صنعت نفت"),
+]
+
+# Lunar holidays as the official calendar of the year sets them: (year, month, day, name)
+HOLIDAYS_LUNAR = [
+	(1405, 1, 25, "شهادت امام جعفر صادق"),
+	(1405, 3, 6, "عید قربان"),
+	(1405, 3, 14, "عید غدیر"),
+	(1405, 4, 3, "تاسوعا"),
+	(1405, 4, 4, "عاشورا"),
+	(1405, 5, 13, "اربعین"),
+]
+
+MODULE_NAMES = {
+	"payroll": ("حقوق و دستمزد", "فیش حقوقی، قراردادها و محاسبه‌ی حقوق کارکنان"),
+	"account_financial_report": ("گزارش‌های مالی", "دفتر کل، تراز آزمایشی، صورت‌حساب طرف حساب و گزارش سنی"),
+	"base_territory": ("مناطق و شعبه‌ها", "تعریف منطقه، شعبه و ناحیه برای فروش و خدمات"),
+	"dms": ("مدیریت اسناد", "پوشه‌ها و فایل‌ها با دسترسی برای هر گروه"),
+	"document_knowledge": ("دانشنامه", "صفحه‌های دانش و راهنمای سازمان"),
+	"fieldservice": ("خدمات در محل", "محل‌ها، کارشناسان و سفارش‌های خدمت در محل مشتری"),
+	"helpdesk_mgmt": ("میز خدمت", "تیکت‌های پشتیبانی مشتری‌ها"),
+	"mis_builder": ("گزارش‌ساز مدیریتی", "گزارش‌ها و داشبوردهای مدیریتی با قالب دلخواه"),
+	"mrp_multi_level": ("برنامه‌ریزی مواد چندسطحی", "برنامه‌ریزی نیاز مواد (MRP) برای چند سطح ساخت"),
+	"project_forecast_line": ("پیش‌بینی پروژه", "پیش‌بینی ظرفیت و نیاز نیروی پروژه‌ها"),
+	"subscription_oca": ("اشتراک‌ها", "فاکتورهای دوره‌ای اشتراک‌ها"),
+	"veron_accounting": ("حسابداری ERP-VERON", "حسابداری کامل: منوها، گزارش‌های مالی و سرفصل حساب‌های ایران"),
+	"veron_apps": ("همه‌ی برنامه‌های ERP-VERON", "همه‌ی برنامه‌ها، با جایگزین رایگان برنامه‌های پولی"),
+	"veron_base": ("یادداشت‌های ERP-VERON", "نمونه‌ی یک ماژول: یادداشت‌ها با منو، فهرست و فرم"),
+	"veron_core": ("پایه‌ی ERP-VERON", "فارسی، تاریخ شمسی، ریال و تنظیمات ایران"),
+}
 
 PROVINCES = {
 	"10": "تهران", "12": "مازندران", "13": "آذربایجان شرقی", "14": "آذربایجان غربی", "15": "کرمانشاه",
