@@ -27,10 +27,10 @@ employees):
 - Appraisals: veron_appraisal, self-assessment, the manager's rating and a weighted score
 - MRP II: veron_shopfloor, a tablet screen to start, pause and finish work orders
 - PLM: veron_plm, engineering changes on new versions of bills of materials, approved before use
+- Social Marketing: veron_social, posts to Bale, Eitaa and Telegram channels, now or scheduled
 - The full-screen apps menu: web_responsive
 
-Not on OCA for Odoo 19: Rental, Approvals, Studio, Marketing Automation,
-Social Marketing, IoT and WhatsApp.
+Not on OCA for Odoo 19: Rental, Approvals, Studio, Marketing Automation, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
 	"category": "Productivity",
@@ -69,6 +69,7 @@ Social Marketing, IoT and WhatsApp.
 		"veron_appraisal",
 		"veron_shopfloor",
 		"veron_plm",
+		"veron_social",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

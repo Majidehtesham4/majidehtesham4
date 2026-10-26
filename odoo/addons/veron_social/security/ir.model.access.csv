@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_user,account user,model_veron_social_account,group_social_user,1,0,0,0
+access_account_admin,account admin,model_veron_social_account,base.group_system,1,1,1,1
+access_post_user,post user,model_veron_social_post,group_social_user,1,1,1,1
+access_line_user,line user,model_veron_social_post_line,group_social_user,1,1,1,1

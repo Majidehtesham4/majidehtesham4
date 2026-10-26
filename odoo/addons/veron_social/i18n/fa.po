@@ -1,0 +1,404 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "%(platform)s could not be reached: %(error)s"
+msgstr "%(platform)s در دسترس نبود: %(error)s"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.post_view_form
+msgid "Back to Draft"
+msgstr "برگرداندن به پیش‌نویس"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_account__platform__bale
+msgid "Bale"
+msgstr "بله"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_account__token
+msgid ""
+"Bale and Telegram: the token the platform's BotFather gave the bot. Eitaa: "
+"the Eitaayar token."
+msgstr ""
+"بله و تلگرام: توکنی که بات‌فادر هر پیام‌رسان به ربات داده است. ایتا: توکن "
+"ایتایار."
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__token
+msgid "Bot Token"
+msgstr "توکن ربات"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__chat_id
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__account_id
+msgid "Channel"
+msgstr "کانال"
+
+#. module: veron_social
+#: model:ir.actions.act_window,name:veron_social.action_accounts
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__account_ids
+#: model:ir.ui.menu,name:veron_social.menu_accounts
+msgid "Channels"
+msgstr "کانال‌ها"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__company_id
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__create_uid
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__create_uid
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__create_date
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__create_date
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__display_name
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__display_name
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "ERP-VERON: this channel is connected."
+msgstr "ERP-VERON: این کانال وصل است."
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_account__platform__eitaa
+msgid "Eitaa"
+msgstr "ایتا"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__scheduled_date
+msgid "Empty: posted when «Post Now» is pressed"
+msgstr "خالی: با زدن «انتشار الان» منتشر می‌شود"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__error
+msgid "Error"
+msgstr "خطا"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post__state__failed
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post_line__state__failed
+msgid "Failed"
+msgstr "ناموفق"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__id
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__id
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__message_has_error
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__write_uid
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__write_uid
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__write_date
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__write_date
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.account_view_form
+msgid ""
+"Make the bot an administrator of the channel. Telegram works only from a "
+"server that reaches api.telegram.org."
+msgstr ""
+"ربات را مدیر کانال کنید. تلگرام فقط از سروری کار می‌کند که به "
+"api.telegram.org دسترسی داشته باشد."
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message
+msgid "Message"
+msgstr "پیام"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__external_id
+msgid "Message Id"
+msgstr "شناسه‌ی پیام"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__name
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post__state__partial
+msgid "Partly Posted"
+msgstr "بخشی منتشر شد"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__image
+msgid "Picture"
+msgstr "تصویر"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_account__platform
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__platform
+msgid "Platform"
+msgstr "پیام‌رسان"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__post_id
+msgid "Post"
+msgstr "ارسال"
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.post_view_form
+msgid "Post Now"
+msgstr "انتشار الان"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__scheduled_date
+msgid "Post On"
+msgstr "زمان انتشار"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post__state__posted
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post_line__state__posted
+msgid "Posted"
+msgstr "منتشرشده"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__posted_date
+msgid "Posted Date"
+msgstr "تاریخ انتشار"
+
+#. module: veron_social
+#: model:ir.actions.act_window,name:veron_social.action_posts
+#: model:ir.ui.menu,name:veron_social.menu_posts
+msgid "Posts"
+msgstr "پست‌ها"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__line_ids
+msgid "Results"
+msgstr "نتیجه‌ها"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.post_view_form
+msgid "Schedule"
+msgstr "زمان‌بندی"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_post__state__scheduled
+msgid "Scheduled"
+msgstr "زمان‌بندی‌شده"
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.account_view_form
+msgid "Send a Test Message"
+msgstr "ارسال پیام آزمایشی"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "Set the date and time of the post first."
+msgstr "اول تاریخ و ساعت انتشار را تعیین کنید."
+
+#. module: veron_social
+#: model:ir.model,name:veron_social.model_veron_social_account
+msgid "Social Channel"
+msgstr "کانال"
+
+#. module: veron_social
+#: model:ir.model,name:veron_social.model_veron_social_post
+msgid "Social Post"
+msgstr "پست"
+
+#. module: veron_social
+#: model:ir.model,name:veron_social.model_veron_social_post_line
+msgid "Social Post Result"
+msgstr "نتیجه‌ی انتشار"
+
+#. module: veron_social
+#: model:ir.ui.menu,name:veron_social.menu_root
+#: model:res.groups,name:veron_social.group_social_user
+msgid "Social Posting"
+msgstr "انتشار در شبکه‌ها"
+
+#. module: veron_social
+#: model:ir.actions.server,name:veron_social.cron_post_scheduled_ir_actions_server
+msgid "Social Posting: scheduled posts"
+msgstr "انتشار در شبکه‌ها: پست‌های زمان‌بندی‌شده"
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__state
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post_line__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_social
+#: model:ir.model.fields.selection,name:veron_social.selection__veron_social_account__platform__telegram
+msgid "Telegram"
+msgstr "تلگرام"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "The channel %s has no token."
+msgstr "کانال %s توکن ندارد."
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_account__chat_id
+msgid "The channel's @username, or its numeric id"
+msgstr "نام کاربری کانال با @، یا شناسه‌ی عددی آن"
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "The platform refused the post (HTTP %s)."
+msgstr "پیام‌رسان پست را نپذیرفت (HTTP %s)."
+
+#. module: veron_social
+#. odoo-python
+#: code:addons/veron_social/models/social.py:0
+msgid "The test message was sent to %s."
+msgstr "پیام آزمایشی به %s فرستاده شد."
+
+#. module: veron_social
+#: model_terms:ir.ui.view,arch_db:veron_social.post_view_form
+msgid "The text of the post..."
+msgstr "متن پست..."
+
+#. module: veron_social
+#: model_terms:ir.actions.act_window,help:veron_social.action_posts
+msgid "To Bale, Eitaa or Telegram channels, now or at a set time."
+msgstr "در کانال‌های بله، ایتا یا تلگرام، همین الان یا در زمان تعیین‌شده."
+
+#. module: veron_social
+#: model:ir.model.fields,field_description:veron_social.field_veron_social_post__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_social
+#: model:ir.model.fields,help:veron_social.field_veron_social_post__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_social
+#: model_terms:ir.actions.act_window,help:veron_social.action_posts
+msgid "Write the first post"
+msgstr "اولین پست را بنویسید"
