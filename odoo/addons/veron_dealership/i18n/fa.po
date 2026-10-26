@@ -1,0 +1,2931 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "%(car)s is %(state)s."
+msgstr "%(car)s در وضعیت «%(state)s» است."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "%s is already confirmed."
+msgstr "%s قبلاً تأیید شده است."
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.showroom_page
+msgid "<option value=\"\">همه‌ی مدل‌ها</option>"
+msgstr "<option value=\"\">همه‌ی مدل‌ها</option>"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "<span>ایران</span>"
+msgstr "<span>ایران</span>"
+
+#. module: veron_dealership
+#: model:ir.model.constraint,message:veron_dealership.constraint_veron_vehicle_chassis_company
+msgid "A car with this chassis number is already recorded."
+msgstr "خودرویی با این شماره شاسی قبلاً ثبت شده است."
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+msgid "A month after the sale"
+msgstr "یک ماه بعد از فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__documents_note
+msgid "About the Documents"
+msgstr "توضیح مدارک"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "About the documents..."
+msgstr "توضیح درباره‌ی مدارک..."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_needaction
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_needaction
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__active
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__active
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__active
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__active
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_instalment_sale__state__active
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__state__active
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_search
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_exception_decoration
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_exception_decoration
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_state
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_state
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_type_icon
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_type_icon
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Add the Inspection Items"
+msgstr "افزودن موارد کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__address
+msgid "Address"
+msgstr "نشانی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__costs_total
+msgid "All Costs"
+msgstr "جمع هزینه‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__payment_mode__end
+msgid "All at the End"
+msgstr "همه در پایان مدت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__drive__all
+msgid "All-Wheel"
+msgstr "چهارچرخ محرک"
+
+#. module: veron_dealership
+#: model:res.groups,comment:veron_dealership.group_dealership_user
+msgid "Also reserves and sells cars, and makes instalment sales."
+msgstr ""
+"علاوه بر پذیرش، خودرو رزرو می‌کند و می‌فروشد و فروش اقساطی ثبت می‌کند."
+
+#. module: veron_dealership
+#: model:res.groups,comment:veron_dealership.group_dealership_manager
+msgid ""
+"Also sees the purchase prices, the lowest prices and the profit, and the "
+"investors."
+msgstr ""
+"علاوه بر فروش، قیمت خرید، کمترین قیمت، سود و سرمایه‌گذاران را می‌بیند."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__amount
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__amount
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__ownership__investor
+msgid "An Investor's"
+msgstr "سرمایه‌گذار"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__asking_price
+msgid "Asking Price"
+msgstr "قیمت پیشنهادی فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_attachment_count
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_attachment_count
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__transmission__automatic
+msgid "Automatic"
+msgstr "خودکار"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__awaiting
+msgid "Awaiting Delivery"
+msgstr "در انتظار تحویل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__bill_id
+msgid "Bill"
+msgstr "صورتحساب"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Bill the Costs"
+msgstr "صورتحساب هزینه‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__body_mark_ids
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Body"
+msgstr "بدنه"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_body_condition
+msgid "Body Condition"
+msgstr "وضعیت بدنه"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle_body_mark
+msgid "Body Condition of a Vehicle"
+msgstr "وضعیت بدنه‌ی خودرو"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_body_condition
+#: model:ir.ui.menu,name:veron_dealership.menu_body_conditions
+msgid "Body Conditions"
+msgstr "وضعیت‌های بدنه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_body_insurance
+msgid "Body Insurance"
+msgstr "بیمه بدنه"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_body_part
+msgid "Body Part"
+msgstr "قطعه‌ی بدنه"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_body_part
+#: model:ir.ui.menu,name:veron_dealership.menu_body_parts
+msgid "Body Parts"
+msgstr "قطعات بدنه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__body_type
+msgid "Body Type"
+msgstr "نوع بدنه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__seller_id
+msgid "Bought From"
+msgstr "خریداری‌شده از"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Branch"
+msgstr "شعبه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__brand
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_model_view_search
+msgid "Brand"
+msgstr "برند"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__transmission__cvt
+msgid "CVT"
+msgstr "CVT"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__can_publish
+msgid "Can Publish"
+msgstr "می تواند منتشر کند"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Cancel the Reservation"
+msgstr "لغو رزرو"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_instalment_sale__state__cancelled
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__state__cancelled
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__capacity
+msgid "Capacity"
+msgstr "ظرفیت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_crm_lead__veron_vehicle_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Car"
+msgstr "خودرو"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_car_color
+msgid "Car Color"
+msgstr "رنگ خودرو"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_car_model
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__model_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Car Model"
+msgstr "مدل خودرو"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_car_model
+#: model:ir.ui.menu,name:veron_dealership.menu_car_models
+msgid "Car Models"
+msgstr "مدل‌های خودرو"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_vehicle
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__vehicle_ids
+#: model:ir.ui.menu,name:veron_dealership.menu_vehicles
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Cars"
+msgstr "خودروها"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_vehicle_aging
+msgid "Cars Long in the Lot"
+msgstr "خودروهای مانده در پارکینگ"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__category
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__category
+msgid "Category"
+msgstr "دسته بندی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__scope__vehicle
+msgid "Certain Cars"
+msgstr "خودروهای مشخص"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Chassis %s"
+msgstr "شاسی %s"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__chassis_number
+msgid "Chassis Number"
+msgstr "شماره شاسی"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_view_list
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Cheque"
+msgstr "چک"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Cheque of instalment %s"
+msgstr "چک قسط %s"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "Cheque of payment %s"
+msgstr "چک پرداخت %s"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__cheque_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__cheque_ids
+msgid "Cheques"
+msgstr "چک‌ها"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "Choose the bank or cash the money was received to."
+msgstr "بانک یا صندوقی را که پول به آن واریز شده انتخاب کنید."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Choose the customer the car is reserved for."
+msgstr "مشتری‌ای را که خودرو برایش رزرو می‌شود انتخاب کنید."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__color_id
+msgid "Color"
+msgstr "رنگ"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__color
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__color
+msgid "Color Code"
+msgstr "کد رنگ"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_car_color
+#: model:ir.ui.menu,name:veron_dealership.menu_colors
+msgid "Colors"
+msgstr "رنگها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__comment
+msgid "Comment"
+msgstr "توضیح"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__commission_rate
+msgid "Commission (%)"
+msgstr "کمیسیون (٪)"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Commission on %s"
+msgstr "کمیسیون فروش %s"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__company_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__company_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__company_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__condition_id
+msgid "Condition"
+msgstr "شرط"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Confirm"
+msgstr "تایید کردن"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Confirm the contract? Its payments are made."
+msgstr "قرارداد تأیید شود؟ جدول پرداخت‌ها ساخته می‌شود."
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+msgid "Confirm the sale? The instalments are made and the car is marked sold."
+msgstr "فروش تأیید شود؟ اقساط ساخته می‌شوند و خودرو فروخته‌شده ثبت می‌شود."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__ownership__customer
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Consignment"
+msgstr "امانی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__contract_id
+msgid "Contract"
+msgstr "قرارداد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__cost_ids
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Costs"
+msgstr "هزینه‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__charge_costs_to_owner
+msgid "Costs Paid by the Owner"
+msgstr "هزینه‌ها با مالک"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__coupe
+msgid "Coupe"
+msgstr "کوپه"
+
+#. module: veron_dealership
+#: model:ir.model,website_form_label:veron_dealership.model_crm_lead
+msgid "Create an Opportunity"
+msgstr "ایجاد یک فرصت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__create_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__create_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__crossover
+msgid "Crossover"
+msgstr "کراس‌اوور"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__currency_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__currency_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__currency_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__currency_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__currency_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__partner_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__customer_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__customer_id
+msgid "Customer"
+msgstr "مشتری"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__cylinders
+msgid "Cylinders"
+msgstr "تعداد سیلندر"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__d
+msgid "D"
+msgstr "بدهکار"
+
+#. module: veron_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_dashboard
+msgid "Dashboard"
+msgstr "داشبورد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__date
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_search
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__days_in_lot
+msgid "Days in the Lot"
+msgstr "روزهای ماندن در پارکینگ"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Delivered"
+msgstr "تحویل به مشتری"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__delivered_to
+msgid "Delivered To"
+msgstr "تحویل‌گیرنده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__description
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__name
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_description
+msgid "Description for the Site"
+msgstr "توضیحات برای سایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__fuel__diesel
+msgid "Diesel"
+msgstr "دیزل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_crm_lead__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_cheque__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__display_name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Documents"
+msgstr "اسناد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__down_payment
+msgid "Down Payment"
+msgstr "پیش‌ پرداخت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_instalment_sale__state__draft
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__drive
+msgid "Drive"
+msgstr "دیفرانسیل"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__transmission__dct
+msgid "Dual-Clutch"
+msgstr "دوکلاچه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__due_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__due_date
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_view_search
+msgid "Due Date"
+msgstr "تاریخ سررسید"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__instalment_amount
+msgid "Each Instalment"
+msgstr "مبلغ هر قسط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__payment_amount
+msgid "Each Monthly Payment"
+msgstr "مبلغ هر پرداخت ماهانه"
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_vehicle
+msgid ""
+"Each car has its file: its documents, body, inspection, costs, photos and "
+"sale."
+msgstr ""
+"هر خودرو پرونده‌ی خودش را دارد: مدارک، بدنه، کارشناسی، هزینه‌ها، عکس‌ها و "
+"فروش."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__fuel__electric
+msgid "Electric"
+msgstr "الکتریک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__end_date
+msgid "End Date"
+msgstr "تاریخ پایان"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__engine
+msgid "Engine"
+msgstr "موتور"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__engine_number
+msgid "Engine Number"
+msgstr "شماره موتور"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__engine_volume
+msgid "Engine Volume (cc)"
+msgstr "حجم موتور (سی‌سی)"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Enter the customer and the sale price first."
+msgstr "ابتدا مشتری و قیمت فروش را وارد کنید."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Enter the customer and the sale price of %s."
+msgstr "مشتری و قیمت فروش %s را وارد کنید."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Enter the owner of the consigned car."
+msgstr "مالک خودروی امانی را وارد کنید."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Enter whom the car was bought from and its price first."
+msgstr "ابتدا فروشنده و قیمت خرید خودرو را وارد کنید."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__entry_date
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Entry Date"
+msgstr "تاریخ ورود"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__payment_mode__equal
+msgid "Equal Monthly (Principal and Profit)"
+msgstr "ماهانه‌ی مساوی (اصل و سود)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__payment_amount
+msgid "Equal monthly payments: (the amount + the total profit) / the months"
+msgstr "پرداخت ماهانه‌ی مساوی: (مبلغ + کل سود) تقسیم بر تعداد ماه‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__exit_date
+msgid "Exit Date"
+msgstr "تاریخ خروج"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__exited
+msgid "Exited"
+msgstr "خارج‌شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__inspection_note
+msgid "Expert's Opinion"
+msgstr "نظر کارشناس"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_featured
+msgid "Featured"
+msgstr "منتخب"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_fines_clear
+msgid "Fines Cleared"
+msgstr "خلافی پرداخت‌شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__first_due_date
+msgid "First Due Date"
+msgstr "سررسید اولین قسط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_follower_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_follower_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_partner_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_partner_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__activity_type_icon
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__activity_type_icon
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__drive__front
+msgid "Front-Wheel"
+msgstr "دیفرانسیل جلو"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__fuel
+msgid "Fuel"
+msgstr "سوخت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__fuel_tank
+msgid "Fuel Tank (L)"
+msgstr "باک (لیتر)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__transmission
+msgid "Gearbox"
+msgstr "گیربکس"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__gears
+msgid "Gears"
+msgstr "تعداد دنده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__has_message
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__has_message
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__hatchback
+msgid "Hatchback"
+msgstr "هاچ‌بک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_headline
+msgid "Headline"
+msgstr "سر صفحه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_body_condition__severity__high
+msgid "High"
+msgstr "بالا"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_body_condition__severity
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle_body_mark__severity
+msgid "How much it lowers the price"
+msgstr "میزان اثر بر قیمت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__fuel__hybrid
+msgid "Hybrid"
+msgstr "هیبرید"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_crm_lead__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_cheque__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_exception_icon
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_exception_icon
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__activity_exception_icon
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__activity_exception_icon
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__message_needaction
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__message_needaction
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__message_has_error
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__message_has_sms_error
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__message_has_error
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__message_has_sms_error
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__message_has_error
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__image_1920
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__image_1920
+msgid "Image"
+msgstr "تصویر"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__image_1024
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__image_1024
+msgid "Image 1024"
+msgstr "تصویر 1024"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__image_128
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__image_128
+msgid "Image 128"
+msgstr "تصویر 128"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__image_256
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__image_256
+msgid "Image 256"
+msgstr "تصویر 256"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__image_512
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__image_512
+msgid "Image 512"
+msgstr "تصویر 512"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__made_in__imported
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_model_view_search
+msgid "Imported"
+msgstr "وارداتی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__preparation
+msgid "In Preparation"
+msgstr "در حال آماده‌سازی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "In the Lot"
+msgstr "در پارکینگ"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+#: model:ir.actions.act_window,name:veron_dealership.action_inquiries
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__lead_ids
+#: model:ir.ui.menu,name:veron_dealership.menu_inquiries
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Inquiries"
+msgstr "درخواست‌های مشتری"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__inspection_ids
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Inspection"
+msgstr "کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_inspection_item
+msgid "Inspection Item"
+msgstr "مورد کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_inspection_item
+#: model:ir.ui.menu,name:veron_dealership.menu_inspection_items
+msgid "Inspection Items"
+msgstr "موارد کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle_inspection
+msgid "Inspection Line"
+msgstr "ردیف کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__inspection_score
+msgid "Inspection Score (%)"
+msgstr "امتیاز کارشناسی (٪)"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_instalment
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_cheque__veron_instalment_id
+msgid "Instalment"
+msgstr "قسط"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Instalment %(n)s of %(sale)s is overdue"
+msgstr "قسط %(n)s فروش %(sale)s سررسید گذشته است"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_instalment_sale
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__instalment_sale_id
+msgid "Instalment Sale"
+msgstr "فروش اقساطی"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_instalment_sale
+#: model:ir.ui.menu,name:veron_dealership.menu_instalment_sales
+msgid "Instalment Sales"
+msgstr "فروش‌های اقساطی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__line_ids
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+msgid "Instalments"
+msgstr "اقساط"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_instalment_due
+#: model:ir.ui.menu,name:veron_dealership.menu_instalments_due
+msgid "Instalments Due"
+msgstr "اقساط سررسید"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Instalments of %s are paid; it cannot be cancelled."
+msgstr "اقساطی از %s پرداخت شده؛ لغو نمی‌شود."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_inspection_item__section__interior
+msgid "Interior"
+msgstr "داخلی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__amount
+msgid "Invested Amount"
+msgstr "مبلغ سرمایه‌گذاری"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "Investment %s"
+msgstr "سرمایه‌گذاری %s"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_investment_contract
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__investment_contract_id
+msgid "Investment Contract"
+msgstr "قرارداد سرمایه‌گذاری"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_investment
+msgid "Investment Contracts"
+msgstr "قراردادهای سرمایه‌گذاری"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_investment_payment
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_cheque__veron_investment_payment_id
+msgid "Investment Payment"
+msgstr "پرداخت سرمایه‌گذاری"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__investor_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__partner_id
+msgid "Investor"
+msgstr "سرمایه‌گذار"
+
+#. module: veron_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_investment
+msgid "Investors"
+msgstr "سرمایه‌گذاران"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Investors'"
+msgstr "متعلق به سرمایه‌گذاران"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__invoice_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+msgid "Invoice"
+msgstr "فاکتور"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Invoices"
+msgstr "فاکتورها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_is_follower
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_is_follower
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__is_published
+msgid "Is Published"
+msgstr "منتشر شده است"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__item_id
+msgid "Item"
+msgstr "آیتم"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__write_uid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__write_date
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_crm_lead
+msgid "Lead"
+msgstr "سرنخ"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__lead_count
+msgid "Lead Count"
+msgstr "تعداد درخواست‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__outstanding
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__outstanding
+msgid "Left to Pay"
+msgstr "مانده"
+
+#. module: veron_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_aging
+msgid "Long in the Lot"
+msgstr "مانده در پارکینگ"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_body_condition__severity__low
+msgid "Low"
+msgstr "پایین"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__minimum_price
+msgid "Lowest Price"
+msgstr "کمترین قیمت فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__made_in
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__made_in
+msgid "Made In"
+msgstr "ساخت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__made_in__iran
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_model_view_search
+msgid "Made in Iran"
+msgstr "داخلی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_main_partner_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_main_partner_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_main_partner_id
+msgid "Main Contact"
+msgstr "مخاطب اصلی"
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_instalment_sale
+msgid "Make an instalment sale"
+msgstr "یک فروش اقساطی ثبت کنید"
+
+#. module: veron_dealership
+#: model:res.groups,name:veron_dealership.group_dealership_manager
+msgid "Manager"
+msgstr "مدیر"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__transmission__manual
+msgid "Manual"
+msgstr "دستی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__measure
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__measure
+msgid "Measure"
+msgstr "ندازه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_body_condition__severity__medium
+msgid "Medium"
+msgstr "متوسط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_has_error
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_has_error
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__mileage
+msgid "Mileage (km)"
+msgstr "کارکرد (کیلومتر)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__name
+msgid "Model"
+msgstr "مدل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__year
+msgid "Model Year"
+msgstr "سال مدل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__monthly_rate
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__monthly_rate
+msgid "Monthly Profit (%)"
+msgstr "سود ماهانه (٪)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__months
+msgid "Months"
+msgstr "ماه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__interval_months
+msgid "Months Between Instalments"
+msgstr "فاصله‌ی اقساط (ماه)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__my_activity_date_deadline
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__my_activity_date_deadline
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__name
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_calendar_event_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_calendar_event_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_date_deadline
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_date_deadline
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_summary
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_summary
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_type_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_type_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "No cost with a provider is left to bill."
+msgstr "هزینه‌ای با تأمین‌کننده که صورتحساب نشده باشد نمانده است."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__sequence
+msgid "No."
+msgstr "ردیف"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__note
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__note
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__notes
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Notes"
+msgstr "یادداشت‌ها"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Nothing is left to pay by instalments."
+msgstr "مبلغی برای پرداخت اقساطی نمانده است."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__name
+msgid "Number"
+msgstr "شماره"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__months
+msgid "Number of Instalments"
+msgstr "تعداد اقساط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__message_needaction_counter
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__message_needaction_counter
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__message_has_error_counter
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__message_has_error_counter
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__occupied
+msgid "Occupied"
+msgstr "پر"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "On the Website"
+msgstr "در سایت"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Only a car of our own is bought."
+msgstr "فقط خودروی متعلق به نمایشگاه خریداری می‌شود."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__minimum_price
+msgid "Only a manager sells below it"
+msgstr "فقط مدیر زیر این قیمت می‌فروشد"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_cost__category__other
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_service__category__other
+msgid "Other"
+msgstr "دیگر"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__other_costs
+msgid "Other Costs"
+msgstr "سایر هزینه‌ها"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Other costs"
+msgstr "سایر هزینه‌ها"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_model_view_form
+msgid "Other specifications..."
+msgstr "مشخصات دیگر..."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__ownership__business
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Ours"
+msgstr "متعلق به نمایشگاه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__profit
+msgid ""
+"Ours: the sale price less the purchase price and the costs. Consignment: the"
+" commission, less the costs we paid"
+msgstr ""
+"خودروی نمایشگاه: قیمت فروش منهای قیمت خرید و هزینه‌ها. امانی: کمیسیون منهای "
+"هزینه‌هایی که نمایشگاه پرداخته"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle_inspection__score
+msgid "Out of 5, or a percent for the items measured in percent"
+msgstr "از ۵، یا درصد برای مواردی که درصدی سنجیده می‌شوند"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Over 60 Days in the Lot"
+msgstr "بیش از ۶۰ روز در پارکینگ"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_view_search
+msgid "Overdue"
+msgstr "سررسید گذشته"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__overdue_count
+msgid "Overdue Instalments"
+msgstr "اقساط معوق"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__owner_id
+msgid "Owner"
+msgstr "مالک‌"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__ownership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Ownership"
+msgstr "مالکیت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_ownership
+msgid "Ownership Document"
+msgstr "سند مالکیت"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_11
+msgid "PDR (صافکاری بدون رنگ)"
+msgstr "PDR (صافکاری بدون رنگ)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__paid
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__paid_total
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__paid_total
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__paid
+msgid "Paid"
+msgstr "پرداخت شد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__financed
+msgid "Paid by Instalments"
+msgstr "مبلغ اقساطی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__paid_manually
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__paid_manually
+msgid "Paid in Cash"
+msgstr "پرداخت نقدی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__paperwork_total
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_cost__category__paperwork
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_service__category__paperwork
+msgid "Paperwork"
+msgstr "امور اداری"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__other_costs
+msgid "Paperwork and the like, added to the amount paid by instalments"
+msgstr "هزینه‌های انتقال سند و مانند آن، که به مبلغ اقساطی اضافه می‌شود"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_parking
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__parking_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Parking"
+msgstr "پارکینگ"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_parking
+#: model:ir.ui.menu,name:veron_dealership.menu_parkings
+msgid "Parkings"
+msgstr "پارکینگ‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__part_id
+msgid "Part"
+msgstr "قطعه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__payment_mode
+msgid "Payment Plan"
+msgstr "نحوه‌ی پرداخت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__line_ids
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Payments"
+msgstr "پرداخت‌ها"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "Payments of %s are made; it cannot be cancelled."
+msgstr "پرداخت‌هایی از %s انجام شده؛ لغو نمی‌شود."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_inspection_item__measure__percent
+msgid "Percent"
+msgstr "درصد"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__fuel__petrol
+msgid "Petrol"
+msgstr "بنزین"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__fuel__cng
+msgid "Petrol and CNG"
+msgstr "دوگانه‌سوز"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__photo_ids
+msgid "Photos"
+msgstr "عکس‌ها"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Photos and Website"
+msgstr "عکس‌ها و سایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__pickup
+msgid "Pickup"
+msgstr "وانت"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Place and Owner"
+msgstr "محل و مالک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Plate"
+msgstr "پلاک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate_html
+msgid "Plate Number"
+msgstr "شماره پلاک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate_city
+msgid "Plate: City Code"
+msgstr "پلاک: کد شهر"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate_letter
+msgid "Plate: Letter"
+msgstr "پلاک: حرف"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate_middle
+msgid "Plate: Three Digits"
+msgstr "پلاک: سه رقم"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__plate_left
+msgid "Plate: Two Digits"
+msgstr "پلاک: دو رقم"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__power_hp
+msgid "Power (hp)"
+msgstr "قدرت (اسب بخار)"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__preparation_total
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_cost__category__preparation
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_service__category__preparation
+msgid "Preparation"
+msgstr "آماده‌سازی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Price"
+msgstr "قیمت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__principal
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__principal
+msgid "Principal"
+msgstr "اصل"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__interest
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_payment__profit
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__profit
+msgid "Profit"
+msgstr "سود"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__payment_mode__monthly
+msgid "Profit Monthly, Principal at the End"
+msgstr "سود ماهانه، اصل در پایان"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__monthly_profit
+msgid "Profit of a Month"
+msgstr "سود ماهانه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__total_interest
+msgid "Profit of the Sale"
+msgstr "سود فروش اقساطی"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "Profit of the instalment sale %s"
+msgstr "سود فروش اقساطی %s"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__partner_id
+msgid "Provider"
+msgstr "فراهم‌کننده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__purchase_bill_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Purchase Bill"
+msgstr "فاکتور خرید"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__purchase_date
+msgid "Purchase Date"
+msgstr "تاریخ خرید"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__purchase_price
+msgid "Purchase Price"
+msgstr "قیمت خرید"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__rating_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__rating_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__ready
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Ready for Sale"
+msgstr "آماده‌ی فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__drive__rear
+msgid "Rear-Wheel"
+msgstr "دیفرانسیل عقب"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__receipt_move_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+msgid "Receipt Entry"
+msgstr "سند دریافت"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Received"
+msgstr "تحویل گرفته شد"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__received_journal_id
+msgid "Received To"
+msgstr "واریز به"
+
+#. module: veron_dealership
+#: model:res.groups,name:veron_dealership.group_dealership_reception
+msgid "Reception"
+msgstr "پذیرش"
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_investment
+msgid "Record an investor's contract"
+msgstr "قرارداد یک سرمایه‌گذار را ثبت کنید"
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_vehicle
+msgid "Register the first car"
+msgstr "اولین خودرو را ثبت کنید"
+
+#. module: veron_dealership
+#: model:res.groups,comment:veron_dealership.group_dealership_reception
+msgid ""
+"Registers the cars that come in, their documents, body and inspection, and "
+"the costs."
+msgstr "خودروهای ورودی، مدارک، بدنه، کارشناسی و هزینه‌ها را ثبت می‌کند."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__reminded
+msgid "Reminded"
+msgstr "یادآوری شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_cost__category__repair
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle_service__category__repair
+msgid "Repair"
+msgstr "تعمیر"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__repair_total
+msgid "Repairs"
+msgstr "تعمیرات"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Reserve"
+msgstr "رزرو"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__reserved
+msgid "Reserved"
+msgstr "رزرو شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__activity_user_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__activity_user_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__s
+msgid "S"
+msgstr "S"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__suv
+msgid "SUV"
+msgstr "شاسی‌بلند"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment__sale_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Sale"
+msgstr "فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__sale_date
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Sale Date"
+msgstr "تاریخ فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__sale_invoice_id
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "Sale Invoice"
+msgstr "فاکتور فروش"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__sale_price
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__sale_price
+msgid "Sale Price"
+msgstr "قیمت فروش"
+
+#. module: veron_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_sales
+msgid "Sales"
+msgstr "فروش ها"
+
+#. module: veron_dealership
+#: model:res.groups,name:veron_dealership.group_dealership_user
+msgid "Salesperson"
+msgstr "فروشنده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__scope
+msgid "Scope"
+msgstr "دامنه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__score
+msgid "Score"
+msgstr "امتیاز"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_inspection_item__measure__score
+msgid "Score out of 5"
+msgstr "امتیاز از ۵"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__seats
+msgid "Seats"
+msgstr "تعداد صندلی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__section
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__section
+msgid "Section"
+msgstr "بخش"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__sedan
+msgid "Sedan"
+msgstr "سدان"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_part__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_color__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_inspection_item__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__sequence
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_service__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__service_id
+msgid "Service"
+msgstr "خدمت"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_vehicle_service
+#: model:ir.ui.menu,name:veron_dealership.menu_services
+msgid "Services and Costs"
+msgstr "خدمات و هزینه‌ها"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "Set the asking price of %s first."
+msgstr "ابتدا قیمت پیشنهادی فروش %s را وارد کنید."
+
+#. module: veron_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_config
+msgid "Settings"
+msgstr "تنظیمات"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_instalment_sale__state__settled
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__state__settled
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_search
+msgid "Settled"
+msgstr "تسویه‌شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_body_condition__severity
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__severity
+msgid "Severity"
+msgstr "شدت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__year
+msgid "Shamsi for cars made in Iran, Gregorian for imported ones"
+msgstr "شمسی برای خودروهای داخلی، میلادی برای وارداتی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_show_report
+msgid "Show the Inspection"
+msgstr "نمایش کارشناسی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_show_price
+msgid "Show the Price"
+msgstr "نمایش قیمت"
+
+#. module: veron_dealership
+#: model:ir.module.category,name:veron_dealership.module_category_dealership
+#: model:ir.ui.menu,name:veron_dealership.menu_root
+#: model:res.groups.privilege,name:veron_dealership.privilege_dealership
+msgid "Showroom"
+msgstr "نمایشگاه خودرو"
+
+#. module: veron_dealership
+#: model:ir.actions.act_window,name:veron_dealership.action_vehicle_dashboard
+msgid "Showroom Dashboard"
+msgstr "داشبورد نمایشگاه"
+
+#. module: veron_dealership
+#: model:ir.actions.server,name:veron_dealership.cron_instalment_remind_ir_actions_server
+msgid "Showroom: overdue instalments"
+msgstr "نمایشگاه: اقساط معوق"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__state__sold
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Sold"
+msgstr "فروخته‌شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_spare_key
+msgid "Spare Key"
+msgstr "سوییچ یدک"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__note
+msgid "Specifications"
+msgstr "مشخصات"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__parking_spot
+msgid "Spot"
+msgstr "جایگاه"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__start_date
+msgid "Start Date"
+msgstr "تاریخ آغاز"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__state
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__state
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_search
+msgid "Status"
+msgstr "وضعیت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__activity_state
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__activity_state
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_inspection_item__section__technical
+msgid "Technical"
+msgstr "فنی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_technical_check
+msgid "Technical Inspection"
+msgstr "معاینه فنی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "The Car"
+msgstr "خودرو"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_investment_contract__scope__business
+msgid "The Whole Business"
+msgstr "کل کسب‌وکار"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "The amount and the months of a contract are more than zero."
+msgstr "مبلغ و مدت قرارداد باید بیشتر از صفر باشند."
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_investment
+msgid ""
+"The amount, the months and the monthly profit make the payments: equal "
+"monthly payments of (the amount + the profit) / the months, the profit "
+"monthly, or all at the end."
+msgstr ""
+"مبلغ، مدت و سود ماهانه جدول پرداخت را می‌سازند: پرداخت ماهانه‌ی مساوی (مبلغ "
+"+ سود) تقسیم بر ماه‌ها، سود ماهانه، یا همه در پایان."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "The down payment is more than the price."
+msgstr "پیش‌پرداخت بیشتر از قیمت است."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/investment.py:0
+msgid "The entry is already made."
+msgstr "سند قبلاً ساخته شده است."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__website_absolute_url
+msgid "The full absolute URL to access the document through the website."
+msgstr "URL مطلق کامل برای دسترسی به سند از طریق وب سایت."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__website_url
+msgid "The full relative URL to access the document through the website."
+msgstr "URL نسبی کامل برای دسترسی به سند از طریق وب سایت."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__owner_id
+msgid "The investor or the customer who left the car to sell"
+msgstr "سرمایه‌گذار یا مشتری‌ای که خودرو را برای فروش سپرده است"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "The invoice is already made."
+msgstr "فاکتور قبلاً ساخته شده است."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid ""
+"The plate is two digits, a letter, three digits and the two-digit city code."
+msgstr "پلاک دو رقم، یک حرف، سه رقم و کد دو رقمی شهر است."
+
+#. module: veron_dealership
+#: model_terms:ir.actions.act_window,help:veron_dealership.action_instalment_sale
+msgid ""
+"The price, the down payment, the monthly profit and the months make the "
+"instalments, due on the same Shamsi day of each month."
+msgstr ""
+"قیمت، پیش‌پرداخت، سود ماهانه و تعداد ماه‌ها اقساط را می‌سازند؛ سررسید هر قسط"
+" همان روز ماه شمسی است."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "The sale price is below the lowest price; only a manager sells at it."
+msgstr "قیمت فروش کمتر از کمترین قیمت است؛ فقط مدیر با این قیمت می‌فروشد."
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "The score of %(item)s is between 0 and %(top)s."
+msgstr "امتیاز %(item)s بین ۰ و %(top)s است."
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__commission_rate
+msgid "The showroom's share of the sale price of a consigned car"
+msgstr "سهم نمایشگاه از قیمت فروش خودروی امانی"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/instalment.py:0
+msgid "There is at least one instalment, at least a month apart."
+msgstr "حداقل یک قسط با فاصله‌ی حداقل یک ماه لازم است."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_insurance
+msgid "Third-Party Insurance"
+msgstr "بیمه شخص ثالث"
+
+#. module: veron_dealership
+#: model:ir.model.constraint,message:veron_dealership.constraint_veron_car_model_brand_name
+msgid "This model is already in the list."
+msgstr "این مدل قبلاً در فهرست هست."
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__title
+msgid "Title"
+msgstr "عنوان"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_tax_clear
+msgid "Toll Cleared"
+msgstr "عوارض پرداخت‌شده"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_car_model__torque_nm
+msgid "Torque (Nm)"
+msgstr "گشتاور (نیوتن‌متر)"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_sale_view_list
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_view_list
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.investment_view_list
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_list
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__total_profit
+msgid "Total Profit"
+msgstr "کل سود"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__total_payable
+msgid "Total of the Instalments"
+msgstr "جمع اقساط"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__activity_exception_decoration
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__activity_exception_decoration
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.instalment_view_search
+msgid "Unpaid"
+msgstr "پرداخت نشده"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_car_model__body_type__van
+msgid "Van"
+msgstr "ون"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__vehicle_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_parking__vehicle_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_body_mark__vehicle_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_cost__vehicle_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_inspection__vehicle_id
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle_photo__vehicle_id
+msgid "Vehicle"
+msgstr "خودرو"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_card
+msgid "Vehicle Card"
+msgstr "کارت خودرو"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle_cost
+msgid "Vehicle Cost"
+msgstr "هزینه‌ی خودرو"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle_photo
+msgid "Vehicle Photo"
+msgstr "عکس خودرو"
+
+#. module: veron_dealership
+#: model:ir.model,name:veron_dealership.model_veron_vehicle_service
+msgid "Vehicle Service"
+msgstr "خدمت خودرو"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_published
+msgid "Visible on current website"
+msgstr "قابل دید در وبسایت حاضر"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__doc_warranty
+msgid "Warranty"
+msgstr "وضیعت گارانتی"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_absolute_url
+msgid "Website Absolute URL"
+msgstr "URL مطلق وب سایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_instalment_sale__website_message_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_investment_contract__website_message_ids
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,field_description:veron_dealership.field_veron_vehicle__website_url
+msgid "Website URL"
+msgstr "URL وبسایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__website_message_ids
+#: model:ir.model.fields,help:veron_dealership.field_veron_investment_contract__website_message_ids
+#: model:ir.model.fields,help:veron_dealership.field_veron_vehicle__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_dealership
+#: model:ir.model.fields,help:veron_dealership.field_veron_instalment_sale__description
+msgid "What is sold, when it is not a car of the list"
+msgstr "آنچه فروخته می‌شود، وقتی خودروی فهرست نیست"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "e.g. ایران‌خودرو دنا پلاس"
+msgstr "مثلاً ایران‌خودرو دنا پلاس"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_kanban
+msgid "km"
+msgstr "کیلومتر"
+
+#. module: veron_dealership
+#. odoo-python
+#: code:addons/veron_dealership/models/vehicle.py:0
+msgid "veron_vehicle_id"
+msgstr "خودرو"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_10
+msgid "آبی"
+msgstr "آبی"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_9
+msgid "آلبالویی"
+msgstr "آلبالویی"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_23
+msgid "اتاق"
+msgstr "اتاق"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "ارسال"
+msgstr "ارسال"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__الف
+msgid "الف"
+msgstr "الف"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "امتیاز کل:"
+msgstr "امتیاز کل:"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_20
+msgid "انتقال سند"
+msgstr "انتقال سند"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ب
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_form
+msgid "ب"
+msgstr "ب"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_10
+msgid "باتری"
+msgstr "باتری"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_8
+msgid "بخاری"
+msgstr "بخاری"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "بدنه بدون رنگ و تعویض ثبت شده است."
+msgstr "بدنه بدون رنگ و تعویض ثبت شده است."
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_13
+msgid "بژ"
+msgstr "بژ"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_21
+msgid "بیمه"
+msgstr "بیمه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ت
+msgid "ت"
+msgstr "ت"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_15
+msgid "تراشکاری"
+msgstr "تراشکاری"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_6
+msgid "ترمزها"
+msgstr "ترمزها"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_9
+msgid "ترک یا شکستگی"
+msgstr "ترک یا شکستگی"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_9
+msgid "تسمه تایم"
+msgstr "تسمه تایم"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_2
+msgid "تصادفی"
+msgstr "تصادفی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_17
+msgid "تعمیر مکانیکی"
+msgstr "تعمیر مکانیکی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_14
+msgid "تعویض قطعه"
+msgstr "تعویض قطعه"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_16
+msgid "تعویض لاستیک"
+msgstr "تعویض لاستیک"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_5
+msgid "تعویضی"
+msgstr "تعویضی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_6
+msgid "تمیز کردن چراغ‌ها"
+msgstr "تمیز کردن چراغ‌ها"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_13
+msgid "تودوزی"
+msgstr "تودوزی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ث
+msgid "ث"
+msgstr "ث"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ج
+msgid "ج"
+msgstr "ج"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_5
+msgid "جلوبندی و فرمان"
+msgstr "جلوبندی و فرمان"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "حجم موتور"
+msgstr "حجم موتور"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_5
+msgid "خاکستری"
+msgstr "خاکستری"
+
+#. module: veron_dealership
+#: model:product.template,name:veron_dealership.product_service_product_template
+msgid "خدمات و هزینه‌های خودرو"
+msgstr "خدمات و هزینه‌های خودرو"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_3
+msgid "خط و خش"
+msgstr "خط و خش"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_22
+msgid "خلافی و عوارض"
+msgstr "خلافی و عوارض"
+
+#. module: veron_dealership
+#: model:product.template,name:veron_dealership.product_vehicle_product_template
+msgid "خودرو"
+msgstr "خودرو"
+
+#. module: veron_dealership
+#: model:website.menu,name:veron_dealership.menu_showroom
+msgid "خودروها"
+msgstr "خودروها"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.showroom_page
+msgid "خودروهای نمایشگاه"
+msgstr "خودروهای نمایشگاه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__د
+msgid "د"
+msgstr "د"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_14
+msgid "داشبورد"
+msgstr "داشبورد"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_7
+msgid "درب جلو راست"
+msgstr "درب جلو راست"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_6
+msgid "درب جلو چپ"
+msgstr "درب جلو چپ"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_16
+msgid "درب صندوق"
+msgstr "درب صندوق"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_9
+msgid "درب عقب راست"
+msgstr "درب عقب راست"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_8
+msgid "درب عقب چپ"
+msgstr "درب عقب چپ"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "درخواست بازدید یا مشاوره"
+msgstr "درخواست بازدید یا مشاوره"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "درخواست شما ثبت شد. کارشناس ما به‌زودی تماس می‌گیرد."
+msgstr "درخواست شما ثبت شد. کارشناس ما به‌زودی تماس می‌گیرد."
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_7
+msgid "دلفینی"
+msgstr "دلفینی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_card
+msgid "رزرو شده"
+msgstr "رزرو شده"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_12
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "رنگ"
+msgstr "رنگ"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_1
+msgid "رنگ دارد"
+msgstr "رنگ دارد"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_6
+msgid "رنگ‌سوختگی"
+msgstr "رنگ‌سوختگی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.vehicle_view_kanban
+msgid "روز"
+msgstr "روز"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_8
+msgid "روکش صندلی"
+msgstr "روکش صندلی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_7
+msgid "روکش فرمان"
+msgstr "روکش فرمان"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_11
+msgid "رکاب راست"
+msgstr "رکاب راست"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_10
+msgid "رکاب چپ"
+msgstr "رکاب چپ"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ز
+msgid "ز"
+msgstr "ز"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_16
+msgid "زرد"
+msgstr "زرد"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_9
+msgid "زیرپایی"
+msgstr "زیرپایی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__س
+msgid "س"
+msgstr "س"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "سال ساخت"
+msgstr "سال ساخت"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_24
+msgid "سایر هزینه‌ها"
+msgstr "سایر هزینه‌ها"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_12
+msgid "سبز"
+msgstr "سبز"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_18
+msgid "ستون‌ها"
+msgstr "ستون‌ها"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_11
+msgid "سرمه‌ای"
+msgstr "سرمه‌ای"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_18
+msgid "سرویس و تعویض روغن"
+msgstr "سرویس و تعویض روغن"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_1
+msgid "سفید"
+msgstr "سفید"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_2
+msgid "سفید صدفی"
+msgstr "سفید صدفی"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_12
+msgid "سقف"
+msgstr "سقف"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_15
+msgid "سقف داخلی"
+msgstr "سقف داخلی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "سوخت"
+msgstr "سوخت"
+
+#. module: veron_dealership
+#: model:product.template,name:veron_dealership.product_instalment_profit_product_template
+msgid "سود فروش اقساطی"
+msgstr "سود فروش اقساطی"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_1
+msgid "سپر جلو"
+msgstr "سپر جلو"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_17
+msgid "سپر عقب"
+msgstr "سپر عقب"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_11
+msgid "سیستم برق"
+msgstr "سیستم برق"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_17
+msgid "سیستم صوتی و تصویری"
+msgstr "سیستم صوتی و تصویری"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_19
+msgid "سینی جلو"
+msgstr "سینی جلو"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "سی‌سی"
+msgstr "سی‌سی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ش
+msgid "ش"
+msgstr "ش"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_20
+msgid "شاسی جلو"
+msgstr "شاسی جلو"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_21
+msgid "شاسی عقب"
+msgstr "شاسی عقب"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "شماره تماس"
+msgstr "شماره تماس"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_5
+msgid "شیشه جلو"
+msgstr "شیشه جلو"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_13
+msgid "شیشه عقب"
+msgstr "شیشه عقب"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ص
+msgid "ص"
+msgstr "ص"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_10
+msgid "صافکاری"
+msgstr "صافکاری"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_7
+msgid "صافکاری بدون رنگ"
+msgstr "صافکاری بدون رنگ"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_3
+msgid "صفرشویی"
+msgstr "صفرشویی"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_12
+msgid "صندلی‌ها"
+msgstr "صندلی‌ها"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ط
+msgid "ط"
+msgstr "ط"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_14
+msgid "طلایی"
+msgstr "طلایی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ع
+msgid "ع"
+msgstr "ع"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ف
+msgid "ف"
+msgstr "ف"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_13
+msgid "فرمان"
+msgstr "فرمان"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_8
+msgid "فرورفتگی"
+msgstr "فرورفتگی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.showroom_page
+msgid "فعلاً خودرویی برای نمایش نیست."
+msgstr "فعلاً خودرویی برای نمایش نیست."
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ق
+msgid "ق"
+msgstr "ق"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_8
+msgid "قرمز"
+msgstr "قرمز"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_15
+msgid "قهوه‌ای"
+msgstr "قهوه‌ای"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_card
+msgid "قیمت: تماس بگیرید"
+msgstr "قیمت: تماس بگیرید"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ل
+msgid "ل"
+msgstr "ل"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_3
+msgid "لاستیک‌ها"
+msgstr "لاستیک‌ها"
+
+#. module: veron_dealership
+#: model:veron.body.condition,name:veron_dealership.body_condition_4
+msgid "لیسه"
+msgstr "لیسه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__م
+msgid "م"
+msgstr "م"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "مدل"
+msgstr "مدل"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_3
+msgid "مشکی"
+msgstr "مشکی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_23
+msgid "معاینه فنی"
+msgstr "معاینه فنی"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_1
+msgid "موتور"
+msgstr "موتور"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ن
+msgid "ن"
+msgstr "ن"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_17
+msgid "نارنجی"
+msgstr "نارنجی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "نام و نام خانوادگی"
+msgstr "نام و نام خانوادگی"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_4
+msgid "نقره‌ای"
+msgstr "نقره‌ای"
+
+#. module: veron_dealership
+#: model:veron.car.color,name:veron_dealership.color_6
+msgid "نوک‌مدادی"
+msgstr "نوک‌مدادی"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ه
+msgid "ه"
+msgstr "ه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__و
+msgid "و"
+msgstr "و"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_5
+msgid "واکس"
+msgstr "واکس"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_card
+msgid "ویژه"
+msgstr "ویژه"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__پ
+msgid "پ"
+msgstr "پ"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_4
+msgid "پولیش بدنه"
+msgstr "پولیش بدنه"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "پیام (اختیاری)"
+msgstr "پیام (اختیاری)"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ژ
+msgid "ژ"
+msgstr "ژ"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ک
+msgid "ک"
+msgstr "ک"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_19
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "کارشناسی"
+msgstr "کارشناسی"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_2
+msgid "کارواش VIP"
+msgstr "کارواش VIP"
+
+#. module: veron_dealership
+#: model:veron.vehicle.service,name:veron_dealership.service_1
+msgid "کارواش معمولی"
+msgstr "کارواش معمولی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "کارکرد"
+msgstr "کارکرد"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_2
+msgid "کاپوت"
+msgstr "کاپوت"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_22
+msgid "کف صندوق"
+msgstr "کف صندوق"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_16
+msgid "کف و موکت"
+msgstr "کف و موکت"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_4
+msgid "کمک‌فنرها"
+msgstr "کمک‌فنرها"
+
+#. module: veron_dealership
+#: model:product.template,name:veron_dealership.product_commission_product_template
+msgid "کمیسیون فروش امانی"
+msgstr "کمیسیون فروش امانی"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_7
+msgid "کولر"
+msgstr "کولر"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_card
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "کیلومتر"
+msgstr "کیلومتر"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__گ
+msgid "گ"
+msgstr "گ"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_4
+msgid "گلگیر جلو راست"
+msgstr "گلگیر جلو راست"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_3
+msgid "گلگیر جلو چپ"
+msgstr "گلگیر جلو چپ"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_15
+msgid "گلگیر عقب راست"
+msgstr "گلگیر عقب راست"
+
+#. module: veron_dealership
+#: model:veron.body.part,name:veron_dealership.body_part_14
+msgid "گلگیر عقب چپ"
+msgstr "گلگیر عقب چپ"
+
+#. module: veron_dealership
+#: model:veron.inspection.item,name:veron_dealership.inspection_item_2
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "گیربکس"
+msgstr "گیربکس"
+
+#. module: veron_dealership
+#: model:ir.model.fields.selection,name:veron_dealership.selection__veron_vehicle__plate_letter__ی
+msgid "ی"
+msgstr "ی"
+
+#. module: veron_dealership
+#: model_terms:ir.ui.view,arch_db:veron_dealership.car_page
+msgid "‹ همه‌ی خودروها"
+msgstr "‹ همه‌ی خودروها"

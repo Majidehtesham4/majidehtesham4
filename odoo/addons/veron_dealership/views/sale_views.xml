@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="instalment_sale_view_form" model="ir.ui.view">
+		<field name="name">veron.instalment.sale.form</field>
+		<field name="model">veron.instalment.sale</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"
+						confirm="Confirm the sale? The instalments are made and the car is marked sold."/>
+					<button name="action_create_invoice" type="object" string="Invoice" invisible="state not in ('active', 'settled') or invoice_id"
+						groups="account.group_account_invoice"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'active')"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,active,settled"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+					<group>
+						<group>
+							<field name="customer_id" readonly="state != 'draft'"/>
+							<field name="vehicle_id" readonly="state != 'draft'" options="{'no_create': True}"/>
+							<field name="description" invisible="vehicle_id"/>
+							<field name="date" readonly="state != 'draft'"/>
+							<field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+							<field name="invoice_id" invisible="not invoice_id"/>
+						</group>
+						<group>
+							<field name="currency_id" invisible="1"/>
+							<field name="sale_price" readonly="state != 'draft'"/>
+							<field name="other_costs" readonly="state != 'draft'"/>
+							<field name="down_payment" readonly="state != 'draft'"/>
+							<field name="monthly_rate" readonly="state != 'draft'"/>
+							<field name="months" readonly="state != 'draft'"/>
+							<field name="interval_months" readonly="state != 'draft'"/>
+							<field name="first_due_date" readonly="state != 'draft'" placeholder="A month after the sale"/>
+						</group>
+					</group>
+					<group class="oe_subtotal_footer">
+						<field name="financed"/>
+						<field name="total_interest"/>
+						<field name="total_payable" class="oe_subtotal_footer_separator"/>
+						<field name="instalment_amount"/>
+						<field name="paid_total" invisible="state == 'draft'"/>
+						<field name="outstanding" invisible="state == 'draft'"/>
+						<field name="overdue_count" invisible="state == 'draft'" decoration-danger="overdue_count > 0"/>
+					</group>
+					<notebook>
+						<page string="Instalments" name="instalments" invisible="state == 'draft'">
+							<field name="line_ids">
+								<list editable="bottom" create="false" delete="false" decoration-success="paid"
+									decoration-danger="not paid and due_date &lt; current_date">
+									<field name="sequence"/>
+									<field name="due_date" readonly="1"/>
+									<field name="currency_id" column_invisible="True"/>
+									<field name="amount" readonly="1" sum="Total"/>
+									<field name="principal" readonly="1" optional="hide"/>
+									<field name="interest" readonly="1" optional="hide"/>
+									<field name="cheque_ids" widget="many2many_tags" readonly="1"/>
+									<field name="paid_manually"/>
+									<field name="paid"/>
+									<button name="action_register_cheque" type="object" string="Cheque" icon="fa-money" invisible="paid"/>
+								</list>
+							</field>
+						</page>
+						<page string="Notes" name="notes"><field name="note"/></page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="instalment_sale_view_list" model="ir.ui.view">
+		<field name="name">veron.instalment.sale.list</field>
+		<field name="model">veron.instalment.sale</field>
+		<field name="arch" type="xml">
+			<list decoration-danger="overdue_count > 0" decoration-muted="state in ('settled', 'cancelled')">
+				<field name="name"/>
+				<field name="date"/>
+				<field name="customer_id"/>
+				<field name="vehicle_id"/>
+				<field name="currency_id" column_invisible="True"/>
+				<field name="total_payable" sum="Total"/>
+				<field name="outstanding" sum="Total"/>
+				<field name="overdue_count"/>
+				<field name="state" widget="badge" decoration-success="state == 'settled'" decoration-info="state == 'active'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="instalment_sale_view_search" model="ir.ui.view">
+		<field name="name">veron.instalment.sale.search</field>
+		<field name="model">veron.instalment.sale</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="customer_id"/>
+				<field name="vehicle_id"/>
+				<filter name="active_sales" string="Active" domain="[('state', '=', 'active')]"/>
+				<filter name="settled" string="Settled" domain="[('state', '=', 'settled')]"/>
+				<filter name="date" string="Date" date="date"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_instalment_sale" model="ir.actions.act_window">
+		<field name="name">Instalment Sales</field>
+		<field name="res_model">veron.instalment.sale</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Make an instalment sale</p>
+			<p>The price, the down payment, the monthly profit and the months make the instalments, due on the same Shamsi day of each month.</p>
+		</field>
+	</record>
+
+	<record id="instalment_view_list" model="ir.ui.view">
+		<field name="name">veron.instalment.list</field>
+		<field name="model">veron.instalment</field>
+		<field name="arch" type="xml">
+			<list create="false" decoration-danger="not paid and due_date &lt; current_date" decoration-success="paid">
+				<field name="sale_id"/>
+				<field name="partner_id"/>
+				<field name="sequence"/>
+				<field name="due_date"/>
+				<field name="currency_id" column_invisible="True"/>
+				<field name="amount" sum="Total"/>
+				<field name="paid"/>
+				<button name="action_register_cheque" type="object" string="Cheque" icon="fa-money" invisible="paid"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="instalment_view_search" model="ir.ui.view">
+		<field name="name">veron.instalment.search</field>
+		<field name="model">veron.instalment</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="partner_id"/>
+				<field name="sale_id"/>
+				<filter name="unpaid" string="Unpaid" domain="[('paid', '=', False)]"/>
+				<filter name="overdue" string="Overdue" domain="[('paid', '=', False), ('due_date', '&lt;', context_today().strftime('%Y-%m-%d'))]"/>
+				<filter name="due_date" string="Due Date" date="due_date"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_instalment_due" model="ir.actions.act_window">
+		<field name="name">Instalments Due</field>
+		<field name="res_model">veron.instalment</field>
+		<field name="view_mode">list</field>
+		<field name="context">{'search_default_unpaid': 1}</field>
+	</record>
+
+	<record id="investment_view_form" model="ir.ui.view">
+		<field name="name">veron.investment.contract.form</field>
+		<field name="model">veron.investment.contract</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_confirm" type="object" string="Confirm" class="btn-primary" invisible="state != 'draft'"
+						confirm="Confirm the contract? Its payments are made."/>
+					<button name="action_receipt_entry" type="object" string="Receipt Entry" invisible="state == 'draft' or receipt_move_id"
+						groups="account.group_account_invoice"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'active')"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,active,settled"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+					<group>
+						<group>
+							<field name="investor_id" readonly="state != 'draft'"/>
+							<field name="start_date" readonly="state != 'draft'"/>
+							<field name="end_date"/>
+							<field name="scope" widget="radio" readonly="state != 'draft'"/>
+							<field name="received_journal_id"/>
+							<field name="receipt_move_id" invisible="not receipt_move_id"/>
+							<field name="company_id" groups="base.group_multi_company" readonly="state != 'draft'"/>
+						</group>
+						<group>
+							<field name="currency_id" invisible="1"/>
+							<field name="amount" readonly="state != 'draft'"/>
+							<field name="months" readonly="state != 'draft'"/>
+							<field name="monthly_rate" readonly="state != 'draft'"/>
+							<field name="payment_mode" readonly="state != 'draft'"/>
+							<field name="monthly_profit"/>
+							<field name="total_profit"/>
+							<field name="payment_amount" invisible="payment_mode != 'equal'"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Payments" name="payments" invisible="state == 'draft'">
+							<field name="line_ids">
+								<list editable="bottom" create="false" delete="false" decoration-success="paid">
+									<field name="sequence"/>
+									<field name="due_date" readonly="1"/>
+									<field name="currency_id" column_invisible="True"/>
+									<field name="amount" readonly="1" sum="Total"/>
+									<field name="principal" readonly="1" optional="show"/>
+									<field name="profit" readonly="1" optional="show"/>
+									<field name="cheque_ids" widget="many2many_tags" readonly="1"/>
+									<field name="paid_manually"/>
+									<field name="paid"/>
+									<button name="action_register_cheque" type="object" string="Cheque" icon="fa-money" invisible="paid"/>
+								</list>
+							</field>
+							<group class="oe_subtotal_footer">
+								<field name="paid_total"/>
+								<field name="outstanding"/>
+							</group>
+						</page>
+						<page string="Cars" name="cars" invisible="scope != 'vehicle'">
+							<field name="vehicle_ids" readonly="1">
+								<list>
+									<field name="name"/>
+									<field name="title"/>
+									<field name="plate"/>
+									<field name="state"/>
+								</list>
+							</field>
+						</page>
+						<page string="Notes" name="notes"><field name="note"/></page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="investment_view_list" model="ir.ui.view">
+		<field name="name">veron.investment.contract.list</field>
+		<field name="model">veron.investment.contract</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="state in ('settled', 'cancelled')">
+				<field name="name"/>
+				<field name="investor_id"/>
+				<field name="start_date"/>
+				<field name="end_date"/>
+				<field name="currency_id" column_invisible="True"/>
+				<field name="amount" sum="Total"/>
+				<field name="monthly_rate"/>
+				<field name="outstanding" sum="Total"/>
+				<field name="state" widget="badge" decoration-success="state == 'settled'" decoration-info="state == 'active'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_investment" model="ir.actions.act_window">
+		<field name="name">Investment Contracts</field>
+		<field name="res_model">veron.investment.contract</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Record an investor's contract</p>
+			<p>The amount, the months and the monthly profit make the payments: equal monthly payments of (the amount + the profit) / the months, the profit monthly, or all at the end.</p>
+		</field>
+	</record>
+
+	<record id="crm_lead_view_form" model="ir.ui.view">
+		<field name="name">crm.lead.form.dealership</field>
+		<field name="model">crm.lead</field>
+		<field name="inherit_id" ref="crm.crm_lead_view_form"/>
+		<field name="arch" type="xml">
+			<field name="partner_id" position="after">
+				<field name="veron_vehicle_id"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="action_inquiries" model="ir.actions.act_window">
+		<field name="name">Inquiries</field>
+		<field name="res_model">crm.lead</field>
+		<field name="view_mode">list,form</field>
+		<field name="domain">[('veron_vehicle_id', '!=', False)]</field>
+	</record>
+</odoo>

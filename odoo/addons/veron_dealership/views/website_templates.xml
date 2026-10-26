@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="car_card" name="Showroom: a car">
+		<div class="col-12 col-sm-6 col-lg-4 mb-4">
+			<a t-att-href="'/showroom/%s' % car.id" class="card h-100 text-reset text-decoration-none o_veron_car_card">
+				<img t-if="car.image_128" class="card-img-top" t-att-src="'/showroom/image/%s' % car.id" t-att-alt="car.title" loading="lazy"/>
+				<div class="card-body">
+					<span t-if="car.website_featured" class="badge text-bg-warning float-end">ویژه</span>
+					<h5 class="card-title" t-out="car.title"/>
+					<p class="card-text text-muted mb-1" t-if="car.website_headline" t-out="car.website_headline"/>
+					<p class="card-text small mb-1">
+						<span t-out="'{:,}'.format(car.mileage)"/> کیلومتر
+						<span t-if="car.state == 'reserved'" class="badge text-bg-info ms-2">رزرو شده</span>
+					</p>
+					<p t-if="car.website_show_price and car.asking_price" class="card-text fw-bold">
+						<span t-out="car.asking_price" t-options="{'widget': 'monetary', 'display_currency': car.currency_id}"/>
+					</p>
+					<p t-else="" class="card-text text-muted">قیمت: تماس بگیرید</p>
+				</div>
+			</a>
+		</div>
+	</template>
+
+	<template id="showroom_page" name="Showroom">
+		<t t-call="website.layout">
+			<div id="wrap" class="container py-4" dir="rtl">
+				<h1 class="mb-3">خودروهای نمایشگاه</h1>
+				<form method="get" action="/showroom" class="mb-4" t-if="models">
+					<select name="model" class="form-select w-auto d-inline-block" onchange="this.form.submit()">
+						<option value="">همه‌ی مدل‌ها</option>
+						<t t-foreach="models" t-as="m">
+							<option t-att-value="m.id" t-att-selected="str(m.id) == (model or '')" t-out="m.display_name"/>
+						</t>
+					</select>
+				</form>
+				<div class="row">
+					<t t-foreach="cars" t-as="car"><t t-call="veron_dealership.car_card"/></t>
+				</div>
+				<p t-if="not cars" class="text-muted">فعلاً خودرویی برای نمایش نیست.</p>
+			</div>
+		</t>
+	</template>
+
+	<template id="car_page" name="Showroom: car page">
+		<t t-call="website.layout">
+			<t t-set="title" t-value="car.title"/>
+			<div id="wrap" class="container py-4" dir="rtl">
+				<a href="/showroom" class="small">‹ همه‌ی خودروها</a>
+				<div class="row mt-3">
+					<div class="col-lg-7 mb-4">
+						<img t-if="car.image_128" class="img-fluid rounded mb-2 w-100" t-att-src="'/showroom/image/%s' % car.id" t-att-alt="car.title"/>
+						<div class="row g-2">
+							<t t-foreach="car.photo_ids" t-as="photo">
+								<div class="col-4 col-md-3">
+									<a t-att-href="'/showroom/photo/%s' % photo.id" target="_blank">
+										<img class="img-fluid rounded" t-att-src="'/showroom/photo/%s' % photo.id" t-att-alt="photo.name or car.title" loading="lazy"/>
+									</a>
+								</div>
+							</t>
+						</div>
+					</div>
+					<div class="col-lg-5">
+						<h1 class="h3" t-out="car.title"/>
+						<p class="text-muted" t-if="car.website_headline" t-out="car.website_headline"/>
+						<p t-if="car.website_show_price and car.asking_price" class="h4">
+							<span t-out="car.asking_price" t-options="{'widget': 'monetary', 'display_currency': car.currency_id}"/>
+						</p>
+						<table class="table table-sm">
+							<tr><th>مدل</th><td t-out="car.model_id.display_name"/></tr>
+							<tr t-if="car.year"><th>سال ساخت</th><td t-out="car.year"/></tr>
+							<tr t-if="car.color_id"><th>رنگ</th><td t-out="car.color_id.name"/></tr>
+							<tr><th>کارکرد</th><td><span t-out="'{:,}'.format(car.mileage)"/> کیلومتر</td></tr>
+							<tr t-if="car.model_id.engine_volume"><th>حجم موتور</th><td><span t-out="car.model_id.engine_volume"/> سی‌سی</td></tr>
+							<tr t-if="car.model_id.transmission"><th>گیربکس</th>
+								<td t-out="dict(car.model_id._fields['transmission']._description_selection(car.env)).get(car.model_id.transmission)"/></tr>
+							<tr t-if="car.model_id.fuel"><th>سوخت</th>
+								<td t-out="dict(car.model_id._fields['fuel']._description_selection(car.env)).get(car.model_id.fuel)"/></tr>
+						</table>
+						<div t-if="car.website_show_report and car.inspection_ids" class="mb-3">
+							<h2 class="h5">کارشناسی</h2>
+							<p>امتیاز کل: <span t-out="round(car.inspection_score)"/>٪</p>
+							<ul class="small">
+								<li t-foreach="car.body_mark_ids" t-as="mark"><t t-out="mark.part_id.name"/>: <t t-out="mark.condition_id.name"/></li>
+								<li t-if="not car.body_mark_ids">بدنه بدون رنگ و تعویض ثبت شده است.</li>
+							</ul>
+						</div>
+						<p t-if="car.website_description" t-out="car.website_description" style="white-space: pre-line"/>
+						<div class="card mt-3">
+							<div class="card-body">
+								<h2 class="h5">درخواست بازدید یا مشاوره</h2>
+								<div t-if="sent" class="alert alert-success">درخواست شما ثبت شد. کارشناس ما به‌زودی تماس می‌گیرد.</div>
+								<form t-else="" t-att-action="'/showroom/%s/inquiry' % car.id" method="post">
+									<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+									<input class="form-control mb-2" name="name" required="1" placeholder="نام و نام خانوادگی"/>
+									<input class="form-control mb-2" name="phone" required="1" placeholder="شماره تماس" dir="ltr"/>
+									<textarea class="form-control mb-2" name="message" rows="3" placeholder="پیام (اختیاری)"/>
+									<button type="submit" class="btn btn-primary w-100">ارسال</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</t>
+	</template>
+
+	<record id="menu_showroom" model="website.menu">
+		<field name="name">خودروها</field>
+		<field name="url">/showroom</field>
+		<field name="parent_id" ref="website.main_menu"/>
+		<field name="sequence">20</field>
+	</record>
+</odoo>

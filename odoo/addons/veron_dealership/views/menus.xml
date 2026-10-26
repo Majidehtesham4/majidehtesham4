@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem id="menu_root" name="Showroom" web_icon="veron_dealership,static/description/icon.png" sequence="5"
+		groups="group_dealership_reception"/>
+	<menuitem id="menu_dashboard" name="Dashboard" parent="menu_root" action="action_vehicle_dashboard" sequence="1"
+		groups="group_dealership_user"/>
+	<menuitem id="menu_vehicles" name="Cars" parent="menu_root" action="action_vehicle" sequence="10"/>
+	<menuitem id="menu_aging" name="Long in the Lot" parent="menu_root" action="action_vehicle_aging" sequence="15"/>
+	<menuitem id="menu_sales" name="Sales" parent="menu_root" sequence="20" groups="group_dealership_user">
+		<menuitem id="menu_instalment_sales" name="Instalment Sales" action="action_instalment_sale" sequence="1"/>
+		<menuitem id="menu_instalments_due" name="Instalments Due" action="action_instalment_due" sequence="2"/>
+		<menuitem id="menu_inquiries" name="Inquiries" action="action_inquiries" sequence="3"/>
+	</menuitem>
+	<menuitem id="menu_investment" name="Investors" parent="menu_root" action="action_investment" sequence="30"
+		groups="group_dealership_manager"/>
+	<menuitem id="menu_config" name="Settings" parent="menu_root" sequence="90" groups="group_dealership_manager">
+		<menuitem id="menu_car_models" name="Car Models" action="action_car_model" sequence="1"/>
+		<menuitem id="menu_colors" name="Colors" action="action_car_color" sequence="2"/>
+		<menuitem id="menu_body_parts" name="Body Parts" action="action_body_part" sequence="3"/>
+		<menuitem id="menu_body_conditions" name="Body Conditions" action="action_body_condition" sequence="4"/>
+		<menuitem id="menu_inspection_items" name="Inspection Items" action="action_inspection_item" sequence="5"/>
+		<menuitem id="menu_services" name="Services and Costs" action="action_vehicle_service" sequence="6"/>
+		<menuitem id="menu_parkings" name="Parkings" action="action_parking" sequence="7"/>
+	</menuitem>
+</odoo>

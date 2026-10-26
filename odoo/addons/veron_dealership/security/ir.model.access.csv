@@ -1,0 +1,33 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_veron_car_model_reception,veron.car.model reception,model_veron_car_model,group_dealership_reception,1,0,0,0
+access_veron_car_model_manager,veron.car.model manager,model_veron_car_model,group_dealership_manager,1,1,1,1
+access_veron_car_color_reception,veron.car.color reception,model_veron_car_color,group_dealership_reception,1,0,0,0
+access_veron_car_color_manager,veron.car.color manager,model_veron_car_color,group_dealership_manager,1,1,1,1
+access_veron_body_part_reception,veron.body.part reception,model_veron_body_part,group_dealership_reception,1,0,0,0
+access_veron_body_part_manager,veron.body.part manager,model_veron_body_part,group_dealership_manager,1,1,1,1
+access_veron_body_condition_reception,veron.body.condition reception,model_veron_body_condition,group_dealership_reception,1,0,0,0
+access_veron_body_condition_manager,veron.body.condition manager,model_veron_body_condition,group_dealership_manager,1,1,1,1
+access_veron_inspection_item_reception,veron.inspection.item reception,model_veron_inspection_item,group_dealership_reception,1,0,0,0
+access_veron_inspection_item_manager,veron.inspection.item manager,model_veron_inspection_item,group_dealership_manager,1,1,1,1
+access_veron_vehicle_service_reception,veron.vehicle.service reception,model_veron_vehicle_service,group_dealership_reception,1,0,0,0
+access_veron_vehicle_service_manager,veron.vehicle.service manager,model_veron_vehicle_service,group_dealership_manager,1,1,1,1
+access_veron_parking_reception,veron.parking reception,model_veron_parking,group_dealership_reception,1,0,0,0
+access_veron_parking_manager,veron.parking manager,model_veron_parking,group_dealership_manager,1,1,1,1
+access_veron_vehicle_reception,veron.vehicle reception,model_veron_vehicle,group_dealership_reception,1,1,1,0
+access_veron_vehicle_manager,veron.vehicle manager,model_veron_vehicle,group_dealership_manager,1,1,1,1
+access_veron_vehicle_body_mark_reception,veron.vehicle.body.mark reception,model_veron_vehicle_body_mark,group_dealership_reception,1,1,1,0
+access_veron_vehicle_body_mark_manager,veron.vehicle.body.mark manager,model_veron_vehicle_body_mark,group_dealership_manager,1,1,1,1
+access_veron_vehicle_inspection_reception,veron.vehicle.inspection reception,model_veron_vehicle_inspection,group_dealership_reception,1,1,1,0
+access_veron_vehicle_inspection_manager,veron.vehicle.inspection manager,model_veron_vehicle_inspection,group_dealership_manager,1,1,1,1
+access_veron_vehicle_cost_reception,veron.vehicle.cost reception,model_veron_vehicle_cost,group_dealership_reception,1,1,1,0
+access_veron_vehicle_cost_manager,veron.vehicle.cost manager,model_veron_vehicle_cost,group_dealership_manager,1,1,1,1
+access_veron_vehicle_photo_reception,veron.vehicle.photo reception,model_veron_vehicle_photo,group_dealership_reception,1,1,1,0
+access_veron_vehicle_photo_manager,veron.vehicle.photo manager,model_veron_vehicle_photo,group_dealership_manager,1,1,1,1
+access_veron_instalment_sale_user,veron.instalment.sale user,model_veron_instalment_sale,group_dealership_user,1,1,1,0
+access_veron_instalment_sale_manager,veron.instalment.sale manager,model_veron_instalment_sale,group_dealership_manager,1,1,1,1
+access_veron_instalment_user,veron.instalment user,model_veron_instalment,group_dealership_user,1,1,1,0
+access_veron_instalment_manager,veron.instalment manager,model_veron_instalment,group_dealership_manager,1,1,1,1
+access_veron_investment_contract_manager,veron.investment.contract manager,model_veron_investment_contract,group_dealership_manager,1,1,1,1
+access_veron_investment_payment_manager,veron.investment.payment manager,model_veron_investment_payment,group_dealership_manager,1,1,1,1
+access_veron_cheque_dealership_user,veron.cheque showroom salesperson,veron_cheque.model_veron_cheque,group_dealership_user,1,1,1,0
+access_crm_lead_dealership_user,crm.lead showroom salesperson,crm.model_crm_lead,group_dealership_user,1,1,1,0

@@ -1,0 +1,54 @@
+// An Iranian plate drawn like the real one: the blue strip, the number and the city code
+.o_veron_plate {
+	display: inline-flex;
+	align-items: stretch;
+	border: 2px solid #111;
+	border-radius: 5px;
+	background: #fff;
+	color: #111;
+	font-weight: 700;
+	line-height: 1;
+	overflow: hidden;
+	height: 28px;
+	vertical-align: middle;
+	.o_veron_plate_flag {
+		display: flex;
+		align-items: flex-end;
+		background: #1e3f9c;
+		color: #fff;
+		font-size: 6px;
+		padding: 2px 3px;
+		text-align: center;
+	}
+	.o_veron_plate_number {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 0 6px;
+		font-size: 15px;
+		em {
+			font-style: normal;
+		}
+	}
+	.o_veron_plate_city {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		border-left: 2px solid #111;
+		padding: 0 5px;
+		font-size: 13px;
+		small {
+			font-size: 7px;
+		}
+	}
+}
+.o_veron_plate_input input,
+.o_veron_plate_input select {
+	max-width: 4.5em;
+	text-align: center;
+}
+.o_veron_car_card img {
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+}

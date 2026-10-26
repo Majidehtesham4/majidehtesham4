@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="vehicle_view_form" model="ir.ui.view">
+		<field name="name">veron.vehicle.form</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_receive" type="object" string="Received" class="btn-primary" invisible="state != 'awaiting'"/>
+					<button name="action_ready" type="object" string="Ready for Sale" class="btn-primary" invisible="state != 'preparation'"/>
+					<button name="action_reserve" type="object" string="Reserve" invisible="state != 'ready'" groups="veron_dealership.group_dealership_user"/>
+					<button name="action_sell" type="object" string="Sold" class="btn-primary" invisible="state not in ('ready', 'reserved')"
+						groups="veron_dealership.group_dealership_user"/>
+					<button name="action_back_to_ready" type="object" string="Cancel the Reservation" invisible="state != 'reserved'"
+						groups="veron_dealership.group_dealership_user"/>
+					<button name="action_exit" type="object" string="Delivered" invisible="state != 'sold'" groups="veron_dealership.group_dealership_user"/>
+					<button name="action_create_sale_invoice" type="object" string="Sale Invoice" invisible="state not in ('sold', 'exited') or sale_invoice_id"
+						groups="account.group_account_invoice"/>
+					<button name="action_create_purchase_bill" type="object" string="Purchase Bill" invisible="ownership != 'business' or purchase_bill_id"
+						groups="account.group_account_invoice"/>
+					<button name="action_create_cost_bills" type="object" string="Bill the Costs" groups="account.group_account_invoice"/>
+					<field name="state" widget="statusbar" statusbar_visible="awaiting,preparation,ready,sold,exited"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_open_leads" type="object" class="oe_stat_button" icon="fa-comments" groups="veron_dealership.group_dealership_user">
+							<field name="lead_count" widget="statinfo" string="Inquiries"/>
+						</button>
+						<field name="is_published" widget="website_redirect_button" groups="veron_dealership.group_dealership_user"/>
+					</div>
+					<field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
+					<div class="oe_title">
+						<label for="model_id"/>
+						<h1><field name="model_id" placeholder="e.g. ایران‌خودرو دنا پلاس" options="{'no_create': True}"/></h1>
+						<h3><field name="name" readonly="1"/> <field name="plate_html" nolabel="1" readonly="1" invisible="not plate"/></h3>
+					</div>
+					<group>
+						<group string="The Car">
+							<field name="year"/>
+							<field name="color_id" options="{'no_create': True}"/>
+							<field name="mileage"/>
+							<label for="plate_left" string="Plate"/>
+							<div class="o_row o_veron_plate_input" dir="ltr">
+								<field name="plate_left" placeholder="۱۲"/>
+								<field name="plate_letter" placeholder="ب"/>
+								<field name="plate_middle" placeholder="۳۴۵"/>
+								<span>ایران</span>
+								<field name="plate_city" placeholder="۶۷"/>
+							</div>
+							<field name="chassis_number"/>
+							<field name="engine_number"/>
+						</group>
+						<group string="Place and Owner">
+							<field name="entry_date"/>
+							<field name="days_in_lot" invisible="not entry_date"/>
+							<field name="parking_id"/>
+							<field name="parking_spot"/>
+							<field name="ownership" widget="radio" options="{'horizontal': true}"/>
+							<field name="owner_id" invisible="ownership == 'business'" required="ownership != 'business'"/>
+							<field name="investment_contract_id" invisible="ownership != 'investor'"/>
+							<field name="commission_rate" invisible="ownership != 'customer'"/>
+							<field name="charge_costs_to_owner" invisible="ownership == 'business'"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+						<group string="Price">
+							<field name="currency_id" invisible="1"/>
+							<field name="asking_price"/>
+							<field name="minimum_price"/>
+							<field name="purchase_date" invisible="ownership != 'business'"/>
+							<field name="purchase_price" invisible="ownership != 'business'"/>
+							<field name="seller_id" invisible="ownership != 'business'"/>
+						</group>
+						<group string="Sale" invisible="state in ('awaiting', 'preparation')">
+							<field name="customer_id"/>
+							<field name="sale_price"/>
+							<field name="sale_date"/>
+							<field name="instalment_sale_id" readonly="1" invisible="not instalment_sale_id"/>
+							<field name="profit" invisible="not sale_price"/>
+							<field name="exit_date" invisible="state != 'exited'"/>
+							<field name="delivered_to" invisible="state not in ('sold', 'exited')"/>
+							<field name="sale_invoice_id" invisible="not sale_invoice_id"/>
+							<field name="purchase_bill_id" invisible="not purchase_bill_id"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Documents" name="documents">
+							<group>
+								<group>
+									<field name="doc_ownership"/>
+									<field name="doc_card"/>
+									<field name="doc_insurance"/>
+									<field name="doc_body_insurance"/>
+									<field name="doc_spare_key"/>
+								</group>
+								<group>
+									<field name="doc_warranty"/>
+									<field name="doc_fines_clear"/>
+									<field name="doc_tax_clear"/>
+									<field name="doc_technical_check"/>
+								</group>
+							</group>
+							<field name="documents_note" placeholder="About the documents..."/>
+						</page>
+						<page string="Body" name="body">
+							<field name="body_mark_ids">
+								<list editable="bottom">
+									<field name="part_id" options="{'no_create': True}"/>
+									<field name="condition_id" options="{'no_create': True}"/>
+									<field name="severity" widget="badge" decoration-danger="severity == 'high'" decoration-warning="severity == 'medium'"/>
+									<field name="note"/>
+								</list>
+							</field>
+						</page>
+						<page string="Inspection" name="inspection">
+							<button name="action_fill_inspection" type="object" string="Add the Inspection Items" class="btn-link" icon="fa-list"/>
+							<field name="inspection_ids">
+								<list editable="bottom">
+									<field name="section"/>
+									<field name="item_id" options="{'no_create': True}"/>
+									<field name="measure" column_invisible="True"/>
+									<field name="score" widget="float" options="{'digits': [3, 0]}"/>
+									<field name="comment"/>
+								</list>
+							</field>
+							<group>
+								<field name="inspection_score" widget="progressbar"/>
+								<field name="inspection_note"/>
+							</group>
+						</page>
+						<page string="Costs" name="costs">
+							<field name="cost_ids">
+								<list editable="bottom">
+									<field name="date"/>
+									<field name="service_id" options="{'no_create': True}"/>
+									<field name="name"/>
+									<field name="category"/>
+									<field name="partner_id"/>
+									<field name="currency_id" column_invisible="True"/>
+									<field name="amount" sum="Total"/>
+									<field name="bill_id" readonly="1" optional="hide"/>
+								</list>
+							</field>
+							<group class="oe_subtotal_footer">
+								<field name="preparation_total"/>
+								<field name="repair_total"/>
+								<field name="paperwork_total"/>
+								<field name="costs_total" class="oe_subtotal_footer_separator"/>
+							</group>
+						</page>
+						<page string="Photos and Website" name="website">
+							<field name="photo_ids" mode="kanban" class="o_veron_vehicle_photos">
+								<kanban>
+									<field name="id"/>
+									<templates>
+										<t t-name="card">
+											<field name="image_1920" widget="image" options="{'preview_image': 'image_256'}"/>
+											<field name="name"/>
+										</t>
+									</templates>
+								</kanban>
+								<form>
+									<field name="image_1920" widget="image"/>
+									<group><field name="name"/><field name="sequence"/></group>
+								</form>
+							</field>
+							<group>
+								<group>
+									<field name="website_headline"/>
+									<field name="website_featured"/>
+									<field name="website_show_price"/>
+									<field name="website_show_report"/>
+								</group>
+								<group>
+									<field name="website_description"/>
+								</group>
+							</group>
+						</page>
+						<page string="Notes" name="notes">
+							<field name="notes"/>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="vehicle_view_list" model="ir.ui.view">
+		<field name="name">veron.vehicle.list</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="state in ('sold', 'exited')" decoration-info="state == 'reserved'">
+				<field name="name"/>
+				<field name="title"/>
+				<field name="plate"/>
+				<field name="mileage" optional="show"/>
+				<field name="ownership" optional="show"/>
+				<field name="parking_id" optional="show"/>
+				<field name="entry_date" optional="show"/>
+				<field name="days_in_lot" optional="show"/>
+				<field name="currency_id" column_invisible="True"/>
+				<field name="asking_price" sum="Total"/>
+				<field name="purchase_price" optional="hide" sum="Total"/>
+				<field name="costs_total" optional="hide" sum="Total"/>
+				<field name="company_id" groups="base.group_multi_company" optional="show"/>
+				<field name="state" widget="badge" decoration-success="state == 'ready'" decoration-info="state == 'reserved'"
+					decoration-warning="state in ('awaiting', 'preparation')"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="vehicle_view_kanban" model="ir.ui.view">
+		<field name="name">veron.vehicle.kanban</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<kanban default_group_by="state" quick_create="false" group_create="false" group_delete="false" group_edit="false">
+				<field name="id"/>
+				<field name="currency_id"/>
+				<templates>
+					<t t-name="card" class="flex-row">
+						<aside class="o_kanban_aside_full">
+							<field name="image_128" widget="image" options="{'img_class': 'object-fit-cover'}"/>
+						</aside>
+						<main class="ms-2">
+							<field name="title" class="fw-bold"/>
+							<field name="plate_html" invisible="not plate"/>
+							<div class="text-muted small">
+								<field name="name"/> · <field name="mileage"/> km
+							</div>
+							<footer>
+								<field name="asking_price" widget="monetary"/>
+								<span class="badge text-bg-light"><field name="days_in_lot"/> روز</span>
+							</footer>
+						</main>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="vehicle_view_search" model="ir.ui.view">
+		<field name="name">veron.vehicle.search</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" string="Car" filter_domain="['|', '|', '|', ('name', 'ilike', self), ('title', 'ilike', self), ('plate', 'ilike', self), ('chassis_number', 'ilike', self)]"/>
+				<field name="model_id"/>
+				<field name="customer_id"/>
+				<field name="owner_id"/>
+				<filter name="in_lot" string="In the Lot" domain="[('state', 'not in', ('sold', 'exited'))]"/>
+				<filter name="ready" string="Ready for Sale" domain="[('state', '=', 'ready')]"/>
+				<filter name="sold" string="Sold" domain="[('state', 'in', ('sold', 'exited'))]"/>
+				<separator/>
+				<filter name="ours" string="Ours" domain="[('ownership', '=', 'business')]"/>
+				<filter name="consignment" string="Consignment" domain="[('ownership', '=', 'customer')]"/>
+				<filter name="investor" string="Investors'" domain="[('ownership', '=', 'investor')]"/>
+				<separator/>
+				<filter name="aging" string="Over 60 Days in the Lot"
+					domain="[('state', 'not in', ('sold', 'exited')), ('entry_date', '&lt;=', (context_today() - relativedelta(days=60)).strftime('%Y-%m-%d'))]"/>
+				<filter name="published" string="On the Website" domain="[('website_published', '=', True)]"/>
+				<separator/>
+				<filter name="entry_date" string="Entry Date" date="entry_date"/>
+				<filter name="sale_date" string="Sale Date" date="sale_date"/>
+				<group>
+					<filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+					<filter name="by_model" string="Car Model" context="{'group_by': 'model_id'}"/>
+					<filter name="by_ownership" string="Ownership" context="{'group_by': 'ownership'}"/>
+					<filter name="by_parking" string="Parking" context="{'group_by': 'parking_id'}"/>
+					<filter name="by_company" string="Branch" context="{'group_by': 'company_id'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="vehicle_view_pivot" model="ir.ui.view">
+		<field name="name">veron.vehicle.pivot</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<pivot sample="1">
+				<field name="company_id" type="row"/>
+				<field name="ownership" type="row"/>
+				<field name="state" type="col"/>
+				<field name="asking_price" type="measure"/>
+			</pivot>
+		</field>
+	</record>
+
+	<record id="vehicle_view_graph" model="ir.ui.view">
+		<field name="name">veron.vehicle.graph</field>
+		<field name="model">veron.vehicle</field>
+		<field name="arch" type="xml">
+			<graph type="bar" sample="1">
+				<field name="model_id"/>
+				<field name="state"/>
+			</graph>
+		</field>
+	</record>
+
+	<record id="action_vehicle" model="ir.actions.act_window">
+		<field name="name">Cars</field>
+		<field name="res_model">veron.vehicle</field>
+		<field name="view_mode">kanban,list,form,pivot,graph</field>
+		<field name="context">{'search_default_in_lot': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Register the first car</p>
+			<p>Each car has its file: its documents, body, inspection, costs, photos and sale.</p>
+		</field>
+	</record>
+
+	<record id="action_vehicle_dashboard" model="ir.actions.act_window">
+		<field name="name">Showroom Dashboard</field>
+		<field name="res_model">veron.vehicle</field>
+		<field name="view_mode">pivot,graph,list,form</field>
+		<field name="context">{'search_default_in_lot': 1}</field>
+	</record>
+
+	<record id="action_vehicle_aging" model="ir.actions.act_window">
+		<field name="name">Cars Long in the Lot</field>
+		<field name="res_model">veron.vehicle</field>
+		<field name="view_mode">list,kanban,form</field>
+		<field name="context">{'search_default_aging': 1}</field>
+	</record>
+</odoo>

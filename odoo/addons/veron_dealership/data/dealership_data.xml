@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sequence_vehicle" model="ir.sequence">
+		<field name="name">Vehicle</field>
+		<field name="code">veron.vehicle</field>
+		<field name="prefix">CAR-</field>
+		<field name="padding">5</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="sequence_instalment_sale" model="ir.sequence">
+		<field name="name">Instalment Sale</field>
+		<field name="code">veron.instalment.sale</field>
+		<field name="prefix">INS-</field>
+		<field name="padding">5</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="sequence_investment_contract" model="ir.sequence">
+		<field name="name">Investment Contract</field>
+		<field name="code">veron.investment.contract</field>
+		<field name="prefix">INV-</field>
+		<field name="padding">5</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="cron_instalment_remind" model="ir.cron">
+		<field name="name">Showroom: overdue instalments</field>
+		<field name="model_id" ref="model_veron_instalment_sale"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_remind()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+	</record>
+</odoo>

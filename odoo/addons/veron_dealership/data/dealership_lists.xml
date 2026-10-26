@@ -1,0 +1,1119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The lists a car showroom starts with; each can be changed -->
+<odoo noupdate="1">
+	<record id="car_model_1" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو ۲۰۶</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU3</field>
+		<field name="engine_volume">1360</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">75</field>
+		<field name="torque_nm">118</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">50</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_2" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو ۲۰۶ صندوق‌دار</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">105</field>
+		<field name="torque_nm">142</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">50</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_3" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو ۲۰۷</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5P</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">108</field>
+		<field name="torque_nm">142</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">50</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_4" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو ۲۰۷ اتوماتیک</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5P</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">108</field>
+		<field name="torque_nm">142</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">50</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_5" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو پارس</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">105</field>
+		<field name="torque_nm">142</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">70</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_6" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">پژو ۴۰۵</field>
+		<field name="made_in">iran</field>
+		<field name="engine">XU7</field>
+		<field name="engine_volume">1761</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">100</field>
+		<field name="torque_nm">153</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">70</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_7" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">سمند</field>
+		<field name="made_in">iran</field>
+		<field name="engine">EF7</field>
+		<field name="engine_volume">1645</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">113</field>
+		<field name="torque_nm">155</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_8" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">سورن</field>
+		<field name="made_in">iran</field>
+		<field name="engine">EF7</field>
+		<field name="engine_volume">1645</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">113</field>
+		<field name="torque_nm">155</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_9" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">دنا</field>
+		<field name="made_in">iran</field>
+		<field name="engine">EF7</field>
+		<field name="engine_volume">1645</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">113</field>
+		<field name="torque_nm">155</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_10" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">دنا پلاس</field>
+		<field name="made_in">iran</field>
+		<field name="engine">EF7 توربو</field>
+		<field name="engine_volume">1645</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">150</field>
+		<field name="torque_nm">215</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_11" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">رانا</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">105</field>
+		<field name="torque_nm">142</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_12" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">تارا</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5P</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_13" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">تارا اتوماتیک</field>
+		<field name="made_in">iran</field>
+		<field name="engine">TU5P</field>
+		<field name="engine_volume">1587</field>
+		<field name="cylinders">4</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_14" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">ری‌را</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_15" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">هایما S7</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_16" model="veron.car.model">
+		<field name="brand">ایران‌خودرو</field>
+		<field name="name">هایما S5</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_17" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">پراید</field>
+		<field name="made_in">iran</field>
+		<field name="engine_volume">1323</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">63</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">40</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_18" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">تیبا</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_19" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">ساینا</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_20" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">کوییک</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_21" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">کوییک اتوماتیک</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_22" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">شاهین</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_23" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">شاهین اتوماتیک</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_24" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">آریا</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_25" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">اطلس</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_26" model="veron.car.model">
+		<field name="brand">سایپا</field>
+		<field name="name">چانگان CS35</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_27" model="veron.car.model">
+		<field name="brand">پارس‌خودرو</field>
+		<field name="name">ال۹۰</field>
+		<field name="made_in">iran</field>
+		<field name="engine">K7M</field>
+		<field name="engine_volume">1598</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">87</field>
+		<field name="transmission">manual</field>
+		<field name="gears">5</field>
+		<field name="fuel">petrol</field>
+		<field name="fuel_tank">50</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_28" model="veron.car.model">
+		<field name="brand">پارس‌خودرو</field>
+		<field name="name">برلیانس H320</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_29" model="veron.car.model">
+		<field name="brand">پارس‌خودرو</field>
+		<field name="name">برلیانس H330</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_30" model="veron.car.model">
+		<field name="brand">پارس‌خودرو</field>
+		<field name="name">چری تیگو ۵</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_31" model="veron.car.model">
+		<field name="brand">پارس‌خودرو</field>
+		<field name="name">رنو ساندرو</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_32" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">ام‌وی‌ام X22</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_33" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">ام‌وی‌ام X33</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_34" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">ام‌وی‌ام X55</field>
+		<field name="made_in">iran</field>
+		<field name="engine">1.5 توربو</field>
+		<field name="engine_volume">1498</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">147</field>
+		<field name="transmission">cvt</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_35" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">ام‌وی‌ام 315</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_36" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">چری آریزو ۵</field>
+		<field name="made_in">iran</field>
+		<field name="engine">1.5 توربو</field>
+		<field name="engine_volume">1498</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">147</field>
+		<field name="transmission">cvt</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_37" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">چری آریزو ۶</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_38" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">چری تیگو ۷</field>
+		<field name="made_in">iran</field>
+		<field name="engine">1.5 توربو</field>
+		<field name="engine_volume">1498</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">147</field>
+		<field name="transmission">dct</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_39" model="veron.car.model">
+		<field name="brand">مدیران‌خودرو</field>
+		<field name="name">چری تیگو ۸</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_40" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">جک J4</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_41" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">جک S3</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_42" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">جک S5</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_43" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">کی‌ام‌سی K7</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_44" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">کی‌ام‌سی T8</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_45" model="veron.car.model">
+		<field name="brand">کرمان‌موتور</field>
+		<field name="name">کی‌ام‌سی J7</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_46" model="veron.car.model">
+		<field name="brand">بهمن‌موتور</field>
+		<field name="name">فیدلیتی</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_47" model="veron.car.model">
+		<field name="brand">بهمن‌موتور</field>
+		<field name="name">دیگنیتی</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_48" model="veron.car.model">
+		<field name="brand">بهمن‌موتور</field>
+		<field name="name">کاپرا</field>
+		<field name="made_in">iran</field>
+	</record>
+	<record id="car_model_49" model="veron.car.model">
+		<field name="brand">تویوتا</field>
+		<field name="name">کرولا</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1798</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">140</field>
+		<field name="transmission">cvt</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_50" model="veron.car.model">
+		<field name="brand">تویوتا</field>
+		<field name="name">کمری</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2494</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">178</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_51" model="veron.car.model">
+		<field name="brand">تویوتا</field>
+		<field name="name">راوفور</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_52" model="veron.car.model">
+		<field name="brand">تویوتا</field>
+		<field name="name">لندکروزر</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_53" model="veron.car.model">
+		<field name="brand">تویوتا</field>
+		<field name="name">هایلوکس</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_54" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">النترا</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1999</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">147</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_55" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">سوناتا</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2359</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">185</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_56" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">توسان</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1999</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">155</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_57" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">سانتافه</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2359</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">185</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="seats">7</field>
+	</record>
+	<record id="car_model_58" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">اکسنت</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_59" model="veron.car.model">
+		<field name="brand">هیوندای</field>
+		<field name="name">i20</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_60" model="veron.car.model">
+		<field name="brand">کیا</field>
+		<field name="name">سراتو</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1999</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">147</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_61" model="veron.car.model">
+		<field name="brand">کیا</field>
+		<field name="name">اسپورتیج</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2359</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">181</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_62" model="veron.car.model">
+		<field name="brand">کیا</field>
+		<field name="name">سورنتو</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_63" model="veron.car.model">
+		<field name="brand">کیا</field>
+		<field name="name">ریو</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_64" model="veron.car.model">
+		<field name="brand">کیا</field>
+		<field name="name">اپتیما</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2359</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">185</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_65" model="veron.car.model">
+		<field name="brand">نیسان</field>
+		<field name="name">قشقایی</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1997</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">141</field>
+		<field name="transmission">cvt</field>
+		<field name="fuel">petrol</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_66" model="veron.car.model">
+		<field name="brand">نیسان</field>
+		<field name="name">ایکس‌تریل</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2488</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">171</field>
+		<field name="transmission">cvt</field>
+		<field name="fuel">petrol</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_67" model="veron.car.model">
+		<field name="brand">نیسان</field>
+		<field name="name">پاترول</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_68" model="veron.car.model">
+		<field name="brand">نیسان</field>
+		<field name="name">جوک</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_69" model="veron.car.model">
+		<field name="brand">مزدا</field>
+		<field name="name">مزدا ۳</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">1998</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">155</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="drive">front</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_70" model="veron.car.model">
+		<field name="brand">مزدا</field>
+		<field name="name">مزدا ۶</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_71" model="veron.car.model">
+		<field name="brand">مزدا</field>
+		<field name="name">CX-5</field>
+		<field name="made_in">imported</field>
+		<field name="engine_volume">2488</field>
+		<field name="cylinders">4</field>
+		<field name="power_hp">187</field>
+		<field name="transmission">automatic</field>
+		<field name="gears">6</field>
+		<field name="fuel">petrol</field>
+		<field name="seats">5</field>
+	</record>
+	<record id="car_model_72" model="veron.car.model">
+		<field name="brand">بی‌ام‌و</field>
+		<field name="name">سری ۳</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_73" model="veron.car.model">
+		<field name="brand">بی‌ام‌و</field>
+		<field name="name">سری ۵</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_74" model="veron.car.model">
+		<field name="brand">بی‌ام‌و</field>
+		<field name="name">X3</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_75" model="veron.car.model">
+		<field name="brand">بی‌ام‌و</field>
+		<field name="name">X5</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_76" model="veron.car.model">
+		<field name="brand">مرسدس‌بنز</field>
+		<field name="name">کلاس C</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_77" model="veron.car.model">
+		<field name="brand">مرسدس‌بنز</field>
+		<field name="name">کلاس E</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="car_model_78" model="veron.car.model">
+		<field name="brand">مرسدس‌بنز</field>
+		<field name="name">GLC</field>
+		<field name="made_in">imported</field>
+	</record>
+	<record id="color_1" model="veron.car.color">
+		<field name="name">سفید</field>
+		<field name="color">#ffffff</field>
+		<field name="sequence">1</field>
+	</record>
+	<record id="color_2" model="veron.car.color">
+		<field name="name">سفید صدفی</field>
+		<field name="color">#f5f1e6</field>
+		<field name="sequence">2</field>
+	</record>
+	<record id="color_3" model="veron.car.color">
+		<field name="name">مشکی</field>
+		<field name="color">#111111</field>
+		<field name="sequence">3</field>
+	</record>
+	<record id="color_4" model="veron.car.color">
+		<field name="name">نقره‌ای</field>
+		<field name="color">#c0c0c0</field>
+		<field name="sequence">4</field>
+	</record>
+	<record id="color_5" model="veron.car.color">
+		<field name="name">خاکستری</field>
+		<field name="color">#808080</field>
+		<field name="sequence">5</field>
+	</record>
+	<record id="color_6" model="veron.car.color">
+		<field name="name">نوک‌مدادی</field>
+		<field name="color">#4a4a4a</field>
+		<field name="sequence">6</field>
+	</record>
+	<record id="color_7" model="veron.car.color">
+		<field name="name">دلفینی</field>
+		<field name="color">#7b8a96</field>
+		<field name="sequence">7</field>
+	</record>
+	<record id="color_8" model="veron.car.color">
+		<field name="name">قرمز</field>
+		<field name="color">#c0392b</field>
+		<field name="sequence">8</field>
+	</record>
+	<record id="color_9" model="veron.car.color">
+		<field name="name">آلبالویی</field>
+		<field name="color">#7b1e2b</field>
+		<field name="sequence">9</field>
+	</record>
+	<record id="color_10" model="veron.car.color">
+		<field name="name">آبی</field>
+		<field name="color">#2457a6</field>
+		<field name="sequence">10</field>
+	</record>
+	<record id="color_11" model="veron.car.color">
+		<field name="name">سرمه‌ای</field>
+		<field name="color">#1f2a44</field>
+		<field name="sequence">11</field>
+	</record>
+	<record id="color_12" model="veron.car.color">
+		<field name="name">سبز</field>
+		<field name="color">#2e7d32</field>
+		<field name="sequence">12</field>
+	</record>
+	<record id="color_13" model="veron.car.color">
+		<field name="name">بژ</field>
+		<field name="color">#d9c7a1</field>
+		<field name="sequence">13</field>
+	</record>
+	<record id="color_14" model="veron.car.color">
+		<field name="name">طلایی</field>
+		<field name="color">#c9a227</field>
+		<field name="sequence">14</field>
+	</record>
+	<record id="color_15" model="veron.car.color">
+		<field name="name">قهوه‌ای</field>
+		<field name="color">#6d4c41</field>
+		<field name="sequence">15</field>
+	</record>
+	<record id="color_16" model="veron.car.color">
+		<field name="name">زرد</field>
+		<field name="color">#f2c200</field>
+		<field name="sequence">16</field>
+	</record>
+	<record id="color_17" model="veron.car.color">
+		<field name="name">نارنجی</field>
+		<field name="color">#e67e22</field>
+		<field name="sequence">17</field>
+	</record>
+	<record id="body_part_1" model="veron.body.part">
+		<field name="name">سپر جلو</field>
+		<field name="sequence">1</field>
+	</record>
+	<record id="body_part_2" model="veron.body.part">
+		<field name="name">کاپوت</field>
+		<field name="sequence">2</field>
+	</record>
+	<record id="body_part_3" model="veron.body.part">
+		<field name="name">گلگیر جلو چپ</field>
+		<field name="sequence">3</field>
+	</record>
+	<record id="body_part_4" model="veron.body.part">
+		<field name="name">گلگیر جلو راست</field>
+		<field name="sequence">4</field>
+	</record>
+	<record id="body_part_5" model="veron.body.part">
+		<field name="name">شیشه جلو</field>
+		<field name="sequence">5</field>
+	</record>
+	<record id="body_part_6" model="veron.body.part">
+		<field name="name">درب جلو چپ</field>
+		<field name="sequence">6</field>
+	</record>
+	<record id="body_part_7" model="veron.body.part">
+		<field name="name">درب جلو راست</field>
+		<field name="sequence">7</field>
+	</record>
+	<record id="body_part_8" model="veron.body.part">
+		<field name="name">درب عقب چپ</field>
+		<field name="sequence">8</field>
+	</record>
+	<record id="body_part_9" model="veron.body.part">
+		<field name="name">درب عقب راست</field>
+		<field name="sequence">9</field>
+	</record>
+	<record id="body_part_10" model="veron.body.part">
+		<field name="name">رکاب چپ</field>
+		<field name="sequence">10</field>
+	</record>
+	<record id="body_part_11" model="veron.body.part">
+		<field name="name">رکاب راست</field>
+		<field name="sequence">11</field>
+	</record>
+	<record id="body_part_12" model="veron.body.part">
+		<field name="name">سقف</field>
+		<field name="sequence">12</field>
+	</record>
+	<record id="body_part_13" model="veron.body.part">
+		<field name="name">شیشه عقب</field>
+		<field name="sequence">13</field>
+	</record>
+	<record id="body_part_14" model="veron.body.part">
+		<field name="name">گلگیر عقب چپ</field>
+		<field name="sequence">14</field>
+	</record>
+	<record id="body_part_15" model="veron.body.part">
+		<field name="name">گلگیر عقب راست</field>
+		<field name="sequence">15</field>
+	</record>
+	<record id="body_part_16" model="veron.body.part">
+		<field name="name">درب صندوق</field>
+		<field name="sequence">16</field>
+	</record>
+	<record id="body_part_17" model="veron.body.part">
+		<field name="name">سپر عقب</field>
+		<field name="sequence">17</field>
+	</record>
+	<record id="body_part_18" model="veron.body.part">
+		<field name="name">ستون‌ها</field>
+		<field name="sequence">18</field>
+	</record>
+	<record id="body_part_19" model="veron.body.part">
+		<field name="name">سینی جلو</field>
+		<field name="sequence">19</field>
+	</record>
+	<record id="body_part_20" model="veron.body.part">
+		<field name="name">شاسی جلو</field>
+		<field name="sequence">20</field>
+	</record>
+	<record id="body_part_21" model="veron.body.part">
+		<field name="name">شاسی عقب</field>
+		<field name="sequence">21</field>
+	</record>
+	<record id="body_part_22" model="veron.body.part">
+		<field name="name">کف صندوق</field>
+		<field name="sequence">22</field>
+	</record>
+	<record id="body_part_23" model="veron.body.part">
+		<field name="name">اتاق</field>
+		<field name="sequence">23</field>
+	</record>
+	<record id="body_condition_1" model="veron.body.condition">
+		<field name="name">رنگ دارد</field>
+		<field name="color">#f59e0b</field>
+		<field name="severity">medium</field>
+		<field name="sequence">1</field>
+	</record>
+	<record id="body_condition_2" model="veron.body.condition">
+		<field name="name">تصادفی</field>
+		<field name="color">#dc2626</field>
+		<field name="severity">high</field>
+		<field name="sequence">2</field>
+	</record>
+	<record id="body_condition_3" model="veron.body.condition">
+		<field name="name">خط و خش</field>
+		<field name="color">#a3a3a3</field>
+		<field name="severity">low</field>
+		<field name="sequence">3</field>
+	</record>
+	<record id="body_condition_4" model="veron.body.condition">
+		<field name="name">لیسه</field>
+		<field name="color">#eab308</field>
+		<field name="severity">low</field>
+		<field name="sequence">4</field>
+	</record>
+	<record id="body_condition_5" model="veron.body.condition">
+		<field name="name">تعویضی</field>
+		<field name="color">#7c3aed</field>
+		<field name="severity">high</field>
+		<field name="sequence">5</field>
+	</record>
+	<record id="body_condition_6" model="veron.body.condition">
+		<field name="name">رنگ‌سوختگی</field>
+		<field name="color">#ea580c</field>
+		<field name="severity">low</field>
+		<field name="sequence">6</field>
+	</record>
+	<record id="body_condition_7" model="veron.body.condition">
+		<field name="name">صافکاری بدون رنگ</field>
+		<field name="color">#0ea5e9</field>
+		<field name="severity">low</field>
+		<field name="sequence">7</field>
+	</record>
+	<record id="body_condition_8" model="veron.body.condition">
+		<field name="name">فرورفتگی</field>
+		<field name="color">#64748b</field>
+		<field name="severity">low</field>
+		<field name="sequence">8</field>
+	</record>
+	<record id="body_condition_9" model="veron.body.condition">
+		<field name="name">ترک یا شکستگی</field>
+		<field name="color">#be123c</field>
+		<field name="severity">medium</field>
+		<field name="sequence">9</field>
+	</record>
+	<record id="inspection_item_1" model="veron.inspection.item">
+		<field name="name">موتور</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">1</field>
+	</record>
+	<record id="inspection_item_2" model="veron.inspection.item">
+		<field name="name">گیربکس</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">2</field>
+	</record>
+	<record id="inspection_item_3" model="veron.inspection.item">
+		<field name="name">لاستیک‌ها</field>
+		<field name="section">technical</field>
+		<field name="measure">percent</field>
+		<field name="sequence">3</field>
+	</record>
+	<record id="inspection_item_4" model="veron.inspection.item">
+		<field name="name">کمک‌فنرها</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">4</field>
+	</record>
+	<record id="inspection_item_5" model="veron.inspection.item">
+		<field name="name">جلوبندی و فرمان</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">5</field>
+	</record>
+	<record id="inspection_item_6" model="veron.inspection.item">
+		<field name="name">ترمزها</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">6</field>
+	</record>
+	<record id="inspection_item_7" model="veron.inspection.item">
+		<field name="name">کولر</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">7</field>
+	</record>
+	<record id="inspection_item_8" model="veron.inspection.item">
+		<field name="name">بخاری</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">8</field>
+	</record>
+	<record id="inspection_item_9" model="veron.inspection.item">
+		<field name="name">تسمه تایم</field>
+		<field name="section">technical</field>
+		<field name="measure">percent</field>
+		<field name="sequence">9</field>
+	</record>
+	<record id="inspection_item_10" model="veron.inspection.item">
+		<field name="name">باتری</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">10</field>
+	</record>
+	<record id="inspection_item_11" model="veron.inspection.item">
+		<field name="name">سیستم برق</field>
+		<field name="section">technical</field>
+		<field name="measure">score</field>
+		<field name="sequence">11</field>
+	</record>
+	<record id="inspection_item_12" model="veron.inspection.item">
+		<field name="name">صندلی‌ها</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">12</field>
+	</record>
+	<record id="inspection_item_13" model="veron.inspection.item">
+		<field name="name">فرمان</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">13</field>
+	</record>
+	<record id="inspection_item_14" model="veron.inspection.item">
+		<field name="name">داشبورد</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">14</field>
+	</record>
+	<record id="inspection_item_15" model="veron.inspection.item">
+		<field name="name">سقف داخلی</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">15</field>
+	</record>
+	<record id="inspection_item_16" model="veron.inspection.item">
+		<field name="name">کف و موکت</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">16</field>
+	</record>
+	<record id="inspection_item_17" model="veron.inspection.item">
+		<field name="name">سیستم صوتی و تصویری</field>
+		<field name="section">interior</field>
+		<field name="measure">score</field>
+		<field name="sequence">17</field>
+	</record>
+	<record id="service_1" model="veron.vehicle.service">
+		<field name="name">کارواش معمولی</field>
+		<field name="category">preparation</field>
+		<field name="sequence">1</field>
+	</record>
+	<record id="service_2" model="veron.vehicle.service">
+		<field name="name">کارواش VIP</field>
+		<field name="category">preparation</field>
+		<field name="sequence">2</field>
+	</record>
+	<record id="service_3" model="veron.vehicle.service">
+		<field name="name">صفرشویی</field>
+		<field name="category">preparation</field>
+		<field name="sequence">3</field>
+	</record>
+	<record id="service_4" model="veron.vehicle.service">
+		<field name="name">پولیش بدنه</field>
+		<field name="category">preparation</field>
+		<field name="sequence">4</field>
+	</record>
+	<record id="service_5" model="veron.vehicle.service">
+		<field name="name">واکس</field>
+		<field name="category">preparation</field>
+		<field name="sequence">5</field>
+	</record>
+	<record id="service_6" model="veron.vehicle.service">
+		<field name="name">تمیز کردن چراغ‌ها</field>
+		<field name="category">preparation</field>
+		<field name="sequence">6</field>
+	</record>
+	<record id="service_7" model="veron.vehicle.service">
+		<field name="name">روکش فرمان</field>
+		<field name="category">preparation</field>
+		<field name="sequence">7</field>
+	</record>
+	<record id="service_8" model="veron.vehicle.service">
+		<field name="name">روکش صندلی</field>
+		<field name="category">preparation</field>
+		<field name="sequence">8</field>
+	</record>
+	<record id="service_9" model="veron.vehicle.service">
+		<field name="name">زیرپایی</field>
+		<field name="category">preparation</field>
+		<field name="sequence">9</field>
+	</record>
+	<record id="service_10" model="veron.vehicle.service">
+		<field name="name">صافکاری</field>
+		<field name="category">repair</field>
+		<field name="sequence">10</field>
+	</record>
+	<record id="service_11" model="veron.vehicle.service">
+		<field name="name">PDR (صافکاری بدون رنگ)</field>
+		<field name="category">repair</field>
+		<field name="sequence">11</field>
+	</record>
+	<record id="service_12" model="veron.vehicle.service">
+		<field name="name">رنگ</field>
+		<field name="category">repair</field>
+		<field name="sequence">12</field>
+	</record>
+	<record id="service_13" model="veron.vehicle.service">
+		<field name="name">تودوزی</field>
+		<field name="category">repair</field>
+		<field name="sequence">13</field>
+	</record>
+	<record id="service_14" model="veron.vehicle.service">
+		<field name="name">تعویض قطعه</field>
+		<field name="category">repair</field>
+		<field name="sequence">14</field>
+	</record>
+	<record id="service_15" model="veron.vehicle.service">
+		<field name="name">تراشکاری</field>
+		<field name="category">repair</field>
+		<field name="sequence">15</field>
+	</record>
+	<record id="service_16" model="veron.vehicle.service">
+		<field name="name">تعویض لاستیک</field>
+		<field name="category">repair</field>
+		<field name="sequence">16</field>
+	</record>
+	<record id="service_17" model="veron.vehicle.service">
+		<field name="name">تعمیر مکانیکی</field>
+		<field name="category">repair</field>
+		<field name="sequence">17</field>
+	</record>
+	<record id="service_18" model="veron.vehicle.service">
+		<field name="name">سرویس و تعویض روغن</field>
+		<field name="category">repair</field>
+		<field name="sequence">18</field>
+	</record>
+	<record id="service_19" model="veron.vehicle.service">
+		<field name="name">کارشناسی</field>
+		<field name="category">paperwork</field>
+		<field name="sequence">19</field>
+	</record>
+	<record id="service_20" model="veron.vehicle.service">
+		<field name="name">انتقال سند</field>
+		<field name="category">paperwork</field>
+		<field name="sequence">20</field>
+	</record>
+	<record id="service_21" model="veron.vehicle.service">
+		<field name="name">بیمه</field>
+		<field name="category">paperwork</field>
+		<field name="sequence">21</field>
+	</record>
+	<record id="service_22" model="veron.vehicle.service">
+		<field name="name">خلافی و عوارض</field>
+		<field name="category">paperwork</field>
+		<field name="sequence">22</field>
+	</record>
+	<record id="service_23" model="veron.vehicle.service">
+		<field name="name">معاینه فنی</field>
+		<field name="category">paperwork</field>
+		<field name="sequence">23</field>
+	</record>
+	<record id="service_24" model="veron.vehicle.service">
+		<field name="name">سایر هزینه‌ها</field>
+		<field name="category">other</field>
+		<field name="sequence">24</field>
+	</record>
+</odoo>

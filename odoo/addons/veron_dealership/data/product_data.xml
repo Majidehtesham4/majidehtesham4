@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<!-- The products of the showroom's invoices and bills; their accounts can be set on them -->
+	<record id="product_vehicle" model="product.product">
+		<field name="name">خودرو</field>
+		<field name="type">consu</field>
+		<field name="sale_ok" eval="True"/>
+		<field name="purchase_ok" eval="True"/>
+		<field name="list_price">0</field>
+	</record>
+	<record id="product_service" model="product.product">
+		<field name="name">خدمات و هزینه‌های خودرو</field>
+		<field name="type">service</field>
+		<field name="list_price">0</field>
+	</record>
+	<record id="product_commission" model="product.product">
+		<field name="name">کمیسیون فروش امانی</field>
+		<field name="type">service</field>
+		<field name="purchase_ok" eval="False"/>
+		<field name="list_price">0</field>
+	</record>
+	<record id="product_instalment_profit" model="product.product">
+		<field name="name">سود فروش اقساطی</field>
+		<field name="type">service</field>
+		<field name="purchase_ok" eval="False"/>
+		<field name="list_price">0</field>
+	</record>
+</odoo>

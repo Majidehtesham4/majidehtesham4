@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="car_model_view_list" model="ir.ui.view">
+		<field name="name">veron.car.model.list</field>
+		<field name="model">veron.car.model</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="brand"/>
+				<field name="name"/>
+				<field name="made_in"/>
+				<field name="body_type" optional="show"/>
+				<field name="engine_volume" optional="show"/>
+				<field name="transmission" optional="show"/>
+				<field name="fuel" optional="hide"/>
+			</list>
+		</field>
+	</record>
+	<record id="car_model_view_form" model="ir.ui.view">
+		<field name="name">veron.car.model.form</field>
+		<field name="model">veron.car.model</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<group>
+							<field name="brand"/>
+							<field name="name"/>
+							<field name="made_in"/>
+							<field name="body_type"/>
+							<field name="seats"/>
+							<field name="drive"/>
+						</group>
+						<group>
+							<field name="engine"/>
+							<field name="engine_volume"/>
+							<field name="cylinders"/>
+							<field name="power_hp"/>
+							<field name="torque_nm"/>
+							<field name="transmission"/>
+							<field name="gears"/>
+							<field name="fuel"/>
+							<field name="fuel_tank"/>
+						</group>
+					</group>
+					<field name="note" placeholder="Other specifications..."/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="car_model_view_search" model="ir.ui.view">
+		<field name="name">veron.car.model.search</field>
+		<field name="model">veron.car.model</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name" filter_domain="['|', ('brand', 'ilike', self), ('name', 'ilike', self)]"/>
+				<filter name="iran" string="Made in Iran" domain="[('made_in', '=', 'iran')]"/>
+				<filter name="imported" string="Imported" domain="[('made_in', '=', 'imported')]"/>
+				<group><filter name="by_brand" string="Brand" context="{'group_by': 'brand'}"/></group>
+			</search>
+		</field>
+	</record>
+	<record id="action_car_model" model="ir.actions.act_window">
+		<field name="name">Car Models</field>
+		<field name="res_model">veron.car.model</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="car_color_view_list" model="ir.ui.view">
+		<field name="name">veron.car.color.list</field>
+		<field name="model">veron.car.color</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="color" widget="color"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_car_color" model="ir.actions.act_window">
+		<field name="name">Colors</field>
+		<field name="res_model">veron.car.color</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="body_part_view_list" model="ir.ui.view">
+		<field name="name">veron.body.part.list</field>
+		<field name="model">veron.body.part</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_body_part" model="ir.actions.act_window">
+		<field name="name">Body Parts</field>
+		<field name="res_model">veron.body.part</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="body_condition_view_list" model="ir.ui.view">
+		<field name="name">veron.body.condition.list</field>
+		<field name="model">veron.body.condition</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="color" widget="color"/>
+				<field name="severity"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_body_condition" model="ir.actions.act_window">
+		<field name="name">Body Conditions</field>
+		<field name="res_model">veron.body.condition</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="inspection_item_view_list" model="ir.ui.view">
+		<field name="name">veron.inspection.item.list</field>
+		<field name="model">veron.inspection.item</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="section"/>
+				<field name="measure"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_inspection_item" model="ir.actions.act_window">
+		<field name="name">Inspection Items</field>
+		<field name="res_model">veron.inspection.item</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="vehicle_service_view_list" model="ir.ui.view">
+		<field name="name">veron.vehicle.service.list</field>
+		<field name="model">veron.vehicle.service</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="category"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_vehicle_service" model="ir.actions.act_window">
+		<field name="name">Services and Costs</field>
+		<field name="res_model">veron.vehicle.service</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="parking_view_list" model="ir.ui.view">
+		<field name="name">veron.parking.list</field>
+		<field name="model">veron.parking</field>
+		<field name="arch" type="xml">
+			<list editable="bottom">
+				<field name="name"/>
+				<field name="address"/>
+				<field name="capacity"/>
+				<field name="occupied"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_parking" model="ir.actions.act_window">
+		<field name="name">Parkings</field>
+		<field name="res_model">veron.parking</field>
+		<field name="view_mode">list</field>
+	</record>
+</odoo>
