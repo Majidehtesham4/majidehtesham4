@@ -1,0 +1,388 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "%s shifts copied to the next week."
+msgstr "%s شیفت به هفته‌ی بعد کپی شد."
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_form
+msgid "<i class=\"fa fa-exclamation-triangle me-1\"/> Conflict:"
+msgstr "<i class=\"fa fa-exclamation-triangle me-1\"/> تداخل:"
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "A shift must end after it starts."
+msgstr "پایان شیفت باید بعد از شروع آن باشد."
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_form
+msgid "Back to Draft"
+msgstr "برگرداندن به پیش‌نویس"
+
+#. module: veron_planning
+#: model:veron.planning.role,name:veron_planning.role_cashier
+msgid "Cashier"
+msgstr "صندوقدار"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__color
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__color
+msgid "Color"
+msgstr "رنگ"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_planning
+#: model:ir.ui.menu,name:veron_planning.menu_config
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__conflict
+msgid "Conflict"
+msgstr "تداخل"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__conflict_reason
+msgid "Conflict Reason"
+msgstr "دلیل تداخل"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Conflicts"
+msgstr "تداخل‌ها"
+
+#. module: veron_planning
+#: model:ir.actions.server,name:veron_planning.action_copy_previous_week
+#: model:ir.ui.menu,name:veron_planning.menu_copy_week
+msgid "Copy Previous Week"
+msgstr "کپی هفته‌ی قبل"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__create_uid
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__create_date
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__department_id
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Department"
+msgstr "دپارتمان"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__display_name
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_planning
+#: model:ir.model.fields.selection,name:veron_planning.selection__veron_planning_shift__state__draft
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_planning
+#: model:veron.planning.role,name:veron_planning.role_driver
+msgid "Driver"
+msgstr "راننده"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__employee_id
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__end_datetime
+msgid "End"
+msgstr "پایان"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__allocated_hours
+msgid "Hours"
+msgstr "ساعت"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__id
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__message_has_error
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__write_uid
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__write_date
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_planning
+#: model:ir.actions.act_window,name:veron_planning.action_my_shifts
+#: model:ir.ui.menu,name:veron_planning.menu_my_shifts
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "My Shifts"
+msgstr "شیفت‌های من"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_form
+msgid "Notes for the employee..."
+msgstr "توضیح برای کارمند..."
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_planning
+#: model_terms:ir.actions.act_window,help:veron_planning.action_shifts
+msgid "Plan the first shift"
+msgstr "اولین شیفت را برنامه‌ریزی کنید"
+
+#. module: veron_planning
+#: model:ir.actions.act_window,name:veron_planning.action_shifts
+#: model:ir.ui.menu,name:veron_planning.menu_planning
+#: model:ir.ui.menu,name:veron_planning.menu_planning_root
+msgid "Planning"
+msgstr "برنامه‌ریزی نیرو"
+
+#. module: veron_planning
+#: model:ir.model,name:veron_planning.model_veron_planning_role
+msgid "Planning Role"
+msgstr "نقش برنامه‌ریزی"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_form
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_list
+msgid "Publish"
+msgstr "انتشار"
+
+#. module: veron_planning
+#: model:ir.model.fields.selection,name:veron_planning.selection__veron_planning_shift__state__published
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Published"
+msgstr "منتشرشده"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__user_id
+msgid "Related user name for the resource to manage its access."
+msgstr "نام کاربری مرتبط برای منبع برای مدیریت حق دسترسی آن."
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__role_id
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_search
+msgid "Role"
+msgstr "نقش"
+
+#. module: veron_planning
+#: model:ir.actions.act_window,name:veron_planning.action_roles
+#: model:ir.ui.menu,name:veron_planning.menu_roles
+msgid "Roles"
+msgstr "نقش‌ها"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_planning
+#: model:veron.planning.role,name:veron_planning.role_sales
+msgid "Salesperson"
+msgstr "فروشنده"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_role__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_planning
+#: model:ir.model,name:veron_planning.model_veron_planning_shift
+msgid "Shift"
+msgstr "شیفت"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__start_datetime
+msgid "Start"
+msgstr "شروع"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_planning
+#: model:veron.planning.role,name:veron_planning.role_technician
+msgid "Technician"
+msgstr "تکنسین"
+
+#. module: veron_planning
+#: model_terms:ir.ui.view,arch_db:veron_planning.shift_view_list
+msgid "Total"
+msgstr "جمع"
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "Unsupported search on conflicts."
+msgstr "این نوع جستجو در تداخل‌ها پشتیبانی نمی‌شود."
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__user_id
+msgid "User"
+msgstr "کاربر"
+
+#. module: veron_planning
+#: model:veron.planning.role,name:veron_planning.role_warehouse
+msgid "Warehouse"
+msgstr "انبار"
+
+#. module: veron_planning
+#: model:ir.model.fields,field_description:veron_planning.field_veron_planning_shift__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_planning
+#: model:ir.model.fields,help:veron_planning.field_veron_planning_shift__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_planning
+#: model_terms:ir.actions.act_window,help:veron_planning.action_shifts
+msgid ""
+"Who works when, in which role. Publish the plan so the employees see it."
+msgstr ""
+"چه کسی، چه زمانی و در چه نقشی کار می‌کند. برنامه را منتشر کنید تا کارکنان آن"
+" را ببینند."
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "Your shift is planned: %(role)s, %(hours)s hours."
+msgstr "شیفت شما برنامه‌ریزی شد: %(role)s، %(hours)s ساعت."
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "another shift at the same time"
+msgstr "شیفت دیگری در همان زمان"
+
+#. module: veron_planning
+#. odoo-python
+#: code:addons/veron_planning/models/planning.py:0
+msgid "time off: %s"
+msgstr "مرخصی: %s"

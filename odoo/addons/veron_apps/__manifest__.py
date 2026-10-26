@@ -23,6 +23,7 @@ employees):
 - Online payment: veron_payment_iran (Zarinpal, Zibal)
 - SMS: veron_sms_iran (Kavenegar, SMS.ir, Melipayamak) instead of Odoo's paid SMS
 - Barcode: veron_barcode, receipts, deliveries and stock counts with a scanner or the phone's camera
+- Planning: veron_planning, staff shifts by role on a timeline, with conflicts against time off
 - The full-screen apps menu: web_responsive
 
 Not on OCA for Odoo 19: Rental, Approvals, Appraisals, PLM, Studio, Marketing Automation,
@@ -61,10 +62,12 @@ Social Marketing, IoT and WhatsApp.
 		"veron_sms_iran",
 		# Our own replacements of the paid apps
 		"veron_barcode",
+		"veron_planning",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {
 		"spreadsheet.o_spreadsheet": ["veron_apps/static/src/spreadsheet/shamsi.js"],
+		"web.assets_backend": ["veron_apps/static/src/timeline/shamsi.js"],
 	},
 	"installable": True,
 	"application": True,

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_role_user,role user,model_veron_planning_role,base.group_user,1,0,0,0
+access_role_hr,role hr,model_veron_planning_role,hr.group_hr_user,1,1,1,1
+access_shift_user,shift user,model_veron_planning_shift,base.group_user,1,0,0,0
+access_shift_hr,shift hr,model_veron_planning_shift,hr.group_hr_user,1,1,1,1
