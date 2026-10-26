@@ -80,6 +80,9 @@ patch(CalendarCommonRenderer.prototype, {
             return options;
         }
         options.weekNumberCalculation = (date) => weekOf(luxon.DateTime.fromJSDate(date));
+        // FullCalendar has no Persian of its own: «Week 32» otherwise
+        options.weekText = "هفته ";
+        options.weekTextLong = "هفته ";
         if (this.props.model.scale === "month") {
             options.dayCellContent = ({ date }) =>
                 String(jalali.toJalali(luxon.DateTime.fromJSDate(date, { zone: "UTC" })).day);

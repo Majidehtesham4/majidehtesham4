@@ -35,6 +35,8 @@ registry.category("services").add("veron_jalali", {
             Settings.defaultOutputCalendar = "persian";
             // Digits of dates as in amounts
             Settings.defaultNumberingSystem = "latn";
+            // For the styles that only apply to Shamsi pages
+            document.body.classList.add("o_veron_shamsi");
         }
     },
 });
