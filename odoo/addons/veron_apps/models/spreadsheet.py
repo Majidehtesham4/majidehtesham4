@@ -1,10 +1,14 @@
 import json
+import os
 import re
 
 from odoo import models
 from odoo.tools.translate import code_translations
 
 TEXT_KEYS = ("text", "title", "label")
+# Words of Odoo's dashboards no module translates: column titles of their tables and a few cells
+with open(os.path.join(os.path.dirname(__file__), "dashboard_words.json"), encoding="utf-8") as f:
+	MANUAL = json.load(f)
 TAGS = re.compile(r"<[^>]+>")
 # Words written inside formulas, as fallbacks or between numbers: only these, a formula's other
 # quoted words are field names
@@ -40,12 +44,22 @@ class SpreadsheetDashboard(models.Model):
 		# Some of Odoo's Persian keeps HTML around a title («<div>فاکتورها برتر</div>»); the spaces
 		# around the source stay, as in « days» after a number
 		words = {source: _clean(source, text) for source, text in words.items()}
-		for sheet in data["snapshot"].get("sheets", []):
+		words = {**words, **MANUAL}
+		snapshot = data["snapshot"]
+		# The names of pivot tables (their top-left cell), their measures and lists: only shown, never
+		# referred to by formulas
+		for pivot in (snapshot.get("pivots") or {}).values():
+			_translate(pivot, words, ("name", "userDefinedName"))
+		for list_ in (snapshot.get("lists") or {}).values():
+			_translate(list_, words, ("name",))
+		for sheet in snapshot.get("sheets", []):
 			for figure in sheet.get("figures", []):
 				_translate(figure.get("data"), words)
 			# A title with a link to a view: «[Top Invoices](odoo://view/...)»
 			for ref, cell in sheet.get("cells", {}).items():
-				if isinstance(cell, str) and (match := LINK.match(cell)) and match.group(1) in words:
+				if isinstance(cell, str) and not cell.startswith(("=", "[")) and cell.strip() in words:
+					sheet["cells"][ref] = words[cell.strip()]
+				elif isinstance(cell, str) and (match := LINK.match(cell)) and match.group(1) in words:
 					sheet["cells"][ref] = f"[{words[match.group(1)]}]({match.group(2)})"
 				elif isinstance(cell, str) and cell.startswith("="):
 					for english, persian in FORMULA_WORDS.items():
@@ -67,14 +81,14 @@ def _quoted(text):
 	return '"' + text.replace('"', '""') + '"'
 
 
-def _translate(node, words):
+def _translate(node, words, keys=TEXT_KEYS):
 	if isinstance(node, dict):
 		for key, value in node.items():
-			if key in TEXT_KEYS and isinstance(value, str) and value in words:
+			if key in keys and isinstance(value, str) and value in words:
 				node[key] = words[value]
 			else:
-				_translate(value, words)
+				_translate(value, words, keys)
 	elif isinstance(node, list):
 		for value in node:
-			_translate(value, words)
+			_translate(value, words, keys)
 
