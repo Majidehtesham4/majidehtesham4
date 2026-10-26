@@ -26,9 +26,10 @@ employees):
 - Planning: veron_planning, staff shifts by role on a timeline, with conflicts against time off
 - Appraisals: veron_appraisal, self-assessment, the manager's rating and a weighted score
 - MRP II: veron_shopfloor, a tablet screen to start, pause and finish work orders
+- PLM: veron_plm, engineering changes on new versions of bills of materials, approved before use
 - The full-screen apps menu: web_responsive
 
-Not on OCA for Odoo 19: Rental, Approvals, PLM, Studio, Marketing Automation,
+Not on OCA for Odoo 19: Rental, Approvals, Studio, Marketing Automation,
 Social Marketing, IoT and WhatsApp.
 """,
 	"version": "19.0.1.2.0",
@@ -67,6 +68,7 @@ Social Marketing, IoT and WhatsApp.
 		"veron_planning",
 		"veron_appraisal",
 		"veron_shopfloor",
+		"veron_plm",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

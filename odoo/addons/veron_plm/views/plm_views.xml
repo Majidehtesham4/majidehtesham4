@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="eco_view_form" model="ir.ui.view">
+		<field name="name">veron.plm.eco.form</field>
+		<field name="model">veron.plm.eco</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_start" type="object" string="Start Revision" class="btn-primary" invisible="state != 'new'"/>
+					<button name="action_request_approval" type="object" string="Request Approval" class="btn-primary" invisible="state != 'progress'"/>
+					<button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'approval'" groups="mrp.group_mrp_manager"/>
+					<button name="action_reject" type="object" string="Send Back" invisible="state != 'approval'" groups="mrp.group_mrp_manager"/>
+					<button name="action_apply" type="object" string="Apply" class="btn-primary" invisible="state != 'approved'"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state in ('done', 'cancel')"/>
+					<field name="state" widget="statusbar" statusbar_visible="new,progress,approval,approved,done"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_open_new_bom" type="object" class="oe_stat_button" icon="fa-flask" invisible="not new_bom_id">
+							<div class="o_stat_info"><span class="o_stat_text">New Version</span></div>
+						</button>
+					</div>
+					<div class="oe_title">
+						<field name="name" class="text-muted"/>
+						<h1><field name="title" placeholder="What changes, e.g. Steel legs instead of wood" readonly="state in ('done', 'cancel')"/></h1>
+					</div>
+					<group>
+						<group>
+							<field name="product_tmpl_id" readonly="state != 'new'"/>
+							<field name="bom_id" readonly="state != 'new'"/>
+							<field name="new_bom_id" invisible="not new_bom_id"/>
+							<field name="reason"/>
+						</group>
+						<group>
+							<field name="user_id" widget="many2one_avatar_user"/>
+							<field name="approver_id" invisible="not approver_id" widget="many2one_avatar_user"/>
+							<field name="approval_date" invisible="not approval_date"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Changes" name="changes" invisible="not new_bom_id">
+							<field name="changes" nolabel="1"/>
+							<div class="text-muted" invisible="changes">No change yet: open the new version and change it.</div>
+						</page>
+						<page string="Description" name="description">
+							<field name="description" placeholder="Why, and what to watch for in production..."/>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="eco_view_list" model="ir.ui.view">
+		<field name="name">veron.plm.eco.list</field>
+		<field name="model">veron.plm.eco</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="title"/>
+				<field name="product_tmpl_id"/>
+				<field name="reason" optional="show"/>
+				<field name="user_id" widget="many2one_avatar_user" optional="show"/>
+				<field name="create_date" string="Created on" optional="show"/>
+				<field name="state" widget="badge" decoration-info="state in ('progress', 'approval')" decoration-success="state in ('approved', 'done')"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="eco_view_kanban" model="ir.ui.view">
+		<field name="name">veron.plm.eco.kanban</field>
+		<field name="model">veron.plm.eco</field>
+		<field name="arch" type="xml">
+			<kanban default_group_by="state" group_create="0" group_delete="0" quick_create="0">
+				<templates>
+					<t t-name="card">
+						<field name="title" class="fw-bold"/>
+						<field name="product_tmpl_id" class="text-muted"/>
+						<div class="d-flex justify-content-between mt-2">
+							<field name="name" class="text-muted small"/>
+							<field name="user_id" widget="many2one_avatar_user"/>
+						</div>
+						<field name="activity_ids" widget="kanban_activity"/>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="eco_view_search" model="ir.ui.view">
+		<field name="name">veron.plm.eco.search</field>
+		<field name="model">veron.plm.eco</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="title"/>
+				<field name="product_tmpl_id"/>
+				<field name="name"/>
+				<filter name="mine" string="Mine" domain="[('user_id', '=', uid)]"/>
+				<filter name="to_approve" string="To Approve" domain="[('state', '=', 'approval')]"/>
+				<filter name="open" string="Open" domain="[('state', 'not in', ('done', 'cancel'))]"/>
+				<group>
+					<filter name="by_product" string="Product" context="{'group_by': 'product_tmpl_id'}"/>
+					<filter name="by_reason" string="Reason" context="{'group_by': 'reason'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_ecos" model="ir.actions.act_window">
+		<field name="name">Engineering Changes</field>
+		<field name="res_model">veron.plm.eco</field>
+		<field name="view_mode">kanban,list,form,activity</field>
+		<field name="context">{'search_default_open': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Start the first engineering change</p>
+			<p>A change to a bill of materials, made on a new version, approved, then put in use.</p>
+		</field>
+	</record>
+
+	<record id="action_bom_versions" model="ir.actions.act_window">
+		<field name="name">Bill of Materials Versions</field>
+		<field name="res_model">mrp.bom</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'active_test': False}</field>
+	</record>
+
+	<record id="bom_view_form" model="ir.ui.view">
+		<field name="name">mrp.bom.form.veron.plm</field>
+		<field name="model">mrp.bom</field>
+		<field name="inherit_id" ref="mrp.mrp_bom_form_view"/>
+		<field name="arch" type="xml">
+			<div name="button_box" position="inside">
+				<button name="action_veron_ecos" type="object" class="oe_stat_button" icon="fa-random">
+					<field name="veron_eco_count" widget="statinfo" string="Changes"/>
+				</button>
+			</div>
+			<field name="product_tmpl_id" position="after">
+				<field name="veron_version"/>
+				<field name="veron_previous_bom_id" invisible="not veron_previous_bom_id"/>
+			</field>
+		</field>
+	</record>
+
+	<record id="bom_view_list" model="ir.ui.view">
+		<field name="name">mrp.bom.list.veron.plm</field>
+		<field name="model">mrp.bom</field>
+		<field name="inherit_id" ref="mrp.mrp_bom_tree_view"/>
+		<field name="arch" type="xml">
+			<field name="product_tmpl_id" position="after">
+				<field name="veron_version" optional="show"/>
+			</field>
+		</field>
+	</record>
+
+	<menuitem id="menu_root" name="PLM" web_icon="veron_plm,static/description/icon.png" groups="mrp.group_mrp_user" sequence="47"/>
+	<menuitem id="menu_ecos" name="Engineering Changes" parent="menu_root" action="action_ecos" sequence="1"/>
+	<menuitem id="menu_boms" name="Bill of Materials Versions" parent="menu_root" action="action_bom_versions" sequence="2"/>
+</odoo>

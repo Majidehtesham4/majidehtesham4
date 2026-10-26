@@ -1,0 +1,586 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "%(eco)s is %(state)s."
+msgstr "وضعیت %(eco)s «%(state)s» است."
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/mrp_bom.py:0
+msgid "%(name)s (version %(version)s)"
+msgstr "%(name)s (نسخه‌ی %(version)s)"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "<span class=\"o_stat_text\">New Version</span>"
+msgstr "<span class=\"o_stat_text\">نسخه‌ی جدید</span>"
+
+#. module: veron_plm
+#: model_terms:ir.actions.act_window,help:veron_plm.action_ecos
+msgid ""
+"A change to a bill of materials, made on a new version, approved, then put "
+"in use."
+msgstr ""
+"تغییر فرمول ساخت روی یک نسخه‌ی جدید انجام، تأیید و بعد به کار گرفته می‌شود."
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "After"
+msgstr "بعد"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__done
+msgid "Applied"
+msgstr "اعمال‌شده"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Apply"
+msgstr "اعمال"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__approval_date
+msgid "Approval Date"
+msgstr "تاریخ تایید"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Approve"
+msgstr "تأیید"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Approve %s"
+msgstr "تأیید %s"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__approved
+msgid "Approved"
+msgstr "تأییدشده"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__approver_id
+msgid "Approved By"
+msgstr "تأییدکننده"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Before"
+msgstr "قبل"
+
+#. module: veron_plm
+#: model:ir.model,name:veron_plm.model_mrp_bom
+msgid "Bill of Material"
+msgstr "صورت مواد اولیه"
+
+#. module: veron_plm
+#: model:ir.actions.act_window,name:veron_plm.action_bom_versions
+#: model:ir.ui.menu,name:veron_plm.menu_boms
+msgid "Bill of Materials Versions"
+msgstr "نسخه‌های فرمول ساخت"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__cancel
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__title
+msgid "Change"
+msgstr "تغییر"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__changes
+#: model_terms:ir.ui.view,arch_db:veron_plm.bom_view_form
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Changes"
+msgstr "تغییرات"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Component added"
+msgstr "جزء اضافه شد"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Component removed"
+msgstr "جزء حذف شد"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__cost
+msgid "Cost reduction"
+msgstr "کاهش هزینه"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__create_date
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_list
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__bom_id
+msgid "Current Bill of Materials"
+msgstr "فرمول ساخت فعلی"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__customer
+msgid "Customer request"
+msgstr "درخواست مشتری"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__defect
+msgid "Defect correction"
+msgstr "رفع ایراد"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__description
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__display_name
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_plm
+#: model:ir.model,name:veron_plm.model_veron_plm_eco
+msgid "Engineering Change Order"
+msgstr "درخواست تغییر مهندسی"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/mrp_bom.py:0
+#: model:ir.actions.act_window,name:veron_plm.action_ecos
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__veron_eco_ids
+#: model:ir.ui.menu,name:veron_plm.menu_ecos
+msgid "Engineering Changes"
+msgstr "تغییرات مهندسی"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__id
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__message_has_error
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__progress
+msgid "In Progress"
+msgstr "در جریان"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Item"
+msgstr "مورد"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_search
+msgid "Mine"
+msgstr "مال من"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__new
+msgid "New"
+msgstr "جدید"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__new_bom_id
+msgid "New Version"
+msgstr "نسخه‌ی جدید"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "No change yet: open the new version and change it."
+msgstr "هنوز تغییری نیست: نسخه‌ی جدید را باز و تغییر دهید."
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Only a manufacturing manager approves engineering changes."
+msgstr "تغییرات مهندسی را فقط مدیر تولید تأیید می‌کند."
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Only a manufacturing manager rejects engineering changes."
+msgstr "تغییرات مهندسی را فقط مدیر تولید برمی‌گرداند."
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_search
+msgid "Open"
+msgstr "باز"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Operation added"
+msgstr "عملیات اضافه شد"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Operation removed"
+msgstr "عملیات حذف شد"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Operation time changed (minutes)"
+msgstr "زمان عملیات تغییر کرد (دقیقه)"
+
+#. module: veron_plm
+#: model:ir.ui.menu,name:veron_plm.menu_root
+msgid "PLM"
+msgstr "چرخه‌ی عمر محصول"
+
+#. module: veron_plm
+#: model:res.groups,name:veron_plm.group_plm_engineer
+msgid "PLM Engineer"
+msgstr "مهندس چرخه‌ی عمر محصول"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__veron_previous_bom_id
+msgid "Previous Version"
+msgstr "نسخه‌ی قبلی"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__product_tmpl_id
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_search
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__improvement
+msgid "Product improvement"
+msgstr "بهبود محصول"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Quantity changed"
+msgstr "مقدار تغییر کرد"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Quantity made"
+msgstr "مقدار تولید"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__reason
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_search
+msgid "Reason"
+msgstr "دلیل"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__name
+msgid "Reference"
+msgstr "شماره"
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__regulation
+msgid "Regulation"
+msgstr "الزام قانونی"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Request Approval"
+msgstr "درخواست تأیید"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__user_id
+msgid "Responsible"
+msgstr "مسئول"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Send Back"
+msgstr "برگرداندن"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Sent back for changes"
+msgstr "برای اصلاح برگردانده شد"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Start Revision"
+msgstr "شروع بازنگری"
+
+#. module: veron_plm
+#: model_terms:ir.actions.act_window,help:veron_plm.action_ecos
+msgid "Start the first engineering change"
+msgstr "اولین تغییر مهندسی را شروع کنید"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__reason__supplier
+msgid "Supplier change"
+msgstr "تغییر تأمین‌کننده"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "The new version is the same as the current one."
+msgstr "نسخه‌ی جدید با نسخه‌ی فعلی فرقی ندارد."
+
+#. module: veron_plm
+#: model:ir.model.fields.selection,name:veron_plm.selection__veron_plm_eco__state__approval
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_search
+msgid "To Approve"
+msgstr "منتظر تأیید"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__veron_eco_count
+msgid "Veron Eco Count"
+msgstr "تعداد تغییرات"
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_mrp_bom__veron_version
+msgid "Version"
+msgstr "نسخه"
+
+#. module: veron_plm
+#. odoo-python
+#: code:addons/veron_plm/models/eco.py:0
+msgid "Version %(version)s of the bill of materials is now in use."
+msgstr "نسخه‌ی %(version)s فرمول ساخت اکنون به کار می‌رود."
+
+#. module: veron_plm
+#: model:ir.model.fields,field_description:veron_plm.field_veron_plm_eco__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_plm
+#: model:ir.model.fields,help:veron_plm.field_veron_plm_eco__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "What changes, e.g. Steel legs instead of wood"
+msgstr "چه چیزی تغییر می‌کند؟ مثلاً پایه‌ی فلزی به جای چوبی"
+
+#. module: veron_plm
+#: model_terms:ir.ui.view,arch_db:veron_plm.eco_view_form
+msgid "Why, and what to watch for in production..."
+msgstr "چرا، و در تولید به چه چیزی باید توجه شود..."

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Engineers change only the draft versions (archived bills of materials) of their changes; the
+	     version in use changes only when an approved change is applied -->
+	<record id="group_plm_engineer" model="res.groups">
+		<field name="name">PLM Engineer</field>
+		<field name="implied_ids" eval="[(4, ref('mrp.group_mrp_user'))]"/>
+		<field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
+	</record>
+
+	<record id="rule_bom_engineer" model="ir.rule">
+		<field name="name">Bills of materials: engineers change draft versions</field>
+		<field name="model_id" ref="mrp.model_mrp_bom"/>
+		<field name="groups" eval="[(4, ref('group_plm_engineer'))]"/>
+		<field name="domain_force">[('active', '=', False)]</field>
+		<field name="perm_read" eval="False"/>
+	</record>
+	<record id="rule_bom_line_engineer" model="ir.rule">
+		<field name="name">Components: engineers change those of draft versions</field>
+		<field name="model_id" ref="mrp.model_mrp_bom_line"/>
+		<field name="groups" eval="[(4, ref('group_plm_engineer'))]"/>
+		<field name="domain_force">[('bom_id.active', '=', False)]</field>
+		<field name="perm_read" eval="False"/>
+	</record>
+	<record id="rule_operation_engineer" model="ir.rule">
+		<field name="name">Operations: engineers change those of draft versions</field>
+		<field name="model_id" ref="mrp.model_mrp_routing_workcenter"/>
+		<field name="groups" eval="[(4, ref('group_plm_engineer'))]"/>
+		<field name="domain_force">[('bom_id.active', '=', False)]</field>
+		<field name="perm_read" eval="False"/>
+	</record>
+
+	<!-- Managers as before: everything (rules of groups add up) -->
+	<record id="rule_bom_manager" model="ir.rule">
+		<field name="name">Bills of materials: managers</field>
+		<field name="model_id" ref="mrp.model_mrp_bom"/>
+		<field name="groups" eval="[(4, ref('mrp.group_mrp_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_bom_line_manager" model="ir.rule">
+		<field name="name">Components: managers</field>
+		<field name="model_id" ref="mrp.model_mrp_bom_line"/>
+		<field name="groups" eval="[(4, ref('mrp.group_mrp_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_operation_manager" model="ir.rule">
+		<field name="name">Operations: managers</field>
+		<field name="model_id" ref="mrp.model_mrp_routing_workcenter"/>
+		<field name="groups" eval="[(4, ref('mrp.group_mrp_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+</odoo>

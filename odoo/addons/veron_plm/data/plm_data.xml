@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="seq_eco" model="ir.sequence">
+		<field name="name">Engineering Change Order</field>
+		<field name="code">veron.plm.eco</field>
+		<field name="prefix">ECO/</field>
+		<field name="padding">4</field>
+		<field name="company_id" eval="False"/>
+	</record>
+</odoo>

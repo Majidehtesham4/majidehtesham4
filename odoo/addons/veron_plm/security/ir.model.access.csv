@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_eco_user,eco user,model_veron_plm_eco,mrp.group_mrp_user,1,0,0,0
+access_eco_engineer,eco engineer,model_veron_plm_eco,group_plm_engineer,1,1,1,0
+access_eco_manager,eco manager,model_veron_plm_eco,mrp.group_mrp_manager,1,1,1,1
+access_bom_engineer,bom engineer,mrp.model_mrp_bom,group_plm_engineer,1,1,1,1
+access_bom_line_engineer,bom line engineer,mrp.model_mrp_bom_line,group_plm_engineer,1,1,1,1
+access_operation_engineer,operation engineer,mrp.model_mrp_routing_workcenter,group_plm_engineer,1,1,1,1
