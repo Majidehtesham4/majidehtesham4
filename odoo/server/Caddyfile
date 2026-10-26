@@ -1,7 +1,10 @@
 # The door from the internet. Each customer's address is a file in sites/, made by ./veron new;
 # Caddy gets and renews its HTTPS certificate by itself.
 {
+	# In local mode there is no email (docker-compose.yml gives a placeholder): Caddy signs the certificates itself
 	email {$ACME_EMAIL}
+	# Local mode: the certificate of the server's IP for browsers that open it by its IP (they send no name)
+	import sites/*.options
 }
 
 (odoo) {

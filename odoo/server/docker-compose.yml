@@ -41,7 +41,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      ACME_EMAIL: ${ACME_EMAIL:-}
+      ACME_EMAIL: ${ACME_EMAIL:-local@localhost.invalid}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       # One file per customer's address, written by ./veron new

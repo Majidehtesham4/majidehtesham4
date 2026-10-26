@@ -2,13 +2,16 @@
 # ERP-VERON on a server (Ubuntu 24.04), run as root from this folder:
 #
 #   ./veron setup <your email>                      once: Docker, firewall, passwords, OCA, start
+#   ./veron setup local                             once, for an office network without a domain
 #   ./veron new <address> [modules] [company name]  a customer: database, apps, admin password, HTTPS
 #   ./veron list                                    the customers' addresses
 #   ./veron backup                                  every database and its files (also every night)
 #   ./veron update                                  new version: git pull, OCA, our modules updated
 #   ./veron password <address>                      a new administrator password
+#   ./veron ca                                      local: the certificate to install on each computer
 #
 # The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
+# In local mode the address is the server's IP in the office network, e.g. 192.168.1.10.
 
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")"
@@ -18,6 +21,9 @@ KEEP_DAYS=14
 compose() { docker compose "$@"; }
 
 die() { echo "$*" >&2; exit 1; }
+
+# local: an office network, no domain, Caddy signs the certificates itself; internet: a public server
+mode() { grep -s '^MODE=' .env | cut -d= -f2 || true; }
 
 # A random password; tr is stopped by head once it has enough, which is not a failure
 secret() { (set +o pipefail; tr -dc 'A-Za-z0-9' </dev/urandom | head -c "${1:-24}"); }
@@ -70,7 +76,9 @@ case "${1:-}" in
 setup)
 	[ "$(id -u)" = 0 ] || die "Run as root: sudo ./veron setup <email>"
 	email=${2:-}
-	[ -n "$email" ] || die "Your email, for the HTTPS certificates: ./veron setup you@example.com"
+	[ -n "$email" ] || die "Your email, for the HTTPS certificates: ./veron setup you@example.com (or ./veron setup local)"
+	local_mode=""
+	[ "$email" = local ] && local_mode=1
 	if ! command -v docker >/dev/null; then
 		echo "Installing Docker..."
 		apt-get update -q
@@ -81,13 +89,25 @@ setup)
 		echo '{"registry-mirrors": ["https://docker.arvancloud.ir"]}' >/etc/docker/daemon.json
 		systemctl restart docker
 	fi
-	# Only SSH and the web are open; Odoo and the database are not reachable from outside
+	# Only SSH and the web are open; Odoo and the database are not reachable from outside.
+	# In local mode the web is open to the office network only, not to the internet.
 	ufw allow OpenSSH >/dev/null
-	ufw allow 80/tcp >/dev/null
-	ufw allow 443/tcp >/dev/null
+	if [ -n "$local_mode" ]; then
+		for network in 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16; do
+			ufw allow from "$network" to any port 80 proto tcp >/dev/null
+			ufw allow from "$network" to any port 443 proto tcp >/dev/null
+		done
+	else
+		ufw allow 80/tcp >/dev/null
+		ufw allow 443/tcp >/dev/null
+	fi
 	ufw --force enable >/dev/null
 	if [ ! -f .env ]; then
-		printf 'DB_PASSWORD=%s\nACME_EMAIL=%s\n' "$(secret 32)" "$email" >.env
+		if [ -n "$local_mode" ]; then
+			printf 'DB_PASSWORD=%s\nMODE=local\n' "$(secret 32)" >.env
+		else
+			printf 'DB_PASSWORD=%s\nACME_EMAIL=%s\nMODE=internet\n' "$(secret 32)" "$email" >.env
+		fi
 		chmod 600 .env
 	fi
 	if [ ! -f config/odoo.conf ]; then
@@ -121,7 +141,13 @@ EOF
 	# Every night at 2:30, a backup of every database
 	echo "30 2 * * * root $(pwd)/veron backup >>$(pwd)/backups/backup.log 2>&1" >/etc/cron.d/veron
 	echo
-	echo "The server is ready. Add a customer with: ./veron new erp.example.ir"
+	if [ -n "$local_mode" ]; then
+		ip=$(hostname -I | awk '{print $1}')
+		echo "The server is ready on the office network. Reserve its IP ($ip) in the router (DHCP reservation),"
+		echo "so it does not change, then: ./veron new $ip"
+	else
+		echo "The server is ready. Add a customer with: ./veron new erp.example.ir"
+	fi
 	;;
 
 new)
@@ -136,10 +162,16 @@ new)
 	compose run --rm -T odoo -d "$address" -i "$modules" --load-language=fa_IR --stop-after-init --log-level=warn
 	password=$(secret 16)
 	set_admin "$address" "$password" "$company"
-	# The local test (VERON_TLS=internal) has no public address: Caddy signs its own certificate
+	# Without a public address (local mode, or VERON_TLS=internal for a test) Caddy signs its own certificate
 	tls=""
-	[ "${VERON_TLS:-}" = internal ] && tls=$'\ttls internal\n'
+	if [ "$(mode)" = local ] || [ "${VERON_TLS:-}" = internal ]; then
+		tls=$'\ttls internal\n'
+	fi
 	printf '%s {\n%s\timport odoo\n}\n' "$address" "$tls" >"sites/$address.caddy"
+	# A browser opening an IP sends no name; Caddy then answers with the certificate of this address
+	if [ -n "$tls" ] && [[ "$address" =~ ^[0-9.]+$ ]] && [ ! -f sites/local.options ]; then
+		printf 'default_sni %s\n' "$address" >sites/local.options
+	fi
 	compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1
 	echo
 	echo "Ready: https://$address"
@@ -147,6 +179,22 @@ new)
 	echo "  password: $password"
 	echo "Give these to the customer and ask them to change the password after signing in."
 	echo "Shown only now: it is kept nowhere else. A new one: ./veron password $address"
+	if [ -n "$tls" ]; then
+		echo
+		echo "The certificate is signed by this server. Install its certificate once on each computer and phone,"
+		echo "or the browser warns: ./veron ca"
+	fi
+	;;
+
+ca)
+	# The root certificate Caddy signs the local addresses with; installed on a device, it trusts them
+	compose exec -T caddy cat /data/caddy/pki/authorities/local/root.crt >veron-root.crt 2>/dev/null \
+		|| die "No local certificate yet: make an address first with ./veron new"
+	echo "Saved: $(pwd)/veron-root.crt"
+	echo "Copy it to each device (for example from Windows: scp root@SERVER-IP:$(pwd)/veron-root.crt .) and install it:"
+	echo "  Windows: double-click, Install Certificate, Local Machine, Trusted Root Certification Authorities"
+	echo "  Android: Settings, Security, Encryption & credentials, Install a certificate, CA certificate"
+	echo "  iPhone:  open the file, install the profile, then Settings, General, About, Certificate Trust Settings"
 	;;
 
 password)
@@ -172,6 +220,15 @@ backup)
 		echo "$day: $db"
 	done
 	find backups -mindepth 1 -maxdepth 1 -type d -mtime +"$KEEP_DAYS" -exec rm -rf {} +
+	# A second copy on another disk, e.g. an external one, when BACKUP_COPY in .env names a mounted folder
+	copy=$(grep -s '^BACKUP_COPY=' .env | cut -d= -f2- || true)
+	if [ -n "$copy" ]; then
+		if mountpoint -q "$copy" || [ -d "$copy" ]; then
+			cp -r "backups/$day" "$copy/" && echo "Copied to $copy/$day"
+		else
+			echo "BACKUP_COPY $copy is not there; the copy was skipped." >&2
+		fi
+	fi
 	;;
 
 update)
@@ -188,6 +245,6 @@ update)
 	;;
 
 *)
-	sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
 	;;
 esac
