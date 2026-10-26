@@ -181,6 +181,11 @@ msgid "Employee"
 msgstr "کارمند"
 
 #. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__employee_user_id
+msgid "Employee User"
+msgstr "کاربر کارمند"
+
+#. module: veron_appraisal
 #: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__employee_comment
 msgid "Employee's Answer"
 msgstr "پاسخ کارمند"
@@ -320,6 +325,11 @@ msgstr "یادگیری و رشد"
 #: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_id
 msgid "Manager"
 msgstr "مدیر"
+
+#. module: veron_appraisal
+#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_user_id
+msgid "Manager User"
+msgstr "کاربر مدیر"
 
 #. module: veron_appraisal
 #: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal_line__manager_comment
@@ -665,12 +675,6 @@ msgstr "شروع‌نشده"
 #: model:ir.model.fields,help:veron_appraisal.field_veron_appraisal__activity_exception_decoration
 msgid "Type of the exception activity on record."
 msgstr "نوع فعالیت استثنایی برای رکورد."
-
-#. module: veron_appraisal
-#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__employee_user_id
-#: model:ir.model.fields,field_description:veron_appraisal.field_veron_appraisal__manager_user_id
-msgid "User"
-msgstr "کاربر"
 
 #. module: veron_appraisal
 #: model:ir.model.fields,field_description:veron_appraisal.field_hr_employee__veron_appraisal_ids

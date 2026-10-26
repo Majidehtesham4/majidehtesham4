@@ -38,8 +38,8 @@ class Appraisal(models.Model):
 	employee_id = fields.Many2one("hr.employee", required=True, index=True, tracking=True)
 	manager_id = fields.Many2one("hr.employee", "Manager", tracking=True,
 		compute="_compute_manager_id", store=True, readonly=False)
-	employee_user_id = fields.Many2one(related="employee_id.user_id", store=True)
-	manager_user_id = fields.Many2one(related="manager_id.user_id", store=True)
+	employee_user_id = fields.Many2one(related="employee_id.user_id", store=True, string="Employee User")
+	manager_user_id = fields.Many2one(related="manager_id.user_id", store=True, string="Manager User")
 	department_id = fields.Many2one(related="employee_id.department_id", store=True)
 	company_id = fields.Many2one("res.company", default=lambda self: self.env.company, required=True)
 	template_id = fields.Many2one("veron.appraisal.template", "Form", required=True,
