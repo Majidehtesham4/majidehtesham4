@@ -25,6 +25,7 @@ The base of every ERP-VERON installation:
 			"veron_core/static/src/jalali/search_dates.js",
 			"veron_core/static/src/jalali/calendar.scss",
 			"veron_core/static/src/branding.js",
+			"veron_core/static/src/sample.js",
 		],
 		# The website and the portal: dates and the date picker in Shamsi too
 		"web.assets_frontend": [

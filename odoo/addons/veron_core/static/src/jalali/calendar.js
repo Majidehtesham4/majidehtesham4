@@ -88,6 +88,10 @@ patch(CalendarCommonRenderer.prototype, {
         // FullCalendar has no Persian of its own: «Week 32» otherwise
         options.weekText = "هفته ";
         options.weekTextLong = "هفته ";
+        if (this.props.model.scale !== "month") {
+            // FullCalendar drops weekTextLong («۳۲ Week» in the week and day pages): the label written here
+            options.weekNumberContent = ({ num }) => `هفته ${num}`;
+        }
         if (this.props.model.scale === "month") {
             options.dayCellContent = ({ date }) =>
                 String(jalali.toJalali(luxon.DateTime.fromJSDate(date, { zone: "UTC" })).day);
