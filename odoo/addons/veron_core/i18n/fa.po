@@ -956,3 +956,135 @@ msgstr "بدهکار"
 #: code:addons/veron_core/static/src/branding.js:0
 msgid "App Menu Preferences"
 msgstr "تنظیمات منوی برنامه‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "# number of calls"
+msgstr "تعداد تماس‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "% number of calls"
+msgstr "درصد تماس‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Avg. call duration"
+msgstr "میانگین مدت تماس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum handled by bot"
+msgstr "پاسخ‌داده‌شده توسط ربات"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum handled by agent"
+msgstr "پاسخ‌داده‌شده توسط کارشناس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum escalated"
+msgstr "ارجاع‌شده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum failure no_answer"
+msgstr "بی‌پاسخ"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum failure no_agent"
+msgstr "بدون کارشناس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Top 5"
+msgstr "۵ مورد برتر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Top 10"
+msgstr "۱۰ مورد برتر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Top 15"
+msgstr "۱۵ مورد برتر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum. Ongoing Sessions"
+msgstr "گفت‌وگوهای جاری"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum. Handled by bot"
+msgstr "پاسخ‌داده‌شده توسط ربات"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum. Handled by agent"
+msgstr "پاسخ‌داده‌شده توسط کارشناس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum. Escalated"
+msgstr "ارجاع‌شده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Sum. Calls"
+msgstr "تماس‌ها"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Agents in call"
+msgstr "کارشناسان در تماس"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Average per order"
+msgstr "میانگین هر سفارش"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Top Locations"
+msgstr "محل‌های برتر"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Available & Reserved Stock Quantity"
+msgstr "مقدار موجودی در دسترس و رزروشده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Available & Reserved Stock Value"
+msgstr "ارزش موجودی در دسترس و رزروشده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/branding.js:0
+msgid "Reserved value"
+msgstr "ارزش رزروشده"

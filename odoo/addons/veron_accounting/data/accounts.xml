@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The accounts Odoo 19 needs on a company already on the Iranian chart (an invoice needs them) -->
+	<function model="account.chart.template" name="_veron_ir_accounts"/>
+	<function model="account.chart.template" name="_veron_fiscal_year"/>
+	<function model="account.chart.template" name="_veron_journal_codes"/>
+</odoo>

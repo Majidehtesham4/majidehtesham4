@@ -38,3 +38,5 @@ def load_iranian_chart(env):
 		company.country_id = iran
 		env["account.chart.template"].try_loading("ir", company, install_demo=False)
 		_logger.info("ERP-VERON: the Iranian chart of accounts is loaded for %s", company.name)
+	env["account.chart.template"]._veron_journal_codes()
+	env["account.chart.template"]._veron_fiscal_year()

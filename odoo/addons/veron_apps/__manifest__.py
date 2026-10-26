@@ -48,6 +48,9 @@ Marketing Automation, Social Marketing, VoIP, IoT and WhatsApp.
 		"project_timeline",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml"],
+	"assets": {
+		"spreadsheet.o_spreadsheet": ["veron_apps/static/src/spreadsheet/shamsi.js"],
+	},
 	"installable": True,
 	"application": True,
 }
