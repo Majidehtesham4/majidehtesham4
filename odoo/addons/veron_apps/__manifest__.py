@@ -22,7 +22,7 @@ employees):
 Not on OCA for Odoo 19: Rental, Approvals, Appraisals, Appointments, Barcode, PLM, Studio,
 Marketing Automation, Social Marketing, VoIP, IoT and WhatsApp.
 """,
-	"version": "19.0.1.0.0",
+	"version": "19.0.1.1.0",
 	"category": "Productivity",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
@@ -46,7 +46,7 @@ Marketing Automation, Social Marketing, VoIP, IoT and WhatsApp.
 		"spreadsheet_dashboard_oca",
 		"project_timeline",
 	],
-	"data": ["data/groups.xml", "data/menus.xml"],
+	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml"],
 	"installable": True,
 	"application": True,
 }
