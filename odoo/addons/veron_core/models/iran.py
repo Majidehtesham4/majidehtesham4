@@ -251,7 +251,8 @@ HOLIDAYS_SOLAR = [
 	(12, 29, "روز ملی شدن صنعت نفت"),
 ]
 
-# Lunar holidays as the official calendar of the year sets them: (year, month, day, name)
+# Lunar holidays of the published calendars of the year, which agree with each other and with the
+# lengths of the lunar months: (year, month, day, name)
 HOLIDAYS_LUNAR = [
 	(1405, 1, 25, "شهادت امام جعفر صادق"),
 	(1405, 3, 6, "عید قربان"),
@@ -259,6 +260,17 @@ HOLIDAYS_LUNAR = [
 	(1405, 4, 3, "تاسوعا"),
 	(1405, 4, 4, "عاشورا"),
 	(1405, 5, 13, "اربعین"),
+	(1405, 5, 21, "رحلت پیامبر و شهادت امام حسن"),
+	(1405, 5, 22, "شهادت امام رضا"),
+	(1405, 5, 30, "شهادت امام حسن عسکری"),
+	(1405, 6, 8, "میلاد پیامبر و امام جعفر صادق"),
+	(1405, 8, 22, "شهادت حضرت فاطمه"),
+	(1405, 10, 2, "ولادت امام علی"),
+	(1405, 10, 16, "مبعث"),
+	# 15 Sha'ban: 3 or 4 Bahman, as Rajab has 29 or 30 days; added by hand once announced
+	(1405, 12, 9, "شهادت امام علی"),
+	(1405, 12, 19, "عید فطر"),
+	(1405, 12, 20, "عید فطر"),
 ]
 
 MODULE_NAMES = {
