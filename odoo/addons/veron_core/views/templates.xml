@@ -7,6 +7,16 @@
 		</xpath>
 	</template>
 
+	<!-- The app installed on a phone: ERP-VERON's icon and color -->
+	<template id="webclient_bootstrap" inherit_id="web.webclient_bootstrap">
+		<xpath expr="//link[@rel='apple-touch-icon']" position="attributes">
+			<attribute name="href">/veron_core/static/img/veron-192.png</attribute>
+		</xpath>
+		<xpath expr="//meta[@name='theme-color']" position="attributes">
+			<attribute name="content">#5B2C83</attribute>
+		</xpath>
+	</template>
+
 	<template id="login_layout" inherit_id="web.login_layout">
 		<xpath expr="//a[contains(@href, 'www.odoo.com')]" position="replace">
 			<span>ERP-VERON</span>
