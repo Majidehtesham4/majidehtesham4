@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_payroll_year_user,payroll year user,model_veron_payroll_year,payroll.group_payroll_user,1,0,0,0
+access_payroll_year_manager,payroll year manager,model_veron_payroll_year,payroll.group_payroll_manager,1,1,1,1
+access_payroll_bracket_user,payroll tax bracket user,model_veron_payroll_tax_bracket,payroll.group_payroll_user,1,0,0,0
+access_payroll_bracket_manager,payroll tax bracket manager,model_veron_payroll_tax_bracket,payroll.group_payroll_manager,1,1,1,1

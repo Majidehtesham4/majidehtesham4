@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="payroll_year_view_form" model="ir.ui.view">
+		<field name="name">veron.payroll.year.form</field>
+		<field name="model">veron.payroll.year</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_confirm" type="object" string="Confirm the Rates" class="btn-primary" invisible="state != 'draft'"
+						groups="payroll.group_payroll_manager"
+						confirm="Have you checked every rate against the official resolution of this year? Payslips are computed with them."/>
+					<button name="action_draft" type="object" string="Back to Check" invisible="state != 'confirmed'" groups="payroll.group_payroll_manager"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="alert alert-warning" role="alert" invisible="state != 'draft'">
+						These rates are not confirmed. Check each one against the official resolution of the year, then confirm; no payslip of the year is computed before.
+					</div>
+					<div class="oe_title"><h1><field name="display_name"/></h1></div>
+					<group>
+						<group string="Wage and Allowances (a month)">
+							<field name="year" readonly="state == 'confirmed'" options="{'format': false}"/>
+							<field name="min_monthly" readonly="state == 'confirmed'"/>
+							<field name="min_daily"/>
+							<field name="housing" readonly="state == 'confirmed'"/>
+							<field name="food" readonly="state == 'confirmed'"/>
+							<field name="child" readonly="state == 'confirmed'"/>
+							<field name="marriage" readonly="state == 'confirmed'"/>
+							<field name="seniority_base" readonly="state == 'confirmed'"/>
+						</group>
+						<group string="Work Hours">
+							<field name="monthly_hours" readonly="state == 'confirmed'"/>
+							<field name="overtime_rate" readonly="state == 'confirmed'"/>
+							<field name="night_rate" readonly="state == 'confirmed'"/>
+							<field name="holiday_rate" readonly="state == 'confirmed'"/>
+						</group>
+						<group string="Social Security">
+							<field name="insurance_ceiling" readonly="state == 'confirmed'"/>
+							<field name="ins_employee" readonly="state == 'confirmed'"/>
+							<field name="ins_employer" readonly="state == 'confirmed'"/>
+							<field name="ins_unemployment" readonly="state == 'confirmed'"/>
+						</group>
+						<group string="Eidi and Tax">
+							<field name="eidi_months" readonly="state == 'confirmed'"/>
+							<field name="eidi_cap" readonly="state == 'confirmed'"/>
+							<field name="tax_exempt_insurance" readonly="state == 'confirmed'"/>
+							<field name="company_id" groups="base.group_multi_company" readonly="state == 'confirmed'"/>
+							<field name="currency_id" invisible="1"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Tax Brackets" name="brackets">
+							<field name="bracket_ids" readonly="state == 'confirmed'">
+								<list editable="bottom">
+									<field name="upto" placeholder="No limit"/>
+									<field name="rate"/>
+									<field name="currency_id" column_invisible="1"/>
+								</list>
+							</field>
+						</page>
+						<page string="Sources" name="source">
+							<field name="source"/>
+						</page>
+						<page string="Confirmation" name="confirmation" invisible="state != 'confirmed'">
+							<group>
+								<field name="confirmed_uid"/>
+								<field name="confirmed_date"/>
+							</group>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="payroll_year_view_list" model="ir.ui.view">
+		<field name="name">veron.payroll.year.list</field>
+		<field name="model">veron.payroll.year</field>
+		<field name="arch" type="xml">
+			<list decoration-warning="state == 'draft'">
+				<field name="year" options="{'format': false}"/>
+				<field name="min_monthly"/>
+				<field name="housing"/>
+				<field name="food"/>
+				<field name="child"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+				<field name="currency_id" column_invisible="1"/>
+				<field name="state" widget="badge" decoration-success="state == 'confirmed'" decoration-warning="state == 'draft'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_payroll_year" model="ir.actions.act_window">
+		<field name="name">Yearly Rates</field>
+		<field name="res_model">veron.payroll.year</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Enter the rates of a year</p>
+			<p>The minimum wage, the allowances and the tax brackets the Supreme Labour Council and the budget law set each year.</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_payroll_year" name="Yearly Rates" parent="payroll.payroll_menu_configuration" action="action_payroll_year" sequence="1"/>
+</odoo>

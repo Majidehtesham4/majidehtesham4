@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<!-- The rates of 1405 as published; to be checked against the official resolution and confirmed in the ERP -->
+	<record id="payroll_year_1405" model="veron.payroll.year">
+		<field name="year">1405</field>
+		<field name="company_id" ref="base.main_company"/>
+		<field name="min_monthly">166250000</field>
+		<field name="housing">30000000</field>
+		<field name="food">22000000</field>
+		<field name="child">16625000</field>
+		<field name="marriage">5000000</field>
+		<field name="seniority_base">5000000</field>
+		<field name="insurance_ceiling">1163750000</field>
+		<field name="source" type="html">
+<div>
+<p>پیش‌نویس از گزارش‌های منتشرشده، ریال. پیش از تأیید با مصوبه‌ی رسمی شورای عالی کار و احکام مالیاتی قانون بودجه‌ی ۱۴۰۵ مقایسه کنید؛ منابع در جزئیات (پایه سنوات، بن، حق اولاد) با هم اختلاف دارند.</p>
+<ul>
+<li>حداقل مزد، مسکن، بن، اولاد، تأهل، سنوات: <a href="https://bimebazar.com/blog/social-security/minimum-wage-law/">bimebazar.com</a>، <a href="https://www.heyvalaw.com/web/articles/view/525/">heyvalaw.com</a>، <a href="https://www.mahaksoft.com/37300/legal-wage/">mahaksoft.com</a></li>
+<li>معافیت و پله‌های مالیات حقوق: <a href="https://chargoon.com/blog/salary-tax-calculation/">chargoon.com</a>، <a href="https://mohaseban.org/">mohaseban.org</a></li>
+<li>سقف دستمزد مشمول بیمه: هفت برابر حداقل مزد؛ بیمه: ۷٪ کارمند، ۲۰٪ کارفرما، ۳٪ بیکاری (قانون تأمین اجتماعی)</li>
+</ul>
+</div>
+		</field>
+	</record>
+	<record id="payroll_year_1405_b1" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="upto">400000000</field>
+		<field name="rate">0</field>
+	</record>
+	<record id="payroll_year_1405_b2" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="upto">800000000</field>
+		<field name="rate">10</field>
+	</record>
+	<record id="payroll_year_1405_b3" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="upto">1000000000</field>
+		<field name="rate">15</field>
+	</record>
+	<record id="payroll_year_1405_b4" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="upto">1200000000</field>
+		<field name="rate">20</field>
+	</record>
+	<record id="payroll_year_1405_b5" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="upto">1400000000</field>
+		<field name="rate">25</field>
+	</record>
+	<record id="payroll_year_1405_b6" model="veron.payroll.tax.bracket">
+		<field name="year_id" ref="payroll_year_1405"/>
+		<field name="rate">30</field>
+	</record>
+	<function model="res.company" name="_veron_payroll_year_all"/>
+</odoo>

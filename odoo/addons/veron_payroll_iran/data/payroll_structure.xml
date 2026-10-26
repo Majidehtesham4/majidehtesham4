@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="categ_basic" model="hr.salary.rule.category">
+		<field name="name">حقوق پایه</field>
+		<field name="code">BASIC</field>
+	</record>
+	<record id="categ_alw" model="hr.salary.rule.category">
+		<field name="name">مزایا</field>
+		<field name="code">ALW</field>
+	</record>
+	<record id="categ_noins" model="hr.salary.rule.category">
+		<field name="name">مزایای معاف از بیمه</field>
+		<field name="code">NOINS</field>
+		<field name="parent_id" ref="categ_alw"/>
+	</record>
+	<record id="categ_gross" model="hr.salary.rule.category">
+		<field name="name">جمع حقوق و مزایا</field>
+		<field name="code">GROSS</field>
+	</record>
+	<record id="categ_ded" model="hr.salary.rule.category">
+		<field name="name">کسورات</field>
+		<field name="code">DED</field>
+	</record>
+	<record id="categ_insded" model="hr.salary.rule.category">
+		<field name="name">بیمه سهم کارمند</field>
+		<field name="code">INSDED</field>
+		<field name="parent_id" ref="categ_ded"/>
+	</record>
+	<record id="categ_net" model="hr.salary.rule.category">
+		<field name="name">خالص پرداختی</field>
+		<field name="code">NET</field>
+	</record>
+	<record id="categ_comp" model="hr.salary.rule.category">
+		<field name="name">سهم کارفرما</field>
+		<field name="code">COMP</field>
+	</record>
+	<record id="categ_prov" model="hr.salary.rule.category">
+		<field name="name">ذخیره‌ها</field>
+		<field name="code">PROV</field>
+	</record>
+	<record id="categ_insbase" model="hr.salary.rule.category">
+		<field name="name">حقوق مشمول بیمه</field>
+		<field name="code">INSBASE</field>
+	</record>
+	<record id="categ_basex" model="hr.salary.rule.category">
+		<field name="name">مبنای محاسبه</field>
+		<field name="code">BASEX</field>
+	</record>
+	<record id="structure_iran" model="hr.payroll.structure">
+		<field name="name">قانون کار ایران</field>
+		<field name="code">IR</field>
+		<field name="note">حقوق و مزایا، بیمه‌ی تأمین اجتماعی و مالیات حقوق بر اساس قانون کار؛ با نرخ‌های تأییدشده‌ی هر سال</field>
+	</record>
+	<record id="rule_base" model="hr.salary.rule">
+		<field name="name">حقوق پایه</field>
+		<field name="code">BASE</field>
+		<field name="sequence">10</field>
+		<field name="category_id" ref="categ_basic"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.wage / 30)
+result_qty = iran.days</field>
+		<field name="veron_debit_code">611001</field>
+		<field name="note">مزد روزانه (مزد ماهانه‌ی قرارداد تقسیم بر ۳۰) ضرب در روزهای ماه شمسی منهای غیبت</field>
+	</record>
+	<record id="input_absence" model="hr.rule.input">
+		<field name="name">غیبت و مرخصی بدون حقوق (روز)</field>
+		<field name="code">ABSENCE</field>
+		<field name="input_id" ref="rule_base"/>
+	</record>
+	<record id="rule_seniority" model="hr.salary.rule">
+		<field name="name">پایه سنوات</field>
+		<field name="code">SENIORITY</field>
+		<field name="sequence">15</field>
+		<field name="category_id" ref="categ_basic"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(contract.veron_seniority)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.veron_seniority * iran.ratio)</field>
+		<field name="veron_debit_code">611001</field>
+	</record>
+	<record id="rule_housing" model="hr.salary.rule">
+		<field name="name">حق مسکن</field>
+		<field name="code">HOUSING</field>
+		<field name="sequence">20</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(iran.housing)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(iran.housing * iran.ratio)</field>
+		<field name="veron_debit_code">611006</field>
+	</record>
+	<record id="rule_food" model="hr.salary.rule">
+		<field name="name">بن خواربار</field>
+		<field name="code">FOOD</field>
+		<field name="sequence">21</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(iran.food)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(iran.food * iran.ratio)</field>
+		<field name="veron_debit_code">611009</field>
+	</record>
+	<record id="rule_child" model="hr.salary.rule">
+		<field name="name">حق اولاد</field>
+		<field name="code">CHILD</field>
+		<field name="sequence">22</field>
+		<field name="category_id" ref="categ_noins"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.children &gt; 0</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(iran.child * iran.ratio)
+result_qty = contract.children</field>
+		<field name="veron_debit_code">611007</field>
+		<field name="note">برای هر فرزند سه برابر حداقل مزد روزانه؛ به شرط ۷۲۰ روز سابقه‌ی بیمه. حق اولاد مشمول کسر حق بیمه نیست.</field>
+	</record>
+	<record id="rule_marriage" model="hr.salary.rule">
+		<field name="name">حق تأهل</field>
+		<field name="code">MARRIAGE</field>
+		<field name="sequence">23</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.marital == 'married'</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(iran.marriage * iran.ratio)</field>
+		<field name="veron_debit_code">611018</field>
+	</record>
+	<record id="rule_other" model="hr.salary.rule">
+		<field name="name">سایر مزایا</field>
+		<field name="code">OTHER</field>
+		<field name="sequence">25</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(contract.veron_other_allowance)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.veron_other_allowance * iran.ratio)</field>
+		<field name="veron_debit_code">611018</field>
+	</record>
+	<record id="rule_overtime" model="hr.salary.rule">
+		<field name="name">اضافه‌کاری</field>
+		<field name="code">OVERTIME</field>
+		<field name="sequence">30</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.OVERTIME and inputs.OVERTIME.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.wage / iran.monthly_hours * iran.overtime_rate)
+result_qty = inputs.OVERTIME.amount</field>
+		<field name="veron_debit_code">611002</field>
+		<field name="note">ماده‌ی ۵۹ قانون کار: مزد هر ساعت به اضافه‌ی ۴۰٪</field>
+	</record>
+	<record id="input_overtime" model="hr.rule.input">
+		<field name="name">اضافه‌کاری (ساعت)</field>
+		<field name="code">OVERTIME</field>
+		<field name="input_id" ref="rule_overtime"/>
+	</record>
+	<record id="rule_night" model="hr.salary.rule">
+		<field name="name">شب‌کاری</field>
+		<field name="code">NIGHT</field>
+		<field name="sequence">31</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.NIGHT and inputs.NIGHT.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.wage / iran.monthly_hours * iran.night_rate)
+result_qty = inputs.NIGHT.amount</field>
+		<field name="veron_debit_code">611003</field>
+		<field name="note">ماده‌ی ۵۸ قانون کار: ۳۵٪ مزد هر ساعت، افزون بر مزد همان ساعت</field>
+	</record>
+	<record id="input_night" model="hr.rule.input">
+		<field name="name">شب‌کاری (ساعت، ۲۲ تا ۶)</field>
+		<field name="code">NIGHT</field>
+		<field name="input_id" ref="rule_night"/>
+	</record>
+	<record id="rule_holidaywork" model="hr.salary.rule">
+		<field name="name">تعطیل‌کاری</field>
+		<field name="code">HOLIDAYWORK</field>
+		<field name="sequence">32</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.HOLIDAYWORK and inputs.HOLIDAYWORK.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(contract.wage / iran.monthly_hours * iran.holiday_rate)
+result_qty = inputs.HOLIDAYWORK.amount</field>
+		<field name="veron_debit_code">611002</field>
+	</record>
+	<record id="input_holidaywork" model="hr.rule.input">
+		<field name="name">کار در جمعه و تعطیل (ساعت)</field>
+		<field name="code">HOLIDAYWORK</field>
+		<field name="input_id" ref="rule_holidaywork"/>
+	</record>
+	<record id="rule_bonus" model="hr.salary.rule">
+		<field name="name">پاداش</field>
+		<field name="code">BONUS</field>
+		<field name="sequence">35</field>
+		<field name="category_id" ref="categ_alw"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.BONUS and inputs.BONUS.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = inputs.BONUS.amount</field>
+		<field name="veron_debit_code">611010</field>
+	</record>
+	<record id="input_bonus" model="hr.rule.input">
+		<field name="name">پاداش (مبلغ)</field>
+		<field name="code">BONUS</field>
+		<field name="input_id" ref="rule_bonus"/>
+	</record>
+	<record id="rule_gross" model="hr.salary.rule">
+		<field name="name">جمع حقوق و مزایا</field>
+		<field name="code">GROSS</field>
+		<field name="sequence">50</field>
+		<field name="category_id" ref="categ_gross"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = categories.BASIC + categories.ALW</field>
+	</record>
+	<record id="rule_insb" model="hr.salary.rule">
+		<field name="name">حقوق مشمول بیمه</field>
+		<field name="code">INSB</field>
+		<field name="sequence">55</field>
+		<field name="category_id" ref="categ_insbase"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.veron_insured</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = min(categories.GROSS - categories.NOINS, round(iran.insurance_ceiling / 30 * iran.days))</field>
+		<field name="appears_on_payslip" eval="False"/>
+		<field name="note">جمع حقوق و مزایا بدون حق اولاد، حداکثر تا سقف دستمزد مشمول بیمه</field>
+	</record>
+	<record id="rule_ins_emp" model="hr.salary.rule">
+		<field name="name">حق بیمه سهم کارمند</field>
+		<field name="code">INS_EMP</field>
+		<field name="sequence">60</field>
+		<field name="category_id" ref="categ_insded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.veron_insured</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -round(INSB * iran.ins_employee)</field>
+		<field name="veron_credit_code">211204</field>
+	</record>
+	<record id="rule_taxb" model="hr.salary.rule">
+		<field name="name">حقوق مشمول مالیات</field>
+		<field name="code">TAXB</field>
+		<field name="sequence">65</field>
+		<field name="category_id" ref="categ_basex"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = max(categories.GROSS - categories.INSBASE * iran.tax_exempt_insurance, 0)</field>
+		<field name="appears_on_payslip" eval="False"/>
+		<field name="note">جمع حقوق و مزایا منهای سهم معاف حق بیمه‌ی کارمند (دو هفتم ۷٪ = ۲٪ حقوق مشمول بیمه)</field>
+	</record>
+	<record id="rule_tax" model="hr.salary.rule">
+		<field name="name">مالیات حقوق</field>
+		<field name="code">TAX</field>
+		<field name="sequence">70</field>
+		<field name="category_id" ref="categ_ded"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -iran.tax(TAXB)</field>
+		<field name="veron_credit_code">211202</field>
+		<field name="note">پلکانی، با جدول معافیت و نرخ‌های سال</field>
+	</record>
+	<record id="rule_loan" model="hr.salary.rule">
+		<field name="name">قسط وام</field>
+		<field name="code">LOAN</field>
+		<field name="sequence">75</field>
+		<field name="category_id" ref="categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.LOAN and inputs.LOAN.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.LOAN.amount</field>
+		<field name="veron_credit_code">111401</field>
+		<field name="veron_partner" eval="True"/>
+	</record>
+	<record id="input_loan" model="hr.rule.input">
+		<field name="name">قسط وام (مبلغ)</field>
+		<field name="code">LOAN</field>
+		<field name="input_id" ref="rule_loan"/>
+	</record>
+	<record id="rule_advance" model="hr.salary.rule">
+		<field name="name">مساعده</field>
+		<field name="code">ADVANCE</field>
+		<field name="sequence">76</field>
+		<field name="category_id" ref="categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.ADVANCE and inputs.ADVANCE.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.ADVANCE.amount</field>
+		<field name="veron_credit_code">111401</field>
+		<field name="veron_partner" eval="True"/>
+	</record>
+	<record id="input_advance" model="hr.rule.input">
+		<field name="name">مساعده (مبلغ)</field>
+		<field name="code">ADVANCE</field>
+		<field name="input_id" ref="rule_advance"/>
+	</record>
+	<record id="rule_otherded" model="hr.salary.rule">
+		<field name="name">سایر کسورات</field>
+		<field name="code">OTHERDED</field>
+		<field name="sequence">77</field>
+		<field name="category_id" ref="categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.OTHERDED and inputs.OTHERDED.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.OTHERDED.amount</field>
+		<field name="veron_credit_code">111407</field>
+		<field name="veron_partner" eval="True"/>
+	</record>
+	<record id="input_otherded" model="hr.rule.input">
+		<field name="name">سایر کسورات (مبلغ)</field>
+		<field name="code">OTHERDED</field>
+		<field name="input_id" ref="rule_otherded"/>
+	</record>
+	<record id="rule_net" model="hr.salary.rule">
+		<field name="name">خالص پرداختی</field>
+		<field name="code">NET</field>
+		<field name="sequence">80</field>
+		<field name="category_id" ref="categ_net"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = categories.GROSS + categories.DED</field>
+		<field name="veron_credit_code">211208</field>
+		<field name="veron_partner" eval="True"/>
+	</record>
+	<record id="rule_ins_er" model="hr.salary.rule">
+		<field name="name">حق بیمه سهم کارفرما</field>
+		<field name="code">INS_ER</field>
+		<field name="sequence">90</field>
+		<field name="category_id" ref="categ_comp"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.veron_insured</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(INSB * iran.ins_employer)</field>
+		<field name="veron_debit_code">611011</field>
+		<field name="veron_credit_code">211204</field>
+	</record>
+	<record id="rule_ins_un" model="hr.salary.rule">
+		<field name="name">بیمه بیکاری</field>
+		<field name="code">INS_UN</field>
+		<field name="sequence">91</field>
+		<field name="category_id" ref="categ_comp"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = contract.veron_insured</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(INSB * iran.ins_unemployment)</field>
+		<field name="veron_debit_code">611016</field>
+		<field name="veron_credit_code">211204</field>
+	</record>
+	<record id="rule_eidi" model="hr.salary.rule">
+		<field name="name">ذخیره عیدی و پاداش</field>
+		<field name="code">EIDI</field>
+		<field name="sequence">95</field>
+		<field name="category_id" ref="categ_prov"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round(min(contract.wage * iran.eidi_months, iran.min_monthly * iran.eidi_cap) / 12 * iran.ratio)</field>
+		<field name="veron_debit_code">611008</field>
+		<field name="veron_credit_code">211212</field>
+		<field name="note">ماده‌ی ۱ قانون عیدی: شصت روز آخرین مزد، حداکثر نود روز حداقل مزد، به نسبت روزهای کار در سال؛ ماهانه یک دوازدهم</field>
+	</record>
+	<record id="rule_sanavat" model="hr.salary.rule">
+		<field name="name">ذخیره سنوات</field>
+		<field name="code">SANAVAT</field>
+		<field name="sequence">96</field>
+		<field name="category_id" ref="categ_prov"/>
+		<field name="condition_select">none</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = round((contract.wage + contract.veron_seniority) / 12 * iran.ratio)</field>
+		<field name="veron_debit_code">611013</field>
+		<field name="veron_credit_code">221305</field>
+		<field name="note">ماده‌ی ۲۷ قانون کار: برای هر سال یک ماه آخرین مزد؛ ماهانه یک دوازدهم</field>
+	</record>
+	<record id="structure_iran" model="hr.payroll.structure">
+		<field name="rule_ids" eval="[(6, 0, [ref('rule_base'), ref('rule_seniority'), ref('rule_housing'), ref('rule_food'), ref('rule_child'), ref('rule_marriage'), ref('rule_other'), ref('rule_overtime'), ref('rule_night'), ref('rule_holidaywork'), ref('rule_bonus'), ref('rule_gross'), ref('rule_insb'), ref('rule_ins_emp'), ref('rule_taxb'), ref('rule_tax'), ref('rule_loan'), ref('rule_advance'), ref('rule_otherded'), ref('rule_net'), ref('rule_ins_er'), ref('rule_ins_un'), ref('rule_eidi'), ref('rule_sanavat')])]"/>
+	</record>
+</odoo>

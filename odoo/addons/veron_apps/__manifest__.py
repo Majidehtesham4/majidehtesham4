@@ -13,7 +13,7 @@ employees):
 - Field Service: fieldservice
 - Subscriptions: subscription_oca and contract
 - Knowledge: document_page
-- Payroll: payroll (the base; Iranian rules come later)
+- Payroll: payroll with veron_payroll_iran, the Iranian labour law, social security and salary tax
 - Quality: quality_control_oca
 - Spreadsheet and dashboards: spreadsheet_oca, spreadsheet_dashboard_oca
 - Planning: the project timeline
@@ -79,6 +79,7 @@ Not built: Studio, IoT and WhatsApp.
 		"veron_approval",
 		"veron_rental",
 		"veron_cheque",
+		"veron_payroll_iran",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

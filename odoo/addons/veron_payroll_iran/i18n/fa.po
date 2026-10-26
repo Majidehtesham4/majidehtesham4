@@ -1,0 +1,885 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.hr_payslip_view_form
+msgid "<span>Accounting Entry</span>"
+msgstr "<span>سند حسابداری</span>"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__child
+msgid ""
+"A month's allowance for each child; by law three times the minimum daily "
+"wage"
+msgstr "حق اولاد ماهانه‌ی هر فرزند؛ طبق قانون سه برابر حداقل مزد روزانه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__marriage
+msgid "A month's allowance of a married employee (حق تأهل)"
+msgstr "حق تأهل ماهانه‌ی کارمند متأهل"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__food
+msgid "A month's food allowance (بن خواربار)"
+msgstr "بن خواربار ماهانه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__housing
+msgid "A month's housing allowance (حق مسکن)"
+msgstr "حق مسکن ماهانه"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.hr_salary_rule_view_form
+msgid "Accounting"
+msgstr "حسابداری"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip__veron_move_id
+msgid "Accounting Entry"
+msgstr "سند حسابداری"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_employee__veron_other_allowance
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_version__veron_other_allowance
+msgid ""
+"Allowances of a month beyond those of the law, as responsibility or "
+"commuting"
+msgstr "مزایای ماهانه‌ی خارج از قانون، مثل حق مسئولیت یا ایاب و ذهاب"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__night_rate
+msgid "Article 58: 35% over the hourly wage, added"
+msgstr "ماده‌ی ۵۸: ۳۵٪ مزد ساعتی، افزون بر مزد همان ساعت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__overtime_rate
+msgid "Article 59: 40% over the hourly wage"
+msgstr "ماده‌ی ۵۹: ۴۰٪ بیشتر از مزد ساعتی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Back to Check"
+msgstr "بازگشت به بررسی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__child
+msgid "Child Allowance"
+msgstr "حق اولاد"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Confirm the Rates"
+msgstr "تأیید نرخ‌ها"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Confirmation"
+msgstr "تأیید"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields.selection,name:veron_payroll_iran.selection__veron_payroll_year__state__confirmed
+msgid "Confirmed"
+msgstr "تأییدشده"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__confirmed_uid
+msgid "Confirmed By"
+msgstr "تأییدکننده"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__confirmed_date
+msgid "Confirmed On"
+msgstr "تاریخ تأیید"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__create_uid
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__create_date
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_line__veron_credit_code
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_salary_rule__veron_credit_code
+msgid "Credit Account Code"
+msgstr "کد حساب بستانکار"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__currency_id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip__date_from
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_run__date_start
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip__date_to
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_run__date_end
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_line__veron_debit_code
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_salary_rule__veron_debit_code
+msgid "Debit Account Code"
+msgstr "کد حساب بدهکار"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_run__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_salary_rule__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_res_company__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__display_name
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__eidi_months
+msgid "Eidi (Months of Wage)"
+msgstr "عیدی (ماه مزد)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__eidi_cap
+msgid "Eidi Cap (Minimum Wages)"
+msgstr "سقف عیدی (برابر حداقل مزد)"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Eidi and Tax"
+msgstr "عیدی و مالیات"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "قرارداد کارمند"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__ins_employee
+msgid "Employee Insurance"
+msgstr "بیمه سهم کارمند (٪)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_line__veron_partner
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_salary_rule__veron_partner
+msgid "Employee as Partner"
+msgstr "کارمند به عنوان طرف حساب"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__ins_employer
+msgid "Employer Insurance"
+msgstr "بیمه سهم کارفرما (٪)"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "Enter the minimum wage and the tax brackets of %s first."
+msgstr "ابتدا حداقل مزد و پله‌های مالیات سال %s را وارد کنید."
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "Enter the payroll rates of %s in Payroll, Configuration, Yearly Rates."
+msgstr ""
+"نرخ‌های حقوق سال %s را در «حقوق و دستمزد ← پیکربندی ← نرخ‌های سالانه» وارد "
+"کنید."
+
+#. module: veron_payroll_iran
+#: model_terms:ir.actions.act_window,help:veron_payroll_iran.action_payroll_year
+msgid "Enter the rates of a year"
+msgstr "نرخ‌های یک سال را وارد کنید"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__food
+msgid "Food Allowance"
+msgstr "بن خواربار"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid ""
+"Have you checked every rate against the official resolution of this year? "
+"Payslips are computed with them."
+msgstr ""
+"همه‌ی نرخ‌ها را با مصوبه‌ی رسمی امسال مقایسه کرده‌اید؟ فیش‌های حقوق با همین "
+"نرخ‌ها محاسبه می‌شوند."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__holiday_rate
+msgid "Holiday Work Rate"
+msgstr "ضریب تعطیل‌کاری"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__monthly_hours
+msgid "Hours of a Month"
+msgstr "ساعات کار ماه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__housing
+msgid "Housing Allowance"
+msgstr "حق مسکن"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_payslip_run__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_salary_rule__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_res_company__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__id
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__message_has_error
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__insurance_ceiling
+msgid "Insurance Ceiling"
+msgstr "سقف دستمزد مشمول بیمه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_employee__veron_insurance_number
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__veron_insurance_number
+msgid "Insurance Number"
+msgstr "شماره بیمه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__write_uid
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__write_date
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__marriage
+msgid "Marriage Allowance"
+msgstr "حق تأهل"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__min_daily
+msgid "Minimum Daily Wage"
+msgstr "حداقل مزد روزانه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__min_monthly
+msgid "Minimum Monthly Wage"
+msgstr "حداقل مزد ماهانه"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__night_rate
+msgid "Night Work Rate"
+msgstr "ضریب شب‌کاری"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "No limit"
+msgstr "بدون محدودیت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "Only a payroll manager changes the rates."
+msgstr "فقط مدیر حقوق و دستمزد نرخ‌ها را تغییر می‌دهد."
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "Only a payroll manager confirms the rates."
+msgstr "فقط مدیر حقوق و دستمزد نرخ‌ها را تأیید می‌کند."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_employee__veron_other_allowance
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__veron_other_allowance
+msgid "Other Allowances"
+msgstr "سایر مزایا"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__overtime_rate
+msgid "Overtime Rate"
+msgstr "ضریب اضافه‌کاری"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_res_company__veron_payroll_journal_id
+msgid "Payroll Journal"
+msgstr "دفتر حقوق و دستمزد"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_veron_payroll_year
+msgid "Payroll Rates of a Year"
+msgstr "نرخ‌های حقوق یک سال"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "Payroll rates of %s"
+msgstr "نرخ‌های حقوق %s"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_hr_payslip
+msgid "Payslip"
+msgstr "فیش حقوق"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_hr_payslip_run
+msgid "Payslip Batches"
+msgstr "دسته های فیش حقوقی"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/hr_payslip.py:0
+msgid "Payslip of %(name)s for %(month)s %(year)s"
+msgstr "فیش حقوق %(name)s - %(month)s %(year)s"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__ins_employee
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__ins_employer
+msgid "Percent"
+msgstr "درصد"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__tax_exempt_insurance
+msgid ""
+"Percent of the insured wage deducted from the taxable salary: two sevenths "
+"of the employee's 7%"
+msgstr ""
+"درصدی از حقوق مشمول بیمه که از حقوق مشمول مالیات کم می‌شود: دو هفتم ۷٪ سهم "
+"کارمند"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__ins_unemployment
+msgid "Percent, paid by the employer"
+msgstr "درصد، پرداخت کارفرما"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__rate
+msgid "Rate (%)"
+msgstr "امتیاز (%)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_hr_salary_rule
+msgid "Salary Rule"
+msgstr "قانون حقوق و دستمزد"
+
+#. module: veron_payroll_iran
+#: model:ir.model,name:veron_payroll_iran.model_veron_payroll_tax_bracket
+msgid "Salary Tax Bracket"
+msgstr "پله‌ی مالیات حقوق"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__seniority_base
+msgid "Seniority Base"
+msgstr "پایه سنوات"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_employee__veron_seniority
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__veron_seniority
+msgid "Seniority Wage"
+msgstr "پایه سنوات"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__year
+msgid "Shamsi Year"
+msgstr "سال شمسی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_employee__veron_insured
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_hr_version__veron_insured
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Social Security"
+msgstr "بیمه تأمین اجتماعی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__source
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Sources"
+msgstr "منابع"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__bracket_ids
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Tax Brackets"
+msgstr "پله‌های مالیات"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__tax_exempt_insurance
+msgid "Tax Exempt Insurance"
+msgstr "معافیت مالیاتی حق بیمه (٪)"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/hr_payslip.py:0
+msgid "The account %s of the payroll rules is not in the chart of accounts."
+msgstr "حساب %s قواعد حقوق در کدینگ حساب‌ها نیست."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_payslip_line__veron_debit_code
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_salary_rule__veron_debit_code
+msgid "The account of the Iranian chart the amount is debited to, as 611001"
+msgstr "حسابی از کدینگ که مبلغ به آن بدهکار می‌شود، مثلاً 611001"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_payslip_line__veron_credit_code
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_salary_rule__veron_credit_code
+msgid "The account the amount is credited to, as 211208"
+msgstr "حسابی که مبلغ به آن بستانکار می‌شود، مثلاً 211208"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__eidi_cap
+msgid "The bonus is at most this many minimum monthly wages"
+msgstr "عیدی حداکثر این تعداد برابر حداقل مزد ماهانه است"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_payslip_line__veron_partner
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_salary_rule__veron_partner
+msgid "The employee is the partner of the line, as on salaries payable"
+msgstr "کارمند طرف حساب این ردیف است، مثل حقوق پرداختنی"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/hr_payslip.py:0
+msgid "The entry of the payslip is posted. Reverse it in accounting first."
+msgstr "سند این فیش ثبت قطعی شده است. ابتدا آن را در حسابداری برگشت بزنید."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__monthly_hours
+msgid ""
+"The hourly wage is the monthly wage divided by these hours (44 hours a week)"
+msgstr "مزد ساعتی = مزد ماهانه تقسیم بر این ساعات (۴۴ ساعت در هفته)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__min_monthly
+msgid "The minimum wage of a month of 30 days"
+msgstr "حداقل مزد یک ماه ۳۰ روزه"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.actions.act_window,help:veron_payroll_iran.action_payroll_year
+msgid ""
+"The minimum wage, the allowances and the tax brackets the Supreme Labour "
+"Council and the budget law set each year."
+msgstr ""
+"حداقل مزد، مزایا و پله‌های مالیات که شورای عالی کار و قانون بودجه هر سال "
+"تعیین می‌کنند."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__insurance_ceiling
+msgid ""
+"The most wage of a month social security is computed on; by law seven times "
+"the minimum wage"
+msgstr ""
+"بیشترین دستمزد ماهانه‌ای که حق بیمه بر آن محاسبه می‌شود؛ طبق قانون هفت برابر"
+" حداقل مزد"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__eidi_months
+msgid "The new-year bonus: months of the daily wage × 30"
+msgstr "عیدی: چند ماه مزد (مزد روزانه × ۳۰)"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid ""
+"The payroll rates of %s are not confirmed yet. Check them against the "
+"official resolution in Payroll, Configuration, Yearly Rates, and confirm "
+"them."
+msgstr ""
+"نرخ‌های حقوق سال %s هنوز تأیید نشده‌اند. آن‌ها را در «حقوق و دستمزد ← "
+"پیکربندی ← نرخ‌های سالانه» با مصوبه‌ی رسمی مقایسه و تأیید کنید."
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "The rates are confirmed. Set them back to check before changing them."
+msgstr "نرخ‌ها تأیید شده‌اند. برای تغییر، ابتدا «بازگشت به بررسی» را بزنید."
+
+#. module: veron_payroll_iran
+#: model:ir.model.constraint,message:veron_payroll_iran.constraint_veron_payroll_year_year_company
+msgid "The rates of a year are entered once."
+msgstr "نرخ‌های هر سال فقط یک بار وارد می‌شوند."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__seniority_base
+msgid ""
+"The seniority wage (پایه سنوات) a month for a year of work, for reference; "
+"each contract has its own"
+msgstr ""
+"پایه سنوات ماهانه برای یک سال کار، برای مرجع؛ هر قرارداد مبلغ خودش را دارد"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_employee__veron_seniority
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_version__veron_seniority
+msgid ""
+"The seniority wage (پایه سنوات) of a month, the sum of the years of work"
+msgstr "پایه سنوات ماهانه، جمع سال‌های کار"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_tax_bracket__upto
+msgid "The top of the bracket in a month; empty for the last bracket"
+msgstr "سقف ماهانه‌ی این پله؛ برای پله‌ی آخر خالی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_employee__veron_insured
+#: model:ir.model.fields,help:veron_payroll_iran.field_hr_version__veron_insured
+msgid "The wage is insured with the Social Security Organization"
+msgstr "دستمزد نزد سازمان تأمین اجتماعی بیمه است"
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/hr_payslip.py:0
+msgid ""
+"The wage of %(employee)s (%(wage)s) is below the minimum wage of %(year)s "
+"(%(min)s)."
+msgstr ""
+"مزد %(employee)s (%(wage)s) کمتر از حداقل مزد سال %(year)s (%(min)s) است."
+
+#. module: veron_payroll_iran
+#. odoo-python
+#: code:addons/veron_payroll_iran/models/payroll_year.py:0
+msgid "The year is a Shamsi year, as 1405."
+msgstr "سال، سال شمسی است، مثلاً 1405."
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid ""
+"These rates are not confirmed. Check each one against the official "
+"resolution of the year, then confirm; no payslip of the year is computed "
+"before."
+msgstr ""
+"این نرخ‌ها تأیید نشده‌اند. هر کدام را با مصوبه‌ی رسمی سال مقایسه و بعد تأیید"
+" کنید؛ تا آن موقع هیچ فیش حقوقی از این سال محاسبه نمی‌شود."
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields.selection,name:veron_payroll_iran.selection__veron_payroll_year__state__draft
+msgid "To Check"
+msgstr "در انتظار بررسی"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__ins_unemployment
+msgid "Unemployment Insurance"
+msgstr "بیمه بیکاری (٪)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__upto
+msgid "Up To"
+msgstr "تا مبلغ"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Wage and Allowances (a month)"
+msgstr "مزد و مزایا (ماهانه)"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_year__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__source
+msgid ""
+"Where the rates come from: the resolution of the Supreme Labour Council, the"
+" budget law"
+msgstr "منبع نرخ‌ها: مصوبه‌ی شورای عالی کار، قانون بودجه"
+
+#. module: veron_payroll_iran
+#: model_terms:ir.ui.view,arch_db:veron_payroll_iran.payroll_year_view_form
+msgid "Work Hours"
+msgstr "ساعات کار"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,help:veron_payroll_iran.field_veron_payroll_year__holiday_rate
+msgid "Work on Fridays and holidays"
+msgstr "کار در جمعه و روزهای تعطیل"
+
+#. module: veron_payroll_iran
+#: model:ir.model.fields,field_description:veron_payroll_iran.field_veron_payroll_tax_bracket__year_id
+msgid "Year"
+msgstr "سال"
+
+#. module: veron_payroll_iran
+#: model:ir.actions.act_window,name:veron_payroll_iran.action_payroll_year
+#: model:ir.ui.menu,name:veron_payroll_iran.menu_payroll_year
+msgid "Yearly Rates"
+msgstr "نرخ‌های سالانه"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_overtime
+msgid "اضافه‌کاری"
+msgstr "اضافه‌کاری"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_food
+msgid "بن خواربار"
+msgstr "بن خواربار"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_ins_un
+msgid "بیمه بیکاری"
+msgstr "بیمه بیکاری"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_insded
+msgid "بیمه سهم کارمند"
+msgstr "بیمه سهم کارمند"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_holidaywork
+msgid "تعطیل‌کاری"
+msgstr "تعطیل‌کاری"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_gross
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_gross
+msgid "جمع حقوق و مزایا"
+msgstr "جمع حقوق و مزایا"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_child
+msgid "حق اولاد"
+msgstr "حق اولاد"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_ins_er
+msgid "حق بیمه سهم کارفرما"
+msgstr "حق بیمه سهم کارفرما"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_ins_emp
+msgid "حق بیمه سهم کارمند"
+msgstr "حق بیمه سهم کارمند"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_marriage
+msgid "حق تأهل"
+msgstr "حق تأهل"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_housing
+msgid "حق مسکن"
+msgstr "حق مسکن"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_insb
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_insbase
+msgid "حقوق مشمول بیمه"
+msgstr "حقوق مشمول بیمه"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_taxb
+msgid "حقوق مشمول مالیات"
+msgstr "حقوق مشمول مالیات"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_base
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_basic
+msgid "حقوق پایه"
+msgstr "حقوق پایه"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_net
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_net
+msgid "خالص پرداختی"
+msgstr "خالص پرداختی"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_sanavat
+msgid "ذخیره سنوات"
+msgstr "ذخیره سنوات"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_eidi
+msgid "ذخیره عیدی و پاداش"
+msgstr "ذخیره عیدی و پاداش"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_prov
+msgid "ذخیره‌ها"
+msgstr "ذخیره‌ها"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_other
+msgid "سایر مزایا"
+msgstr "سایر مزایا"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_otherded
+msgid "سایر کسورات"
+msgstr "سایر کسورات"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_comp
+msgid "سهم کارفرما"
+msgstr "سهم کارفرما"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_night
+msgid "شب‌کاری"
+msgstr "شب‌کاری"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_loan
+msgid "قسط وام"
+msgstr "قسط وام"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_tax
+msgid "مالیات حقوق"
+msgstr "مالیات حقوق"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_basex
+msgid "مبنای محاسبه"
+msgstr "مبنای محاسبه"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_alw
+msgid "مزایا"
+msgstr "مزایا"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_noins
+msgid "مزایای معاف از بیمه"
+msgstr "مزایای معاف از بیمه"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_advance
+msgid "مساعده"
+msgstr "مساعده"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_bonus
+msgid "پاداش"
+msgstr "پاداش"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule,name:veron_payroll_iran.rule_seniority
+msgid "پایه سنوات"
+msgstr "پایه سنوات"
+
+#. module: veron_payroll_iran
+#: model:hr.salary.rule.category,name:veron_payroll_iran.categ_ded
+msgid "کسورات"
+msgstr "کسورات"
