@@ -1,0 +1,772 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "%(cheque)s is %(state)s."
+msgstr "%(cheque)s در وضعیت «%(state)s» است."
+
+#. module: veron_cheque
+#: model:ir.model.constraint,message:veron_cheque.constraint_veron_cheque_unique_sayad
+msgid "A cheque with this Sayad id is already recorded."
+msgstr "چکی با این شناسه صیاد قبلاً ثبت شده است."
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__account_number
+msgid "Account Number"
+msgstr "شماره حساب"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_cheque
+#: model_terms:ir.actions.act_window,help:veron_cheque.action_issued
+msgid "Add your cheque books first, under Cheque Books."
+msgstr "ابتدا دسته‌چک‌های خود را در «دسته‌چک‌ها» ثبت کنید."
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__amount_words
+msgid "Amount in Words"
+msgstr "مقدار به حروف"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__bank_id
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__journal_id
+msgid "Bank"
+msgstr "بانک"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__bank_journal_id
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Bank Account"
+msgstr "حساب بانکی"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__bounced
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Bounced"
+msgstr "برگشت خورده"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__veron_cheque_bounced_account_id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__veron_cheque_bounced_account_id
+msgid "Bounced Cheques"
+msgstr "چک‌های برگشتی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__branch
+msgid "Branch"
+msgstr "شعبه"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Cancel Cheque"
+msgstr "ابطال چک"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Cancel this cheque? It must have come back to you."
+msgstr "این چک باطل شود؟ برگه چک باید به شما برگشته باشد."
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__cancelled
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__cashed
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Cashed"
+msgstr "وصول‌شده"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Cashed at the Counter"
+msgstr "نقد شده در باجه"
+
+#. module: veron_cheque
+#: model:ir.model,name:veron_cheque.model_veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_account_bank_statement_line__veron_cheque_id
+#: model:ir.model.fields,field_description:veron_cheque.field_account_move__veron_cheque_id
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__cheque_ids
+msgid "Cheque"
+msgstr "چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque %(serial)s - %(partner)s"
+msgstr "چک %(serial)s - %(partner)s"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.res_config_settings_view_form
+msgid "Cheque Accounts"
+msgstr "حساب‌های چک"
+
+#. module: veron_cheque
+#: model:ir.model,name:veron_cheque.model_veron_cheque_book
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__book_id
+msgid "Cheque Book"
+msgstr "دسته‌چک"
+
+#. module: veron_cheque
+#: model:ir.actions.act_window,name:veron_cheque.action_books
+#: model:ir.ui.menu,name:veron_cheque.menu_books
+msgid "Cheque Books"
+msgstr "دسته‌چک‌ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__veron_cheque_journal_id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__veron_cheque_journal_id
+msgid "Cheque Journal"
+msgstr "دفتر چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque bounced"
+msgstr "برگشت چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque cancelled"
+msgstr "ابطال چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque cashed"
+msgstr "وصول چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque due: %s"
+msgstr "سررسید چک: %s"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque endorsed to %s"
+msgstr "واگذاری (خرج) چک به %s"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque issued"
+msgstr "صدور چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque received"
+msgstr "دریافت چک"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Cheque returned to the customer"
+msgstr "استرداد چک به مشتری"
+
+#. module: veron_cheque
+#: model:ir.ui.menu,name:veron_cheque.menu_cheques
+#: model_terms:ir.ui.view,arch_db:veron_cheque.res_config_settings_view_form
+msgid "Cheques"
+msgstr "چک‌ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__veron_cheque_collection_account_id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__veron_cheque_collection_account_id
+msgid "Cheques in Collection"
+msgstr "چک‌های در جریان وصول"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__veron_cheque_hand_account_id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__veron_cheque_hand_account_id
+msgid "Cheques in Hand"
+msgstr "چک‌های نزد صندوق"
+
+#. module: veron_cheque
+#: model:ir.actions.server,name:veron_cheque.cron_remind_ir_actions_server
+msgid "Cheques: to-dos before the due dates"
+msgstr "چک‌ها: یادآوری پیش از سررسید"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Choose the bank account first."
+msgstr "ابتدا حساب بانکی را انتخاب کنید."
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Choose who the cheque is endorsed to."
+msgstr "مشخص کنید چک به چه کسی واگذار می‌شود."
+
+#. module: veron_cheque
+#: model:ir.model,name:veron_cheque.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__company_id
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque_book__company_id
+msgid "Company related to this journal"
+msgstr "شرکت مربوط به این روزنامه"
+
+#. module: veron_cheque
+#: model:ir.model,name:veron_cheque.model_res_config_settings
+msgid "Config Settings"
+msgstr "تنظیمات پیکربندی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__create_uid
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__create_date
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Customer"
+msgstr "مشتری"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Deposit to Bank"
+msgstr "خواباندن به حساب"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Deposited to %s"
+msgstr "خوابانده شده به %s"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__direction
+msgid "Direction"
+msgstr "جهت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_account_move__display_name
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__display_name
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__display_name
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__drawer
+msgid "Drawer"
+msgstr "کشو"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__due_date
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Due Date"
+msgstr "تاریخ سررسید"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Due Month"
+msgstr "ماه سررسید"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Due in 7 Days"
+msgstr "سررسید تا ۷ روز"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Endorse"
+msgstr "خرج کردن"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__endorsed
+msgid "Endorsed"
+msgstr "خرج‌شده"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__endorse_partner_id
+msgid "Endorsed To"
+msgstr "واگذار شده به"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__move_ids
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Entries"
+msgstr "داده ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__first_serial
+msgid "First Serial"
+msgstr "سریال اولین برگ"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_account_move__id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__id
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__id
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__message_has_error
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__collection
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "In Collection"
+msgstr "در جریان وصول"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__hand
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "In Hand"
+msgstr "نزد صندوق"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Issue"
+msgstr "صدور"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__issue_date
+msgid "Issue Date"
+msgstr "تاریخ صدور"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__direction__out
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__issued
+msgid "Issued"
+msgstr "صادر شده"
+
+#. module: veron_cheque
+#: model:ir.actions.act_window,name:veron_cheque.action_issued
+#: model:ir.ui.menu,name:veron_cheque.menu_issued
+msgid "Issued Cheques"
+msgstr "چک‌های پرداختنی"
+
+#. module: veron_cheque
+#: model:ir.model,name:veron_cheque.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__write_uid
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__write_date
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_main_partner_id
+msgid "Main Contact"
+msgstr "مخاطب اصلی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__move_count
+msgid "Move Count"
+msgstr "تعداد اسناد"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__name
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__next_serial
+msgid "Next Serial"
+msgstr "سریال بعدی"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_res_company__veron_cheque_payable_account_id
+#: model:ir.model.fields,field_description:veron_cheque.field_res_config_settings__veron_cheque_payable_account_id
+msgid "Notes Payable"
+msgstr "اسناد پرداختنی"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Notes..."
+msgstr "یادداشت..."
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Only a draft cheque is deleted; the others have entries."
+msgstr "فقط چک پیش‌نویس حذف می‌شود؛ بقیه سند حسابداری دارند."
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Open"
+msgstr "باز"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__partner_id
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Partner"
+msgstr "همکار"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Past Due"
+msgstr "سررسید گذشته"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Payee"
+msgstr "در وجه"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Receive"
+msgstr "دریافت"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__direction__in
+msgid "Received"
+msgstr "دریافت شده"
+
+#. module: veron_cheque
+#: model:ir.actions.act_window,name:veron_cheque.action_received
+#: model:ir.ui.menu,name:veron_cheque.menu_received
+msgid "Received Cheques"
+msgstr "چک‌های دریافتنی"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Record that this cheque bounced?"
+msgstr "برگشت خوردن این چک ثبت شود؟"
+
+#. module: veron_cheque
+#: model_terms:ir.actions.act_window,help:veron_cheque.action_issued
+msgid "Record the first cheque issued"
+msgstr "اولین چک پرداختنی را ثبت کنید"
+
+#. module: veron_cheque
+#: model_terms:ir.actions.act_window,help:veron_cheque.action_received
+msgid "Record the first cheque received"
+msgstr "اولین چک دریافتنی را ثبت کنید"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__remaining
+msgid "Remaining"
+msgstr "باقی مانده"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__reminded
+msgid "Reminded"
+msgstr "یادآوری شده"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_form
+msgid "Return to Customer"
+msgstr "استرداد به مشتری"
+
+#. module: veron_cheque
+#: model:ir.model.fields.selection,name:veron_cheque.selection__veron_cheque__state__returned
+msgid "Returned to Customer"
+msgstr "مسترد شده"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__sayad_id
+msgid "Sayad ID"
+msgstr "شناسه صیاد"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__serial
+msgid "Serial"
+msgstr "سریال"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "Set the account «%s» in Accounting settings, Cheques."
+msgstr "حساب «%s» را در تنظیمات حسابداری، بخش چک‌ها تعیین کنید."
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque_book__sheets
+msgid "Sheets"
+msgstr "تعداد برگ"
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_search
+msgid "Status"
+msgstr "وضعیت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "The Sayad id has 16 digits."
+msgstr "شناسه صیاد ۱۶ رقم است."
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.res_config_settings_view_form
+msgid "The accounts a cheque goes through, and the journal of its entries"
+msgstr "حساب‌هایی که چک از آن‌ها عبور می‌کند و دفتر اسناد آن"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "The amount of a cheque is more than zero."
+msgstr "مبلغ چک باید بیشتر از صفر باشد."
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "The cheque bounced."
+msgstr "چک برگشت خورد."
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__sayad_id
+msgid "The cheque's 16-digit Sayad id"
+msgstr "شناسه ۱۶ رقمی صیاد چک"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.cheque_view_list
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_cheque
+#: model:ir.model.fields,field_description:veron_cheque.field_veron_cheque__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_cheque
+#: model:ir.model.fields,help:veron_cheque.field_veron_cheque__drawer
+msgid "Who signed the cheque, when not the customer"
+msgstr "صادرکننده چک، وقتی غیر از خود مشتری است"
+
+#. module: veron_cheque
+#: model_terms:ir.ui.view,arch_db:veron_cheque.book_view_form
+msgid "e.g. Mellat book 2"
+msgstr "مثلاً دسته‌چک ملت ۲"
+
+#. module: veron_cheque
+#. odoo-python
+#: code:addons/veron_cheque/models/cheque.py:0
+msgid "veron_cheque_id"
+msgstr "چک"

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.veron.cheque</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="account.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//app[@name='account']" position="inside">
+				<block title="Cheques" name="veron_cheques">
+					<setting string="Cheque Accounts" help="The accounts a cheque goes through, and the journal of its entries">
+						<div class="content-group">
+							<div class="row mt8"><label for="veron_cheque_hand_account_id" class="col-lg-5 o_light_label"/><field name="veron_cheque_hand_account_id"/></div>
+							<div class="row"><label for="veron_cheque_collection_account_id" class="col-lg-5 o_light_label"/><field name="veron_cheque_collection_account_id"/></div>
+							<div class="row"><label for="veron_cheque_bounced_account_id" class="col-lg-5 o_light_label"/><field name="veron_cheque_bounced_account_id"/></div>
+							<div class="row"><label for="veron_cheque_payable_account_id" class="col-lg-5 o_light_label"/><field name="veron_cheque_payable_account_id"/></div>
+							<div class="row"><label for="veron_cheque_journal_id" class="col-lg-5 o_light_label"/><field name="veron_cheque_journal_id"/></div>
+						</div>
+					</setting>
+				</block>
+			</xpath>
+		</field>
+	</record>
+</odoo>

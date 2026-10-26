@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cheque_invoice,cheque billing,model_veron_cheque,account.group_account_invoice,1,1,1,1
+access_cheque_readonly,cheque readonly,model_veron_cheque,account.group_account_readonly,1,0,0,0
+access_book_invoice,book billing,model_veron_cheque_book,account.group_account_invoice,1,1,1,1
+access_book_readonly,book readonly,model_veron_cheque_book,account.group_account_readonly,1,0,0,0

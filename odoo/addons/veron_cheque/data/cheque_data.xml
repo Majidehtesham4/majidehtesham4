@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<function model="res.company" name="_veron_cheque_setup_all"/>
+	<record id="cron_remind" model="ir.cron">
+		<field name="name">Cheques: to-dos before the due dates</field>
+		<field name="model_id" ref="model_veron_cheque"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_remind()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+	</record>
+</odoo>
