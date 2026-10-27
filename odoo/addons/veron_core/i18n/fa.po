@@ -1377,3 +1377,27 @@ msgstr "ارزش موجودی در دسترس و رزروشده"
 #: code:addons/veron_core/static/src/branding.js:0
 msgid "Reserved value"
 msgstr "ارزش رزروشده"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/form_leave.js:0
+msgid "This form is not saved"
+msgstr "این فرم ذخیره نشده است"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/form_leave.js:0
+msgid "Some fields of this form are empty or not valid, so its changes cannot be saved. Go back to the form and fill the fields marked in red, or leave it without these changes."
+msgstr "بعضی فیلدهای این فرم خالی یا نادرست‌اند و تغییراتش ذخیره نمی‌شود. به فرم برگردید و فیلدهای قرمزشده را پر کنید، یا بدون این تغییرات خارج شوید."
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/form_leave.js:0
+msgid "Back to the Form"
+msgstr "برگشت به فرم"
+
+#. module: veron_core
+#. odoo-javascript
+#: code:addons/veron_core/static/src/form_leave.js:0
+msgid "Leave Without Saving"
+msgstr "خروج بدون ذخیره"
