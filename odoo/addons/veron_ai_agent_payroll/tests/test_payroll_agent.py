@@ -17,7 +17,7 @@ class TestPayrollAgent(TransactionCase):
 	@classmethod
 	def setUpClass(cls):
 		super().setUpClass()
-		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True))
+		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True, lang="en_US"))
 		cls.manager = new_test_user(cls.env, "pay_manager", groups="base.group_user,payroll.group_payroll_manager,"
 			"veron_ai_agent.group_ai_user,hr.group_hr_user,account.group_account_invoice")
 		cls.worker_user = new_test_user(cls.env, "pay_worker", groups="base.group_user")

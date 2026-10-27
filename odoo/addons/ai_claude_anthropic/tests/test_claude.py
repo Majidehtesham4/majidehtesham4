@@ -166,6 +166,15 @@ class TestClaude(TransactionCase):
 			self.assertEqual((caught.exception.retryable, caught.exception.kind), (retryable, kind), error)
 			self.assertNotIn("sk-ant", str(caught.exception))
 
+	def test_errors_in_the_persons_language(self):
+		if not self.env["res.lang"]._lang_get("fa_IR"):
+			self.skipTest("Persian is not installed")
+		adapter, _client = self.adapter([FakeSDK.AuthenticationError("bad key", 401)], fallbacks=False)
+		with self.assertRaises(ProviderError) as caught:
+			adapter.chat("s", [{"role": "user", "content": "x"}], [])
+		self.assertIn("refused the key", str(caught.exception))
+		self.assertIn("کلید را نپذیرفت", caught.exception.text(self.env(context={"lang": "fa_IR"})))
+
 	def test_refusal_and_pause(self):
 		adapter, _client = self.adapter([response(stop="refusal")])
 		result = adapter.chat("s", [{"role": "user", "content": "x"}], [])

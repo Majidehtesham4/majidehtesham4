@@ -50,7 +50,7 @@ class AgentCase(TransactionCase):
 	@classmethod
 	def setUpClass(cls):
 		super().setUpClass()
-		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True))
+		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True, lang="en_US"))
 		FakeAdapter.script, FakeAdapter.calls, FakeAdapter.error = [], [], None
 		cls.company_a = cls.env.company
 		cls.company_b = cls.env["res.company"].create({"name": "شرکت ب"})

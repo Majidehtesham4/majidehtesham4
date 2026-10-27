@@ -1,0 +1,246 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.constraint,message:veron_ai_agent_payroll.constraint_veron_payslip_document_payslip_unique
+msgid "A payslip has one PDF."
+msgstr "هر فیش حقوقی یک PDF دارد."
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__attachment_id
+msgid "Attachment"
+msgstr "پیوست"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"Before the payslips of a Shamsi month: the year's rates confirmed, and for "
+"each employee with a contract in the month, the structure, the wage against "
+"the minimum, the national code, the insurance number and the bank account. "
+"Returns what is missing; no amount."
+msgstr ""
+"پیش از فیش‌های یک ماه شمسی: تأیید نرخ‌های سال، و برای هر کارمندِ دارای "
+"قرارداد در آن ماه، ساختار حقوق، دستمزد در برابر حداقل، کد ملی، شماره‌ی بیمه "
+"و حساب بانکی. کمبودها را برمی‌گرداند؛ بدون مبلغ."
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"Compares each payslip of a Shamsi month with the same employee's payslip of "
+"the month before: the change of gross and net in percent, above a threshold,"
+" and who is new or missing. No amount."
+msgstr ""
+"هر فیش یک ماه شمسی را با فیش همان کارمند در ماه قبل مقایسه می‌کند: تغییر "
+"ناخالص و خالص به درصد، بالاتر از یک آستانه، و اینکه چه کسی تازه آمده یا "
+"نیست. بدون مبلغ."
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__date_from
+msgid "Date From"
+msgstr "از تاریخ"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_ai_agent_payroll
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_payroll.document_view_list
+msgid "Download"
+msgstr "دانلود"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__employee_id
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__user_id
+msgid "Employee's User"
+msgstr "کاربر کارمند"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"Makes the draft payslips of a Shamsi month for the employees with a contract"
+" (or those given) and computes them with the payroll engine and the "
+"confirmed rates; draft and waiting payslips are computed again, done "
+"payslips are left as they are. Nothing is confirmed or paid. Returns counts "
+"and problems, no amount."
+msgstr ""
+"پیش‌نویس فیش‌های یک ماه شمسی را برای کارکنانِ دارای قرارداد (یا کارکنان "
+"داده‌شده) می‌سازد و با موتور حقوق و نرخ‌های تأییدشده محاسبه می‌کند؛ فیش‌های "
+"پیش‌نویس و منتظر دوباره محاسبه می‌شوند و فیش‌های نهایی دست نمی‌خورند. چیزی "
+"تأیید یا پرداخت نمی‌شود. تعدادها و مشکل‌ها را برمی‌گرداند؛ بدون مبلغ."
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__month
+msgid "Month"
+msgstr "ماه"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.actions.act_window,name:veron_ai_agent_payroll.action_my_payslips
+#: model:ir.ui.menu,name:veron_ai_agent_payroll.menu_my_payslips
+msgid "My Payslips"
+msgstr "فیش‌های حقوقی من"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_ai_agent_payroll
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_payroll.action_my_payslips
+msgid "No payslip yet"
+msgstr "هنوز فیش حقوقی‌ای نیست"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Payroll: Changes From Last Month"
+msgstr "حقوق: تغییرات نسبت به ماه قبل"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Payroll: Check the Inputs"
+msgstr "حقوق: کنترل ورودی‌ها"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Payroll: Compute the Payslips"
+msgstr "حقوق: محاسبه‌ی فیش‌ها"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Payroll: Prepare the Payslip PDFs"
+msgstr "حقوق: آماده‌سازی PDF فیش‌ها"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__payslip_id
+msgid "Payslip"
+msgstr "فیش حقوقی"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model,name:veron_ai_agent_payroll.model_veron_payslip_document
+msgid "Payslip PDF"
+msgstr "PDF فیش حقوقی"
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,field_description:veron_ai_agent_payroll.field_veron_payslip_document__prepared_at
+msgid "Prepared At"
+msgstr "زمان آماده‌سازی"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"Prepares the PDF of each computed payslip of a Shamsi month. Each PDF opens "
+"only for its employee (in My Payslips) and payroll managers. It sends "
+"nothing outside."
+msgstr ""
+"PDF هر فیش محاسبه‌شده‌ی یک ماه شمسی را آماده می‌کند. هر PDF فقط برای خود "
+"کارمند (در فیش‌های حقوقی من) و مدیران حقوق باز می‌شود. چیزی به بیرون فرستاده"
+" نمی‌شود."
+
+#. module: veron_ai_agent_payroll
+#: model:ir.model.fields,help:veron_ai_agent_payroll.field_veron_payslip_document__user_id
+msgid "Related user name for the resource to manage its access."
+msgstr "نام کاربری مرتبط برای منبع برای مدیریت حق دسترسی آن."
+
+#. module: veron_ai_agent_payroll
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_payroll.action_my_payslips
+msgid ""
+"The PDF of each of your payslips appears here once payroll prepares it. Only"
+" you and payroll managers see it."
+msgstr ""
+"PDF هر فیش حقوقی شما پس از آماده‌سازی واحد حقوق اینجا دیده می‌شود. فقط شما و"
+" مدیران حقوق و دستمزد آن را می‌بینید."
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/models/payslip_document.py:0
+msgid "The PDF of this payslip is not ready."
+msgstr "PDF این فیش حقوقی هنوز آماده نیست."
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "The month is written as 1405/07."
+msgstr "ماه به شکل 1405/07 نوشته می‌شود."
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"The payroll rates of %s are not confirmed. Check them against the official "
+"resolution in Payroll, Configuration, Yearly Rates and confirm them; the "
+"agent does not guess rates."
+msgstr ""
+"نرخ‌های حقوق %s تأیید نشده‌اند. آن‌ها را در حقوق و دستمزد ← پیکربندی ← "
+"نرخ‌های سالانه با مصوبه‌ی رسمی مقایسه و تأیید کنید؛ ایجنت نرخ را حدس "
+"نمی‌زند."
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid ""
+"The payroll rates of %s are not entered. Enter them from the official "
+"resolution in Payroll, Configuration, Yearly Rates, confirm them, then "
+"answer here."
+msgstr ""
+"نرخ‌های حقوق %s وارد نشده‌اند. آن‌ها را از روی مصوبه‌ی رسمی در حقوق و دستمزد"
+" ← پیکربندی ← نرخ‌های سالانه وارد و تأیید کنید، بعد اینجا پاسخ دهید."
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Your payslip of %s"
+msgstr "فیش حقوقی %s شما"
+
+#. module: veron_ai_agent_payroll
+#. odoo-python
+#: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
+msgid "Your payslip of %s is ready in Employees, My Payslips."
+msgstr "فیش حقوقی %s شما در کارکنان ← فیش‌های حقوقی من آماده است."

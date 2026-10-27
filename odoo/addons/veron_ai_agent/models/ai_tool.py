@@ -38,18 +38,24 @@ class AiTool(models.Model):
 	def _sync(self):
 		"""The records of the tools installed in the code; a tool whose code is gone is kept, unregistered"""
 		existing = {record.code: record for record in self.with_context(active_test=False).search([])}
+		langs = [code for code, _name in self.env["res.lang"].get_installed() if code != "en_US"]
 		for code, tool in registry.TOOLS.items():
 			values = {
-				"name": tool.name, "description": tool.description, "category": tool.category, "action": tool.action,
+				"name": registry.plain(tool.name), "description": registry.plain(tool.description),
+				"category": tool.category, "action": tool.action,
 				"level": tool.level, "risk": tool.risk, "sensitive": tool.sensitive or False,
 				"models_used": ", ".join(tool.models), "module": tool.module, "supervisor_only": tool.supervisor_only,
 				"input_schema": json.dumps(tool.schema, ensure_ascii=False, indent=1), "registered": True,
 			}
-			if code in existing:
-				# The name and the description keep their translations
-				existing[code].write({k: v for k, v in values.items() if k not in ("name", "description")})
+			record = existing.get(code)
+			if record:
+				record.with_context(lang="en_US").write(values)
 			else:
-				self.create({"code": code, **values})
+				record = self.with_context(lang="en_US").create({"code": code, **values})
+			# The name and the description in each installed language, from the translations of the tool's module
+			for lang in langs:
+				record.with_context(lang=lang).write({"name": registry.plain(tool.name, lang),
+					"description": registry.plain(tool.description, lang)})
 		gone = [record for code, record in existing.items() if code not in registry.TOOLS]
 		for record in gone:
 			record.registered = False

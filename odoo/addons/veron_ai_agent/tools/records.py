@@ -2,9 +2,13 @@
 own access rights and companies. No free query, no dotted path through relations, no write."""
 
 
+from odoo.tools.translate import LazyTranslate
+
 from ..services.registry import Plan, Tool, ToolDenied, tool
 from ..services.schema import strict_object
 from .common import FILTER_SCHEMA, filters_domain, plain, scoped
+
+_lt = LazyTranslate(__name__)
 
 MODEL = {"type": "string", "maxLength": 64, "description": "Technical name of a model in the agent's data, e.g. sale.order"}
 
@@ -12,8 +16,8 @@ MODEL = {"type": "string", "maxLength": 64, "description": "Technical name of a 
 @tool
 class RecordsSearch(Tool):
 	code = "records_search"
-	name = "Search Records"
-	description = ("Finds records of a model in the agent's data. Filters are [field, operator, value] triples; operators: "
+	name = _lt("Search Records")
+	description = _lt("Finds records of a model in the agent's data. Filters are [field, operator, value] triples; operators: "
 		"= != > < >= <= ilike 'not ilike' in 'not in'. Returns at most `limit` records with the fields asked.")
 	category = "read"
 	schema = strict_object({
@@ -49,8 +53,8 @@ class RecordsSearch(Tool):
 @tool
 class RecordRead(Tool):
 	code = "record_read"
-	name = "Read a Record"
-	description = "Reads one record of a model in the agent's data, with the fields asked or all it may read."
+	name = _lt("Read a Record")
+	description = _lt("Reads one record of a model in the agent's data, with the fields asked or all it may read.")
 	category = "read"
 	schema = strict_object({
 		"model": MODEL,
@@ -76,8 +80,8 @@ class RecordRead(Tool):
 @tool
 class RecordsAggregate(Tool):
 	code = "records_aggregate"
-	name = "Totals and Counts"
-	description = ("Counts records of a model, or sums a numeric field, grouped by a field (dates by day, week, "
+	name = _lt("Totals and Counts")
+	description = _lt("Counts records of a model, or sums a numeric field, grouped by a field (dates by day, week, "
 		"month or year, e.g. date:month). For reports.")
 	category = "analyze"
 	schema = strict_object({

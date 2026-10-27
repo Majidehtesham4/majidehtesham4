@@ -10,7 +10,7 @@ class ActivateWizard(models.TransientModel):
 	_name = "veron.ai.activate.wizard"
 	_description = "Activate an Agent Role"
 
-	template_id = fields.Many2one("veron.ai.agent.template", required=True)
+	template_id = fields.Many2one("veron.ai.agent.template", "Role", required=True)
 	name = fields.Char(required=True, compute="_compute_name", store=True, readonly=False, precompute=True)
 	company_ids = fields.Many2many("res.company", string="Companies", required=True, default=lambda self: self.env.company)
 	responsible_user_id = fields.Many2one("res.users", "Responsible", required=True, default=lambda self: self.env.user,

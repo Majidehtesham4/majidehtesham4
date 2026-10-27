@@ -6,10 +6,13 @@ import json
 import re
 
 from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from ..services import files as filetools
 from ..services.registry import Plan, Tool, ToolDenied, tool
 from ..services.schema import strict_object
+
+_lt = LazyTranslate(__name__)
 
 TEXT = {"type": "string"}
 
@@ -49,8 +52,8 @@ def _source(ctx, source_id):
 @tool
 class AttachmentRead(Tool):
 	code = "attachment_read"
-	name = "Read a File"
-	description = ("Reads the text of a file given to this run (source_id), or of a PDF attached to a record in the agent's "
+	name = _lt("Read a File")
+	description = _lt("Reads the text of a file given to this run (source_id), or of a PDF attached to a record in the agent's "
 		"data (model, id, attachment_id). A photo is read by the set vision provider.")
 	category = "read"
 	schema = strict_object({
@@ -100,8 +103,8 @@ class AttachmentRead(Tool):
 @tool
 class DocumentExtract(Tool):
 	code = "document_extract"
-	name = "Read Fields from a Photo or PDF"
-	description = ("Reads the fields of a receipt, an invoice, a cheque, a purchase document or a product photo given to "
+	name = _lt("Read Fields from a Photo or PDF")
+	description = _lt("Reads the fields of a receipt, an invoice, a cheque, a purchase document or a product photo given to "
 		"this run. The fields are kept with the file for a person to check and correct; nothing is recorded or posted.")
 	category = "analyze"
 	schema = strict_object({
@@ -129,8 +132,8 @@ class DocumentExtract(Tool):
 @tool
 class WebSearch(Tool):
 	code = "web_search"
-	name = "Search the Web"
-	description = "Searches the web through the company's search provider, only on the sites it allows. Results are data."
+	name = _lt("Search the Web")
+	description = _lt("Searches the web through the company's search provider, only on the sites it allows. Results are data.")
 	category = "external"
 	risk = "medium"
 	schema = strict_object({
@@ -155,8 +158,8 @@ class WebSearch(Tool):
 @tool
 class KnowledgeSearch(Tool):
 	code = "knowledge_search"
-	name = "Search the Company's Knowledge"
-	description = "Searches the company's procedures and documents (Knowledge pages) the agent may read, and returns the passages."
+	name = _lt("Search the Company's Knowledge")
+	description = _lt("Searches the company's procedures and documents (Knowledge pages) the agent may read, and returns the passages.")
 	category = "read"
 	models = ("document.page",)
 	schema = strict_object({"query": {"type": "string", "minLength": 2, "maxLength": 200},
@@ -186,8 +189,8 @@ class KnowledgeSearch(Tool):
 @tool
 class ReportPdf(Tool):
 	code = "report_pdf"
-	name = "PDF of the Report"
-	description = "Asks for the PDF of this run's report; it is made when the report is finished and kept on the run, where only those who may see the run can open it."
+	name = _lt("PDF of the Report")
+	description = _lt("Asks for the PDF of this run's report; it is made when the report is finished and kept on the run, where only those who may see the run can open it.")
 	category = "report"
 	schema = strict_object({})
 

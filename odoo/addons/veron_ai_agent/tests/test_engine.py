@@ -7,7 +7,7 @@ from odoo import fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 
-from ..services import providers
+from ..services import providers, registry
 from .common import AgentCase, FakeAdapter, answer, calls
 
 
@@ -35,6 +35,15 @@ class TestEngine(AgentCase):
 		self.assertFalse(agent.enabled, "a new agent waits for a manager to turn it on")
 		self.assertTrue(agent.grant_ids)
 		self.assertEqual(set(agent.grant_ids.mapped("level")), {"1"})
+
+	def test_tool_names_in_persian(self):
+		if not self.env["res.lang"]._lang_get("fa_IR"):
+			self.skipTest("Persian is not installed")
+		self.env["veron.ai.tool"]._sync()
+		tool = self.env["veron.ai.tool"]._by_codes("records_search")
+		self.assertEqual(tool.with_context(lang="fa_IR").name, "جست‌وجوی رکوردها")
+		# The language model reads the tools in English
+		self.assertTrue(registry.get("records_search").definition()["description"].startswith("Search Records."))
 
 	def test_persian_conversation_and_records(self):
 		agent = self.make_agent("1", ["records_search"])

@@ -4,6 +4,7 @@ import os
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools.translate import LazyGettext
 
 from ..services import providers, redact
 
@@ -106,10 +107,12 @@ class AiProvider(models.Model):
 		for provider in self:
 			try:
 				message = provider._adapter().check()
+				if isinstance(message, LazyGettext):
+					message = self.env._(message)
 				provider.sudo().write({"state": "ok", "last_check": fields.Datetime.now(), "last_error": False})
 			except providers.ProviderError as error:
-				provider.sudo().write({"state": "error", "last_check": fields.Datetime.now(), "last_error": str(error)})
-				raise UserError(str(error)) from error
+				provider.sudo().write({"state": "error", "last_check": fields.Datetime.now(), "last_error": error.text(self.env)})
+				raise UserError(error.text(self.env)) from error
 			except Exception as error:
 				_logger.warning("AI provider check failed: %s", redact.text(error))
 				provider.sudo().write({"state": "error", "last_check": fields.Datetime.now(),
@@ -121,5 +124,5 @@ class AiProvider(models.Model):
 	def _mark(self, error=None):
 		"""Records the last result of a real call, without the key"""
 		values = {"last_check": fields.Datetime.now(), "state": "error" if error else "ok",
-			"last_error": redact.text(error, 300) if error else False}
+			"last_error": providers.message(error, self.env, 300) if error else False}
 		self.sudo().write(values)

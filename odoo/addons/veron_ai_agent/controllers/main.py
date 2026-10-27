@@ -57,5 +57,5 @@ class AgentChat(http.Controller):
 		try:
 			audio, mimetype = provider._adapter().speak(text[:3000], provider.language or "fa")
 		except ProviderError as error:
-			return {"error": str(error)}
+			return {"error": error.text(request.env)}
 		return {"audio": base64.b64encode(audio).decode(), "mimetype": mimetype}

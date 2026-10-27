@@ -7,10 +7,13 @@ from datetime import datetime, time, timedelta
 
 from odoo import fields
 from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from ..services.registry import Plan, Tool, ToolDenied, tool
 from ..services.schema import strict_object
 from .common import PERIOD, period, scoped
+
+_lt = LazyTranslate(__name__)
 
 
 def _span(ctx, args, default_days):
@@ -24,14 +27,14 @@ class Analysis(Tool):
 	def plan(self, ctx, args):
 		for model in self.models:
 			ctx.check_model(model)
-		return Plan(summary=self.name, model=self.models[0] if self.models else "")
+		return Plan(summary=self.label(ctx.env), model=self.models[0] if self.models else "")
 
 
 @tool
 class SalesSummary(Analysis):
 	code = "sales_summary"
-	name = "Sales of a Period"
-	description = "Confirmed sales orders of a period: their number and amount, by day and by salesperson, and the biggest."
+	name = _lt("Sales of a Period")
+	description = _lt("Confirmed sales orders of a period: their number and amount, by day and by salesperson, and the biggest.")
 	models = ("sale.order",)
 	schema = strict_object(PERIOD)
 
@@ -57,8 +60,8 @@ class SalesSummary(Analysis):
 @tool
 class QuotesPending(Analysis):
 	code = "quotes_pending"
-	name = "Quotations to Follow Up"
-	description = "Quotations not confirmed, older than N days or past their validity, with the customer and the salesperson."
+	name = _lt("Quotations to Follow Up")
+	description = _lt("Quotations not confirmed, older than N days or past their validity, with the customer and the salesperson.")
 	models = ("sale.order",)
 	schema = strict_object({"older_than_days": {"type": "integer", "minimum": 0, "maximum": 365},
 		"limit": {"type": "integer", "minimum": 1, "maximum": 100}})
@@ -78,8 +81,8 @@ class QuotesPending(Analysis):
 @tool
 class CustomerSummary(Analysis):
 	code = "customer_summary"
-	name = "Customer History"
-	description = "A customer's orders, open invoices, last activities and last messages, in short."
+	name = _lt("Customer History")
+	description = _lt("A customer's orders, open invoices, last activities and last messages, in short.")
 	models = ("res.partner",)
 	schema = strict_object({"partner_id": {"type": "integer", "minimum": 1}}, ["partner_id"])
 
@@ -110,8 +113,8 @@ class CustomerSummary(Analysis):
 @tool
 class PurchaseSummary(Analysis):
 	code = "purchase_summary"
-	name = "Purchases of a Period"
-	description = "Confirmed purchase orders of a period: their number and amount, by vendor."
+	name = _lt("Purchases of a Period")
+	description = _lt("Confirmed purchase orders of a period: their number and amount, by vendor.")
 	models = ("purchase.order",)
 	schema = strict_object(PERIOD)
 
@@ -132,8 +135,8 @@ class PurchaseSummary(Analysis):
 @tool
 class PurchaseLate(Analysis):
 	code = "purchase_late"
-	name = "Late Purchase Deliveries"
-	description = "Purchase order lines past their planned date and not fully received, by vendor."
+	name = _lt("Late Purchase Deliveries")
+	description = _lt("Purchase order lines past their planned date and not fully received, by vendor.")
 	models = ("purchase.order.line",)
 	schema = strict_object({"limit": {"type": "integer", "minimum": 1, "maximum": 100}})
 
@@ -152,8 +155,8 @@ class PurchaseLate(Analysis):
 @tool
 class PurchaseCompare(Analysis):
 	code = "purchase_compare"
-	name = "Compare Purchase Offers"
-	description = "For a product: the prices of open requests for quotation and of the vendors' price lists, cheapest first."
+	name = _lt("Compare Purchase Offers")
+	description = _lt("For a product: the prices of open requests for quotation and of the vendors' price lists, cheapest first.")
 	models = ("purchase.order.line",)
 	schema = strict_object({"product_id": {"type": "integer", "minimum": 1}}, ["product_id"])
 
@@ -174,8 +177,8 @@ class PurchaseCompare(Analysis):
 @tool
 class OrderReceiptBillCheck(Analysis):
 	code = "order_receipt_bill_check"
-	name = "Order, Receipt and Bill Differences"
-	description = "Purchase lines whose billed quantity differs from the received one, or billed at another price."
+	name = _lt("Order, Receipt and Bill Differences")
+	description = _lt("Purchase lines whose billed quantity differs from the received one, or billed at another price.")
 	models = ("purchase.order.line",)
 	schema = strict_object({"limit": {"type": "integer", "minimum": 1, "maximum": 200}})
 
@@ -203,8 +206,8 @@ class OrderReceiptBillCheck(Analysis):
 @tool
 class StockAlerts(Analysis):
 	code = "stock_alerts"
-	name = "Stock Shortages and Slow Stock"
-	description = ("Products under their reordering minimum or below zero, and products in stock with no movement for N days.")
+	name = _lt("Stock Shortages and Slow Stock")
+	description = _lt("Products under their reordering minimum or below zero, and products in stock with no movement for N days.")
 	models = ("stock.quant",)
 	schema = strict_object({"slow_days": {"type": "integer", "minimum": 7, "maximum": 730},
 		"limit": {"type": "integer", "minimum": 1, "maximum": 100}})
@@ -237,8 +240,8 @@ class StockAlerts(Analysis):
 @tool
 class StockTransferSuggest(Analysis):
 	code = "stock_transfer_suggest"
-	name = "Suggest Transfers Between Warehouses"
-	description = ("Suggests moving a product from a warehouse with more than its maximum to one under its minimum. "
+	name = _lt("Suggest Transfers Between Warehouses")
+	description = _lt("Suggests moving a product from a warehouse with more than its maximum to one under its minimum. "
 		"Only suggestions are made; nothing is moved.")
 	category = "suggest"
 	action = "suggest"
@@ -270,8 +273,8 @@ class StockTransferSuggest(Analysis):
 @tool
 class ProductQuality(Analysis):
 	code = "product_quality"
-	name = "Product Information Check"
-	description = ("Products sold whose information is incomplete: no description, no photo, no barcode, a zero price, and "
+	name = _lt("Product Information Check")
+	description = _lt("Products sold whose information is incomplete: no description, no photo, no barcode, a zero price, and "
 		"on the website no description or search-engine title.")
 	models = ("product.template",)
 	schema = strict_object({"limit": {"type": "integer", "minimum": 1, "maximum": 200}})
@@ -298,8 +301,8 @@ class ProductQuality(Analysis):
 @tool
 class WebsiteReport(Analysis):
 	code = "website_report"
-	name = "Website Visits, Orders and Ratings"
-	description = "Visits and visitors of the website, its orders and the ratings of products in a period."
+	name = _lt("Website Visits, Orders and Ratings")
+	description = _lt("Visits and visitors of the website, its orders and the ratings of products in a period.")
 	models = ("website.visitor",)
 	schema = strict_object(PERIOD)
 
@@ -330,8 +333,8 @@ class WebsiteReport(Analysis):
 @tool
 class EmployeeMissingInfo(Analysis):
 	code = "employee_missing_info"
-	name = "Employees' Missing Information"
-	description = "Employees whose file lacks information: contact, identity number, bank account, emergency contact, contract."
+	name = _lt("Employees' Missing Information")
+	description = _lt("Employees whose file lacks information: contact, identity number, bank account, emergency contact, contract.")
 	models = ("hr.employee",)
 	schema = strict_object({"limit": {"type": "integer", "minimum": 1, "maximum": 200}})
 
@@ -358,8 +361,8 @@ class EmployeeMissingInfo(Analysis):
 @tool
 class AttendanceLeaveReview(Analysis):
 	code = "attendance_leave_review"
-	name = "Time Off and Long Days to Review"
-	description = "Time off waiting for approval, and attendances longer than N hours in a period, for a person to review."
+	name = _lt("Time Off and Long Days to Review")
+	description = _lt("Time off waiting for approval, and attendances longer than N hours in a period, for a person to review.")
 	models = ("hr.leave",)
 	schema = strict_object(dict(PERIOD, long_hours={"type": "number", "minimum": 4, "maximum": 24}))
 
@@ -380,8 +383,8 @@ class AttendanceLeaveReview(Analysis):
 @tool
 class TasksFollowup(Analysis):
 	code = "tasks_followup"
-	name = "Overdue Tasks and Requests"
-	description = "Overdue activities and project tasks, by person, for follow-up."
+	name = _lt("Overdue Tasks and Requests")
+	description = _lt("Overdue activities and project tasks, by person, for follow-up.")
 	models = ("mail.activity",)
 	schema = strict_object({"limit": {"type": "integer", "minimum": 1, "maximum": 200}})
 
@@ -406,8 +409,8 @@ class TasksFollowup(Analysis):
 @tool
 class UnitsStatus(Analysis):
 	code = "units_status"
-	name = "Status of the Departments"
-	description = "For each department: employees, overdue activities of its people, and time off waiting."
+	name = _lt("Status of the Departments")
+	description = _lt("For each department: employees, overdue activities of its people, and time off waiting.")
 	models = ("hr.department",)
 	schema = strict_object({})
 

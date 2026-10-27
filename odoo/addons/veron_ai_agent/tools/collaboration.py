@@ -8,16 +8,19 @@ from markupsafe import Markup, escape
 
 from odoo import fields
 from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from ..services.registry import Plan, Tool, ToolDenied, tool
 from ..services.schema import strict_object
+
+_lt = LazyTranslate(__name__)
 
 
 @tool
 class RequestHumanInput(Tool):
 	code = "request_human_input"
-	name = "Ask the Responsible Person"
-	description = ("Asks the agent's responsible person a question, for information, a document or a decision that is "
+	name = _lt("Ask the Responsible Person")
+	description = _lt("Asks the agent's responsible person a question, for information, a document or a decision that is "
 		"missing. The run waits for the answer; use it instead of guessing.")
 	category = "human"
 	schema = strict_object({"question": {"type": "string", "minLength": 3, "maxLength": 2000}}, ["question"])
@@ -33,8 +36,8 @@ class RequestHumanInput(Tool):
 @tool
 class NotifyInternal(Tool):
 	code = "notify_internal"
-	name = "Report to the Set Destinations"
-	description = "Sends a report to the people and the channel set on the agent, inside Odoo. It cannot choose other recipients."
+	name = _lt("Report to the Set Destinations")
+	description = _lt("Sends a report to the people and the channel set on the agent, inside Odoo. It cannot choose other recipients.")
 	category = "notify"
 	schema = strict_object({
 		"subject": {"type": "string", "maxLength": 200},
@@ -62,8 +65,8 @@ class NotifyInternal(Tool):
 @tool
 class NotifyExternal(Tool):
 	code = "notify_external"
-	name = "Message Someone Outside"
-	description = ("Sends an email or an SMS to a contact (a customer, a vendor). Contacting someone outside always waits "
+	name = _lt("Message Someone Outside")
+	description = _lt("Sends an email or an SMS to a contact (a customer, a vendor). Contacting someone outside always waits "
 		"for a person's approval unless a manager set an explicit rule.")
 	category = "external"
 	action = "execute"
@@ -107,8 +110,8 @@ class NotifyExternal(Tool):
 @tool
 class ActivityCreate(Tool):
 	code = "activity_create"
-	name = "Create a Follow-up Activity"
-	description = "Creates a to-do activity on a record in the agent's data, for an internal user, with a deadline."
+	name = _lt("Create a Follow-up Activity")
+	description = _lt("Creates a to-do activity on a record in the agent's data, for an internal user, with a deadline.")
 	category = "draft"
 	action = "draft"
 	schema = strict_object({
@@ -146,8 +149,8 @@ class ActivityCreate(Tool):
 @tool
 class DelegateTask(Tool):
 	code = "delegate_task"
-	name = "Give a Task to an Agent"
-	description = ("Supervisor only: gives a task to one of the agents it may delegate to, optionally after other tasks. "
+	name = _lt("Give a Task to an Agent")
+	description = _lt("Supervisor only: gives a task to one of the agents it may delegate to, optionally after other tasks. "
 		"A ready task runs at once with the same rights; its result comes back for review.")
 	category = "coordinate"
 	supervisor_only = True
@@ -184,8 +187,8 @@ class DelegateTask(Tool):
 @tool
 class ReviewTask(Tool):
 	code = "review_task"
-	name = "Review a Task Result"
-	description = ("Supervisor only: records whether a task's result is accepted in the AI review, not accepted, or sent "
+	name = _lt("Review a Task Result")
+	description = _lt("Supervisor only: records whether a task's result is accepted in the AI review, not accepted, or sent "
 		"to a person, and why. Acceptance here is not an accounting or legal approval.")
 	category = "coordinate"
 	supervisor_only = True
@@ -214,8 +217,8 @@ class ReviewTask(Tool):
 @tool
 class EscalateToHuman(Tool):
 	code = "escalate_to_human"
-	name = "Stop and Refer to a Person"
-	description = "On an error, a doubt or something unclear: stops here and refers the matter to the supervising person."
+	name = _lt("Stop and Refer to a Person")
+	description = _lt("On an error, a doubt or something unclear: stops here and refers the matter to the supervising person.")
 	category = "human"
 	schema = strict_object({"reason": {"type": "string", "minLength": 5, "maxLength": 3000}}, ["reason"])
 

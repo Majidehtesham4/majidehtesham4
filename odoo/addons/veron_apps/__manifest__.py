@@ -34,11 +34,14 @@ employees):
 - Rental: veron_rental, reservations without double booking, pickup, return, late fees, invoices
 - Moadian: veron_moadian, electronic invoices to the tax organization, sent on request
 - Cheques: veron_cheque, received and issued cheques with Sayad ids, cheque books and their entries
+- AI agents: veron_ai_agent with a library of 35 roles, tools under authority levels and approvals,
+  Claude as language model (ai_claude_anthropic), petty cash and finance (veron_ai_agent_account),
+  payroll (veron_ai_agent_payroll); they install switched off and without keys
 - The full-screen apps menu: web_responsive
 
 Not built: Studio, IoT and WhatsApp.
 """,
-	"version": "19.0.1.2.0",
+	"version": "19.0.1.3.0",
 	"category": "Productivity",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
@@ -82,6 +85,10 @@ Not built: Studio, IoT and WhatsApp.
 		"veron_cheque",
 		"veron_payroll_iran",
 		"veron_moadian",
+		"veron_ai_agent",
+		"ai_claude_anthropic",
+		"veron_ai_agent_account",
+		"veron_ai_agent_payroll",
 	],
 	"data": ["data/groups.xml", "data/menus.xml", "data/users.xml", "views/resource_booking_portal.xml"],
 	"assets": {

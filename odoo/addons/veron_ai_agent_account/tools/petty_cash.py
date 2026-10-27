@@ -6,12 +6,15 @@ from datetime import timedelta
 
 from odoo import fields
 from odoo.exceptions import UserError
+from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.veron_ai_agent.services.providers import ProviderError
 from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolDenied, ToolNeedsInfo, tool
 from odoo.addons.veron_ai_agent.services.schema import strict_object
 from odoo.addons.veron_ai_agent.tools.common import scoped
 from odoo.addons.veron_core.models import jalali
+
+_lt = LazyTranslate(__name__)
 
 MODULE = "veron_ai_agent_account"
 CLOSING = {"closing_id": {"type": "integer", "minimum": 1}}
@@ -49,8 +52,8 @@ class PettyCashTool(Tool):
 @tool
 class PettyCashOpen(PettyCashTool):
 	code = "petty_cash_open"
-	name = "Petty Cash: Open the Closing and Ask for Documents"
-	description = ("For each petty cash fund the agent may see: the open closing, or a new one up to the end of the "
+	name = _lt("Petty Cash: Open the Closing and Ask for Documents")
+	description = _lt("For each petty cash fund the agent may see: the open closing, or a new one up to the end of the "
 		"last Shamsi month (or the date given); the custodian is asked for the receipts. Returns where each fund stands.")
 	category = "draft"
 	action = "draft"
@@ -101,8 +104,8 @@ class PettyCashOpen(PettyCashTool):
 @tool
 class PettyCashReview(PettyCashTool):
 	code = "petty_cash_review"
-	name = "Petty Cash: Read and Check the Receipts"
-	description = ("Adds files of this run as receipts of a closing, reads the unread receipts into fields for the "
+	name = _lt("Petty Cash: Read and Check the Receipts")
+	description = _lt("Adds files of this run as receipts of a closing, reads the unread receipts into fields for the "
 		"custodian to confirm, and checks the confirmed ones for duplicates and against the fund's policy. Each "
 		"finding is for a person to review; a receipt without findings is accepted in the AI review only.")
 	category = "draft"
@@ -134,7 +137,7 @@ class PettyCashReview(PettyCashTool):
 			try:
 				values = receipt._extract(provider)
 			except ProviderError as error:
-				unread.append({"receipt": receipt.name, "reason": str(error)})
+				unread.append({"receipt": receipt.name, "reason": error.text(ctx.env)})
 				continue
 			if values is None:
 				unread.append({"receipt": receipt.name, "reason": "No reading provider; the custodian enters the fields."})
@@ -164,8 +167,8 @@ class PettyCashReview(PettyCashTool):
 @tool
 class PettyCashDraftEntry(PettyCashTool):
 	code = "petty_cash_draft_entry"
-	name = "Petty Cash: Make the Draft Settlement Entry"
-	description = ("Makes the draft entry of a reviewed closing from its accepted receipts: each expense on its "
+	name = _lt("Petty Cash: Make the Draft Settlement Entry")
+	description = _lt("Makes the draft entry of a reviewed closing from its accepted receipts: each expense on its "
 		"account, against the petty cash account of the custodian. Nothing is posted.")
 	category = "draft"
 	action = "draft"
@@ -198,8 +201,8 @@ class PettyCashDraftEntry(PettyCashTool):
 @tool
 class PettyCashPost(PettyCashTool):
 	code = "petty_cash_post"
-	name = "Petty Cash: Post the Settlement Entry"
-	description = ("Posts the checked draft entry of a closing. Posting always waits for a person's approval, and is "
+	name = _lt("Petty Cash: Post the Settlement Entry")
+	description = _lt("Posts the checked draft entry of a closing. Posting always waits for a person's approval, and is "
 		"done with the rights of the person who approves it.")
 	category = "execute"
 	action = "execute"
@@ -229,8 +232,8 @@ class PettyCashPost(PettyCashTool):
 @tool
 class PettyCashReport(PettyCashTool):
 	code = "petty_cash_report"
-	name = "Petty Cash: Settlement Report"
-	description = ("The settlement of a closing: opening balance, money given in the period, receipts given, accepted, "
+	name = _lt("Petty Cash: Settlement Report")
+	description = _lt("The settlement of a closing: opening balance, money given in the period, receipts given, accepted, "
 		"not accepted and to review, and the closing balance; the PDF is kept on the closing.")
 	category = "report"
 	schema = strict_object({**CLOSING, "pdf": {"type": "boolean"}}, ["closing_id"])

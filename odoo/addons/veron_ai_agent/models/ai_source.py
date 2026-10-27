@@ -64,7 +64,7 @@ class AiSource(models.Model):
 			try:
 				clean, detail = antivirus._adapter().scan(data)
 			except providers.ProviderError as error:
-				scan += _("; antivirus not reachable: %s", error)
+				scan += _("; antivirus not reachable: %s", error.text(self.env))
 			else:
 				if not clean:
 					raise UserError(_("The antivirus refused the file: %s", redact.text(detail, 200)))
@@ -103,7 +103,7 @@ class AiSource(models.Model):
 			text = provider._adapter().transcribe(self._data(), self.mimetype, language or provider.language or "fa")
 		except providers.ProviderError as error:
 			provider._mark(error)
-			raise UserError(str(error)) from error
+			raise UserError(error.text(self.env)) from error
 		provider._mark()
 		self.sudo().write({"transcript": text})
 		if not self._settings()["keep_audio"]:

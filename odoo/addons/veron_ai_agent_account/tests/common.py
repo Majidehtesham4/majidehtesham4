@@ -18,7 +18,7 @@ class FinanceCase(TransactionCase):
 	@classmethod
 	def setUpClass(cls):
 		super().setUpClass()
-		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True))
+		cls.env = cls.env(context=dict(cls.env.context, tracking_disable=True, mail_notrack=True, lang="en_US"))
 		cls.company = cls.env.company
 		groups_accountant = "base.group_user,account.group_account_user,veron_ai_agent.group_ai_user"
 		cls.accountant = new_test_user(cls.env, "pc_accountant", groups=groups_accountant)

@@ -122,7 +122,7 @@ class AiAgentTemplate(models.Model):
 
 def explain_tools(env, tools, level):
 	"""A plain explanation of what an agent with these tools at this level may and may not do"""
-	labels = dict(registry.LEVEL_NAMES)
+	labels = dict(env["veron.ai.agent"]._fields["authority_level"]._description_selection(env))
 	rows = []
 	for tool in tools:
 		if tool.level <= level and not tool.sensitive:

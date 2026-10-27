@@ -4,12 +4,14 @@ amounts are kept out of what the tools return, so they are not sent to the langu
 return names, counts, flags and percentages. Nothing here pays anyone."""
 
 from odoo.exceptions import UserError
-from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolDenied, ToolNeedsInfo, tool
 from odoo.addons.veron_ai_agent.services.schema import strict_object
 from odoo.addons.veron_ai_agent.tools.common import scoped
 from odoo.addons.veron_core.models import jalali
+
+_lt = LazyTranslate(__name__)
 
 MODULE = "veron_ai_agent_payroll"
 MONTH = {"type": "string", "maxLength": 7, "description": "Shamsi year/month, e.g. 1405/07; this month by default"}
@@ -72,14 +74,14 @@ class PayrollTool(Tool):
 		for model in self.models:
 			ctx.check_model(model)
 		year, month, _start, _end = _month(ctx, args)
-		return Plan(summary=f"{self.name}: {_label(year, month)}", model="hr.payslip", company_ids=[ctx.env.company.id])
+		return Plan(summary=f"{self.label(ctx.env)}: {_label(year, month)}", model="hr.payslip", company_ids=[ctx.env.company.id])
 
 
 @tool
 class PayrollInputsCheck(PayrollTool):
 	code = "payroll_inputs_check"
-	name = "Payroll: Check the Inputs"
-	description = ("Before the payslips of a Shamsi month: the year's rates confirmed, and for each employee with a "
+	name = _lt("Payroll: Check the Inputs")
+	description = _lt("Before the payslips of a Shamsi month: the year's rates confirmed, and for each employee with a "
 		"contract in the month, the structure, the wage against the minimum, the national code, the insurance number "
 		"and the bank account. Returns what is missing; no amount.")
 	category = "read"
@@ -116,8 +118,8 @@ class PayrollInputsCheck(PayrollTool):
 @tool
 class PayslipDraftsCompute(PayrollTool):
 	code = "payslip_drafts_compute"
-	name = "Payroll: Compute the Payslips"
-	description = ("Makes the draft payslips of a Shamsi month for the employees with a contract (or those given) and "
+	name = _lt("Payroll: Compute the Payslips")
+	description = _lt("Makes the draft payslips of a Shamsi month for the employees with a contract (or those given) and "
 		"computes them with the payroll engine and the confirmed rates; draft and waiting payslips are computed again, "
 		"done payslips are left as they are. Nothing is confirmed or paid. Returns counts and problems, no amount.")
 	category = "draft"
@@ -155,8 +157,8 @@ class PayslipDraftsCompute(PayrollTool):
 @tool
 class PayrollComparePrevious(PayrollTool):
 	code = "payroll_compare_previous"
-	name = "Payroll: Changes From Last Month"
-	description = ("Compares each payslip of a Shamsi month with the same employee's payslip of the month before: the "
+	name = _lt("Payroll: Changes From Last Month")
+	description = _lt("Compares each payslip of a Shamsi month with the same employee's payslip of the month before: the "
 		"change of gross and net in percent, above a threshold, and who is new or missing. No amount.")
 	category = "analyze"
 	schema = strict_object({"month": MONTH, "threshold": {"type": "number", "minimum": 1, "maximum": 100,
@@ -192,8 +194,8 @@ class PayrollComparePrevious(PayrollTool):
 @tool
 class PayslipPdfPrepare(PayrollTool):
 	code = "payslip_pdf_prepare"
-	name = "Payroll: Prepare the Payslip PDFs"
-	description = ("Prepares the PDF of each computed payslip of a Shamsi month. Each PDF opens only for its employee "
+	name = _lt("Payroll: Prepare the Payslip PDFs")
+	description = _lt("Prepares the PDF of each computed payslip of a Shamsi month. Each PDF opens only for its employee "
 		"(in My Payslips) and payroll managers. It sends nothing outside.")
 	category = "report"
 	schema = strict_object({"month": MONTH, "notify": {"type": "boolean",

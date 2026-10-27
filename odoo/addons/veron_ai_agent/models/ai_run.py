@@ -288,6 +288,8 @@ class AiRun(models.Model):
 				if result.refused:
 					self._warn(_("The model declined part of this request."))
 					break
+				if result.stop_reason == "max_tokens" and not result.tool_calls:
+					self._warn(_("The answer was cut at the provider's limit of tokens."))
 				if not result.tool_calls:
 					break
 				outputs = []
@@ -369,7 +371,7 @@ class AiRun(models.Model):
 		except (UserError, ValidationError) as error:
 			return done("failed", {"status": "failed", "error": redact.text(error, 500)}, redact.text(error, 500))
 		except providers.ProviderError as error:
-			return done("failed", {"status": "failed", "error": str(error)}, str(error))
+			return done("failed", {"status": "failed", "error": error.text(env)}, error.text(env))
 		except Exception:
 			# A fault in a tool's code ends this step, not the run; what it did is undone
 			_logger.exception("Tool %s failed in run %s", code, self.name)
@@ -414,7 +416,7 @@ class AiRun(models.Model):
 
 	def _failed(self, error, retryable):
 		agent = self.agent_id
-		message = redact.text(error, 1500)
+		message = providers.message(error, self.env, 1500)
 		if retryable and self.retry_count < agent.max_retries:
 			self.write({"state": "queued", "error": message, "retry_count": self.retry_count + 1,
 				"next_attempt_at": fields.Datetime.now() + timedelta(minutes=max(agent.retry_delay, 1))})

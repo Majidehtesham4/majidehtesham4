@@ -5,11 +5,14 @@ from datetime import timedelta
 
 from odoo import fields
 from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolDenied, tool
 from odoo.addons.veron_ai_agent.services.schema import strict_object
 from odoo.addons.veron_ai_agent.tools.common import PERIOD, period, scoped
 from odoo.addons.veron_core.models import jalali
+
+_lt = LazyTranslate(__name__)
 
 MODULE = "veron_ai_agent_account"
 EXPENSE_TYPES = ("expense", "expense_direct_cost", "expense_depreciation", "expense_other")
@@ -31,14 +34,14 @@ class FinanceTool(Tool):
 	def plan(self, ctx, args):
 		for model in self.models:
 			ctx.check_model(model)
-		return Plan(summary=self.name, model=self.models[0] if self.models else "")
+		return Plan(summary=self.label(ctx.env), model=self.models[0] if self.models else "")
 
 
 @tool
 class InvoiceDraftCreate(FinanceTool):
 	code = "invoice_draft_create"
-	name = "Make a Draft Invoice"
-	description = ("Makes a draft customer invoice or vendor bill from a contact and lines. Taxes and totals are "
+	name = _lt("Make a Draft Invoice")
+	description = _lt("Makes a draft customer invoice or vendor bill from a contact and lines. Taxes and totals are "
 		"computed by Odoo from the products; a price left out is the product's price. It is never posted here.")
 	category = "draft"
 	action = "draft"
@@ -122,8 +125,8 @@ class InvoiceDraftCreate(FinanceTool):
 @tool
 class ReceivablesOverdue(FinanceTool):
 	code = "receivables_overdue"
-	name = "Overdue Receivables"
-	description = "Posted customer invoices past their due date and not fully paid, by customer, the largest first."
+	name = _lt("Overdue Receivables")
+	description = _lt("Posted customer invoices past their due date and not fully paid, by customer, the largest first.")
 	category = "read"
 	models = ("account.move",)
 	schema = strict_object({"min_days": {"type": "integer", "minimum": 0, "maximum": 3650}, "limit": LIMIT})
@@ -152,8 +155,8 @@ class ReceivablesOverdue(FinanceTool):
 @tool
 class PayablesDue(FinanceTool):
 	code = "payables_due"
-	name = "Payables Due"
-	description = "Posted vendor bills not fully paid that are overdue or due in the next N days."
+	name = _lt("Payables Due")
+	description = _lt("Posted vendor bills not fully paid that are overdue or due in the next N days.")
 	category = "read"
 	models = ("account.move",)
 	schema = strict_object({"days": {"type": "integer", "minimum": 0, "maximum": 365}, "limit": LIMIT})
@@ -173,8 +176,8 @@ class PayablesDue(FinanceTool):
 @tool
 class ExpenseSummary(FinanceTool):
 	code = "expense_summary"
-	name = "Expenses of a Period"
-	description = "Posted expenses of a period by account, from the journal items, with the total."
+	name = _lt("Expenses of a Period")
+	description = _lt("Posted expenses of a period by account, from the journal items, with the total.")
 	models = ("account.move.line",)
 	schema = strict_object({**PERIOD, "limit": LIMIT})
 
@@ -192,8 +195,8 @@ class ExpenseSummary(FinanceTool):
 @tool
 class CashPosition(FinanceTool):
 	code = "cash_position"
-	name = "Cash and Bank Balances"
-	description = "The posted balance of each bank and cash journal, and of each petty cash fund the agent may see."
+	name = _lt("Cash and Bank Balances")
+	description = _lt("The posted balance of each bank and cash journal, and of each petty cash fund the agent may see.")
 	category = "read"
 	models = ("account.journal", "account.move.line")
 	schema = strict_object({})
@@ -220,8 +223,8 @@ class CashPosition(FinanceTool):
 @tool
 class BankUnreconciled(FinanceTool):
 	code = "bank_unreconciled"
-	name = "Unreconciled Bank Lines"
-	description = ("Bank statement lines not reconciled, each with the open invoices or bills of the same amount as "
+	name = _lt("Unreconciled Bank Lines")
+	description = _lt("Bank statement lines not reconciled, each with the open invoices or bills of the same amount as "
 		"suggestions. It only suggests; an accountant reconciles.")
 	category = "read"
 	models = ("account.bank.statement.line", "account.move")
@@ -250,8 +253,8 @@ class BankUnreconciled(FinanceTool):
 @tool
 class DocumentsQuality(FinanceTool):
 	code = "documents_quality"
-	name = "Quality of Accounting Documents"
-	description = ("Accounting documents of a period that need attention: old drafts, bills without the vendor's "
+	name = _lt("Quality of Accounting Documents")
+	description = _lt("Accounting documents of a period that need attention: old drafts, bills without the vendor's "
 		"number or without an attached file, and vendor numbers used twice.")
 	models = ("account.move",)
 	schema = strict_object({**PERIOD, "draft_days": {"type": "integer", "minimum": 1, "maximum": 365}})
@@ -285,8 +288,8 @@ class DocumentsQuality(FinanceTool):
 @tool
 class MonthEndChecklist(FinanceTool):
 	code = "month_end_checklist"
-	name = "Month-End Checklist"
-	description = ("Before closing a Shamsi month: drafts dated in it, unreconciled bank lines, open petty cash "
+	name = _lt("Month-End Checklist")
+	description = _lt("Before closing a Shamsi month: drafts dated in it, unreconciled bank lines, open petty cash "
 		"closings, depreciation not posted and the lock dates. It closes nothing.")
 	models = ("account.move",)
 	schema = strict_object({"month": {"type": "string", "maxLength": 7, "description": "Shamsi year/month, e.g. 1405/07; "
@@ -335,8 +338,8 @@ class MonthEndChecklist(FinanceTool):
 @tool
 class TaxSummary(FinanceTool):
 	code = "tax_summary"
-	name = "VAT of a Period"
-	description = ("Posted tax amounts and their bases of a period, by tax, to check before the VAT return. It "
+	name = _lt("VAT of a Period")
+	description = _lt("Posted tax amounts and their bases of a period, by tax, to check before the VAT return. It "
 		"prepares nothing legal; the return is made and sent by a person.")
 	models = ("account.move.line",)
 	schema = strict_object(PERIOD)
@@ -358,8 +361,8 @@ class TaxSummary(FinanceTool):
 @tool
 class BudgetVsActual(FinanceTool):
 	code = "budget_vs_actual"
-	name = "Budget Against Actual"
-	description = "Budget lines of the current period (or the one given) with planned, actual and the difference, the furthest first."
+	name = _lt("Budget Against Actual")
+	description = _lt("Budget lines of the current period (or the one given) with planned, actual and the difference, the furthest first.")
 	models = ("crossovered.budget.lines",)
 	schema = strict_object({"date": {"type": "string", "maxLength": 10, "description": "YYYY-MM-DD within the budget; today by default"},
 		"limit": LIMIT})
@@ -382,8 +385,8 @@ class BudgetVsActual(FinanceTool):
 @tool
 class AssetCheck(FinanceTool):
 	code = "asset_check"
-	name = "Fixed Assets to Check"
-	description = "Draft assets, and running assets with depreciation due but not posted."
+	name = _lt("Fixed Assets to Check")
+	description = _lt("Draft assets, and running assets with depreciation due but not posted.")
 	models = ("account.asset", "account.asset.line")
 	schema = strict_object({"limit": LIMIT})
 

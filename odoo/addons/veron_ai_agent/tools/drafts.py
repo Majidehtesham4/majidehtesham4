@@ -4,9 +4,12 @@ a person approves. A transfer between warehouses is made as a draft, never confi
 from markupsafe import Markup, escape
 
 from odoo.fields import Domain
+from odoo.tools.translate import LazyTranslate
 
 from ..services.registry import Plan, Tool, ToolDenied, tool
 from ..services.schema import strict_object
+
+_lt = LazyTranslate(__name__)
 
 KINDS = ["product_description", "web_page", "seo", "marketing"]
 
@@ -22,8 +25,8 @@ def _product(ctx, product_id):
 @tool
 class ContentDraft(Tool):
 	code = "content_draft"
-	name = "Save a Text Draft"
-	description = ("Saves a text the agent wrote (a product description, web page text, search-engine title and "
+	name = _lt("Save a Text Draft")
+	description = _lt("Saves a text the agent wrote (a product description, web page text, search-engine title and "
 		"description, a marketing text) as a draft. Nothing is published.")
 	category = "draft"
 	action = "draft"
@@ -57,8 +60,8 @@ class ContentDraft(Tool):
 @tool
 class ImageDraft(Tool):
 	code = "image_draft"
-	name = "Make a Draft Image"
-	description = ("Makes an image with the image generation provider from a description, kept as a draft marked "
+	name = _lt("Make a Draft Image")
+	description = _lt("Makes an image with the image generation provider from a description, kept as a draft marked "
 		"'made by AI'. It is never a photo of the real product and is not published.")
 	category = "draft"
 	action = "draft"
@@ -95,8 +98,8 @@ class ImageDraft(Tool):
 @tool
 class ContentPublish(Tool):
 	code = "content_publish"
-	name = "Publish a Draft"
-	description = ("Publishes a draft text or image on its product (the website description, the search-engine fields, "
+	name = _lt("Publish a Draft")
+	description = _lt("Publishes a draft text or image on its product (the website description, the search-engine fields, "
 		"or an extra image marked 'made by AI'). Publishing is a sensitive action a person approves.")
 	category = "execute"
 	action = "execute"
@@ -128,8 +131,8 @@ class ContentPublish(Tool):
 @tool
 class StockTransferDraft(Tool):
 	code = "stock_transfer_draft"
-	name = "Draft Transfer Between Warehouses"
-	description = "Makes a draft internal transfer of a product from one warehouse to another. It is not confirmed or done."
+	name = _lt("Draft Transfer Between Warehouses")
+	description = _lt("Makes a draft internal transfer of a product from one warehouse to another. It is not confirmed or done.")
 	category = "draft"
 	action = "draft"
 	models = ("stock.picking",)

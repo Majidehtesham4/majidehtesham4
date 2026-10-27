@@ -1,0 +1,1887 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "%s has no draft entry to post."
+msgstr "%s سند پیش‌نویسی برای ثبت قطعی ندارد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "%s has no draft entry waiting for approval."
+msgstr "%s سند پیش‌نویسِ منتظر تأیید ندارد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "%s has no expense account; choose its expense type."
+msgstr "%s حساب هزینه ندارد؛ نوع هزینه‌اش را انتخاب کنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "%s is not an expense type of this fund."
+msgstr "%s از انواع هزینه‌ی این تنخواه نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "%s is past its review."
+msgstr "بازبینی %s گذشته است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"%s receipts wait for a person's review or the custodian's confirmation."
+msgstr "%s رسید منتظر بازبینی انسان یا تأیید تنخواه‌دار است."
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.report,print_report_name:veron_ai_agent_account.action_report_settlement
+msgid "'%s' % object.name"
+msgstr "'%s' % object.name"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "<b>Fund:</b>"
+msgstr "<b>تنخواه:</b>"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "<b>Settlement entry:</b>"
+msgstr "<b>سند تسویه:</b>"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "A closing changes through its steps; the custodian writes only notes."
+msgstr ""
+"صورت تنخواه فقط از راه مراحلش تغییر می‌کند؛ تنخواه‌دار فقط یادداشت می‌نویسد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "A line without a product needs a description."
+msgstr "ردیف بدون کالا توضیح لازم دارد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "A line without a product needs a price."
+msgstr "ردیف بدون کالا قیمت لازم دارد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "A posted closing is undone by reversing its entry in accounting."
+msgstr "صورت تنخواهِ ثبت‌شده با برگشت سندش در حسابداری لغو می‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "A product is not in the agent's data."
+msgstr "یکی از کالاها در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Accept"
+msgstr "پذیرفتن"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__accepted_amount
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Accepted"
+msgstr "پذیرفته"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__accepted
+msgid "Accepted in Review"
+msgstr "پذیرفته در بازبینی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__account_id
+msgid "Account"
+msgstr "حساب"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Accountant<br/><br/>Signature"
+msgstr "حسابدار<br/><br/>امضا"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Accounting documents of a period that need attention: old drafts, bills "
+"without the vendor's number or without an attached file, and vendor numbers "
+"used twice."
+msgstr ""
+"اسناد حسابداری یک دوره که توجه می‌خواهند: پیش‌نویس‌های قدیمی، فاکتورهای خرید"
+" بدون شماره‌ی فروشنده یا بدون فایل پیوست، و شماره‌ی فروشنده‌ی تکراری."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__active
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_ids
+msgid "Activities"
+msgstr "فعالیت‌ها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"Add a photo or a PDF of each receipt of the period, check what was read from"
+" it, confirm it, then press «Documents Given»."
+msgstr ""
+"برای هر رسید دوره یک عکس یا PDF اضافه کنید، آنچه از آن خوانده شده را بررسی و"
+" تأیید کنید، بعد «مدارک تحویل شد» را بزنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Add the receipts first."
+msgstr "اول رسیدها را اضافه کنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"Adds files of this run as receipts of a closing, reads the unread receipts "
+"into fields for the custodian to confirm, and checks the confirmed ones for "
+"duplicates and against the fund's policy. Each finding is for a person to "
+"review; a receipt without findings is accepted in the AI review only."
+msgstr ""
+"فایل‌های این اجرا را به‌عنوان رسید به صورت تنخواه اضافه می‌کند، رسیدهای "
+"خوانده‌نشده را برای تأیید تنخواه‌دار به فیلد تبدیل می‌کند و رسیدهای تأییدشده"
+" را از نظر تکرار و سیاست تنخواه بررسی می‌کند. هر یافته برای بازبینی انسان "
+"است؛ رسید بدون یافته فقط در بازبینی هوش مصنوعی پذیرفته می‌شود."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__category_ids
+msgid "Allowed Expense Types"
+msgstr "انواع هزینه‌ی مجاز"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.fund_view_form
+msgid "Allowed expense types; empty: all"
+msgstr "انواع هزینه‌ی مجاز؛ خالی: همه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__amount
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__amount
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Amount"
+msgstr "مبلغ"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "An accountant reviews the receipts; an agent does not."
+msgstr "رسیدها را حسابدار بازبینی می‌کند، نه ایجنت."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_category__needs_tax_id
+msgid "An official invoice with the vendor's economic code"
+msgstr "فاکتور رسمی با کد اقتصادی فروشنده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Another closing of %s covers part of this period."
+msgstr "صورت تنخواه دیگری از %s بخشی از این دوره را پوشش می‌دهد."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Approved by<br/><br/>Signature"
+msgstr "تأییدکننده<br/><br/>امضا"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Ask for the Documents"
+msgstr "درخواست مدارک"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_closings
+msgid ""
+"At the end of a period the custodian gives the receipts here: a photo or a PDF of each, checked when it is\n"
+"\t\t\t\tadded. An agent can read them, check them for duplicates and against the fund's policy, and make the draft entry;\n"
+"\t\t\t\tan accountant reviews and posts it."
+msgstr ""
+"در پایان هر دوره، تنخواه‌دار رسیدها را اینجا می‌دهد: از هر رسید یک عکس یا "
+"PDF که هنگام افزودن بررسی می‌شود. ایجنت می‌تواند آن‌ها را بخواند، تکراری‌ها "
+"و موارد خارج از سیاست تنخواه را مشخص کند و پیش‌نویس سند را بسازد؛ حسابدار آن"
+" را بازبینی و ثبت قطعی می‌کند."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_attachment_count
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_attachment_count
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__balance
+msgid "Balance"
+msgstr "مانده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Bank statement lines not reconciled, each with the open invoices or bills of"
+" the same amount as suggestions. It only suggests; an accountant reconciles."
+msgstr ""
+"ردیف‌های تطبیق‌نشده‌ی صورت‌حساب بانک، هر کدام با فاکتورهای باز هم‌مبلغ "
+"به‌عنوان پیشنهاد. فقط پیشنهاد می‌دهد؛ تطبیق با حسابدار است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Before closing a Shamsi month: drafts dated in it, unreconciled bank lines, "
+"open petty cash closings, depreciation not posted and the lock dates. It "
+"closes nothing."
+msgstr ""
+"پیش از بستن یک ماه شمسی: پیش‌نویس‌های همان ماه، ردیف‌های بانکی تطبیق‌نشده، "
+"صورت‌های تنخواه باز، استهلاک ثبت‌نشده و تاریخ‌های قفل. چیزی را نمی‌بندد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Budget Against Actual"
+msgstr "بودجه در برابر عملکرد"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Budget lines of the current period (or the one given) with planned, actual "
+"and the difference, the furthest first."
+msgstr ""
+"ردیف‌های بودجه‌ی دوره‌ی جاری (یا دوره‌ی داده‌شده) با مبلغ برنامه، عملکرد و "
+"اختلاف، از بیشترین انحراف."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_closing__state__cancelled
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Cash and Bank Balances"
+msgstr "مانده‌ی صندوق و بانک"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Check Again"
+msgstr "بررسی دوباره"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Check the Receipts"
+msgstr "بررسی رسیدها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Check the receipts of %s"
+msgstr "بررسی رسیدهای %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Check what was read from each receipt against its file and confirm it."
+msgstr "آنچه از هر رسید خوانده شده را با فایلش مقایسه و تأیید کنید."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__closing_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__closing_id
+msgid "Closing"
+msgstr "صورت تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__closing_balance
+msgid "Closing Balance"
+msgstr "مانده‌ی پایان دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__closing_state
+msgid "Closing State"
+msgstr "وضعیت صورت تنخواه"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Closing balance"
+msgstr "مانده‌ی پایان دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__closing_ids
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_closings
+msgid "Closings"
+msgstr "صورت‌های تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_closing__state__draft
+msgid "Collecting Documents"
+msgstr "جمع‌آوری مدارک"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__company_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__company_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__company_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__company_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__confidence
+msgid "Confidence"
+msgstr "اطمینان خواندن"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Confirm"
+msgstr "تأیید"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Confirm each receipt first: %s"
+msgstr "اول هر رسید را تأیید کنید: %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Confirm the receipts read for %s"
+msgstr "تأیید رسیدهای خوانده‌شده‌ی %s"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__confirmed_at
+msgid "Confirmed At"
+msgstr "زمان تأیید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__confirmed_by
+msgid "Confirmed By"
+msgstr "تأییدکننده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__confirmed
+msgid "Confirmed by the Custodian"
+msgstr "تأییدشده توسط تنخواه‌دار"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__currency_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__currency_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__currency_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__custodian_user_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__custodian_user_id
+msgid "Custodian"
+msgstr "تنخواه‌دار"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__custodian_partner_id
+msgid "Custodian Contact"
+msgstr "مخاطب تنخواه‌دار"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Custodian<br/><br/>Signature"
+msgstr "تنخواه‌دار<br/><br/>امضا"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__date
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__date
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Dates are written YYYY-MM-DD."
+msgstr "تاریخ به شکل YYYY-MM-DD نوشته می‌شود."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__description
+msgid "Description"
+msgstr "توضیح"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Do Not Accept"
+msgstr "نپذیرفتن"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__requested_at
+msgid "Documents Asked On"
+msgstr "تاریخ درخواست مدارک"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Documents Given"
+msgstr "مدارک تحویل شد"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__submitted_at
+msgid "Documents Given On"
+msgstr "تاریخ تحویل مدارک"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Draft %(kind)s for %(partner)s, %(amount)s before taxes"
+msgstr "پیش‌نویس %(kind)s برای %(partner)s، %(amount)s پیش از مالیات"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__draft_signature
+msgid "Draft Signature"
+msgstr "امضای پیش‌نویس"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Draft assets, and running assets with depreciation due but not posted."
+msgstr ""
+"دارایی‌های پیش‌نویس، و دارایی‌های جاری با استهلاکِ سررسیده‌ی ثبت‌نشده."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Draft entry of %(closing)s: %(amount)s"
+msgstr "پیش‌نویس سند %(closing)s: %(amount)s"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__category_ids
+msgid "Empty: every expense type of the company"
+msgstr "خالی: همه‌ی انواع هزینه‌ی شرکت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_category__max_amount
+msgid "Empty: the limit of the fund"
+msgstr "خالی: سقف تنخواه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Enter the date and the amount of %s first."
+msgstr "اول تاریخ و مبلغ %s را وارد کنید."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Entry"
+msgstr "سند"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__move_state
+msgid "Entry State"
+msgstr "وضعیت سند"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__account_id
+msgid "Expense Account"
+msgstr "حساب هزینه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__category_id
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__category
+msgid "Expense Type"
+msgstr "نوع هزینه"
+
+#. module: veron_ai_agent_account
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_categories
+msgid "Expense Types"
+msgstr "انواع هزینه"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Expense type"
+msgstr "نوع هزینه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Expenses of a Period"
+msgstr "هزینه‌های یک دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__source_id
+msgid "File"
+msgstr "فایل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__issue_ids
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_list
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Findings"
+msgstr "یافته‌ها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Fixed Assets to Check"
+msgstr "دارایی‌های ثابت نیازمند بررسی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_follower_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_follower_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_partner_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_partner_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"For each petty cash fund the agent may see: the open closing, or a new one "
+"up to the end of the last Shamsi month (or the date given); the custodian is"
+" asked for the receipts. Returns where each fund stands."
+msgstr ""
+"برای هر تنخواهی که ایجنت می‌بیند: صورت تنخواه باز، یا صورت تازه‌ای تا پایان "
+"ماه شمسی گذشته (یا تاریخ داده‌شده)؛ رسیدها از تنخواه‌دار خواسته می‌شود. "
+"وضعیت هر تنخواه را برمی‌گرداند."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__date_from
+msgid "From"
+msgstr "از"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__fund_id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__fund_id
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_search
+msgid "Fund"
+msgstr "تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__amount
+msgid "Fund Amount"
+msgstr "مبلغ تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_funds
+msgid "Funds"
+msgstr "تنخواه‌ها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Given"
+msgstr "تحویل شد"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__topup_amount
+msgid "Given in the Period"
+msgstr "پرداختی در دوره"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Given in the period"
+msgstr "پرداختی در دوره"
+
+#. module: veron_ai_agent_account
+#: model:res.groups,comment:veron_ai_agent_account.group_petty_cash_custodian
+msgid ""
+"Gives the receipts of the petty cash fund they hold and confirms what was "
+"read from them."
+msgstr ""
+"رسیدهای تنخواهی که در اختیار دارد را می‌دهد و آنچه از آن‌ها خوانده شده را "
+"تأیید می‌کند."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__has_message
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__has_message
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__confidence__high
+msgid "High"
+msgstr "بالا"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__max_amount
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__max_receipt_amount
+msgid "Highest Amount of a Receipt"
+msgstr "سقف مبلغ هر رسید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__similar_distance
+msgid ""
+"How alike two photos must be to be shown as similar: 0 identical, 10 loosely"
+" alike"
+msgstr "میزان شباهت دو عکس برای مشابه دانستن: ۰ یکسان، ۱۰ شباهت کم"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__id
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_sms_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_sms_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__dhash
+msgid "Image Hash"
+msgstr "اثر تصویر"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__severity__critical
+msgid "Important"
+msgstr "مهم"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_closing__state__review
+msgid "In Review"
+msgstr "در حال بازبینی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__vat_account_id
+msgid "Input VAT Account"
+msgstr "حساب مالیات بر ارزش افزوده‌ی خرید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_is_follower
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_is_follower
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__issue_count
+msgid "Issue Count"
+msgstr "تعداد یافته"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__journal_id
+msgid "Journal"
+msgstr "دفتر"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__confidence__low
+msgid "Low"
+msgstr "پایین"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_main_partner_id
+msgid "Main Contact"
+msgstr "مخاطب اصلی"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Make a Draft Invoice"
+msgstr "ساخت پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Make the Draft Entry"
+msgstr "ساخت پیش‌نویس سند"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Makes a draft customer invoice or vendor bill from a contact and lines. "
+"Taxes and totals are computed by Odoo from the products; a price left out is"
+" the product's price. It is never posted here."
+msgstr ""
+"از یک مخاطب و ردیف‌ها پیش‌نویس فاکتور فروش یا خرید می‌سازد. مالیات و جمع‌ها "
+"را Odoo از روی کالاها محاسبه می‌کند؛ قیمتِ داده‌نشده قیمت خود کالاست. اینجا "
+"هرگز ثبت قطعی نمی‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"Makes the draft entry of a reviewed closing from its accepted receipts: each"
+" expense on its account, against the petty cash account of the custodian. "
+"Nothing is posted."
+msgstr ""
+"پیش‌نویس سند صورت تنخواهِ بازبینی‌شده را از رسیدهای پذیرفته می‌سازد: هر "
+"هزینه روی حساب خودش، در برابر حساب تنخواه تنخواه‌دار. چیزی ثبت قطعی نمی‌شود."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__confidence__medium
+msgid "Medium"
+msgstr "متوسط"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__message
+msgid "Message"
+msgstr "پیام"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_ids
+msgid "Messages"
+msgstr "پیام‌ها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Month-End Checklist"
+msgstr "چک‌لیست پایان ماه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_search
+msgid "My Funds"
+msgstr "تنخواه‌های من"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__review
+msgid "Needs a Person's Review"
+msgstr "نیازمند بازبینی انسان"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__needs_tax_id
+msgid "Needs the Vendor's Tax ID"
+msgstr "کد اقتصادی فروشنده لازم است"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__new
+msgid "New"
+msgstr "جدید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_closings
+msgid "No petty cash closing"
+msgstr "صورت تنخواهی وجود ندارد"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "No receipt is accepted; there is nothing to settle."
+msgstr "هیچ رسیدی پذیرفته نشده؛ چیزی برای تسویه نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "No such contact in the agent's data."
+msgstr "چنین مخاطبی در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "No such fund in the agent's data."
+msgstr "چنین تنخواهی در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "No such petty cash closing in the agent's data."
+msgstr "چنین صورت تنخواهی در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rejected_amount
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__rejected
+msgid "Not Accepted"
+msgstr "پذیرفته نشد"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Not accepted"
+msgstr "پذیرفته نشده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__note
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Notes"
+msgstr "یادداشت‌ها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__receipt_number
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Number"
+msgstr "شماره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction_counter
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction_counter
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error_counter
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error_counter
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Number of receipts"
+msgstr "تعداد رسیدها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__max_receipt_age_days
+msgid "Oldest Receipt (Days Before the Period)"
+msgstr "قدیمی‌ترین رسید (روز پیش از دوره)"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Only an accountant does this."
+msgstr "فقط حسابدار این کار را انجام می‌دهد."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_search
+msgid "Open"
+msgstr "باز"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__open_issue_count
+msgid "Open Issue Count"
+msgstr "یافته‌های باز"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Open the File"
+msgstr "باز کردن فایل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__opening_balance
+msgid "Opening Balance"
+msgstr "مانده‌ی ابتدای دوره"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Opening balance"
+msgstr "تراز ابتدای دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__closing_balance
+msgid "Opening balance, plus what was given, less the accepted receipts"
+msgstr "مانده‌ی ابتدای دوره، به‌علاوه‌ی پرداختی‌ها، منهای رسیدهای پذیرفته"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__limit
+msgid "Over the Limit"
+msgstr "بیش از سقف"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Overdue Receivables"
+msgstr "مطالبات معوق"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__custodian_partner_id
+msgid "Partner-related data of the user"
+msgstr "داده مربوط به همکار کاربر"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Payables Due"
+msgstr "بدهی‌های سررسید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__period
+msgid "Period"
+msgstr "دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_root
+msgid "Petty Cash"
+msgstr "تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__account_id
+msgid "Petty Cash Account"
+msgstr "حساب تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_petty_cash_closing
+msgid "Petty Cash Closing"
+msgstr "صورت تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.act_window,name:veron_ai_agent_account.action_closings
+msgid "Petty Cash Closings"
+msgstr "صورت‌های تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:res.groups,name:veron_ai_agent_account.group_petty_cash_custodian
+msgid "Petty Cash Custodian"
+msgstr "تنخواه‌دار"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_petty_cash_category
+msgid "Petty Cash Expense Type"
+msgstr "نوع هزینه‌ی تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.act_window,name:veron_ai_agent_account.action_categories
+msgid "Petty Cash Expense Types"
+msgstr "انواع هزینه‌ی تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_petty_cash_issue
+msgid "Petty Cash Finding"
+msgstr "یافته‌ی تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_petty_cash_fund
+msgid "Petty Cash Fund"
+msgstr "تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.act_window,name:veron_ai_agent_account.action_funds
+msgid "Petty Cash Funds"
+msgstr "تنخواه‌ها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_petty_cash_receipt
+msgid "Petty Cash Receipt"
+msgstr "رسید تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.act_window,name:veron_ai_agent_account.action_receipts
+msgid "Petty Cash Receipts"
+msgstr "رسیدهای تنخواه"
+
+#. module: veron_ai_agent_account
+#: model:ir.actions.report,name:veron_ai_agent_account.action_report_settlement
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Petty Cash Settlement"
+msgstr "تسویه‌ی تنخواه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty Cash: Make the Draft Settlement Entry"
+msgstr "تنخواه: ساخت پیش‌نویس سند تسویه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty Cash: Open the Closing and Ask for Documents"
+msgstr "تنخواه: باز کردن صورت تنخواه و درخواست مدارک"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty Cash: Post the Settlement Entry"
+msgstr "تنخواه: ثبت قطعی سند تسویه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty Cash: Read and Check the Receipts"
+msgstr "تنخواه: خواندن و بررسی رسیدها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty Cash: Settlement Report"
+msgstr "تنخواه: گزارش تسویه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Petty cash: closings of %s"
+msgstr "تنخواه: صورت‌های %s"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__similar_distance
+msgid "Photo Likeness"
+msgstr "شباهت عکس"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__upload
+msgid "Photo or PDF"
+msgstr "عکس یا PDF"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.fund_view_form
+msgid "Policy"
+msgstr "سیاست"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Post the Entry"
+msgstr "ثبت قطعی سند"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"Post the settlement entry of %(closing)s (%(fund)s, %(period)s): %(amount)s"
+msgstr "ثبت قطعی سند تسویه‌ی %(closing)s (%(fund)s، %(period)s): %(amount)s"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_closing__state__posted
+msgid "Posted"
+msgstr "ثبت قطعی شد"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__posted_by
+msgid "Posted By"
+msgstr "ثبت‌کننده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Posted by %s."
+msgstr "ثبت قطعی توسط %s."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Posted customer invoices past their due date and not fully paid, by "
+"customer, the largest first."
+msgstr ""
+"فاکتورهای فروش ثبت‌شده‌ی گذشته از سررسید که کامل پرداخت نشده‌اند، به تفکیک "
+"مشتری، از بیشترین."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Posted expenses of a period by account, from the journal items, with the "
+"total."
+msgstr ""
+"هزینه‌های ثبت‌شده‌ی یک دوره به تفکیک حساب، از ردیف‌های دفتر، با جمع کل."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__balance
+msgid "Posted journal items of the account for the custodian"
+msgstr "ردیف‌های ثبت‌شده‌ی این حساب برای تنخواه‌دار"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Posted tax amounts and their bases of a period, by tax, to check before the "
+"VAT return. It prepares nothing legal; the return is made and sent by a "
+"person."
+msgstr ""
+"مبلغ‌های مالیات ثبت‌شده و مبنای آن‌ها در یک دوره، به تفکیک مالیات، برای "
+"بررسی پیش از اظهارنامه‌ی ارزش افزوده. چیز قانونی‌ای آماده نمی‌کند؛ اظهارنامه"
+" را انسان تهیه و ارسال می‌کند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Posted vendor bills not fully paid that are overdue or due in the next N "
+"days."
+msgstr ""
+"فاکتورهای خرید ثبت‌شده‌ی کامل‌پرداخت‌نشده که سررسیدشان گذشته یا تا N روز "
+"آینده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"Posts the checked draft entry of a closing. Posting always waits for a "
+"person's approval, and is done with the rights of the person who approves "
+"it."
+msgstr ""
+"پیش‌نویس بررسی‌شده‌ی سند صورت تنخواه را ثبت قطعی می‌کند. ثبت قطعی همیشه "
+"منتظر تأیید انسان است و با حقوق دسترسی تأییدکننده انجام می‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Quality of Accounting Documents"
+msgstr "کیفیت اسناد حسابداری"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rating_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__rating_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__rating_ids
+msgid "Ratings"
+msgstr "رتبه‌ها"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid ""
+"Read by an AI agent: compare the fields with the file before confirming.\n"
+"\t\t\t\t\t\tAccepted in the AI review is not an accounting approval."
+msgstr ""
+"خوانده‌شده توسط ایجنت هوش مصنوعی: پیش از تأیید، فیلدها را با فایل مقایسه "
+"کنید. پذیرش در بازبینی هوش مصنوعی، تأیید حسابداری نیست."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__extracted_json
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
+msgid "Read from the File"
+msgstr "خوانده‌شده از فایل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__extracted
+msgid "Read, to Confirm"
+msgstr "خوانده‌شده، منتظر تأیید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__reading
+msgid "Reading"
+msgstr "خواندن"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__receipt_id
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Receipt"
+msgstr "رسید"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Receipt %(other)s has the same vendor and number; please check."
+msgstr "رسید %(other)s همین فروشنده و شماره را دارد؛ لطفاً بررسی کنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Receipt %(other)s has the same vendor, date and amount; please check."
+msgstr "رسید %(other)s همین فروشنده، تاریخ و مبلغ را دارد؛ لطفاً بررسی کنید."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__receipt_count
+msgid "Receipt Count"
+msgstr "تعداد رسید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__receipt_ids
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_receipts
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_list
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Receipts"
+msgstr "رسیدها"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__submitted_amount
+msgid "Receipts Given"
+msgstr "رسیدهای تحویلی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__tax_id_required_above
+msgid ""
+"Receipts above this amount need the vendor's tax ID; empty: never by amount"
+msgstr ""
+"رسیدهای بیشتر از این مبلغ کد اقتصادی فروشنده لازم دارند؛ خالی: هیچ‌وقت بر "
+"اساس مبلغ"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Receipts given"
+msgstr "رسیدهای تحویلی"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"Receipts of %(closing)s wait for your review: %(receipts)s. Accept or reject"
+" each in Petty Cash, then answer here."
+msgstr ""
+"رسیدهای %(closing)s منتظر بازبینی شما هستند: %(receipts)s. هر کدام را در بخش"
+" تنخواه بپذیرید یا رد کنید، بعد اینجا پاسخ دهید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Receipts of petty cash %(fund)s, %(period)s"
+msgstr "رسیدهای تنخواه %(fund)s، %(period)s"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid ""
+"Receipts were read and checked with the help of an AI agent; accepting a receipt in\n"
+"\t\t\t\t\t\t\tthat review is not an accounting approval. The entry is posted only by a person."
+msgstr ""
+"رسیدها با کمک ایجنت هوش مصنوعی خوانده و بررسی شده‌اند؛ پذیرش رسید در آن "
+"بازبینی تأیید حسابداری نیست. سند فقط توسط انسان ثبت قطعی می‌شود."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__resolution
+msgid "Resolution"
+msgstr "نتیجه‌ی رسیدگی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__resolved
+msgid "Resolved"
+msgstr "رسیدگی‌شده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__resolved_by
+msgid "Resolved By"
+msgstr "رسیدگی‌کننده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__decision_note
+msgid "Review Note"
+msgstr "یادداشت بازبینی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__decided_by
+msgid "Reviewed By"
+msgstr "بازبینی‌کننده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_file
+msgid "Same File"
+msgstr "فایل یکسان"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_number
+msgid "Same Vendor and Number"
+msgstr "فروشنده و شماره‌ی یکسان"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_amount
+msgid "Same Vendor, Date and Amount"
+msgstr "فروشنده، تاریخ و مبلغ یکسان"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_ai_agent_account
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_config
+msgid "Settings"
+msgstr "تنظیمات"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Settlement"
+msgstr "تسویه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__move_id
+msgid "Settlement Entry"
+msgstr "سند تسویه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__report_attachment_id
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "Settlement Report"
+msgstr "گزارش تسویه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "Settlement of petty cash %(fund)s, %(period)s"
+msgstr "تسویه‌ی تنخواه %(fund)s، %(period)s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid "Settlement report of %s"
+msgstr "گزارش تسویه‌ی %s"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__severity
+msgid "Severity"
+msgstr "اهمیت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__sha256
+msgid "Sha256"
+msgstr "اثر SHA-256"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_image
+msgid "Similar Photo"
+msgstr "عکس مشابه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__other_receipt_id
+msgid "Similar Receipt"
+msgstr "رسید مشابه"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__state
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__state
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_search
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__tax_id_required_above
+msgid "Tax ID Needed Above"
+msgstr "کد اقتصادی لازم از مبلغ"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The VAT is more than the amount."
+msgstr "مالیات بر ارزش افزوده بیشتر از مبلغ است."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__account_id
+msgid ""
+"The account of the money in the custodian's hands, e.g. 111003 Petty cash; "
+"its items carry the custodian"
+msgstr ""
+"حساب پولی که دست تنخواه‌دار است، مثلاً ۱۱۱۰۰۳ تنخواه گردان؛ ردیف‌هایش طرف "
+"حساب تنخواه‌دار را دارند"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The amount is missing."
+msgstr "مبلغ وارد نشده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The amount is over the limit of %(limit)s; a person decides."
+msgstr "مبلغ بیشتر از سقف %(limit)s است؛ تصمیم با انسان است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"The custodian changes only the data of a receipt; an accountant reviews it."
+msgstr "تنخواه‌دار فقط اطلاعات رسید را تغییر می‌دهد؛ بازبینی با حسابدار است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The custodian confirms %s first."
+msgstr "اول تنخواه‌دار باید %s را تأیید کند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The custodian confirms the receipts."
+msgstr "رسیدها را تنخواه‌دار تأیید می‌کند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The custodian gives the data of a receipt; an accountant reviews it."
+msgstr "تنخواه‌دار اطلاعات رسید را می‌دهد؛ بازبینی با حسابدار است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The custodian gives the documents first."
+msgstr "اول تنخواه‌دار باید مدارک را تحویل دهد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The custodian or an accountant gives the documents."
+msgstr "مدارک را تنخواه‌دار یا حسابدار تحویل می‌دهد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The date %(date)s is outside the period %(period)s."
+msgstr "تاریخ %(date)s خارج از دوره‌ی %(period)s است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The date is missing."
+msgstr "تاریخ وارد نشده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The documents of %s are already given."
+msgstr "مدارک %s قبلاً تحویل شده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The entry is made after the documents are given and reviewed."
+msgstr "سند پس از تحویل و بازبینی مدارک ساخته می‌شود."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
+msgid "The entry is posted with your rights. Continue?"
+msgstr "سند با حقوق دسترسی شما ثبت قطعی می‌شود. ادامه می‌دهید؟"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The entry of %s is already posted."
+msgstr "سند %s قبلاً ثبت قطعی شده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The expense type is not chosen."
+msgstr "نوع هزینه انتخاب نشده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"The file was read with low confidence; compare the fields with the file."
+msgstr "فایل با اطمینان کم خوانده شد؛ فیلدها را با فایل مقایسه کنید."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__journal_id
+msgid "The journal of the settlement entries"
+msgstr "دفتر سندهای تسویه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "The month is written as 1405/07."
+msgstr "ماه به شکل 1405/07 نوشته می‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The period starts before it ends."
+msgstr "شروع دوره باید پیش از پایان آن باشد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"The posted balance of each bank and cash journal, and of each petty cash "
+"fund the agent may see."
+msgstr ""
+"مانده‌ی ثبت‌شده‌ی هر دفتر بانک و صندوق، و هر تنخواهی که ایجنت می‌بیند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"The receipts changed after the draft entry was made; make the entry again."
+msgstr "رسیدها پس از ساخت پیش‌نویس سند تغییر کرده‌اند؛ سند را دوباره بسازید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The receipts of %s are not changed any more."
+msgstr "رسیدهای %s دیگر تغییر نمی‌کنند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
+msgid ""
+"The settlement of a closing: opening balance, money given in the period, "
+"receipts given, accepted, not accepted and to review, and the closing "
+"balance; the PDF is kept on the closing."
+msgstr ""
+"تسویه‌ی صورت تنخواه: مانده‌ی ابتدای دوره، پرداختی‌های دوره، رسیدهای تحویلی، "
+"پذیرفته، نپذیرفته و نیازمند بازبینی، و مانده‌ی پایان دوره؛ PDF روی صورت "
+"تنخواه نگه داشته می‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "The vendor's tax ID (economic code) is needed for this receipt."
+msgstr "برای این رسید کد اقتصادی فروشنده لازم است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"This file is the same as the file of receipt %(other)s (%(closing)s); please"
+" check."
+msgstr ""
+"این فایل با فایل رسید %(other)s (%(closing)s) یکسان است؛ لطفاً بررسی کنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid ""
+"This photo looks like the photo of receipt %(other)s (%(closing)s); please "
+"check they are two different receipts."
+msgstr ""
+"این عکس شبیه عکس رسید %(other)s (%(closing)s) است؛ لطفاً بررسی کنید که دو "
+"رسید جدا باشند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "This receipt has no file."
+msgstr "این رسید فایل ندارد."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__date_to
+msgid "To"
+msgstr "تا"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__severity__warning
+msgid "To Check"
+msgstr "برای بررسی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__review_amount
+msgid "To Review"
+msgstr "برای بررسی"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "To review"
+msgstr "نیازمند بازبینی"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_list
+msgid "Total"
+msgstr "جمع کل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Unreconciled Bank Lines"
+msgstr "ردیف‌های بانکی تطبیق‌نشده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__upload_name
+msgid "Upload Name"
+msgstr "نام فایل"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__vat_amount
+msgid "VAT"
+msgstr "مالیات بر ارزش افزوده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "VAT of %s"
+msgstr "مالیات بر ارزش افزوده‌ی %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "VAT of a Period"
+msgstr "مالیات بر ارزش افزوده‌ی یک دوره"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__vendor_name
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "Vendor"
+msgstr "فروشنده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__partner_id
+msgid "Vendor in Odoo"
+msgstr "فروشنده در Odoo"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__vendor_tax_id
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__tax_id
+msgid "Vendor's Tax ID"
+msgstr "کد اقتصادی فروشنده"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_closing__state__to_approve
+msgid "Waiting for Approval"
+msgstr "در انتظار تأیید"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__website_message_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__website_message_ids
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__website_message_ids
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__website_message_ids
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__vat_account_id
+msgid ""
+"When set, the VAT of a receipt with the vendor's tax ID is put on this "
+"account"
+msgstr ""
+"اگر تنظیم شود، مالیات بر ارزش افزوده‌ی رسیدهای دارای کد اقتصادی فروشنده روی "
+"این حساب می‌نشیند"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/petty_cash.py:0
+msgid "You may not post accounting entries."
+msgstr "اجازه‌ی ثبت قطعی سند حسابداری را ندارید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "customer invoice"
+msgstr "فاکتور فروش"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.fund_view_form
+msgid "e.g. Petty cash of the showroom"
+msgstr "مثلاً تنخواه نمایشگاه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "vendor bill"
+msgstr "فاکتور خرید"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid ""
+"·\n"
+"\t\t\t\t\t\t\t<b>Custodian:</b>"
+msgstr ""
+"·\n"
+"\t\t\t\t\t\t\t<b>تنخواه‌دار:</b>"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid ""
+"·\n"
+"\t\t\t\t\t\t\t<b>Period:</b>"
+msgstr ""
+"·\n"
+"\t\t\t\t\t\t\t<b>دوره:</b>"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid ""
+"·\n"
+"\t\t\t\t\t\t\t<b>State:</b>"
+msgstr ""
+"·\n"
+"\t\t\t\t\t\t\t<b>وضعیت:</b>"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
+msgid "· <b>Posted by:</b>"
+msgstr "· <b>ثبت‌کننده:</b>"

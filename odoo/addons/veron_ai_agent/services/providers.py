@@ -13,7 +13,11 @@ from dataclasses import dataclass, field
 
 import requests
 
+from odoo.tools.translate import LazyGettext, LazyTranslate
+
 from . import redact
+
+_lt = LazyTranslate(__name__)
 
 _logger = logging.getLogger(__name__)
 
@@ -42,12 +46,26 @@ def register(code, kinds):
 
 
 class ProviderError(Exception):
-	"""A failure of a provider, worded for the person; retryable when trying again later may help"""
+	"""A failure of a provider, worded for the person; retryable when trying again later may help. The
+	message is a lazy translation when it can be: `text(env)` gives it in the person's language."""
 
 	def __init__(self, message, retryable=False, kind="error"):
-		super().__init__(redact.text(message, 500))
+		self.lazy = message if isinstance(message, LazyGettext) else None
+		super().__init__(redact.text(message._translate("en_US") if self.lazy is not None else message, 500))
 		self.retryable = retryable
 		self.kind = kind
+
+	def text(self, env):
+		if self.lazy is not None:
+			return redact.text(env._(self.lazy), 500)
+		return self.args[0]
+
+
+def message(error, env, limit=500):
+	"""The message of an error for the person, in their language when it is a provider's error"""
+	if isinstance(error, ProviderError):
+		return error.text(env)[:limit]
+	return redact.text(error, limit)
 
 
 @dataclass
@@ -81,7 +99,7 @@ class Adapter:
 	def secret(self):
 		key = self.config.get("api_key")
 		if not key:
-			raise ProviderError("The provider has no key. Enter it in AI Agents, Settings, Providers.", kind="config")
+			raise ProviderError(_lt("The provider has no key. Enter it in AI Agents, Settings, Providers."), kind="config")
 		return key
 
 	def timeout(self):
@@ -89,11 +107,11 @@ class Adapter:
 
 	def check(self):
 		"""A light call that shows the provider works; returns a short description"""
-		raise ProviderError("This provider has no check.", kind="config")
+		raise ProviderError(_lt("This provider has no check."), kind="config")
 
 	# Language model
 	def chat(self, system, messages, tools, max_tokens=4096):
-		raise ProviderError("This provider is not a language model.", kind="config")
+		raise ProviderError(_lt("This provider is not a language model."), kind="config")
 
 	def user_message(self, text, files=()):
 		raise NotImplementedError
@@ -103,43 +121,45 @@ class Adapter:
 
 	# Reading photos and PDFs
 	def extract(self, files, schema, instructions):
-		raise ProviderError("This provider does not read files.", kind="config")
+		raise ProviderError(_lt("This provider does not read files."), kind="config")
 
 	# Speech
 	def transcribe(self, data, mimetype, language):
-		raise ProviderError("This provider does not turn speech into text.", kind="config")
+		raise ProviderError(_lt("This provider does not turn speech into text."), kind="config")
 
 	def speak(self, text, language):
-		raise ProviderError("This provider does not read text aloud.", kind="config")
+		raise ProviderError(_lt("This provider does not read text aloud."), kind="config")
 
 	# Images and search
 	def generate_image(self, prompt, size):
-		raise ProviderError("This provider does not make images.", kind="config")
+		raise ProviderError(_lt("This provider does not make images."), kind="config")
 
 	def search(self, query, allowed_domains, max_results):
-		raise ProviderError("This provider does not search the web.", kind="config")
+		raise ProviderError(_lt("This provider does not search the web."), kind="config")
 
 	def scan(self, data):
-		raise ProviderError("This provider does not scan files.", kind="config")
+		raise ProviderError(_lt("This provider does not scan files."), kind="config")
 
 
 def _http_error(response, what):
 	if response.status_code == 429:
-		raise ProviderError(f"{what}: too many requests; it is tried again later.", retryable=True, kind="rate_limit")
+		raise ProviderError(_lt("%(what)s: too many requests; it is tried again later.", what=what), retryable=True, kind="rate_limit")
 	if response.status_code in (401, 403):
-		raise ProviderError(f"{what}: the key was refused ({response.status_code}).", kind="config")
+		raise ProviderError(_lt("%(what)s: the key was refused (%(code)s).", what=what, code=response.status_code), kind="config")
 	if response.status_code >= 500:
-		raise ProviderError(f"{what}: the service is unavailable ({response.status_code}).", retryable=True, kind="unavailable")
-	raise ProviderError(f"{what}: {response.status_code} {redact.text(response.text, 300)}")
+		raise ProviderError(_lt("%(what)s: the service is unavailable (%(code)s).", what=what, code=response.status_code), retryable=True,
+			kind="unavailable")
+	raise ProviderError(_lt("%(what)s: %(code)s %(text)s", what=what, code=response.status_code, text=redact.text(response.text, 300)))
 
 
 def _post(url, what, timeout, **kwargs):
 	try:
 		response = requests.post(url, timeout=timeout, **kwargs)
 	except requests.Timeout as error:
-		raise ProviderError(f"{what}: no answer in {timeout:.0f} seconds.", retryable=True, kind="timeout") from error
+		raise ProviderError(_lt("%(what)s: no answer in %(seconds)s seconds.", what=what, seconds=round(timeout)), retryable=True,
+			kind="timeout") from error
 	except requests.RequestException as error:
-		raise ProviderError(f"{what}: the service cannot be reached.", retryable=True, kind="unavailable") from error
+		raise ProviderError(_lt("%(what)s: the service cannot be reached.", what=what), retryable=True, kind="unavailable") from error
 	if response.status_code >= 400:
 		_http_error(response, what)
 	return response
@@ -154,7 +174,7 @@ class OpenAICompatibleHttp(Adapter):
 	def _url(self, path):
 		base = (self.config.get("base_url") or "").rstrip("/")
 		if not base:
-			raise ProviderError("Enter the address of the service in the provider.", kind="config")
+			raise ProviderError(_lt("Enter the address of the service in the provider."), kind="config")
 		return f"{base}/{path}"
 
 	def _headers(self):
@@ -163,35 +183,35 @@ class OpenAICompatibleHttp(Adapter):
 
 	def check(self):
 		self._url("")
-		return "The address is set; send a voice message or make an image to try it."
+		return _lt("The address is set; send a voice message or make an image to try it.")
 
 	def transcribe(self, data, mimetype, language):
 		extension = mimetype.split("/")[-1].replace("mpeg", "mp3")
-		response = _post(self._url("audio/transcriptions"), "Speech to text", self.timeout(), headers=self._headers(),
+		response = _post(self._url("audio/transcriptions"), _lt("Speech to text"), self.timeout(), headers=self._headers(),
 			files={"file": (f"voice.{extension}", data, mimetype)},
 			data={"model": self.config.get("model") or "whisper-1", "language": language or "fa", "response_format": "json"})
 		try:
 			return (response.json().get("text") or "").strip()
 		except ValueError as error:
-			raise ProviderError("Speech to text: the answer is not JSON.") from error
+			raise ProviderError(_lt("Speech to text: the answer is not JSON.")) from error
 
 	def speak(self, text, language):
-		response = _post(self._url("audio/speech"), "Text to speech", self.timeout(), headers=self._headers(),
+		response = _post(self._url("audio/speech"), _lt("Text to speech"), self.timeout(), headers=self._headers(),
 			json={"model": self.config.get("model") or "tts-1", "input": text[:4000], "voice": self.config.get("voice") or "alloy",
 				"response_format": "mp3"})
 		return response.content, "audio/mpeg"
 
 	def generate_image(self, prompt, size):
-		response = _post(self._url("images/generations"), "Image generation", self.timeout(), headers=self._headers(),
+		response = _post(self._url("images/generations"), _lt("Image generation"), self.timeout(), headers=self._headers(),
 			json={"model": self.config.get("model") or "", "prompt": prompt[:3000], "size": size, "n": 1,
 				"response_format": "b64_json"})
 		try:
 			item = response.json()["data"][0]
 		except (ValueError, KeyError, IndexError) as error:
-			raise ProviderError("Image generation: the answer has no image.") from error
+			raise ProviderError(_lt("Image generation: the answer has no image.")) from error
 		if item.get("b64_json"):
 			return base64.b64decode(item["b64_json"])
-		raise ProviderError("Image generation: the answer has no image data.")
+		raise ProviderError(_lt("Image generation: the answer has no image data."))
 
 
 @register("searxng", ["search"])
@@ -201,14 +221,14 @@ class SearxngSearch(Adapter):
 	def search(self, query, allowed_domains, max_results):
 		base = (self.config.get("base_url") or "").rstrip("/")
 		if not base:
-			raise ProviderError("Enter the address of the SearXNG server.", kind="config")
+			raise ProviderError(_lt("Enter the address of the SearXNG server."), kind="config")
 		terms = query + "".join(f" site:{d}" for d in allowed_domains[:1]) if allowed_domains else query
 		try:
 			response = requests.get(f"{base}/search", params={"q": terms, "format": "json"}, timeout=self.timeout())
 		except requests.RequestException as error:
-			raise ProviderError("Web search: the server cannot be reached.", retryable=True, kind="unavailable") from error
+			raise ProviderError(_lt("Web search: the server cannot be reached."), retryable=True, kind="unavailable") from error
 		if response.status_code >= 400:
-			_http_error(response, "Web search")
+			_http_error(response, _lt("Web search"))
 		results = []
 		for item in response.json().get("results", []):
 			url = item.get("url") or ""
@@ -221,7 +241,7 @@ class SearxngSearch(Adapter):
 
 	def check(self):
 		self.search("test", [], 1)
-		return "The search server answers."
+		return _lt("The search server answers.")
 
 
 @register("tesseract", ["vision"])
@@ -230,9 +250,9 @@ class TesseractOcr(Adapter):
 
 	def check(self):
 		if not shutil.which("tesseract"):
-			raise ProviderError("Tesseract is not installed on the server (apt install tesseract-ocr tesseract-ocr-fas).",
+			raise ProviderError(_lt("Tesseract is not installed on the server (apt install tesseract-ocr tesseract-ocr-fas)."),
 				kind="config")
-		return "Tesseract is installed."
+		return _lt("Tesseract is installed.")
 
 	def extract(self, files, schema, instructions):
 		self.check()
@@ -258,15 +278,15 @@ class ClamdScanner(Adapter):
 
 		host, _sep, port = (self.config.get("base_url") or "").replace("tcp://", "").partition(":")
 		if not host:
-			raise ProviderError("Enter the address of ClamAV as host:port.", kind="config")
+			raise ProviderError(_lt("Enter the address of ClamAV as host:port."), kind="config")
 		try:
 			return clamd_scan(host, port or 3310, data, timeout=self.timeout())
 		except OSError as error:
-			raise ProviderError("The antivirus cannot be reached.", retryable=True, kind="unavailable") from error
+			raise ProviderError(_lt("The antivirus cannot be reached."), retryable=True, kind="unavailable") from error
 
 	def check(self):
 		clean, detail = self.scan(b"veron")
-		return f"ClamAV answers: {detail}"
+		return _lt("ClamAV answers: %s", detail)
 
 
 def as_json(value):

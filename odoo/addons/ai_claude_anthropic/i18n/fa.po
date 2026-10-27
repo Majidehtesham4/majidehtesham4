@@ -1,0 +1,144 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude cannot be reached from the server."
+msgstr "Claude از روی سرور در دسترس نیست."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude cannot be reached from the server; it is tried again later."
+msgstr "Claude از روی سرور در دسترس نیست؛ بعداً دوباره تلاش می‌شود."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude declined this search."
+msgstr "Claude این جست‌وجو را انجام نداد."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude declined to read this file; enter its fields by hand."
+msgstr "Claude این فایل را نخواند؛ فیلدهایش را دستی وارد کنید."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude did not accept the request: %s"
+msgstr "Claude درخواست را نپذیرفت: %s"
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude does not read files of the type %s."
+msgstr "Claude فایل‌های نوع %s را نمی‌خواند."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude gave no answer in %s seconds; it is tried again later."
+msgstr "Claude در %s ثانیه پاسخ نداد؛ بعداً دوباره تلاش می‌شود."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude is unavailable now (%s); it is tried again later."
+msgstr "Claude فعلاً در دسترس نیست (%s)؛ بعداً دوباره تلاش می‌شود."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude refused the key."
+msgstr "Claude کلید را نپذیرفت."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude refused the key. Check it in AI Agents, Settings, Providers."
+msgstr ""
+"Claude کلید را نپذیرفت. آن را در ایجنت‌های هوش مصنوعی ← تنظیمات ← "
+"سرویس‌دهنده‌ها بررسی کنید."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude works: %s"
+msgstr "Claude کار می‌کند: %s"
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude's answer was not the expected fields."
+msgstr "پاسخ Claude فیلدهای مورد انتظار نبود."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude: %(code)s %(message)s"
+msgstr "Claude: %(code)s %(message)s"
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "Claude: %s"
+msgstr "Claude: %s"
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid ""
+"Claude: too many requests or the spending limit; it is tried again later."
+msgstr ""
+"Claude: درخواست‌ها بیش از حد است یا سقف هزینه پر شده؛ بعداً دوباره تلاش "
+"می‌شود."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid ""
+"The anthropic library is not installed on the server. Run: odoo.ps1 ai "
+"(Windows) or ./veron ai (server), then restart Odoo."
+msgstr ""
+"کتابخانه‌ی anthropic روی سرور نصب نیست. این را اجرا کنید: odoo.ps1 ai "
+"(ویندوز) یا ‎./veron ai (سرور)، بعد Odoo را دوباره راه‌اندازی کنید."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid ""
+"The file has more than the provider's limit of tokens; send fewer pages."
+msgstr "فایل بیشتر از سقف توکن سرویس‌دهنده است؛ صفحه‌های کمتری بفرستید."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "The key may not use this model or feature."
+msgstr "این کلید اجازه‌ی استفاده از این مدل یا قابلیت را ندارد."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "The model %s is not found."
+msgstr "مدل %s پیدا نشد."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "The model %s is not found; check the model of the provider."
+msgstr "مدل %s پیدا نشد؛ مدل سرویس‌دهنده را بررسی کنید."
+
+#. module: ai_claude_anthropic
+#. odoo-python
+#: code:addons/ai_claude_anthropic/services/claude.py:0
+msgid "The request is too large for Claude; send fewer or smaller files."
+msgstr "درخواست برای Claude بزرگ است؛ فایل‌های کمتر یا کوچک‌تری بفرستید."

@@ -6,6 +6,8 @@ model wrote. Modules add tools with the `tool` decorator."""
 
 from dataclasses import dataclass, field
 
+from odoo.tools.translate import LazyGettext
+
 from . import schema as schemas
 
 # The authority each kind of action needs
@@ -43,6 +45,11 @@ CATEGORIES = [
 TOOLS = {}
 
 
+def plain(value, lang="en_US"):
+	"""A tool's name or description in a language; English for the language model"""
+	return value._translate(lang) if isinstance(value, LazyGettext) else value
+
+
 class ToolDenied(Exception):
 	"""The tool may not do this; the message says why, in words the person and the model understand"""
 
@@ -77,6 +84,10 @@ class Tool:
 	# The module that brings the tool, shown when a role needs it and it is missing
 	module = "veron_ai_agent"
 
+	def label(self, env):
+		"""The tool's name in the person's language"""
+		return env._(self.name) if isinstance(self.name, LazyGettext) else self.name
+
 	@property
 	def level(self):
 		return LEVELS[self.action]
@@ -89,7 +100,7 @@ class Tool:
 
 	def plan(self, ctx, args):
 		"""The checked description of the action; it changes nothing"""
-		return Plan(summary=self.name)
+		return Plan(summary=self.label(ctx.env))
 
 	def execute(self, ctx, args, plan):
 		"""Does the action with the environment of the person it runs for; returns a JSON-like dict"""
@@ -97,7 +108,7 @@ class Tool:
 
 	def definition(self):
 		"""What the language model sees of the tool"""
-		return {"name": self.code, "description": f"{self.name}. {self.description}", "input_schema": self.schema}
+		return {"name": self.code, "description": f"{plain(self.name)}. {plain(self.description)}", "input_schema": self.schema}
 
 
 def tool(cls):
