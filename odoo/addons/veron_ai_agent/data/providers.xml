@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<!-- Ready providers, inactive until a key is entered and the provider is made active -->
+	<record id="provider_groq" model="veron.ai.provider">
+		<field name="name">Groq</field>
+		<field name="kind">llm</field>
+		<field name="adapter">openai_chat</field>
+		<field name="base_url">https://api.groq.com/openai/v1</field>
+		<field name="model_name">llama-3.3-70b-versatile</field>
+		<field name="max_tokens">4000</field>
+		<field name="timeout">120</field>
+		<field name="sequence">20</field>
+		<field name="active" eval="False"/>
+		<field name="note"><![CDATA[<p>Keys from console.groq.com. Put one key in Key and the others in Other Keys, separated by commas: each call starts from the next key and a key at its limit is replaced by the next. Press Check: it lists the models of the service.</p>]]></field>
+	</record>
+	<record id="provider_groq_vision" model="veron.ai.provider">
+		<field name="name">Groq: Reading Photos and PDFs</field>
+		<field name="kind">vision</field>
+		<field name="adapter">openai_chat</field>
+		<field name="base_url">https://api.groq.com/openai/v1</field>
+		<field name="model_name">meta-llama/llama-4-scout-17b-16e-instruct</field>
+		<field name="max_tokens">3000</field>
+		<field name="timeout">120</field>
+		<field name="sequence">20</field>
+		<field name="active" eval="False"/>
+	</record>
+	<record id="provider_groq_stt" model="veron.ai.provider">
+		<field name="name">Groq: Speech to Text (Whisper)</field>
+		<field name="kind">stt</field>
+		<field name="adapter">http_openai</field>
+		<field name="base_url">https://api.groq.com/openai/v1</field>
+		<field name="model_name">whisper-large-v3</field>
+		<field name="language">fa</field>
+		<field name="timeout">120</field>
+		<field name="sequence">20</field>
+		<field name="active" eval="False"/>
+	</record>
+	<record id="provider_chatgpt" model="veron.ai.provider">
+		<field name="name">ChatGPT</field>
+		<field name="kind">llm</field>
+		<field name="adapter">openai_chat</field>
+		<field name="base_url">https://api.openai.com/v1</field>
+		<field name="model_name">gpt-4.1-mini</field>
+		<field name="max_tokens">4000</field>
+		<field name="timeout">120</field>
+		<field name="sequence">30</field>
+		<field name="active" eval="False"/>
+	</record>
+	<record id="provider_openrouter" model="veron.ai.provider">
+		<field name="name">OpenRouter</field>
+		<field name="kind">llm</field>
+		<field name="adapter">openai_chat</field>
+		<field name="base_url">https://openrouter.ai/api/v1</field>
+		<field name="model_name">meta-llama/llama-3.3-70b-instruct:free</field>
+		<field name="max_tokens">4000</field>
+		<field name="timeout">120</field>
+		<field name="sequence">30</field>
+		<field name="active" eval="False"/>
+	</record>
+</odoo>

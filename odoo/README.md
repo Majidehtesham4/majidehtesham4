@@ -274,14 +274,14 @@ powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
 
 ## ایجنت‌های هوش مصنوعی (`addons/veron_ai_agent`)
 
-کتابخانه‌ی ۳۵ نقش آماده و ایجنت‌هایی با ابزار، محدوده‌ی داده و سطح اختیار. اقدام حساس همیشه منتظر تأیید انسان می‌ماند. Claude به‌عنوان مدل زبانی (`ai_claude_anthropic`). بستن تنخواه و ابزارهای مالی (`veron_ai_agent_account`). حقوق و دستمزد با PDF محرمانه (`veron_ai_agent_payroll`). همه با `veron_apps` نصب می‌شوند، خاموش و بدون کلید.
+کتابخانه‌ی ۳۵ نقش آماده و ایجنت‌هایی با ابزار، محدوده‌ی داده و سطح اختیار. اقدام حساس همیشه منتظر تأیید انسان می‌ماند. Claude به‌عنوان مدل زبانی (`ai_claude_anthropic`)، و Groq، ChatGPT و OpenRouter با چند کلید که به نوبت مصرف می‌شوند. هوش داخلی بدون هوش مصنوعی و چت‌باکس در همه‌ی صفحه‌ها (متن، صدا، عکس، PDF، اکسل). بستن تنخواه و ابزارهای مالی (`veron_ai_agent_account`). حقوق و دستمزد با PDF محرمانه (`veron_ai_agent_payroll`). همه با `veron_apps` نصب می‌شوند، خاموش و بدون کلید.
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
 powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
 ```
 
-راهنمای کامل، وصل کردن Claude و سه نمونه‌ی تنظیم (گزارش صبحگاهی، بستن تنخواه، حقوق) در
+راهنمای کامل، وصل کردن Claude یا کلیدهای Groq، هوش داخلی و سه نمونه‌ی تنظیم (گزارش صبحگاهی، بستن تنخواه، حقوق) در
 [`addons/veron_ai_agent/README.md`](addons/veron_ai_agent/README.md) است.
 
 ## ماژول‌های OCA

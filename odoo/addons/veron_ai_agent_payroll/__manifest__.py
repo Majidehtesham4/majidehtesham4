@@ -19,6 +19,7 @@
 		"security/security.xml",
 		"security/ir.model.access.csv",
 		"data/data.xml",
+		"data/intents.xml",
 		"views/payslip_document_views.xml",
 	],
 	"installable": True,

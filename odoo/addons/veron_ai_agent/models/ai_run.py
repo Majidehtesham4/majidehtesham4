@@ -125,6 +125,10 @@ class AiRun(models.Model):
 	provider_name = fields.Char("Model Used", readonly=True)
 	usage = fields.Char("Tokens", readonly=True)
 	pdf_attachment_id = fields.Many2one("ir.attachment", "PDF", readonly=True)
+	engine_used = fields.Selection([("ai", "AI"), ("internal", "Built-in Assistant")], "Answered By", readonly=True)
+	page_model = fields.Char("Asked On the Page Of", readonly=True)
+	page_res_id = fields.Integer("Record of the Page", readonly=True)
+	options_json = fields.Text("Choices Offered", readonly=True)
 	want_pdf = fields.Boolean(readonly=True, help="The PDF is made once the report is ready")
 
 	@api.depends("step_ids.tool_code")
@@ -139,7 +143,8 @@ class AiRun(models.Model):
 	# --- starting
 
 	@api.model
-	def _values(self, agent, user, initiator, text="", sources=None, conversation=None, parent=None, task=None, record=None):
+	def _values(self, agent, user, initiator, text="", sources=None, conversation=None, parent=None, task=None, record=None,
+			page=None):
 		values = {
 			"agent_id": agent.id, "company_id": agent.company_id.id, "initiator": initiator,
 			"initiator_user_id": self.env.uid if initiator in ("user", "chat") else False, "run_user_id": user.id,
@@ -147,6 +152,7 @@ class AiRun(models.Model):
 			"conversation_id": conversation.id if conversation else False, "parent_run_id": parent.id if parent else False,
 			"root_run_id": (parent.root_run_id or parent).id if parent and initiator == "retry" else False,
 			"task_id": task.id if task else False,
+			"page_model": (page or {}).get("model") or False, "page_res_id": (page or {}).get("res_id") or 0,
 		}
 		return values
 
@@ -208,12 +214,21 @@ class AiRun(models.Model):
 				env = run._env()
 				results = run._playbook(env)
 				provider = self.env["veron.ai.provider"]._get("llm", agent.llm_provider_id, agent.company_id)
+				engine = self.env.context.get("veron_ai_engine") or agent.engine or "auto"
 				text = ""
-				if provider and (run.input_text or run.source_ids or results):
+				if engine == "internal" or not provider:
+					# The built-in assistant: no language model, the library's commands
+					run.engine_used = "internal"
+					if run.input_text or run.source_ids:
+						text = run._internal(env)
+						if engine == "ai":
+							text = Markup("<p class='text-muted small'>%s</p>") % _(
+								"No AI provider is working, so the built-in assistant answered.") + text
+					elif results:
+						text = run._render_results(results)
+				elif run.input_text or run.source_ids or results:
+					run.engine_used = "ai"
 					text = run._llm(env, provider, results)
-				elif run.input_text and not results:
-					text = _("No language model is set, so this agent only runs its own steps. Set a provider in AI "
-						"Agents, Settings, Providers to ask it questions.")
 		except providers.ProviderError as error:
 			# Marked after the savepoint is undone, so the provider shows the error
 			if provider:
@@ -296,7 +311,9 @@ class AiRun(models.Model):
 				for call in result.tool_calls:
 					output = self._call_tool(call.name, call.input, origin="model", env=env)
 					outputs.append((call.id, output, output.get("status") in ("denied", "failed", "invalid")))
-				messages.append(adapter.tool_results_message(outputs))
+				reply = adapter.tool_results_message(outputs)
+				# One message for every result in some formats, one for all in others
+				messages.extend(reply) if isinstance(reply, list) else messages.append(reply)
 			else:
 				self._warn(_("The agent reached its limit of tool calls; the result may be incomplete."))
 		finally:
@@ -432,7 +449,9 @@ class AiRun(models.Model):
 
 	def _render(self, results, text):
 		parts = []
-		if text:
+		if isinstance(text, Markup):
+			parts.append(text)
+		elif text:
 			parts.append(markdown_html(text))
 		if results and not text:
 			parts.append(results_html(results))
@@ -444,8 +463,12 @@ class AiRun(models.Model):
 		if findings:
 			parts.append(Markup("<p><b>%s</b></p><ul>%s</ul>") % (_("To review:"),
 				Markup("").join(Markup("<li>%s</li>") % f.message for f in findings)))
-		parts.append(Markup("<p class='text-muted small'>%s</p>") % _(
-			"This is the work of an AI agent. Accepting it in the AI review is not an accounting or legal approval."))
+		if self.engine_used == "internal":
+			parts.append(Markup("<p class='text-muted small'>%s</p>") % _(
+				"Answered by the built-in assistant, from the program's data, without AI."))
+		else:
+			parts.append(Markup("<p class='text-muted small'>%s</p>") % _(
+				"This is the work of an AI agent. Accepting it in the AI review is not an accounting or legal approval."))
 		return Markup("").join(parts)
 
 	def _make_pdf(self):
@@ -520,7 +543,7 @@ class AiRunStep(models.Model):
 	tool_id = fields.Many2one("veron.ai.tool", ondelete="set null")
 	tool_code = fields.Char("Tool Code")
 	origin = fields.Selection([("playbook", "Fixed Step"), ("model", "Model"), ("approval", "After Approval"),
-		("supervisor", "Supervisor")], readonly=True)
+		("supervisor", "Supervisor"), ("internal", "Built-in Assistant")], readonly=True)
 	args_json = fields.Text("Arguments")
 	decision = fields.Selection(DECISIONS)
 	message = fields.Char()

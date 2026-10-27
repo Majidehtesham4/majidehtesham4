@@ -31,4 +31,25 @@
 		<field name="interval_type">days</field>
 	</record>
 	<function model="veron.ai.tool" name="_sync"/>
+
+	<!-- The assistant of the chat box on every page; a manager's changes to it are kept -->
+	<data noupdate="1">
+	<record id="agent_assistant" model="veron.ai.agent">
+		<field name="name">دستیار</field>
+		<field name="enabled" eval="True"/>
+		<field name="all_users" eval="True"/>
+		<field name="engine">auto</field>
+		<field name="authority_level">3</field>
+		<field name="company_id" ref="base.main_company"/>
+		<field name="company_ids" eval="[(6, 0, [ref('base.main_company')])]"/>
+		<field name="responsible_user_id" ref="base.user_admin"/>
+		<field name="goal">به هر کاربر با دسترسی خود او کمک می‌کند: گزارش می‌دهد، جست‌وجو می‌کند، فایل می‌خواند و پیش‌نویس می‌سازد.</field>
+		<field name="instructions">با همان دسترسی کاربری که می‌پرسد کار کن. اقدام حساس منتظر تأیید می‌ماند. عدد را فقط از ابزارها بیاور.</field>
+		<field name="description">دستیار برنامه در همه‌ی صفحه‌ها</field>
+	</record>
+	</data>
+	<function model="veron.ai.agent" name="_setup_assistant"/>
+
+	<!-- The program's own bot, shown as the author of what the system does, carries no platform name -->
+	<function model="res.partner" name="write" eval="[[ref('base.partner_root')], {'name': 'ربات برنامه'}]"/>
 </odoo>

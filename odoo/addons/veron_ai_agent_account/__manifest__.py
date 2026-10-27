@@ -18,6 +18,7 @@
 		"security/security.xml",
 		"security/ir.model.access.csv",
 		"data/data.xml",
+		"data/intents.xml",
 		"report/settlement_report.xml",
 		"views/petty_cash_views.xml",
 	],

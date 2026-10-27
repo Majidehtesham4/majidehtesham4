@@ -29,7 +29,12 @@ class AiProvider(models.Model):
 		help="Kept in the database, readable by administrators only and never written to logs")
 	api_key_env = fields.Char("Key from Environment Variable", groups="base.group_system",
 		help="The name of a server environment variable holding the key, instead of keeping it in the database")
+	extra_keys = fields.Char("Other Keys", groups="base.group_system", copy=False,
+		help="More keys of the same service, separated by commas or spaces: each call starts from the next key, and a key "
+			"at its limit or refused is replaced by the next one")
 	key_set = fields.Boolean("Key Set", compute="_compute_key_set")
+	key_count = fields.Integer("Keys", compute="_compute_key_set")
+	key_cursor = fields.Integer(readonly=True, copy=False)
 	language = fields.Char(default="fa", help="The language of speech and text, e.g. fa")
 	timeout = fields.Integer("Timeout (seconds)", default=60)
 	max_tokens = fields.Integer("Most Tokens of an Answer", default=8000)
@@ -52,8 +57,22 @@ class AiProvider(models.Model):
 	@api.depends("adapter")
 	def _compute_key_set(self):
 		for provider in self:
-			sudo = provider.sudo()
-			provider.key_set = bool(sudo.api_key or (sudo.api_key_env and os.environ.get(sudo.api_key_env)))
+			count = len(provider.sudo()._keys())
+			provider.key_set = bool(count)
+			provider.key_count = count
+
+	def _keys(self):
+		"""Every key of the provider: the key, the other keys, and those of the environment variable (one a line or
+		separated by commas or spaces); never logged"""
+		self.ensure_one()
+		sudo = self.sudo()
+		values = [sudo.api_key or "", sudo.extra_keys or "", (sudo.api_key_env and os.environ.get(sudo.api_key_env)) or ""]
+		keys = []
+		for value in values:
+			for key in value.replace(",", " ").split():
+				if key not in keys:
+					keys.append(key)
+		return keys
 
 	@api.constrains("adapter", "kind")
 	def _check_adapter(self):
@@ -77,10 +96,17 @@ class AiProvider(models.Model):
 		"""The settings the adapter reads, with the key; never logged"""
 		self.ensure_one()
 		sudo = self.sudo()
-		key = sudo.api_key or (sudo.api_key_env and os.environ.get(sudo.api_key_env)) or ""
+		keys = self._keys()
+		if len(keys) > 1:
+			# Each call starts from the next key, so the keys share the load
+			self.env.cr.execute("UPDATE veron_ai_provider SET key_cursor = COALESCE(key_cursor, 0) + 1 WHERE id = %s "
+				"RETURNING key_cursor - 1", (self.id,))
+			start = self.env.cr.fetchone()[0] % len(keys)
+			keys = keys[start:] + keys[:start]
+			self.invalidate_recordset(["key_cursor"])
 		config = json.loads(sudo.options or "{}")
 		config.update({
-			"api_key": key, "base_url": sudo.base_url or "", "model": sudo.model_name or "", "language": sudo.language or "fa",
+			"api_key": keys[0] if keys else "", "api_keys": keys, "base_url": sudo.base_url or "", "model": sudo.model_name or "", "language": sudo.language or "fa",
 			"timeout": sudo.timeout or 60, "max_tokens": sudo.max_tokens or 8000, "effort": sudo.effort or "high",
 			"allowed_domains": [d.strip() for d in (sudo.allowed_domains or "").splitlines() if d.strip()],
 		})

@@ -19,69 +19,123 @@
                     <b t-esc="agent.name"/> <span class="badge text-bg-light" t-esc="agent.level"/>
                     <div class="small text-muted" t-esc="agent.description"/>
                 </div>
-                <div class="o_veron_ai_messages flex-grow-1 overflow-auto p-3" t-ref="list">
-                    <div t-foreach="state.messages" t-as="message" t-key="message.id"
-                        t-att-class="'o_veron_ai_message mb-3 ' + (message.role === 'user' ? 'o_from_user' : 'o_from_agent')">
-                        <div class="o_veron_ai_bubble p-2 rounded">
-                            <t t-if="message.role === 'user'"><div class="o_veron_ai_text" t-esc="message.body"/></t>
-                            <t t-else=""><div t-out="html(message.body_html)"/></t>
-                            <div t-if="message.sources and message.sources.length" class="small mt-1">
-                                <span t-foreach="message.sources" t-as="source" t-key="source_index" class="badge text-bg-light me-1">
-                                    <i t-att-class="'fa ' + (source.kind === 'audio' ? 'fa-microphone' : source.kind === 'pdf' ? 'fa-file-pdf-o' : 'fa-camera')"/>
-                                    <t t-esc="source.name"/>
-                                </span>
-                            </div>
-                            <div t-if="message.pending and message.pending.length" class="mt-2">
-                                <button t-foreach="message.pending" t-as="approval" t-key="approval.id" type="button"
-                                    class="btn btn-sm btn-warning me-1 mb-1" t-on-click="() => this.openApproval(approval)">
-                                    <i class="fa fa-hourglass-half"/> <t t-esc="approval.summary"/>
-                                </button>
-                            </div>
-                            <div t-if="message.role === 'agent'" class="small text-muted mt-1 d-flex gap-2">
-                                <a t-if="message.run" href="#" t-on-click.prevent="() => this.openRun(message.run)">
-                                    <t t-esc="message.run.name"/> · <t t-esc="message.run.state_label"/>
-                                </a>
-                                <a href="#" t-on-click.prevent="() => this.speak(message)" title="Read aloud"><i class="fa fa-volume-up"/></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div t-if="state.busy" class="text-muted small"><i class="fa fa-circle-o-notch fa-spin"/> The agent is working...</div>
-                </div>
-                <div t-if="agent" class="o_veron_ai_input border-top p-2">
-                    <div t-foreach="state.files" t-as="file" t-key="file.id" class="o_veron_ai_file mb-2">
-                        <div class="d-flex align-items-center gap-2">
-                            <i t-att-class="'fa ' + (file.kind === 'audio' ? 'fa-microphone' : file.kind === 'pdf' ? 'fa-file-pdf-o' : 'fa-camera')"/>
-                            <span t-esc="file.name"/>
-                            <button type="button" class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeFile(file)"><i class="fa fa-times"/></button>
-                        </div>
-                        <t t-if="file.kind === 'audio'">
-                            <label class="small text-muted">Text of the voice message; correct it before sending:</label>
-                            <textarea class="form-control form-control-sm" rows="2" t-model="file.transcriptEdit"/>
-                        </t>
-                    </div>
-                    <div class="d-flex gap-2 align-items-end">
-                        <textarea class="form-control" rows="2" t-model="state.text" t-on-keydown="onKeydown"
-                            placeholder="Write your request..." t-att-disabled="state.busy"/>
-                        <div class="d-flex gap-1">
-                            <button type="button" t-att-class="'btn ' + (state.recording ? 'btn-danger' : 'btn-light')" t-on-click="toggleRecording" title="Voice message">
-                                <i t-att-class="'fa ' + (state.recording ? 'fa-stop' : 'fa-microphone')"/>
-                            </button>
-                            <label class="btn btn-light mb-0" title="Photo">
-                                <i class="fa fa-camera"/>
-                                <input type="file" accept="image/*" capture="environment" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'receipt')"/>
-                            </label>
-                            <label class="btn btn-light mb-0" title="PDF or photo file">
-                                <i class="fa fa-paperclip"/>
-                                <input type="file" accept="image/*,application/pdf" multiple="multiple" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'other')"/>
-                            </label>
-                            <button type="button" class="btn btn-primary" t-on-click="send" t-att-disabled="state.busy or state.uploading or state.recording">
-                                <i class="fa fa-paper-plane"/>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="small text-muted mt-1">The agent acts only within its tools; actions that need approval wait for a person.</div>
-                </div>
+                <t t-call="veron_ai_agent.Conversation"/>
             </section>
+        </div>
+    </t>
+
+    <!-- The messages and the box to write in, shared by the chat page and the chat box of every page -->
+    <t t-name="veron_ai_agent.Conversation">
+        <div class="o_veron_ai_messages flex-grow-1 overflow-auto p-3" t-ref="list">
+            <div t-foreach="state.messages" t-as="message" t-key="message.id"
+                t-att-class="'o_veron_ai_message mb-3 ' + (message.role === 'user' ? 'o_from_user' : 'o_from_agent')">
+                <div class="o_veron_ai_bubble p-2 rounded">
+                    <t t-if="message.role === 'user'"><div class="o_veron_ai_text" t-esc="message.body"/></t>
+                    <t t-else=""><div t-out="html(message.body_html)"/></t>
+                    <div t-if="message.sources and message.sources.length" class="small mt-1">
+                        <span t-foreach="message.sources" t-as="source" t-key="source_index" class="badge text-bg-light me-1">
+                            <i t-att-class="'fa ' + fileIcon(source.kind)"/>
+                            <t t-esc="source.name"/>
+                        </span>
+                    </div>
+                    <div t-if="message.options and message.options.length and message_last" class="mt-2 d-flex flex-wrap gap-1">
+                        <button t-foreach="message.options" t-as="option" t-key="option_index" type="button"
+                            class="btn btn-sm btn-outline-primary" t-on-click="() => this.choose(option)"
+                            t-att-disabled="state.busy">
+                            <t t-if="option.choice"><t t-esc="option.choice"/>. </t><t t-esc="option.label"/>
+                        </button>
+                    </div>
+                    <div t-if="message.pending and message.pending.length" class="mt-2">
+                        <div t-foreach="message.pending" t-as="approval" t-key="approval.id" class="o_veron_ai_pending mb-1">
+                            <button type="button" class="btn btn-sm btn-warning me-1" t-on-click="() => this.openApproval(approval)">
+                                <i class="fa fa-hourglass-half"/> <t t-esc="approval.summary"/>
+                            </button>
+                            <t t-if="approval.can_decide and approval.kind === 'action'">
+                                <button type="button" class="btn btn-sm btn-success me-1" t-on-click="() => this.decide(approval, true)"
+                                    t-att-disabled="state.busy">Approve and Do</button>
+                                <button type="button" class="btn btn-sm btn-light" t-on-click="() => this.decide(approval, false)"
+                                    t-att-disabled="state.busy">Reject</button>
+                            </t>
+                        </div>
+                    </div>
+                    <div t-if="message.role === 'agent'" class="small text-muted mt-1 d-flex gap-2 align-items-center">
+                        <span t-if="message.engine" class="badge text-bg-light">
+                            <t t-if="message.engine === 'internal'">Built-in Assistant</t>
+                            <t t-else="">AI</t>
+                        </span>
+                        <a t-if="message.run" href="#" t-on-click.prevent="() => this.openRun(message.run)">
+                            <t t-esc="message.run.name"/> · <t t-esc="message.run.state_label"/>
+                        </a>
+                        <a href="#" t-on-click.prevent="() => this.speak(message)" title="Read aloud"><i class="fa fa-volume-up"/></a>
+                    </div>
+                </div>
+            </div>
+            <div t-if="state.busy" class="text-muted small"><i class="fa fa-circle-o-notch fa-spin"/> The agent is working...</div>
+        </div>
+        <div t-if="state.conversationId" class="o_veron_ai_input border-top p-2">
+            <div t-foreach="state.files" t-as="file" t-key="file.id" class="o_veron_ai_file mb-2">
+                <div class="d-flex align-items-center gap-2">
+                    <i t-att-class="'fa ' + fileIcon(file.kind)"/>
+                    <span t-esc="file.name"/>
+                    <button type="button" class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeFile(file)"><i class="fa fa-times"/></button>
+                </div>
+                <t t-if="file.kind === 'audio'">
+                    <label class="small text-muted">Text of the voice message; correct it before sending:</label>
+                    <textarea class="form-control form-control-sm" rows="2" t-model="file.transcriptEdit"/>
+                </t>
+            </div>
+            <div t-if="state.ai" class="btn-group btn-group-sm mb-2" role="group">
+                <button type="button" t-att-class="'btn ' + (state.engine === 'internal' ? 'btn-primary' : 'btn-outline-primary')"
+                    t-on-click="() => this.setEngine('internal')" title="Answers from the program's data, without AI">
+                    <i class="fa fa-cogs"/> Built-in Assistant
+                </button>
+                <button type="button" t-att-class="'btn ' + (state.engine === 'ai' ? 'btn-primary' : 'btn-outline-primary')"
+                    t-on-click="() => this.setEngine('ai')" title="Answers with the language model set in the providers">
+                    <i class="fa fa-magic"/> AI
+                </button>
+            </div>
+            <div class="d-flex gap-2 align-items-end">
+                <textarea class="form-control" rows="2" t-model="state.text" t-on-keydown="onKeydown"
+                    placeholder="Write your request..." t-att-disabled="state.busy"/>
+                <div class="d-flex gap-1">
+                    <button type="button" t-att-class="'btn ' + (state.recording ? 'btn-danger' : 'btn-light')" t-on-click="toggleRecording" title="Voice message">
+                        <i t-att-class="'fa ' + (state.recording ? 'fa-stop' : 'fa-microphone')"/>
+                    </button>
+                    <label class="btn btn-light mb-0" title="Photo">
+                        <i class="fa fa-camera"/>
+                        <input type="file" accept="image/*" capture="environment" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'receipt')"/>
+                    </label>
+                    <label class="btn btn-light mb-0" title="A photo, a PDF, or an Excel or CSV file">
+                        <i class="fa fa-paperclip"/>
+                        <input type="file" accept="image/*,application/pdf,.xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                            multiple="multiple" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'other')"/>
+                    </label>
+                    <button type="button" class="btn btn-primary" t-on-click="() => this.send()" t-att-disabled="state.busy or state.uploading or state.recording">
+                        <i class="fa fa-paper-plane"/>
+                    </button>
+                </div>
+            </div>
+            <div class="small text-muted mt-1">The agent acts only within its tools; actions that need approval wait for a person.</div>
+        </div>
+    </t>
+
+    <!-- The chat box of every page -->
+    <t t-name="veron_ai_agent.AssistantBox">
+        <div t-if="box.available" class="o_veron_assistant" dir="rtl">
+            <button t-if="!box.open" type="button" class="o_veron_assistant_button btn btn-primary rounded-circle shadow"
+                t-on-click="toggle" title="Assistant">
+                <i class="fa fa-comments fa-lg"/>
+            </button>
+            <div t-if="box.open" class="o_veron_assistant_panel shadow rounded d-flex flex-column">
+                <div class="o_veron_assistant_head d-flex align-items-center gap-2 p-2 border-bottom">
+                    <i class="fa fa-comments"/>
+                    <b class="flex-grow-1" t-esc="box.name"/>
+                    <span t-if="pageLabel" class="badge text-bg-light text-truncate" t-esc="pageLabel"/>
+                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="clear" title="New conversation"><i class="fa fa-eraser"/></button>
+                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="toggle" title="Close"><i class="fa fa-times"/></button>
+                </div>
+                <t t-call="veron_ai_agent.Conversation"/>
+            </div>
         </div>
     </t>
 </templates>

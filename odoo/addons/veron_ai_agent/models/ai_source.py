@@ -19,7 +19,8 @@ class AiSource(models.Model):
 	_order = "id desc"
 
 	name = fields.Char(required=True)
-	kind = fields.Selection([("image", "Photo"), ("pdf", "PDF"), ("audio", "Voice")], required=True, readonly=True)
+	kind = fields.Selection([("image", "Photo"), ("pdf", "PDF"), ("audio", "Voice"), ("sheet", "Spreadsheet")], required=True,
+		readonly=True)
 	purpose = fields.Selection(PURPOSES, default="other")
 	mimetype = fields.Char(readonly=True)
 	size = fields.Integer(readonly=True)
@@ -51,13 +52,13 @@ class AiSource(models.Model):
 		}
 
 	@api.model
-	def _from_upload(self, name, data, purpose="other", kinds=("image", "pdf", "audio"), record=None):
+	def _from_upload(self, name, data, purpose="other", kinds=("image", "pdf", "audio", "sheet"), record=None):
 		"""A checked file, or UserError with the reason it is refused"""
 		settings = self._settings()
 		try:
 			mimetype, kind = filetools.check(data, kinds, settings["max_bytes"])
 		except filetools.FileRefused as error:
-			raise UserError(str(error)) from error
+			raise UserError(error.text(self.env)) from error
 		scan = _("Type checked from the content")
 		antivirus = self.env["veron.ai.provider"]._get("antivirus")
 		if antivirus:

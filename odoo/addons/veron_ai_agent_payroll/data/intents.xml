@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The commands of the built-in assistant; a manager adds phrases and commands -->
+<odoo noupdate="1">
+	<record id="intent_payroll_inputs_check" model="veron.ai.intent">
+		<field name="code">payroll_inputs_check</field>
+		<field name="name">کنترل ورودی‌های حقوق</field>
+		<field name="section">payroll</field>
+		<field name="sequence">1</field>
+		<field name="phrases">کنترل ورودی حقوق
+آماده محاسبه حقوق هستیم
+چه چیزی برای حقوق کم است</field>
+		<field name="tool_code">payroll_inputs_check</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.payslip,hr.employee</field>
+	</record>
+	<record id="intent_payslip_drafts_compute" model="veron.ai.intent">
+		<field name="code">payslip_drafts_compute</field>
+		<field name="name">محاسبه‌ی فیش‌های حقوق</field>
+		<field name="section">payroll</field>
+		<field name="sequence">2</field>
+		<field name="phrases">حقوق را حساب کن
+محاسبه حقوق
+فیش حقوق بساز
+حقوق این ماه</field>
+		<field name="tool_code">payslip_drafts_compute</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.payslip</field>
+	</record>
+	<record id="intent_payroll_compare_previous" model="veron.ai.intent">
+		<field name="code">payroll_compare_previous</field>
+		<field name="name">تغییرات حقوق نسبت به ماه قبل</field>
+		<field name="section">payroll</field>
+		<field name="sequence">3</field>
+		<field name="phrases">تغییرات حقوق
+مقایسه حقوق با ماه قبل
+حقوق کی تغییر کرده</field>
+		<field name="tool_code">payroll_compare_previous</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.payslip</field>
+	</record>
+	<record id="intent_payslip_pdf_prepare" model="veron.ai.intent">
+		<field name="code">payslip_pdf_prepare</field>
+		<field name="name">آماده‌سازی PDF فیش‌ها</field>
+		<field name="section">payroll</field>
+		<field name="sequence">4</field>
+		<field name="phrases">پی دی اف فیش ها
+فیش ها را آماده کن
+فیش حقوق برای کارکنان</field>
+		<field name="tool_code">payslip_pdf_prepare</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.payslip</field>
+	</record>
+</odoo>

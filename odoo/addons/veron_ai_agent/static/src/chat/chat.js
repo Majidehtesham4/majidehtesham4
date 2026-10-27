@@ -1,5 +1,6 @@
 /** The agent chat: text, a voice message whose text the person checks before it is sent, a photo from the
- * camera or a PDF. Answers can be read aloud. */
+ * camera, a PDF or an Excel file. Answers can be read aloud. The person chooses, per message, the built-in
+ * assistant (no AI) or the AI when the agent has one. */
 import { Component, markup, onMounted, onWillStart, useRef, useState } from "@odoo/owl";
 import { _t } from "@web/core/l10n/translation";
 import { registry } from "@web/core/registry";
@@ -17,18 +18,20 @@ export class AgentChat extends Component {
         this.list = useRef("list");
         this.state = useState({
             agents: [], agentId: false, conversationId: false, messages: [], text: "",
-            files: [], busy: false, recording: false, uploading: false,
+            files: [], busy: false, recording: false, uploading: false, ai: false, engine: "internal",
         });
         this.recorder = null;
-        onWillStart(async () => {
-            this.state.agents = await this.orm.call("veron.ai.conversation", "veron_chat_agents", []);
-            const wanted = this.props.action?.params?.agent_id;
-            const first = this.state.agents.find((a) => a.id === wanted) || this.state.agents[0];
-            if (first) {
-                await this.openAgent(first.id);
-            }
-        });
+        onWillStart(() => this.start());
         onMounted(() => this.scroll());
+    }
+
+    async start() {
+        this.state.agents = await this.orm.call("veron.ai.conversation", "veron_chat_agents", []);
+        const wanted = this.props.action?.params?.agent_id;
+        const first = this.state.agents.find((a) => a.id === wanted) || this.state.agents[0];
+        if (first) {
+            await this.openAgent(first.id);
+        }
     }
 
     get agent() {
@@ -37,6 +40,36 @@ export class AgentChat extends Component {
 
     html(value) {
         return markup(value || "");
+    }
+
+    fileIcon(kind) {
+        return { image: "fa-picture-o", pdf: "fa-file-pdf-o", audio: "fa-microphone", sheet: "fa-file-excel-o" }[kind] || "fa-file-o";
+    }
+
+    /** The engine the person chose last for this agent, remembered in the browser */
+    useEngine(agentId, ai, engine) {
+        let chosen = engine === "ai" && ai ? "ai" : "internal";
+        try {
+            chosen = localStorage.getItem(`veron_ai_engine_${agentId}`) || chosen;
+        } catch {
+            // the browser keeps nothing; the default stays
+        }
+        this.state.ai = ai;
+        this.state.engine = ai ? chosen : "internal";
+    }
+
+    setEngine(engine) {
+        this.state.engine = engine;
+        try {
+            localStorage.setItem(`veron_ai_engine_${this.state.agentId}`, engine);
+        } catch {
+            // the choice holds for this page only
+        }
+    }
+
+    /** The page the person is on, so that "this invoice" or "this customer" is understood */
+    page() {
+        return false;
     }
 
     scroll() {
@@ -49,6 +82,8 @@ export class AgentChat extends Component {
     async openAgent(agentId) {
         const result = await this.orm.call("veron.ai.conversation", "veron_chat_open", [agentId]);
         Object.assign(this.state, { agentId, conversationId: result.conversation_id, messages: result.messages, files: [] });
+        const agent = this.agent;
+        this.useEngine(agentId, Boolean(agent?.ai), agent?.engine);
         setTimeout(() => this.scroll());
     }
 
@@ -113,8 +148,32 @@ export class AgentChat extends Component {
         this.state.recording = true;
     }
 
-    async send() {
-        const text = this.state.text.trim();
+    /** A button the assistant offered: the meaning it was unsure of, or one of the records it found */
+    choose(option) {
+        this.send(option.code ? `#intent:${option.code}` : String(option.choice), option.label);
+    }
+
+    async decide(approval, approve) {
+        if (this.state.busy) {
+            return;
+        }
+        this.state.busy = true;
+        try {
+            const messages = await this.orm.call("veron.ai.conversation", "veron_chat_decide", [
+                this.state.conversationId, approval.id, approve,
+            ]);
+            for (const message of this.state.messages) {
+                message.pending = (message.pending || []).filter((a) => a.id !== approval.id);
+            }
+            this.state.messages.push(...messages);
+        } finally {
+            this.state.busy = false;
+            setTimeout(() => this.scroll());
+        }
+    }
+
+    async send(command = false, shown = false) {
+        const text = command || this.state.text.trim();
         if ((!text && !this.state.files.length) || this.state.busy) {
             return;
         }
@@ -131,14 +190,17 @@ export class AgentChat extends Component {
         }
         this.state.busy = true;
         const pendingText = text || this.state.files.filter((f) => f.kind === "audio").map((f) => f.transcriptEdit).join("\n");
-        this.state.messages.push({ id: "tmp", role: "user", body: pendingText, sources: this.state.files.map((f) => ({ name: f.name, kind: f.kind })), pending: [] });
+        this.state.messages.push({ id: "tmp", role: "user", body: shown || pendingText, sources: this.state.files.map((f) => ({ name: f.name, kind: f.kind })), pending: [] });
         setTimeout(() => this.scroll());
         try {
             const messages = await this.orm.call("veron.ai.conversation", "veron_chat_send", [
                 this.state.conversationId, pendingText, this.state.files.map((f) => f.id), transcripts,
+                command || !this.state.ai ? "internal" : this.state.engine, this.page(),
             ]);
             this.state.messages = this.state.messages.filter((m) => m.id !== "tmp").concat(messages);
-            this.state.text = "";
+            if (!command) {
+                this.state.text = "";
+            }
             this.state.files = [];
         } catch (error) {
             this.state.messages = this.state.messages.filter((m) => m.id !== "tmp");

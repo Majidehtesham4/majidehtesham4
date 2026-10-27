@@ -33,3 +33,7 @@ access_veron_ai_message_user,veron.ai.message user,model_veron_ai_message,group_
 access_veron_ai_content_user,veron.ai.content user,model_veron_ai_content,group_ai_user,1,0,0,0
 access_veron_ai_content_manager,veron.ai.content manager,model_veron_ai_content,group_ai_manager,1,1,1,0
 access_veron_ai_activate_wizard_manager,veron.ai.activate.wizard manager,model_veron_ai_activate_wizard,group_ai_manager,1,1,1,1
+access_veron_ai_intent_user,veron.ai.intent user,model_veron_ai_intent,group_ai_user,1,0,0,0
+access_veron_ai_intent_manager,veron.ai.intent manager,model_veron_ai_intent,group_ai_manager,1,1,1,1
+access_veron_ai_intent_phrase_user,veron.ai.intent.phrase user,model_veron_ai_intent_phrase,group_ai_user,1,0,0,0
+access_veron_ai_intent_phrase_manager,veron.ai.intent.phrase manager,model_veron_ai_intent_phrase,group_ai_manager,1,1,1,1

@@ -2,6 +2,8 @@ from . import ai_provider
 from . import ai_tool
 from . import ai_template
 from . import ai_agent
+from . import ai_assistant
+from . import ai_intent
 from . import ai_schedule
 from . import ai_run
 from . import ai_approval
@@ -10,4 +12,6 @@ from . import ai_audit
 from . import ai_source
 from . import ai_conversation
 from . import ai_content
+from . import ai_internal
 from . import res_config_settings
+from . import ir_http

@@ -6,6 +6,12 @@ import io
 import re
 import socket
 import struct
+import zipfile
+
+from odoo.tools.translate import LazyGettext, LazyTranslate
+
+_lt = LazyTranslate(__name__)
+XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 
 KINDS = {
 	"image/jpeg": "image",
@@ -18,11 +24,17 @@ KINDS = {
 	"audio/mpeg": "audio",
 	"audio/mp4": "audio",
 	"audio/wav": "audio",
+	XLSX: "sheet",
+	"text/csv": "sheet",
 }
 
 
 class FileRefused(ValueError):
-	pass
+	"""A refused file, with the reason in the person's language through `text(env)`"""
+
+	def text(self, env):
+		message = self.args[0] if self.args else ""
+		return env._(message) if isinstance(message, LazyGettext) else str(message)
 
 
 def sniff(data: bytes):
@@ -48,7 +60,28 @@ def sniff(data: bytes):
 		return "audio/mpeg"
 	if head[4:8] == b"ftyp":
 		return "audio/mp4"
+	if head.startswith(b"PK\x03\x04"):
+		try:
+			with zipfile.ZipFile(io.BytesIO(data)) as archive:
+				if "xl/workbook.xml" in archive.namelist():
+					return XLSX
+		except zipfile.BadZipFile:
+			return None
+		return None
+	if b"\x00" not in data[:65536] and _text(data[:65536]):
+		return "text/csv"
 	return None
+
+
+def _text(data):
+	for encoding in ("utf-8-sig", "cp1256"):
+		try:
+			text = data.decode(encoding)
+		except UnicodeDecodeError:
+			continue
+		lines = [line for line in text.splitlines()[:5] if line.strip()]
+		return bool(lines) and all(any(sep in line for sep in (",", ";", "\t")) for line in lines)
+	return False
 
 
 # Content a receipt or an invoice never needs, and that runs code or hides files in a PDF
@@ -58,17 +91,27 @@ PDF_ACTIVE = re.compile(rb"/(JavaScript|JS|Launch|EmbeddedFile|RichMedia|XFA|Ope
 def check(data: bytes, allowed_kinds, max_bytes):
 	"""(mimetype, kind) of an acceptable file, or FileRefused with the reason"""
 	if not data:
-		raise FileRefused("The file is empty.")
+		raise FileRefused(_lt("The file is empty."))
 	if len(data) > max_bytes:
-		raise FileRefused(f"The file is larger than {max_bytes // (1024 * 1024)} MB.")
+		raise FileRefused(_lt("The file is larger than %s MB.", max_bytes // (1024 * 1024)))
 	mimetype = sniff(data)
 	if not mimetype:
-		raise FileRefused("This type of file is not accepted; send a photo (JPEG, PNG, WebP), a PDF or a voice message.")
+		raise FileRefused(_lt("This type of file is not accepted; send a photo (JPEG, PNG, WebP), a PDF, an Excel (xlsx) or "
+			"CSV file, or a voice message."))
 	kind = KINDS[mimetype]
 	if kind not in allowed_kinds:
-		raise FileRefused(f"A file of type {kind} is not accepted here.")
+		raise FileRefused(_lt("A file of this type (%s) is not accepted here.", kind))
 	if kind == "pdf" and PDF_ACTIVE.search(data):
-		raise FileRefused("The PDF holds active content (scripts or embedded files) and is refused.")
+		raise FileRefused(_lt("The PDF holds active content (scripts or embedded files) and is refused."))
+	if mimetype == XLSX:
+		with zipfile.ZipFile(io.BytesIO(data)) as archive:
+			infos = archive.infolist()
+			names = [info.filename.lower() for info in infos]
+			# Macros, or a file that grows far beyond its size when opened, are refused
+			if any("vbaproject" in name or name.endswith(".bin") for name in names):
+				raise FileRefused(_lt("The Excel file holds macros and is refused; save it as a plain xlsx."))
+			if len(infos) > 2000 or sum(info.file_size for info in infos) > 100 * 1024 * 1024:
+				raise FileRefused(_lt("The Excel file is too large when opened."))
 	if kind == "image":
 		try:
 			from PIL import Image
@@ -76,7 +119,7 @@ def check(data: bytes, allowed_kinds, max_bytes):
 			with Image.open(io.BytesIO(data)) as image:
 				image.verify()
 		except Exception as error:
-			raise FileRefused("The image cannot be read.") from error
+			raise FileRefused(_lt("The image cannot be read.")) from error
 	return mimetype, kind
 
 

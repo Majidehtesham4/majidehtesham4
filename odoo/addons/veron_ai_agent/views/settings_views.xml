@@ -25,6 +25,8 @@
 						<group groups="base.group_system">
 							<field name="key_set"/>
 							<field name="api_key" password="True"/>
+							<field name="extra_keys" password="True" placeholder="key2, key3, ..."/>
+							<field name="key_count"/>
 							<field name="api_key_env"/>
 							<field name="timeout"/>
 							<field name="max_tokens" invisible="kind != 'llm'"/>
@@ -56,7 +58,7 @@
 				<field name="adapter"/>
 				<field name="model_name"/>
 				<field name="is_default"/>
-				<field name="key_set"/>
+				<field name="key_count"/>
 				<field name="state" widget="badge" decoration-success="state == 'ok'" decoration-danger="state == 'error'"/>
 			</list>
 		</field>

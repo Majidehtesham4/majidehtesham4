@@ -102,6 +102,31 @@ class Adapter:
 			raise ProviderError(_lt("The provider has no key. Enter it in AI Agents, Settings, Providers."), kind="config")
 		return key
 
+	def keys(self):
+		"""The keys of the provider, in the order to try them for this call: several keys share the load and
+		stand in for one another"""
+		return [k for k in self.config.get("api_keys") or [] if k] or ([self.config["api_key"]] if self.config.get("api_key") else [])
+
+	def with_keys(self, call, required=True):
+		"""call(key) with each key in turn, while a key is at its limit or refused; a local service may need none"""
+		keys = self.keys()
+		if not keys:
+			if required:
+				self.secret()
+			return call("")
+		errors = []
+		for key in keys:
+			try:
+				return call(key)
+			except ProviderError as error:
+				if error.kind not in ("rate_limit", "key"):
+					raise
+				errors.append(error)
+		if all(error.kind == "rate_limit" for error in errors) and len(keys) > 1:
+			raise ProviderError(_lt("All %s keys of the provider are at their limit; it is tried again later.", len(keys)),
+				retryable=True, kind="rate_limit")
+		raise errors[-1]
+
 	def timeout(self):
 		return float(self.config.get("timeout") or 60)
 
@@ -145,16 +170,16 @@ def _http_error(response, what):
 	if response.status_code == 429:
 		raise ProviderError(_lt("%(what)s: too many requests; it is tried again later.", what=what), retryable=True, kind="rate_limit")
 	if response.status_code in (401, 403):
-		raise ProviderError(_lt("%(what)s: the key was refused (%(code)s).", what=what, code=response.status_code), kind="config")
+		raise ProviderError(_lt("%(what)s: the key was refused (%(code)s).", what=what, code=response.status_code), kind="key")
 	if response.status_code >= 500:
 		raise ProviderError(_lt("%(what)s: the service is unavailable (%(code)s).", what=what, code=response.status_code), retryable=True,
 			kind="unavailable")
 	raise ProviderError(_lt("%(what)s: %(code)s %(text)s", what=what, code=response.status_code, text=redact.text(response.text, 300)))
 
 
-def _post(url, what, timeout, **kwargs):
+def _post(url, what, timeout, method="post", **kwargs):
 	try:
-		response = requests.post(url, timeout=timeout, **kwargs)
+		response = requests.request(method, url, timeout=timeout, **kwargs)
 	except requests.Timeout as error:
 		raise ProviderError(_lt("%(what)s: no answer in %(seconds)s seconds.", what=what, seconds=round(timeout)), retryable=True,
 			kind="timeout") from error
@@ -177,8 +202,8 @@ class OpenAICompatibleHttp(Adapter):
 			raise ProviderError(_lt("Enter the address of the service in the provider."), kind="config")
 		return f"{base}/{path}"
 
-	def _headers(self):
-		key = self.config.get("api_key")
+	@staticmethod
+	def _headers(key):
 		return {"Authorization": f"Bearer {key}"} if key else {}
 
 	def check(self):
@@ -186,25 +211,26 @@ class OpenAICompatibleHttp(Adapter):
 		return _lt("The address is set; send a voice message or make an image to try it.")
 
 	def transcribe(self, data, mimetype, language):
-		extension = mimetype.split("/")[-1].replace("mpeg", "mp3")
-		response = _post(self._url("audio/transcriptions"), _lt("Speech to text"), self.timeout(), headers=self._headers(),
-			files={"file": (f"voice.{extension}", data, mimetype)},
-			data={"model": self.config.get("model") or "whisper-1", "language": language or "fa", "response_format": "json"})
+		extension = mimetype.split("/")[-1].replace("mpeg", "mp3").replace("x-wav", "wav")
+		response = self.with_keys(lambda key: _post(self._url("audio/transcriptions"), _lt("Speech to text"), self.timeout(),
+			headers=self._headers(key), files={"file": (f"voice.{extension}", data, mimetype)},
+			data={"model": self.config.get("model") or "whisper-1", "language": language or "fa", "response_format": "json"}),
+			required=False)
 		try:
 			return (response.json().get("text") or "").strip()
 		except ValueError as error:
 			raise ProviderError(_lt("Speech to text: the answer is not JSON.")) from error
 
 	def speak(self, text, language):
-		response = _post(self._url("audio/speech"), _lt("Text to speech"), self.timeout(), headers=self._headers(),
-			json={"model": self.config.get("model") or "tts-1", "input": text[:4000], "voice": self.config.get("voice") or "alloy",
-				"response_format": "mp3"})
+		response = self.with_keys(lambda key: _post(self._url("audio/speech"), _lt("Text to speech"), self.timeout(),
+			headers=self._headers(key), json={"model": self.config.get("model") or "tts-1", "input": text[:4000],
+				"voice": self.config.get("voice") or "alloy", "response_format": "mp3"}), required=False)
 		return response.content, "audio/mpeg"
 
 	def generate_image(self, prompt, size):
-		response = _post(self._url("images/generations"), _lt("Image generation"), self.timeout(), headers=self._headers(),
-			json={"model": self.config.get("model") or "", "prompt": prompt[:3000], "size": size, "n": 1,
-				"response_format": "b64_json"})
+		response = self.with_keys(lambda key: _post(self._url("images/generations"), _lt("Image generation"), self.timeout(),
+			headers=self._headers(key), json={"model": self.config.get("model") or "", "prompt": prompt[:3000], "size": size,
+				"n": 1, "response_format": "b64_json"}), required=False)
 		try:
 			item = response.json()["data"][0]
 		except (ValueError, KeyError, IndexError) as error:

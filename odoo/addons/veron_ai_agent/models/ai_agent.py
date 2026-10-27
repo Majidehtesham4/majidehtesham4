@@ -61,6 +61,11 @@ class AiAgent(models.Model):
 	calendar_id = fields.Many2one("resource.calendar", "Working Hours")
 	tz = fields.Selection("_tz_selection", "Time Zone", default=lambda self: self.env.user.tz or "Asia/Tehran")
 	trigger_manual = fields.Boolean("By Hand and Chat", default=True)
+	engine = fields.Selection([("auto", "AI When Available, Otherwise Built-in"), ("ai", "AI"),
+		("internal", "Built-in Assistant Only")], "Answers With", default="auto", required=True,
+		help="The built-in assistant answers from its library without a language model; the AI uses the provider")
+	all_users = fields.Boolean("Every Internal User May Use It",
+		help="Each person works with their own access rights: they see and do only what they may themselves")
 	trigger_schedule = fields.Boolean("On a Schedule")
 	trigger_event = fields.Boolean("On Events")
 	event_codes = fields.Char("Events", help="Codes of the events that start it, separated by commas")
@@ -157,6 +162,8 @@ class AiAgent(models.Model):
 
 	def _may_use(self, user):
 		self.ensure_one()
+		if self.all_users and not user.share and user.active:
+			return True
 		return user in (self.responsible_user_id | self.supervisor_user_id | self.user_ids) or user.has_group(
 			"veron_ai_agent.group_ai_manager")
 
@@ -319,6 +326,9 @@ class AiAgentTool(models.Model):
 	hour_to = fields.Float("To Hour", default=24.0)
 	weekdays = fields.Char("Weekdays", help="Numbers of the weekdays, 0 for Monday to 6 for Sunday, e.g. 5,6,0,1,2; empty: every day")
 	auto_execute = fields.Boolean("Act Automatically", help="At authority 4, act without asking, within these limits")
+	requester_may_approve = fields.Boolean("The Person Who Asked May Approve",
+		help="An action of this tool waiting for approval may be approved by the person who asked for it, with their own "
+			"rights; never for a sensitive action")
 	sensitive_rule = fields.Boolean("Explicit Rule for a Sensitive Action",
 		help="Needed for a sensitive action (posting, payment, publishing...) to be done automatically")
 	rule_note = fields.Char("Why")

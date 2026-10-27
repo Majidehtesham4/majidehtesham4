@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The commands of the built-in assistant; a manager adds phrases and commands -->
+<odoo noupdate="1">
+	<record id="intent_receivables_overdue" model="veron.ai.intent">
+		<field name="code">receivables_overdue</field>
+		<field name="name">مطالبات معوق</field>
+		<field name="section">accounting</field>
+		<field name="sequence">1</field>
+		<field name="phrases">مطالبات معوق
+بدهکاران
+کی به ما بدهکاره
+فاکتورهای پرداخت نشده مشتری
+طلب های سررسید گذشته</field>
+		<field name="tool_code">receivables_overdue</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move,res.partner</field>
+	</record>
+	<record id="intent_payables_due" model="veron.ai.intent">
+		<field name="code">payables_due</field>
+		<field name="name">بدهی‌های سررسید</field>
+		<field name="section">accounting</field>
+		<field name="sequence">2</field>
+		<field name="phrases">بدهی های سررسید
+به کی بدهکاریم
+پرداختنی ها
+فاکتورهای خرید پرداخت نشده</field>
+		<field name="tool_code">payables_due</field>
+		<field name="args">{"days": 7}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_expense_summary" model="veron.ai.intent">
+		<field name="code">expense_summary</field>
+		<field name="name">هزینه‌ها</field>
+		<field name="section">accounting</field>
+		<field name="sequence">3</field>
+		<field name="phrases">هزینه ها
+هزینه های این ماه
+گزارش هزینه
+چقدر خرج کردیم</field>
+		<field name="tool_code">expense_summary</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">30</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_cash_position" model="veron.ai.intent">
+		<field name="code">cash_position</field>
+		<field name="name">موجودی بانک و صندوق</field>
+		<field name="section">accounting</field>
+		<field name="sequence">4</field>
+		<field name="phrases">موجودی بانک
+مانده بانک
+موجودی صندوق
+چقدر پول داریم
+نقدینگی</field>
+		<field name="tool_code">cash_position</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.journal</field>
+	</record>
+	<record id="intent_bank_unreconciled" model="veron.ai.intent">
+		<field name="code">bank_unreconciled</field>
+		<field name="name">ردیف‌های بانکی تطبیق‌نشده</field>
+		<field name="section">accounting</field>
+		<field name="sequence">5</field>
+		<field name="phrases">تطبیق بانک
+ردیف های بانکی تطبیق نشده
+مغایرت بانکی</field>
+		<field name="tool_code">bank_unreconciled</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.bank.statement.line</field>
+	</record>
+	<record id="intent_documents_quality" model="veron.ai.intent">
+		<field name="code">documents_quality</field>
+		<field name="name">کیفیت اسناد حسابداری</field>
+		<field name="section">accounting</field>
+		<field name="sequence">6</field>
+		<field name="phrases">اسناد ناقص
+پیش نویس های قدیمی
+فاکتور بدون پیوست</field>
+		<field name="tool_code">documents_quality</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">31</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_month_end_checklist" model="veron.ai.intent">
+		<field name="code">month_end_checklist</field>
+		<field name="name">چک‌لیست بستن ماه</field>
+		<field name="section">accounting</field>
+		<field name="sequence">7</field>
+		<field name="phrases">بستن ماه
+چک لیست پایان ماه
+آماده بستن ماه هستیم</field>
+		<field name="tool_code">month_end_checklist</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_tax_summary" model="veron.ai.intent">
+		<field name="code">tax_summary</field>
+		<field name="name">مالیات بر ارزش افزوده</field>
+		<field name="section">accounting</field>
+		<field name="sequence">8</field>
+		<field name="phrases">مالیات بر ارزش افزوده
+گزارش مالیات
+ارزش افزوده فصل</field>
+		<field name="tool_code">tax_summary</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">90</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_budget_vs_actual" model="veron.ai.intent">
+		<field name="code">budget_vs_actual</field>
+		<field name="name">بودجه در برابر عملکرد</field>
+		<field name="section">accounting</field>
+		<field name="sequence">9</field>
+		<field name="phrases">بودجه
+انحراف بودجه
+بودجه و عملکرد</field>
+		<field name="tool_code">budget_vs_actual</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+	</record>
+	<record id="intent_asset_check" model="veron.ai.intent">
+		<field name="code">asset_check</field>
+		<field name="name">دارایی‌های ثابت</field>
+		<field name="section">accounting</field>
+		<field name="sequence">10</field>
+		<field name="phrases">دارایی های ثابت
+استهلاک ثبت نشده
+استهلاک</field>
+		<field name="tool_code">asset_check</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">account.asset</field>
+	</record>
+	<record id="intent_bill_from_document" model="veron.ai.intent">
+		<field name="code">bill_from_document</field>
+		<field name="name">ثبت فاکتور خرید از روی فایل</field>
+		<field name="section">accounting</field>
+		<field name="sequence">11</field>
+		<field name="phrases">این فاکتور را ثبت کن
+فاکتور خرید را وارد کن
+این صورتحساب را ثبت کن
+فاکتور را ثبتش کن
+این فاکتور خرید را بزن</field>
+		<field name="tool_code">bill_from_document</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "عکس یا PDF فاکتور را بفرستید.", "required": true}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_sale_invoice_draft" model="veron.ai.intent">
+		<field name="code">sale_invoice_draft</field>
+		<field name="name">پیش‌نویس فاکتور فروش</field>
+		<field name="section">accounting</field>
+		<field name="sequence">12</field>
+		<field name="phrases">فاکتور فروش بزن
+برای مشتری فاکتور بساز
+فاکتور فروش برای
+صدور فاکتور</field>
+		<field name="tool_code">invoice_draft_create</field>
+		<field name="args">{"move_type": "out_invoice", "partner_id": "$partner_id", "lines": [{"product_id": "$product_id", "quantity": "$quantity"}]}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "کدام مشتری یا طرف حساب؟ نامش را بنویسید.", "required": true}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true}, {"arg": "quantity", "number": true, "default": 1}]</field>
+		<field name="page_models">account.move,res.partner</field>
+	</record>
+	<record id="intent_invoice_post" model="veron.ai.intent">
+		<field name="code">invoice_post</field>
+		<field name="name">ثبت قطعی فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">ثبت قطعی فاکتور
+فاکتور را تایید کن
+این فاکتور را ثبت قطعی کن
+پست کردن فاکتور</field>
+		<field name="tool_code">invoice_post</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "question": "کدام فاکتور؟ شماره‌اش را بنویسید.", "required": true}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_petty_cash_open" model="veron.ai.intent">
+		<field name="code">petty_cash_open</field>
+		<field name="name">باز کردن صورت تنخواه</field>
+		<field name="section">petty_cash</field>
+		<field name="sequence">14</field>
+		<field name="phrases">بستن تنخواه
+صورت تنخواه
+تنخواه این ماه
+مدارک تنخواه را بخواه</field>
+		<field name="tool_code">petty_cash_open</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">veron.petty.cash.closing,veron.petty.cash.fund</field>
+	</record>
+</odoo>

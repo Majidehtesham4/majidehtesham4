@@ -108,9 +108,12 @@ class AiApproval(models.Model):
 		self.ensure_one()
 		if self.env.context.get("veron_ai_run_id") or user.veron_ai_service_user or user._is_public():
 			return False
-		if self.kind == "suggestion":
-			return user in self.approver_user_ids or user.has_group("veron_ai_agent.group_ai_manager")
-		return user in self.approver_user_ids or user.has_group("veron_ai_agent.group_ai_manager")
+		if user in self.approver_user_ids or user.has_group("veron_ai_agent.group_ai_manager"):
+			return True
+		# The person who asked, for a tool that allows it; never a sensitive action
+		grant = self.agent_id.sudo()._grant(self.tool_code) if self.tool_code else None
+		return bool(grant and grant.requester_may_approve and not grant.tool_id.sensitive and self.run_id
+			and self.run_id.sudo().initiator_user_id == user)
 
 	def _check_decider(self):
 		for approval in self:

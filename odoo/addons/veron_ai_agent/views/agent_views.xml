@@ -178,6 +178,7 @@
 									<field name="hour_to" widget="float_time" optional="hide"/>
 									<field name="weekdays" optional="hide"/>
 									<field name="approver_user_ids" widget="many2many_tags" optional="show"/>
+									<field name="requester_may_approve" optional="show"/>
 									<field name="rule_set_by" optional="hide"/>
 									<field name="active" widget="boolean_toggle"/>
 								</list>
@@ -196,6 +197,8 @@
 						<page string="When" name="when">
 							<group>
 								<group>
+									<field name="engine"/>
+									<field name="all_users"/>
 									<field name="trigger_manual"/>
 									<field name="trigger_schedule"/>
 									<field name="trigger_event"/>

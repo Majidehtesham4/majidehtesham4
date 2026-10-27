@@ -64,7 +64,7 @@
 		<field name="name">Agents: the ones a user may use</field>
 		<field name="model_id" ref="model_veron_ai_agent"/>
 		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
-		<field name="domain_force">['|', '|', ('responsible_user_id', '=', user.id), ('supervisor_user_id', '=', user.id), ('user_ids', 'in', user.id)]</field>
+		<field name="domain_force">['|', '|', '|', ('all_users', '=', True), ('responsible_user_id', '=', user.id), ('supervisor_user_id', '=', user.id), ('user_ids', 'in', user.id)]</field>
 	</record>
 	<record id="rule_agent_manager" model="ir.rule">
 		<field name="name">Agents: all for managers</field>

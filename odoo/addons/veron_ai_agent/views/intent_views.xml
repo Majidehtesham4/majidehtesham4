@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="intent_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.intent.list</field>
+		<field name="model">veron.ai.intent</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="not active">
+				<field name="sequence" widget="handle"/>
+				<field name="section"/>
+				<field name="name"/>
+				<field name="example"/>
+				<field name="tool_code"/>
+				<field name="use_count"/>
+				<field name="active" column_invisible="1"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="intent_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.intent.form</field>
+		<field name="model">veron.ai.intent</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group>
+							<field name="code"/>
+							<field name="section"/>
+							<field name="tool_code"/>
+							<field name="period"/>
+							<field name="default_days" invisible="period == 'none'"/>
+						</group>
+						<group>
+							<field name="page_models"/>
+							<field name="group_ids" widget="many2many_tags"/>
+							<field name="use_count"/>
+							<field name="active"/>
+						</group>
+					</group>
+					<label for="phrases"/>
+					<field name="phrases" placeholder="One phrase a line, e.g. فروش دیروز چقدر بود"/>
+					<notebook>
+						<page string="Learned Phrases" name="learned">
+							<field name="phrase_ids">
+								<list editable="bottom" decoration-muted="not approved">
+									<field name="text"/>
+									<field name="source"/>
+									<field name="user_id"/>
+									<field name="count"/>
+									<field name="approved"/>
+								</list>
+							</field>
+						</page>
+						<page string="Arguments" name="args" invisible="not tool_code">
+							<group>
+								<field name="args" widget="ace" options="{'mode': 'js'}"/>
+								<field name="slots" widget="ace" options="{'mode': 'js'}"/>
+							</group>
+						</page>
+						<page string="Answer" name="answer" invisible="tool_code">
+							<field name="answer"/>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="intent_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.intent.search</field>
+		<field name="model">veron.ai.intent</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="phrases"/>
+				<field name="tool_code"/>
+				<group>
+					<filter name="by_section" string="Section" context="{'group_by': 'section'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="phrase_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.intent.phrase.list</field>
+		<field name="model">veron.ai.intent.phrase</field>
+		<field name="arch" type="xml">
+			<list editable="bottom" decoration-muted="not approved">
+				<field name="text"/>
+				<field name="intent_id"/>
+				<field name="source"/>
+				<field name="user_id"/>
+				<field name="count"/>
+				<field name="approved"/>
+				<button name="action_approve" type="object" string="Use for Everyone" icon="fa-check" invisible="approved"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_intents" model="ir.actions.act_window">
+		<field name="name">Assistant Library</field>
+		<field name="res_model">veron.ai.intent</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'search_default_by_section': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">The library of the built-in assistant</p>
+			<p>What people may ask the assistant without any AI, in their own words, and the tool each command runs. Add
+				phrases people use; a phrase a person teaches by picking a command is listed under Learned Phrases.</p>
+		</field>
+	</record>
+	<record id="action_phrases" model="ir.actions.act_window">
+		<field name="name">Learned Phrases</field>
+		<field name="res_model">veron.ai.intent.phrase</field>
+		<field name="view_mode">list</field>
+		<field name="context">{'search_default_approved': 0}</field>
+	</record>
+
+	<menuitem id="menu_intents" name="Assistant Library" parent="menu_config" action="action_intents" sequence="4"/>
+	<menuitem id="menu_phrases" name="Learned Phrases" parent="menu_config" action="action_phrases" sequence="5"/>
+</odoo>

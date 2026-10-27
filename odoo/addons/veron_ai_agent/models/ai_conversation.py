@@ -1,3 +1,5 @@
+import json
+
 from markupsafe import Markup
 
 from odoo import _, api, fields, models
@@ -24,10 +26,10 @@ class AiConversation(models.Model):
 	def _for(self, agent):
 		if not agent._may_use(self.env.user):
 			raise AccessError(_("You may not use %s.", agent.name))
-		conversation = self.search([("agent_id", "=", agent.id), ("user_id", "=", self.env.uid)], limit=1)
+		conversation = self.search([("agent_id", "=", agent.id), ("user_id", "=", self.env.uid)], order="id desc", limit=1)
 		return conversation or self.create({"agent_id": agent.id})
 
-	def _post(self, text, sources):
+	def _post(self, text, sources, engine=None, page=None):
 		"""A person's message: its run happens now, with the person's own rights"""
 		self.ensure_one()
 		if self.user_id != self.env.user:
@@ -38,11 +40,17 @@ class AiConversation(models.Model):
 		if not (text or "").strip() and not sources:
 			raise UserError(_("Write a message, or add a photo, a PDF or a voice message."))
 		Message = self.env["veron.ai.message"]
-		Message.create({"conversation_id": self.id, "role": "user", "body": text, "source_ids": [(6, 0, sources.ids)]})
-		run = self.env["veron.ai.run"]._start(self.agent_id, self.env.user, "chat", text=text, sources=sources,
-			conversation=self)
+		shown = text
+		if (text or "").startswith("#intent:"):
+			# A meaning the person picked from the offered buttons: kept in the conversation in words
+			intent = self.env["veron.ai.intent"].search([("code", "=", text[8:].strip())], limit=1)
+			shown = intent.name or text
+		Message.create({"conversation_id": self.id, "role": "user", "body": shown, "source_ids": [(6, 0, sources.ids)]})
+		Run = self.env["veron.ai.run"].with_context(veron_ai_engine=engine) if engine in ("ai", "internal") else \
+			self.env["veron.ai.run"]
+		run = Run._start(self.agent_id, self.env.user, "chat", text=text, sources=sources, conversation=self, page=page)
 		reply = Message.create({"conversation_id": self.id, "role": "agent", "body_html": run.output_html or Markup(""),
-			"run_id": run.id})
+			"run_id": run.id, "options": json.loads(run.sudo().options_json or "[]")})
 		return reply
 
 
@@ -58,6 +66,17 @@ class AiMessage(models.Model):
 	source_ids = fields.Many2many("veron.ai.source", string="Files")
 	run_id = fields.Many2one("veron.ai.run", ondelete="set null")
 	run_state = fields.Selection(related="run_id.state")
+	options = fields.Json(help="Choices offered to the person, as buttons")
+
+
+class AiAgentChat(models.Model):
+	_inherit = "veron.ai.agent"
+
+	def _has_ai(self):
+		"""Whether a person may choose the AI for this agent: a working language model, and the agent not built-in only"""
+		self.ensure_one()
+		return self.engine != "internal" and bool(self.env["veron.ai.provider"]._get("llm", self.llm_provider_id,
+			self.company_id))
 
 
 class AiChatApi(models.Model):
@@ -69,7 +88,8 @@ class AiChatApi(models.Model):
 	def veron_chat_agents(self):
 		agents = self.env["veron.ai.agent"].search([("enabled", "=", True), ("trigger_manual", "=", True)])
 		return [{"id": a.id, "name": a.name, "role": a.template_id.name or "", "description": a.description or a.goal or "",
-			"level": dict(a._fields["authority_level"]._description_selection(self.env)).get(a.authority_level)}
+			"level": dict(a._fields["authority_level"]._description_selection(self.env)).get(a.authority_level),
+			"ai": a._has_ai(), "engine": a.engine}
 			for a in agents if a._may_use(self.env.user)]
 
 	@api.model
@@ -81,7 +101,27 @@ class AiChatApi(models.Model):
 		return {"conversation_id": conversation.id, "messages": [m._chat_dict() for m in conversation.message_ids[-60:]]}
 
 	@api.model
-	def veron_chat_send(self, conversation_id, text, source_ids=None, transcripts=None):
+	def _assistant_shown(self):
+		"""Whether the chat box is shown on every page: an assistant everyone may use is working, for a person of the
+		AI user group"""
+		user = self.env.user
+		if not user._is_internal() or not user.has_group("veron_ai_agent.group_ai_user"):
+			return False
+		agent = self.env["veron.ai.agent"].sudo().search([("enabled", "=", True), ("all_users", "=", True)], limit=1)
+		return bool(agent and agent.with_env(self.env)._may_use(user))
+
+	@api.model
+	def veron_chat_assistant(self):
+		"""The assistant of the chat box on every page: the first working agent everyone may use"""
+		agent = self.env["veron.ai.agent"].search([("enabled", "=", True), ("all_users", "=", True)], limit=1)
+		if not agent or not agent._may_use(self.env.user):
+			return False
+		result = self.veron_chat_open(agent.id)
+		result.update({"agent_id": agent.id, "name": agent.name, "ai": agent._has_ai(), "engine": agent.engine})
+		return result
+
+	@api.model
+	def veron_chat_send(self, conversation_id, text, source_ids=None, transcripts=None, engine=None, page=None):
 		conversation = self.browse(int(conversation_id)).exists()
 		if not conversation or conversation.user_id != self.env.user:
 			raise AccessError(_("This is someone else's conversation."))
@@ -93,8 +133,47 @@ class AiChatApi(models.Model):
 			if source:
 				source._confirm_transcript(transcript)
 		before = conversation.message_ids
-		conversation._post(text, sources)
+		page = {"model": str((page or {}).get("model") or "")[:64], "res_id": int((page or {}).get("res_id") or 0)}
+		if page["model"] and page["model"] not in self.env:
+			page = None
+		conversation._post(text, sources, engine=engine, page=page)
 		return [m._chat_dict() for m in conversation.message_ids - before]
+
+	@api.model
+	def veron_chat_new(self, agent_id):
+		"""A new conversation with the agent: what was said before is no longer remembered"""
+		agent = self.env["veron.ai.agent"].browse(int(agent_id)).exists()
+		if not agent or not agent._may_use(self.env.user):
+			raise AccessError(_("You may not use this agent."))
+		conversation = self.create({"agent_id": agent.id})
+		return {"conversation_id": conversation.id, "messages": []}
+
+	@api.model
+	def veron_chat_decide(self, conversation_id, approval_id, approve):
+		"""An approval decided from the chat, with the rights of the person deciding; its result is the agent's reply"""
+		conversation = self.browse(int(conversation_id)).exists()
+		if not conversation or conversation.user_id != self.env.user:
+			raise AccessError(_("This is someone else's conversation."))
+		approval = self.env["veron.ai.approval"].browse(int(approval_id)).exists()
+		if not approval or approval.run_id.sudo().conversation_id != conversation:
+			raise AccessError(_("This approval is not of this conversation."))
+		if approve:
+			approval.action_approve()
+		else:
+			approval.action_reject()
+		from ..services import render
+
+		if approval.state == "executed":
+			body = Markup("<p>%s</p>") % _("Done: %s", approval.summary) + render.answer(
+				approval.tool_code, json.loads(approval.result_json or "{}"))
+		elif approval.state == "failed":
+			body = Markup("<p>%s</p>") % _("Approved, but it could not be done: %s",
+				json.loads(approval.result_json or "{}").get("error", ""))
+		else:
+			body = Markup("<p>%s</p>") % _("Rejected: %s. Nothing was changed.", approval.summary)
+		message = self.env["veron.ai.message"].create({"conversation_id": conversation.id, "role": "agent",
+			"body_html": body, "run_id": approval.run_id.id})
+		return [message._chat_dict()]
 
 
 class AiMessageChat(models.Model):
@@ -109,6 +188,9 @@ class AiMessageChat(models.Model):
 			"sources": [{"id": s.id, "name": s.name, "kind": s.kind, "transcript": s.transcript or ""} for s in self.source_ids],
 			"run": {"id": run.id, "name": run.name, "state": run.state,
 				"state_label": dict(run._fields["state"]._description_selection(self.env)).get(run.state)} if run else False,
-			"pending": [{"id": a.id, "name": a.name, "summary": a.summary or "", "kind": a.kind} for a in pending],
+			"pending": [{"id": a.id, "name": a.name, "summary": a.summary or "", "kind": a.kind,
+				"can_decide": a.with_env(self.env).can_decide} for a in pending],
+			"options": self.options or [],
+			"engine": run.engine_used if run else False,
 			"date": str(self.create_date),
 		}

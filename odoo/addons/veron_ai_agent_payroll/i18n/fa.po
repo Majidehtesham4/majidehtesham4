@@ -244,3 +244,23 @@ msgstr "فیش حقوقی %s شما"
 #: code:addons/veron_ai_agent_payroll/tools/payroll.py:0
 msgid "Your payslip of %s is ready in Employees, My Payslips."
 msgstr "فیش حقوقی %s شما در کارکنان ← فیش‌های حقوقی من آماده است."
+
+#. module: veron_ai_agent_payroll
+#: model:veron.ai.intent,name:veron_ai_agent_payroll.intent_payslip_pdf_prepare
+msgid "آماده‌سازی PDF فیش‌ها"
+msgstr "آماده‌سازی PDF فیش‌ها"
+
+#. module: veron_ai_agent_payroll
+#: model:veron.ai.intent,name:veron_ai_agent_payroll.intent_payroll_compare_previous
+msgid "تغییرات حقوق نسبت به ماه قبل"
+msgstr "تغییرات حقوق نسبت به ماه قبل"
+
+#. module: veron_ai_agent_payroll
+#: model:veron.ai.intent,name:veron_ai_agent_payroll.intent_payslip_drafts_compute
+msgid "محاسبه‌ی فیش‌های حقوق"
+msgstr "محاسبه‌ی فیش‌های حقوق"
+
+#. module: veron_ai_agent_payroll
+#: model:veron.ai.intent,name:veron_ai_agent_payroll.intent_payroll_inputs_check
+msgid "کنترل ورودی‌های حقوق"
+msgstr "کنترل ورودی‌های حقوق"

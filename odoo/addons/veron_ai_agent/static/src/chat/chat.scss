@@ -32,3 +32,58 @@
 		width: 120px;
 	}
 }
+
+// The chat box of every page
+.o_veron_assistant {
+	position: fixed;
+	bottom: 20px;
+	left: 20px;
+	z-index: 1050;
+	.o_veron_assistant_button {
+		width: 52px;
+		height: 52px;
+	}
+	.o_veron_assistant_panel {
+		width: 400px;
+		height: 620px;
+		max-height: calc(100vh - 90px);
+		background: $o-view-background-color;
+		border: 1px solid $o-gray-300;
+		.o_veron_assistant_head .badge {
+			max-width: 140px;
+		}
+	}
+	.o_veron_ai_message {
+		display: flex;
+		&.o_from_user {
+			justify-content: flex-start;
+			.o_veron_ai_bubble {
+				background: $o-gray-200;
+			}
+		}
+		&.o_from_agent {
+			justify-content: flex-end;
+			.o_veron_ai_bubble {
+				background: rgba($o-brand-primary, 0.08);
+			}
+		}
+		.o_veron_ai_bubble {
+			max-width: 92%;
+			overflow-x: auto;
+			table {
+				font-size: 0.85em;
+			}
+		}
+		.o_veron_ai_text {
+			white-space: pre-wrap;
+		}
+	}
+}
+@include media-breakpoint-down(md) {
+	.o_veron_assistant .o_veron_assistant_panel {
+		position: fixed;
+		inset: 8px;
+		width: auto;
+		height: auto;
+	}
+}

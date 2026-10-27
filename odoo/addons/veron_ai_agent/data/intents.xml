@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The commands of the built-in assistant; a manager adds phrases and commands -->
+<odoo noupdate="1">
+	<record id="intent_sales_summary" model="veron.ai.intent">
+		<field name="code">sales_summary</field>
+		<field name="name">گزارش فروش</field>
+		<field name="section">sales</field>
+		<field name="sequence">1</field>
+		<field name="phrases">فروش امروز
+فروش دیروز چقدر بود
+گزارش فروش این ماه
+فروش ماه قبل
+چقدر فروختیم
+جمع فروش
+سفارش های فروش این هفته</field>
+		<field name="tool_code">sales_summary</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">1</field>
+		<field name="slots">[]</field>
+		<field name="page_models">sale.order</field>
+	</record>
+	<record id="intent_quotes_pending" model="veron.ai.intent">
+		<field name="code">quotes_pending</field>
+		<field name="name">پیش‌فاکتورهای نیازمند پیگیری</field>
+		<field name="section">sales</field>
+		<field name="sequence">2</field>
+		<field name="phrases">پیش فاکتورهای باز
+پیش فاکتورهای تایید نشده
+کدام پیش فاکتورها پیگیری لازم دارند
+پیش فاکتورهای منقضی</field>
+		<field name="tool_code">quotes_pending</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">sale.order</field>
+	</record>
+	<record id="intent_customer_summary" model="veron.ai.intent">
+		<field name="code">customer_summary</field>
+		<field name="name">خلاصه‌ی مشتری</field>
+		<field name="section">sales</field>
+		<field name="sequence">3</field>
+		<field name="phrases">خلاصه مشتری
+سابقه مشتری
+وضعیت مشتری
+حساب مشتری
+اطلاعات مشتری
+این مشتری چه خبر</field>
+		<field name="tool_code">customer_summary</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "کدام مشتری یا طرف حساب؟ نامش را بنویسید.", "required": true}]</field>
+		<field name="page_models">res.partner,sale.order</field>
+	</record>
+	<record id="intent_contact_find" model="veron.ai.intent">
+		<field name="code">contact_find</field>
+		<field name="name">پیدا کردن مخاطب</field>
+		<field name="section">sales</field>
+		<field name="sequence">4</field>
+		<field name="phrases">مخاطب را پیدا کن
+شماره تلفن
+تلفن مشتری
+ایمیل مشتری
+جست و جوی مخاطب
+مشخصات تماس</field>
+		<field name="tool_code">records_search</field>
+		<field name="args">{"model": "res.partner", "filters": [["name", "ilike", "$_name"]], "fields": ["name", "phone", "email", "city"], "limit": 10}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "_name", "text": true, "question": "نام چه کسی یا چه چیزی را جست‌وجو کنم؟", "required": true}]</field>
+		<field name="page_models">res.partner</field>
+	</record>
+	<record id="intent_product_find" model="veron.ai.intent">
+		<field name="code">product_find</field>
+		<field name="name">پیدا کردن کالا</field>
+		<field name="section">stock</field>
+		<field name="sequence">5</field>
+		<field name="phrases">کالا را پیدا کن
+قیمت کالا
+جست و جوی کالا
+کد کالا
+مشخصات کالا</field>
+		<field name="tool_code">records_search</field>
+		<field name="args">{"model": "product.product", "filters": [["name", "ilike", "$_name"]], "fields": ["name", "default_code", "lst_price", "qty_available"], "limit": 10}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "_name", "text": true, "question": "نام چه کسی یا چه چیزی را جست‌وجو کنم؟", "required": true}]</field>
+		<field name="page_models">product.template,product.product</field>
+	</record>
+	<record id="intent_purchase_summary" model="veron.ai.intent">
+		<field name="code">purchase_summary</field>
+		<field name="name">گزارش خرید</field>
+		<field name="section">purchase</field>
+		<field name="sequence">6</field>
+		<field name="phrases">خرید این ماه
+گزارش خرید
+چقدر خرید کردیم
+خریدهای هفته
+جمع خرید</field>
+		<field name="tool_code">purchase_summary</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">7</field>
+		<field name="slots">[]</field>
+		<field name="page_models">purchase.order</field>
+	</record>
+	<record id="intent_purchase_late" model="veron.ai.intent">
+		<field name="code">purchase_late</field>
+		<field name="name">سفارش‌های خرید دیرکرده</field>
+		<field name="section">purchase</field>
+		<field name="sequence">7</field>
+		<field name="phrases">سفارش های خرید دیر کرده
+خرید هایی که نرسیده
+تاخیر تامین کننده
+سفارش خرید عقب افتاده</field>
+		<field name="tool_code">purchase_late</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">purchase.order</field>
+	</record>
+	<record id="intent_purchase_compare" model="veron.ai.intent">
+		<field name="code">purchase_compare</field>
+		<field name="name">مقایسه‌ی قیمت خرید یک کالا</field>
+		<field name="section">purchase</field>
+		<field name="sequence">8</field>
+		<field name="phrases">مقایسه قیمت خرید
+ارزان ترین تامین کننده
+قیمت پیشنهادهای خرید
+مقایسه پیشنهاد قیمت</field>
+		<field name="tool_code">purchase_compare</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true}]</field>
+		<field name="page_models">purchase.order</field>
+	</record>
+	<record id="intent_order_receipt_bill_check" model="veron.ai.intent">
+		<field name="code">order_receipt_bill_check</field>
+		<field name="name">اختلاف سفارش، رسید و فاکتور</field>
+		<field name="section">purchase</field>
+		<field name="sequence">9</field>
+		<field name="phrases">اختلاف سفارش و فاکتور
+تطبیق رسید و فاکتور
+مغایرت خرید</field>
+		<field name="tool_code">order_receipt_bill_check</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">purchase.order</field>
+	</record>
+	<record id="intent_stock_alerts" model="veron.ai.intent">
+		<field name="code">stock_alerts</field>
+		<field name="name">کمبود موجودی</field>
+		<field name="section">stock</field>
+		<field name="sequence">10</field>
+		<field name="phrases">کمبود موجودی
+کالاهای زیر حداقل
+موجودی منفی
+کالاهای راکد
+چه کالاهایی تمام شده</field>
+		<field name="tool_code">stock_alerts</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">stock.quant,product.template</field>
+	</record>
+	<record id="intent_stock_transfer_suggest" model="veron.ai.intent">
+		<field name="code">stock_transfer_suggest</field>
+		<field name="name">پیشنهاد انتقال بین انبارها</field>
+		<field name="section">stock</field>
+		<field name="sequence">11</field>
+		<field name="phrases">پیشنهاد انتقال کالا
+انتقال بین انبار ها</field>
+		<field name="tool_code">stock_transfer_suggest</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">stock.picking</field>
+	</record>
+	<record id="intent_product_quality" model="veron.ai.intent">
+		<field name="code">product_quality</field>
+		<field name="name">کالاهای با اطلاعات ناقص</field>
+		<field name="section">stock</field>
+		<field name="sequence">12</field>
+		<field name="phrases">کالاهای بدون عکس
+کالاهای ناقص
+کالای بدون بارکد
+اطلاعات ناقص کالا</field>
+		<field name="tool_code">product_quality</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">product.template</field>
+	</record>
+	<record id="intent_website_report" model="veron.ai.intent">
+		<field name="code">website_report</field>
+		<field name="name">گزارش وب‌سایت</field>
+		<field name="section">website</field>
+		<field name="sequence">13</field>
+		<field name="phrases">بازدید سایت
+گزارش سایت
+سفارش های سایت</field>
+		<field name="tool_code">website_report</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">7</field>
+		<field name="slots">[]</field>
+	</record>
+	<record id="intent_employee_missing_info" model="veron.ai.intent">
+		<field name="code">employee_missing_info</field>
+		<field name="name">اطلاعات ناقص کارکنان</field>
+		<field name="section">hr</field>
+		<field name="sequence">14</field>
+		<field name="phrases">پرونده ناقص کارکنان
+کارمندان بدون کد ملی
+اطلاعات ناقص کارمندان</field>
+		<field name="tool_code">employee_missing_info</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.employee</field>
+	</record>
+	<record id="intent_attendance_leave_review" model="veron.ai.intent">
+		<field name="code">attendance_leave_review</field>
+		<field name="name">مرخصی‌ها و حضور</field>
+		<field name="section">hr</field>
+		<field name="sequence">15</field>
+		<field name="phrases">مرخصی های منتظر
+مرخصی ها
+حضور و غیاب
+اضافه کاری</field>
+		<field name="tool_code">attendance_leave_review</field>
+		<field name="args">{}</field>
+		<field name="period">range</field>
+		<field name="default_days">7</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.leave,hr.attendance</field>
+	</record>
+	<record id="intent_tasks_followup" model="veron.ai.intent">
+		<field name="code">tasks_followup</field>
+		<field name="name">کارهای عقب‌افتاده</field>
+		<field name="section">general</field>
+		<field name="sequence">16</field>
+		<field name="phrases">کارهای عقب افتاده
+فعالیت های عقب افتاده
+کارهای من
+وظایف معوق
+چه کارهایی مانده</field>
+		<field name="tool_code">tasks_followup</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">project.task,mail.activity</field>
+	</record>
+	<record id="intent_units_status" model="veron.ai.intent">
+		<field name="code">units_status</field>
+		<field name="name">وضعیت واحدها</field>
+		<field name="section">hr</field>
+		<field name="sequence">17</field>
+		<field name="phrases">وضعیت واحدها
+گزارش دپارتمان ها
+وضعیت بخش ها</field>
+		<field name="tool_code">units_status</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">hr.department</field>
+	</record>
+	<record id="intent_spreadsheet_read" model="veron.ai.intent">
+		<field name="code">spreadsheet_read</field>
+		<field name="name">خواندن فایل اکسل</field>
+		<field name="section">files</field>
+		<field name="sequence">18</field>
+		<field name="phrases">فایل اکسل را بخوان
+این اکسل چیه
+خلاصه فایل اکسل
+جمع ستون های اکسل</field>
+		<field name="tool_code">spreadsheet_read</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["sheet"], "question": "فایل اکسل یا CSV را بفرستید.", "required": true}]</field>
+	</record>
+	<record id="intent_import_contacts" model="veron.ai.intent">
+		<field name="code">import_contacts</field>
+		<field name="name">افزودن مخاطبان از فایل اکسل</field>
+		<field name="section">files</field>
+		<field name="sequence">19</field>
+		<field name="phrases">مخاطبان این فایل را وارد کن
+مشتری های این اکسل را اضافه کن
+این لیست مشتری را ثبت کن</field>
+		<field name="tool_code">records_import</field>
+		<field name="args">{"target": "contacts"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["sheet"], "question": "فایل اکسل یا CSV را بفرستید.", "required": true}]</field>
+		<field name="page_models">res.partner</field>
+	</record>
+	<record id="intent_import_products" model="veron.ai.intent">
+		<field name="code">import_products</field>
+		<field name="name">افزودن کالاها از فایل اکسل</field>
+		<field name="section">files</field>
+		<field name="sequence">20</field>
+		<field name="phrases">کالاهای این فایل را وارد کن
+این لیست کالا را اضافه کن
+محصولات این اکسل را ثبت کن</field>
+		<field name="tool_code">records_import</field>
+		<field name="args">{"target": "products"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["sheet"], "question": "فایل اکسل یا CSV را بفرستید.", "required": true}]</field>
+		<field name="page_models">product.template</field>
+	</record>
+	<record id="intent_document_read" model="veron.ai.intent">
+		<field name="code">document_read</field>
+		<field name="name">خواندن فیلدهای یک سند</field>
+		<field name="section">files</field>
+		<field name="sequence">21</field>
+		<field name="phrases">این سند را بخوان
+فیلدهای این فایل را بخوان
+این عکس را بخوان</field>
+		<field name="tool_code">document_extract</field>
+		<field name="args">{"document_type": "invoice"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "فایل را بفرستید.", "required": true}]</field>
+	</record>
+	<record id="intent_knowledge" model="veron.ai.intent">
+		<field name="code">knowledge</field>
+		<field name="name">جست‌وجو در دانش شرکت</field>
+		<field name="section">general</field>
+		<field name="sequence">22</field>
+		<field name="phrases">رویه شرکت
+دستورالعمل
+در دانش شرکت بگرد</field>
+		<field name="tool_code">knowledge_search</field>
+		<field name="args">{"query": "$_name"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "_name", "text": true, "question": "درباره‌ی چه چیزی جست‌وجو کنم؟", "required": true}]</field>
+		<field name="page_models">document.page</field>
+	</record>
+</odoo>

@@ -1,0 +1,73 @@
+"""A vendor bill from its PDF without any AI: read from the text of the file, the vendor found by its name, a
+draft made with the file attached; a second time is refused, and posting waits for a person"""
+
+import io
+import json
+
+from odoo.tests import tagged
+
+from odoo.addons.veron_ai_agent.tests.common import FakeAdapter, calls
+
+from ..tools.bills import text_fields
+from .common import FinanceCase
+
+
+def pdf(lines):
+	from reportlab.pdfgen import canvas
+
+	buffer = io.BytesIO()
+	page = canvas.Canvas(buffer)
+	for index, line in enumerate(lines):
+		page.drawString(60, 800 - 24 * index, line)
+	page.save()
+	return buffer.getvalue()
+
+
+BILL = ["Pars Test Supply Co", "Seller: Pars Test Supply Co", "Invoice No: PS-7781", "Date: 2026-10-20", "Subtotal: 10,000,000",
+	"VAT 10%: 1,000,000", "Total: 11,000,000"]
+
+
+@tagged("post_install", "-at_install")
+class TestBills(FinanceCase):
+	@classmethod
+	def setUpClass(cls):
+		super().setUpClass()
+		cls.vendor = cls.env["res.partner"].create({"name": "Pars Test Supply Co", "supplier_rank": 1})
+		cls.env["account.tax"].create({"name": "VAT 10% test", "amount": 10, "amount_type": "percent",
+			"type_tax_use": "purchase", "company_id": cls.company.id})
+
+	def test_text_fields(self):
+		fields = text_fields("\n".join(BILL))
+		self.assertEqual((fields["invoice_number"], fields["vendor"], fields["date"]), ("PS-7781", "Pars Test Supply Co", "2026-10-20"))
+		self.assertEqual((fields["total_amount"], fields["vat_amount"], fields["untaxed_amount"]),
+			(11_000_000, 1_000_000, 10_000_000))
+		persian = text_fields("فروشنده: بازرگانی نور\nشماره فاکتور: ۱۲۳۴\nکد اقتصادی: ۴۱۱۱۱۱۱۱۱۱۱۱\nجمع کل: ۵,۵۰۰,۰۰۰")
+		self.assertEqual((persian["vendor"], persian["invoice_number"], persian["vendor_tax_id"], persian["total_amount"]),
+			("بازرگانی نور", "1234", "411111111111", 5_500_000))
+
+	def test_draft_bill_from_pdf_without_ai(self):
+		self.vision.active = False
+		agent = self.agent("3", ["bill_from_document", "invoice_post"], ["account.move", "res.partner"],
+			vision_provider_id=False)
+		source = self.env["veron.ai.source"].with_user(self.accountant)._from_upload("bill.pdf", pdf(BILL))
+
+		def run_with(*items):
+			FakeAdapter.script = [calls(*items)]
+			return self.env["veron.ai.run"].with_user(self.accountant)._start(agent, self.accountant, "user",
+				text="ثبتش کن", sources=source)
+
+		run = run_with(("bill_from_document", {"source_id": source.id}))
+		output = json.loads(run.step_ids[:1].output_json or "{}")
+		self.assertEqual(run.step_ids[:1].decision, "allowed", run.step_ids[:1].message)
+		move = self.env["account.move"].browse(output["draft_id"])
+		self.assertEqual((move.state, move.partner_id, move.ref), ("draft", self.vendor, "PS-7781"))
+		self.assertEqual((move.amount_untaxed, move.amount_total), (10_000_000, 11_000_000))
+		self.assertTrue(self.env["ir.attachment"].search([("res_model", "=", "account.move"), ("res_id", "=", move.id)]))
+		# The same invoice again is refused
+		run = run_with(("bill_from_document", {"source_id": source.id}))
+		self.assertNotEqual(run.step_ids[:1].decision, "allowed")
+		self.assertEqual(self.env["account.move"].search_count([("ref", "=", "PS-7781"), ("partner_id", "=", self.vendor.id)]), 1)
+		# Posting waits for a person, whatever the agent's level
+		run = run_with(("invoice_post", {"move_id": move.id}))
+		self.assertEqual(run.step_ids[:1].decision, "approval")
+		self.assertEqual(move.state, "draft")

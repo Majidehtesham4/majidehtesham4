@@ -16,4 +16,6 @@
 	</record>
 	<!-- The tools of this module, in the list of tools a manager grants -->
 	<function model="veron.ai.tool" name="_sync"/>
+	<!-- The assistant every user may ask gets these tools too -->
+	<function model="veron.ai.agent" name="_setup_assistant"/>
 </odoo>

@@ -82,5 +82,5 @@ msgstr "شماره‌ی خطی از پنل که پیامک‌ها با آن فر
 msgid ""
 "When set, every SMS goes through this panel instead of Odoo's paid service"
 msgstr ""
-"اگر انتخاب شود، همه‌ی پیامک‌ها به جای سرویس پولی Odoo از این پنل فرستاده "
+"اگر انتخاب شود، همه‌ی پیامک‌ها به جای سرویس پولی پیش‌فرض از این پنل فرستاده "
 "می‌شوند"

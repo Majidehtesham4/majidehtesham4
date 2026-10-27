@@ -14,7 +14,7 @@
 		<field name="is_supervisor" eval="False"/>
 		<field name="schedule_type">manual</field>
 		<field name="schedule_hour">8</field>
-		<field name="expected_output">فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در Odoo و مواردی که نیاز به بررسی دارند.</field>
+		<field name="expected_output">فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در برنامه و مواردی که نیاز به بررسی دارند.</field>
 		<field name="scope_models">res.partner,product.product</field>
 	</record>
 	<record id="role_fin_bill_draft" model="veron.ai.agent.template">
@@ -24,7 +24,7 @@
 		<field name="name">ایجاد پیش‌نویس فاکتور خرید</field>
 		<field name="description">از فاکتور خرید خوانده‌شده یک پیش‌نویس فاکتور خرید در حسابداری می‌سازد. پیش‌نویس ثبت قطعی نمی‌شود؛ حسابدار آن را بررسی و ثبت می‌کند.</field>
 		<field name="goal">ساخت پیش‌نویس درست فاکتور خرید از مدارک</field>
-		<field name="instructions">اول فیلدها را بخوان، فروشنده و کالاها را در Odoo پیدا کن، بعد پیش‌نویس بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس.</field>
+		<field name="instructions">اول فیلدها را بخوان، فروشنده و کالاها را در برنامه پیدا کن، بعد پیش‌نویس بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس.</field>
 		<field name="tool_codes">document_extract,records_search,invoice_draft_create,request_human_input</field>
 		<field name="default_level">3</field>
 		<field name="is_supervisor" eval="False"/>
@@ -41,7 +41,7 @@
 		<field name="name">ایجاد پیش‌نویس فاکتور فروش</field>
 		<field name="description">برای مشتری و کالاهایی که می‌گویید پیش‌نویس فاکتور فروش می‌سازد. ثبت قطعی و ارسال با شماست.</field>
 		<field name="goal">ساخت پیش‌نویس فاکتور فروش</field>
-		<field name="instructions">مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های Odoo بگیر، نه از حدس.</field>
+		<field name="instructions">مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های برنامه بگیر، نه از حدس.</field>
 		<field name="tool_codes">records_search,customer_summary,invoice_draft_create,request_human_input</field>
 		<field name="default_level">3</field>
 		<field name="is_supervisor" eval="False"/>
@@ -202,7 +202,7 @@
 		<field name="name">آماده‌سازی گزارش‌های مالیاتی برای بازبینی</field>
 		<field name="description">جمع خرید و فروش و مالیات بر ارزش افزوده‌ی دوره را از اسناد ثبت‌شده برای بازبینی حسابدار آماده می‌کند. هیچ گزارشی را به سازمان ارسال نمی‌کند.</field>
 		<field name="goal">آماده‌سازی داده‌ی مالیاتی برای بازبینی انسان</field>
-		<field name="instructions">فقط از مالیات‌ها و نرخ‌های تعریف‌شده در Odoo استفاده کن. اگر نرخ یا قاعده‌ای تعریف نشده، بپرس.</field>
+		<field name="instructions">فقط از مالیات‌ها و نرخ‌های تعریف‌شده در برنامه استفاده کن. اگر نرخ یا قاعده‌ای تعریف نشده، بپرس.</field>
 		<field name="tool_codes">tax_summary,documents_quality,request_human_input</field>
 		<field name="default_level">1</field>
 		<field name="is_supervisor" eval="False"/>
@@ -271,7 +271,7 @@
 		<field name="category">purchase</field>
 		<field name="sequence">16</field>
 		<field name="name">جست‌وجوی قیمت در منابع اینترنتی مجاز</field>
-		<field name="description">قیمت کالا را در سایت‌هایی که مجاز کرده‌اید جست‌وجو می‌کند و با قیمت‌های Odoo مقایسه می‌کند.</field>
+		<field name="description">قیمت کالا را در سایت‌هایی که مجاز کرده‌اید جست‌وجو می‌کند و با قیمت‌های برنامه مقایسه می‌کند.</field>
 		<field name="goal">آگاهی از قیمت بازار</field>
 		<field name="instructions">فقط از سایت‌های مجاز؛ منبع و تاریخ هر قیمت را بگو.</field>
 		<field name="tool_codes">web_search,records_search</field>
@@ -379,7 +379,7 @@
 		<field name="name">خلاصه‌سازی سابقه‌ی مشتری</field>
 		<field name="description">سفارش‌ها، فاکتورهای باز و آخرین ارتباط‌های یک مشتری را خلاصه می‌کند.</field>
 		<field name="goal">شناخت سریع مشتری</field>
-		<field name="instructions">فقط از داده‌ی Odoo.</field>
+		<field name="instructions">فقط از داده‌ی برنامه.</field>
 		<field name="tool_codes">customer_summary,records_search</field>
 		<field name="default_level">1</field>
 		<field name="is_supervisor" eval="False"/>
