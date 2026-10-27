@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_report_run" model="ir.actions.report">
+		<field name="name">Agent Report</field>
+		<field name="model">veron.ai.run</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_ai_agent.report_run</field>
+		<field name="report_file">veron_ai_agent.report_run</field>
+		<field name="print_report_name">object.name</field>
+		<field name="binding_model_id" ref="model_veron_ai_run"/>
+		<field name="binding_type">report</field>
+	</record>
+
+	<template id="report_run">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="run">
+				<t t-call="web.external_layout">
+					<div class="page" dir="rtl">
+						<h3><t t-out="run.agent_id.name"/> - <t t-out="run.name"/></h3>
+						<p class="text-muted">
+							<span t-field="run.started_at"/> · <span t-field="run.state"/>
+						</p>
+						<div t-if="run.input_text"><b>Request:</b> <span t-out="run.input_text"/></div>
+						<div t-out="run.output_html"/>
+						<t t-if="run.link_ids">
+							<h5>Records</h5>
+							<ul>
+								<li t-foreach="run.link_ids" t-as="link"><t t-out="link.name"/></li>
+							</ul>
+						</t>
+						<p class="small text-muted">This is the work of an AI agent. Accepting it in the AI review is not an accounting or legal approval.</p>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

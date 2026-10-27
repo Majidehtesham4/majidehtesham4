@@ -1,0 +1,34 @@
+.o_veron_ai_chat {
+	background: $o-view-background-color;
+	.o_veron_ai_agents {
+		width: 240px;
+		overflow-y: auto;
+	}
+	.o_veron_ai_message {
+		display: flex;
+		&.o_from_user {
+			justify-content: flex-start;
+			.o_veron_ai_bubble {
+				background: $o-gray-200;
+			}
+		}
+		&.o_from_agent {
+			justify-content: flex-end;
+			.o_veron_ai_bubble {
+				background: rgba($o-brand-primary, 0.08);
+			}
+		}
+		.o_veron_ai_bubble {
+			max-width: 80%;
+			white-space: normal;
+		}
+		.o_veron_ai_text {
+			white-space: pre-wrap;
+		}
+	}
+}
+@include media-breakpoint-down(md) {
+	.o_veron_ai_chat .o_veron_ai_agents {
+		width: 120px;
+	}
+}

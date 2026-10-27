@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<!-- Ready to use once a key is entered; inactive until then, so no agent tries a provider without a key -->
+	<record id="provider_claude" model="veron.ai.provider">
+		<field name="name">Claude</field>
+		<field name="kind">llm</field>
+		<field name="adapter">anthropic</field>
+		<field name="model_name">claude-opus-5-5</field>
+		<field name="effort">high</field>
+		<field name="max_tokens">16000</field>
+		<field name="timeout">300</field>
+		<field name="is_default" eval="True"/>
+		<field name="active" eval="False"/>
+		<field name="note"><![CDATA[<p>Enter the key from console.anthropic.com, or the name of a server environment variable holding it, then press Check and make the provider active.</p>]]></field>
+	</record>
+	<record id="provider_claude_vision" model="veron.ai.provider">
+		<field name="name">Claude: Reading Photos and PDFs</field>
+		<field name="kind">vision</field>
+		<field name="adapter">anthropic</field>
+		<field name="model_name">claude-opus-5-5</field>
+		<field name="effort">medium</field>
+		<field name="timeout">300</field>
+		<field name="is_default" eval="True"/>
+		<field name="active" eval="False"/>
+	</record>
+	<record id="provider_claude_search" model="veron.ai.provider">
+		<field name="name">Claude: Web Search</field>
+		<field name="kind">search</field>
+		<field name="adapter">anthropic</field>
+		<field name="model_name">claude-opus-5-5</field>
+		<field name="effort">medium</field>
+		<field name="timeout">300</field>
+		<field name="active" eval="False"/>
+		<field name="allowed_domains">torob.com
+digikala.com
+emalls.ir</field>
+	</record>
+</odoo>

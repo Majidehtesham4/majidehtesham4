@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The library of agent roles; a manager activates and adjusts each without code -->
+<odoo noupdate="1">
+	<record id="role_fin_bill_intake" model="veron.ai.agent.template">
+		<field name="code">fin_bill_intake</field>
+		<field name="category">finance</field>
+		<field name="sequence">1</field>
+		<field name="name">دریافت و استخراج اطلاعات فاکتور خرید</field>
+		<field name="description">عکس یا PDF فاکتور خرید را می‌خواند و تاریخ، فروشنده، شماره، مبالغ، مالیات و ردیف‌ها را برای بازبینی شما استخراج می‌کند. چیزی ثبت نمی‌کند.</field>
+		<field name="goal">استخراج دقیق اطلاعات فاکتورهای خرید برای بازبینی انسانی</field>
+		<field name="instructions">هر فایل را با ابزار خواندن فیلدها بخوان. فروشنده را با جست‌وجو در مخاطبان پیدا کن. اگر چیزی خوانا نیست یا با هم نمی‌خواند، صریح بگو و حدس نزن.</field>
+		<field name="tool_codes">document_extract,attachment_read,records_search,request_human_input</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">8</field>
+		<field name="expected_output">فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در Odoo و مواردی که نیاز به بررسی دارند.</field>
+		<field name="scope_models">res.partner,product.product</field>
+	</record>
+	<record id="role_fin_bill_draft" model="veron.ai.agent.template">
+		<field name="code">fin_bill_draft</field>
+		<field name="category">finance</field>
+		<field name="sequence">2</field>
+		<field name="name">ایجاد پیش‌نویس فاکتور خرید</field>
+		<field name="description">از فاکتور خرید خوانده‌شده یک پیش‌نویس فاکتور خرید در حسابداری می‌سازد. پیش‌نویس ثبت قطعی نمی‌شود؛ حسابدار آن را بررسی و ثبت می‌کند.</field>
+		<field name="goal">ساخت پیش‌نویس درست فاکتور خرید از مدارک</field>
+		<field name="instructions">اول فیلدها را بخوان، فروشنده و کالاها را در Odoo پیدا کن، بعد پیش‌نویس بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس.</field>
+		<field name="tool_codes">document_extract,records_search,invoice_draft_create,request_human_input</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">8</field>
+		<field name="expected_output">لینک پیش‌نویس‌های ساخته‌شده و مواردی که کامل نشد.</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">res.partner,product.product,account.move</field>
+	</record>
+	<record id="role_fin_sale_invoice_draft" model="veron.ai.agent.template">
+		<field name="code">fin_sale_invoice_draft</field>
+		<field name="category">finance</field>
+		<field name="sequence">3</field>
+		<field name="name">ایجاد پیش‌نویس فاکتور فروش</field>
+		<field name="description">برای مشتری و کالاهایی که می‌گویید پیش‌نویس فاکتور فروش می‌سازد. ثبت قطعی و ارسال با شماست.</field>
+		<field name="goal">ساخت پیش‌نویس فاکتور فروش</field>
+		<field name="instructions">مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های Odoo بگیر، نه از حدس.</field>
+		<field name="tool_codes">records_search,customer_summary,invoice_draft_create,request_human_input</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">8</field>
+		<field name="expected_output">لینک پیش‌نویس فاکتور فروش.</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">res.partner,product.product,account.move</field>
+	</record>
+	<record id="role_fin_three_way_match" model="veron.ai.agent.template">
+		<field name="code">fin_three_way_match</field>
+		<field name="category">finance</field>
+		<field name="sequence">4</field>
+		<field name="name">تطبیق فاکتور با سفارش خرید و رسید انبار</field>
+		<field name="description">ردیف‌های سفارش خریدی را پیدا می‌کند که مقدار فاکتورشده با مقدار رسیده یا قیمت فاکتور با قیمت سفارش فرق دارد.</field>
+		<field name="goal">پیدا کردن اختلاف سفارش، رسید و فاکتور</field>
+		<field name="instructions">اختلاف‌ها را خنثی گزارش کن؛ اختلاف به معنی خطای کسی نیست.</field>
+		<field name="tool_codes">order_receipt_bill_check,records_search</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست اختلاف‌ها با سفارش، فروشنده و کالا.</field>
+		<field name="playbook">[{"tool": "order_receipt_bill_check", "args": {}}]</field>
+		<field name="required_modules">purchase</field>
+		<field name="scope_models">purchase.order.line,purchase.order</field>
+	</record>
+	<record id="role_fin_bank_matching" model="veron.ai.agent.template">
+		<field name="code">fin_bank_matching</field>
+		<field name="category">finance</field>
+		<field name="sequence">5</field>
+		<field name="name">تطبیق گردش بانک با پرداخت‌ها و دریافت‌ها</field>
+		<field name="description">ردیف‌های تطبیق‌نشده‌ی صورت‌حساب بانک را با پرداخت‌ها و فاکتورهای باز مقایسه می‌کند و پیشنهاد تطبیق می‌دهد.</field>
+		<field name="goal">پیشنهاد تطبیق گردش بانک</field>
+		<field name="instructions">فقط پیشنهاد بده؛ تطبیق را حسابدار انجام می‌دهد.</field>
+		<field name="tool_codes">bank_unreconciled,records_search</field>
+		<field name="default_level">2</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">8</field>
+		<field name="expected_output">ردیف‌های بانکی تطبیق‌نشده و پیشنهاد سند هم‌مبلغ برای هر کدام.</field>
+		<field name="playbook">[{"tool": "bank_unreconciled", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.bank.statement.line,account.move</field>
+	</record>
+	<record id="role_fin_receivables" model="veron.ai.agent.template">
+		<field name="code">fin_receivables</field>
+		<field name="category">finance</field>
+		<field name="sequence">6</field>
+		<field name="name">پیگیری مطالبات و بدهی‌های سررسیدگذشته</field>
+		<field name="description">فاکتورهای فروش پرداخت‌نشده‌ی سررسیدگذشته و بدهی‌های نزدیک به سررسید را فهرست می‌کند و برای پیگیری فعالیت می‌سازد. پیام به مشتری فقط با تأیید شما.</field>
+		<field name="goal">کاهش مطالبات معوق</field>
+		<field name="instructions">مؤدبانه و بدون اتهام بنویس. پیام بیرونی را فقط پیشنهاد بده؛ ارسال با تأیید انسان است.</field>
+		<field name="tool_codes">receivables_overdue,payables_due,customer_summary,activity_create,notify_external,notify_internal</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست مطالبات معوق به ترتیب مبلغ و روز، و فعالیت‌های ساخته‌شده.</field>
+		<field name="playbook">[{"tool": "receivables_overdue", "args": {}}, {"tool": "payables_due", "args": {"days": 7}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.move,res.partner</field>
+	</record>
+	<record id="role_fin_petty_cash" model="veron.ai.agent.template">
+		<field name="code">fin_petty_cash</field>
+		<field name="category">finance</field>
+		<field name="sequence">7</field>
+		<field name="name">بستن تنخواه و پیگیری مدارک</field>
+		<field name="description">در پایان دوره از مسئول تنخواه مدارک را می‌خواهد، رسیدها را می‌خواند، رسید تکراری و خارج از سیاست را مشخص می‌کند، پیش‌نویس سند می‌سازد و گزارش تسویه می‌دهد.</field>
+		<field name="goal">بستن تنخواه با مدارک کامل</field>
+		<field name="instructions">هر یافته را خنثی و قابل بررسی ثبت کن. سند فقط پس از تأیید انسانی ثبت قطعی می‌شود.</field>
+		<field name="tool_codes">petty_cash_open,petty_cash_review,petty_cash_draft_entry,petty_cash_report,request_human_input,notify_internal</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">10</field>
+		<field name="expected_output">وضعیت هر تنخواه، رسیدهای پذیرفته‌شده و نیازمند بررسی، و گزارش تسویه.</field>
+		<field name="playbook">[{"tool": "petty_cash_open", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">veron.petty.cash.fund,veron.petty.cash.closing,veron.petty.cash.receipt</field>
+	</record>
+	<record id="role_fin_payroll" model="veron.ai.agent.template">
+		<field name="code">fin_payroll</field>
+		<field name="category">finance</field>
+		<field name="sequence">8</field>
+		<field name="name">حقوق و دستمزد و پیش‌نویس فیش حقوقی</field>
+		<field name="description">ورودی‌های حقوق (قرارداد، نرخ‌های تأییدشده‌ی سال، کارکرد) را کنترل می‌کند، فیش‌ها را با موتور حقوق محاسبه می‌کند، تغییرات غیرعادی نسبت به ماه قبل را نشان می‌دهد و PDF فیش‌ها را آماده می‌کند. پرداخت انجام نمی‌دهد.</field>
+		<field name="goal">فیش‌های درست و قابل بازبینی</field>
+		<field name="instructions">هیچ نرخ یا قانونی حدس نزن؛ محاسبه فقط با موتور حقوق است. اگر نرخ‌های سال تأیید نشده، متوقف شو و بپرس.</field>
+		<field name="tool_codes">payroll_inputs_check,payslip_drafts_compute,payroll_compare_previous,payslip_pdf_prepare,request_human_input</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">کمبودهای ورودی، فیش‌های محاسبه‌شده، تغییرات غیرعادی و آماده بودن PDFها.</field>
+		<field name="playbook">[{"tool": "payroll_inputs_check", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_payroll</field>
+		<field name="scope_models">hr.payslip,hr.employee,hr.version</field>
+	</record>
+	<record id="role_fin_documents_check" model="veron.ai.agent.template">
+		<field name="code">fin_documents_check</field>
+		<field name="category">finance</field>
+		<field name="sequence">9</field>
+		<field name="name">کنترل اسناد ناقص، تکراری یا خارج از الگو</field>
+		<field name="description">فاکتورها و اسناد بدون طرف حساب، بدون مرجع یا پیوست، و اسنادی که احتمالاً تکراری‌اند را پیدا می‌کند.</field>
+		<field name="goal">سلامت اسناد حسابداری</field>
+		<field name="instructions">احتمال تکرار را فقط برای بررسی بگو، نه به عنوان خطا.</field>
+		<field name="tool_codes">documents_quality,records_search</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست اسناد ناقص و جفت‌های احتمالاً تکراری.</field>
+		<field name="playbook">[{"tool": "documents_quality", "args": {"days": 31}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.move</field>
+	</record>
+	<record id="role_fin_month_end" model="veron.ai.agent.template">
+		<field name="code">fin_month_end</field>
+		<field name="category">finance</field>
+		<field name="sequence">10</field>
+		<field name="name">آماده‌سازی چک‌لیست بستن ماه</field>
+		<field name="description">پیش از بستن ماه: پیش‌نویس‌های مانده، فاکتورهای ثبت‌نشده، گردش بانک تطبیق‌نشده، استهلاک ثبت‌نشده و تاریخ قفل را بررسی می‌کند.</field>
+		<field name="goal">بستن ماه بدون جاافتادگی</field>
+		<field name="instructions">فقط وضعیت را گزارش کن؛ بستن دوره کار انسان است.</field>
+		<field name="tool_codes">month_end_checklist,notify_internal</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">چک‌لیست با وضعیت هر مورد و لینک موارد باز.</field>
+		<field name="playbook">[{"tool": "month_end_checklist", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.move,account.bank.statement.line</field>
+	</record>
+	<record id="role_fin_periodic_report" model="veron.ai.agent.template">
+		<field name="code">fin_periodic_report</field>
+		<field name="category">finance</field>
+		<field name="sequence">11</field>
+		<field name="name">گزارش روزانه و هفتگی فروش، هزینه، خرید، موجودی و جریان نقد</field>
+		<field name="description">خلاصه‌ی فروش، هزینه، خرید، هشدارهای موجودی و مانده‌ی بانک و صندوق را تهیه و برای شما ارسال می‌کند.</field>
+		<field name="goal">دید روشن روزانه از کسب‌وکار</field>
+		<field name="instructions">اعداد را فقط از ابزارها بیاور و تغییرهای مهم را برجسته کن.</field>
+		<field name="tool_codes">sales_summary,expense_summary,purchase_summary,stock_alerts,cash_position,notify_internal,report_pdf</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">7.5</field>
+		<field name="expected_output">گزارش کوتاه با اعداد اصلی و نکات مهم.</field>
+		<field name="playbook">[{"tool": "sales_summary", "args": {"days": 1}}, {"tool": "expense_summary", "args": {"days": 1}}, {"tool": "purchase_summary", "args": {"days": 1}}, {"tool": "cash_position", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">sale.order,purchase.order,account.move,account.journal</field>
+	</record>
+	<record id="role_fin_tax_prep" model="veron.ai.agent.template">
+		<field name="code">fin_tax_prep</field>
+		<field name="category">finance</field>
+		<field name="sequence">12</field>
+		<field name="name">آماده‌سازی گزارش‌های مالیاتی برای بازبینی</field>
+		<field name="description">جمع خرید و فروش و مالیات بر ارزش افزوده‌ی دوره را از اسناد ثبت‌شده برای بازبینی حسابدار آماده می‌کند. هیچ گزارشی را به سازمان ارسال نمی‌کند.</field>
+		<field name="goal">آماده‌سازی داده‌ی مالیاتی برای بازبینی انسان</field>
+		<field name="instructions">فقط از مالیات‌ها و نرخ‌های تعریف‌شده در Odoo استفاده کن. اگر نرخ یا قاعده‌ای تعریف نشده، بپرس.</field>
+		<field name="tool_codes">tax_summary,documents_quality,request_human_input</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">10</field>
+		<field name="expected_output">جدول مالیات دوره به تفکیک نرخ، و اسناد مشکوک برای بررسی.</field>
+		<field name="playbook">[{"tool": "tax_summary", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.move,account.move.line</field>
+	</record>
+	<record id="role_fin_budget" model="veron.ai.agent.template">
+		<field name="code">fin_budget</field>
+		<field name="category">finance</field>
+		<field name="sequence">13</field>
+		<field name="name">بررسی بودجه در برابر عملکرد</field>
+		<field name="description">عملکرد واقعی را با بودجه (اگر تعریف شده) یا با دوره‌های قبل مقایسه می‌کند و انحراف‌های مهم را نشان می‌دهد.</field>
+		<field name="goal">کنترل هزینه‌ها</field>
+		<field name="instructions">انحراف را با عدد و درصد بگو؛ علت را حدس نزن.</field>
+		<field name="tool_codes">budget_vs_actual,expense_summary</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">10</field>
+		<field name="expected_output">حساب‌ها یا بودجه‌هایی با بیشترین انحراف.</field>
+		<field name="playbook">[{"tool": "budget_vs_actual", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.move.line</field>
+	</record>
+	<record id="role_fin_assets" model="veron.ai.agent.template">
+		<field name="code">fin_assets</field>
+		<field name="category">finance</field>
+		<field name="sequence">14</field>
+		<field name="name">کنترل دارایی ثابت و استهلاک</field>
+		<field name="description">دارایی‌های بدون استهلاک ثبت‌شده، ردیف‌های استهلاک گذشته‌ی ثبت‌نشده و دارایی‌های ناقص را فهرست می‌کند.</field>
+		<field name="goal">استهلاک به‌موقع و دارایی‌های کامل</field>
+		<field name="instructions">فقط گزارش کن؛ ثبت استهلاک با حسابدار است.</field>
+		<field name="tool_codes">asset_check</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">10</field>
+		<field name="expected_output">فهرست دارایی‌ها و ردیف‌های نیازمند اقدام.</field>
+		<field name="playbook">[{"tool": "asset_check", "args": {}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">account.asset,account.asset.line</field>
+	</record>
+	<record id="role_pur_rfq_compare" model="veron.ai.agent.template">
+		<field name="code">pur_rfq_compare</field>
+		<field name="category">purchase</field>
+		<field name="sequence">15</field>
+		<field name="name">تهیه و مقایسه‌ی پیشنهادهای خرید</field>
+		<field name="description">برای یک کالا پیشنهادهای قیمت باز و لیست قیمت تأمین‌کنندگان را کنار هم می‌گذارد و ارزان‌ترین گزینه‌ها را پیشنهاد می‌دهد.</field>
+		<field name="goal">خرید با قیمت مناسب</field>
+		<field name="instructions">واحد و ارز را یکسان کن؛ پیشنهاد بده، سفارش نده.</field>
+		<field name="tool_codes">purchase_compare,records_search</field>
+		<field name="default_level">2</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">جدول مقایسه و پیشنهاد.</field>
+		<field name="required_modules">purchase</field>
+		<field name="scope_models">purchase.order.line,product.supplierinfo,product.product</field>
+	</record>
+	<record id="role_pur_price_search" model="veron.ai.agent.template">
+		<field name="code">pur_price_search</field>
+		<field name="category">purchase</field>
+		<field name="sequence">16</field>
+		<field name="name">جست‌وجوی قیمت در منابع اینترنتی مجاز</field>
+		<field name="description">قیمت کالا را در سایت‌هایی که مجاز کرده‌اید جست‌وجو می‌کند و با قیمت‌های Odoo مقایسه می‌کند.</field>
+		<field name="goal">آگاهی از قیمت بازار</field>
+		<field name="instructions">فقط از سایت‌های مجاز؛ منبع و تاریخ هر قیمت را بگو.</field>
+		<field name="tool_codes">web_search,records_search</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">قیمت‌ها با منبع.</field>
+		<field name="scope_models">product.product</field>
+	</record>
+	<record id="role_pur_late_followup" model="veron.ai.agent.template">
+		<field name="code">pur_late_followup</field>
+		<field name="category">purchase</field>
+		<field name="sequence">17</field>
+		<field name="name">پیگیری سفارش خرید و تأخیر تأمین‌کننده</field>
+		<field name="description">سفارش‌های خرید دیرکرده را پیدا می‌کند و برای پیگیری فعالیت می‌سازد. پیام به تأمین‌کننده فقط با تأیید شما.</field>
+		<field name="goal">تحویل به‌موقع خرید</field>
+		<field name="instructions">مؤدبانه بنویس؛ تماس بیرونی فقط پیشنهاد است.</field>
+		<field name="tool_codes">purchase_late,activity_create,notify_external,notify_internal</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">سفارش‌های دیرکرده و فعالیت‌ها.</field>
+		<field name="playbook">[{"tool": "purchase_late", "args": {}}]</field>
+		<field name="required_modules">purchase</field>
+		<field name="scope_models">purchase.order.line,purchase.order,res.partner</field>
+	</record>
+	<record id="role_pur_mismatch" model="veron.ai.agent.template">
+		<field name="code">pur_mismatch</field>
+		<field name="category">purchase</field>
+		<field name="sequence">18</field>
+		<field name="name">کنترل اختلاف سفارش، رسید و فاکتور</field>
+		<field name="description">اختلاف مقدار رسیده، فاکتورشده و قیمت سفارش را برای بررسی گزارش می‌کند.</field>
+		<field name="goal">هماهنگی خرید و انبار و حسابداری</field>
+		<field name="instructions">اختلاف را خنثی گزارش کن.</field>
+		<field name="tool_codes">order_receipt_bill_check</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست اختلاف‌ها.</field>
+		<field name="playbook">[{"tool": "order_receipt_bill_check", "args": {}}]</field>
+		<field name="required_modules">purchase</field>
+		<field name="scope_models">purchase.order.line</field>
+	</record>
+	<record id="role_stk_alerts" model="veron.ai.agent.template">
+		<field name="code">stk_alerts</field>
+		<field name="category">purchase</field>
+		<field name="sequence">19</field>
+		<field name="name">هشدار کمبود، موجودی راکد و مغایرت انبار</field>
+		<field name="description">کالاهای زیر حداقل، موجودی منفی و کالاهای بی‌حرکت را گزارش می‌کند.</field>
+		<field name="goal">انبار سالم</field>
+		<field name="instructions">اعداد را از ابزار بیاور.</field>
+		<field name="tool_codes">stock_alerts,notify_internal</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">8</field>
+		<field name="expected_output">فهرست کمبودها و موجودی راکد.</field>
+		<field name="playbook">[{"tool": "stock_alerts", "args": {"slow_days": 90}}]</field>
+		<field name="required_modules">stock</field>
+		<field name="scope_models">stock.quant,stock.warehouse.orderpoint,stock.move</field>
+	</record>
+	<record id="role_stk_transfer" model="veron.ai.agent.template">
+		<field name="code">stk_transfer</field>
+		<field name="category">purchase</field>
+		<field name="sequence">20</field>
+		<field name="name">پیشنهاد انتقال کالا بین انبارها</field>
+		<field name="description">جایی که یک انبار کمبود و انبار دیگر مازاد دارد، انتقال پیشنهاد می‌دهد. انتقال فقط به صورت پیش‌نویس و با مجوز ساخته می‌شود.</field>
+		<field name="goal">توزیع بهتر موجودی</field>
+		<field name="instructions">انتقال را تأیید یا انجام نده؛ پیشنهاد یا پیش‌نویس بساز.</field>
+		<field name="tool_codes">stock_transfer_suggest,stock_transfer_draft</field>
+		<field name="default_level">2</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پیشنهادهای انتقال.</field>
+		<field name="playbook">[{"tool": "stock_transfer_suggest", "args": {}}]</field>
+		<field name="required_modules">stock</field>
+		<field name="scope_models">stock.warehouse.orderpoint,stock.picking</field>
+	</record>
+	<record id="role_sal_quote_followup" model="veron.ai.agent.template">
+		<field name="code">sal_quote_followup</field>
+		<field name="category">sales</field>
+		<field name="sequence">21</field>
+		<field name="name">پیگیری پیش‌فاکتور و مشتری</field>
+		<field name="description">پیش‌فاکتورهای تأییدنشده و منقضی را پیدا می‌کند و برای فروشنده فعالیت پیگیری می‌سازد.</field>
+		<field name="goal">تبدیل پیش‌فاکتور به فروش</field>
+		<field name="instructions">پیام به مشتری فقط پیشنهاد است و با تأیید ارسال می‌شود.</field>
+		<field name="tool_codes">quotes_pending,customer_summary,activity_create,notify_external</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پیش‌فاکتورهای نیازمند پیگیری و فعالیت‌ها.</field>
+		<field name="playbook">[{"tool": "quotes_pending", "args": {"older_than_days": 3}}]</field>
+		<field name="required_modules">sale</field>
+		<field name="scope_models">sale.order,res.partner</field>
+	</record>
+	<record id="role_sal_customer_summary" model="veron.ai.agent.template">
+		<field name="code">sal_customer_summary</field>
+		<field name="category">sales</field>
+		<field name="sequence">22</field>
+		<field name="name">خلاصه‌سازی سابقه‌ی مشتری</field>
+		<field name="description">سفارش‌ها، فاکتورهای باز و آخرین ارتباط‌های یک مشتری را خلاصه می‌کند.</field>
+		<field name="goal">شناخت سریع مشتری</field>
+		<field name="instructions">فقط از داده‌ی Odoo.</field>
+		<field name="tool_codes">customer_summary,records_search</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">خلاصه‌ی مشتری.</field>
+		<field name="scope_models">res.partner,sale.order,account.move</field>
+	</record>
+	<record id="role_web_content" model="veron.ai.agent.template">
+		<field name="code">web_content</field>
+		<field name="category">sales</field>
+		<field name="sequence">23</field>
+		<field name="name">تولید پیش‌نویس محتوای محصول و صفحه‌ی وب</field>
+		<field name="description">برای محصول توضیح، متن صفحه و عنوان و توضیح موتور جست‌وجو می‌نویسد و به صورت پیش‌نویس ذخیره می‌کند. انتشار با تأیید شماست.</field>
+		<field name="goal">محتوای خوب برای سایت</field>
+		<field name="instructions">فقط ویژگی‌های واقعی محصول را بنویس؛ ادعای بی‌پایه نکن.</field>
+		<field name="tool_codes">record_read,records_search,content_draft,content_publish</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پیش‌نویس‌های ساخته‌شده.</field>
+		<field name="scope_models">product.template</field>
+	</record>
+	<record id="role_web_image" model="veron.ai.agent.template">
+		<field name="code">web_image</field>
+		<field name="category">sales</field>
+		<field name="sequence">24</field>
+		<field name="name">تولید یا پیشنهاد تصویر محصول</field>
+		<field name="description">با سرویس ساخت تصویر، تصویر پیش‌نویس می‌سازد. این تصویر عکس واقعی کالا نیست و با علامت «ساخته‌شده با هوش مصنوعی» نگه داشته می‌شود؛ انتشار با تأیید شما.</field>
+		<field name="goal">تصویر تبلیغاتی پیش‌نویس</field>
+		<field name="instructions">تصویر را با عکس واقعی کالا اشتباه نگیر.</field>
+		<field name="tool_codes">record_read,image_draft,content_publish</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پیش‌نویس تصاویر.</field>
+		<field name="scope_models">product.template</field>
+	</record>
+	<record id="role_web_quality" model="veron.ai.agent.template">
+		<field name="code">web_quality</field>
+		<field name="category">sales</field>
+		<field name="sequence">25</field>
+		<field name="name">بررسی کیفیت اطلاعات محصول و سئو</field>
+		<field name="description">محصولات بدون توضیح، عکس، بارکد، قیمت یا اطلاعات موتور جست‌وجو را فهرست می‌کند.</field>
+		<field name="goal">اطلاعات کامل محصولات</field>
+		<field name="instructions">فقط گزارش کن.</field>
+		<field name="tool_codes">product_quality</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست محصولات ناقص.</field>
+		<field name="playbook">[{"tool": "product_quality", "args": {}}]</field>
+		<field name="scope_models">product.template</field>
+	</record>
+	<record id="role_web_report" model="veron.ai.agent.template">
+		<field name="code">web_report</field>
+		<field name="category">sales</field>
+		<field name="sequence">26</field>
+		<field name="name">گزارش بازدید، سفارش، فروش و بازخورد محصول</field>
+		<field name="description">بازدید سایت، صفحه‌های پربازدید، سفارش‌های سایت و امتیاز محصولات را گزارش می‌کند.</field>
+		<field name="goal">شناخت عملکرد سایت</field>
+		<field name="instructions">اعداد را از ابزار بیاور.</field>
+		<field name="tool_codes">website_report,sales_summary</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">گزارش هفتگی سایت.</field>
+		<field name="playbook">[{"tool": "website_report", "args": {"days": 7}}]</field>
+		<field name="required_modules">website</field>
+		<field name="scope_models">website.visitor,website.track,sale.order,rating.rating</field>
+	</record>
+	<record id="role_mkt_content" model="veron.ai.agent.template">
+		<field name="code">mkt_content</field>
+		<field name="category">sales</field>
+		<field name="sequence">27</field>
+		<field name="name">آماده‌سازی پیش‌نویس محتوای بازاریابی</field>
+		<field name="description">متن پیامک، ایمیل یا پست تبلیغاتی را بر اساس محصولات و پیشنهادها پیش‌نویس می‌کند. ارسال و انتشار با شماست.</field>
+		<field name="goal">محتوای بازاریابی آماده</field>
+		<field name="instructions">ادعای نادرست یا وعده‌ی بی‌پایه ننویس.</field>
+		<field name="tool_codes">records_search,content_draft</field>
+		<field name="default_level">3</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پیش‌نویس‌ها.</field>
+		<field name="scope_models">product.template</field>
+	</record>
+	<record id="role_hr_missing_info" model="veron.ai.agent.template">
+		<field name="code">hr_missing_info</field>
+		<field name="category">hr</field>
+		<field name="sequence">28</field>
+		<field name="name">کنترل مدارک و اطلاعات ناقص کارکنان</field>
+		<field name="description">پرونده‌ی کارکنانی را که اطلاعات تماس، کد ملی، حساب بانکی، تماس اضطراری یا قرارداد ندارند فهرست می‌کند.</field>
+		<field name="goal">پرونده‌های کامل</field>
+		<field name="instructions">به اطلاعات شخصی فقط در حد لازم اشاره کن.</field>
+		<field name="tool_codes">employee_missing_info,activity_create</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">monthly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست کمبودها به تفکیک کارمند.</field>
+		<field name="playbook">[{"tool": "employee_missing_info", "args": {}}]</field>
+		<field name="required_modules">hr</field>
+		<field name="scope_models">hr.employee</field>
+	</record>
+	<record id="role_hr_attendance_review" model="veron.ai.agent.template">
+		<field name="code">hr_attendance_review</field>
+		<field name="category">hr</field>
+		<field name="sequence">29</field>
+		<field name="name">بررسی حضور، مرخصی و اضافه‌کاری</field>
+		<field name="description">مرخصی‌های منتظر تأیید و روزهای کاری طولانی را برای بازبینی مدیر فهرست می‌کند.</field>
+		<field name="goal">بازبینی به‌موقع</field>
+		<field name="instructions">قضاوت نکن؛ فقط فهرست کن.</field>
+		<field name="tool_codes">attendance_leave_review</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">فهرست برای بازبینی.</field>
+		<field name="playbook">[{"tool": "attendance_leave_review", "args": {"days": 7}}]</field>
+		<field name="required_modules">hr_holidays</field>
+		<field name="scope_models">hr.leave,hr.attendance</field>
+	</record>
+	<record id="role_ops_tasks" model="veron.ai.agent.template">
+		<field name="code">ops_tasks</field>
+		<field name="category">hr</field>
+		<field name="sequence">30</field>
+		<field name="name">پیگیری وظایف و درخواست‌های داخلی</field>
+		<field name="description">فعالیت‌ها و وظایف عقب‌افتاده را به تفکیک افراد گزارش می‌کند.</field>
+		<field name="goal">انجام به‌موقع کارها</field>
+		<field name="instructions">مؤدبانه یادآوری کن.</field>
+		<field name="tool_codes">tasks_followup,activity_create,notify_internal</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">کارهای عقب‌افتاده.</field>
+		<field name="playbook">[{"tool": "tasks_followup", "args": {}}]</field>
+		<field name="scope_models">mail.activity,project.task</field>
+	</record>
+	<record id="role_ops_units" model="veron.ai.agent.template">
+		<field name="code">ops_units</field>
+		<field name="category">hr</field>
+		<field name="sequence">31</field>
+		<field name="name">گزارش وضعیت واحدها</field>
+		<field name="description">برای هر واحد تعداد کارکنان، کارهای عقب‌افتاده و مرخصی‌های منتظر را گزارش می‌کند.</field>
+		<field name="goal">دید مدیر از واحدها</field>
+		<field name="instructions">فقط عدد و فهرست.</field>
+		<field name="tool_codes">units_status,tasks_followup</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">weekly</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">جدول واحدها.</field>
+		<field name="playbook">[{"tool": "units_status", "args": {}}]</field>
+		<field name="required_modules">hr</field>
+		<field name="scope_models">hr.department,mail.activity,hr.leave</field>
+	</record>
+	<record id="role_sup_finance" model="veron.ai.agent.template">
+		<field name="code">sup_finance</field>
+		<field name="category">coordination</field>
+		<field name="sequence">32</field>
+		<field name="name">سوپروایزر مالی</field>
+		<field name="description">درخواست کلی شما را به کارهای کوچک‌تر تقسیم می‌کند، به ایجنت‌های مالی مجاز می‌سپارد، نتیجه را کنترل می‌کند و موارد مشکوک را به شما ارجاع می‌دهد. سطح دسترسی هیچ ایجنتی را تغییر نمی‌دهد و چیزی را تأیید قانونی نمی‌کند.</field>
+		<field name="goal">هماهنگی کار مالی</field>
+		<field name="instructions">برای هر کار دلیل قبول، رد یا ارجاع را بنویس. «قبول در بازبینی هوش مصنوعی» تأیید حسابداری نیست. در خطا یا ابهام توقف کن و ارجاع بده.</field>
+		<field name="tool_codes">delegate_task,review_task,escalate_to_human,request_human_input,notify_internal</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="True"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">گزارش نهایی با خلاصه‌ی موارد عادی، استثناها و لینک رکوردها.</field>
+	</record>
+	<record id="role_sup_operations" model="veron.ai.agent.template">
+		<field name="code">sup_operations</field>
+		<field name="category">coordination</field>
+		<field name="sequence">33</field>
+		<field name="name">سوپروایزر عملیات</field>
+		<field name="description">کارهای خرید، انبار، فروش و منابع انسانی را بین ایجنت‌های مجاز تقسیم و کنترل می‌کند.</field>
+		<field name="goal">هماهنگی عملیات</field>
+		<field name="instructions">مانند سوپروایزر مالی؛ استثناها را برجسته کن.</field>
+		<field name="tool_codes">delegate_task,review_task,escalate_to_human,request_human_input,notify_internal</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="True"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">گزارش نهایی.</field>
+	</record>
+	<record id="role_mgr_morning" model="veron.ai.agent.template">
+		<field name="code">mgr_morning</field>
+		<field name="category">coordination</field>
+		<field name="sequence">34</field>
+		<field name="name">گزارش صبحگاهی مدیر</field>
+		<field name="description">هر صبح فروش و خرید دیروز، هزینه‌ها، مانده‌ی بانک و صندوق، مطالبات معوق، کمبود موجودی و کارهای عقب‌افتاده را در یک گزارش کوتاه برای شما می‌فرستد.</field>
+		<field name="goal">شروع روز با تصویر روشن</field>
+		<field name="instructions">حداکثر یک صفحه. اول مهم‌ترین تغییرها و هشدارها، بعد اعداد. هیچ عددی را حدس نزن.</field>
+		<field name="tool_codes">sales_summary,purchase_summary,expense_summary,cash_position,receivables_overdue,stock_alerts,tasks_followup,notify_internal,report_pdf</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">daily</field>
+		<field name="schedule_hour">7.5</field>
+		<field name="expected_output">گزارش صبحگاهی یک‌صفحه‌ای با لینک رکوردها.</field>
+		<field name="playbook">[{"tool": "sales_summary", "args": {"days": 1}}, {"tool": "purchase_summary", "args": {"days": 1}}, {"tool": "expense_summary", "args": {"days": 1}}, {"tool": "cash_position", "args": {}}, {"tool": "receivables_overdue", "args": {"limit": 10}}, {"tool": "stock_alerts", "args": {"limit": 10}}, {"tool": "tasks_followup", "args": {"limit": 20}}]</field>
+		<field name="required_modules">veron_ai_agent_account</field>
+		<field name="scope_models">sale.order,purchase.order,account.move,account.journal,stock.quant,mail.activity</field>
+	</record>
+	<record id="role_knowledge" model="veron.ai.agent.template">
+		<field name="code">knowledge</field>
+		<field name="category">coordination</field>
+		<field name="sequence">35</field>
+		<field name="name">دانش شرکت</field>
+		<field name="description">به پرسش‌ها از روی رویه‌ها و اسناد مجاز شرکت (صفحه‌های دانش) پاسخ می‌دهد و منبع را می‌گوید.</field>
+		<field name="goal">پاسخ از منابع رسمی شرکت</field>
+		<field name="instructions">فقط از متن صفحه‌ها پاسخ بده و نام صفحه را بیاور. اگر پاسخ در منابع نیست، بگو.</field>
+		<field name="tool_codes">knowledge_search,attachment_read</field>
+		<field name="default_level">1</field>
+		<field name="is_supervisor" eval="False"/>
+		<field name="schedule_type">manual</field>
+		<field name="schedule_hour">9</field>
+		<field name="expected_output">پاسخ با نام منبع.</field>
+		<field name="required_modules">document_page</field>
+		<field name="scope_models">document.page</field>
+	</record>
+</odoo>

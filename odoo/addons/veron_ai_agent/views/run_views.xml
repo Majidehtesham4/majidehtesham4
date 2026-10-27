@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="run_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.run.form</field>
+		<field name="model">veron.ai.run</field>
+		<field name="arch" type="xml">
+			<form create="false" edit="false">
+				<header>
+					<button name="action_retry" type="object" string="Try Again" invisible="state not in ('failed', 'cancelled', 'done_warning')"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state not in ('queued', 'waiting_info', 'waiting_approval')"/>
+					<field name="state" widget="statusbar" statusbar_visible="queued,running,done"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1><field name="agent_id"/></div>
+					<group>
+						<group>
+							<field name="initiator"/>
+							<field name="initiator_user_id"/>
+							<field name="run_user_id"/>
+							<field name="parent_run_id" invisible="not parent_run_id"/>
+							<field name="task_id" invisible="not task_id"/>
+						</group>
+						<group>
+							<field name="started_at"/>
+							<field name="finished_at"/>
+							<field name="duration"/>
+							<field name="tools_used"/>
+							<field name="provider_name" invisible="not provider_name"/>
+							<field name="approver_ids" widget="many2many_tags" invisible="not approver_ids"/>
+							<field name="retry_count" invisible="not retry_count"/>
+							<field name="next_attempt_at" invisible="not next_attempt_at"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+					</group>
+					<div class="alert alert-danger" role="alert" invisible="not error"><field name="error"/></div>
+					<field name="input_text" invisible="not input_text"/>
+					<notebook>
+						<page string="Result" name="result">
+							<field name="output_html"/>
+							<field name="pdf_attachment_id" invisible="not pdf_attachment_id"/>
+						</page>
+						<page string="Waiting and Findings" name="waiting">
+							<field name="approval_ids">
+								<list>
+									<field name="name"/>
+									<field name="kind"/>
+									<field name="summary"/>
+									<field name="approver_user_ids" widget="many2many_tags"/>
+									<field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state in ('executed', 'answered', 'applied')" decoration-danger="state in ('rejected', 'failed')"/>
+								</list>
+							</field>
+							<field name="finding_ids">
+								<list>
+									<field name="severity" widget="badge" decoration-danger="severity == 'critical'" decoration-warning="severity == 'warning'"/>
+									<field name="kind"/>
+									<field name="message"/>
+									<field name="state"/>
+								</list>
+							</field>
+						</page>
+						<page string="Steps" name="steps">
+							<field name="step_ids">
+								<list>
+									<field name="sequence"/>
+									<field name="tool_code"/>
+									<field name="origin"/>
+									<field name="decision" widget="badge" decoration-success="decision in ('allowed', 'reused')" decoration-warning="decision in ('approval', 'suggestion', 'needs_info')" decoration-danger="decision in ('denied', 'failed')"/>
+									<field name="message"/>
+									<field name="duration_ms" optional="hide"/>
+								</list>
+								<form>
+									<group>
+										<field name="tool_code"/>
+										<field name="origin"/>
+										<field name="decision"/>
+										<field name="message"/>
+									</group>
+									<label for="args_json"/>
+									<field name="args_json" widget="ace" options="{'mode': 'js'}"/>
+									<label for="output_json"/>
+									<field name="output_json" widget="ace" options="{'mode': 'js'}"/>
+								</form>
+							</field>
+						</page>
+						<page string="Records and Files" name="records">
+							<field name="link_ids">
+								<list>
+									<field name="name"/>
+									<field name="res_model"/>
+									<button name="action_open" type="object" string="Open" icon="fa-external-link"/>
+								</list>
+							</field>
+							<field name="source_ids">
+								<list>
+									<field name="name"/>
+									<field name="kind"/>
+									<field name="purpose"/>
+									<field name="extraction_state"/>
+									<button name="action_download" type="object" string="Open" icon="fa-download"/>
+								</list>
+							</field>
+							<field name="child_run_ids" invisible="not child_run_ids">
+								<list>
+									<field name="name"/>
+									<field name="agent_id"/>
+									<field name="state"/>
+								</list>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="run_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.run.list</field>
+		<field name="model">veron.ai.run</field>
+		<field name="arch" type="xml">
+			<list create="false" decoration-danger="state == 'failed'" decoration-warning="state in ('waiting_info', 'waiting_approval', 'done_warning')" decoration-muted="state == 'cancelled'">
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="initiator"/>
+				<field name="initiator_user_id" optional="show"/>
+				<field name="started_at"/>
+				<field name="duration" optional="hide"/>
+				<field name="tools_used" optional="hide"/>
+				<field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state in ('queued', 'running')" decoration-warning="state in ('waiting_info', 'waiting_approval', 'done_warning')" decoration-danger="state == 'failed'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="run_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.run.search</field>
+		<field name="model">veron.ai.run</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="input_text"/>
+				<filter name="waiting" string="Waiting for a Person" domain="[('state', 'in', ('waiting_info', 'waiting_approval'))]"/>
+				<filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+				<filter name="warnings" string="With Warnings" domain="[('state', '=', 'done_warning')]"/>
+				<filter name="started" string="Started" date="started_at"/>
+				<filter name="by_agent" string="Agent" context="{'group_by': 'agent_id'}"/>
+				<filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_runs" model="ir.actions.act_window">
+		<field name="name">Runs</field>
+		<field name="res_model">veron.ai.run</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<!-- Approvals and requests -->
+	<record id="approval_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.approval.form</field>
+		<field name="model">veron.ai.approval</field>
+		<field name="arch" type="xml">
+			<form create="false">
+				<header>
+					<button name="action_approve" type="object" string="Approve and Do" class="btn-primary"
+						invisible="not can_decide or kind != 'action'" confirm="The action is done now, with your own access rights. Approve?"/>
+					<button name="action_answer" type="object" string="Send the Answer" class="btn-primary" invisible="not can_decide or kind != 'info'"/>
+					<button name="action_applied" type="object" string="I Applied It" invisible="not can_decide or kind != 'suggestion'"/>
+					<button name="action_reject" type="object" string="Reject" invisible="not can_decide or kind == 'info'"/>
+					<field name="state" widget="statusbar" statusbar_visible="pending"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1><field name="kind"/></div>
+					<div class="alert alert-warning" role="alert" invisible="not sensitive">
+						<span>A sensitive action:</span> <field name="sensitive" class="d-inline"/>
+					</div>
+					<group>
+						<group>
+							<field name="agent_id"/>
+							<field name="run_id"/>
+							<field name="tool_id" invisible="not tool_id"/>
+							<field name="amount" invisible="not amount"/>
+							<field name="reason" invisible="not reason"/>
+							<field name="can_decide" invisible="1"/>
+						</group>
+						<group>
+							<field name="approver_user_ids" widget="many2many_tags"/>
+							<field name="decided_by"/>
+							<field name="decided_at"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+					</group>
+					<group string="What Is Asked">
+						<field name="summary" nolabel="1" colspan="2"/>
+						<field name="question" invisible="kind != 'info'"/>
+						<field name="answer" invisible="kind != 'info'" readonly="state != 'pending'" placeholder="Your answer"/>
+						<field name="decision_note" readonly="state != 'pending'"/>
+					</group>
+					<button name="action_open_record" type="object" string="Open the Record" class="btn-link" invisible="not res_model"/>
+					<field name="res_model" invisible="1"/>
+					<notebook>
+						<page string="Details" name="details">
+							<label for="payload_json"/>
+							<field name="payload_json" widget="ace" options="{'mode': 'js'}"/>
+							<label for="result_json" invisible="not result_json"/>
+							<field name="result_json" widget="ace" options="{'mode': 'js'}" invisible="not result_json"/>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="approval_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.approval.list</field>
+		<field name="model">veron.ai.approval</field>
+		<field name="arch" type="xml">
+			<list create="false" decoration-warning="state == 'pending'">
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="agent_id"/>
+				<field name="summary"/>
+				<field name="sensitive" optional="show"/>
+				<field name="amount" optional="show"/>
+				<field name="approver_user_ids" widget="many2many_tags" optional="show"/>
+				<field name="create_date" string="Asked On"/>
+				<field name="state" widget="badge" decoration-warning="state == 'pending'" decoration-success="state in ('executed', 'answered', 'applied')" decoration-danger="state in ('rejected', 'failed')"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="approval_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.approval.search</field>
+		<field name="model">veron.ai.approval</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="summary"/>
+				<filter name="pending" string="Waiting" domain="[('state', '=', 'pending')]"/>
+				<filter name="mine" string="Asked of Me" domain="[('approver_user_ids', 'in', uid)]"/>
+				<separator/>
+				<filter name="actions" string="Actions" domain="[('kind', '=', 'action')]"/>
+				<filter name="questions" string="Questions" domain="[('kind', '=', 'info')]"/>
+				<filter name="suggestions" string="Suggestions" domain="[('kind', '=', 'suggestion')]"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_approvals" model="ir.actions.act_window">
+		<field name="name">Approvals and Questions</field>
+		<field name="res_model">veron.ai.approval</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'search_default_pending': 1}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Nothing waits for you</p>
+			<p>Actions that need approval, questions of the agents and their suggestions come here.</p>
+		</field>
+	</record>
+
+	<record id="finding_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.finding.list</field>
+		<field name="model">veron.ai.finding</field>
+		<field name="arch" type="xml">
+			<list create="false" editable="bottom">
+				<field name="create_date" string="Date" readonly="1"/>
+				<field name="agent_id" readonly="1"/>
+				<field name="run_id" readonly="1"/>
+				<field name="severity" widget="badge" decoration-danger="severity == 'critical'" decoration-warning="severity == 'warning'" readonly="1"/>
+				<field name="kind" readonly="1"/>
+				<field name="message" readonly="1"/>
+				<field name="review_note"/>
+				<field name="state" readonly="1"/>
+				<field name="res_model" column_invisible="1"/>
+				<button name="action_open_record" type="object" icon="fa-external-link" title="Open" invisible="not res_model"/>
+				<button name="action_reviewed" type="object" string="Reviewed" invisible="state != 'open'"/>
+				<button name="action_dismiss" type="object" string="Dismiss" invisible="state != 'open'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_findings" model="ir.actions.act_window">
+		<field name="name">Findings to Review</field>
+		<field name="res_model">veron.ai.finding</field>
+		<field name="view_mode">list</field>
+		<field name="domain">[('severity', '!=', 'info')]</field>
+		<field name="context">{'search_default_open': 1}</field>
+	</record>
+
+	<record id="finding_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.finding.search</field>
+		<field name="model">veron.ai.finding</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="message"/>
+				<field name="agent_id"/>
+				<filter name="open" string="Open" domain="[('state', '=', 'open')]"/>
+				<filter name="critical" string="Important" domain="[('severity', '=', 'critical')]"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="task_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.task.list</field>
+		<field name="model">veron.ai.task</field>
+		<field name="arch" type="xml">
+			<list create="false">
+				<field name="parent_run_id"/>
+				<field name="name"/>
+				<field name="agent_id"/>
+				<field name="state" widget="badge"/>
+				<field name="review" widget="badge" decoration-success="review == 'accepted'" decoration-danger="review == 'rejected'" decoration-warning="review == 'escalated'"/>
+				<field name="review_reason"/>
+				<button name="action_open_run" type="object" icon="fa-external-link" title="Open"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_tasks" model="ir.actions.act_window">
+		<field name="name">Supervisor Tasks</field>
+		<field name="res_model">veron.ai.task</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="audit_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.audit.list</field>
+		<field name="model">veron.ai.audit</field>
+		<field name="arch" type="xml">
+			<list create="false" edit="false" delete="false">
+				<field name="date"/>
+				<field name="event"/>
+				<field name="agent_id"/>
+				<field name="run_id"/>
+				<field name="user_id"/>
+				<field name="tool_code"/>
+				<field name="description"/>
+				<field name="data_json" optional="hide"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="audit_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.audit.search</field>
+		<field name="model">veron.ai.audit</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="event"/>
+				<field name="agent_id"/>
+				<field name="user_id"/>
+				<field name="tool_code"/>
+				<filter name="access" string="Access Changes" domain="[('event', 'in', ('agent_created', 'agent_changed', 'grant_changed'))]"/>
+				<filter name="decisions" string="Decisions" domain="[('event', 'like', 'approval_')]"/>
+				<filter name="refused" string="Refused Actions" domain="[('event', '=', 'tool_denied')]"/>
+				<filter name="date" string="Date" date="date"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_audit" model="ir.actions.act_window">
+		<field name="name">History of Actions</field>
+		<field name="res_model">veron.ai.audit</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="content_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.content.form</field>
+		<field name="model">veron.ai.content</field>
+		<field name="arch" type="xml">
+			<form create="false">
+				<header>
+					<button name="action_reject" type="object" string="Reject" invisible="state != 'draft'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="alert alert-info" role="alert" invisible="not ai_generated or kind != 'image'">
+						Made by AI: this is not a photo of the real product.
+					</div>
+					<field name="image" widget="image" class="oe_avatar" invisible="kind != 'image'"/>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group>
+							<field name="kind"/>
+							<field name="product_tmpl_id"/>
+						</group>
+						<group>
+							<field name="run_id"/>
+							<field name="ai_generated"/>
+						</group>
+					</group>
+					<group invisible="kind != 'seo'">
+						<field name="meta_title"/>
+						<field name="meta_description"/>
+					</group>
+					<field name="body"/>
+					<p class="text-muted">Publishing asks for approval through the agent's publish tool.</p>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="content_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.content.list</field>
+		<field name="model">veron.ai.content</field>
+		<field name="arch" type="xml">
+			<list create="false">
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="product_tmpl_id"/>
+				<field name="ai_generated"/>
+				<field name="agent_id"/>
+				<field name="state" widget="badge"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_contents" model="ir.actions.act_window">
+		<field name="name">Drafts</field>
+		<field name="res_model">veron.ai.content</field>
+		<field name="view_mode">list,form</field>
+	</record>
+</odoo>

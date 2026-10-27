@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The library of roles -->
+	<record id="template_view_kanban" model="ir.ui.view">
+		<field name="name">veron.ai.agent.template.kanban</field>
+		<field name="model">veron.ai.agent.template</field>
+		<field name="arch" type="xml">
+			<kanban default_group_by="category" create="false" group_create="false" group_delete="false" group_edit="false"
+				quick_create="false" records_draggable="false" class="o_veron_ai_library">
+				<field name="available"/>
+				<field name="agent_count"/>
+				<templates>
+					<t t-name="card">
+						<field name="name" class="fw-bold fs-5"/>
+						<field name="description" class="text-muted small mt-1"/>
+						<footer class="mt-2">
+							<span t-if="!record.available.raw_value" class="badge text-bg-warning">
+								<i class="fa fa-puzzle-piece" title="Needs"/> <field name="missing"/>
+							</span>
+							<span t-if="record.agent_count.raw_value" class="badge text-bg-success">
+								<field name="agent_count"/> <i class="fa fa-user-circle" title="Agents"/>
+							</span>
+							<button name="action_activate" type="object" class="btn btn-sm btn-primary ms-auto"
+								invisible="not available" groups="veron_ai_agent.group_ai_manager">Activate</button>
+						</footer>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="template_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.agent.template.form</field>
+		<field name="model">veron.ai.agent.template</field>
+		<field name="arch" type="xml">
+			<form create="false">
+				<header>
+					<button name="action_activate" type="object" string="Activate" class="btn-primary" invisible="not available"
+						groups="veron_ai_agent.group_ai_manager"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_open_agents" type="object" class="oe_stat_button" icon="fa-user-circle">
+							<field name="agent_count" widget="statinfo" string="Agents"/>
+						</button>
+					</div>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<div class="alert alert-warning" role="alert" invisible="available">
+						<span>Needs:</span> <field name="missing" class="d-inline"/>
+					</div>
+					<group>
+						<group>
+							<field name="category"/>
+							<field name="default_level"/>
+							<field name="is_supervisor"/>
+							<field name="schedule_type"/>
+							<field name="schedule_hour" widget="float_time" invisible="schedule_type == 'manual'"/>
+						</group>
+						<group>
+							<field name="code" readonly="1"/>
+							<field name="tool_codes"/>
+							<field name="scope_models"/>
+							<field name="required_modules"/>
+						</group>
+					</group>
+					<group string="What It Does">
+						<field name="description" nolabel="1" colspan="2"/>
+					</group>
+					<field name="explanation"/>
+					<notebook>
+						<page string="Goal and Instructions" name="instructions">
+							<group>
+								<field name="goal"/>
+								<field name="instructions"/>
+								<field name="expected_output"/>
+							</group>
+						</page>
+						<page string="Fixed Steps" name="playbook">
+							<field name="playbook" widget="ace" options="{'mode': 'js'}"/>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="template_view_search" model="ir.ui.view">
+		<field name="name">veron.ai.agent.template.search</field>
+		<field name="model">veron.ai.agent.template</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+				<field name="description"/>
+				<filter name="category_group" string="Area" context="{'group_by': 'category'}"/>
+			</search>
+		</field>
+	</record>
+
+	<record id="action_templates" model="ir.actions.act_window">
+		<field name="name">Role Library</field>
+		<field name="res_model">veron.ai.agent.template</field>
+		<field name="view_mode">kanban,form</field>
+		<field name="help" type="html">
+			<p>Ready roles for agents. Open one to read what it does, then activate it: you choose its companies, its responsible person and its authority before it starts.</p>
+		</field>
+	</record>
+
+	<!-- Agents -->
+	<record id="agent_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.agent.form</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_open_chat" type="object" string="Talk to It" class="btn-primary" icon="fa-comments"
+						invisible="not enabled"/>
+					<button name="action_run_now" type="object" string="Run Now" invisible="not enabled"/>
+					<field name="enabled" widget="boolean_toggle" groups="veron_ai_agent.group_ai_manager"/>
+				</header>
+				<sheet>
+					<div class="oe_button_box" name="button_box">
+						<button name="action_open_runs" type="object" class="oe_stat_button" icon="fa-history">
+							<field name="run_count" widget="statinfo" string="Runs"/>
+						</button>
+						<button name="action_open_approvals" type="object" class="oe_stat_button" icon="fa-check-square-o">
+							<field name="approval_count" widget="statinfo" string="Waiting"/>
+						</button>
+					</div>
+					<div class="oe_title">
+						<h1><field name="name" placeholder="e.g. Morning report"/></h1>
+						<field name="template_id" readonly="1" invisible="not template_id"/>
+					</div>
+					<div class="alert alert-info" role="alert" invisible="enabled">
+						This agent is off. Check its tools, data and authority, then turn it on.
+					</div>
+					<group>
+						<group string="Who">
+							<field name="responsible_user_id"/>
+							<field name="supervisor_user_id"/>
+							<field name="run_as_user_id"/>
+							<field name="user_ids" widget="many2many_tags"/>
+							<field name="supervisor_agent_id"/>
+						</group>
+						<group string="Authority">
+							<field name="authority_level"/>
+							<field name="max_amount"/>
+							<field name="max_risk"/>
+							<field name="company_ids" widget="many2many_tags" groups="base.group_multi_company"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+						</group>
+					</group>
+					<field name="explanation"/>
+					<notebook>
+						<page string="Goal" name="goal">
+							<group>
+								<field name="goal"/>
+								<field name="description"/>
+								<field name="instructions"/>
+								<field name="expected_output"/>
+							</group>
+						</page>
+						<page string="Tools" name="tools">
+							<field name="grant_ids" context="{'default_level': authority_level}">
+								<list editable="bottom" decoration-muted="not active">
+									<field name="tool_id" options="{'no_create': True}"/>
+									<field name="tool_level" string="Needs"/>
+									<field name="risk" widget="badge"/>
+									<field name="sensitive" optional="show"/>
+									<field name="level"/>
+									<field name="auto_execute"/>
+									<field name="max_amount" optional="show"/>
+									<field name="sensitive_rule" optional="hide"/>
+									<field name="rule_note" optional="hide"/>
+									<field name="rule_valid_until" optional="hide"/>
+									<field name="company_ids" widget="many2many_tags" optional="hide"/>
+									<field name="model_ids" widget="many2many_tags" optional="hide"/>
+									<field name="hour_from" widget="float_time" optional="hide"/>
+									<field name="hour_to" widget="float_time" optional="hide"/>
+									<field name="weekdays" optional="hide"/>
+									<field name="approver_user_ids" widget="many2many_tags" optional="show"/>
+									<field name="rule_set_by" optional="hide"/>
+									<field name="active" widget="boolean_toggle"/>
+								</list>
+							</field>
+						</page>
+						<page string="Data" name="data">
+							<field name="scope_ids">
+								<list editable="bottom">
+									<field name="model_id" options="{'no_create': True}"/>
+									<field name="domain"/>
+									<field name="field_ids" widget="many2many_tags" options="{'no_create': True}"/>
+									<field name="note"/>
+								</list>
+							</field>
+						</page>
+						<page string="When" name="when">
+							<group>
+								<group>
+									<field name="trigger_manual"/>
+									<field name="trigger_schedule"/>
+									<field name="trigger_event"/>
+									<field name="event_codes" invisible="not trigger_event"/>
+								</group>
+								<group>
+									<field name="calendar_id"/>
+									<field name="tz"/>
+								</group>
+							</group>
+							<field name="schedule_ids" invisible="not trigger_schedule">
+								<list>
+									<field name="name"/>
+									<field name="interval"/>
+									<field name="hour" widget="float_time"/>
+									<field name="next_run"/>
+									<field name="last_run"/>
+									<field name="active" widget="boolean_toggle"/>
+									<button name="action_run_now" type="object" string="Run Now" icon="fa-play"/>
+								</list>
+								<form>
+									<group>
+										<group>
+											<field name="name"/>
+											<field name="interval"/>
+											<field name="every" invisible="interval != 'custom'"/>
+											<field name="unit" invisible="interval != 'custom'"/>
+											<field name="hour" widget="float_time"/>
+											<field name="weekday" invisible="interval != 'weekly'"/>
+											<field name="month_day" invisible="interval != 'monthly'"/>
+											<field name="calendar" invisible="interval != 'monthly'"/>
+										</group>
+										<group>
+											<field name="outside_hours"/>
+											<field name="next_run"/>
+											<field name="last_run_id"/>
+											<field name="active"/>
+										</group>
+									</group>
+									<field name="input_text" placeholder="What the agent is asked each time"/>
+								</form>
+							</field>
+						</page>
+						<page string="Results and Errors" name="results">
+							<group>
+								<group string="Report">
+									<field name="report_format"/>
+									<field name="notify_user_ids" widget="many2many_tags"/>
+									<field name="notify_channel_id"/>
+									<field name="notify_email"/>
+								</group>
+								<group string="On Errors">
+									<field name="max_retries"/>
+									<field name="retry_delay"/>
+									<field name="escalate_user_id"/>
+									<field name="max_steps"/>
+								</group>
+							</group>
+						</page>
+						<page string="Providers" name="providers">
+							<group>
+								<field name="llm_provider_id"/>
+								<field name="vision_provider_id"/>
+								<field name="search_provider_id"/>
+								<field name="image_provider_id"/>
+							</group>
+							<p class="text-muted">Empty: the default provider of each kind is used.</p>
+						</page>
+						<page string="Supervision" name="supervision" invisible="not is_supervisor">
+							<group>
+								<field name="is_supervisor"/>
+								<field name="delegate_agent_ids" widget="many2many_tags"/>
+							</group>
+							<p class="text-muted">A supervisor gives tasks only to these agents and reviews their results. It cannot change any agent's access or authority, and its acceptance is not an accounting or legal approval.</p>
+						</page>
+						<page string="Fixed Steps" name="playbook">
+							<field name="playbook" widget="ace" options="{'mode': 'js'}"/>
+						</page>
+					</notebook>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+
+	<record id="agent_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.agent.list</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="template_id"/>
+				<field name="category" optional="show"/>
+				<field name="authority_level"/>
+				<field name="responsible_user_id"/>
+				<field name="approval_count" string="Waiting"/>
+				<field name="last_run_id" optional="show"/>
+				<field name="enabled" widget="boolean_toggle"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="agent_view_kanban" model="ir.ui.view">
+		<field name="name">veron.ai.agent.kanban</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="arch" type="xml">
+			<kanban>
+				<field name="enabled"/>
+				<templates>
+					<t t-name="card">
+						<div class="d-flex align-items-center">
+							<i class="fa fa-user-circle fa-2x me-2" title="Agent" t-att-class="record.enabled.raw_value ? 'text-success' : 'text-muted'"/>
+							<field name="name" class="fw-bold"/>
+						</div>
+						<field name="template_id" class="text-muted small"/>
+						<footer>
+							<field name="authority_level" class="small"/>
+							<button name="action_open_chat" type="object" class="btn btn-sm btn-primary ms-auto" invisible="not enabled">
+								<i class="fa fa-comments"/> Talk
+							</button>
+						</footer>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+
+	<record id="action_agents" model="ir.actions.act_window">
+		<field name="name">Agents</field>
+		<field name="res_model">veron.ai.agent</field>
+		<field name="view_mode">kanban,list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">No agent yet</p>
+			<p>Pick a role in the Role Library and activate it.</p>
+		</field>
+	</record>
+
+	<record id="activate_wizard_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.activate.wizard.form</field>
+		<field name="model">veron.ai.activate.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<div class="alert alert-warning" role="alert" invisible="available">
+					<span>Needs:</span> <field name="missing" class="d-inline"/>
+				</div>
+				<field name="description" readonly="1"/>
+				<group>
+					<group>
+						<field name="template_id" readonly="1"/>
+						<field name="name"/>
+						<field name="authority_level"/>
+					</group>
+					<group>
+						<field name="responsible_user_id"/>
+						<field name="supervisor_user_id"/>
+						<field name="company_ids" widget="many2many_tags" groups="base.group_multi_company"/>
+					</group>
+				</group>
+				<group string="What It Reads">
+					<field name="data_models" nolabel="1" colspan="2"/>
+				</group>
+				<group string="What It Does">
+					<field name="explanation" nolabel="1" colspan="2"/>
+				</group>
+				<p class="text-muted">The agent is made switched off. Check its tools and data, then turn it on.</p>
+				<field name="understood"/> <label for="understood"/>
+				<footer>
+					<button name="action_create" type="object" string="Make the Agent" class="btn-primary" invisible="not available"/>
+					<button string="Cancel" special="cancel" class="btn-secondary"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+</odoo>

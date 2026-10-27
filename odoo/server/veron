@@ -9,6 +9,7 @@
 #   ./veron update                                  new version: git pull, OCA, our modules updated
 #   ./veron password <address>                      a new administrator password
 #   ./veron ca                                      local: the certificate to install on each computer
+#   ./veron ai                                      the library of the Claude provider (also on update)
 #
 # The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
 # In local mode the address is the server's IP in the office network, e.g. 192.168.1.10.
@@ -40,6 +41,16 @@ fetch_oca() {
 			git clone --quiet --depth 1 --branch 19.0 "https://github.com/OCA/$repo.git" "$ROOT/oca/$repo"
 		fi
 	done
+}
+
+# The Anthropic library of the Claude provider, fetched with Odoo's own Python into python/sdk;
+# PIP_INDEX_URL in .env points it to a mirror. A failure is reported, not fatal: agents work without it.
+fetch_ai_sdk() {
+	local mirror
+	mirror=$(grep -s '^PIP_INDEX_URL=' .env | cut -d= -f2- || true)
+	compose run --rm -T -u root ${mirror:+-e PIP_INDEX_URL="$mirror"} \
+		--entrypoint pip odoo install --quiet --upgrade --target /mnt/python/sdk "anthropic>=2.3,<3" \
+		|| echo "The Anthropic library could not be fetched; run ./veron ai later. AI agents work without Claude." >&2
 }
 
 # Our own modules, the folders of addons with a manifest
@@ -137,6 +148,8 @@ EOF
 	mkdir -p sites backups
 	echo "Fetching the OCA modules..."
 	fetch_oca
+	echo "Fetching the library of the Claude provider..."
+	fetch_ai_sdk
 	compose up -d
 	# Every night at 2:30, a backup of every database
 	echo "30 2 * * * root $(pwd)/veron backup >>$(pwd)/backups/backup.log 2>&1" >/etc/cron.d/veron
@@ -231,10 +244,16 @@ backup)
 	fi
 	;;
 
+ai)
+	fetch_ai_sdk
+	compose restart odoo
+	;;
+
 update)
 	"$0" backup
 	git -C "$ROOT" pull --ff-only
 	fetch_oca
+	fetch_ai_sdk
 	compose up -d
 	for db in $(databases); do
 		echo "Updating $db..."
@@ -245,6 +264,6 @@ update)
 	;;
 
 *)
-	sed -n '2,14p' "$0" | sed 's/^# \{0,1\}//'
+	sed -n '2,15p' "$0" | sed 's/^# \{0,1\}//'
 	;;
 esac

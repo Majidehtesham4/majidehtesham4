@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="module_category_ai" model="ir.module.category">
+		<field name="name">AI Agents</field>
+		<field name="sequence">40</field>
+	</record>
+	<record id="privilege_ai" model="res.groups.privilege">
+		<field name="name">AI Agents</field>
+		<field name="category_id" ref="module_category_ai"/>
+	</record>
+	<record id="group_ai_user" model="res.groups">
+		<field name="name">User</field>
+		<field name="privilege_id" ref="privilege_ai"/>
+		<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		<field name="comment">Talks to the agents they may use, sees their own runs and decides what is asked of them.</field>
+	</record>
+	<record id="group_ai_manager" model="res.groups">
+		<field name="name">Manager</field>
+		<field name="privilege_id" ref="privilege_ai"/>
+		<field name="implied_ids" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+		<field name="comment">The only one who makes agents, gives them tools, data and authority, and sees every run.</field>
+	</record>
+
+	<!-- Companies: nothing of an agent crosses to a company the user does not have -->
+	<record id="rule_agent_company" model="ir.rule">
+		<field name="name">Agents: own companies</field>
+		<field name="model_id" ref="model_veron_ai_agent"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_run_company" model="ir.rule">
+		<field name="name">Agent runs: own companies</field>
+		<field name="model_id" ref="model_veron_ai_run"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_approval_company" model="ir.rule">
+		<field name="name">Agent approvals: own companies</field>
+		<field name="model_id" ref="model_veron_ai_approval"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_source_company" model="ir.rule">
+		<field name="name">Agent files: own companies</field>
+		<field name="model_id" ref="model_veron_ai_source"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_finding_company" model="ir.rule">
+		<field name="name">Agent findings: own companies</field>
+		<field name="model_id" ref="model_veron_ai_finding"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_content_company" model="ir.rule">
+		<field name="name">Agent drafts: own companies</field>
+		<field name="model_id" ref="model_veron_ai_content"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_provider_company" model="ir.rule">
+		<field name="name">AI providers: own companies</field>
+		<field name="model_id" ref="model_veron_ai_provider"/>
+		<field name="domain_force">[('company_id', 'in', [False] + company_ids)]</field>
+	</record>
+
+	<!-- A user sees the agents they may use, their own runs, conversations and files, and the decisions asked of them -->
+	<record id="rule_agent_user" model="ir.rule">
+		<field name="name">Agents: the ones a user may use</field>
+		<field name="model_id" ref="model_veron_ai_agent"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">['|', '|', ('responsible_user_id', '=', user.id), ('supervisor_user_id', '=', user.id), ('user_ids', 'in', user.id)]</field>
+	</record>
+	<record id="rule_agent_manager" model="ir.rule">
+		<field name="name">Agents: all for managers</field>
+		<field name="model_id" ref="model_veron_ai_agent"/>
+		<field name="groups" eval="[(4, ref('group_ai_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_run_user" model="ir.rule">
+		<field name="name">Agent runs: a user's own and their agents'</field>
+		<field name="model_id" ref="model_veron_ai_run"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">['|', '|', ('initiator_user_id', '=', user.id), ('agent_id.responsible_user_id', '=', user.id), ('agent_id.supervisor_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_run_manager" model="ir.rule">
+		<field name="name">Agent runs: all for managers</field>
+		<field name="model_id" ref="model_veron_ai_run"/>
+		<field name="groups" eval="[(4, ref('group_ai_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_approval_user" model="ir.rule">
+		<field name="name">Agent approvals: asked of the user, or of their runs</field>
+		<field name="model_id" ref="model_veron_ai_approval"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">['|', ('approver_user_ids', 'in', user.id), ('run_id.initiator_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_approval_manager" model="ir.rule">
+		<field name="name">Agent approvals: all for managers</field>
+		<field name="model_id" ref="model_veron_ai_approval"/>
+		<field name="groups" eval="[(4, ref('group_ai_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_source_user" model="ir.rule">
+		<field name="name">Agent files: a user's own</field>
+		<field name="model_id" ref="model_veron_ai_source"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">[('create_uid', '=', user.id)]</field>
+	</record>
+	<record id="rule_source_manager" model="ir.rule">
+		<field name="name">Agent files: all for managers</field>
+		<field name="model_id" ref="model_veron_ai_source"/>
+		<field name="groups" eval="[(4, ref('group_ai_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_conversation_user" model="ir.rule">
+		<field name="name">Agent conversations: a user's own</field>
+		<field name="model_id" ref="model_veron_ai_conversation"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">[('user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_message_user" model="ir.rule">
+		<field name="name">Agent messages: a user's own</field>
+		<field name="model_id" ref="model_veron_ai_message"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">[('conversation_id.user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_finding_user" model="ir.rule">
+		<field name="name">Agent findings: of the runs a user sees</field>
+		<field name="model_id" ref="model_veron_ai_finding"/>
+		<field name="groups" eval="[(4, ref('group_ai_user'))]"/>
+		<field name="domain_force">['|', '|', ('run_id.initiator_user_id', '=', user.id), ('run_id.agent_id.responsible_user_id', '=', user.id), ('run_id.agent_id.supervisor_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_finding_manager" model="ir.rule">
+		<field name="name">Agent findings: all for managers</field>
+		<field name="model_id" ref="model_veron_ai_finding"/>
+		<field name="groups" eval="[(4, ref('group_ai_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+</odoo>

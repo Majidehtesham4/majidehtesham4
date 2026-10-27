@@ -8,6 +8,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install web_responsive trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
 param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
@@ -96,6 +97,15 @@ switch ($Action) {
 		docker compose run --rm odoo -d $Database -u $Module --stop-after-init
 		docker compose up -d odoo
 	}
+	"ai" {
+		# The Anthropic library the Claude provider (ai_claude_anthropic) uses, fetched into python\sdk
+		# with Odoo's own Python, so it fits the container; set PIP_INDEX_URL first to use a mirror
+		Write-Host "Fetching the Anthropic library into python\sdk..."
+		docker compose run --rm -T -u root -e PIP_INDEX_URL --entrypoint pip odoo install --quiet --upgrade --target /mnt/python/sdk "anthropic>=2.3,<3"
+		if ($LASTEXITCODE -ne 0) { Write-Host "It could not be fetched; the lines above say why (is the internet reachable?)."; exit 1 }
+		docker compose restart odoo
+		Write-Host "Done. In AI Agents, Settings, Providers, open Claude, enter the key and press Check."
+	}
 	"remove" {
 		$answer = Read-Host "This deletes Odoo, its database and its files (your addons folder stays). Type yes"
 		if ($answer -ne "yes") { Write-Host "Nothing was removed."; exit 0 }
@@ -103,5 +113,5 @@ switch ($Action) {
 		docker image rm odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, remove" }
 }

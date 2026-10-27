@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="veron_ai_agent.Chat">
+        <div class="o_veron_ai_chat d-flex h-100" dir="rtl">
+            <aside class="o_veron_ai_agents border-start p-2">
+                <h6 class="text-muted px-2">Agents</h6>
+                <t t-if="!state.agents.length">
+                    <p class="text-muted small px-2">No working agent you may use. A manager activates one from the Role Library.</p>
+                </t>
+                <button t-foreach="state.agents" t-as="agent" t-key="agent.id" type="button"
+                    t-att-class="'btn w-100 text-start mb-1 ' + (agent.id === state.agentId ? 'btn-primary' : 'btn-light')"
+                    t-on-click="() => this.openAgent(agent.id)">
+                    <div class="fw-bold" t-esc="agent.name"/>
+                    <div class="small opacity-75" t-esc="agent.role"/>
+                </button>
+            </aside>
+            <section class="flex-grow-1 d-flex flex-column">
+                <div t-if="agent" class="o_veron_ai_head border-bottom p-2">
+                    <b t-esc="agent.name"/> <span class="badge text-bg-light" t-esc="agent.level"/>
+                    <div class="small text-muted" t-esc="agent.description"/>
+                </div>
+                <div class="o_veron_ai_messages flex-grow-1 overflow-auto p-3" t-ref="list">
+                    <div t-foreach="state.messages" t-as="message" t-key="message.id"
+                        t-att-class="'o_veron_ai_message mb-3 ' + (message.role === 'user' ? 'o_from_user' : 'o_from_agent')">
+                        <div class="o_veron_ai_bubble p-2 rounded">
+                            <t t-if="message.role === 'user'"><div class="o_veron_ai_text" t-esc="message.body"/></t>
+                            <t t-else=""><div t-out="html(message.body_html)"/></t>
+                            <div t-if="message.sources and message.sources.length" class="small mt-1">
+                                <span t-foreach="message.sources" t-as="source" t-key="source_index" class="badge text-bg-light me-1">
+                                    <i t-att-class="'fa ' + (source.kind === 'audio' ? 'fa-microphone' : source.kind === 'pdf' ? 'fa-file-pdf-o' : 'fa-camera')"/>
+                                    <t t-esc="source.name"/>
+                                </span>
+                            </div>
+                            <div t-if="message.pending and message.pending.length" class="mt-2">
+                                <button t-foreach="message.pending" t-as="approval" t-key="approval.id" type="button"
+                                    class="btn btn-sm btn-warning me-1 mb-1" t-on-click="() => this.openApproval(approval)">
+                                    <i class="fa fa-hourglass-half"/> <t t-esc="approval.summary"/>
+                                </button>
+                            </div>
+                            <div t-if="message.role === 'agent'" class="small text-muted mt-1 d-flex gap-2">
+                                <a t-if="message.run" href="#" t-on-click.prevent="() => this.openRun(message.run)">
+                                    <t t-esc="message.run.name"/> · <t t-esc="message.run.state_label"/>
+                                </a>
+                                <a href="#" t-on-click.prevent="() => this.speak(message)" title="Read aloud"><i class="fa fa-volume-up"/></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div t-if="state.busy" class="text-muted small"><i class="fa fa-circle-o-notch fa-spin"/> The agent is working...</div>
+                </div>
+                <div t-if="agent" class="o_veron_ai_input border-top p-2">
+                    <div t-foreach="state.files" t-as="file" t-key="file.id" class="o_veron_ai_file mb-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <i t-att-class="'fa ' + (file.kind === 'audio' ? 'fa-microphone' : file.kind === 'pdf' ? 'fa-file-pdf-o' : 'fa-camera')"/>
+                            <span t-esc="file.name"/>
+                            <button type="button" class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeFile(file)"><i class="fa fa-times"/></button>
+                        </div>
+                        <t t-if="file.kind === 'audio'">
+                            <label class="small text-muted">Text of the voice message; correct it before sending:</label>
+                            <textarea class="form-control form-control-sm" rows="2" t-model="file.transcriptEdit"/>
+                        </t>
+                    </div>
+                    <div class="d-flex gap-2 align-items-end">
+                        <textarea class="form-control" rows="2" t-model="state.text" t-on-keydown="onKeydown"
+                            placeholder="Write your request..." t-att-disabled="state.busy"/>
+                        <div class="d-flex gap-1">
+                            <button type="button" t-att-class="'btn ' + (state.recording ? 'btn-danger' : 'btn-light')" t-on-click="toggleRecording" title="Voice message">
+                                <i t-att-class="'fa ' + (state.recording ? 'fa-stop' : 'fa-microphone')"/>
+                            </button>
+                            <label class="btn btn-light mb-0" title="Photo">
+                                <i class="fa fa-camera"/>
+                                <input type="file" accept="image/*" capture="environment" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'receipt')"/>
+                            </label>
+                            <label class="btn btn-light mb-0" title="PDF or photo file">
+                                <i class="fa fa-paperclip"/>
+                                <input type="file" accept="image/*,application/pdf" multiple="multiple" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'other')"/>
+                            </label>
+                            <button type="button" class="btn btn-primary" t-on-click="send" t-att-disabled="state.busy or state.uploading or state.recording">
+                                <i class="fa fa-paper-plane"/>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="small text-muted mt-1">The agent acts only within its tools; actions that need approval wait for a person.</div>
+                </div>
+            </section>
+        </div>
+    </t>
+</templates>

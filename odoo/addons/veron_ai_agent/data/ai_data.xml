@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sequence_run" model="ir.sequence">
+		<field name="name">Agent Run</field>
+		<field name="code">veron.ai.run</field>
+		<field name="prefix">RUN-</field>
+		<field name="padding">6</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="sequence_approval" model="ir.sequence">
+		<field name="name">Agent Approval</field>
+		<field name="code">veron.ai.approval</field>
+		<field name="prefix">APR-</field>
+		<field name="padding">6</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="cron_schedules" model="ir.cron">
+		<field name="name">AI Agents: scheduled and queued runs</field>
+		<field name="model_id" ref="model_veron_ai_schedule"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_due()</field>
+		<field name="interval_number">5</field>
+		<field name="interval_type">minutes</field>
+	</record>
+	<record id="cron_cleanup" model="ir.cron">
+		<field name="name">AI Agents: files past their keeping date</field>
+		<field name="model_id" ref="model_veron_ai_source"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_cleanup()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+	</record>
+	<function model="veron.ai.tool" name="_sync"/>
+</odoo>

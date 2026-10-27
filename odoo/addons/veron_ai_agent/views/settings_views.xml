@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="provider_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.provider.form</field>
+		<field name="model">veron.ai.provider</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_check" type="object" string="Check" class="btn-primary"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. Claude"/></h1></div>
+					<div class="alert alert-danger" role="alert" invisible="not last_error"><field name="last_error"/></div>
+					<group>
+						<group>
+							<field name="kind"/>
+							<field name="adapter"/>
+							<field name="model_name"/>
+							<field name="base_url"/>
+							<field name="is_default"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="active"/>
+						</group>
+						<group groups="base.group_system">
+							<field name="key_set"/>
+							<field name="api_key" password="True"/>
+							<field name="api_key_env"/>
+							<field name="timeout"/>
+							<field name="max_tokens" invisible="kind != 'llm'"/>
+							<field name="effort" invisible="kind != 'llm'"/>
+							<field name="language" invisible="kind not in ('stt', 'tts', 'vision')"/>
+							<field name="last_check"/>
+						</group>
+					</group>
+					<group invisible="kind != 'search'">
+						<field name="allowed_domains" placeholder="e.g. torob.com"/>
+					</group>
+					<group>
+						<field name="options" placeholder='{"voice": "alloy"}'/>
+					</group>
+					<field name="note" placeholder="Notes: who gave the key, until when it is valid..."/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="provider_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.provider.list</field>
+		<field name="model">veron.ai.provider</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="adapter"/>
+				<field name="model_name"/>
+				<field name="is_default"/>
+				<field name="key_set"/>
+				<field name="state" widget="badge" decoration-success="state == 'ok'" decoration-danger="state == 'error'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="action_providers" model="ir.actions.act_window">
+		<field name="name">Providers</field>
+		<field name="res_model">veron.ai.provider</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">Connect a service</p>
+			<p>A language model (e.g. Claude), reading of photos and PDFs, speech to text, text to speech, image generation, web search and an antivirus. Agents work without them, with their fixed steps only.</p>
+		</field>
+	</record>
+
+	<record id="tool_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.tool.list</field>
+		<field name="model">veron.ai.tool</field>
+		<field name="arch" type="xml">
+			<list create="false" delete="false">
+				<field name="name"/>
+				<field name="code"/>
+				<field name="category"/>
+				<field name="level" string="Needs Level"/>
+				<field name="risk" widget="badge"/>
+				<field name="sensitive"/>
+				<field name="models_used" optional="show"/>
+				<field name="module" optional="hide"/>
+				<field name="available"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="tool_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.tool.form</field>
+		<field name="model">veron.ai.tool</field>
+		<field name="arch" type="xml">
+			<form create="false" delete="false">
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1><field name="code"/></div>
+					<field name="description"/>
+					<group>
+						<group>
+							<field name="category"/>
+							<field name="action"/>
+							<field name="level"/>
+						</group>
+						<group>
+							<field name="risk"/>
+							<field name="sensitive"/>
+							<field name="models_used"/>
+							<field name="supervisor_only"/>
+						</group>
+					</group>
+					<label for="input_schema"/>
+					<field name="input_schema" widget="ace" options="{'mode': 'js'}"/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_tools" model="ir.actions.act_window">
+		<field name="name">Tools</field>
+		<field name="res_model">veron.ai.tool</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="res_config_settings_view_form" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.veron.ai</field>
+		<field name="model">res.config.settings</field>
+		<field name="priority" eval="60"/>
+		<field name="inherit_id" ref="base.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//form" position="inside">
+				<app data-string="AI Agents" string="AI Agents" name="veron_ai_agent" groups="veron_ai_agent.group_ai_manager">
+					<block title="Files" name="veron_ai_files">
+						<setting string="Files" help="The largest file a person may give an agent, and how long files are kept">
+							<div class="content-group">
+								<div class="row mt8"><label for="veron_ai_max_upload_mb" class="col-lg-6 o_light_label"/><field name="veron_ai_max_upload_mb"/></div>
+								<div class="row"><label for="veron_ai_file_retention_days" class="col-lg-6 o_light_label"/><field name="veron_ai_file_retention_days"/></div>
+							</div>
+						</setting>
+						<setting string="Voice Messages" help="Voice is kept only as long as set here; recording phone calls or outside conversations is not done by this module">
+							<div class="content-group">
+								<div class="row mt8"><label for="veron_ai_audio_retention_days" class="col-lg-6 o_light_label"/><field name="veron_ai_audio_retention_days"/></div>
+								<div class="row"><label for="veron_ai_keep_audio" class="col-lg-6 o_light_label"/><field name="veron_ai_keep_audio"/></div>
+							</div>
+						</setting>
+						<setting string="Audit" help="Audit events are kept as they happened">
+							<field name="veron_ai_audit_retention_days"/>
+						</setting>
+					</block>
+				</app>
+			</xpath>
+		</field>
+	</record>
+
+	<record id="action_settings" model="ir.actions.act_window">
+		<field name="name">Settings</field>
+		<field name="res_model">res.config.settings</field>
+		<field name="view_mode">form</field>
+		<field name="target">current</field>
+		<field name="context">{'module': 'veron_ai_agent', 'bin_size': False}</field>
+	</record>
+
+	<record id="action_chat" model="ir.actions.client">
+		<field name="name">Talk to an Agent</field>
+		<field name="tag">veron_ai_agent.chat</field>
+	</record>
+
+	<menuitem id="menu_root" name="AI Agents" web_icon="veron_ai_agent,static/description/icon.png" sequence="6"
+		groups="group_ai_user"/>
+	<menuitem id="menu_chat" name="Talk" parent="menu_root" action="action_chat" sequence="1"/>
+	<menuitem id="menu_approvals" name="Approvals and Questions" parent="menu_root" action="action_approvals" sequence="5"/>
+	<menuitem id="menu_work" name="Work" parent="menu_root" sequence="10">
+		<menuitem id="menu_runs" name="Runs" action="action_runs" sequence="1"/>
+		<menuitem id="menu_findings" name="Findings to Review" action="action_findings" sequence="2"/>
+		<menuitem id="menu_tasks" name="Supervisor Tasks" action="action_tasks" sequence="3"/>
+		<menuitem id="menu_contents" name="Drafts" action="action_contents" sequence="4"/>
+	</menuitem>
+	<menuitem id="menu_agents" name="Agents" parent="menu_root" sequence="20">
+		<menuitem id="menu_agent_list" name="Agents" action="action_agents" sequence="1"/>
+		<menuitem id="menu_library" name="Role Library" action="action_templates" sequence="2" groups="group_ai_manager"/>
+	</menuitem>
+	<menuitem id="menu_config" name="Settings" parent="menu_root" sequence="90" groups="group_ai_manager">
+		<menuitem id="menu_providers" name="Providers" action="action_providers" sequence="1"/>
+		<menuitem id="menu_tools" name="Tools" action="action_tools" sequence="2"/>
+		<menuitem id="menu_audit" name="History of Actions" action="action_audit" sequence="3"/>
+		<menuitem id="menu_settings" name="Settings" action="action_settings" sequence="9"/>
+	</menuitem>
+</odoo>

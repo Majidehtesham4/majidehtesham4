@@ -1,3 +1,6 @@
 oca/
 __pycache__/
 *.pyc
+
+# Libraries fetched by odoo.ps1 ai / veron ai
+python/sdk/

@@ -21,7 +21,7 @@ services:
       HOST: db
       USER: odoo
       PASSWORD: ${DB_PASSWORD:?run ./veron setup first}
-      PYTHONPATH: /mnt/python
+      PYTHONPATH: /mnt/python:/mnt/python/sdk
     volumes:
       - odoo-data:/var/lib/odoo
       # Made by ./veron setup: the passwords are only on the server
