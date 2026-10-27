@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_user,payslip pdf user,model_veron_payslip_document,base.group_user,1,0,0,0
+access_document_manager,payslip pdf manager,model_veron_payslip_document,payroll.group_payroll_manager,1,1,1,1

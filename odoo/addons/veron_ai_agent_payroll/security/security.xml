@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- A payslip PDF: the employee's own; every one for payroll managers -->
+	<record id="rule_document_own" model="ir.rule">
+		<field name="name">Payslip PDFs: the employee's own</field>
+		<field name="model_id" ref="model_veron_payslip_document"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_document_manager" model="ir.rule">
+		<field name="name">Payslip PDFs: all for payroll managers</field>
+		<field name="model_id" ref="model_veron_payslip_document"/>
+		<field name="groups" eval="[(4, ref('payroll.group_payroll_manager'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_document_company" model="ir.rule">
+		<field name="name">Payslip PDFs: own companies</field>
+		<field name="model_id" ref="model_veron_payslip_document"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+</odoo>
