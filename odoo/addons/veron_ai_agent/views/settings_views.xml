@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<record id="connect_wizard_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.connect.wizard.form</field>
+		<field name="model">veron.ai.connect.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<div invisible="done">
+					<p>The keys of one service are pasted here, all together. The service is found from the key
+						(a Groq key begins with gsk_, a ChatGPT key with sk-, an OpenRouter key with sk-or-, a Claude key with
+						sk-ant-), each key is checked, and those that work are kept and turned on. Nothing else is needed.</p>
+					<group>
+						<field name="service"/>
+						<field name="keys" class="o_veron_secret" placeholder="gsk_...&#10;gsk_...&#10;gsk_..."
+							widget="text" options="{'resizable': true}"/>
+						<field name="use_stt" invisible="service not in ('auto', 'groq')"/>
+						<field name="use_vision"/>
+					</group>
+					<p class="text-muted small">The keys are kept in the database for administrators only, are never shown
+						again and are never written to the logs. Answers that need no AI are still given by the built-in
+						assistant, even when every key is at its limit.</p>
+				</div>
+				<field name="result" invisible="not done"/>
+				<field name="done" invisible="1"/>
+				<footer>
+					<button name="action_connect" type="object" string="Check and Connect" class="btn-primary" invisible="done"/>
+					<button string="Close" class="btn-secondary" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_connect_wizard" model="ir.actions.act_window">
+		<field name="name">Connect AI</field>
+		<field name="res_model">veron.ai.connect.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
 	<record id="provider_view_form" model="ir.ui.view">
 		<field name="name">veron.ai.provider.form</field>
 		<field name="model">veron.ai.provider</field>
@@ -12,6 +49,12 @@
 				<sheet>
 					<div class="oe_title"><h1><field name="name" placeholder="e.g. Claude"/></h1></div>
 					<div class="alert alert-danger" role="alert" invisible="not last_error"><field name="last_error"/></div>
+					<div class="alert alert-info" role="alert" groups="base.group_system">
+						The simplest way to give keys is
+						<button name="%(action_connect_wizard)d" type="action" string="Connect AI" class="btn-link p-0 align-baseline"/>:
+						paste the keys there and the service, the address and the model are set by themselves. An empty
+						Address here is found from the key.
+					</div>
 					<group>
 						<group>
 							<field name="kind"/>
@@ -52,6 +95,10 @@
 		<field name="model">veron.ai.provider</field>
 		<field name="arch" type="xml">
 			<list>
+				<header>
+					<button name="%(action_connect_wizard)d" type="action" string="Connect AI" class="btn-primary"
+						display="always" groups="base.group_system"/>
+				</header>
 				<field name="sequence" widget="handle"/>
 				<field name="name"/>
 				<field name="kind"/>
@@ -184,6 +231,7 @@
 		<menuitem id="menu_library" name="Role Library" action="action_templates" sequence="2" groups="group_ai_manager"/>
 	</menuitem>
 	<menuitem id="menu_config" name="Settings" parent="menu_root" sequence="90" groups="group_ai_manager">
+		<menuitem id="menu_connect" name="Connect AI" action="action_connect_wizard" sequence="0" groups="base.group_system"/>
 		<menuitem id="menu_providers" name="Providers" action="action_providers" sequence="1"/>
 		<menuitem id="menu_tools" name="Tools" action="action_tools" sequence="2"/>
 		<menuitem id="menu_audit" name="History of Actions" action="action_audit" sequence="3"/>

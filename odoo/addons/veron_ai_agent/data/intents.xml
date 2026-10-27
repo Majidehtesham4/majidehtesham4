@@ -329,12 +329,91 @@
 		<field name="sequence">21</field>
 		<field name="phrases">این سند را بخوان
 فیلدهای این فایل را بخوان
-این عکس را بخوان</field>
+این عکس را بخوان
+این فاکتور را بخوان</field>
 		<field name="tool_code">document_extract</field>
 		<field name="args">{"document_type": "invoice"}</field>
 		<field name="period">none</field>
 		<field name="default_days">0</field>
 		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "فایل را بفرستید.", "required": true}]</field>
+	</record>
+	<record id="intent_receipt_read" model="veron.ai.intent">
+		<field name="code">receipt_read</field>
+		<field name="name">خواندن رسید یا فیش کارت‌خوان</field>
+		<field name="section">files</field>
+		<field name="sequence">22</field>
+		<field name="phrases">این رسید را بخوان
+فیش کارتخوان را بخوان
+مبلغ این رسید چقدر است
+این قبض را بخوان</field>
+		<field name="tool_code">document_extract</field>
+		<field name="args">{"document_type": "receipt"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "عکس یا PDF را بفرستید.", "required": true}]</field>
+	</record>
+	<record id="intent_cheque_read" model="veron.ai.intent">
+		<field name="code">cheque_read</field>
+		<field name="name">خواندن چک</field>
+		<field name="section">files</field>
+		<field name="sequence">23</field>
+		<field name="phrases">این چک را بخوان
+مشخصات چک
+شناسه صیاد این چک
+چک را بخوان</field>
+		<field name="tool_code">document_extract</field>
+		<field name="args">{"document_type": "cheque"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "عکس یا PDF را بفرستید.", "required": true}]</field>
+	</record>
+	<record id="intent_page_summary" model="veron.ai.intent">
+		<field name="code">page_summary</field>
+		<field name="name">خلاصه‌ی همین بخش</field>
+		<field name="section">general</field>
+		<field name="sequence">90</field>
+		<field name="phrases">خلاصه این بخش
+آمار این صفحه
+چند تا داریم
+تعدادشان چند تاست
+جمع اینها چقدر است
+وضعیت این بخش
+گزارش این صفحه</field>
+		<field name="tool_code">page_overview</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "model", "page": "model", "required": true}]</field>
+	</record>
+	<record id="intent_page_record" model="veron.ai.intent">
+		<field name="code">page_record</field>
+		<field name="name">مشخصات همین رکورد</field>
+		<field name="section">general</field>
+		<field name="sequence">91</field>
+		<field name="phrases">مشخصات این
+اطلاعات این سند
+این را خلاصه کن
+جزئیات این رکورد
+این پرونده را نشان بده</field>
+		<field name="tool_code">page_overview</field>
+		<field name="args">{}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "model", "page": "model", "required": true}, {"arg": "id", "page": "id", "required": true}]</field>
+	</record>
+	<record id="intent_page_find" model="veron.ai.intent">
+		<field name="code">page_find</field>
+		<field name="name">جست‌وجو در همین بخش</field>
+		<field name="section">general</field>
+		<field name="sequence">92</field>
+		<field name="phrases">در این بخش پیدا کن
+در این صفحه بگرد
+اینجا جست و جو کن</field>
+		<field name="tool_code">records_search</field>
+		<field name="args">{"filters": [["display_name", "ilike", "$_name"]], "limit": 20}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "model", "page": "model", "required": true}, {"arg": "_name", "text": true, "question": "دنبال چه بگردم؟", "required": true}]</field>
 	</record>
 	<record id="intent_knowledge" model="veron.ai.intent">
 		<field name="code">knowledge</field>

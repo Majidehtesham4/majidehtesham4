@@ -42,6 +42,8 @@ class FinanceCase(TransactionCase):
 			"name": "تنخواه انبار", "custodian_user_id": cls.other_custodian.id, "account_id": cls.cash_account.id,
 			"journal_id": cls.journal.id, "amount": 10_000_000,
 		})
+		# The providers of the database (a key someone connected) take no part in the tests
+		cls.env["veron.ai.provider"].search([]).write({"active": False})
 		Provider = cls.env["veron.ai.provider"]
 		cls.llm = Provider.create({"name": "Fake", "kind": "llm", "adapter": "test_fake", "is_default": True, "api_key": "k"})
 		cls.vision = Provider.create({"name": "Fake vision", "kind": "vision", "adapter": "test_fake", "is_default": True,

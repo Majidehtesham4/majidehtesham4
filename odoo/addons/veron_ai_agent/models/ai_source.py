@@ -116,20 +116,43 @@ class AiSource(models.Model):
 		self.ensure_one()
 		self.sudo().write({"transcript": text, "transcript_confirmed": True})
 
-	def _extract(self, schema, instructions, provider=None):
-		"""Fields read from a photo or a PDF by the vision provider, kept with the file for a person to check"""
+	def _extract(self, schema, instructions, provider=None, document_type=None):
+		"""Fields read from a photo or a PDF, kept with the file for a person to check. The reading provider reads
+		it; when there is none, when it fails or gives no fields, the built-in reader reads the fields from the text
+		of the PDF or from the built-in OCR, without any AI."""
+		from ..services import ocr, reader
+		from ..tools.documents import DOCUMENTS
+
 		self.ensure_one()
+		document_type = document_type or next((code for code, spec in DOCUMENTS.items() if spec is schema), None)
 		provider = provider or self.env["veron.ai.provider"]._get("vision", company=self.company_id)
-		if not provider:
-			self.sudo().extraction_state = "no_provider"
+		builtin = not provider or getattr(providers.ADAPTERS.get(provider.adapter), "local", False)
+		result, failure = None, None
+		if not builtin:
+			try:
+				result = provider._adapter().extract([(self.mimetype, self._data())], schema, instructions)
+				provider._mark()
+			except providers.ProviderError as error:
+				provider._mark(error)
+				failure = error
+		values = (result or {}).get("fields") or {}
+		if not any(value not in (None, "", []) for key, value in values.items() if key != "confidence"):
+			texts = [(result or {}).get("text") or "", self.extracted_text or ""]
+			texts += ocr.document_texts(self._data(), self.mimetype or "")
+			texts = list(dict.fromkeys(text for text in texts if text.strip()))
+			if document_type:
+				text, read = reader.best(document_type, texts)
+			else:
+				text, read = (max(texts, key=ocr.quality) if texts else ""), {}
+			if text:
+				result = {"text": text, "fields": read or values, "reader": "builtin"}
+			if builtin and provider:
+				provider._mark()
+		if not result:
+			self.sudo().extraction_state = "failed" if failure else "no_provider"
+			if failure:
+				raise failure
 			return None
-		try:
-			result = provider._adapter().extract([(self.mimetype, self._data())], schema, instructions)
-		except providers.ProviderError as error:
-			provider._mark(error)
-			self.sudo().extraction_state = "failed"
-			raise
-		provider._mark()
 		self.sudo().write({"extraction_state": "done", "extracted_json": providers.as_json(result.get("fields", {})),
 			"extracted_text": result.get("text") or self.extracted_text})
 		return result

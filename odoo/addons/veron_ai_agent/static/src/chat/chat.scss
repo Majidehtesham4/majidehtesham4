@@ -87,3 +87,9 @@
 		height: auto;
 	}
 }
+
+// Keys pasted in Connect AI are not shown on the screen
+.o_veron_secret textarea {
+	-webkit-text-security: disc;
+	text-security: disc;
+}

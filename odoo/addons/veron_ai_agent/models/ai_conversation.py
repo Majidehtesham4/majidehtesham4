@@ -133,9 +133,7 @@ class AiChatApi(models.Model):
 			if source:
 				source._confirm_transcript(transcript)
 		before = conversation.message_ids
-		page = {"model": str((page or {}).get("model") or "")[:64], "res_id": int((page or {}).get("res_id") or 0)}
-		if page["model"] and page["model"] not in self.env:
-			page = None
+		page = self._page(page)
 		conversation._post(text, sources, engine=engine, page=page)
 		return [m._chat_dict() for m in conversation.message_ids - before]
 
@@ -174,6 +172,38 @@ class AiChatApi(models.Model):
 		message = self.env["veron.ai.message"].create({"conversation_id": conversation.id, "role": "agent",
 			"body_html": body, "run_id": approval.run_id.id})
 		return [message._chat_dict()]
+
+
+OPERATORS = {"=", "!=", ">", "<", ">=", "<=", "ilike", "not ilike", "in", "not in"}
+
+
+def _scalar(value):
+	return value is None or isinstance(value, (bool, int, float)) or isinstance(value, str) and len(value) <= 200
+
+
+class AiChatPage(models.Model):
+	_inherit = "veron.ai.conversation"
+
+	@api.model
+	def _page(self, page):
+		"""The page the person has open: its model, record, title and the simple conditions of its list. Anything
+		else the browser sends is dropped; the tools check the model and the fields again."""
+		page = page or {}
+		model = str(page.get("model") or "")[:64]
+		if not model or model not in self.env:
+			return None
+		filters = []
+		for item in page.get("domain") or []:
+			if isinstance(item, (list, tuple)) and len(item) == 3 and isinstance(item[0], str) and item[1] in OPERATORS:
+				value = item[2]
+				if _scalar(value) or isinstance(value, list) and len(value) <= 50 and all(_scalar(v) for v in value):
+					filters.append([item[0][:64], item[1], value])
+			elif item not in ("&",):
+				# An «or» or a «not» makes the list's conditions more than simple ones: none are used
+				filters = []
+				break
+		return {"model": model, "res_id": int(page.get("res_id") or 0), "title": str(page.get("title") or "")[:80],
+			"filters": filters[:10]}
 
 
 class AiMessageChat(models.Model):

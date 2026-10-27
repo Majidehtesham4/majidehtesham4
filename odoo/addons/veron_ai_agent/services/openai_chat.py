@@ -7,6 +7,7 @@ import json
 
 from odoo.tools.translate import LazyTranslate
 
+from . import catalog
 from . import files as filetools
 from . import redact
 from .providers import Adapter, LLMResult, ProviderError, ToolCall, _post, register
@@ -40,7 +41,8 @@ class OpenAIChat(Adapter):
 	label = "ChatGPT / Groq / OpenRouter (OpenAI format)"
 
 	def base(self):
-		return (self.config.get("base_url") or OPENAI_URL).rstrip("/")
+		# An empty address is the service the key is from (a Groq key goes to Groq), else OpenAI
+		return (self.config.get("base_url") or catalog.base_for(self.config.get("api_key")) or OPENAI_URL).rstrip("/")
 
 	def model(self):
 		model = self.config.get("model")

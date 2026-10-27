@@ -31,7 +31,12 @@ export class AssistantBox extends AgentChat {
         const props = this.action.currentController?.props || {};
         const model = props.resModel || router.current.model;
         const resId = props.resId || router.current.resId;
-        return model ? { model, res_id: Number.isInteger(resId) ? resId : 0 } : false;
+        if (!model) {
+            return false;
+        }
+        // The list as the person sees it: its title and the conditions of the action and of the search
+        const domain = Array.isArray(props.domain) ? props.domain : [];
+        return { model, res_id: Number.isInteger(resId) ? resId : 0, title: this.pageLabel, domain };
     }
 
     async toggle() {

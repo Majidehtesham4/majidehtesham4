@@ -51,5 +51,5 @@
 	<function model="veron.ai.agent" name="_setup_assistant"/>
 
 	<!-- The program's own bot, shown as the author of what the system does, carries no platform name -->
-	<function model="res.partner" name="write" eval="[[ref('base.partner_root')], {'name': 'ربات برنامه'}]"/>
+	<function model="res.partner" name="write" eval="[[ref('base.partner_root')], {'name': 'VeronBot'}]"/>
 </odoo>

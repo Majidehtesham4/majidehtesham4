@@ -11,6 +11,10 @@ from ..services import registry
 COMMON_MODELS = ["res.partner", "product.product", "product.template", "sale.order", "purchase.order", "account.move",
 	"account.move.line", "account.journal", "stock.picking", "stock.quant", "hr.employee", "project.task", "mail.activity",
 	"document.page"]
+# Never read by the assistant, whatever the menus show
+TECHNICAL = ("ir.", "base.", "res.users", "res.groups", "res.config", "res.company.ldap", "veron.ai.", "bus.", "auth",
+	"iap.", "fetchmail.", "mail.mail", "mail.message", "mail.alias", "mail.server", "payment.provider", "web_", "digest.",
+	"base_import", "report.", "sms.", "spreadsheet", "privacy.")
 
 
 class AiAgentAssistant(models.Model):
@@ -37,6 +41,15 @@ class AiAgentAssistant(models.Model):
 			if record:
 				grants.append((0, 0, {"tool_id": record.id, "level": "3",
 					"requester_may_approve": not tool.sensitive}))
+		# Every section of the menus, so «this section» means something on every page; technical models and the
+		# settings of people, rights and agents are never read
+		for model_name in set(self.env["ir.actions.act_window"].sudo().search([]).mapped("res_model")):
+			if not model_name or model_name not in self.env:
+				continue
+			model = self.env[model_name]
+			if model._transient or model._abstract or model_name.startswith(TECHNICAL):
+				continue
+			models_wanted.add(model_name)
 		scoped = set(agent.scope_ids.model_id.mapped("model"))
 		scopes = [(0, 0, {"model_id": self.env["ir.model"]._get_id(name)}) for name in sorted(models_wanted)
 			if name in self.env and name not in scoped]

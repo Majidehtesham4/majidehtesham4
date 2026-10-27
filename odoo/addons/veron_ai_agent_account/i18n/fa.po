@@ -86,17 +86,6 @@ msgstr "ردیف بدون کالا قیمت لازم دارد."
 
 #. module: veron_ai_agent_account
 #. odoo-python
-#: code:addons/veron_ai_agent_account/tools/bills.py:0
-msgid ""
-"A photo is read only with a reading provider (Tesseract, Groq, Claude...). "
-"Send the invoice as a PDF, or set one in Settings, Providers."
-msgstr ""
-"عکس فقط با یک سرویس خواندن (Tesseract، Groq، Claude...) خوانده می‌شود. "
-"فاکتور را به صورت PDF بفرستید، یا در تنظیمات، بخش سرویس‌دهنده‌ها یکی تعریف "
-"کنید."
-
-#. module: veron_ai_agent_account
-#. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "A posted closing is undone by reversing its entry in accounting."
 msgstr "صورت تنخواهِ ثبت‌شده با برگشت سندش در حسابداری لغو می‌شود."
@@ -861,8 +850,8 @@ msgid ""
 " the product's price. It is never posted here."
 msgstr ""
 "از یک مخاطب و ردیف‌ها پیش‌نویس فاکتور فروش یا خرید می‌سازد. مالیات و جمع‌ها "
-"را برنامه از روی کالاها محاسبه می‌کند؛ قیمتِ داده‌نشده قیمت خود کالاست. "
-"اینجا هرگز ثبت قطعی نمی‌شود."
+"را Veron از روی کالاها محاسبه می‌کند؛ قیمتِ داده‌نشده قیمت خود کالاست. اینجا"
+" هرگز ثبت قطعی نمی‌شود."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1008,16 +997,6 @@ msgid "No such petty cash closing in the agent's data."
 msgstr "چنین صورت تنخواهی در داده‌های ایجنت نیست."
 
 #. module: veron_ai_agent_account
-#. odoo-python
-#: code:addons/veron_ai_agent_account/tools/bills.py:0
-msgid ""
-"No text was found in the file; it may be a scan. Set a reading provider to "
-"read it."
-msgstr ""
-"متنی در فایل پیدا نشد؛ شاید اسکن باشد. برای خواندن آن یک سرویس خواندن تعریف "
-"کنید."
-
-#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rejected_amount
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__rejected
 msgid "Not Accepted"
@@ -1038,6 +1017,14 @@ msgstr "یادداشت"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
 msgid "Notes"
 msgstr "یادداشت‌ها"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid ""
+"Nothing could be read from the file. Send a clearer photo or the PDF of the "
+"invoice."
+msgstr "چیزی از فایل خوانده نشد. عکس واضح‌تر یا PDF فاکتور را بفرستید."
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__receipt_number
@@ -1420,12 +1407,12 @@ msgstr "خواندن"
 msgid ""
 "Reads a vendor's invoice (a photo or a PDF given to this run), finds the "
 "vendor by its economic code or its name, and makes a draft vendor bill with "
-"the file attached. Without a reading provider the text of a PDF is read. It "
-"is never posted here."
+"the file attached. Without any AI, the text of the PDF or the built-in OCR "
+"is read. It is never posted here."
 msgstr ""
 "فاکتور فروشنده (عکس یا PDF) را می‌خواند، فروشنده را با کد اقتصادی یا نامش "
-"پیدا می‌کند و پیش‌نویس فاکتور خرید را همراه با فایل می‌سازد. بدون سرویس "
-"خواندن، متن PDF خوانده می‌شود. اینجا هرگز ثبت قطعی نمی‌شود."
+"پیدا می‌کند و پیش‌نویس فاکتور خرید را همراه با فایل می‌سازد. بدون هوش "
+"مصنوعی، متن PDF یا OCR داخلی خوانده می‌شود. اینجا هرگز ثبت قطعی نمی‌شود."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1919,7 +1906,7 @@ msgstr "فروشنده"
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__partner_id
 msgid "Vendor in Odoo"
-msgstr "فروشنده در برنامه"
+msgstr "فروشنده در Veron"
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__vendor_tax_id
@@ -1975,8 +1962,8 @@ msgstr "مثلاً تنخواه نمایشگاه"
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/bills.py:0
-msgid "text of the file"
-msgstr "متن فایل"
+msgid "the built-in reader (no AI)"
+msgstr "خواننده‌ی داخلی (بدون هوش مصنوعی)"
 
 #. module: veron_ai_agent_account
 #. odoo-python

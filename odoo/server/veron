@@ -150,7 +150,7 @@ EOF
 	fetch_oca
 	echo "Fetching the library of the Claude provider..."
 	fetch_ai_sdk
-	compose up -d
+	compose up -d --build
 	# Every night at 2:30, a backup of every database
 	echo "30 2 * * * root $(pwd)/veron backup >>$(pwd)/backups/backup.log 2>&1" >/etc/cron.d/veron
 	echo
@@ -254,7 +254,7 @@ update)
 	git -C "$ROOT" pull --ff-only
 	fetch_oca
 	fetch_ai_sdk
-	compose up -d
+	compose up -d --build
 	for db in $(databases); do
 		echo "Updating $db..."
 		compose run --rm -T odoo -d "$db" -u "$(ours)" --stop-after-init --log-level=warn

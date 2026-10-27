@@ -54,7 +54,8 @@ switch ($Action) {
 	}
 	"start" {
 		$fetched = Confirm-Oca
-		docker compose up -d
+		# --build: the image with the built-in OCR is made the first time and after its Dockerfile changes
+		docker compose up -d --build
 		if ($LASTEXITCODE -ne 0) { Write-Host "Could not start; is Docker Desktop running?"; exit 1 }
 		if ($fetched) { docker compose restart odoo }
 		Write-Host "Odoo is starting: open http://localhost:8069 in a minute."
@@ -80,6 +81,7 @@ switch ($Action) {
 		# A module in the addons folder installed into a database, without the Apps menu
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 install web_responsive trial"; exit 1 }
 		Confirm-Oca | Out-Null
+		docker compose build odoo
 		docker compose stop odoo
 		# Our own modules already installed are brought up to date with it (Odoo skips the others):
 		# a module installed before a git pull would otherwise keep its old menus and names
@@ -110,7 +112,7 @@ switch ($Action) {
 		$answer = Read-Host "This deletes Odoo, its database and its files (your addons folder stays). Type yes"
 		if ($answer -ne "yes") { Write-Host "Nothing was removed."; exit 0 }
 		docker compose down -v
-		docker image rm odoo:19.0 postgres:16
+		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
 	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, remove" }

@@ -144,7 +144,7 @@ class ClaudeAdapter(providers.Adapter):
 		try:
 			info = client.models.retrieve(self.model())
 		except anthropic.AuthenticationError as error:
-			raise ProviderError(_lt("Claude refused the key."), kind="config") from error
+			raise ProviderError(_lt("Claude refused the key."), kind="key") from error
 		except anthropic.NotFoundError as error:
 			raise ProviderError(_lt("The model %s is not found.", self.model()), kind="config") from error
 		except anthropic.APIConnectionError as error:

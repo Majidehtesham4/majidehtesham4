@@ -553,7 +553,7 @@ class PettyCashReceipt(models.Model):
 		self.ensure_one()
 		if not self.source_id:
 			return None
-		result = self.source_id._extract(DOCUMENTS["receipt"], INSTRUCTIONS, provider)
+		result = self.source_id._extract(DOCUMENTS["receipt"], INSTRUCTIONS, provider, document_type="receipt")
 		if result is None:
 			return None
 		values = result.get("fields") or {}

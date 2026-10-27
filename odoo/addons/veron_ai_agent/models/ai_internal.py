@@ -92,6 +92,9 @@ class Brain:
 		for intent in self.env["veron.ai.intent"].sudo().search([]):
 			if not intent._usable(self.user):
 				continue
+			needs = {slot["page"] for slot in intent._slots() if slot.get("page") and slot.get("required")}
+			if "model" in needs and not page or "id" in needs and not self.run.page_res_id:
+				continue
 			score = max([nlu.similarity(message, phrase) for phrase in intent._phrase_tokens(self.user)] or [0.0])
 			if page and page in (intent.page_models or "").split(","):
 				score += 0.08
@@ -264,6 +267,14 @@ class Brain:
 				elif slot.get("required"):
 					return self._wait(intent, args, slot, text, slot.get("question") or _("What should I look for?"))
 				continue
+			if slot.get("page"):
+				# The section or the record the person has open
+				value = self.run.page_model if slot["page"] == "model" else self.run.page_res_id
+				if value:
+					args[slot["arg"]] = value
+				elif slot.get("required"):
+					return self._say(_("Open the page of the section or of the record first, then ask here."))
+				continue
 			if slot.get("number"):
 				values = [value for value, _unit in nlu.amounts(text)]
 				if values:
@@ -280,6 +291,10 @@ class Brain:
 				args[slot["arg"]] = record.id
 			elif slot.get("required"):
 				return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"))
+		if self.run.page_filters and args.get("model") == self.run.page_model and "filters" in properties \
+				and any(slot.get("page") for slot in intent._slots()):
+			# «This section» is the list as the person sees it: the conditions of the page come along
+			args["filters"] = list(args.get("filters") or []) + list(self.run.page_filters)
 		return self._run(intent, _fill(args))
 
 	def _put_period(self, intent, args, said):
@@ -300,6 +315,8 @@ class Brain:
 
 	def _run(self, intent, args):
 		output = self.run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
+		if isinstance(output, dict) and output.get("section") and self.run.page_title and not args.get("id"):
+			output["section"] = self.run.page_title
 		intent.sudo().use_count += 1
 		self.memory["last"] = {"intent": intent.code, "args": args}
 		head = Markup("<p class='text-muted small'>%s</p>") % (f"{intent.name} - {self.label}" if self.label else intent.name)

@@ -14,7 +14,9 @@ services:
     restart: always
 
   odoo:
-    image: odoo:19.0
+    # Odoo 19 with the built-in OCR (Tesseract, Persian); see ../Dockerfile
+    build: ..
+    image: veron-odoo:19.0
     depends_on:
       - db
     environment:

@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+	<!-- The built-in OCR: photos and scanned PDFs read on the server, without any AI and without any key -->
+	<record id="provider_veron_ocr" model="veron.ai.provider">
+		<field name="name">Veron OCR: خواندن عکس و PDF بدون هوش مصنوعی</field>
+		<field name="kind">vision</field>
+		<field name="adapter">tesseract</field>
+		<field name="language">fa</field>
+		<field name="timeout">120</field>
+		<field name="sequence">1</field>
+		<field name="is_default" eval="True"/>
+		<field name="note"><![CDATA[<p>Tesseract with Persian and English, in the program's own image. The text is read on the server and the fields of invoices, receipts and cheques are read from it by the built-in readers. To have an AI read photos instead, connect it with Connect AI and tick Also for Reading Photos.</p>]]></field>
+	</record>
+
 	<!-- Ready providers, inactive until a key is entered and the provider is made active -->
 	<record id="provider_groq" model="veron.ai.provider">
 		<field name="name">Groq</field>

@@ -16,8 +16,10 @@ services:
     restart: unless-stopped
 
   odoo:
-    # A fixed version: Odoo is updated only when this line is changed
-    image: odoo:19.0
+    # Odoo 19 (a fixed version) with the built-in OCR (Tesseract, Persian); see Dockerfile. Made on this
+    # computer the first time it starts, in a few minutes
+    build: .
+    image: veron-odoo:19.0
     depends_on:
       - db
     ports:

@@ -54,7 +54,7 @@ class AttachmentRead(Tool):
 	code = "attachment_read"
 	name = _lt("Read a File")
 	description = _lt("Reads the text of a file given to this run (source_id), or of a PDF attached to a record in the agent's "
-		"data (model, id, attachment_id). A photo is read by the set vision provider.")
+		"data (model, id, attachment_id). A photo is read by the built-in OCR, or by the set vision provider.")
 	category = "read"
 	schema = strict_object({
 		"source_id": {"type": "integer", "minimum": 1},
@@ -77,7 +77,8 @@ class AttachmentRead(Tool):
 					"additionalProperties": False}, "Write all the text of the image.", ctx.provider("vision"))
 				text = (result or {}).get("fields", {}).get("text") or (result or {}).get("text") or ""
 				if result is None:
-					return {"text": "", "note": "No vision provider is set; the photo cannot be read."}
+					return {"text": "", "note": ctx.env._("The photo could not be read: the built-in OCR is not installed "
+						"and no reading provider is set.")}
 			return {"name": source.name, "kind": source.kind, "text": text[:30000]}
 		ctx.check_model(args["model"])
 		record = ctx.env[args["model"]].search(ctx.domain(args["model"]) & Domain("id", "=", args["id"]), limit=1)
@@ -122,11 +123,13 @@ class DocumentExtract(Tool):
 		source = _source(ctx, args["source_id"])
 		source.sudo().purpose = args["document_type"] if args["document_type"] in dict(
 			source._fields["purpose"].selection) else "other"
-		result = source._extract(DOCUMENTS[args["document_type"]], INSTRUCTIONS, ctx.provider("vision"))
+		result = source._extract(DOCUMENTS[args["document_type"]], INSTRUCTIONS, ctx.provider("vision"),
+			document_type=args["document_type"])
 		if result is None:
-			return {"status": "no_provider", "note": "No vision provider is set; enter the fields by hand."}
-		return {"source_id": source.id, "fields": result.get("fields", {}),
-			"note": "Read by AI; a person checks these fields before they are used."}
+			return {"status": "no_provider", "note": ctx.env._("No text could be read from the file; enter the fields by hand.")}
+		builtin = result.get("reader") == "builtin"
+		return {"source_id": source.id, "fields": result.get("fields", {}), "read_by": "built-in" if builtin else "AI",
+			"note": ctx.env._("A person checks these fields against the file before they are used.")}
 
 
 @tool

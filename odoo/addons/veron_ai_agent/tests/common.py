@@ -63,6 +63,8 @@ class AgentCase(TransactionCase):
 		cls.partner_a = cls.env["res.partner"].create({"name": "مشتری الف", "email": "a@example.com",
 			"company_id": cls.company_a.id})
 		cls.partner_b = cls.env["res.partner"].create({"name": "مشتری ب", "company_id": cls.company_b.id})
+		# The providers of the database (a key someone connected) take no part in the tests
+		cls.env["veron.ai.provider"].search([]).write({"active": False})
 		cls.provider = cls.env["veron.ai.provider"].create({"name": "Fake", "kind": "llm", "adapter": "test_fake",
 			"is_default": True, "api_key": "sk-test-123456789"})
 		cls.env["veron.ai.tool"]._sync()

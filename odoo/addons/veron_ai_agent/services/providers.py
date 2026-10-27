@@ -92,6 +92,8 @@ class Adapter:
 
 	code = ""
 	kinds = ()
+	# Works on the server itself, without any outside service: the built-in assistant may use it
+	local = False
 
 	def __init__(self, config):
 		self.config = config
@@ -170,7 +172,10 @@ def _http_error(response, what):
 	if response.status_code == 429:
 		raise ProviderError(_lt("%(what)s: too many requests; it is tried again later.", what=what), retryable=True, kind="rate_limit")
 	if response.status_code in (401, 403):
-		raise ProviderError(_lt("%(what)s: the key was refused (%(code)s).", what=what, code=response.status_code), kind="key")
+		host = (getattr(response, "url", "") or "").split("/")[2:3]
+		raise ProviderError(_lt("%(what)s: the key was refused (%(code)s) by %(host)s. Check that the key is of this service "
+			"and still valid, or connect it with Connect AI, which finds the service from the key.", what=what,
+			code=response.status_code, host=host[0] if host else "-"), kind="key")
 	if response.status_code >= 500:
 		raise ProviderError(_lt("%(what)s: the service is unavailable (%(code)s).", what=what, code=response.status_code), retryable=True,
 			kind="unavailable")
@@ -197,7 +202,9 @@ class OpenAICompatibleHttp(Adapter):
 	Whisper server inside the company. The address, the model and the key come from the settings."""
 
 	def _url(self, path):
-		base = (self.config.get("base_url") or "").rstrip("/")
+		from .catalog import base_for
+
+		base = (self.config.get("base_url") or base_for(self.config.get("api_key"))).rstrip("/")
 		if not base:
 			raise ProviderError(_lt("Enter the address of the service in the provider."), kind="config")
 		return f"{base}/{path}"
@@ -245,7 +252,9 @@ class SearxngSearch(Adapter):
 	"""A SearXNG search server of the company itself (its JSON format must be enabled)"""
 
 	def search(self, query, allowed_domains, max_results):
-		base = (self.config.get("base_url") or "").rstrip("/")
+		from .catalog import base_for
+
+		base = (self.config.get("base_url") or base_for(self.config.get("api_key"))).rstrip("/")
 		if not base:
 			raise ProviderError(_lt("Enter the address of the SearXNG server."), kind="config")
 		terms = query + "".join(f" site:{d}" for d in allowed_domains[:1]) if allowed_domains else query
@@ -272,27 +281,27 @@ class SearxngSearch(Adapter):
 
 @register("tesseract", ["vision"])
 class TesseractOcr(Adapter):
-	"""Tesseract on the server itself, for the text of photos; it reads text only and fills no fields"""
+	"""The built-in OCR: Tesseract on the server itself reads the text of photos and scanned PDFs, without any AI;
+	the fields are then read from that text by the built-in readers"""
+
+	label = "Veron OCR (Tesseract)"
+	local = True
 
 	def check(self):
-		if not shutil.which("tesseract"):
+		from . import ocr
+
+		if not ocr.available():
 			raise ProviderError(_lt("Tesseract is not installed on the server (apt install tesseract-ocr tesseract-ocr-fas)."),
 				kind="config")
 		return _lt("Tesseract is installed.")
 
 	def extract(self, files, schema, instructions):
+		from . import ocr
+
 		self.check()
-		texts = []
-		for mimetype, data in files:
-			if not mimetype.startswith("image/"):
-				continue
-			with tempfile.NamedTemporaryFile(suffix=".img") as handle:
-				handle.write(data)
-				handle.flush()
-				result = subprocess.run(["tesseract", handle.name, "stdout", "-l", self.config.get("language_codes") or "fas+eng"],
-					capture_output=True, timeout=self.timeout(), check=False)
-				texts.append(result.stdout.decode(errors="replace"))
-		return {"text": "\n".join(texts).strip(), "fields": {}}
+		languages = self.config.get("language_codes") or ocr.LANGUAGES
+		texts = [ocr.document_text(data, mimetype, languages) for mimetype, data in files]
+		return {"text": "\n".join(text for text in texts if text).strip(), "fields": {}}
 
 
 @register("clamd", ["antivirus"])

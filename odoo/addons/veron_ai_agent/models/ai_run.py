@@ -75,7 +75,13 @@ class ToolContext:
 		field = {"vision": "vision_provider_id", "search": "search_provider_id", "image": "image_provider_id",
 			"llm": "llm_provider_id"}.get(kind)
 		chosen = self.agent[field] if field else None
-		return self.env["veron.ai.provider"]._get(kind, chosen, self.env.company)
+		provider = self.env["veron.ai.provider"]._get(kind, chosen, self.env.company)
+		if provider and self.run.engine_used == "internal" and not getattr(
+				providers.ADAPTERS.get(provider.adapter), "local", False):
+			# The built-in assistant uses no outside AI: only what works on the server (the built-in OCR)
+			return self.env["veron.ai.provider"].sudo().search([("kind", "=", kind), ("active", "=", True),
+				("adapter", "in", [code for code, cls in providers.ADAPTERS.items() if cls.local])], limit=1) or None
+		return provider
 
 	def companies(self, records):
 		return [c.id for c in records.mapped("company_id")] if records and "company_id" in records._fields else []
@@ -128,6 +134,9 @@ class AiRun(models.Model):
 	engine_used = fields.Selection([("ai", "AI"), ("internal", "Built-in Assistant")], "Answered By", readonly=True)
 	page_model = fields.Char("Asked On the Page Of", readonly=True)
 	page_res_id = fields.Integer("Record of the Page", readonly=True)
+	page_title = fields.Char("Title of the Page", readonly=True)
+	page_filters = fields.Json("Filters of the Page", readonly=True,
+		help="The simple conditions of the list the person had open, as [field, operator, value]")
 	options_json = fields.Text("Choices Offered", readonly=True)
 	want_pdf = fields.Boolean(readonly=True, help="The PDF is made once the report is ready")
 
@@ -153,6 +162,7 @@ class AiRun(models.Model):
 			"root_run_id": (parent.root_run_id or parent).id if parent and initiator == "retry" else False,
 			"task_id": task.id if task else False,
 			"page_model": (page or {}).get("model") or False, "page_res_id": (page or {}).get("res_id") or 0,
+			"page_title": (page or {}).get("title") or False, "page_filters": (page or {}).get("filters") or False,
 		}
 		return values
 

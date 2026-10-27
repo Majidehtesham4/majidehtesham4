@@ -8,6 +8,7 @@ import re
 from odoo.fields import Domain
 from odoo.tools.translate import LazyTranslate
 
+from odoo.addons.veron_ai_agent.services import reader
 from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolDenied, tool
 from odoo.addons.veron_ai_agent.services.schema import strict_object
 from odoo.addons.veron_ai_agent.tools.common import scoped
@@ -17,55 +18,11 @@ from ..models.petty_cash import _date, _number
 
 _lt = LazyTranslate(__name__)
 MODULE = "veron_ai_agent_account"
-_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩يك", "01234567890123456789یک")
-NUMBER = r"(\d{1,3}(?:[,٬]\d{3})+|\d+)(?:[.٫]\d+)?"
 
 
 def text_fields(text):
-	"""The fields of an Iranian invoice read from its text without a language model; what is not clear stays empty"""
-	text = (text or "").translate(_DIGITS)
-	lines = [line.strip() for line in text.splitlines() if line.strip()]
-	fields = {"date": "", "invoice_number": "", "vendor": "", "vendor_tax_id": "", "total_amount": "", "vat_amount": "",
-		"untaxed_amount": "", "confidence": "low"}
-	match = re.search(r"(?:شماره\s*(?:فاکتور|صورت\s*حساب|سریال)?|invoice\s*(?:no|number|#)?)\s*[:：#]?\s*([A-Za-z0-9][A-Za-z0-9\-/]{0,30})",
-		text, re.I)
-	if match:
-		fields["invoice_number"] = match.group(1)
-	match = re.search(r"\b(1[34]\d\d[/-]\d{1,2}[/-]\d{1,2}|20\d\d-\d{1,2}-\d{1,2})\b", text)
-	if match:
-		fields["date"] = match.group(1)
-	match = re.search(r"(?:کد|شماره|شناسه)\s*(?:اقتصادی|ملی)\s*[:：]?\s*(\d{10,14})", text)
-	if match:
-		fields["vendor_tax_id"] = match.group(1)
-	for line in lines:
-		if re.search(r"فروشنده|نام فروشنده|seller|vendor", line, re.I):
-			name = re.split(r"[:：]", line, 1)[-1].strip()
-			if name and not re.search(r"فروشنده|seller|vendor", name, re.I):
-				fields["vendor"] = name[:120]
-				break
-	if not fields["vendor"] and lines:
-		fields["vendor"] = lines[0][:120]
-
-	def amount(patterns):
-		for line in lines:
-			if re.search(patterns, line, re.I):
-				values = [_number(v) for v in re.findall(NUMBER, line)]
-				values = [v for v in values if v and v >= 1000]
-				if values:
-					return max(values)
-		return None
-
-	total = amount(r"جمع\s*کل|مبلغ\s*کل|قابل\s*پرداخت|جمع\s*نهایی|مبلغ\s*نهایی|(?<!sub)(?<!sub\s)total")
-	vat = amount(r"ارزش\s*افزوده|مالیات|عوارض|vat|tax")
-	untaxed = amount(r"جمع\s*(?:مبلغ\s*)?قبل\s*از\s*مالیات|مبلغ\s*بدون\s*مالیات|subtotal|untaxed")
-	if not total:
-		values = [_number(v) for v in re.findall(NUMBER, text)]
-		values = [v for v in values if v and v >= 1000]
-		total = max(values) if values else None
-	if vat and total and vat >= total:
-		vat = None
-	fields.update({"total_amount": total or "", "vat_amount": vat or "", "untaxed_amount": untaxed or ""})
-	return fields
+	"""The fields of an Iranian invoice read from its text without any AI"""
+	return reader.invoice(text)
 
 
 @tool
@@ -73,8 +30,8 @@ class BillFromDocument(Tool):
 	code = "bill_from_document"
 	name = _lt("Make a Draft Vendor Bill From Its File")
 	description = _lt("Reads a vendor's invoice (a photo or a PDF given to this run), finds the vendor by its economic code "
-		"or its name, and makes a draft vendor bill with the file attached. Without a reading provider the text of a PDF "
-		"is read. It is never posted here.")
+		"or its name, and makes a draft vendor bill with the file attached. Without any AI, the text of the PDF or the "
+		"built-in OCR is read. It is never posted here.")
 	category = "draft"
 	action = "draft"
 	risk = "medium"
@@ -84,22 +41,15 @@ class BillFromDocument(Tool):
 		["source_id"])
 
 	def _read(self, ctx, source):
+		result = source._extract(DOCUMENTS["invoice"], INSTRUCTIONS, ctx.provider("vision"), document_type="invoice")
+		if not result or not (result.get("fields") or {}).get("total_amount") and not (result.get("fields") or {}).get("vendor"):
+			raise ToolDenied(ctx.env._("Nothing could be read from the file. Send a clearer photo or the PDF of the invoice."))
+		values = dict(result["fields"])
+		values.setdefault("confidence", "medium")
+		if result.get("reader") == "builtin":
+			return values, ctx.env._("the built-in reader (no AI)")
 		provider = ctx.provider("vision")
-		if provider:
-			result = source._extract(DOCUMENTS["invoice"], INSTRUCTIONS, provider) or {}
-			values = result.get("fields") or {}
-			if values.get("total_amount") or values.get("vendor"):
-				values.setdefault("confidence", "medium")
-				return values, provider.name
-			text = result.get("text") or source.extracted_text
-		elif source.kind == "pdf":
-			text = source.extracted_text
-		else:
-			raise ToolDenied(ctx.env._("A photo is read only with a reading provider (Tesseract, Groq, Claude...). Send the "
-				"invoice as a PDF, or set one in Settings, Providers."))
-		if not (text or "").strip():
-			raise ToolDenied(ctx.env._("No text was found in the file; it may be a scan. Set a reading provider to read it."))
-		return text_fields(text), ctx.env._("text of the file")
+		return values, provider.name if provider else ctx.env._("the built-in reader (no AI)")
 
 	def plan(self, ctx, args):
 		ctx.check_model("account.move")

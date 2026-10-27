@@ -10,6 +10,9 @@ from odoo.addons.veron_core.models import jalali
 ISO_DATE = re.compile(r"\b(20\d\d|19\d\d)-(\d\d)-(\d\d)\b")
 # Keys that are for the program, not for people
 HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id"}
+# Words of the tools' output written for people
+VALUES = {"low": "کم", "medium": "متوسط", "high": "زیاد", "built-in": "هوش داخلی، بدون هوش مصنوعی", "AI": "هوش مصنوعی",
+	"IRR": "ریال"}
 
 LABELS = {
 	"period": "دوره", "orders": "سفارش", "untaxed": "مبلغ بدون مالیات", "total": "جمع", "count": "تعداد",
@@ -33,7 +36,12 @@ LABELS = {
 	"minimum": "حداقل", "to_check": "برای بررسی", "number": "شماره", "read_by": "خوانده با", "file": "فایل",
 	"first_rows": "ردیف‌های اول", "totals": "جمع ستون‌ها", "sheets": "برگه‌ها", "names": "نام‌ها",
 	"already_there": "از قبل موجود", "computed": "محاسبه‌شده", "problems": "مشکل‌ها", "to_complete": "برای تکمیل",
-	"order": "سفارش", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"order": "سفارش", "by_state": "به تفکیک وضعیت", "newest": "تازه‌ترین‌ها", "section": "بخش", "details": "مشخصات", "fields": "خوانده‌شده از فایل", "invoice_number": "شماره‌ی فاکتور", "vendor_tax_id": "کد اقتصادی فروشنده",
+	"buyer": "خریدار", "untaxed_amount": "مبلغ بدون مالیات", "vat_amount": "مالیات و عوارض", "total_amount": "جمع کل",
+	"due_date": "سررسید", "sayad_id": "شناسه‌ی صیاد", "serial": "سریال", "bank": "بانک", "branch": "شعبه",
+	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
+	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
+	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 
@@ -102,6 +110,8 @@ def value_html(value, depth=0):
 		return escape("، ".join(number(item) if not isinstance(item, (dict, list)) else str(item) for item in value[:30]))
 	if value is None:
 		return ""
+	if isinstance(value, str) and value in VALUES:
+		return escape(VALUES[value])
 	return escape(shamsi(number(value)))
 
 
@@ -125,6 +135,12 @@ def _draft(o):
 	return f"پیش‌نویس {o.get('draft', '')} ساخته شد (جمع {number(o.get('total', 0))}). هنوز ثبت قطعی نشده است."
 
 
+def _overview(o):
+	if "count" in o:
+		return f"{o.get('section', '')}: {number(o.get('count', 0))} مورد."
+	return ""
+
+
 def _records(o):
 	return f"{number(o.get('count', 0))} مورد پیدا شد." if o.get("count") else ""
 
@@ -132,6 +148,7 @@ def _records(o):
 HEADLINES = {
 	"sales_summary": _sales, "receivables_overdue": _overdue, "cash_position": _cash, "expense_summary": _expense,
 	"invoice_draft_create": _draft, "bill_from_document": _draft, "records_search": _records,
+	"page_overview": _overview,
 }
 
 

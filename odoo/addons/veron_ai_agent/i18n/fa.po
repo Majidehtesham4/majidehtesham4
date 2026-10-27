@@ -27,6 +27,23 @@ msgstr "%(channel)s به %(partner)s: %(body)s"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid ""
+"%(service)s could not be reached from the server, so the keys were saved "
+"without being checked. Check the internet of the server, then press Check on"
+" %(provider)s."
+msgstr ""
+"سرور به %(service)s دسترسی نداشت، پس کلیدها بدون بررسی ذخیره شدند. اینترنت "
+"سرور را بررسی کنید و بعد در %(provider)s دکمه‌ی «بررسی» را بزنید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "%(service)s is connected with %(count)s key(s): %(providers)s."
+msgstr "%(service)s با %(count)s کلید وصل شد: %(providers)s."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_task.py:0
 msgid "%(supervisor)s may not give tasks to %(agent)s."
 msgstr "%(supervisor)s نمی‌تواند به %(agent)s کار بسپارد."
@@ -52,8 +69,14 @@ msgstr "%(what)s: در %(seconds)s ثانیه پاسخی نیامد."
 #. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/services/providers.py:0
-msgid "%(what)s: the key was refused (%(code)s)."
-msgstr "%(what)s: کلید پذیرفته نشد (%(code)s)."
+msgid ""
+"%(what)s: the key was refused (%(code)s) by %(host)s. Check that the key is "
+"of this service and still valid, or connect it with Connect AI, which finds "
+"the service from the key."
+msgstr ""
+"%(what)s: کلید را %(host)s نپذیرفت (%(code)s). مطمئن شوید کلید مال همین "
+"سرویس است و هنوز اعتبار دارد، یا آن را از «اتصال هوش مصنوعی» وصل کنید که "
+"سرویس را از روی خود کلید پیدا می‌کند."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -134,6 +157,12 @@ msgid "%s needs a higher authority than the agent has."
 msgstr "%s به سطح اختیاری بالاتر از سطح این ایجنت نیاز دارد."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "%s was not connected: no key works."
+msgstr "%s وصل نشد: هیچ کلیدی کار نمی‌کند."
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_schedule__month_day
 msgid "1 to 31; -1 for the last day of the month"
 msgstr "۱ تا ۳۱؛ ‎-1 یعنی روز آخر ماه"
@@ -169,6 +198,17 @@ msgstr "۳. ساخت پیش‌نویس و درخواست تأیید"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_tool__level__4
 msgid "4. Act Automatically Within Set Limits"
 msgstr "۴. اقدام خودکار در محدوده‌ی تعیین‌شده"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
+msgid ""
+":\n"
+"\t\t\t\t\t\tpaste the keys there and the service, the address and the model are set by themselves. An empty\n"
+"\t\t\t\t\t\tAddress here is found from the key."
+msgstr ""
+":\n"
+"\t\t\t\t\t\tکلیدها را آنجا بچسبانید؛ سرویس، نشانی و مدل خودشان تنظیم می‌شوند. اگر «نشانی» اینجا خالی باشد،\n"
+"\t\t\t\t\t\tاز روی کلید پیدا می‌شود."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -275,6 +315,12 @@ msgstr "فهرست فقط با in یا not in به کار می‌رود."
 #: model:ir.model.constraint,message:veron_ai_agent.constraint_veron_ai_agent_scope_agent_model
 msgid "A model is in an agent's data once."
 msgstr "هر مدل فقط یک بار در داده‌های ایجنت می‌آید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/tools/documents.py:0
+msgid "A person checks these fields against the file before they are used."
+msgstr "پیش از استفاده، یک نفر این فیلدها را با خود فایل مقایسه می‌کند."
 
 #. module: veron_ai_agent
 #. odoo-javascript
@@ -698,6 +744,16 @@ msgid "Also by Email"
 msgstr "با ایمیل هم"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__use_vision
+msgid "Also for Reading Photos"
+msgstr "برای خواندن عکس هم"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__use_stt
+msgid "Also for Voice Messages"
+msgstr "برای پیام صوتی هم"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent_tool__sensitive
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_approval__sensitive
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_tool__sensitive
@@ -719,7 +775,7 @@ msgstr "یک اجرای هوش مصنوعی"
 #. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent_scope__domain
 msgid "An Odoo domain, e.g. [('company_id', '=', company_id)]"
-msgstr "یک دامنه‌ی برنامه، مثلاً [('company_id', '=', company_id)]"
+msgstr "یک دامنه‌ی Veron، مثلاً [('company_id', '=', company_id)]"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent_tool__requester_may_approve
@@ -1124,11 +1180,21 @@ msgid "Chat"
 msgstr "گفت‌وگو"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__openai
+msgid "ChatGPT (OpenAI)"
+msgstr "ChatGPT (OpenAI)"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__scan
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_finding__severity__warning
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
 msgid "Check"
 msgstr "بررسی"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form
+msgid "Check and Connect"
+msgstr "بررسی و اتصال"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -1170,8 +1236,14 @@ msgid "ClamAV antivirus"
 msgstr "آنتی‌ویروس ClamAV"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__anthropic
+msgid "Claude (Anthropic)"
+msgstr "Claude (Anthropic)"
+
+#. module: veron_ai_agent
 #. odoo-javascript
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form
 msgid "Close"
 msgstr "بستن"
 
@@ -1239,6 +1311,17 @@ msgstr ""
 "بزرگ‌ترین‌ها."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+#: model:ir.actions.act_window,name:veron_ai_agent.action_connect_wizard
+#: model:ir.model,name:veron_ai_agent.model_veron_ai_connect_wizard
+#: model:ir.ui.menu,name:veron_ai_agent.menu_connect
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_list
+msgid "Connect AI"
+msgstr "اتصال هوش مصنوعی"
+
+#. module: veron_ai_agent
 #: model_terms:ir.actions.act_window,help:veron_ai_agent.action_providers
 msgid "Connect a service"
 msgstr "یک سرویس وصل کنید"
@@ -1295,6 +1378,7 @@ msgstr "ساخت فعالیت پیگیری"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__create_uid
@@ -1320,6 +1404,7 @@ msgstr "ایجاد شده توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__create_date
@@ -1496,6 +1581,7 @@ msgstr "کنار گذاشته شد"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__display_name
@@ -1525,6 +1611,7 @@ msgid "Does Not Match"
 msgstr "مطابقت ندارد"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__done
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_run__state__done
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_run_step__decision__allowed
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_task__state__done
@@ -1779,9 +1866,19 @@ msgid "Files"
 msgstr "فایل‌ها"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__page_filters
+msgid "Filters of the Page"
+msgstr "شرط‌های صفحه"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_template__category__finance
 msgid "Finance and Accounting"
 msgstr "مالی و حسابداری"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__auto
+msgid "Find It From the Key"
+msgstr "از روی کلید پیدا شود"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__finding_ids
@@ -1871,6 +1968,18 @@ msgstr ""
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/tools/records.py:0
+msgid ""
+"For any section of the program: the number of records, how many are in each "
+"state, the totals of the main amounts and the newest records; or, with an "
+"id, the fields of one record with their names. Only what the person may see."
+msgstr ""
+"برای هر بخش برنامه: تعداد رکوردها، تعداد در هر وضعیت، جمع مبلغ‌های اصلی و "
+"تازه‌ترین رکوردها؛ یا با شناسه، فیلدهای یک رکورد با نامشان. فقط آنچه کاربر "
+"اجازه‌ی دیدنش را دارد."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/tools/business.py:0
 msgid ""
 "For each department: employees, overdue activities of its people, and time "
@@ -1950,6 +2059,11 @@ msgstr "مجوز %(tool)s با سطح اختیار %(level)s داده شد"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_schedule__calendar__gregorian
 msgid "Gregorian"
 msgstr "میلادی"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__groq
+msgid "Groq"
+msgstr "Groq"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -2081,6 +2195,7 @@ msgstr "من با ابزارهای برنامه و دسترسی‌های خود 
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__id
@@ -2180,12 +2295,12 @@ msgstr "مهم"
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__report_format__html
 msgid "In Odoo"
-msgstr "در برنامه"
+msgstr "در Veron"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__report_format__pdf
 msgid "In Odoo and as PDF"
-msgstr "در برنامه و به صورت PDF"
+msgstr "در Veron و به صورت PDF"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__initiator
@@ -2285,6 +2400,7 @@ msgid "Key from Environment Variable"
 msgstr "کلید از متغیر محیطی"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__keys
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__key_count
 msgid "Keys"
 msgstr "کلیدها"
@@ -2355,6 +2471,7 @@ msgstr "آخرین اجرا"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__write_uid
@@ -2380,6 +2497,7 @@ msgstr "آخرین تغییر توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_audit__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__write_date
@@ -2408,7 +2526,7 @@ msgstr "تحویل‌های دیرکرده‌ی خرید"
 msgid "Laws, rates and tax rules never go here; tools read them from Odoo"
 msgstr ""
 "قانون، نرخ و قاعده‌ی مالیاتی هرگز اینجا نوشته نمی‌شود؛ ابزارها آن‌ها را از "
-"برنامه می‌خوانند"
+"Veron می‌خوانند"
 
 #. module: veron_ai_agent
 #: model:ir.model,name:veron_ai_agent.model_veron_ai_intent_phrase
@@ -2644,6 +2762,8 @@ msgid "My Activity Deadline"
 msgstr "موعد نهای فعالیت من"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/tools/records.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__name
@@ -2694,6 +2814,12 @@ msgstr "ماژول‌های لازم"
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
 msgid "New conversation"
 msgstr "گفتگوی تازه"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "New keys are made at %s"
+msgstr "کلید تازه را از اینجا بسازید: %s"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__activity_calendar_event_id
@@ -2824,6 +2950,12 @@ msgstr "چنین ابزاری وجود ندارد."
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/tools/documents.py:0
+msgid "No text could be read from the file; enter the fields by hand."
+msgstr "متنی از فایل خوانده نشد؛ فیلدها را دستی وارد کنید."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_intent.py:0
 msgid "No tool is named %s."
 msgstr "ابزاری با نام %s وجود ندارد."
@@ -2941,7 +3073,7 @@ msgstr ""
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_run.py:0
 msgid "Odoo access rights refuse this."
-msgstr "حقوق دسترسی برنامه اجازه‌ی این کار را نمی‌دهد."
+msgstr "حقوق دسترسی Veron اجازه‌ی این کار را نمی‌دهد."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent__enabled
@@ -2982,6 +3114,14 @@ msgstr ""
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__page_models
 msgid "On the Pages Of"
 msgstr "در صفحه‌های"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_connect_wizard__keys
+msgid ""
+"One key a line, or separated by commas; they are not shown again once "
+"connected"
+msgstr ""
+"در هر خط یک کلید، یا جدا شده با ویرگول؛ پس از اتصال دیگر نشان داده نمی‌شوند"
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.intent_view_form
@@ -3097,6 +3237,17 @@ msgid "Open the Record"
 msgstr "باز کردن رکورد"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Open the page of the section or of the record first, then ask here."
+msgstr "اول صفحه‌ی آن بخش یا آن رکورد را باز کنید، بعد اینجا بپرسید."
+
+#. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__openrouter
+msgid "OpenRouter"
+msgstr "OpenRouter"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__options
 msgid "Options"
 msgstr "گزینه‌ها"
@@ -3171,6 +3322,18 @@ msgid "Overdue activities and project tasks, by person, for follow-up."
 msgstr "فعالیت‌ها و کارهای پروژه‌ی عقب‌افتاده، به تفکیک افراد، برای پیگیری."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/tools/records.py:0
+msgid "Overview of %s"
+msgstr "خلاصه‌ی %s"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/tools/records.py:0
+msgid "Overview of a Section or a Record"
+msgstr "خلاصه‌ی یک بخش یا یک رکورد"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__pdf_attachment_id
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_source__kind__pdf
 msgid "PDF"
@@ -3187,6 +3350,12 @@ msgstr "PDF گزارش"
 #: code:addons/veron_ai_agent/tools/documents.py:0
 msgid "PDF of the report"
 msgstr "PDF گزارش"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "Paste at least one key."
+msgstr "دست‌کم یک کلید بچسبانید."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_tool__sensitive__payment
@@ -3220,6 +3389,15 @@ msgstr "تنخواه"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_source__kind__image
 msgid "Photo"
 msgstr "عکس"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_connect_wizard__use_vision
+msgid ""
+"Photos are first read by the built-in OCR without any AI; turn this on to "
+"have the AI read them instead"
+msgstr ""
+"عکس‌ها اول با OCR داخلی و بدون هوش مصنوعی خوانده می‌شوند؛ این را روشن کنید "
+"تا هوش مصنوعی آن‌ها را بخواند"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__phrases
@@ -3565,11 +3743,11 @@ msgstr ""
 msgid ""
 "Reads the text of a file given to this run (source_id), or of a PDF attached"
 " to a record in the agent's data (model, id, attachment_id). A photo is read"
-" by the set vision provider."
+" by the built-in OCR, or by the set vision provider."
 msgstr ""
-"متن فایلی که به این اجرا داده شده (source_id)، یا PDF پیوست یک رکورد از "
-"داده‌های ایجنت (model، id، attachment_id) را می‌خواند. عکس با سرویس خواندن "
-"تصویر خوانده می‌شود."
+"متن فایلی را که به این اجرا داده شده (source_id)، یا PDFی را که به رکوردی در"
+" داده‌های ایجنت پیوست است (model، id، attachment_id) می‌خواند. عکس با OCR "
+"داخلی یا با سرویس خواندن تعیین‌شده خوانده می‌شود."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_task__state__ready
@@ -3739,6 +3917,7 @@ msgstr "کاربر مسئول"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__result_json
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__result
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__output_html
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__result_summary
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.run_view_form
@@ -4051,7 +4230,7 @@ msgid ""
 "Sends a report to the people and the channel set on the agent, inside Odoo. "
 "It cannot choose other recipients."
 msgstr ""
-"گزارش را برای افراد و کانالِ تعیین‌شده روی ایجنت، درون برنامه می‌فرستد. "
+"گزارش را برای افراد و کانالِ تعیین‌شده روی ایجنت، درون Veron می‌فرستد. "
 "گیرنده‌ی دیگری نمی‌تواند انتخاب کند."
 
 #. module: veron_ai_agent
@@ -4091,6 +4270,11 @@ msgstr "ارجاع به سوپروایزر"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__sequence
 msgid "Sequence"
 msgstr "دنباله"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_connect_wizard__service
+msgid "Service"
+msgstr "خدمت"
 
 #. module: veron_ai_agent
 #: model:ir.actions.act_window,name:veron_ai_agent.action_settings
@@ -4771,6 +4955,28 @@ msgid "The image cannot be read."
 msgstr "تصویر خوانده نمی‌شود."
 
 #. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form
+msgid ""
+"The keys are kept in the database for administrators only, are never shown\n"
+"\t\t\t\t\t\tagain and are never written to the logs. Answers that need no AI are still given by the built-in\n"
+"\t\t\t\t\t\tassistant, even when every key is at its limit."
+msgstr ""
+"کلیدها در پایگاه داده فقط برای مدیر سیستم نگه داشته می‌شوند، دیگر نشان داده نمی‌شوند\n"
+"\t\t\t\t\t\tو هرگز در لاگ نوشته نمی‌شوند. پاسخ‌هایی که به هوش مصنوعی نیاز ندارند همچنان از هوش داخلی می‌آیند،\n"
+"\t\t\t\t\t\tحتی وقتی همه‌ی کلیدها به سقف رسیده باشند."
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form
+msgid ""
+"The keys of one service are pasted here, all together. The service is found from the key\n"
+"\t\t\t\t\t\t(a Groq key begins with gsk_, a ChatGPT key with sk-, an OpenRouter key with sk-or-, a Claude key with\n"
+"\t\t\t\t\t\tsk-ant-), each key is checked, and those that work are kept and turned on. Nothing else is needed."
+msgstr ""
+"همه‌ی کلیدهای یک سرویس را با هم اینجا بچسبانید. سرویس از روی کلید پیدا می‌شود\n"
+"\t\t\t\t\t\t(کلید Groq با gsk_، کلید ChatGPT با sk-، کلید OpenRouter با sk-or- و کلید Claude با\n"
+"\t\t\t\t\t\tsk-ant- شروع می‌شود)، هر کلید بررسی می‌شود و کلیدهای سالم ذخیره و فعال می‌شوند. کار دیگری لازم نیست."
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/services/openai_chat.py:0
 msgid "The language model's answer is not in the expected form."
@@ -4855,6 +5061,14 @@ msgstr "گزینه‌های دیگر JSON معتبر نیستند."
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/tools/documents.py:0
+msgid ""
+"The photo could not be read: the built-in OCR is not installed and no "
+"reading provider is set."
+msgstr "عکس خوانده نشد: OCR داخلی نصب نیست و سرویس خواندنی هم تعیین نشده است."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/services/providers.py:0
 msgid "The provider has no key. Enter it in AI Agents, Settings, Providers."
 msgstr ""
@@ -4889,6 +5103,25 @@ msgstr "سرور جست‌وجو پاسخ می‌دهد."
 #: code:addons/veron_ai_agent/services/openai_chat.py:0
 msgid "The service answers with %(count)s models; %(keys)s key(s) set."
 msgstr "سرویس پاسخ داد و %(count)s مدل دارد؛ %(keys)s کلید تعریف شده است."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "The service of the key %s is not known; choose the service above."
+msgstr "سرویس کلید %s شناخته نشد؛ سرویس را بالای صفحه انتخاب کنید."
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_run__page_filters
+msgid ""
+"The simple conditions of the list the person had open, as [field, operator, "
+"value]"
+msgstr ""
+"شرط‌های ساده‌ی فهرستی که کاربر باز کرده بود، به شکل [فیلد، عملگر، مقدار]"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
+msgid "The simplest way to give keys is"
+msgstr "ساده‌ترین راه دادن کلید"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5141,6 +5374,11 @@ msgstr "مهلت پاسخ (ثانیه)"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__name
 msgid "Title"
 msgstr "عنوان"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__page_title
+msgid "Title of the Page"
+msgstr "عنوان صفحه"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__hour_to
@@ -5724,6 +5962,17 @@ msgid "file"
 msgstr "فایل"
 
 #. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form
+msgid ""
+"gsk_...\n"
+"gsk_...\n"
+"gsk_..."
+msgstr ""
+"gsk_...\n"
+"gsk_...\n"
+"gsk_..."
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/tools/business.py:0
 msgid "image_128"
@@ -5783,6 +6032,12 @@ msgid "no website description"
 msgstr "بدون توضیح وب‌سایت"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "not checked: the service could not be reached"
+msgstr "بررسی نشد: سرویس در دسترس نبود"
+
+#. module: veron_ai_agent
 #: model:ir.actions.report,print_report_name:veron_ai_agent.action_report_run
 msgid "object.name"
 msgstr "object.name"
@@ -5807,6 +6062,18 @@ msgstr "کالا"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "refused: wrong or expired"
+msgstr "رد شد: نادرست یا منقضی"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "the module of this service is not installed"
+msgstr "ماژول این سرویس نصب نیست"
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/tools/business.py:0
 msgid "website_meta_description"
 msgstr "website_meta_description"
@@ -5816,6 +6083,18 @@ msgstr "website_meta_description"
 #: code:addons/veron_ai_agent/tools/business.py:0
 msgid "website_meta_title"
 msgstr "website_meta_title"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "works"
+msgstr "سالم است"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/connect_wizard.py:0
+msgid "works, at its limit now"
+msgstr "سالم است، فعلاً به سقف رسیده"
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
@@ -5951,10 +6230,10 @@ msgstr "انحراف را با عدد و درصد بگو؛ علت را حدس ن
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,instructions:veron_ai_agent.role_fin_bill_draft
 msgid ""
-"اول فیلدها را بخوان، فروشنده و کالاها را در برنامه پیدا کن، بعد پیش‌نویس "
+"اول فیلدها را بخوان، فروشنده و کالاها را در Veron پیدا کن، بعد پیش‌نویس "
 "بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس."
 msgstr ""
-"اول فیلدها را بخوان، فروشنده و کالاها را در برنامه پیدا کن، بعد پیش‌نویس "
+"اول فیلدها را بخوان، فروشنده و کالاها را در Veron پیدا کن، بعد پیش‌نویس "
 "بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس."
 
 #. module: veron_ai_agent
@@ -6159,6 +6438,11 @@ msgid "جست‌وجو در دانش شرکت"
 msgstr "جست‌وجو در دانش شرکت"
 
 #. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_page_find
+msgid "جست‌وجو در همین بخش"
+msgstr "جست‌وجو در همین بخش"
+
+#. module: veron_ai_agent
 #: model:veron.ai.agent.template,name:veron_ai_agent.role_pur_price_search
 msgid "جست‌وجوی قیمت در منابع اینترنتی مجاز"
 msgstr "جست‌وجوی قیمت در منابع اینترنتی مجاز"
@@ -6221,6 +6505,16 @@ msgid "خلاصه‌ی مشتری."
 msgstr "خلاصه‌ی مشتری."
 
 #. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_page_summary
+msgid "خلاصه‌ی همین بخش"
+msgstr "خلاصه‌ی همین بخش"
+
+#. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_receipt_read
+msgid "خواندن رسید یا فیش کارت‌خوان"
+msgstr "خواندن رسید یا فیش کارت‌خوان"
+
+#. module: veron_ai_agent
 #: model:veron.ai.intent,name:veron_ai_agent.intent_spreadsheet_read
 msgid "خواندن فایل اکسل"
 msgstr "خواندن فایل اکسل"
@@ -6229,6 +6523,11 @@ msgstr "خواندن فایل اکسل"
 #: model:veron.ai.intent,name:veron_ai_agent.intent_document_read
 msgid "خواندن فیلدهای یک سند"
 msgstr "خواندن فیلدهای یک سند"
+
+#. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_cheque_read
+msgid "خواندن چک"
+msgstr "خواندن چک"
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,description:veron_ai_agent.role_fin_assets
@@ -6411,8 +6710,8 @@ msgstr "فعالیت‌ها و وظایف عقب‌افتاده را به تفک
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,instructions:veron_ai_agent.role_sal_customer_summary
-msgid "فقط از داده‌ی برنامه."
-msgstr "فقط از داده‌ی برنامه."
+msgid "فقط از داده‌ی Veron."
+msgstr "فقط از داده‌ی Veron."
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,instructions:veron_ai_agent.role_pur_price_search
@@ -6422,10 +6721,10 @@ msgstr "فقط از سایت‌های مجاز؛ منبع و تاریخ هر ق�
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,instructions:veron_ai_agent.role_fin_tax_prep
 msgid ""
-"فقط از مالیات‌ها و نرخ‌های تعریف‌شده در برنامه استفاده کن. اگر نرخ یا "
+"فقط از مالیات‌ها و نرخ‌های تعریف‌شده در Veron استفاده کن. اگر نرخ یا "
 "قاعده‌ای تعریف نشده، بپرس."
 msgstr ""
-"فقط از مالیات‌ها و نرخ‌های تعریف‌شده در برنامه استفاده کن. اگر نرخ یا "
+"فقط از مالیات‌ها و نرخ‌های تعریف‌شده در Veron استفاده کن. اگر نرخ یا "
 "قاعده‌ای تعریف نشده، بپرس."
 
 #. module: veron_ai_agent
@@ -6495,11 +6794,11 @@ msgstr "فهرست دارایی‌ها و ردیف‌های نیازمند اق�
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_fin_bill_intake
 msgid ""
-"فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در برنامه و مواردی که"
-" نیاز به بررسی دارند."
+"فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در Veron و مواردی که "
+"نیاز به بررسی دارند."
 msgstr ""
-"فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در برنامه و مواردی که"
-" نیاز به بررسی دارند."
+"فهرست فیلدهای استخراج‌شده هر فاکتور، فروشنده‌ی پیداشده در Veron و مواردی که "
+"نیاز به بررسی دارند."
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_web_quality
@@ -6535,10 +6834,10 @@ msgstr "قضاوت نکن؛ فقط فهرست کن."
 #: model:veron.ai.agent.template,description:veron_ai_agent.role_pur_price_search
 msgid ""
 "قیمت کالا را در سایت‌هایی که مجاز کرده‌اید جست‌وجو می‌کند و با قیمت‌های "
-"برنامه مقایسه می‌کند."
+"Veron مقایسه می‌کند."
 msgstr ""
 "قیمت کالا را در سایت‌هایی که مجاز کرده‌اید جست‌وجو می‌کند و با قیمت‌های "
-"برنامه مقایسه می‌کند."
+"Veron مقایسه می‌کند."
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_pur_price_search
@@ -6624,9 +6923,14 @@ msgstr ""
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,instructions:veron_ai_agent.role_fin_sale_invoice_draft
 msgid ""
-"مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های برنامه بگیر، نه از حدس."
+"مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های Veron بگیر، نه از حدس."
 msgstr ""
-"مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های برنامه بگیر، نه از حدس."
+"مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های Veron بگیر، نه از حدس."
+
+#. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_page_record
+msgid "مشخصات همین رکورد"
+msgstr "مشخصات همین رکورد"
 
 #. module: veron_ai_agent
 #: model:veron.ai.intent,name:veron_ai_agent.intent_purchase_compare
