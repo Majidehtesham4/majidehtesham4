@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_category_user,petty cash category user,model_veron_petty_cash_category,base.group_user,1,0,0,0
+access_category_manager,petty cash category manager,model_veron_petty_cash_category,account.group_account_manager,1,1,1,1
+access_fund_user,petty cash fund user,model_veron_petty_cash_fund,base.group_user,1,0,0,0
+access_fund_accountant,petty cash fund accountant,model_veron_petty_cash_fund,account.group_account_user,1,1,1,0
+access_fund_manager,petty cash fund manager,model_veron_petty_cash_fund,account.group_account_manager,1,1,1,1
+access_closing_user,petty cash closing user,model_veron_petty_cash_closing,base.group_user,1,1,0,0
+access_closing_accountant,petty cash closing accountant,model_veron_petty_cash_closing,account.group_account_user,1,1,1,0
+access_closing_manager,petty cash closing manager,model_veron_petty_cash_closing,account.group_account_manager,1,1,1,1
+access_receipt_user,petty cash receipt user,model_veron_petty_cash_receipt,base.group_user,1,1,1,1
+access_issue_user,petty cash finding user,model_veron_petty_cash_issue,base.group_user,1,0,0,0
+access_source_user,agent file of a receipt,veron_ai_agent.model_veron_ai_source,base.group_user,1,0,1,0

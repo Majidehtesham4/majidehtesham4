@@ -113,7 +113,7 @@
 		<field name="description">در پایان دوره از مسئول تنخواه مدارک را می‌خواهد، رسیدها را می‌خواند، رسید تکراری و خارج از سیاست را مشخص می‌کند، پیش‌نویس سند می‌سازد و گزارش تسویه می‌دهد.</field>
 		<field name="goal">بستن تنخواه با مدارک کامل</field>
 		<field name="instructions">هر یافته را خنثی و قابل بررسی ثبت کن. سند فقط پس از تأیید انسانی ثبت قطعی می‌شود.</field>
-		<field name="tool_codes">petty_cash_open,petty_cash_review,petty_cash_draft_entry,petty_cash_report,request_human_input,notify_internal</field>
+		<field name="tool_codes">petty_cash_open,petty_cash_review,petty_cash_draft_entry,petty_cash_post,petty_cash_report,request_human_input,notify_internal</field>
 		<field name="default_level">3</field>
 		<field name="is_supervisor" eval="False"/>
 		<field name="schedule_type">monthly</field>

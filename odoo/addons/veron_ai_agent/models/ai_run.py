@@ -370,6 +370,11 @@ class AiRun(models.Model):
 			return done("failed", {"status": "failed", "error": redact.text(error, 500)}, redact.text(error, 500))
 		except providers.ProviderError as error:
 			return done("failed", {"status": "failed", "error": str(error)}, str(error))
+		except Exception:
+			# A fault in a tool's code ends this step, not the run; what it did is undone
+			_logger.exception("Tool %s failed in run %s", code, self.name)
+			return done("failed", {"status": "failed", "error": "The tool failed; the details are in the server log."},
+				_("The tool failed; the details are in the server log."))
 		step.fingerprint = fingerprint
 		output = output if isinstance(output, dict) else {"result": output}
 		output.setdefault("status", "done")

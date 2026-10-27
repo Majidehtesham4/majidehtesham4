@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="seq_closing" model="ir.sequence">
+		<field name="name">Petty Cash Closing</field>
+		<field name="code">veron.petty.cash.closing</field>
+		<field name="prefix">PC-</field>
+		<field name="padding">5</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<record id="seq_receipt" model="ir.sequence">
+		<field name="name">Petty Cash Receipt</field>
+		<field name="code">veron.petty.cash.receipt</field>
+		<field name="prefix">PCR-</field>
+		<field name="padding">6</field>
+		<field name="company_id" eval="False"/>
+	</record>
+	<!-- The tools of this module, in the list of tools a manager grants -->
+	<function model="veron.ai.tool" name="_sync"/>
+</odoo>

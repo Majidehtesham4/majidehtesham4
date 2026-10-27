@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_report_settlement" model="ir.actions.report">
+		<field name="name">Petty Cash Settlement</field>
+		<field name="model">veron.petty.cash.closing</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_ai_agent_account.report_settlement</field>
+		<field name="report_file">veron_ai_agent_account.report_settlement</field>
+		<field name="print_report_name">'%s' % object.name</field>
+		<field name="binding_model_id" ref="model_veron_petty_cash_closing"/>
+		<field name="binding_type">report</field>
+	</record>
+
+	<template id="report_settlement">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="closing">
+				<t t-call="web.external_layout">
+					<t t-set="money" t-value="lambda v: '{:,.0f}'.format(v or 0)"/>
+					<div class="page" dir="rtl" style="text-align: right;">
+						<h3>Petty Cash Settlement <t t-out="closing.name"/></h3>
+						<p>
+							<b>Fund:</b> <t t-out="closing.fund_id.name"/> ·
+							<b>Custodian:</b> <t t-out="closing.custodian_user_id.name"/> ·
+							<b>Period:</b> <t t-out="closing.period"/> ·
+							<b>State:</b> <span t-field="closing.state"/>
+						</p>
+						<table class="table table-sm table-bordered" style="width: 100%;">
+							<tbody>
+								<tr><td>Opening balance</td><td class="text-end"><t t-out="money(closing.opening_balance)"/></td></tr>
+								<tr><td>Given in the period</td><td class="text-end"><t t-out="money(closing.topup_amount)"/></td></tr>
+								<tr><td>Number of receipts</td><td class="text-end"><t t-out="len(closing.receipt_ids)"/></td></tr>
+								<tr><td>Receipts given</td><td class="text-end"><t t-out="money(closing.submitted_amount)"/></td></tr>
+								<tr><td>Accepted</td><td class="text-end"><t t-out="money(closing.accepted_amount)"/></td></tr>
+								<tr><td>Not accepted</td><td class="text-end"><t t-out="money(closing.rejected_amount)"/></td></tr>
+								<tr><td>To review</td><td class="text-end"><t t-out="money(closing.review_amount)"/></td></tr>
+								<tr class="fw-bold"><td>Closing balance</td><td class="text-end"><t t-out="money(closing.closing_balance)"/> <t t-out="closing.currency_id.name"/></td></tr>
+							</tbody>
+						</table>
+						<p t-if="closing.move_id"><b>Settlement entry:</b> <t t-out="closing.move_id.name"/> (<span t-field="closing.move_id.state"/>)
+							<t t-if="closing.posted_by"> · <b>Posted by:</b> <t t-out="closing.posted_by.name"/></t></p>
+						<h5>Receipts</h5>
+						<table class="table table-sm" style="width: 100%;">
+							<thead>
+								<tr><th>Receipt</th><th>Date</th><th>Vendor</th><th>Number</th><th>Expense type</th><th class="text-end">Amount</th><th>State</th></tr>
+							</thead>
+							<tbody>
+								<tr t-foreach="closing.receipt_ids" t-as="receipt">
+									<td><t t-out="receipt.name"/></td>
+									<td><t t-out="closing._shamsi(receipt.date)"/></td>
+									<td><t t-out="receipt.vendor_name or receipt.partner_id.name or ''"/></td>
+									<td><t t-out="receipt.receipt_number or ''"/></td>
+									<td><t t-out="receipt.category_id.name or ''"/></td>
+									<td class="text-end"><t t-out="money(receipt.amount)"/></td>
+									<td><span t-field="receipt.state"/></td>
+								</tr>
+							</tbody>
+						</table>
+						<t t-set="issues" t-value="closing.receipt_ids.issue_ids"/>
+						<t t-if="issues">
+							<h5>Findings</h5>
+							<ul>
+								<li t-foreach="issues" t-as="issue"><t t-out="issue.receipt_id.name"/>: <t t-out="issue.message"/>
+									<t t-if="issue.resolved"> - <t t-out="issue.resolution or ''"/> (<t t-out="issue.resolved_by.name or ''"/>)</t></li>
+							</ul>
+						</t>
+						<table class="table table-borderless mt-5" style="width: 100%;">
+							<tr>
+								<td class="text-center">Custodian<br/><br/>Signature</td>
+								<td class="text-center">Accountant<br/><br/>Signature</td>
+								<td class="text-center">Approved by<br/><br/>Signature</td>
+							</tr>
+						</table>
+						<p class="small text-muted">Receipts were read and checked with the help of an AI agent; accepting a receipt in
+							that review is not an accounting approval. The entry is posted only by a person.</p>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

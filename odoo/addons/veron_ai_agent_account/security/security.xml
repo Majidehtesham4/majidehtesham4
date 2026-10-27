@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- A custodian holds a fund; the fund adds its custodian here, which shows the Petty Cash menu -->
+	<record id="group_petty_cash_custodian" model="res.groups">
+		<field name="name">Petty Cash Custodian</field>
+		<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		<field name="comment">Gives the receipts of the petty cash fund they hold and confirms what was read from them.</field>
+	</record>
+
+	<record id="rule_category_company" model="ir.rule">
+		<field name="name">Petty cash expense types: own companies</field>
+		<field name="model_id" ref="model_veron_petty_cash_category"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_fund_company" model="ir.rule">
+		<field name="name">Petty cash funds: own companies</field>
+		<field name="model_id" ref="model_veron_petty_cash_fund"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_closing_company" model="ir.rule">
+		<field name="name">Petty cash closings: own companies</field>
+		<field name="model_id" ref="model_veron_petty_cash_closing"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_receipt_company" model="ir.rule">
+		<field name="name">Petty cash receipts: own companies</field>
+		<field name="model_id" ref="model_veron_petty_cash_receipt"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+
+	<!-- A custodian sees the fund they hold; an accountant sees every fund -->
+	<record id="rule_fund_custodian" model="ir.rule">
+		<field name="name">Petty cash funds: the custodian's own</field>
+		<field name="model_id" ref="model_veron_petty_cash_fund"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('custodian_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_fund_accountant" model="ir.rule">
+		<field name="name">Petty cash funds: all for accountants</field>
+		<field name="model_id" ref="model_veron_petty_cash_fund"/>
+		<field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_closing_custodian" model="ir.rule">
+		<field name="name">Petty cash closings: the custodian's own</field>
+		<field name="model_id" ref="model_veron_petty_cash_closing"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('custodian_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_closing_accountant" model="ir.rule">
+		<field name="name">Petty cash closings: all for accountants</field>
+		<field name="model_id" ref="model_veron_petty_cash_closing"/>
+		<field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_receipt_custodian" model="ir.rule">
+		<field name="name">Petty cash receipts: the custodian's own</field>
+		<field name="model_id" ref="model_veron_petty_cash_receipt"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('closing_id.custodian_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_receipt_accountant" model="ir.rule">
+		<field name="name">Petty cash receipts: all for accountants</field>
+		<field name="model_id" ref="model_veron_petty_cash_receipt"/>
+		<field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+	</record>
+	<record id="rule_issue_custodian" model="ir.rule">
+		<field name="name">Petty cash findings: the custodian's own</field>
+		<field name="model_id" ref="model_veron_petty_cash_issue"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('closing_id.custodian_user_id', '=', user.id)]</field>
+	</record>
+	<record id="rule_issue_accountant" model="ir.rule">
+		<field name="name">Petty cash findings: all for accountants</field>
+		<field name="model_id" ref="model_veron_petty_cash_issue"/>
+		<field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+
+	<!-- The file of a receipt: its custodian's own, and every receipt file for accountants -->
+	<record id="rule_source_own" model="ir.rule">
+		<field name="name">Agent files: a person's own</field>
+		<field name="model_id" ref="veron_ai_agent.model_veron_ai_source"/>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+		<field name="domain_force">[('create_uid', '=', user.id)]</field>
+	</record>
+	<record id="rule_source_receipts" model="ir.rule">
+		<field name="name">Agent files: receipts for accountants</field>
+		<field name="model_id" ref="veron_ai_agent.model_veron_ai_source"/>
+		<field name="groups" eval="[(4, ref('account.group_account_user'))]"/>
+		<field name="domain_force">[('purpose', '=', 'receipt')]</field>
+	</record>
+</odoo>
