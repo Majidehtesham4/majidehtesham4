@@ -272,6 +272,18 @@ powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
   - فروشنده: رزرو، فروش و اقساط
   - مدیر: قیمت خرید، سود و سرمایه‌گذاران
 
+## ایجنت‌های هوش مصنوعی (`addons/veron_ai_agent`)
+
+کتابخانه‌ی ۳۵ نقش آماده و ایجنت‌هایی با ابزار، محدوده‌ی داده و سطح اختیار. اقدام حساس همیشه منتظر تأیید انسان می‌ماند. Claude به‌عنوان مدل زبانی (`ai_claude_anthropic`). بستن تنخواه و ابزارهای مالی (`veron_ai_agent_account`). حقوق و دستمزد با PDF محرمانه (`veron_ai_agent_payroll`). همه با `veron_apps` نصب می‌شوند، خاموش و بدون کلید.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
+powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
+```
+
+راهنمای کامل، وصل کردن Claude و سه نمونه‌ی تنظیم (گزارش صبحگاهی، بستن تنخواه، حقوق) در
+[`addons/veron_ai_agent/README.md`](addons/veron_ai_agent/README.md) است.
+
 ## ماژول‌های OCA
 مخزن‌هایی که استفاده می‌شوند در `oca-repos.txt` فهرست شده‌اند، همه روی شاخه‌ی 19.0. پوشه‌ی `oca` در گیت این پروژه
 نیست و با `.\odoo.ps1 oca` گرفته و به‌روز می‌شود. برای افزودن یک مخزن دیگر:
