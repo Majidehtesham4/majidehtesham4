@@ -28,12 +28,19 @@ SCALES = {"هزار": 1000, "میلیون": 1_000_000, "ملیون": 1_000_000, 
 REF = re.compile(r"\b([A-Za-z]{1,8}[/-]?\d{2,}(?:[/-]\d+)*)\b")
 
 
+JOINED_WORDS = {"پیشنویس": "پیش نویس", "پیشفاکتور": "پیش فاکتور", "صورت حساب": "صورتحساب", "اینو": "این را",
+	"اونو": "ان را", "ثبتش": "ثبت", "بزنش": "بزن", "میخوام": "می خواهم", "میخواهم": "می خواهم"}
+JOINED = re.compile(r"\b(" + "|".join(re.escape(word) for word in JOINED_WORDS) + r")\b")
+
+
 def normalize(text):
 	"""Persian letters and digits made one form, diacritics, punctuation and half-spaces out, lower case"""
 	text = (text or "").translate(_CHARS).translate(_DIGITS)
 	text = _DIACRITICS.sub("", text).replace("آ", "ا")
 	text = _PUNCTUATION.sub(" ", text)
-	return re.sub(r"\s+", " ", text).strip().lower()
+	text = re.sub(r"\s+", " ", text).strip().lower()
+	# Words people write joined or apart: one form
+	return JOINED.sub(lambda match: JOINED_WORDS[match.group(0)], text)
 
 
 def stem(word):

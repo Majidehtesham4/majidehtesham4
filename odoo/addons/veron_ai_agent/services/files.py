@@ -18,6 +18,8 @@ KINDS = {
 	"image/png": "image",
 	"image/webp": "image",
 	"image/gif": "image",
+	"image/heic": "image",
+	"image/avif": "image",
 	"application/pdf": "pdf",
 	"audio/webm": "audio",
 	"audio/ogg": "audio",
@@ -27,6 +29,10 @@ KINDS = {
 	XLSX: "sheet",
 	"text/csv": "sheet",
 }
+
+
+# Photos turned into JPEG when they are kept: few readers open them
+CONVERTED = ("image/heic", "image/avif")
 
 
 class FileRefused(ValueError):
@@ -59,6 +65,12 @@ def sniff(data: bytes):
 	if head.startswith(b"ID3") or head[:2] in (b"\xff\xfb", b"\xff\xf3", b"\xff\xf2"):
 		return "audio/mpeg"
 	if head[4:8] == b"ftyp":
+		# The same box holds phone photos (HEIC), web photos (AVIF), often saved under a .jpg name, and m4a voices
+		brand = head[8:12]
+		if brand in (b"heic", b"heix", b"hevc", b"hevx", b"heim", b"heis", b"mif1", b"msf1"):
+			return "image/heic"
+		if brand in (b"avif", b"avis"):
+			return "image/avif"
 		return "audio/mp4"
 	if head.startswith(b"PK\x03\x04"):
 		try:
@@ -112,6 +124,9 @@ def check(data: bytes, allowed_kinds, max_bytes):
 				raise FileRefused(_lt("The Excel file holds macros and is refused; save it as a plain xlsx."))
 			if len(infos) > 2000 or sum(info.file_size for info in infos) > 100 * 1024 * 1024:
 				raise FileRefused(_lt("The Excel file is too large when opened."))
+	if mimetype in CONVERTED:
+		# Opened only once it is a JPEG (see to_jpeg)
+		return mimetype, kind
 	if kind == "image":
 		try:
 			from PIL import Image
@@ -176,3 +191,40 @@ def clamd_scan(host, port, data: bytes, timeout=20):
 		sock.sendall(struct.pack("!L", 0))
 		answer = sock.recv(4096).decode(errors="replace").strip("\0\n ")
 	return answer.endswith("OK") and "FOUND" not in answer, answer
+
+
+def to_jpeg(data: bytes):
+	"""A HEIC or AVIF photo as a JPEG, by Pillow when it can open it, else by heif-convert or ffmpeg on the server;
+	FileRefused when none can"""
+	import os
+	import shutil
+	import subprocess
+	import tempfile
+
+	try:
+		from PIL import Image, ImageOps
+
+		with Image.open(io.BytesIO(data)) as image:
+			buffer = io.BytesIO()
+			ImageOps.exif_transpose(image).convert("RGB").save(buffer, "JPEG", quality=92)
+			return buffer.getvalue()
+	except Exception:  # noqa: BLE001 - Pillow without HEIC or AVIF support; the tools below are tried
+		pass
+	with tempfile.TemporaryDirectory() as folder:
+		source, target = os.path.join(folder, "in.heic"), os.path.join(folder, "out.jpg")
+		with open(source, "wb") as handle:
+			handle.write(data)
+		commands = []
+		if shutil.which("heif-convert"):
+			commands.append(["heif-convert", "-q", "92", source, target])
+		if shutil.which("ffmpeg"):
+			commands.append(["ffmpeg", "-loglevel", "error", "-y", "-i", source, "-frames:v", "1", "-q:v", "2", target])
+		for command in commands:
+			subprocess.run(command, capture_output=True, timeout=60, check=False)
+			if os.path.isfile(target) and os.path.getsize(target):
+				with open(target, "rb") as handle:
+					converted = handle.read()
+				if converted.startswith(b"\xff\xd8\xff"):
+					return converted
+	raise FileRefused(_lt("This photo is in HEIC or AVIF format and cannot be opened on the server. Save it as JPG "
+		"(or take a screenshot of it) and send it again."))

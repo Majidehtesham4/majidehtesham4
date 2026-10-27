@@ -304,6 +304,59 @@ class TesseractOcr(Adapter):
 		return {"text": "\n".join(text for text in texts if text).strip(), "fields": {}}
 
 
+@register("vosk", ["stt"])
+class VoskSpeech(Adapter):
+	"""Speech to text on the server itself, without any AI: ffmpeg turns the voice into 16 kHz sound and Vosk reads
+	it with its Persian model (fetched once by «odoo.ps1 voice» into python/voice/fa)"""
+
+	label = "Veron Voice (Vosk)"
+	local = True
+	MODELS = {}
+
+	def _path(self):
+		import os
+
+		return self.config.get("base_url") or os.environ.get("VERON_VOSK_MODEL") or "/mnt/python/voice/fa"
+
+	def _model(self):
+		import os
+
+		try:
+			import vosk
+		except ImportError as error:
+			raise ProviderError(_lt("Vosk is not installed on the server; it comes with the program's image (odoo.ps1 "
+				"start). Until then, type the message or connect an AI for voices."), kind="config") from error
+		path = self._path()
+		if not os.path.isdir(os.path.join(path, "am")) and not os.path.isfile(os.path.join(path, "conf", "model.conf")):
+			raise ProviderError(_lt("The Persian voice model is not on the server. Fetch it once with: odoo.ps1 voice "
+				"(Windows) or ./veron voice (server)."), kind="config")
+		if not shutil.which("ffmpeg"):
+			raise ProviderError(_lt("ffmpeg is not installed on the server; it comes with the program's image."), kind="config")
+		if path not in VoskSpeech.MODELS:
+			vosk.SetLogLevel(-1)
+			VoskSpeech.MODELS[path] = vosk.Model(path)
+		return vosk, VoskSpeech.MODELS[path]
+
+	def check(self):
+		self._model()
+		return _lt("The voice model is installed.")
+
+	def transcribe(self, data, mimetype, language):
+		vosk, model = self._model()
+		result = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", "pipe:0", "-ar", "16000", "-ac", "1", "-f", "s16le",
+			"pipe:1"], input=data, capture_output=True, timeout=self.timeout(), check=False)
+		if result.returncode or not result.stdout:
+			raise ProviderError(_lt("The voice message could not be opened."), kind="config")
+		recognizer = vosk.KaldiRecognizer(model, 16000)
+		words = []
+		pcm = result.stdout
+		for start in range(0, len(pcm), 32000):
+			if recognizer.AcceptWaveform(pcm[start:start + 32000]):
+				words.append(json.loads(recognizer.Result()).get("text", ""))
+		words.append(json.loads(recognizer.FinalResult()).get("text", ""))
+		return " ".join(word for word in words if word).strip()
+
+
 @register("clamd", ["antivirus"])
 class ClamdScanner(Adapter):
 	"""A ClamAV daemon; the address is host:port, e.g. clamav:3310"""

@@ -4,3 +4,5 @@ __pycache__/
 
 # Libraries fetched by odoo.ps1 ai / veron ai
 python/sdk/
+# The Persian voice model fetched by odoo.ps1 voice / veron voice
+python/voice/

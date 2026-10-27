@@ -64,6 +64,11 @@ class AiAgent(models.Model):
 	engine = fields.Selection([("auto", "AI When Available, Otherwise Built-in"), ("ai", "AI"),
 		("internal", "Built-in Assistant Only")], "Answers With", default="auto", required=True,
 		help="The built-in assistant answers from its library without a language model; the AI uses the provider")
+	voice_engine = fields.Selection([("auto", "As Chosen in the Chat"), ("builtin", "Built-in, on the Server (No AI)"),
+		("ai", "AI Service, Else Built-in")], "Voice Messages Read By", default="auto", required=True,
+		help="Built-in: Vosk turns the voice into text on the server and nothing leaves it. AI: the speech-to-text "
+			"service connected (e.g. Groq Whisper), the built-in one when it fails. As chosen in the chat: built-in "
+			"while the built-in assistant is chosen, the AI while the AI is.")
 	all_users = fields.Boolean("Every Internal User May Use It",
 		help="Each person works with their own access rights: they see and do only what they may themselves")
 	trigger_schedule = fields.Boolean("On a Schedule")

@@ -6,8 +6,10 @@ import json
 from datetime import date
 from unittest.mock import patch
 
+from odoo.exceptions import UserError
 from odoo.tests import tagged
 
+from ..services import files as filetools
 from ..services import catalog, nlu, ocr, openai_chat, providers, reader, render, sheets
 from ..tools.documents import DOCUMENTS, INSTRUCTIONS
 from .common import AgentCase, FakeAdapter
@@ -309,3 +311,47 @@ class TestBuiltInOcr(AgentCase):
 		self.assertEqual(result["reader"], "builtin")
 		self.assertEqual((result["fields"]["total_amount"], result["fields"]["vat_amount"]), (11_000_000, 1_000_000))
 		self.assertEqual(source.extraction_state, "done")
+
+
+@tagged("post_install", "-at_install")
+class TestPhotosAndVoices(AgentCase):
+	def test_heic_and_avif_are_photos(self):
+		box = b"\x00\x00\x00\x18ftyp"
+		self.assertEqual(filetools.sniff(box + b"heic" + b"\x00" * 40), "image/heic")
+		self.assertEqual(filetools.sniff(box + b"mif1" + b"\x00" * 40), "image/heic")
+		self.assertEqual(filetools.sniff(box + b"avif" + b"\x00" * 40), "image/avif")
+		self.assertEqual(filetools.sniff(box + b"M4A " + b"\x00" * 40), "audio/mp4", "an m4a voice stays a voice")
+
+	def test_avif_kept_as_jpeg(self):
+		import shutil
+		import subprocess
+		import tempfile
+
+		if not shutil.which("ffmpeg"):
+			self.skipTest("ffmpeg is not installed here")
+		from PIL import Image
+
+		with tempfile.TemporaryDirectory() as folder:
+			Image.new("RGB", (64, 48), "red").save(f"{folder}/in.png")
+			subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", f"{folder}/in.png", "-c:v", "libaom-av1",
+				"-still-picture", "1", f"{folder}/photo.avif"], capture_output=True, timeout=120, check=False)
+			try:
+				with open(f"{folder}/photo.avif", "rb") as handle:
+					data = handle.read()
+			except FileNotFoundError:
+				self.skipTest("this ffmpeg cannot write AVIF")
+		self.assertEqual(filetools.sniff(data), "image/avif")
+		source = self.env["veron.ai.source"]._from_upload("Untitled.jpg", data)
+		self.assertEqual((source.kind, source.mimetype, source.name), ("image", "image/jpeg", "Untitled.jpg"))
+		self.assertTrue(source._data().startswith(b"\xff\xd8\xff"))
+
+	def test_voice_engine(self):
+		voice = self.env["veron.ai.source"]._from_upload("voice.webm", b"\x1aE\xdf\xa3" + b"\x00" * 64)
+		self.env["veron.ai.provider"].create({"name": "Fake voice", "kind": "stt", "adapter": "test_fake", "api_key": "k"})
+		# Built-in: the AI service is never used; without the model on the server, it says how to fetch it
+		with patch.dict("os.environ", {"VERON_VOSK_MODEL": "/nonexistent"}):
+			self.env["veron.ai.provider"].create({"name": "Voice here", "kind": "stt", "adapter": "vosk"})
+			with self.assertRaises(UserError) as caught:
+				voice._transcribe(engine="builtin")
+		self.assertIn("voice", str(caught.exception))
+		self.assertIn("گزارش فروش", voice._transcribe(engine="ai"), "the AI reads it when it is chosen")

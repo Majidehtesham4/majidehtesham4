@@ -10,6 +10,7 @@
 #   ./veron password <address>                      a new administrator password
 #   ./veron ca                                      local: the certificate to install on each computer
 #   ./veron ai                                      the library of the Claude provider (also on update)
+#   ./veron voice                                   the Persian voice model: voices read on the server, no AI
 #
 # The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
 # In local mode the address is the server's IP in the office network, e.g. 192.168.1.10.
@@ -246,6 +247,14 @@ backup)
 
 ai)
 	fetch_ai_sdk
+	compose restart odoo
+	;;
+
+voice)
+	# The Persian model of Vosk: voice messages turned into text on the server, without any AI
+	url=$(grep -s '^VOSK_MODEL_URL=' .env | cut -d= -f2- || true)
+	compose run --rm -T -u root ${url:+-e VOSK_MODEL_URL="$url"} --entrypoint python3 odoo \
+		/mnt/extra-addons/veron_ai_agent/scripts/fetch_voice_model.py
 	compose restart odoo
 	;;
 

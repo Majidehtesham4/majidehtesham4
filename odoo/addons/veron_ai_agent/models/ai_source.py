@@ -1,3 +1,4 @@
+import re
 from datetime import timedelta
 
 from odoo import _, api, fields, models
@@ -6,6 +7,9 @@ from odoo.exceptions import UserError
 from ..services import files as filetools
 from ..services import providers, redact
 
+# Without these the reading of a document is of no use, and the built-in reader is asked too
+ESSENTIAL = {"invoice": ("total_amount",), "receipt": ("amount",), "cheque": ("amount", "sayad_id"),
+	"purchase_doc": ("total_amount",)}
 PURPOSES = [("receipt", "Receipt"), ("invoice", "Invoice"), ("cheque", "Cheque"), ("purchase_doc", "Purchase Document"),
 	("product_image", "Product Photo"), ("voice", "Voice Message"), ("other", "Other")]
 
@@ -57,9 +61,17 @@ class AiSource(models.Model):
 		settings = self._settings()
 		try:
 			mimetype, kind = filetools.check(data, kinds, settings["max_bytes"])
+			converted = mimetype in filetools.CONVERTED
+			if converted:
+				# A HEIC or AVIF photo is kept as a JPEG, which every reader (OCR, AI) opens
+				data = filetools.to_jpeg(data)
+				mimetype, kind = filetools.check(data, kinds, settings["max_bytes"])
+				name = re.sub(r"\.(jpe?g|heic|heif|avif)$", "", name or "", flags=re.I) + ".jpg"
 		except filetools.FileRefused as error:
 			raise UserError(error.text(self.env)) from error
 		scan = _("Type checked from the content")
+		if converted:
+			scan += _("; HEIC or AVIF photo turned into JPEG")
 		antivirus = self.env["veron.ai.provider"]._get("antivirus")
 		if antivirus:
 			try:
@@ -91,26 +103,36 @@ class AiSource(models.Model):
 		self.check_access("read")
 		return self.sudo().attachment_id.raw or b""
 
-	def _transcribe(self, language=None):
-		"""The text of a voice message, from the speech-to-text provider; kept for the person to check"""
+	def _transcribe(self, language=None, engine="builtin"):
+		"""The text of a voice message, kept for the person to check. «builtin»: only on the server (Vosk), nothing
+		leaves it; «ai»: the AI speech-to-text service first, the built-in one when it fails or there is none."""
 		self.ensure_one()
 		if self.kind != "audio":
 			raise UserError(_("Only a voice message is turned into text."))
-		provider = self.env["veron.ai.provider"]._get("stt", company=self.company_id)
-		if not provider:
-			raise UserError(_("No speech-to-text provider is set. Type the message, or set one in AI Agents, Settings, "
-				"Providers."))
-		try:
-			text = provider._adapter().transcribe(self._data(), self.mimetype, language or provider.language or "fa")
-		except providers.ProviderError as error:
-			provider._mark(error)
-			raise UserError(error.text(self.env)) from error
-		provider._mark()
-		self.sudo().write({"transcript": text})
-		if not self._settings()["keep_audio"]:
-			# The text is kept; the voice is removed once its text exists, unless the company keeps voices
-			self.sudo().retention_until = fields.Date.context_today(self)
-		return text
+		Provider = self.env["veron.ai.provider"]
+		found = Provider.sudo().search([("kind", "=", "stt"), ("active", "=", True),
+			("company_id", "in", [False, self.company_id.id or self.env.company.id])], order="is_default desc, sequence, id")
+		local = found.filtered(lambda p: getattr(providers.ADAPTERS.get(p.adapter), "local", False))
+		outside = found - local
+		ordered = local if engine != "ai" else outside + local
+		if not ordered:
+			raise UserError(_("No speech-to-text is set. Type the message, or connect an AI for voices in AI Agents, "
+				"Settings, Connect AI."))
+		errors = []
+		for provider in ordered.with_env(self.env):
+			try:
+				text = provider._adapter().transcribe(self._data(), self.mimetype, language or provider.language or "fa")
+			except providers.ProviderError as error:
+				provider._mark(error)
+				errors.append(error.text(self.env))
+				continue
+			provider._mark()
+			self.sudo().write({"transcript": text})
+			if not self._settings()["keep_audio"]:
+				# The text is kept; the voice is removed once its text exists, unless the company keeps voices
+				self.sudo().retention_until = fields.Date.context_today(self)
+			return text
+		raise UserError(errors[-1])
 
 	def _confirm_transcript(self, text):
 		self.ensure_one()
@@ -125,7 +147,8 @@ class AiSource(models.Model):
 
 		self.ensure_one()
 		document_type = document_type or next((code for code, spec in DOCUMENTS.items() if spec is schema), None)
-		provider = provider or self.env["veron.ai.provider"]._get("vision", company=self.company_id)
+		if provider is None:
+			provider = self.env["veron.ai.provider"]._get("vision", company=self.company_id)
 		builtin = not provider or getattr(providers.ADAPTERS.get(provider.adapter), "local", False)
 		result, failure = None, None
 		if not builtin:
@@ -136,7 +159,9 @@ class AiSource(models.Model):
 				provider._mark(error)
 				failure = error
 		values = (result or {}).get("fields") or {}
-		if not any(value not in (None, "", []) for key, value in values.items() if key != "confidence"):
+		essential = ESSENTIAL.get(document_type) or ()
+		if not any(value not in (None, "", []) for key, value in values.items() if key != "confidence") or \
+				essential and not any(values.get(key) for key in essential):
 			texts = [(result or {}).get("text") or "", self.extracted_text or ""]
 			texts += ocr.document_texts(self._data(), self.mimetype or "")
 			texts = list(dict.fromkeys(text for text in texts if text.strip()))
@@ -144,7 +169,12 @@ class AiSource(models.Model):
 				text, read = reader.best(document_type, texts)
 			else:
 				text, read = (max(texts, key=ocr.quality) if texts else ""), {}
-			if text:
+			if text and values and any(values.get(key) for key in values if key != "confidence"):
+				# The AI read part of it: what it missed is taken from the built-in reading
+				merged = dict(read)
+				merged.update({key: value for key, value in values.items() if value not in (None, "", [])})
+				result = {"text": text, "fields": merged, "reader": (result or {}).get("reader") or "ai"}
+			elif text:
 				result = {"text": text, "fields": read or values, "reader": "builtin"}
 			if builtin and provider:
 				provider._mark()

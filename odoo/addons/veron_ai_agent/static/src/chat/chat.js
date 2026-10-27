@@ -87,10 +87,42 @@ export class AgentChat extends Component {
         setTimeout(() => this.scroll());
     }
 
+    /** A photo the server may not open (HEIC, AVIF... often named .jpg) is sent as a JPEG when the browser can
+     * draw it; a JPEG, a PNG, a PDF and other files are sent as they are */
+    async asJpeg(file) {
+        const head = new Uint8Array(await file.slice(0, 4).arrayBuffer());
+        const plain = (head[0] === 0xff && head[1] === 0xd8) || (head[0] === 0x89 && head[1] === 0x50) ||
+            (head[0] === 0x25 && head[1] === 0x50);
+        const looksImage = file.type.startsWith("image/") || /\.(jpe?g|png|heic|heif|avif|webp)$/i.test(file.name);
+        if (plain || !looksImage || !window.createImageBitmap) {
+            return file;
+        }
+        try {
+            const bitmap = await createImageBitmap(file);
+            const canvas = document.createElement("canvas");
+            canvas.width = bitmap.width;
+            canvas.height = bitmap.height;
+            canvas.getContext("2d").drawImage(bitmap, 0, 0);
+            const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.92));
+            if (!blob) {
+                return file;
+            }
+            const name = file.name.replace(/\.[^.]+$/, "") + ".jpg";
+            return new File([blob], name, { type: "image/jpeg" });
+        } catch {
+            // The browser cannot draw it either: the server converts it, or says why it cannot
+            return file;
+        }
+    }
+
     async upload(file, purpose = "other") {
+        if (purpose !== "voice") {
+            file = await this.asJpeg(file);
+        }
         const form = new FormData();
         form.append("agent_id", this.state.agentId);
         form.append("purpose", purpose);
+        form.append("engine", this.state.ai ? this.state.engine : "internal");
         form.append("file", file);
         form.append("csrf_token", odoo.csrf_token);
         this.state.uploading = true;
@@ -177,15 +209,16 @@ export class AgentChat extends Component {
         if ((!text && !this.state.files.length) || this.state.busy) {
             return;
         }
+        // A voice message nothing turned into text goes with what was typed in the message box
         const audioWithoutText = this.state.files.find((f) => f.kind === "audio" && !f.transcriptEdit.trim());
-        if (audioWithoutText) {
+        if (audioWithoutText && !text) {
             this.notification.add(_t("The voice message has no text; type it, or remove the voice message."), { type: "warning" });
             return;
         }
         const transcripts = {};
         for (const file of this.state.files) {
             if (file.kind === "audio") {
-                transcripts[file.id] = file.transcriptEdit;
+                transcripts[file.id] = file.transcriptEdit.trim() || text;
             }
         }
         this.state.busy = true;

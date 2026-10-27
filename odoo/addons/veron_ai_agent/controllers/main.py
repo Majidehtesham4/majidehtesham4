@@ -13,7 +13,7 @@ class AgentChat(http.Controller):
 	"""Files of the agent chat. The rest of the chat goes through the models' own checked methods."""
 
 	@http.route("/veron_ai/upload", type="http", auth="user", methods=["POST"])
-	def upload(self, agent_id, file, purpose="other", **kw):
+	def upload(self, agent_id, file, purpose="other", engine="internal", **kw):
 		"""A photo, a PDF or a voice message for an agent chat; checked before it is kept"""
 		try:
 			agent = request.env["veron.ai.agent"].browse(int(agent_id)).exists()
@@ -24,7 +24,10 @@ class AgentChat(http.Controller):
 			result = {"id": source.id, "name": source.name, "kind": source.kind, "transcript": ""}
 			if source.kind == "audio":
 				try:
-					result["transcript"] = source._transcribe()
+					voice = agent.sudo().voice_engine
+					if voice == "auto":
+						voice = "ai" if engine == "ai" else "builtin"
+					result["transcript"] = source._transcribe(engine=voice)
 				except UserError as error:
 					result["error"] = str(error)
 			return request.make_json_response(result)

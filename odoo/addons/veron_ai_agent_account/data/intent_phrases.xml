@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Phrases added to the library after it was installed; read on every update, without removing a manager's own -->
+	<function model="veron.ai.intent" name="_add_phrases">
+		<value>bill_from_document</value>
+		<value eval="['این فاکتور را پیش نویس کن', 'از روی این عکس فاکتور بساز', 'پیش نویس فاکتور خرید از این عکس',
+			'این را ثبت کن', 'این قبض خرید را وارد کن']"/>
+	</function>
+</odoo>

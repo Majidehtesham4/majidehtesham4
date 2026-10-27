@@ -71,6 +71,20 @@ class AiIntent(models.Model):
 			if intent.tool_code and not registry.get(intent.tool_code):
 				raise ValidationError(_("No tool is named %s.", intent.tool_code))
 
+	@api.model
+	def _add_phrases(self, code, phrases):
+		"""Phrases a new version of the library brings to a command that is already there; the manager's own phrases
+		and changes stay"""
+		intent = self.sudo().with_context(active_test=False).search([("code", "=", code)], limit=1)
+		if not intent:
+			return False
+		lines = [line for line in (intent.phrases or "").splitlines() if line.strip()]
+		known = {nlu.normalize(line) for line in lines}
+		added = [phrase for phrase in phrases if nlu.normalize(phrase) not in known]
+		if added:
+			intent.phrases = "\n".join(lines + added)
+		return True
+
 	def _slots(self):
 		self.ensure_one()
 		return json.loads(self.slots or "[]")

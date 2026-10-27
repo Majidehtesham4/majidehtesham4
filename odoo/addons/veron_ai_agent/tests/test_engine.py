@@ -168,7 +168,7 @@ class TestEngine(AgentCase):
 		self.env["veron.ai.provider"].create({"name": "STT", "kind": "stt", "adapter": "test_fake"})
 		voice = Source._from_upload("voice.webm", b"\x1aE\xdf\xa3" + b"\x00" * 64)
 		self.assertEqual(voice.kind, "audio")
-		self.assertIn("گزارش فروش", voice._transcribe())
+		self.assertIn("گزارش فروش", voice._transcribe(engine="ai"))
 		self.assertEqual(voice.retention_until, fields.Date.context_today(voice))
 		self.env["veron.ai.source"]._cron_cleanup()
 		self.assertFalse(voice.sudo().attachment_id)

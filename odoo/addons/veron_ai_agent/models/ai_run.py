@@ -79,8 +79,10 @@ class ToolContext:
 		if provider and self.run.engine_used == "internal" and not getattr(
 				providers.ADAPTERS.get(provider.adapter), "local", False):
 			# The built-in assistant uses no outside AI: only what works on the server (the built-in OCR)
-			return self.env["veron.ai.provider"].sudo().search([("kind", "=", kind), ("active", "=", True),
-				("adapter", "in", [code for code, cls in providers.ADAPTERS.items() if cls.local])], limit=1) or None
+			# False, not None: «no provider at all», so nothing falls back to the default AI one
+			local = self.env["veron.ai.provider"].sudo().search([("kind", "=", kind), ("active", "=", True),
+				("adapter", "in", [code for code, cls in providers.ADAPTERS.items() if cls.local])], limit=1)
+			return local.with_env(self.env) if local else False
 		return provider
 
 	def companies(self, records):

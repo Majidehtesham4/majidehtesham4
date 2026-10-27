@@ -18,7 +18,10 @@ services:
   odoo:
     # Odoo 19 (a fixed version) with the built-in OCR (Tesseract, Persian); see Dockerfile. Made on this
     # computer the first time it starts, in a few minutes
-    build: .
+    build:
+      context: .
+      args:
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-}
     image: veron-odoo:19.0
     depends_on:
       - db

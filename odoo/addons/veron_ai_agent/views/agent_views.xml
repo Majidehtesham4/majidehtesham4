@@ -198,6 +198,7 @@
 							<group>
 								<group>
 									<field name="engine"/>
+									<field name="voice_engine"/>
 									<field name="all_users"/>
 									<field name="trigger_manual"/>
 									<field name="trigger_schedule"/>

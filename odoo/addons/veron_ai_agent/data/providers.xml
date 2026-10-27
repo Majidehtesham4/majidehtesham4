@@ -12,6 +12,17 @@
 		<field name="note"><![CDATA[<p>Tesseract with Persian and English, in the program's own image. The text is read on the server and the fields of invoices, receipts and cheques are read from it by the built-in readers. To have an AI read photos instead, connect it with Connect AI and tick Also for Reading Photos.</p>]]></field>
 	</record>
 
+	<!-- Voices turned into text on the server, without any AI; the Persian model is fetched by «odoo.ps1 voice» -->
+	<record id="provider_veron_voice" model="veron.ai.provider">
+		<field name="name">Veron Voice: گفتار به متن بدون هوش مصنوعی</field>
+		<field name="kind">stt</field>
+		<field name="adapter">vosk</field>
+		<field name="language">fa</field>
+		<field name="timeout">120</field>
+		<field name="sequence">1</field>
+		<field name="note"><![CDATA[<p>Vosk with its Persian model, in the program's image. The model (about 50 MB) is fetched once: powershell -ExecutionPolicy Bypass -File .\odoo.ps1 voice (Windows) or ./veron voice (server). Press Check to see it is there. Which one reads the voices, this or an AI, is chosen on the assistant: Voice Messages Read By.</p>]]></field>
+	</record>
+
 	<!-- Ready providers, inactive until a key is entered and the provider is made active -->
 	<record id="provider_groq" model="veron.ai.provider">
 		<field name="name">Groq</field>

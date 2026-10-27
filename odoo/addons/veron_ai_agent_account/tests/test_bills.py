@@ -71,3 +71,17 @@ class TestBills(FinanceCase):
 		run = run_with(("invoice_post", {"move_id": move.id}))
 		self.assertEqual(run.step_ids[:1].decision, "approval")
 		self.assertEqual(move.state, "draft")
+
+	def test_bill_from_chat_without_ai(self):
+		"""A photo or a PDF given in the chat box with «make it a draft»: the built-in assistant makes the bill"""
+		self.env["veron.ai.agent"]._setup_assistant()
+		self.env.ref("veron_ai_agent.agent_assistant").enabled = True
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_assistant()["conversation_id"]
+		source = self.env["veron.ai.source"].with_user(self.accountant)._from_upload("bill.pdf", pdf(BILL))
+		reply = Chat.veron_chat_send(conversation, "این فاکتور رو برام پیشنویس کن", [source.id], {}, "internal")[-1]
+		self.assertEqual(reply["engine"], "internal")
+		bill = self.env["account.move"].search([("ref", "=", "PS-7781"), ("partner_id", "=", self.vendor.id)])
+		self.assertEqual((bill.state, bill.amount_total), ("draft", 11_000_000), reply["body_html"])
+		self.assertTrue(any(option.get("code") == "invoice_post" for option in reply["options"]),
+			"posting it is offered next, as a button")

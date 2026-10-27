@@ -80,7 +80,8 @@
                     <button type="button" class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeFile(file)"><i class="fa fa-times"/></button>
                 </div>
                 <t t-if="file.kind === 'audio'">
-                    <label class="small text-muted">Text of the voice message; correct it before sending:</label>
+                    <label class="small text-muted">Text of the voice message; correct it before sending (empty: what you
+                        type below is sent with it):</label>
                     <textarea class="form-control form-control-sm" rows="2" t-model="file.transcriptEdit"/>
                 </t>
             </div>

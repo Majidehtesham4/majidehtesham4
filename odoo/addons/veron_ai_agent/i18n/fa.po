@@ -213,6 +213,12 @@ msgstr ""
 #. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_source.py:0
+msgid "; HEIC or AVIF photo turned into JPEG"
+msgstr "؛ عکس HEIC یا AVIF به JPEG تبدیل شد"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_source.py:0
 msgid "; antivirus not reachable: %s"
 msgstr "؛ آنتی‌ویروس در دسترس نیست: %s"
 
@@ -420,6 +426,11 @@ msgstr "ایجنت‌ها: اجراهای زمان‌بندی‌شده و در �
 #: model:ir.model,name:veron_ai_agent.model_veron_ai_provider
 msgid "AI Provider"
 msgstr "سرویس‌دهنده‌ی هوش مصنوعی"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__voice_engine__ai
+msgid "AI Service, Else Built-in"
+msgstr "سرویس هوش مصنوعی، وگرنه داخلی"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__engine__auto
@@ -955,6 +966,11 @@ msgid "Arguments"
 msgstr "ورودی‌ها"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__voice_engine__auto
+msgid "As Chosen in the Chat"
+msgstr "همان که در چت انتخاب شده"
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/tools/collaboration.py:0
 msgid "Ask the Responsible Person"
@@ -1127,6 +1143,24 @@ msgstr "فرمان هوش داخلی"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__engine__internal
 msgid "Built-in Assistant Only"
 msgstr "فقط هوش داخلی"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__voice_engine__builtin
+msgid "Built-in, on the Server (No AI)"
+msgstr "داخلی، روی خود سرور (بدون هوش مصنوعی)"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent__voice_engine
+msgid ""
+"Built-in: Vosk turns the voice into text on the server and nothing leaves "
+"it. AI: the speech-to-text service connected (e.g. Groq Whisper), the built-"
+"in one when it fails. As chosen in the chat: built-in while the built-in "
+"assistant is chosen, the AI while the AI is."
+msgstr ""
+"داخلی: Vosk صدا را روی خود سرور به متن تبدیل می‌کند و چیزی از سرور بیرون "
+"نمی‌رود. هوش مصنوعی: سرویس گفتار به متنِ وصل‌شده (مثلاً Whisper در Groq)، و "
+"اگر خطا بدهد، داخلی. همان که در چت انتخاب شده: وقتی هوش داخلی انتخاب است "
+"داخلی، وقتی هوش مصنوعی انتخاب است هوش مصنوعی."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__trigger_manual
@@ -2898,11 +2932,11 @@ msgstr "سرویس ساخت تصویر تنظیم نشده است."
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_source.py:0
 msgid ""
-"No speech-to-text provider is set. Type the message, or set one in AI "
-"Agents, Settings, Providers."
+"No speech-to-text is set. Type the message, or connect an AI for voices in "
+"AI Agents, Settings, Connect AI."
 msgstr ""
-"سرویس تبدیل گفتار به متن تنظیم نشده. پیام را تایپ کنید، یا در ایجنت‌های هوش "
-"مصنوعی ← تنظیمات ← سرویس‌دهنده‌ها یکی تنظیم کنید."
+"تبدیل گفتار به متن تنظیم نشده است. پیام را تایپ کنید، یا از «ایجنت‌های هوش "
+"مصنوعی ← تنظیمات ← اتصال هوش مصنوعی» یک سرویس برای صدا وصل کنید."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -4631,8 +4665,12 @@ msgstr "متن خوانده‌شده"
 #. module: veron_ai_agent
 #. odoo-javascript
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
-msgid "Text of the voice message; correct it before sending:"
-msgstr "متن پیام صوتی؛ پیش از ارسال اصلاحش کنید:"
+msgid ""
+"Text of the voice message; correct it before sending (empty: what you\n"
+"                        type below is sent with it):"
+msgstr ""
+"متن پیام صوتی؛ پیش از ارسال اصلاحش کنید (اگر خالی بماند، همان که پایین می‌نویسید\n"
+"                        همراهش فرستاده می‌شود):"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_provider__kind__tts
@@ -4676,6 +4714,16 @@ msgstr "PDF وقتی ساخته می‌شود که گزارش آماده باش�
 #: code:addons/veron_ai_agent/tools/documents.py:0
 msgid "The PDF is made when the report is finished and kept on the run."
 msgstr "PDF پس از پایان گزارش ساخته و روی اجرا نگه داشته می‌شود."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/providers.py:0
+msgid ""
+"The Persian voice model is not on the server. Fetch it once with: odoo.ps1 "
+"voice (Windows) or ./veron voice (server)."
+msgstr ""
+"مدل فارسی گفتار روی سرور نیست. یک بار این را اجرا کنید: odoo.ps1 voice "
+"(ویندوز) یا ‎./veron voice (سرور)."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__requester_may_approve
@@ -5186,10 +5234,22 @@ msgstr ""
 "گفت‌وگو با حقوق خودِ کاربرِ گفت‌وگوکننده اجرا می‌شود"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/providers.py:0
+msgid "The voice message could not be opened."
+msgstr "پیام صوتی باز نشد."
+
+#. module: veron_ai_agent
 #. odoo-javascript
 #: code:addons/veron_ai_agent/static/src/chat/chat.js:0
 msgid "The voice message has no text; type it, or remove the voice message."
 msgstr "پیام صوتی متن ندارد؛ آن را تایپ کنید یا پیام صوتی را حذف کنید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/providers.py:0
+msgid "The voice model is installed."
+msgstr "مدل گفتار نصب است."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5269,6 +5329,16 @@ msgstr ""
 #: code:addons/veron_ai_agent/models/ai_content.py:0
 msgid "This kind of content is copied by hand."
 msgstr "این نوع محتوا دستی کپی می‌شود."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/files.py:0
+msgid ""
+"This photo is in HEIC or AVIF format and cannot be opened on the server. "
+"Save it as JPG (or take a screenshot of it) and send it again."
+msgstr ""
+"این عکس با قالب HEIC یا AVIF است و روی سرور باز نمی‌شود. آن را با قالب JPG "
+"ذخیره کنید (یا از آن اسکرین‌شات بگیرید) و دوباره بفرستید."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5552,6 +5622,11 @@ msgid "Voice Messages"
 msgstr "پیام‌های صوتی"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__voice_engine
+msgid "Voice Messages Read By"
+msgstr "پیام صوتی خوانده شود با"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.res_config_settings_view_form
 msgid ""
 "Voice is kept only as long as set here; recording phone calls or outside "
@@ -5565,6 +5640,16 @@ msgstr ""
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
 msgid "Voice message"
 msgstr "پیام صوتی"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/providers.py:0
+msgid ""
+"Vosk is not installed on the server; it comes with the program's image "
+"(odoo.ps1 start). Until then, type the message or connect an AI for voices."
+msgstr ""
+"Vosk روی سرور نصب نیست؛ همراه ایمیج برنامه نصب می‌شود (odoo.ps1 start). تا "
+"آن موقع، پیام را تایپ کنید یا یک سرویس هوش مصنوعی برای صدا وصل کنید."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_schedule__outside_hours__wait
@@ -5954,6 +6039,13 @@ msgstr "مثلاً torob.com"
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_provider__options
 msgid "e.g. {\"voice\": \"alloy\"}"
 msgstr "مثلاً {\"voice\": \"alloy\"}"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/services/providers.py:0
+msgid ""
+"ffmpeg is not installed on the server; it comes with the program's image."
+msgstr "ffmpeg روی سرور نصب نیست؛ همراه ایمیج برنامه نصب می‌شود."
 
 #. module: veron_ai_agent
 #. odoo-python

@@ -9,6 +9,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 install veron_apps trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 voice
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
 param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
@@ -108,6 +109,15 @@ switch ($Action) {
 		docker compose restart odoo
 		Write-Host "Done. In AI Agents, Settings, Providers, open Claude, enter the key and press Check."
 	}
+	"voice" {
+		# The Persian model of Vosk, for voice messages turned into text on the server without any AI; kept in
+		# python\voice\fa (not in git). Set VOSK_MODEL_URL first to fetch the zip from a mirror
+		Write-Host "Fetching the Persian voice model (about 50 MB)..."
+		docker compose run --rm -T -u root -e VOSK_MODEL_URL --entrypoint python3 odoo /mnt/extra-addons/veron_ai_agent/scripts/fetch_voice_model.py
+		if ($LASTEXITCODE -ne 0) { Write-Host "It could not be fetched; the lines above say why."; exit 1 }
+		docker compose up -d odoo
+		Write-Host "Done. Voice messages are now turned into text on the server."
+	}
 	"remove" {
 		$answer = Read-Host "This deletes Odoo, its database and its files (your addons folder stays). Type yes"
 		if ($answer -ne "yes") { Write-Host "Nothing was removed."; exit 0 }
@@ -115,5 +125,5 @@ switch ($Action) {
 		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, remove" }
 }
