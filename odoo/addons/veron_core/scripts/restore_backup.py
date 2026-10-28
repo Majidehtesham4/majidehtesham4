@@ -69,8 +69,8 @@ def main():
 		print("A database opens only in its own version. The ways forward:")
 		print(" 1. Upgrade it to %s first: OpenUpgrade (free, step by step, one version at a time) or" % ours)
 		print("    upgrade.odoo.com (Odoo's service, for databases of Odoo Enterprise or Odoo Online).")
-		print(" 2. Or bring over its data, not the database: export contacts, products, accounts and opening")
-		print("    balances to Excel in the old Odoo and import them into a new database here.")
+		print(" 2. Or bring over its data, not the database: contacts, products, accounts, opening balances and")
+		print("    stock, into a new database of this program: odoo.ps1 import18 <backup> <database> [date]")
 		return 2
 
 	from odoo.modules.module import get_modules
