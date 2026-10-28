@@ -47,6 +47,7 @@ Not built: Studio, IoT and WhatsApp.
 	"license": "LGPL-3",
 	"depends": [
 		"veron_core",
+		"veron_migration",
 		"web_responsive",
 		"veron_accounting",
 		"account_budget_oca",

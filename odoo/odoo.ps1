@@ -11,10 +11,10 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 voice
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 restore <backup zip or folder> <database>
-#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 import18 <backup zip or folder> <database> [date]
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 import18 <backup zip or folder> <database>
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
-param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial", [string]$Date = "")
+param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
 Set-Location $PSScriptRoot
 
 # The OCA repositories of oca-repos.txt, on their 19.0 branch: fetched once, brought up to date after
@@ -127,20 +127,22 @@ switch ($Action) {
 		Write-Host "To add the Iranian settings and the programs of ERP-VERON to it: .\odoo.ps1 install veron_apps $Database"
 	}
 	"import18" {
-		# A company of Odoo 17 or 18 (Community or Enterprise) brought into a database of this program: its
-		# contacts, products, accounts, opening balances (a draft entry) and stock (counted, not applied):
-		#   .\odoo.ps1 import18 "C:\Users\me\Downloads\hermagi_2025-11-12.zip" hermagi 2025-11-12
-		if (-not $Module -or $Database -eq "trial") { Write-Host "Use: .\odoo.ps1 import18 <backup zip or folder> <database> [date of the opening balances, e.g. 2025-11-12]"; exit 1 }
+		# A company of Odoo 16, 17 or 18 (Community or Enterprise) brought into a database of this program with its
+		# history: contacts, products, accounts, every invoice and entry, payments, orders, stock, files. Nothing is
+		# posted or applied: a person confirms it in the program (Settings, Brought From Odoo):
+		#   .\odoo.ps1 import18 "C:\Users\me\Downloads\hermagi_2025-11-12.zip" hermagi
+		if (-not $Module -or $Database -eq "trial") { Write-Host "Use: .\odoo.ps1 import18 <backup zip or folder> <database>"; exit 1 }
 		$full = (Resolve-Path $Module -ErrorAction SilentlyContinue).Path
 		if (-not $full) { Write-Host "Not found: $Module"; exit 1 }
 		$parent = Split-Path $full -Parent
 		$leaf = Split-Path $full -Leaf
-		$extra = @()
-		if ($Date) { $extra = @("--date", $Date) }
+		# The program is stopped meanwhile: the parts the old company used are installed into the database
 		docker compose up -d db
-		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_core/scripts/import_odoo18.py "/mnt/backup/$leaf" $Database @extra
-		if ($LASTEXITCODE -ne 0) { exit 1 }
+		docker compose stop odoo
+		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$leaf" $Database
+		$ok = $LASTEXITCODE -eq 0
 		docker compose up -d odoo
+		if (-not $ok) { exit 1 }
 	}
 	"voice" {
 		# The Persian model of Vosk, for voice messages turned into text on the server without any AI; kept in
@@ -158,5 +160,5 @@ switch ($Action) {
 		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database> [date], remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database>, remove" }
 }

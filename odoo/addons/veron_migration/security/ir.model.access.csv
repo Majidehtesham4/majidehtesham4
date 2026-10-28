@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_veron_migration_manager,migration manager,model_veron_migration,account.group_account_manager,1,1,0,0
+access_veron_migration_system,migration system,model_veron_migration,base.group_system,1,1,1,1

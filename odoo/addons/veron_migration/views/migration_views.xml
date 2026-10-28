@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_migration_list" model="ir.ui.view">
+		<field name="name">veron.migration.list</field>
+		<field name="model">veron.migration</field>
+		<field name="arch" type="xml">
+			<list create="false">
+				<field name="name"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+				<field name="source_version"/>
+				<field name="moves_to_post"/>
+				<field name="moves_posted"/>
+				<field name="state" widget="badge" decoration-success="state == 'done'" decoration-warning="state == 'imported'"/>
+			</list>
+		</field>
+	</record>
+
+	<record id="view_migration_form" model="ir.ui.view">
+		<field name="name">veron.migration.form</field>
+		<field name="model">veron.migration</field>
+		<field name="arch" type="xml">
+			<form create="false">
+				<header>
+					<button name="action_compare" type="object" string="Compare With the Old System" class="btn-secondary"/>
+					<button name="action_confirm" type="object" string="Confirm and Post the Entries" class="btn-primary"
+						invisible="state != 'imported'"
+						confirm="The entries that were posted in the old system are posted here with their old numbers, the cancelled ones are cancelled and the reconciliations are redone. Have you compared the balances?"/>
+					<button name="action_apply_stock" type="object" string="Apply the Stock Counted" class="btn-secondary"
+						invisible="stock_applied or not has_stock"
+						confirm="The quantities counted in the migration become the stock on hand. Have you checked them in Inventory, Physical Inventory?"/>
+					<button name="action_open_moves" type="object" string="Entries Brought" class="btn-link"/>
+					<button name="action_open_users" type="object" string="Users Brought" class="btn-link"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="alert alert-info" role="alert" invisible="state != 'imported'">
+						Nothing brought is posted or applied yet. Compare the balances with the old system, then confirm.
+						The users are archived and without passwords: open each one, check its access, activate it and send
+						the invitation.
+					</div>
+					<div class="alert alert-warning" role="alert" invisible="state != 'confirming'">
+						The entries are being posted in the background. Reload the page to see the progress.
+					</div>
+					<h1><field name="name"/></h1>
+					<group>
+						<group>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="source_version"/>
+							<field name="source_db"/>
+						</group>
+						<group>
+							<field name="moves_to_post"/>
+							<field name="moves_posted"/>
+							<field name="reconciled"/>
+							<field name="stock_applied" invisible="not has_stock"/>
+							<field name="has_stock" invisible="1"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Comparison" name="comparison">
+							<field name="comparison_html" nolabel="1"/>
+						</page>
+						<page string="Brought" name="brought">
+							<field name="summary_html" nolabel="1"/>
+						</page>
+						<page string="To Check" name="notes">
+							<field name="notes" nolabel="1"/>
+						</page>
+						<page string="Not Confirmed" name="failures" invisible="not failures">
+							<field name="failures" nolabel="1"/>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="action_migration" model="ir.actions.act_window">
+		<field name="name">Brought From Odoo</field>
+		<field name="res_model">veron.migration</field>
+		<field name="view_mode">list,form</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">No company has been brought from an older Odoo yet</p>
+			<p>On the server: odoo.ps1 import18 &lt;backup&gt; &lt;database&gt; (Windows) or ./veron import18 &lt;backup&gt; &lt;address&gt;.</p>
+		</field>
+	</record>
+
+	<menuitem id="menu_migration_settings" name="Brought From Odoo" parent="base.menu_administration"
+		action="action_migration" sequence="90" groups="base.group_system"/>
+	<menuitem id="menu_migration_accounting" name="Brought From Odoo" parent="account.menu_finance_configuration"
+		action="action_migration" sequence="200" groups="account.group_account_manager"/>
+</odoo>

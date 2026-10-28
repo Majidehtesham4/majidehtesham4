@@ -1,0 +1,542 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "%(company)s from Odoo %(version)s"
+msgstr "%(company)s از Odoo %(version)s"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "%s accounts differ: see the rows in red."
+msgstr "%s حساب فرق دارند: ردیف‌های قرمز را ببینید."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "(an account not brought)"
+msgstr "(حسابی که آورده نشد)"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Account"
+msgstr "حساب"
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Apply the Stock Counted"
+msgstr "اعمال موجودی شمرده‌شده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Attached Files"
+msgstr "فایل‌های پیوست"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Bank Accounts"
+msgstr "حساب‌های بانکی"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Bank Statement Lines"
+msgstr "ردیف‌های صورت‌حساب بانکی"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Bank Statements"
+msgstr "صورت‌حساب‌های بانکی"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__summary_html
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Brought"
+msgstr "آورده‌شده"
+
+#. module: veron_migration
+#: model:ir.actions.act_window,name:veron_migration.action_migration
+#: model:ir.ui.menu,name:veron_migration.menu_migration_accounting
+#: model:ir.ui.menu,name:veron_migration.menu_migration_settings
+msgid "Brought From Odoo"
+msgstr "آورده‌شده از Odoo"
+
+#. module: veron_migration
+#: model:ir.model.fields.selection,name:veron_migration.selection__veron_migration__state__imported
+msgid "Brought, to Confirm"
+msgstr "آورده‌شده، برای تأیید"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_migration
+#: model:ir.model,name:veron_migration.model_veron_migration
+msgid "Company Brought From Odoo"
+msgstr "شرکت آورده‌شده از Odoo"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__source_company
+msgid "Company in the Backup"
+msgstr "شرکت در بک‌آپ"
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Compare With the Old System"
+msgstr "مقایسه با سیستم قدیم"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__comparison_html
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Comparison"
+msgstr "مقایسه"
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Confirm and Post the Entries"
+msgstr "تأیید و ثبت سندها"
+
+#. module: veron_migration
+#: model:ir.model.fields.selection,name:veron_migration.selection__veron_migration__state__done
+msgid "Confirmed"
+msgstr "تأییدشده"
+
+#. module: veron_migration
+#: model:ir.model.fields.selection,name:veron_migration.selection__veron_migration__state__confirming
+msgid "Confirming"
+msgstr "در حال تأیید"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Contacts"
+msgstr "مخاطبان"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid ""
+"Data of the old system that has no place in this program: modules of Odoo "
+"Enterprise, the company's own modules, and history kept only in the old "
+"system."
+msgstr ""
+"داده‌هایی از سیستم قدیم که در این برنامه جایی ندارند: ماژول‌های Odoo "
+"Enterprise، ماژول‌های اختصاصی شرکت و سابقه‌ای که فقط در سیستم قدیم می‌ماند."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Difference"
+msgstr "اختلاف"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Employees"
+msgstr "کارمندان"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Entries Brought"
+msgstr "سندهای آورده‌شده"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__moves_posted
+msgid "Entries Posted"
+msgstr "سندهای ثبت‌شده"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__moves_to_post
+msgid "Entries to Post"
+msgstr "سندهای برای ثبت"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Entry %(name)s of %(date)s was not posted: %(error)s"
+msgstr "سند %(name)s تاریخ %(date)s ثبت نشد: %(error)s"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Every account has the same balance here as in the old system."
+msgstr "مانده‌ی همه‌ی حساب‌ها اینجا با سیستم قدیم یکی است."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Exchange Rates"
+msgstr "نرخ‌های ارز"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Fields Added by Hand or Studio"
+msgstr "فیلدهای اضافه‌شده با دست یا استودیو"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__has_stock
+msgid "Has Stock"
+msgstr "انبار دارد"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Here"
+msgstr "اینجا"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Journal Entries and Invoices"
+msgstr "سندها و فاکتورها"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Lines %(lines)s were not reconciled: %(error)s"
+msgstr "ردیف‌های %(lines)s تطبیق داده نشدند: %(error)s"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Lots and Serial Numbers"
+msgstr "سری‌ها و شماره‌سریال‌ها"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Manufacturing Orders"
+msgstr "سفارش‌های تولید"
+
+#. module: veron_migration
+#: model:ir.actions.server,name:veron_migration.cron_confirm_ir_actions_server
+msgid "Migration: post the entries brought"
+msgstr "انتقال: ثبت سندهای آورده‌شده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Module"
+msgstr "ماژول"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_migration
+#: model_terms:ir.actions.act_window,help:veron_migration.action_migration
+msgid "No company has been brought from an older Odoo yet"
+msgstr "هنوز شرکتی از Odoo قدیمی آورده نشده است"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Not Brought"
+msgstr "آورده‌نشده"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__failures
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Not Confirmed"
+msgstr "تأییدنشده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Notes and Messages"
+msgstr "یادداشت‌ها و پیام‌ها"
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid ""
+"Nothing brought is posted or applied yet. Compare the balances with the old system, then confirm.\n"
+"\t\t\t\t\t\tThe users are archived and without passwords: open each one, check its access, activate it and send\n"
+"\t\t\t\t\t\tthe invitation."
+msgstr ""
+"هنوز چیزی ثبت یا اعمال نشده است. مانده‌ها را با سیستم قدیم مقایسه کنید، بعد "
+"تأیید کنید. کاربران بایگانی‌شده و بدون رمز آورده شده‌اند: هر کدام را باز "
+"کنید، دسترسی‌اش را بررسی کنید، فعالش کنید و دعوت‌نامه بفرستید."
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__source_db
+msgid "Old Database"
+msgstr "پایگاه داده‌ی قدیم"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Old System"
+msgstr "سیستم قدیم"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__source_version
+msgid "Old Version"
+msgstr "نسخه‌ی قدیم"
+
+#. module: veron_migration
+#: model_terms:ir.actions.act_window,help:veron_migration.action_migration
+msgid ""
+"On the server: odoo.ps1 import18 &lt;backup&gt; &lt;database&gt; (Windows) "
+"or ./veron import18 &lt;backup&gt; &lt;address&gt;."
+msgstr ""
+"روی سرور: odoo.ps1 import18 &lt;بک‌آپ&gt; &lt;پایگاه داده&gt; (ویندوز) یا "
+"‎./veron import18 &lt;بک‌آپ&gt; &lt;نشانی&gt;."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Only an accounting manager confirms the entries of a migration."
+msgstr "فقط مدیر حسابداری سندهای انتقال را تأیید می‌کند."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Only an inventory manager applies the stock of a migration."
+msgstr "فقط مدیر انبار موجودی انتقال را اعمال می‌کند."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Payments"
+msgstr "پرداخت‌ها"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Pictures"
+msgstr "تصویرها"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Posted entries in the old system: %(old)s; brought: %(new)s."
+msgstr "سندهای ثبت‌شده در سیستم قدیم: %(old)s؛ آورده‌شده: %(new)s."
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Products"
+msgstr "کالاها"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Purchase Order Lines"
+msgstr "ردیف‌های سفارش خرید"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Purchase Orders"
+msgstr "سفارش‌های خرید"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Receipts and Deliveries"
+msgstr "رسیدها و تحویل‌ها"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__reconciled
+msgid "Reconciliations Redone"
+msgstr "تطبیق‌های دوباره‌انجام‌شده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Reconciliations to Redo"
+msgstr "تطبیق‌های برای انجام دوباره"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Records"
+msgstr "رکورد"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Sale Order Lines"
+msgstr "ردیف‌های سفارش فروش"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Sale Orders"
+msgstr "سفارش‌های فروش"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__stock_applied
+msgid "Stock Applied"
+msgstr "موجودی اعمال شد"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Stock Counted"
+msgstr "موجودی شمرده‌شده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Stock Locations"
+msgstr "مکان‌های انبار"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Stock brought from %s"
+msgstr "موجودی آورده‌شده از %s"
+
+#. module: veron_migration
+#: model:ir.model.fields,help:veron_migration.field_veron_migration__source_db
+msgid ""
+"The backup loaded on this server, read only; delete it in the database "
+"manager once all is confirmed"
+msgstr ""
+"بک‌آپی که روی این سرور بارگذاری شده و فقط خوانده می‌شود؛ وقتی همه تأیید شد، "
+"آن را از مدیر پایگاه داده پاک کنید"
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid ""
+"The entries are being posted in the background. Reload the page to see the "
+"progress."
+msgstr ""
+"سندها در پس‌زمینه ثبت می‌شوند. برای دیدن پیشرفت، صفحه را دوباره بارگذاری "
+"کنید."
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid ""
+"The entries that were posted in the old system are posted here with their "
+"old numbers, the cancelled ones are cancelled and the reconciliations are "
+"redone. Have you compared the balances?"
+msgstr ""
+"سندهایی که در سیستم قدیم ثبت شده بودند با همان شماره‌ها اینجا ثبت می‌شوند، "
+"باطل‌شده‌ها باطل می‌شوند و تطبیق‌ها دوباره انجام می‌شود. مانده‌ها را مقایسه "
+"کرده‌اید؟"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "The old database %(name)s could not be opened: %(error)s"
+msgstr "پایگاه داده‌ی قدیم %(name)s باز نشد: %(error)s"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "The old database of this migration is not on this server any more."
+msgstr "پایگاه داده‌ی قدیم این انتقال دیگر روی این سرور نیست."
+
+#. module: veron_migration
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid ""
+"The quantities counted in the migration become the stock on hand. Have you "
+"checked them in Inventory, Physical Inventory?"
+msgstr ""
+"مقدارهای شمرده‌شده در انتقال، موجودی انبار می‌شوند. آن‌ها را در انبار، شمارش"
+" موجودی بررسی کرده‌اید؟"
+
+#. module: veron_migration
+#: model:ir.model.fields,field_description:veron_migration.field_veron_migration__notes
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "To Check"
+msgstr "برای بررسی"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Transfer Lines"
+msgstr "ردیف‌های انتقال کالا"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Users (archived)"
+msgstr "کاربران (بایگانی‌شده)"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+#: model_terms:ir.ui.view,arch_db:veron_migration.view_migration_form
+msgid "Users Brought"
+msgstr "کاربران آورده‌شده"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Vendor Prices"
+msgstr "قیمت‌های فروشندگان"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Work Orders"
+msgstr "دستورهای کار"
+
+#. module: veron_migration
+#. odoo-python
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Work Times"
+msgstr "زمان‌های کار"

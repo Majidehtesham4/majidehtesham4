@@ -12,7 +12,7 @@
 #   ./veron ai                                      the library of the Claude provider (also on update)
 #   ./veron voice                                   the Persian voice model: voices read on the server, no AI
 #   ./veron restore <backup> <address>              a company's Odoo backup as a database of its own
-#   ./veron import18 <backup> <address> [date]      a company of Odoo 17/18 brought into a database of this program
+#   ./veron import18 <backup> <address>             a company of Odoo 16-18 brought with its history into this program
 #
 # The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
 # In local mode the address is the server's IP in the office network, e.g. 192.168.1.10.
@@ -273,15 +273,16 @@ restore)
 	;;
 
 import18)
-	# ./veron import18 <backup zip or folder> <address> [YYYY-MM-DD]: the data of a company of Odoo 17 or 18
-	# (Community or Enterprise) brought into the database of that address, made first with ./veron new
+	# ./veron import18 <backup zip or folder> <address>: a company of Odoo 16, 17 or 18 (Community or Enterprise)
+	# brought with its history into the database of that address, made first with ./veron new; nothing is posted
+	# or applied: a person confirms it in the program (Settings, Brought From Odoo)
 	backup=$(readlink -f "${2:?the backup zip or folder}")
 	address="${3:?the address of the company, e.g. erp.company.ir}"
 	address=${address,,}
 	databases | grep -qx "$address" || die "$address has no database yet: ./veron new $address first."
 	compose run --rm -T -v "$(dirname "$backup"):/mnt/backup:ro" --entrypoint python3 odoo \
-		/mnt/extra-addons/veron_core/scripts/import_odoo18.py "/mnt/backup/$(basename "$backup")" "$address" \
-		${4:+--date "$4"}
+		/mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$(basename "$backup")" "$address"
+	compose restart odoo
 	;;
 
 voice)

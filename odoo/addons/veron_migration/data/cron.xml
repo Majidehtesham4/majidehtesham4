@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The confirmation of a migration, in steps: posting thousands of old entries takes longer than a page waits -->
+	<record id="cron_confirm" model="ir.cron">
+		<field name="name">Migration: post the entries brought</field>
+		<field name="model_id" ref="model_veron_migration"/>
+		<field name="state">code</field>
+		<field name="code">model._cron_confirm()</field>
+		<field name="interval_number">1</field>
+		<field name="interval_type">days</field>
+		<field name="active">True</field>
+	</record>
+</odoo>
