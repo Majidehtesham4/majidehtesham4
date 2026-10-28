@@ -319,12 +319,26 @@ class Brain:
 			args["days"] = max((self.today - date_from).days + 1, 1)
 
 	def _run(self, intent, args):
-		output = self.run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
+		run, by = self.run, ""
+		agent = run.agent_id
+		if agent.is_supervisor and not agent._grant(intent.tool_code):
+			# A supervisor gives the task to the agent of its team that has the tool, with the person's own rights
+			delegate = agent.delegate_agent_ids.filtered(lambda a: a.enabled and a._grant(intent.tool_code))[:1]
+			if delegate:
+				run = self.env["veron.ai.run"].sudo()._enqueue(delegate, self.run.run_user_id or self.env.user,
+					"supervisor", text=self.run.input_text, parent=self.run)
+				by = delegate.name
+		output = run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
+		if by:
+			run.sudo().write({"state": "done", "finished_at": fields.Datetime.now(),
+				"output_html": render.answer(intent.tool_code, output)})
 		if isinstance(output, dict) and output.get("section") and self.run.page_title and not args.get("id"):
 			output["section"] = self.run.page_title
 		intent.sudo().use_count += 1
 		self.memory["last"] = {"intent": intent.code, "args": args}
 		head = Markup("<p class='text-muted small'>%s</p>") % (f"{intent.name} - {self.label}" if self.label else intent.name)
+		if by:
+			head += Markup("<p class='text-muted small'>%s</p>") % _("Done by «%s», of this supervisor's team.", by)
 		self._remember(output)
 		return head + render.answer(intent.tool_code, output)
 

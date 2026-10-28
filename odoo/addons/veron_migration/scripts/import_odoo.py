@@ -25,6 +25,8 @@ def say(text=""):
 
 
 def main():
+	# Errors and warnings with the rest of the output: a window or a file that keeps only the output keeps them too
+	os.dup2(sys.stdout.fileno(), sys.stderr.fileno())
 	parser = argparse.ArgumentParser()
 	parser.add_argument("backup")
 	parser.add_argument("database")
@@ -109,11 +111,28 @@ def main():
 		missing = env["ir.module.module"].search([("name", "in", wanted), ("state", "!=", "installed")])
 		names = missing.mapped("name")
 	if names:
+		import traceback
+
 		say("Installing what the old company used: %s (a few minutes)..." % ", ".join(names))
+		# One by one, this tool's own module first: a part that cannot be installed does not stop the others
+		for name in sorted(names, key=lambda n: n != "veron_migration"):
+			try:
+				with registry.cursor() as cr:
+					env = api.Environment(cr, SUPERUSER_ID, {})
+					module = env["ir.module.module"].search([("name", "=", name)])
+					if module.state != "installed":
+						module.button_immediate_install()
+				registry = Registry(args.database)
+				say(f"  installed: {name}")
+			except Exception as error:  # noqa: BLE001 - said, and the others go on
+				say(f"  NOT INSTALLED: {name}: {str(error).splitlines()[0][:300]}")
+				say("    " + " | ".join(traceback.format_exc().strip().splitlines()[-4:])[:600])
+				registry = Registry(args.database)
 		with registry.cursor() as cr:
 			env = api.Environment(cr, SUPERUSER_ID, {})
-			env["ir.module.module"].search([("name", "in", names)]).button_immediate_install()
-		registry = Registry(args.database)
+			if "veron.migration" not in env:
+				say("The tool itself (veron_migration) could not be installed; the lines above say why. Send them.")
+				return 1
 
 	from odoo.addons.veron_migration.services.importer import Importer
 
@@ -199,4 +218,11 @@ def main():
 
 
 if __name__ == "__main__":
-	sys.exit(main())
+	try:
+		sys.exit(main())
+	except Exception:  # noqa: BLE001 - the whole error, where the person sees it and in the file kept
+		import traceback
+
+		print("STOPPED with an error:", flush=True)
+		print(traceback.format_exc(), flush=True)
+		sys.exit(1)

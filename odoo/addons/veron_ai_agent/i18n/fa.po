@@ -172,6 +172,7 @@ msgstr "۱ تا ۳۱؛ ‎-1 یعنی روز آخر ماه"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__authority_level__1
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_template__default_level__1
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_tool__level__1
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_team_wizard__authority_level__1
 msgid "1. Read, Analyze and Report"
 msgstr "۱. خواندن، تحلیل و گزارش"
 
@@ -180,6 +181,7 @@ msgstr "۱. خواندن، تحلیل و گزارش"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__authority_level__2
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_template__default_level__2
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_tool__level__2
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_team_wizard__authority_level__2
 msgid "2. Suggest Actions, Change Nothing"
 msgstr "۲. پیشنهاد اقدام، بدون هیچ تغییری"
 
@@ -188,6 +190,7 @@ msgstr "۲. پیشنهاد اقدام، بدون هیچ تغییری"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__authority_level__3
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_template__default_level__3
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_tool__level__3
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_team_wizard__authority_level__3
 msgid "3. Make Drafts and Ask for Approval"
 msgstr "۳. ساخت پیش‌نویس و درخواست تأیید"
 
@@ -196,6 +199,7 @@ msgstr "۳. ساخت پیش‌نویس و درخواست تأیید"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent__authority_level__4
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_template__default_level__4
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_agent_tool__level__4
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_team_wizard__authority_level__4
 msgid "4. Act Automatically Within Set Limits"
 msgstr "۴. اقدام خودکار در محدوده‌ی تعیین‌شده"
 
@@ -344,6 +348,18 @@ msgstr "کد نقش باید یکتا باشد."
 #: code:addons/veron_ai_agent/models/ai_schedule.py:0
 msgid "A schedule repeats at least every 1."
 msgstr "زمان‌بندی دست‌کم هر ۱ بار تکرار می‌شود."
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
+msgid ""
+"A supervisor does no task itself: it gives each one to the part of its team that has the tool for it,\n"
+"\t\t\t\t\tchecks the result and brings to you what looks wrong. Pick the supervisor, add or take away the parts,\n"
+"\t\t\t\t\tread what each may do, then make the team."
+msgstr ""
+"سوپروایزر خودش کاری انجام نمی‌دهد: هر کار را به بخشی از تیمش می‌سپارد که "
+"ابزار آن را دارد، نتیجه را کنترل می‌کند و موارد مشکوک را به شما ارجاع "
+"می‌دهد. سوپروایزر را انتخاب کنید، بخش‌ها را اضافه یا کم کنید، کار هر کدام را"
+" بخوانید و تیم را بسازید."
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_form
@@ -578,6 +594,23 @@ msgstr ""
 #: code:addons/veron_ai_agent/tools/sheets.py:0
 msgid "Add Contacts or Products From a Spreadsheet"
 msgstr "افزودن مخاطبان یا کالاها از فایل اکسل"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
+msgid "Add a part: a role of the library..."
+msgstr "افزودن بخش: یکی از نقش‌های کتابخانه..."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/team_wizard.py:0
+msgid "Add at least one part to the team."
+msgstr "دست‌کم یک بخش به تیم اضافه کنید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/team_wizard.py:0
+msgid "Add at least one part."
+msgstr "دست‌کم یک بخش اضافه کنید."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__base_url
@@ -977,6 +1010,16 @@ msgid "Ask the Responsible Person"
 msgstr "پرسیدن از مسئول"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+msgid ""
+"Ask the assistant instead (the chat button at the bottom of every page): it "
+"works with your own access."
+msgstr ""
+"به‌جای آن از دستیار بپرسید (دکمه‌ی گفت‌وگو پایین هر صفحه): با دسترسی خود شما"
+" کار می‌کند."
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_list
 msgid "Asked On"
 msgstr "تاریخ درخواست"
@@ -1085,6 +1128,7 @@ msgstr "رویدادهای ممیزی همان‌طور که رخ داده‌ا�
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__authority_level
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__authority_level
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__level
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__authority_level
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_form
 msgid "Authority"
 msgstr "سطح اختیار"
@@ -1123,6 +1167,17 @@ msgstr "متن"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__body_html
 msgid "Body Html"
 msgstr "متن"
+
+#. module: veron_ai_agent
+#: model:ir.ui.menu,name:veron_ai_agent.menu_team_wizard
+msgid "Build a Team"
+msgstr "ساخت تیم"
+
+#. module: veron_ai_agent
+#: model:ir.actions.act_window,name:veron_ai_agent.action_team_wizard
+#: model:ir.model,name:veron_ai_agent.model_veron_ai_team_wizard
+msgid "Build an Agent Team"
+msgstr "ساخت تیم ایجنت‌ها"
 
 #. module: veron_ai_agent
 #. odoo-javascript
@@ -1180,6 +1235,7 @@ msgstr "می‌تواند تصمیم بگیرد"
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.activate_wizard_view_form
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.run_view_form
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
 msgid "Cancel"
 msgstr "لغو"
 
@@ -1301,6 +1357,7 @@ msgstr "کد رویدادهایی که آن را شروع می‌کنند، جد
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__company_ids
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__company_ids
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__company_ids
 msgid "Companies"
 msgstr "شرکت‌ها"
 
@@ -1426,6 +1483,7 @@ msgstr "ساخت فعالیت پیگیری"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__create_uid
 msgid "Created by"
 msgstr "ایجاد شده توسط"
@@ -1452,6 +1510,7 @@ msgstr "ایجاد شده توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__create_date
 msgid "Created on"
 msgstr "ایجادشده در"
@@ -1629,6 +1688,7 @@ msgstr "کنار گذاشته شد"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__display_name
 msgid "Display Name"
 msgstr "نام نمایشی"
@@ -1656,6 +1716,12 @@ msgstr "انجام شده"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_run_step__decision__reused
 msgid "Done Before"
 msgstr "قبلاً انجام شده"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Done by «%s», of this supervisor's team."
+msgstr "انجام‌شده توسط «%s» از تیم این سوپروایزر."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -1859,6 +1925,7 @@ msgstr "خروجی مورد انتظار"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__explanation
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__explanation
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__explanation
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__explanation
 msgid "Explanation"
 msgstr "توضیح"
 
@@ -2213,6 +2280,11 @@ msgid "I did not understand this. You can ask, for example:"
 msgstr "متوجه نشدم. برای نمونه می‌توانید بپرسید:"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__understood
+msgid "I have read what each part may read and do"
+msgstr "خواندم که هر بخش چه چیزی را می‌خواند و چه کاری می‌کند"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__understood
 msgid "I have read what this agent may read and do"
 msgstr "خواندم این ایجنت چه چیزهایی را می‌تواند بخواند و انجام دهد"
@@ -2248,6 +2320,7 @@ msgstr "من با ابزارهای برنامه و دسترسی‌های خود 
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__id
 msgid "ID"
 msgstr "شناسه"
@@ -2530,6 +2603,7 @@ msgstr "آخرین اجرا"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__write_uid
 msgid "Last Updated by"
 msgstr "آخرین تغییر توسط"
@@ -2556,6 +2630,7 @@ msgstr "آخرین تغییر توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_schedule__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_task__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__write_date
 msgid "Last Updated on"
 msgstr "آخرین بروز رسانی در"
@@ -2632,6 +2707,11 @@ msgstr "ساخت تصویر پیش‌نویس"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.activate_wizard_view_form
 msgid "Make the Agent"
 msgstr "ساخت ایجنت"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
+msgid "Make the Team"
+msgstr "ساختن تیم"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -2824,6 +2904,11 @@ msgstr "موعد نهای فعالیت من"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__name
 msgid "Name"
 msgstr "نام"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__name
+msgid "Name of the Supervisor"
+msgstr "نام سوپروایزر"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent_tool__sensitive_rule
@@ -3299,6 +3384,13 @@ msgstr "گزینه‌ها"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+msgid "Or make an agent of the role «%s» in AI Agents, Agents, New."
+msgstr ""
+"یا در ایجنت‌های هوش مصنوعی، ایجنت‌ها، جدید، یک ایجنت با نقش «%s» بسازید."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_internal.py:0
 msgid "Or send it to the AI with the switch above the box."
 msgstr "یا با کلید بالای کادر، آن را به هوش مصنوعی بفرستید."
@@ -3395,6 +3487,12 @@ msgstr "PDF گزارش"
 #: code:addons/veron_ai_agent/tools/documents.py:0
 msgid "PDF of the report"
 msgstr "PDF گزارش"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__member_template_ids
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
+msgid "Parts of the Team"
+msgstr "بخش‌های تیم"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -3734,6 +3832,12 @@ msgstr "خواندن فایل اکسل"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/wizard/team_wizard.py:0
+msgid "Read what each part may do and tick the box."
+msgstr "کار هر بخش را بخوانید و تیک را بزنید."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/wizard/activate_wizard.py:0
 msgid "Read what the agent may do and tick the box."
 msgstr "بخوانید ایجنت چه کارهایی می‌تواند بکند و تیک را بزنید."
@@ -3748,6 +3852,12 @@ msgstr "خواندن: سطح ۱؛ پیشنهاد: سطح ۲؛ پیش‌نویس:
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_provider__kind__vision
 msgid "Reading Photos and PDFs"
 msgstr "خواندن عکس و PDF"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/team_wizard.py:0
+msgid "Reads"
+msgstr "می‌خواند"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -3951,6 +4061,7 @@ msgstr "مدل رکورد"
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__responsible_user_id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__responsible_user_id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__responsible_user_id
 msgid "Responsible"
 msgstr "مسئول"
 
@@ -4525,6 +4636,7 @@ msgstr "یکشنبه"
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__supervisor_user_id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__supervisor_user_id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__supervisor_user_id
 msgid "Supervising Person"
 msgstr "ناظر"
 
@@ -4536,6 +4648,7 @@ msgstr "نظارت"
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__is_supervisor
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__is_supervisor
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__supervisor_template_id
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_run_step__origin__supervisor
 msgid "Supervisor"
 msgstr "سوپروایزر"
@@ -5125,6 +5238,12 @@ msgid "The other options are not valid JSON."
 msgstr "گزینه‌های دیگر JSON معتبر نیستند."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/wizard/team_wizard.py:0
+msgid "The part «%(part)s» needs: %(missing)s. Install it first."
+msgstr "بخش «%(part)s» به این نیاز دارد: %(missing)s. اول آن را نصب کنید."
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_run__sources_carried
 msgid ""
 "The person sent no file with this message; the files of their earlier "
@@ -5163,6 +5282,15 @@ msgstr "این رکورد دیگر وجود ندارد."
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_source__scan
 msgid "The result of the checks of the file"
 msgstr "نتیجه‌ی بررسی‌های فایل"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_team_wizard__authority_level
+msgid ""
+"The same for every part; what changes data always waits for a person's "
+"approval"
+msgstr ""
+"برای همه‌ی بخش‌ها یکسان؛ هر چیزی که داده را تغییر دهد همیشه منتظر تأیید یک "
+"نفر می‌ماند"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5572,6 +5700,11 @@ msgid "Tuesday"
 msgstr "سه‌شنبه"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_team_wizard__enable
+msgid "Turn the Team On Now"
+msgstr "همین حالا تیم روشن شود"
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_source.py:0
 msgid "Type checked from the content"
@@ -5820,6 +5953,11 @@ msgstr "هفتگی"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_schedule__unit__weeks
 msgid "Weeks"
 msgstr "هفته"
+
+#. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form
+msgid "What Each Part May Read and Do"
+msgstr "هر بخش چه می‌خواند و چه می‌کند"
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form
@@ -7411,19 +7549,3 @@ msgstr "گزارش وضعیت واحدها"
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_fin_periodic_report
 msgid "گزارش کوتاه با اعداد اصلی و نکات مهم."
 msgstr "گزارش کوتاه با اعداد اصلی و نکات مهم."
-
-#. module: veron_ai_agent
-#: code:addons/veron_ai_agent/models/ai_run.py:0
-msgid ""
-"Ask the assistant instead (the chat button at the bottom of every page): it "
-"works with your own access."
-msgstr ""
-"به‌جای آن از دستیار بپرسید (دکمه‌ی گفت‌وگو پایین هر صفحه): با دسترسی خود شما"
-" کار می‌کند."
-
-#. module: veron_ai_agent
-#: code:addons/veron_ai_agent/models/ai_run.py:0
-#, python-format
-msgid "Or make an agent of the role «%s» in AI Agents, Agents, New."
-msgstr ""
-"یا در ایجنت‌های هوش مصنوعی، ایجنت‌ها، جدید، یک ایجنت با نقش «%s» بسازید."

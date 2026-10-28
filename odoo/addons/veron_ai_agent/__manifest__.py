@@ -38,6 +38,7 @@ Agents that do company work inside Odoo, under the control of a manager:
 		"views/agent_views.xml",
 		"views/run_views.xml",
 		"views/settings_views.xml",
+		"views/team_wizard_views.xml",
 		"views/intent_views.xml",
 	],
 	"assets": {
