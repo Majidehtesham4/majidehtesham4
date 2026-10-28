@@ -16,7 +16,7 @@ _PUNCTUATION = re.compile(r"[؟?!،,؛;:«»\"'()\[\]{}…|\\]+")
 # Words that carry no meaning for finding what is asked
 STOP = set("""را رو از به در با که این اون آن ان برای تا و یا هم من ما شما ی ای هست هستند است بود باشه باشد چی چه
 	لطفا لطفاً لطف میخوام می‌خواهم میخواهم خواهش کن کنید بکن بکنید بده بدید بگو بگید یه یک همه همون همین اینو اونو
-	ها های کدوم کدام چند چقدر کجا کی رو""".split())
+	ها های کدوم کدام چند چقدر کجا کی رو کرد کردم کردی کنم کنی""".split())
 SUFFIXES = ("هایی", "های", "ها", "ترین", "تر", "ی", "ات", "ان")
 MONTHS = {name: index + 1 for index, name in enumerate(jalali.MONTHS)}
 UNITS = {"صفر": 0, "یک": 1, "یه": 1, "دو": 2, "سه": 3, "چهار": 4, "پنج": 5, "شش": 6, "شیش": 6, "هفت": 7, "هشت": 8,
@@ -67,14 +67,84 @@ def _near(word, words):
 	return 0.8 if best >= 0.8 else 0.0
 
 
-def similarity(message_tokens, phrase_tokens):
+def similarity(message_tokens, phrase_tokens, known=None):
 	"""How much a message says what a phrase says: the phrase's words found in the message, typos forgiven,
-	weighted with how much of the message they cover"""
+	weighted with how much of the message they cover. With «known» (the words of the whole library), only those
+	words of the message count for the cover: a name or a number in the request does not make it less clear"""
 	if not message_tokens or not phrase_tokens:
 		return 0.0
 	found = sum(_near(word, message_tokens) for word in phrase_tokens)
+	if not found:
+		return 0.0
 	covered = sum(_near(word, phrase_tokens) for word in message_tokens)
-	return 0.7 * found / len(phrase_tokens) + 0.3 * covered / len(message_tokens)
+	# A word the library does not have (a name, a number) counts a quarter
+	size = len(message_tokens) if known is None else sum(1 if w in known else 0.25 for w in message_tokens)
+	return 0.7 * found / len(phrase_tokens) + 0.3 * min(covered / size, 1.0)
+
+
+def known_words(message_tokens, vocabulary):
+	"""The words of the message that are words of the library, typos forgiven"""
+	return {w for w in message_tokens if _near(w, vocabulary)}
+
+
+# --- names of records
+
+# Words around a name that are not part of it: titles of people and the words of a count
+NAME_STOP = STOP | set("""اقای اقا خانم جناب سرکار اقایان استاد مهندس دکتر عدد عددی دونه دانه تایی بسته واحد برای""".split())
+_LATIN = str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹")
+
+
+def name_words(text):
+	"""The words of a name as they are compared: one form of letters and digits, the small words out"""
+	return [w for w in normalize(text).split() if w not in NAME_STOP and (len(w) > 1 or w.isdigit())]
+
+
+def variants(word):
+	"""The ways a word may be written in the database: Arabic or Persian «ی» and «ک», Latin or Persian digits"""
+	found = {word, word.replace("ی", "ي").replace("ک", "ك"), word.replace("ی", "ي"), word.replace("ک", "ك"),
+		word.translate(_LATIN)}
+	if word.startswith("ا"):
+		found.add("آ" + word[1:])
+	return found
+
+
+def name_score(words, name):
+	"""How well the words of a request name a record: (score, the record's words found, how many it has)
+	Each word found counts 1, one with a typo or written joined or apart a little less; digits only when equal"""
+	own = name_words(name)
+	if not own or not words:
+		return 0.0, 0, len(own)
+	stems = {stem(w): w for w in own}
+	score, hit, used = 0.0, set(), set()
+	for index, word in enumerate(words):
+		if index in used:
+			continue
+		if word in own or stem(word) in stems:
+			score += 1
+			hit.add(word if word in own else stems[stem(word)])
+			continue
+		joined = word + words[index + 1] if index + 1 < len(words) else ""
+		if joined and joined in own:
+			score += 2
+			hit.add(joined)
+			used.add(index + 1)
+			continue
+		if word.isdigit():
+			continue
+		best, which = 0.0, None
+		for other in own:
+			if other.isdigit():
+				continue
+			if len(word) >= 4 and abs(len(other) - len(word)) <= 2:
+				ratio = SequenceMatcher(None, word, other).ratio()
+				if ratio >= 0.8 and ratio > best:
+					best, which = 0.8, other
+			if len(word) >= 3 and len(other) >= 3 and (other.startswith(word) or word.startswith(other)) and best < 0.5:
+				best, which = 0.5, other
+		if which:
+			score += best
+			hit.add(which)
+	return score, len(hit), len(own)
 
 
 # --- numbers and amounts

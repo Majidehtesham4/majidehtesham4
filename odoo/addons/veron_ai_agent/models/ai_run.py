@@ -452,6 +452,12 @@ class AiRun(models.Model):
 			args = tool.validate(args)
 		except SchemaError as error:
 			return done("failed", {"status": "invalid", "error": str(error)}, str(error))
+		# What the person may not see is refused before the tool starts: it neither reads nor asks anyone for it
+		hidden = [model for model in tool.models if model in env and not env[model].has_access("read")]
+		if hidden:
+			names = ", ".join(self.env["ir.model"].sudo()._get(model).name or model for model in hidden)
+			reason = _("Your access rights do not let you see: %s. Ask the manager of the program for them.", names)
+			return done("denied", {"status": "denied", "reason": reason}, reason)
 		ctx = ToolContext(env, self.agent_id, self, self.agent_id._grant(code))
 		try:
 			plan = tool.plan(ctx, args)

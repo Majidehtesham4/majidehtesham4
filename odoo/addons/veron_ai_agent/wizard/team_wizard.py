@@ -19,6 +19,7 @@ class TeamWizard(models.TransientModel):
 	may read and do, and confirms; the supervisor then gives each task to the part that has its tool"""
 
 	_name = "veron.ai.team.wizard"
+	_inherit = ["veron.ai.guide.mixin"]
 	_description = "Build an Agent Team"
 
 	supervisor_template_id = fields.Many2one("veron.ai.agent.template", "Supervisor", required=True,

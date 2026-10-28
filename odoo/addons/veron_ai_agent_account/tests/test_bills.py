@@ -142,3 +142,56 @@ class TestBills(FinanceCase):
 		self.assertEqual((invoice.move_type, invoice.partner_id), ("out_invoice", customer), reply["body_html"])
 		self.assertEqual(invoice.invoice_line_ids.discount, 15)
 		self.assertEqual(invoice.amount_total, 1_861_500_000)
+
+
+@tagged("post_install", "-at_install")
+class TestSaleInvoiceFromChat(FinanceCase):
+	"""A sale invoice said in one sentence: the customer and the product found by their words in any order, in
+	Arabic or Persian letters, the numbers of the product's name not taken for the quantity"""
+
+	@classmethod
+	def setUpClass(cls):
+		super().setUpClass()
+		cls.env["veron.ai.agent"]._setup_assistant()
+		cls.env.ref("veron_ai_agent.agent_assistant").enabled = True
+		cls.customer = cls.env["res.partner"].create({"name": "حسن پور", "customer_rank": 1})
+		cls.env["res.partner"].create({"name": "حسن رضایی", "customer_rank": 1})
+		Product = cls.env["product.product"]
+		# Old data often has the Arabic «ي»
+		cls.oven50 = Product.create({"name": "فر پيتزا ريلي ۱۱۵۴ عرض ۵۰", "list_price": 1_500_000, "default_code": "F1154-50"})
+		cls.oven60 = Product.create({"name": "فر پیتزا ریلی ۱۱۵۴ عرض ۶۰", "list_price": 1_800_000})
+
+	def say(self, Chat, conversation, text):
+		return Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
+
+	def invoice(self, *texts):
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		for text in texts:
+			reply = self.say(Chat, conversation, text)
+		self.assertNotIn("درست نبود", reply["body_html"])
+		return self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1), reply
+
+	def test_one_sentence(self):
+		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای اقای حسن پور فاکتور کن")
+		self.assertEqual(move.state, "draft", reply["body_html"])
+		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id, move.invoice_line_ids.quantity),
+			(self.customer, self.oven50, 1))
+
+	def test_words_in_any_order_and_count(self):
+		move, _reply = self.invoice("۲ تا فر ریلی عرض ۶۰ واسه حسن پور فاکتور فروش بزن")
+		self.assertEqual((move.invoice_line_ids.product_id, move.invoice_line_ids.quantity), (self.oven60, 2))
+
+	def test_two_alike_are_offered_then_chosen(self):
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		reply = self.say(Chat, conversation, "فاکتور فروش برای حسن پور فر پیتزا ریلی")
+		labels = [option["label"] for option in reply["options"]]
+		self.assertEqual(len(labels), 2, reply["body_html"])
+		reply = self.say(Chat, conversation, str(next(i for i, label in enumerate(labels, 1) if "۶۰" in label)))
+		move = self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1)
+		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id), (self.customer, self.oven60), reply["body_html"])
+
+	def test_asked_step_by_step(self):
+		move, _reply = self.invoice("فاکتور فروش بزن", "حسن پور", "فر ريلي ۵۰")
+		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id), (self.customer, self.oven50))

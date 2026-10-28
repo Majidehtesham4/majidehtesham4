@@ -126,16 +126,16 @@ def explain_tools(env, tools, level):
 	rows = []
 	for tool in tools:
 		if tool.level <= level and not tool.sensitive:
-			what = _("does it")
+			what = env._("does it")
 		elif tool.sensitive or tool.level == 4:
-			what = _("asks a person to approve") if level >= 3 else (_("only suggests") if level >= 2 else _("may not"))
+			what = env._("asks a person to approve") if level >= 3 else (env._("only suggests") if level >= 2 else env._("may not"))
 		elif tool.level == 3:
-			what = _("only suggests") if level == 2 else _("may not")
+			what = env._("only suggests") if level == 2 else env._("may not")
 		else:
-			what = _("may not")
+			what = env._("may not")
 		models_used = f" ({escape(tool.models_used)})" if tool.models_used else ""
 		rows.append(Markup("<li><b>%s</b>%s: %s</li>") % (tool.name, models_used, what))
-	return Markup("<p>%s</p><ul>%s</ul>") % (_("Authority: %s", labels[str(level)]), Markup("").join(rows))
+	return Markup("<p>%s</p><ul>%s</ul>") % (env._("Authority: %s", labels[str(level)]), Markup("").join(rows))
 
 
 class AiAgentTemplateMake(models.Model):

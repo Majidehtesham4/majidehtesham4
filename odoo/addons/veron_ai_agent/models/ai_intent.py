@@ -91,6 +91,21 @@ class AiIntent(models.Model):
 					named.name = rename[1]
 		return True
 
+	@api.model
+	def _update_slot(self, code, arg, values):
+		"""What a new version of the library adds to an asked value of a command already there (e.g. the records
+		offered to choose from); what a manager changed in it stays"""
+		intent = self.sudo().with_context(active_test=False).search([("code", "=", code)], limit=1)
+		if not intent:
+			return False
+		slots = intent._slots()
+		for slot in slots:
+			if slot.get("arg") == arg:
+				for key, value in values.items():
+					slot.setdefault(key, value)
+		intent.slots = json.dumps(slots, ensure_ascii=False)
+		return True
+
 	def _slots(self):
 		self.ensure_one()
 		return json.loads(self.slots or "[]")
@@ -105,6 +120,14 @@ class AiIntent(models.Model):
 		texts = [line for line in (self.phrases or "").splitlines() if line.strip()] + [self.with_context(lang="en_US").name]
 		texts += self.phrase_ids.filtered(lambda p: p.approved or p.user_id == user).mapped("text")
 		return [nlu.tokens(text) for text in texts if text]
+
+	def _command_words(self):
+		"""The words of the library's own phrases of the intent: what is left of a request names a record. Phrases
+		learned from people are not used here, as they may hold the names they were said with."""
+		self.ensure_one()
+		texts = [line for line in (self.phrases or "").splitlines() if line.strip()] + [self.name or "",
+			self.with_context(lang="en_US").name or ""]
+		return {w for text in texts for w in nlu.tokens(text)}
 
 	def _usable(self, user):
 		self.ensure_one()

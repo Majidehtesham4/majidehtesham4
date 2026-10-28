@@ -38,6 +38,8 @@ class Brain:
 		self.sources = run.source_ids
 		self.options = []
 		self.label = ""
+		# The words of the request that named a record already (the customer's name), left out of the next search
+		self.taken = set()
 
 	# --- the answer
 
@@ -89,13 +91,14 @@ class Brain:
 		message = nlu.tokens(text)
 		ranked = []
 		page = self.run.page_model or ""
-		for intent in self.env["veron.ai.intent"].sudo().search([]):
-			if not intent._usable(self.user):
-				continue
+		intents = self.env["veron.ai.intent"].sudo().search([]).filtered(lambda i: i._usable(self.user))
+		vocabulary = {w for intent in intents for phrase in intent._phrase_tokens(self.user) for w in phrase}
+		known = nlu.known_words(message, vocabulary)
+		for intent in intents:
 			needs = {slot["page"] for slot in intent._slots() if slot.get("page") and slot.get("required")}
 			if "model" in needs and not page or "id" in needs and not self.run.page_res_id:
 				continue
-			score = max([nlu.similarity(message, phrase) for phrase in intent._phrase_tokens(self.user)] or [0.0])
+			score = max([nlu.similarity(message, phrase, known) for phrase in intent._phrase_tokens(self.user)] or [0.0])
 			if page and page in (intent.page_models or "").split(","):
 				score += 0.08
 			tool = registry.get(intent.tool_code) if intent.tool_code else None
@@ -150,9 +153,12 @@ class Brain:
 		if not intent or not intent._usable(self.user):
 			return self._say(_("This command is not available to you."))
 		text = self.memory.pop("unclear", "") or ""
+		answer = self._do(intent, text)
 		if text:
-			self.env["veron.ai.intent.phrase"]._learn(intent, text)
-		return self._do(intent, text)
+			# Learned without the names and numbers in it: «۲ تا فر برای حسن پور فاکتور کن» teaches «فاکتور کن»
+			words = [w for w in nlu.normalize(text).split() if w not in self.taken and not w.isdigit()]
+			self.env["veron.ai.intent.phrase"]._learn(intent, " ".join(words))
+		return answer
 
 	# --- what was said before
 
@@ -256,7 +262,10 @@ class Brain:
 		if wanted and "limit" in properties and "limit" not in args:
 			args["limit"] = min(wanted, properties["limit"].get("maximum", 100))
 		for slot in intent._slots():
-			if slot["arg"] in args:
+			given = args.get(slot["arg"])
+			if slot["arg"] in args and not (isinstance(given, str) and given.startswith("$")):
+				if slot.get("model") in self.env and isinstance(args[slot["arg"]], int):
+					self._take(self.env[slot["model"]].browse(args[slot["arg"]]).exists())
 				continue
 			if slot.get("file"):
 				source = self._file(slot)
@@ -281,7 +290,7 @@ class Brain:
 					return self._say(_("Open the page of the section or of the record first, then ask here."))
 				continue
 			if slot.get("number"):
-				values = [value for value, _unit in nlu.amounts(text)]
+				values = self._numbers(text)
 				if values:
 					args[slot["arg"]] = values[0]
 				elif "default" in slot:
@@ -295,7 +304,7 @@ class Brain:
 			if record:
 				args[slot["arg"]] = record.id
 			elif slot.get("required"):
-				return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"))
+				return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"), self._recent(slot))
 		if self.run.page_filters and args.get("model") == self.run.page_model and "filters" in properties \
 				and any(slot.get("page") for slot in intent._slots()):
 			# «This section» is the list as the person sees it: the conditions of the page come along
@@ -359,6 +368,19 @@ class Brain:
 			self.options = [{"choice": index + 1, "label": name} for index, (_id, name) in enumerate(options)]
 		return self._say(question)
 
+	def _recent(self, slot):
+		"""The last records of the kind asked for, to choose with one click rather than typing a name"""
+		model = slot.get("model")
+		if model not in self.env:
+			return []
+		Model = self.env[model]
+		try:
+			domain = self.agent._scope_domain(model, self.env) & Domain(slot.get("recent") or [])
+		except registry.ToolDenied:
+			return []
+		order = "write_date desc, id desc" if "write_date" in Model._fields else "id desc"
+		return [(record.id, record.display_name) for record in Model.search(domain, order=order, limit=5)]
+
 	def _ask(self, intent, args, slot, records):
 		options = [(record.id, record.display_name) for record in records[:6]]
 		return self._wait(intent, args, slot, "", _("Which one? %s", slot.get("question") or ""), options)
@@ -378,12 +400,28 @@ class Brain:
 		found = self._search(model, text, intent)
 		if len(found) == 1:
 			self.memory.setdefault("records", {})[model] = found.id
+			self._take(found)
 			return found
 		if len(found) > 1:
 			return self._ask(intent, args, slot, found)
 		if page and not slot.get("ask_on_page"):
 			return self.env[model].browse(self.run.page_res_id).exists()
 		return None
+
+	def _take(self, record):
+		self.taken |= set(nlu.name_words(record.display_name))
+
+	def _numbers(self, text):
+		"""The numbers of the request that are not part of a name found in it («عرض ۵۰» of the product)"""
+		taken, words = set(self.taken), []
+		for word in nlu.normalize(text).split():
+			# Each word of the name once: «۵۰ عدد فر عرض ۵۰» still has its count
+			if word in taken:
+				taken.discard(word)
+			else:
+				words.append(word)
+		left = " ".join(words)
+		return [value for value, _unit in nlu.amounts(left)]
 
 	def _search(self, model, text, intent):
 		"""Records of a model named in the text: a quoted name, a document number, or the longest run of words that
@@ -402,23 +440,38 @@ class Brain:
 			found = Model.search(domain & Domain(name_field, "ilike", name), limit=6)
 			if found:
 				return found
-		intent_words = {w for phrase in intent._phrase_tokens(self.user) for w in phrase} if intent else set()
-		words = [w for w in nlu.normalize(text).split() if w not in nlu.STOP and nlu.stem(w) not in intent_words
-			and not w.isdigit() and w not in nlu.UNITS and w not in nlu.SCALES]
-		for size in (4, 3, 2, 1):
-			for start in range(len(words) - size + 1):
-				phrase = " ".join(words[start:start + size])
-				if len(phrase) < 2:
-					continue
-				found = Model.search(domain & Domain(name_field, "ilike", phrase), limit=6)
-				if found:
-					exact = found.filtered(lambda r: nlu.normalize(r.display_name) == phrase)
-					return exact[:1] or found
-		return Model.browse()
+		intent_words = intent._command_words() if intent else set()
+		words = [w for w in nlu.name_words(text) if nlu.stem(w) not in intent_words and w not in nlu.UNITS
+			and w not in nlu.SCALES and w not in self.taken]
+		# The records with any word of the request, in any of the ways it may be written, then ranked by how many
+		# of the words they have: «فر ریلی ۵۰» finds «فر پیتزا ریلی ۱۱۵۴ عرض ۵۰»
+		look = [w for w in words if len(w) >= 3 or len(w) == 2 and not w.isdigit()]
+		if not look:
+			return Model.browse()
+		candidates = Model.browse()
+		for word in dict.fromkeys(look):
+			if word.isdigit() and len(word) < 3:
+				continue
+			found = Domain.OR([Domain("display_name", "ilike", variant) for variant in nlu.variants(word)])
+			candidates |= Model.search(domain & found, limit=80)
+		ranked = []
+		for record in candidates:
+			score, hit, size = nlu.name_score(words, record.display_name)
+			if score >= 1 or score >= 0.8 and size == 1:
+				ranked.append((score, hit / size if size else 0, record))
+		if not ranked:
+			return Model.browse()
+		ranked.sort(key=lambda item: (-item[0], -item[1], item[2].id))
+		best = ranked[0][0]
+		top = [item for item in ranked if item[0] >= best - 0.01]
+		whole = [item for item in top if item[1] >= 0.999]
+		if len(top) == 1 or len(whole) == 1:
+			return (whole or top)[0][2]
+		return Model.browse([item[2].id for item in ranked[:6]])
 
 	def _rest(self, text, intent):
 		"""The words of the request beyond those of the command, e.g. the name to look for"""
-		intent_words = {w for phrase in intent._phrase_tokens(self.user) for w in phrase}
+		intent_words = intent._command_words()
 		words = [w for w in nlu.normalize(text).split() if w not in nlu.STOP and nlu.stem(w) not in intent_words]
 		return " ".join(words)[:100]
 
@@ -438,7 +491,23 @@ def _fill(args):
 			return [value(v) for v in item]
 		return item
 
-	filled = {k: value(v) for k, v in args.items()}
+	def used(item, found):
+		if isinstance(item, dict):
+			for v in item.values():
+				used(v, found)
+		elif isinstance(item, list):
+			for v in item:
+				used(v, found)
+		elif isinstance(item, str) and item.startswith("$"):
+			found.add(item[1:])
+		return found
+
+	# A value asked only to be put inside another argument (the product and quantity of a line) is not an argument
+	inner = set()
+	for v in args.values():
+		if isinstance(v, (dict, list)):
+			used(v, inner)
+	filled = {k: value(v) for k, v in args.items() if k not in inner or isinstance(v, str) and v.startswith("$")}
 	return {k: v for k, v in filled.items() if not (isinstance(k, str) and k.startswith("_"))}
 
 

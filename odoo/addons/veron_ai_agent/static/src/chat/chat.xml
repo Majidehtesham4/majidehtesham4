@@ -3,7 +3,12 @@
     <t t-name="veron_ai_agent.Chat">
         <div class="o_veron_ai_chat d-flex h-100" dir="rtl">
             <aside class="o_veron_ai_agents border-start p-2">
-                <h6 class="text-muted px-2">Agents</h6>
+                <h6 class="text-muted px-2 d-flex align-items-center">
+                    <span class="flex-grow-1">Agents</span>
+                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="() => this.openGuide('talk')" title="Guide">
+                        <i class="fa fa-question-circle"/> Guide
+                    </button>
+                </h6>
                 <t t-if="!state.agents.length">
                     <p class="text-muted small px-2">No working agent you may use. A manager activates one from the Role Library.</p>
                 </t>
@@ -132,6 +137,7 @@
                     <i class="fa fa-comments"/>
                     <b class="flex-grow-1" t-esc="box.name"/>
                     <span t-if="pageLabel" class="badge text-bg-light text-truncate" t-esc="pageLabel"/>
+                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="() => this.openGuide('assistant')" title="Guide"><i class="fa fa-question-circle"/></button>
                     <button type="button" class="btn btn-sm btn-link p-0" t-on-click="clear" title="New conversation"><i class="fa fa-eraser"/></button>
                     <button type="button" class="btn btn-sm btn-link p-0" t-on-click="toggle" title="Close"><i class="fa fa-times"/></button>
                 </div>

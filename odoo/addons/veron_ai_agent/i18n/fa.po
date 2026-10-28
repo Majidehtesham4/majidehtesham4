@@ -1068,6 +1068,8 @@ msgstr ""
 
 #. module: veron_ai_agent
 #. odoo-javascript
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
 msgid "Assistant"
 msgstr "دستیار"
@@ -1125,6 +1127,8 @@ msgid "Audit events are kept as they happened"
 msgstr "رویدادهای ممیزی همان‌طور که رخ داده‌اند نگه داشته می‌شوند"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__authority_level
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__authority_level
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__level
@@ -1159,6 +1163,7 @@ msgstr "علاوه بر مسئول و ناظر"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__body
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__body
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__body
 msgid "Body"
 msgstr "متن"
@@ -1344,6 +1349,7 @@ msgstr "بستن دوره"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__code
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__code
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__code
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__code
 msgid "Code"
@@ -1353,6 +1359,12 @@ msgstr "کد"
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent__event_codes
 msgid "Codes of the events that start it, separated by commas"
 msgstr "کد رویدادهایی که آن را شروع می‌کنند، جداشده با ویرگول"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Command"
+msgstr "دستور"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__company_ids
@@ -1473,6 +1485,7 @@ msgstr "ساخت فعالیت پیگیری"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__create_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__create_uid
@@ -1500,6 +1513,7 @@ msgstr "ایجاد شده توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__create_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__create_date
@@ -1678,6 +1692,8 @@ msgstr "کنار گذاشته شد"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide_mixin__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__display_name
@@ -1911,6 +1927,8 @@ msgid "Every..."
 msgstr "هر..."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__example
 msgid "Example"
 msgstr "نمونه"
@@ -2172,6 +2190,47 @@ msgid "Groq"
 msgstr "Groq"
 
 #. module: veron_ai_agent
+#. odoo-javascript
+#: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.activate_wizard_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_kanban_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_list_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_list_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.connect_wizard_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.guide_view_kanban
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.intent_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.intent_view_list_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.phrase_view_list_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.run_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.run_view_list_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.team_wizard_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.template_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.template_view_kanban_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.tool_view_form_guide
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.tool_view_list_guide
+msgid "Guide"
+msgstr "راهنما"
+
+#. module: veron_ai_agent
+#: model:ir.model,name:veron_ai_agent.model_veron_ai_guide_mixin
+msgid "Guide Button"
+msgstr "دکمه‌ی راهنما"
+
+#. module: veron_ai_agent
+#: model:ir.model,name:veron_ai_agent.model_veron_ai_guide
+msgid "Guide of an AI Section"
+msgstr "راهنمای یک بخش"
+
+#. module: veron_ai_agent
+#: model:ir.actions.act_window,name:veron_ai_agent.action_guides
+#: model:ir.ui.menu,name:veron_ai_agent.menu_guides
+msgid "Guides"
+msgstr "راهنما"
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_provider.py:0
 msgid "HTTP (OpenAI-compatible format)"
@@ -2310,6 +2369,8 @@ msgstr "من با ابزارهای برنامه و دسترسی‌های خود 
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__id
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide_mixin__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__id
@@ -2327,6 +2388,7 @@ msgstr "شناسه"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__activity_exception_icon
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__icon
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__activity_exception_icon
 msgid "Icon"
 msgstr "شمایل"
@@ -2415,6 +2477,12 @@ msgid "In Odoo and as PDF"
 msgstr "در Veron و به صورت PDF"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "In the team of"
+msgstr "در تیمِ"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__initiator
 msgid "Initiator"
 msgstr "آغازگر"
@@ -2456,6 +2524,12 @@ msgstr "فاکتور"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__message_is_follower
 msgid "Is Follower"
 msgstr "آیا دنبال می کند"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "It asks you"
+msgstr "از شما می‌پرسد"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -2593,6 +2667,7 @@ msgstr "آخرین اجرا"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__write_uid
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__write_uid
@@ -2620,6 +2695,7 @@ msgstr "آخرین تغییر توسط"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__write_date
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent_phrase__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__write_date
@@ -2888,12 +2964,14 @@ msgstr "موعد نهای فعالیت من"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: code:addons/veron_ai_agent/tools/records.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__name
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__name
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__name
@@ -2938,6 +3016,12 @@ msgstr "سطح لازم"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__required_modules
 msgid "Needs Modules"
 msgstr "ماژول‌های لازم"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Needs at least"
+msgstr "دست‌کم لازم دارد"
 
 #. module: veron_ai_agent
 #. odoo-javascript
@@ -3020,6 +3104,12 @@ msgstr "ستون نام پیدا نشد؛ عنوان آن را «نام» بگذ
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "No command of the library is open to you."
+msgstr "هیچ دستوری از کتابخانه برای شما باز نیست."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/tools/drafts.py:0
 msgid "No image generation provider is set."
 msgstr "سرویس ساخت تصویر تنظیم نشده است."
@@ -3077,6 +3167,14 @@ msgstr "چنین رکوردی نیست، یا فعالیت ندارد."
 #: code:addons/veron_ai_agent/models/ai_run.py:0
 msgid "No such tool."
 msgstr "چنین ابزاری وجود ندارد."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "No team is made yet. Build one from AI Agents, Agents, Build a Team."
+msgstr ""
+"هنوز تیمی ساخته نشده است. از ایجنت‌های هوش مصنوعی ← ایجنت‌ها ← ساخت تیم یکی "
+"بسازید."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -3246,6 +3344,11 @@ msgid "On the Pages Of"
 msgstr "در صفحه‌های"
 
 #. module: veron_ai_agent
+#: model:ir.model.constraint,message:veron_ai_agent.constraint_veron_ai_guide_code_unique
+msgid "One guide per section."
+msgstr "برای هر بخش یک راهنما."
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_connect_wizard__keys
 msgid ""
 "One key a line, or separated by commas; they are not shown again once "
@@ -3362,6 +3465,11 @@ msgid "Open"
 msgstr "باز"
 
 #. module: veron_ai_agent
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent.guide_view_form
+msgid "Open This Section"
+msgstr "باز کردن این بخش"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form
 msgid "Open the Record"
 msgstr "باز کردن رکورد"
@@ -3420,6 +3528,12 @@ msgstr "کلیدهای دیگر"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__options
 msgid "Other Options (JSON)"
 msgstr "گزینه‌های دیگر (JSON)"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Other ways to say it"
+msgstr "روش‌های دیگر گفتن"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run_step__output_json
@@ -4146,6 +4260,8 @@ msgid "Risk"
 msgstr "ریسک"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_activate_wizard__template_id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__template_id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__role
@@ -4358,6 +4474,9 @@ msgid "Seconds"
 msgstr "ثانیه‌ها"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__action_ref
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__section
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.intent_view_search
 msgid "Section"
@@ -4401,6 +4520,12 @@ msgstr ""
 "منتظر تأیید انسان است، مگر مدیر قاعده‌ی صریحی گذاشته باشد."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Sensitive"
+msgstr "حساس"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__sensitive
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__sensitive
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_tool__sensitive
@@ -4420,6 +4545,7 @@ msgstr "ارجاع به سوپروایزر"
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__sequence
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__sequence
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__sequence
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_intent__sequence
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__sequence
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run_step__sequence
@@ -4513,6 +4639,8 @@ msgid "Started From"
 msgstr "آغازشده از"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__state
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__state
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_finding__state
@@ -4625,6 +4753,7 @@ msgstr ""
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__summary
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__summary
 msgid "Summary"
 msgstr "خلاصه"
 
@@ -4867,6 +4996,12 @@ msgstr ""
 "این اقدام همین حالا با حقوق دسترسی خود شما انجام می‌شود. تأیید می‌کنید؟"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_guide__action_ref
+msgid ""
+"The action of the section the guide is about, to open it from the guide"
+msgstr "کار بخشی که راهنما درباره‌ی آن است، برای باز کردنش از راهنما"
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/tools/collaboration.py:0
 msgid "The activity is only for an internal user of these companies."
@@ -4980,6 +5115,12 @@ msgid ""
 msgstr "ایجنت به سقف فراخوانی ابزار رسید؛ نتیجه ممکن است ناقص باشد."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "The agents of this program"
+msgstr "ایجنت‌های این برنامه"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent__delegate_agent_ids
 msgid "The agents this supervisor may give tasks to"
 msgstr "ایجنت‌هایی که این سوپروایزر می‌تواند به آن‌ها کار بسپارد"
@@ -5066,6 +5207,12 @@ msgstr "کد ابزارهایش، جداشده با ویرگول"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "The commands open to you now"
+msgstr "دستورهایی که الان برای شما باز است"
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_schedule.py:0
 msgid "The day of the month is 1 to 31, or -1 for the last day."
 msgstr "روز ماه از ۱ تا ۳۱ است، یا ‎-1 برای روز آخر."
@@ -5113,6 +5260,12 @@ msgid ""
 msgstr ""
 "اولین اجرا در زنجیره‌ی تلاش‌های دوباره؛ اقدام‌هایی که در آن انجام شده دوباره"
 " انجام نمی‌شوند"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "The guides are not installed; update the AI Agents module."
+msgstr "راهنماها نصب نشده‌اند؛ ماژول ایجنت‌های هوش مصنوعی را به‌روز کنید."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5368,6 +5521,12 @@ msgid "The task is not one of this run's tasks."
 msgstr "این کار از کارهای این اجرا نیست."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "The teams of this program"
+msgstr "تیم‌های این برنامه"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_source__transcript
 msgid "The text of a voice message; the person checks it before it is used"
 msgstr "متن پیام صوتی؛ کاربر پیش از استفاده بررسی‌اش می‌کند"
@@ -5383,6 +5542,12 @@ msgstr "ابزار ناموفق بود؛ جزئیات در لاگ سرور اس�
 msgid "The tool it runs; empty for an intent that answers with its text"
 msgstr ""
 "ابزاری که اجرا می‌کند؛ برای فرمانی که با متن خودش پاسخ می‌دهد خالی بماند"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "The tools of this program"
+msgstr "ابزارهای این برنامه"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_agent__run_as_user_id
@@ -5466,6 +5631,12 @@ msgstr "این فرمان برای شما در دسترس نیست."
 #: code:addons/veron_ai_agent/models/ai_run.py:0
 msgid "This finding has no record."
 msgstr "این یافته رکوردی ندارد."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "This guide has no section to open."
+msgstr "این راهنما بخشی برای باز کردن ندارد."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5633,6 +5804,8 @@ msgid "Too many calls."
 msgstr "فراخوانی بیش از حد."
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_template__tool_ids
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent_tool__tool_id
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__tool_id
@@ -5978,6 +6151,12 @@ msgid "What It Reads"
 msgstr "آنچه می‌خواند"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "What it does"
+msgstr "کاری که می‌کند"
+
+#. module: veron_ai_agent
 #: model_terms:ir.actions.act_window,help:veron_ai_agent.action_intents
 msgid ""
 "What people may ask the assistant without any AI, in their own words, and the tool each command runs. Add\n"
@@ -5997,6 +6176,11 @@ msgstr "با این فایل چه کار کنم؟"
 #: code:addons/veron_ai_agent/models/ai_internal.py:0
 msgid "What should I look for?"
 msgstr "دنبال چه بگردم؟"
+
+#. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_guide__details
+msgid "What the Program Has Now"
+msgstr "آنچه الان در برنامه هست"
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_form
@@ -6100,6 +6284,12 @@ msgstr "دستورالعمل کار"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Works on"
+msgstr "روی"
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_conversation.py:0
 msgid "Write a message, or add a photo, a PDF or a voice message."
 msgstr "پیامی بنویسید، یا عکس، PDF یا پیام صوتی اضافه کنید."
@@ -6121,6 +6311,12 @@ msgstr "بنویسید چرا این اقدام حساس می‌تواند خو�
 #: code:addons/veron_ai_agent/static/src/chat/chat.xml:0
 msgid "Write your request..."
 msgstr "درخواستتان را بنویسید..."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "Yes"
+msgstr "بله"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -6148,6 +6344,16 @@ msgstr "اجازه‌ی استفاده از %s را ندارید."
 #: code:addons/veron_ai_agent/models/ai_conversation.py:0
 msgid "You may not use this agent."
 msgstr "شما اجازه‌ی استفاده از این دستیار را ندارید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+msgid ""
+"Your access rights do not let you see: %s. Ask the manager of the program "
+"for them."
+msgstr ""
+"دسترسی شما دیدن این‌ها را اجازه نمی‌دهد: %s. از مدیر برنامه بخواهید این "
+"دسترسی را به شما بدهد."
 
 #. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form
@@ -6247,6 +6453,12 @@ msgid "image_128"
 msgstr "image_128"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "its parts:"
+msgstr "بخش‌هایش:"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
 msgid "key2, key3, ..."
 msgstr "کلید۲، کلید۳، ..."
@@ -6309,6 +6521,18 @@ msgstr "بررسی نشد: سرویس در دسترس نبود"
 #: model:ir.actions.report,print_report_name:veron_ai_agent.action_report_run
 msgid "object.name"
 msgstr "object.name"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "off"
+msgstr "خاموش"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_guide.py:0
+msgid "on"
+msgstr "روشن"
 
 #. module: veron_ai_agent
 #. odoo-python

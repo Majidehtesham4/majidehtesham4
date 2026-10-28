@@ -7,4 +7,14 @@
 			'این را ثبت کن', 'این قبض خرید را وارد کن', 'اطلاعات این فاکتور را ثبت کن']"/>
 		<value eval="['ثبت فاکتور خرید از روی فایل', 'ثبت فاکتور از روی فایل']"/>
 	</function>
+	<function model="veron.ai.intent" name="_add_phrases">
+		<value>sale_invoice_draft</value>
+		<value eval="['فاکتور کن', 'فاکتور بزن برای', 'فاکتور بنویس برای', 'برایش فاکتور کن', 'فاکتور فروش بنویس']"/>
+	</function>
+	<!-- The draft invoices offered to choose from, rather than asking for a number -->
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_post</value>
+		<value>move_id</value>
+		<value eval="{'recent': [['state', '=', 'draft'], ['move_type', 'in', ['out_invoice', 'in_invoice', 'out_refund', 'in_refund']]]}"/>
+	</function>
 </odoo>

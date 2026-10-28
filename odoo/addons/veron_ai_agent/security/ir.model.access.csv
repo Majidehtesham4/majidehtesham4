@@ -39,3 +39,5 @@ access_veron_ai_intent_phrase_user,veron.ai.intent.phrase user,model_veron_ai_in
 access_veron_ai_intent_phrase_manager,veron.ai.intent.phrase manager,model_veron_ai_intent_phrase,group_ai_manager,1,1,1,1
 access_veron_ai_connect_wizard_admin,veron.ai.connect.wizard admin,model_veron_ai_connect_wizard,base.group_system,1,1,1,0
 access_veron_ai_team_wizard_manager,veron.ai.team.wizard manager,model_veron_ai_team_wizard,group_ai_manager,1,1,1,1
+access_veron_ai_guide_user,veron.ai.guide user,model_veron_ai_guide,base.group_user,1,0,0,0
+access_veron_ai_guide_manager,veron.ai.guide manager,model_veron_ai_guide,group_ai_manager,1,1,1,1

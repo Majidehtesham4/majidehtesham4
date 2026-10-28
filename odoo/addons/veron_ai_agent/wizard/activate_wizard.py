@@ -8,6 +8,7 @@ class ActivateWizard(models.TransientModel):
 	"""Turning a role into a working agent: what it will read and do is shown before it is made"""
 
 	_name = "veron.ai.activate.wizard"
+	_inherit = ["veron.ai.guide.mixin"]
 	_description = "Activate an Agent Role"
 
 	template_id = fields.Many2one("veron.ai.agent.template", "Role", required=True)

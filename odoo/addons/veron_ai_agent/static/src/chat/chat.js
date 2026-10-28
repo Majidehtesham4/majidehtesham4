@@ -272,6 +272,11 @@ export class AgentChat extends Component {
         this.action.doAction({ type: "ir.actions.act_window", res_model: "veron.ai.run", res_id: run.id, views: [[false, "form"]] });
     }
 
+    async openGuide(code) {
+        const action = await this.orm.call("veron.ai.guide", "action_by_code", [code]);
+        this.action.doAction(action);
+    }
+
     openApproval(approval) {
         this.action.doAction({ type: "ir.actions.act_window", res_model: "veron.ai.approval", res_id: approval.id, views: [[false, "form"]] });
     }

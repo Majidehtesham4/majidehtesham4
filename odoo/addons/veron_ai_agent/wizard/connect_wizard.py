@@ -11,6 +11,7 @@ class ConnectWizard(models.TransientModel):
 	checked, and the providers of that service are filled with the keys that work and made active"""
 
 	_name = "veron.ai.connect.wizard"
+	_inherit = ["veron.ai.guide.mixin"]
 	_description = "Connect AI"
 
 	service = fields.Selection([("auto", "Find It From the Key"), ("groq", "Groq"), ("openai", "ChatGPT (OpenAI)"),

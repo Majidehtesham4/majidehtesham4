@@ -223,7 +223,7 @@
 		<field name="args">{}</field>
 		<field name="period">none</field>
 		<field name="default_days">0</field>
-		<field name="slots">[{"arg": "move_id", "model": "account.move", "question": "کدام فاکتور؟ شماره‌اش را بنویسید.", "required": true}]</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "question": "کدام فاکتور؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}]</field>
 		<field name="page_models">account.move</field>
 	</record>
 	<record id="intent_petty_cash_open" model="veron.ai.intent">

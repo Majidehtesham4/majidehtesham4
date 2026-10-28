@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The guides: a page each, read without AI -->
+	<record id="guide_view_kanban" model="ir.ui.view">
+		<field name="name">veron.ai.guide.kanban</field>
+		<field name="model">veron.ai.guide</field>
+		<field name="arch" type="xml">
+			<kanban create="false">
+				<field name="icon"/>
+				<templates>
+					<t t-name="card">
+						<div class="d-flex gap-3 align-items-start">
+							<i t-att-class="'fa fa-2x text-primary ' + (record.icon.raw_value or 'fa-book')" title="Guide"/>
+							<div>
+								<field name="name" class="fw-bold fs-5 d-block mb-1"/>
+								<field name="summary" class="text-muted d-block"/>
+							</div>
+						</div>
+					</t>
+				</templates>
+			</kanban>
+		</field>
+	</record>
+	<record id="guide_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.guide.form</field>
+		<field name="model">veron.ai.guide</field>
+		<field name="arch" type="xml">
+			<form create="false" edit="false" delete="false">
+				<header>
+					<button name="action_open_section" type="object" string="Open This Section" class="btn-primary"
+						icon="fa-external-link" invisible="not action_ref"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+					<div class="text-muted mb-3"><field name="summary" readonly="1"/></div>
+					<field name="action_ref" invisible="1"/>
+					<div class="o_veron_guide" dir="rtl">
+						<field name="body" readonly="1" nolabel="1"/>
+						<field name="details" readonly="1" nolabel="1" invisible="not details"/>
+					</div>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_guides" model="ir.actions.act_window">
+		<field name="name">Guides</field>
+		<field name="res_model">veron.ai.guide</field>
+		<field name="view_mode">kanban,form</field>
+		<field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'kanban', 'view_id': ref('guide_view_kanban')}),
+			(0, 0, {'view_mode': 'form', 'view_id': ref('guide_view_form')})]"/>
+	</record>
+	<menuitem id="menu_guides" name="Guides" parent="menu_root" action="action_guides" sequence="95"/>
+
+	<!-- The «Guide» button on the pages of each section -->
+	<record id="template_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.agent.template.guide.template_view_form</field>
+		<field name="model">veron.ai.agent.template</field>
+		<field name="inherit_id" ref="template_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'roles'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="agent_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.agent.guide.agent_view_form</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="inherit_id" ref="agent_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'agents'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="run_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.run.guide.run_view_form</field>
+		<field name="model">veron.ai.run</field>
+		<field name="inherit_id" ref="run_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'runs'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="approval_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.approval.guide.approval_view_form</field>
+		<field name="model">veron.ai.approval</field>
+		<field name="inherit_id" ref="approval_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'approvals'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="provider_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.provider.guide.provider_view_form</field>
+		<field name="model">veron.ai.provider</field>
+		<field name="inherit_id" ref="provider_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//header" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'connect'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="intent_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.intent.guide.intent_view_form</field>
+		<field name="model">veron.ai.intent</field>
+		<field name="inherit_id" ref="intent_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//sheet" position="before">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'library'}"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="tool_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.tool.guide.tool_view_form</field>
+		<field name="model">veron.ai.tool</field>
+		<field name="inherit_id" ref="tool_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//sheet" position="before">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'tools'}"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="activate_wizard_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.activate.wizard.guide.activate_wizard_view_form</field>
+		<field name="model">veron.ai.activate.wizard</field>
+		<field name="inherit_id" ref="activate_wizard_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//footer" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'roles'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="connect_wizard_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.connect.wizard.guide.connect_wizard_view_form</field>
+		<field name="model">veron.ai.connect.wizard</field>
+		<field name="inherit_id" ref="connect_wizard_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//footer" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'connect'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="team_wizard_view_form_guide" model="ir.ui.view">
+		<field name="name">veron.ai.team.wizard.guide.team_wizard_view_form</field>
+		<field name="model">veron.ai.team.wizard</field>
+		<field name="inherit_id" ref="team_wizard_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//footer" position="inside">
+				<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'team'}"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="agent_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.agent.guide.agent_view_list</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="inherit_id" ref="agent_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'agents'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="intent_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.intent.guide.intent_view_list</field>
+		<field name="model">veron.ai.intent</field>
+		<field name="inherit_id" ref="intent_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'library'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="run_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.run.guide.run_view_list</field>
+		<field name="model">veron.ai.run</field>
+		<field name="inherit_id" ref="run_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'runs'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="approval_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.approval.guide.approval_view_list</field>
+		<field name="model">veron.ai.approval</field>
+		<field name="inherit_id" ref="approval_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'approvals'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="tool_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.tool.guide.tool_view_list</field>
+		<field name="model">veron.ai.tool</field>
+		<field name="inherit_id" ref="tool_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'tools'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="phrase_view_list_guide" model="ir.ui.view">
+		<field name="name">veron.ai.intent.phrase.guide.phrase_view_list</field>
+		<field name="model">veron.ai.intent.phrase</field>
+		<field name="inherit_id" ref="phrase_view_list"/>
+		<field name="arch" type="xml">
+			<xpath expr="/list" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'library'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="agent_view_kanban_guide" model="ir.ui.view">
+		<field name="name">veron.ai.agent.guide.agent_view_kanban</field>
+		<field name="model">veron.ai.agent</field>
+		<field name="inherit_id" ref="agent_view_kanban"/>
+		<field name="arch" type="xml">
+			<xpath expr="/kanban" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'agents'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+	<record id="template_view_kanban_guide" model="ir.ui.view">
+		<field name="name">veron.ai.agent.template.guide.template_view_kanban</field>
+		<field name="model">veron.ai.agent.template</field>
+		<field name="inherit_id" ref="template_view_kanban"/>
+		<field name="arch" type="xml">
+			<xpath expr="/kanban" position="inside">
+				<header>
+					<button name="action_veron_guide" type="object" string="Guide" icon="fa-question-circle" class="btn-secondary" context="{'guide': 'roles'}" display="always"/>
+				</header>
+			</xpath>
+		</field>
+	</record>
+</odoo>

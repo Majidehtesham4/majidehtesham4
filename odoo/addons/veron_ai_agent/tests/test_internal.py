@@ -413,3 +413,22 @@ class TestChatWithAi(AgentCase):
 		reply = Chat.veron_chat_send(conversation, "سلام", [], {}, "ai")[-1]
 		self.assertEqual(reply["engine"], "internal")
 		self.assertEqual(self.env["veron.ai.run"].browse(reply["run"]["id"]).state, "done")
+
+
+@tagged("post_install", "-at_install")
+class TestNames(AgentCase):
+	def test_name_score(self):
+		words = nlu.name_words("یک عدد فر پیتزا ریلی دهنه ۵۰ برای آقای حسن پور")
+		self.assertNotIn("اقای", words)
+		fifty = nlu.name_score(words, "فر پيتزا ريلي ۱۱۵۴ عرض ۵۰")[0]
+		sixty = nlu.name_score(words, "فر پیتزا ریلی ۱۱۵۴ عرض ۶۰")[0]
+		self.assertGreater(fifty, sixty, "the same digits make the difference")
+		self.assertEqual(nlu.name_score(["حسن", "پور"], "حسنپور")[0], 2, "written joined")
+		self.assertIn("فر پيتزا", nlu.variants("فر پیتزا"))
+
+	def test_a_name_does_not_make_the_command_less_clear(self):
+		vocabulary = {"فاکتور", "فروش"}
+		short = nlu.tokens("فاکتور کن")
+		long = nlu.tokens("فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای حسن پور فاکتور کن")
+		self.assertGreater(nlu.similarity(long, short, nlu.known_words(long, vocabulary)), 0.7)
+		self.assertEqual(nlu.similarity(nlu.tokens("قورباغه پرواز"), short), 0.0)

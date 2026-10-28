@@ -15,3 +15,4 @@ from . import ai_content
 from . import ai_internal
 from . import res_config_settings
 from . import ir_http
+from . import ai_guide
