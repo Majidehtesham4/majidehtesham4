@@ -1900,6 +1900,11 @@ msgid "Files"
 msgstr "فایل‌ها"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__sources_carried
+msgid "Files of an Earlier Message"
+msgstr "فایل‌های پیام قبلی"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__page_filters
 msgid "Filters of the Page"
 msgstr "شرط‌های صفحه"
@@ -2378,6 +2383,12 @@ msgstr "فاکتور"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__message_is_follower
 msgid "Is Follower"
 msgstr "آیا دنبال می کند"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_conversation.py:0
+msgid "It could not be done: %s"
+msgstr "انجام نشد: %s"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_res_config_settings__veron_ai_audit_retention_days
@@ -4685,6 +4696,12 @@ msgstr "متن به گفتار"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+msgid "The AI did not answer (%s), so the built-in assistant answered."
+msgstr "هوش مصنوعی پاسخ نداد (%s)، پس هوش داخلی جواب داد."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/services/files.py:0
 msgid "The Excel file holds macros and is refused; save it as a plain xlsx."
 msgstr ""
@@ -5108,6 +5125,13 @@ msgid "The other options are not valid JSON."
 msgstr "گزینه‌های دیگر JSON معتبر نیستند."
 
 #. module: veron_ai_agent
+#: model:ir.model.fields,help:veron_ai_agent.field_veron_ai_run__sources_carried
+msgid ""
+"The person sent no file with this message; the files of their earlier "
+"message came with it"
+msgstr "کاربر با این پیام فایلی نفرستاد؛ فایل‌های پیام قبلی‌اش همراه آن رفت"
+
+#. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/tools/documents.py:0
 msgid ""
@@ -5151,6 +5175,14 @@ msgstr "سرور جست‌وجو پاسخ می‌دهد."
 #: code:addons/veron_ai_agent/services/openai_chat.py:0
 msgid "The service answers with %(count)s models; %(keys)s key(s) set."
 msgstr "سرویس پاسخ داد و %(count)s مدل دارد؛ %(keys)s کلید تعریف شده است."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_conversation.py:0
+msgid ""
+"The service did not answer (%s); it is tried again by itself in a few "
+"minutes."
+msgstr "سرویس پاسخ نداد (%s)؛ چند دقیقه‌ی دیگر خودکار دوباره امتحان می‌شود."
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -5983,6 +6015,12 @@ msgstr "شما اجازه‌ی استفاده از این دستیار را ند
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form
 msgid "Your answer"
 msgstr "پاسخ شما"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_conversation.py:0
+msgid "an unknown error"
+msgstr "خطای ناشناخته"
 
 #. module: veron_ai_agent
 #. odoo-python

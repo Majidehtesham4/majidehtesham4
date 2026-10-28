@@ -85,3 +85,23 @@ class TestBills(FinanceCase):
 		self.assertEqual((bill.state, bill.amount_total), ("draft", 11_000_000), reply["body_html"])
 		self.assertTrue(any(option.get("code") == "invoice_post" for option in reply["options"]),
 			"posting it is offered next, as a button")
+
+	def test_our_invoice_is_a_sale(self):
+		self.env.company.name = "شرکت من"
+		customer = self.env["res.partner"].create({"name": "فروشگاه پاسارگاد", "customer_rank": 1})
+		text = ("صورتحساب فروش کالا و خدمات\nشماره فاکتور: 5027\nتاریخ: 1405/05/16\nمشخصات فروشنده\n"
+			"نام شخص حقیقی / حقوقی: شرکت من\nمشخصات خریدار\nنام شخص حقیقی / حقوقی: فروشگاه پاسارگاد\n"
+			"جمع کل پس از تخفیف: 1,700,000\nجمع مالیات و عوارض: 170,000\nجمع کل با احتساب مالیات و عوارض: 1,870,000")
+		fields = text_fields(text)
+		self.assertEqual((fields["vendor"], fields["buyer"]), ("شرکت من", "فروشگاه پاسارگاد"))
+		from types import SimpleNamespace
+
+		from ..tools.bills import BillFromDocument
+
+		tool = BillFromDocument()
+		ctx = SimpleNamespace(env=self.env, run=SimpleNamespace(input_text="ثبت کن"))
+		self.assertEqual(tool._direction(ctx, {}, fields), "sale", "the company is the seller: a customer invoice")
+		swapped = dict(fields, vendor="فروشگاه پاسارگاد", buyer="شرکت من")
+		self.assertEqual(tool._direction(ctx, {}, swapped), "purchase")
+		self.assertEqual(tool._direction(ctx, {"direction": "purchase"}, fields), "purchase", "what the person says wins")
+		self.assertTrue(customer)

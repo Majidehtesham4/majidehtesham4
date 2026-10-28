@@ -46,7 +46,7 @@ class Brain:
 		words = nlu.normalize(text)
 		if text.startswith("#intent:"):
 			return self._chosen(text.split(":", 1)[1].strip())
-		if not words and self.sources:
+		if not words and self.sources and not self.run.sources_carried:
 			return self._files_only()
 		if self.memory.get("pending") and not GREETING.match(words):
 			answer = self._answer_pending(text)
@@ -99,7 +99,8 @@ class Brain:
 			if page and page in (intent.page_models or "").split(","):
 				score += 0.08
 			if self.sources and any(slot.get("file") for slot in intent._slots()):
-				score += 0.1
+				# A file sent now makes its commands likelier; the file of an earlier message a little
+				score += 0.04 if self.run.sources_carried else 0.1
 			ranked.append((intent, score))
 		ranked.sort(key=lambda item: -item[1])
 		return (ranked[0][0], ranked[0][1], ranked) if ranked else (None, 0.0, [])

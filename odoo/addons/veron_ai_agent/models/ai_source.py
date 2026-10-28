@@ -164,6 +164,9 @@ class AiSource(models.Model):
 				essential and not any(values.get(key) for key in essential):
 			texts = [(result or {}).get("text") or "", self.extracted_text or ""]
 			texts += ocr.document_texts(self._data(), self.mimetype or "")
+			if document_type and self.mimetype == "application/pdf":
+				# A PDF that keeps Persian in drawing order is read turned back too
+				texts += [reader.visual_order(text) for text in texts[:3] if re.search(r"[\u0600-\u06ff\ufb50-\ufeff]", text)]
 			texts = list(dict.fromkeys(text for text in texts if text.strip()))
 			if document_type:
 				text, read = reader.best(document_type, texts)

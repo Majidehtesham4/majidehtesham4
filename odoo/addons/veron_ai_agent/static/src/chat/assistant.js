@@ -41,6 +41,8 @@ export class AssistantBox extends AgentChat {
 
     async toggle() {
         this.box.open = !this.box.open;
+        // The page makes room for the panel instead of being covered by it
+        document.body.classList.toggle("o_veron_assistant_docked", this.box.open);
         if (this.box.open && !this.box.loaded) {
             const result = await this.orm.call("veron.ai.conversation", "veron_chat_assistant", []);
             if (!result) {

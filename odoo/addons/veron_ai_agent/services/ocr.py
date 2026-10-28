@@ -12,7 +12,7 @@ import tempfile
 _logger = logging.getLogger(__name__)
 
 LANGUAGES = "fas+eng"
-MAX_PAGES = 3
+MAX_PAGES = 6
 TIMEOUT = 90
 
 
@@ -76,7 +76,10 @@ def image_texts(data, languages=LANGUAGES):
 	except Exception:  # noqa: BLE001 - an image Pillow cannot open has no text for us
 		_logger.info("The image could not be prepared for the OCR")
 		return []
-	return [text.strip() for text in (_tesseract(png, languages) for png in variants) if text.strip()]
+	readings = [_tesseract(png, languages) for png in variants]
+	# The larger size once more column by column (rows of a table) and as scattered text (boxes of a form)
+	readings += [_tesseract(variants[1 if len(variants) > 2 else 0], languages, psm=psm) for psm in (4, 11)]
+	return [text.strip() for text in readings if text.strip()]
 
 
 def pdf_page_texts(data, languages=LANGUAGES, pages=MAX_PAGES):
@@ -89,15 +92,25 @@ def pdf_page_texts(data, languages=LANGUAGES, pages=MAX_PAGES):
 		with open(path, "wb") as handle:
 			handle.write(data)
 		for dpi in (200, 300):
+			if dpi == 300 and len(readings) and readings[0].count("\f") >= 2:
+				break
 			prefix = os.path.join(folder, f"p{dpi}")
 			subprocess.run(["pdftoppm", "-r", str(dpi), "-gray", "-png", "-f", "1", "-l", str(pages), path, prefix],
 				capture_output=True, timeout=TIMEOUT, check=False)
 			texts = []
+			pages_png = []
 			for name in sorted(n for n in os.listdir(folder) if n.startswith(f"p{dpi}")):
 				with open(os.path.join(folder, name), "rb") as handle:
-					texts.append(_tesseract(handle.read(), languages))
+					pages_png.append(handle.read())
+			if len(pages_png) == 1:
+				# A one-page PDF (most invoices) is read like a photo, in all its ways
+				return image_texts(pages_png[0], languages)
+			texts = [_tesseract(png, languages) for png in pages_png]
 			if any(text.strip() for text in texts):
-				readings.append("\n".join(texts).strip())
+				readings.append("\f".join(texts).strip())
+			if len(texts) > 2:
+				# A long PDF is read once, at 200 dpi
+				break
 	return readings
 
 
@@ -106,10 +119,11 @@ def document_texts(data, mimetype, languages=LANGUAGES):
 	from . import files as filetools
 
 	if mimetype == "application/pdf":
+		# A PDF's own text first; Persian PDFs often keep their letters in drawing order or with odd digits, so the
+		# pages are also read as images and the reading that agrees best is kept
 		text = filetools.pdf_text(data) or ""
-		if len(text.strip()) >= 20:
-			return [text]
-		return pdf_page_texts(data, languages)
+		texts = [text] if len(text.strip()) >= 20 else []
+		return texts + pdf_page_texts(data, languages)
 	if mimetype.startswith("image/"):
 		return image_texts(data, languages)
 	return []

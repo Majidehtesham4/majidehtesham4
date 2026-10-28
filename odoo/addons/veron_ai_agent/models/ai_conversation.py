@@ -48,10 +48,26 @@ class AiConversation(models.Model):
 		Message.create({"conversation_id": self.id, "role": "user", "body": shown, "source_ids": [(6, 0, sources.ids)]})
 		Run = self.env["veron.ai.run"].with_context(veron_ai_engine=engine) if engine in ("ai", "internal") else \
 			self.env["veron.ai.run"]
-		run = Run._start(self.agent_id, self.env.user, "chat", text=text, sources=sources, conversation=self, page=page)
-		reply = Message.create({"conversation_id": self.id, "role": "agent", "body_html": run.output_html or Markup(""),
+		carried = self._recent_files() if not sources else self.env["veron.ai.source"]
+		run = Run._start(self.agent_id, self.env.user, "chat", text=text, sources=sources or carried, conversation=self,
+			page=page, carried=bool(carried))
+		body = run.output_html or Markup("")
+		if not body and run.state in ("failed", "queued"):
+			# The person sees why nothing came back, not an empty answer
+			reason = run.sudo().error or _("an unknown error")
+			body = Markup("<p>%s</p>") % (_("It could not be done: %s", reason) if run.state == "failed" else
+				_("The service did not answer (%s); it is tried again by itself in a few minutes.", reason))
+		reply = Message.create({"conversation_id": self.id, "role": "agent", "body_html": body,
 			"run_id": run.id, "options": json.loads(run.sudo().options_json or "[]")})
 		return reply
+
+	def _recent_files(self, within=8):
+		"""The files of the person's last message that had any, among the last messages: «this invoice» in a later
+		message is that file"""
+		for message in reversed(self.message_ids[-within:]):
+			if message.role == "user" and message.source_ids:
+				return message.source_ids.filtered(lambda s: s.kind != "audio")
+		return self.env["veron.ai.source"]
 
 
 class AiMessage(models.Model):

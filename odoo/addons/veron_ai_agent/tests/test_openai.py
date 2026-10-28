@@ -78,8 +78,11 @@ class TestOpenAIFormat(AgentCase):
 	def test_tool_call_and_payload(self):
 		http = Http(completion(calls=[("records_search", {"model": "res.partner"})]))
 		tools = [{"name": "records_search", "description": "Search", "input_schema": {"type": "object"}}]
-		adapter = self.adapter()
-		messages = [adapter.user_message("مشتری‌ها", [("image/png", b"\x89PNG"), ("application/pdf", b"%PDF-1.4")])]
+		files = [("image/png", b"\x89PNG"), ("application/pdf", b"%PDF-1.4")]
+		# A model that reads only text is never sent the photo: the request would fail
+		self.assertIsInstance(self.adapter().user_message("x", files)["content"], str)
+		adapter = self.adapter(model="meta-llama/llama-4-scout-17b-16e-instruct")
+		messages = [adapter.user_message("مشتری‌ها", files)]
 		with patch.object(providers.requests, "request", http):
 			result = adapter.chat("rules", messages, tools, max_tokens=500)
 		body = http.requests[0]["json"]

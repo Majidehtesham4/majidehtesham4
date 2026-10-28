@@ -72,7 +72,7 @@ class AiIntent(models.Model):
 				raise ValidationError(_("No tool is named %s.", intent.tool_code))
 
 	@api.model
-	def _add_phrases(self, code, phrases):
+	def _add_phrases(self, code, phrases, rename=None):
 		"""Phrases a new version of the library brings to a command that is already there; the manager's own phrases
 		and changes stay"""
 		intent = self.sudo().with_context(active_test=False).search([("code", "=", code)], limit=1)
@@ -83,6 +83,9 @@ class AiIntent(models.Model):
 		added = [phrase for phrase in phrases if nlu.normalize(phrase) not in known]
 		if added:
 			intent.phrases = "\n".join(lines + added)
+		if rename and intent.name == rename[0]:
+			# A name the library gave, not one a manager wrote
+			intent.name = rename[1]
 		return True
 
 	def _slots(self):

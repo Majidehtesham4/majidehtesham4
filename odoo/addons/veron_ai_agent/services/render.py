@@ -36,7 +36,7 @@ LABELS = {
 	"minimum": "حداقل", "to_check": "برای بررسی", "number": "شماره", "read_by": "خوانده با", "file": "فایل",
 	"first_rows": "ردیف‌های اول", "totals": "جمع ستون‌ها", "sheets": "برگه‌ها", "names": "نام‌ها",
 	"already_there": "از قبل موجود", "computed": "محاسبه‌شده", "problems": "مشکل‌ها", "to_complete": "برای تکمیل",
-	"order": "سفارش", "by_state": "به تفکیک وضعیت", "newest": "تازه‌ترین‌ها", "section": "بخش", "details": "مشخصات", "fields": "خوانده‌شده از فایل", "invoice_number": "شماره‌ی فاکتور", "vendor_tax_id": "کد اقتصادی فروشنده",
+	"order": "سفارش", "by_state": "به تفکیک وضعیت", "newest": "تازه‌ترین‌ها", "section": "بخش", "details": "مشخصات", "kind": "نوع", "fields": "خوانده‌شده از فایل", "invoice_number": "شماره‌ی فاکتور", "vendor_tax_id": "کد اقتصادی فروشنده",
 	"buyer": "خریدار", "untaxed_amount": "مبلغ بدون مالیات", "vat_amount": "مالیات و عوارض", "total_amount": "جمع کل",
 	"due_date": "سررسید", "sayad_id": "شناسه‌ی صیاد", "serial": "سریال", "bank": "بانک", "branch": "شعبه",
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
@@ -67,7 +67,7 @@ def _empty(value):
 		return not value
 	return value in (None, "")
 STATUS = {
-	"denied": "این کار برای شما یا این دستیار مجاز نیست: {reason}",
+	"denied": "انجام نشد: {reason}",
 	"waiting_approval": "درخواست «{summary}» ثبت شد و منتظر تأیید است ({approval}).",
 	"suggested": "این را پیشنهاد کردم و چیزی تغییر نکرد: {summary} ({approval}).",
 	"needs_info": "{question}",

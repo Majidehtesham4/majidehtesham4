@@ -158,7 +158,7 @@
 	</record>
 	<record id="intent_bill_from_document" model="veron.ai.intent">
 		<field name="code">bill_from_document</field>
-		<field name="name">ثبت فاکتور خرید از روی فایل</field>
+		<field name="name">ثبت فاکتور از روی فایل</field>
 		<field name="section">accounting</field>
 		<field name="sequence">11</field>
 		<field name="phrases">این فاکتور را ثبت کن
@@ -193,6 +193,22 @@
 		<field name="default_days">0</field>
 		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "کدام مشتری یا طرف حساب؟ نامش را بنویسید.", "required": true}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true}, {"arg": "quantity", "number": true, "default": 1}]</field>
 		<field name="page_models">account.move,res.partner</field>
+	</record>
+	<record id="intent_sale_from_document" model="veron.ai.intent">
+		<field name="code">sale_from_document</field>
+		<field name="name">ثبت فاکتور فروش از روی فایل</field>
+		<field name="section">sales</field>
+		<field name="sequence">12</field>
+		<field name="phrases">این فاکتور فروش را ثبت کن
+فاکتور فروش از روی این فایل
+فاکتوری که فروختیم را ثبت کن
+این فاکتور فروش را پیش نویس کن</field>
+		<field name="tool_code">bill_from_document</field>
+		<field name="args">{"direction": "sale"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "source_id", "file": true, "kinds": ["image", "pdf"], "question": "عکس یا PDF فاکتور را بفرستید.", "required": true}]</field>
+		<field name="page_models">account.move</field>
 	</record>
 	<record id="intent_invoice_post" model="veron.ai.intent">
 		<field name="code">invoice_post</field>

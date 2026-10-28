@@ -355,3 +355,50 @@ class TestPhotosAndVoices(AgentCase):
 				voice._transcribe(engine="builtin")
 		self.assertIn("voice", str(caught.exception))
 		self.assertIn("گزارش فروش", voice._transcribe(engine="ai"), "the AI reads it when it is chosen")
+
+
+@tagged("post_install", "-at_install")
+class TestReadingRepairs(AgentCase):
+	def test_lookalike_digits_and_words(self):
+		self.assertEqual(reader._clean("شماره فاکتور: ‎OoPV‏"), "شماره فاکتور: 5027")
+		self.assertEqual(reader._clean("جمع کل: \\,V00,000,000"), "جمع کل: 1,700,000,000")
+		self.assertEqual(reader._clean("Pars Supply Co VAT"), "Pars Supply Co VAT", "words are left alone")
+		self.assertEqual(reader.words_amount("مبلغ به حروف: یک میلیارد و هشتصد و شصت و یک میلیون و پانصد هزار ریال"),
+			1_861_500_000)
+		fields = reader.invoice("فروشنده: شرکت نمونه\nجمع کل: ۱,۰۰۰\nمبلغ قابل پرداخت به حروف: یک میلیارد و هشتصد و هفتاد میلیون ریال")
+		self.assertEqual(fields["total_amount"], 1_870_000_000, "the amount in words decides a misread total")
+
+	def test_rows_of_goods(self):
+		fields = reader.invoice("ردیف شرح تعداد مبلغ واحد مبلغ کل\n۱ فر پیتزا ریلی دهنه ۵۰ ۲ ۸۵۰,۰۰۰,۰۰۰ ۱,۷۰۰,۰۰۰,۰۰۰\n"
+			"جمع کل: ۱,۷۰۰,۰۰۰,۰۰۰")
+		self.assertEqual(fields["lines"], [{"description": "فر پیتزا ریلی دهنه 50", "quantity": 2, "unit_price": 850_000_000}])
+
+	def test_pdf_in_drawing_order(self):
+		self.assertEqual(reader.visual_order("فاکتور 5027"), "5027 روتکاف")
+
+
+@tagged("post_install", "-at_install")
+class TestChatWithAi(AgentCase):
+	@classmethod
+	def setUpClass(cls):
+		super().setUpClass()
+		cls.env["veron.ai.agent"]._setup_assistant()
+		cls.env.ref("veron_ai_agent.agent_assistant").write({"enabled": True, "llm_provider_id": cls.provider.id})
+
+	def test_history_files_and_fallback(self):
+		Chat = self.env["veron.ai.conversation"].with_user(self.user)
+		conversation = Chat.veron_chat_assistant()["conversation_id"]
+		source = self.env["veron.ai.source"].with_user(self.user)._from_upload("bill.pdf", b"%PDF-1.4\n%%EOF")
+		Chat.veron_chat_send(conversation, "این فاکتور را ببین", [source.id], {}, "ai")
+		first = FakeAdapter.calls[-1]
+		self.assertIn(f"source_id {source.id}", str(first["messages"][-1]), "the model is told the file's id")
+		Chat.veron_chat_send(conversation, "خریدارش کیست؟", [], {}, "ai")
+		second = FakeAdapter.calls[-1]["messages"]
+		self.assertGreater(len(second), 1, "the earlier messages go with the question")
+		self.assertIn("این فاکتور را ببین", str(second[0]))
+		self.assertIn(f"source_id {source.id}", str(second[-1]), "the file of the earlier message comes along")
+		# The AI fails: the person is answered by the built-in assistant, not left with a queued run
+		FakeAdapter.error = providers.ProviderError("down", retryable=True, kind="unavailable")
+		reply = Chat.veron_chat_send(conversation, "سلام", [], {}, "ai")[-1]
+		self.assertEqual(reply["engine"], "internal")
+		self.assertEqual(self.env["veron.ai.run"].browse(reply["run"]["id"]).state, "done")

@@ -51,5 +51,11 @@
 	<function model="veron.ai.agent" name="_setup_assistant"/>
 
 	<!-- The program's own bot, shown as the author of what the system does, carries no platform name -->
+	<!-- Phrases added to the library after it was installed; a manager's own phrases stay -->
+	<function model="veron.ai.intent" name="_add_phrases">
+		<value>document_read</value>
+		<value eval="['محتویات این فاکتور را بگو', 'اطلاعات این فاکتور چیست', 'این فاکتور چی نوشته', 'محتویات فایل را بگو',
+			'این را بخوان']"/>
+	</function>
 	<function model="res.partner" name="write" eval="[[ref('base.partner_root')], {'name': 'VeronBot'}]"/>
 </odoo>

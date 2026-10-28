@@ -4,6 +4,7 @@ The text comes from the PDF itself or from the built-in OCR. What is not clear s
 «medium» only when the amounts agree with each other, and a person always checks the fields."""
 
 import re
+import unicodedata
 
 _DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩يكۀ", "01234567890123456789یکه")
 NUMBER = r"(\d{1,3}(?:[,٬،]\d{3})+|\d+)(?:[.٫/]\d+)?"
@@ -14,8 +15,103 @@ BANKS = ("ملی", "ملت", "صادرات", "تجارت", "سپه", "پاسار
 
 
 def _clean(text):
-	# Half-spaces and the direction marks the OCR puts around Latin letters are taken out
-	return re.sub(r"[\u200e\u200f\u202a-\u202e]", "", (text or "").translate(_DIGITS).replace("\u200c", " "))
+	# The shapes of letters some PDFs keep (presentation forms) become letters; the stretching line (tatweel), the
+	# half-spaces and the direction marks the OCR puts around Latin letters are taken out
+	text = unicodedata.normalize("NFKC", text or "").replace("ـ", "")
+	text = re.sub(r"[\u200e\u200f\u202a-\u202e]", "", text.translate(_DIGITS).replace("\u200c", " "))
+	return _digits_back(text)
+
+
+# Persian digits Tesseract takes for Latin letters that look like them: ۱ «\», ۲ «P», ۴ «F», ۵ «O» or «d», ۷ «V»,
+# ۸ «A», ۰ «o», «c» or «e»
+LOOKALIKE = str.maketrans({"\\": "1", "|": "1", "l": "1", "I": "1", "P": "2", "r": "2", "W": "3", "w": "3", "F": "4",
+	"f": "4", "O": "5", "d": "5", "V": "7", "v": "7", "A": "8", "Λ": "8", "o": "0", "c": "0", "e": "0"})
+_LIKE = "0-9\\\\|lIPrWwFfOdVvAΛoce"
+# A number with thousands separators, or the value after a label of numbers and dates, made of such letters
+SEPARATED = re.compile(rf"(?<![A-Za-z])[{_LIKE}]{{1,3}}(?:[,٬][{_LIKE}]{{3}})+(?![A-Za-z])")
+LABELLED = re.compile(rf"((?:شماره|تاریخ|مبلغ|جمع|مالیات|عوارض|کد|شناسه|سریال)[^:\n]{{0,40}}[:：]\s*)([{_LIKE}/\-]{{2,20}})(?=\s|$)")
+
+
+def _digits_back(text):
+	"""Numbers the OCR wrote with look-alike letters, written as digits again"""
+	text = SEPARATED.sub(lambda match: match.group(0).translate(LOOKALIKE), text)
+	return LABELLED.sub(lambda match: match.group(1) + match.group(2).translate(LOOKALIKE)
+		if re.search(r"[\\|PFOVAoce0-9]", match.group(2)) else match.group(0), text)
+
+
+def visual_order(text):
+	"""The text of a PDF that keeps Persian in the order it is drawn (letters reversed): each line turned back, its
+	numbers and Latin words kept as they were"""
+	lines = []
+	for line in _clean(text).splitlines():
+		turned = line[::-1]
+		lines.append(re.sub(r"[0-9A-Za-z/,.\-:]+", lambda match: match.group(0)[::-1], turned))
+	return "\n".join(lines)
+
+
+def words_amount(text):
+	"""The largest amount written in words in the text, e.g. «یک میلیارد و هشتصد و شصت و یک میلیون ریال»"""
+	from .nlu import SCALES, UNITS, normalize, words_number
+
+	best = 0
+	for line in _clean(text).splitlines():
+		if not re.search(r"میلیارد|میلیون|هزار|صد", line):
+			continue
+		words = normalize(line).split()
+		run = []
+		for word in words + [""]:
+			if word in UNITS or word in SCALES or word == "و" and run:
+				run.append(word)
+				continue
+			while run and run[-1] == "و":
+				run.pop()
+			if len(run) >= 2:
+				value = words_number(run) or 0
+				best = max(best, value)
+			run = []
+	return best if best >= 1000 else None
+
+
+def _items(lines):
+	"""The rows of goods: a row whose quantity times unit price is its total"""
+	items = []
+	for line in lines:
+		if re.search(r"جمع|مالیات|عوارض|قابل\s*پرداخت|تخفیف|total|vat", line, re.I):
+			continue
+		bare = re.sub(r"\b\d{1,2}:\d{2}\b", " ", DATE.sub(" ", line))
+		values = [v for v in (_value(raw) for raw in re.findall(NUMBER, bare)) if v]
+		big = [v for v in values if v >= 1000]
+		found = None
+		for total in sorted(big, reverse=True):
+			for unit in big:
+				if unit >= total and unit != total:
+					continue
+				for quantity in values:
+					if 0 < quantity <= 100000 and quantity != unit and abs(quantity * unit - total) <= 1 and (
+							quantity != 1 or unit == total):
+						found = (quantity, unit, total)
+						break
+				if found:
+					break
+			if found:
+				break
+		if not found:
+			continue
+		# Only the numbers of the row (its number, quantity, price and total) leave its description
+		text = bare
+		for value in (found[2], found[1], found[0]):
+			for match in re.finditer(NUMBER, text):
+				if _value(match.group(0)) == value:
+					text = text[:match.start()] + " " + text[match.end():]
+					break
+		text = re.sub(r"[|:،,()\[\]]+", " ", text)
+		text = re.sub(r"^\s*\d+\s+", "", re.sub(r"\s+", " ", text)).strip(" -")
+		# A description the OCR could not read keeps the row, with its number
+		persian = len(re.findall(r"[\u0600-\u06ff]", text))
+		text = text if persian >= 3 or re.search(r"[A-Za-z]{3,}", text) else ""
+		items.append({"description": text[:200] or f"ردیف {len(items) + 1}", "quantity": found[0], "unit_price": found[1],
+			"total": found[2]})
+	return items
 
 
 def _lines(text):
@@ -99,7 +195,8 @@ def _confidence(total, vat, untaxed):
 def invoice(text):
 	lines = _lines(text)
 	clean = "\n".join(lines)
-	fields = {"date": "", "invoice_number": "", "vendor": "", "vendor_tax_id": "", "buyer": "", "untaxed_amount": "",
+	fields = {"date": "", "invoice_number": "", "vendor": "", "vendor_tax_id": "", "buyer": "", "buyer_tax_id": "",
+		"untaxed_amount": "",
 		"vat_amount": "", "total_amount": "", "currency": "", "due_date": "", "lines": [], "confidence": "low"}
 	match = re.search(r"(?:شماره\s*(?:فاکتور|صورت\s*حساب|سریال|سند)?|invoice\s*(?:no|number|#)?)\s*[:：#]?\s*"
 		r"([A-Za-z0-9][A-Za-z0-9\-/]{0,30})", clean, re.I)
@@ -117,7 +214,7 @@ def invoice(text):
 				name = value[:120]
 				break
 	fields["vendor"], fields["vendor_tax_id"] = name, tax_id
-	fields["buyer"] = _party(buyer)[0]
+	fields["buyer"], fields["buyer_tax_id"] = _party(buyer)
 	if not fields["vendor_tax_id"]:
 		match = re.search(r"(?:شماره|کد|شناسه)\s*(?:اقتصادی|ملی)[^\d]{0,15}(\d{10,14})", clean)
 		fields["vendor_tax_id"] = match.group(1) if match else ""
@@ -140,6 +237,20 @@ def invoice(text):
 		vat = None
 	# The amounts agree only when all three were read, not when one is worked out from the others
 	confidence = _confidence(total, vat, untaxed)
+	# The amount written in words is typed out, so it survives a misread digit: it decides the total
+	written = words_amount(clean)
+	if written and written != total:
+		if untaxed and vat and abs(untaxed + vat - written) <= max(1, written * 0.002):
+			confidence = "medium"
+		total = written
+	elif written and written == total:
+		confidence = "medium"
+	items = _items(lines)
+	if items:
+		fields["lines"] = [{"description": i["description"], "quantity": i["quantity"], "unit_price": i["unit_price"]}
+			for i in items]
+		if not untaxed and not vat and abs(sum(i["total"] for i in items) - (total or 0)) <= 1:
+			untaxed = total
 	if total and vat and not untaxed:
 		untaxed = total - vat
 	if re.search(r"ریال|rial|IRR", clean, re.I):

@@ -11,6 +11,7 @@
 #   ./veron ca                                      local: the certificate to install on each computer
 #   ./veron ai                                      the library of the Claude provider (also on update)
 #   ./veron voice                                   the Persian voice model: voices read on the server, no AI
+#   ./veron restore <backup> <address>              a company's Odoo backup as a database of its own
 #
 # The address is what the customer opens, e.g. erp.automodiran.ir; it is also its database's name.
 # In local mode the address is the server's IP in the office network, e.g. 192.168.1.10.
@@ -52,6 +53,22 @@ fetch_ai_sdk() {
 	compose run --rm -T -u root ${mirror:+-e PIP_INDEX_URL="$mirror"} \
 		--entrypoint pip odoo install --quiet --upgrade --target /mnt/python/sdk "anthropic>=2.3,<3" \
 		|| echo "The Anthropic library could not be fetched; run ./veron ai later. AI agents work without Claude." >&2
+}
+
+# The HTTPS address of a customer's database, served by Caddy; sets $tls when Caddy signs it itself
+publish() {
+	local address=$1
+	# Without a public address (local mode, or VERON_TLS=internal for a test) Caddy signs its own certificate
+	tls=""
+	if [ "$(mode)" = local ] || [ "${VERON_TLS:-}" = internal ]; then
+		tls=$'\ttls internal\n'
+	fi
+	printf '%s {\n%s\timport odoo\n}\n' "$address" "$tls" >"sites/$address.caddy"
+	# A browser opening an IP sends no name; Caddy then answers with the certificate of this address
+	if [ -n "$tls" ] && [[ "$address" =~ ^[0-9.]+$ ]] && [ ! -f sites/local.options ]; then
+		printf 'default_sni %s\n' "$address" >sites/local.options
+	fi
+	compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1 || true
 }
 
 # Our own modules, the folders of addons with a manifest
@@ -176,17 +193,7 @@ new)
 	compose run --rm -T odoo -d "$address" -i "$modules" --load-language=fa_IR --stop-after-init --log-level=warn
 	password=$(secret 16)
 	set_admin "$address" "$password" "$company"
-	# Without a public address (local mode, or VERON_TLS=internal for a test) Caddy signs its own certificate
-	tls=""
-	if [ "$(mode)" = local ] || [ "${VERON_TLS:-}" = internal ]; then
-		tls=$'\ttls internal\n'
-	fi
-	printf '%s {\n%s\timport odoo\n}\n' "$address" "$tls" >"sites/$address.caddy"
-	# A browser opening an IP sends no name; Caddy then answers with the certificate of this address
-	if [ -n "$tls" ] && [[ "$address" =~ ^[0-9.]+$ ]] && [ ! -f sites/local.options ]; then
-		printf 'default_sni %s\n' "$address" >sites/local.options
-	fi
-	compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile >/dev/null 2>&1
+	publish "$address"
 	echo
 	echo "Ready: https://$address"
 	echo "  user:     admin"
@@ -248,6 +255,20 @@ backup)
 ai)
 	fetch_ai_sdk
 	compose restart odoo
+	;;
+
+restore)
+	# ./veron restore <backup zip or folder> <address>: a company's Odoo backup as the database of that address
+	backup=$(readlink -f "${2:?the backup zip or folder}")
+	address="${3:?the address of the company, e.g. erp.company.ir}"
+	address=${address,,}
+	valid_address "$address"
+	databases | grep -qx "$address" && die "$address already has a database."
+	compose run --rm -T -v "$(dirname "$backup"):/mnt/backup:ro" --entrypoint python3 odoo \
+		/mnt/extra-addons/veron_core/scripts/restore_backup.py "/mnt/backup/$(basename "$backup")" "$address"
+	publish "$address"
+	echo "Ready: https://$address, with the users and passwords of the backup."
+	echo "The programs of ERP-VERON are added to it with: ./veron update"
 	;;
 
 voice)

@@ -460,6 +460,12 @@ msgid "Custodian<br/><br/>Signature"
 msgstr "تنخواه‌دار<br/><br/>امضا"
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid "Customer invoice"
+msgstr "فاکتور فروش"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__date
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__date
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
@@ -524,6 +530,12 @@ msgstr "امضای پیش‌نویس"
 msgid "Draft assets, and running assets with depreciation due but not posted."
 msgstr ""
 "دارایی‌های پیش‌نویس، و دارایی‌های جاری با استهلاکِ سررسیده‌ی ثبت‌نشده."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid "Draft customer invoice from %(file)s, %(amount)s"
+msgstr "پیش‌نویس فاکتور فروش از %(file)s، %(amount)s"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -833,8 +845,8 @@ msgstr "ساخت پیش‌نویس فاکتور"
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/bills.py:0
-msgid "Make a Draft Vendor Bill From Its File"
-msgstr "ساخت پیش‌نویس فاکتور خرید از روی فایل آن"
+msgid "Make a Draft Invoice From Its File"
+msgstr "ساخت پیش‌نویس فاکتور از روی فایل آن"
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
@@ -956,15 +968,16 @@ msgid ""
 msgstr "حساب هزینه پیدا نشد؛ حساب پیش‌فرض دفتر خرید را تعیین کنید."
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid ""
+"No income account was found; set the default account of the sales journal."
+msgstr "حساب درآمد پیدا نشد؛ حساب پیش‌فرض دفتر فروش را تعیین کنید."
+
+#. module: veron_ai_agent_account
 #: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_closings
 msgid "No petty cash closing"
 msgstr "صورت تنخواهی وجود ندارد"
-
-#. module: veron_ai_agent_account
-#. odoo-python
-#: code:addons/veron_ai_agent_account/tools/bills.py:0
-msgid "No purchase tax of this rate was found; the VAT is inside the amount."
-msgstr "مالیات خرید با این نرخ پیدا نشد؛ ارزش افزوده داخل مبلغ آمده است."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -995,6 +1008,12 @@ msgstr "چنین تنخواهی در داده‌های ایجنت نیست."
 #: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
 msgid "No such petty cash closing in the agent's data."
 msgstr "چنین صورت تنخواهی در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid "No tax of this rate was found; the VAT is inside the amount."
+msgstr "مالیاتی با این نرخ پیدا نشد؛ ارزش افزوده داخل مبلغ آمده است."
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rejected_amount
@@ -1405,14 +1424,19 @@ msgstr "خواندن"
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/bills.py:0
 msgid ""
-"Reads a vendor's invoice (a photo or a PDF given to this run), finds the "
-"vendor by its economic code or its name, and makes a draft vendor bill with "
-"the file attached. Without any AI, the text of the PDF or the built-in OCR "
-"is read. It is never posted here."
+"Reads an invoice (a photo or a PDF given to this run) and makes a draft with"
+" the file attached: a customer invoice when the company is the seller on it,"
+" else a vendor bill. The other party is found by its economic code or its "
+"name, the rows of goods are read when quantity times price is the row total,"
+" and the total is checked against the amount written in words. Without any "
+"AI, the text of the PDF or the built-in OCR is read. It is never posted "
+"here."
 msgstr ""
-"فاکتور فروشنده (عکس یا PDF) را می‌خواند، فروشنده را با کد اقتصادی یا نامش "
-"پیدا می‌کند و پیش‌نویس فاکتور خرید را همراه با فایل می‌سازد. بدون هوش "
-"مصنوعی، متن PDF یا OCR داخلی خوانده می‌شود. اینجا هرگز ثبت قطعی نمی‌شود."
+"فاکتور (عکس یا PDF) را می‌خواند و پیش‌نویس آن را همراه فایل می‌سازد: اگر "
+"شرکت فروشنده باشد فاکتور فروش، وگرنه فاکتور خرید. طرف دیگر با کد اقتصادی یا "
+"نامش پیدا می‌شود، ردیف‌های کالا وقتی تعداد ضرب در قیمت برابر جمع ردیف باشد "
+"خوانده می‌شوند، و جمع کل با مبلغ به حروف سنجیده می‌شود. بدون هوش مصنوعی، متن"
+" PDF یا OCR داخلی خوانده می‌شود. اینجا هرگز ثبت قطعی نمی‌شود."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1693,6 +1717,12 @@ msgstr "مدارک را تنخواه‌دار یا حسابدار تحویل م�
 
 #. module: veron_ai_agent_account
 #. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid "The customer «%s» was not found; choose it on the invoice."
+msgstr "مشتری «%s» پیدا نشد؛ آن را روی فاکتور انتخاب کنید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "The date %(date)s is outside the period %(period)s."
 msgstr "تاریخ %(date)s خارج از دوره‌ی %(period)s است."
@@ -1795,6 +1825,16 @@ msgstr ""
 "تسویه‌ی صورت تنخواه: مانده‌ی ابتدای دوره، پرداختی‌های دوره، رسیدهای تحویلی، "
 "پذیرفته، نپذیرفته و نیازمند بازبینی، و مانده‌ی پایان دوره؛ PDF روی صورت "
 "تنخواه نگه داشته می‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid ""
+"The total of the draft (%(draft)s) is not the total on the file (%(file)s); "
+"check the rows."
+msgstr ""
+"جمع پیش‌نویس (%(draft)s) با جمع روی فایل (%(file)s) یکی نیست؛ ردیف‌ها را "
+"بررسی کنید."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1902,6 +1942,12 @@ msgstr "مالیات بر ارزش افزوده‌ی یک دوره"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
 msgid "Vendor"
 msgstr "فروشنده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid "Vendor bill"
+msgstr "فاکتور خرید"
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__partner_id
@@ -2020,8 +2066,13 @@ msgstr "بودجه در برابر عملکرد"
 
 #. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_bill_from_document
-msgid "ثبت فاکتور خرید از روی فایل"
-msgstr "ثبت فاکتور خرید از روی فایل"
+msgid "ثبت فاکتور از روی فایل"
+msgstr "ثبت فاکتور از روی فایل"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_sale_from_document
+msgid "ثبت فاکتور فروش از روی فایل"
+msgstr "ثبت فاکتور فروش از روی فایل"
 
 #. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_post

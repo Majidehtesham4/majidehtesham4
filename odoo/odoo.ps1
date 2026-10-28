@@ -10,6 +10,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 update veron_base trial
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 ai
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 voice
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 restore <backup zip or folder> <database>
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
 param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
@@ -109,6 +110,21 @@ switch ($Action) {
 		docker compose restart odoo
 		Write-Host "Done. In AI Agents, Settings, Providers, open Claude, enter the key and press Check."
 	}
+	"restore" {
+		# A backup of an Odoo database (the zip of the database manager, or its unpacked folder with dump.sql,
+		# manifest.json and filestore) into a database of its own:
+		#   .\odoo.ps1 restore "C:\Users\me\Downloads\company_2025-11-12" company
+		if (-not $Module -or $Database -eq "trial") { Write-Host "Use: .\odoo.ps1 restore <backup zip or folder> <new database name>"; exit 1 }
+		$full = (Resolve-Path $Module -ErrorAction SilentlyContinue).Path
+		if (-not $full) { Write-Host "Not found: $Module"; exit 1 }
+		$parent = Split-Path $full -Parent
+		$leaf = Split-Path $full -Leaf
+		docker compose up -d db
+		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_core/scripts/restore_backup.py "/mnt/backup/$leaf" $Database
+		if ($LASTEXITCODE -ne 0) { exit 1 }
+		docker compose up -d odoo
+		Write-Host "To add the Iranian settings and the programs of ERP-VERON to it: .\odoo.ps1 install veron_apps $Database"
+	}
 	"voice" {
 		# The Persian model of Vosk, for voice messages turned into text on the server without any AI; kept in
 		# python\voice\fa (not in git). Set VOSK_MODEL_URL first to fetch the zip from a mirror
@@ -125,5 +141,5 @@ switch ($Action) {
 		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, remove" }
 }

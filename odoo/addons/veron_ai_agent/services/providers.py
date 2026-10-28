@@ -140,6 +140,14 @@ class Adapter:
 	def chat(self, system, messages, tools, max_tokens=4096):
 		raise ProviderError(_lt("This provider is not a language model."), kind="config")
 
+	def sees_images(self):
+		"""Whether the model reads photos itself; a model that does not is given their text from the built-in OCR"""
+		return True
+
+	def history_message(self, role, text):
+		"""An earlier message of the conversation, as plain text"""
+		return {"role": role, "content": text}
+
 	def user_message(self, text, files=()):
 		raise NotImplementedError
 
