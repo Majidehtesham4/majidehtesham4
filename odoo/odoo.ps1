@@ -139,8 +139,10 @@ switch ($Action) {
 		# The program is stopped meanwhile: the parts the old company used are installed into the database
 		docker compose up -d db
 		docker compose stop odoo
-		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$leaf" $Database
+		# Everything it says is also kept in import18-<database>.txt, to read again or to send
+		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$leaf" $Database 2>&1 | Tee-Object -FilePath "import18-$Database.txt"
 		$ok = $LASTEXITCODE -eq 0
+		Write-Host "The output is kept in $PSScriptRoot\import18-$Database.txt"
 		docker compose up -d odoo
 		if (-not $ok) { exit 1 }
 	}

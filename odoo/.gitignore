@@ -6,3 +6,6 @@ __pycache__/
 python/sdk/
 # The Persian voice model fetched by odoo.ps1 voice / veron voice
 python/voice/
+
+# What odoo.ps1 import18 printed
+import18-*.txt

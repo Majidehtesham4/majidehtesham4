@@ -44,6 +44,10 @@ def main():
 	config["db_user"] = os.environ.get("USER", "odoo")
 	config["db_password"] = os.environ.get("PASSWORD", "odoo")
 	modules.initialize_sys_path()
+	# Only warnings and errors from the program itself: what this tool says is enough to follow it
+	import logging
+
+	logging.getLogger("odoo").setLevel(logging.WARNING)
 
 	from odoo.addons.veron_migration.services import source
 
@@ -118,15 +122,39 @@ def main():
 			return 1
 		say(f"Bringing it into {args.database}:")
 		work = Importer(env, old, backup, version, args.company, say=say)
+		import traceback
+
+		stopped = []
 		for step in work.steps():
-			say(f"  {step.__name__.replace('_', ' ')}...")
-			step()
-			work.flush()
-			env.flush_all()
-			cr.commit()
+			name = step.__name__.replace("_", " ")
+			say(f"  {name}...")
+			try:
+				step()
+				work.flush()
+				env.flush_all()
+				cr.commit()
+			except Exception as error:  # noqa: BLE001 - one part that fails does not stop the others
+				cr.rollback()
+				env.invalidate_all()
+				# What this part made is undone: the records remembered by it are looked up again
+				work.pending = []
+				work.map.clear()
+				work._load_map()
+				stopped.append(name)
+				say(f"    STOPPED: {str(error).splitlines()[0][:300]}")
+				say("    " + traceback.format_exc().strip().splitlines()[-3][:300])
+				work.note(f"The part «{name}» stopped: {str(error).splitlines()[0][:300]}")
 		migration = env["veron.migration"]._record(work, version, old_db)
-		migration.action_compare()
+		try:
+			migration.action_compare()
+		except Exception as error:  # noqa: BLE001 - the comparison is made again from the page
+			cr.rollback()
+			say(f"The comparison could not be made: {error}")
 		cr.commit()
+		if stopped:
+			say("")
+			say("These parts stopped with an error and were not brought: " + ", ".join(stopped))
+			say("Send this whole output; running the command again brings only what is missing.")
 		say("")
 		say("Brought:")
 		for name, count in work.counts.items():
