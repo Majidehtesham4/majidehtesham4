@@ -540,3 +540,7 @@ msgstr "دستورهای کار"
 #: code:addons/veron_migration/models/migration.py:0
 msgid "Work Times"
 msgstr "زمان‌های کار"
+
+#: code:addons/veron_migration/models/migration.py:0
+msgid "Product Documents"
+msgstr "مستندات کالا"

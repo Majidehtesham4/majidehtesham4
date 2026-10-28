@@ -267,6 +267,19 @@ class AiRun(models.Model):
 		run.duration = round(time.monotonic() - started, 2)
 		return run
 
+	def _elsewhere(self, tool):
+		"""Who can do what this agent may not: the assistant of every page, with the person's own rights, or an
+		agent of a role that has the tool"""
+		Template = self.env["veron.ai.agent.template"].sudo()
+		roles = Template.search([]).filtered(lambda t: tool.code in t._tool_codes())[:3]
+		assistant = self.env["veron.ai.agent"].sudo().search([("enabled", "=", True), ("all_users", "=", True)], limit=1)
+		hints = []
+		if assistant and assistant != self.agent_id:
+			hints.append(_("Ask the assistant instead (the chat button at the bottom of every page): it works with your own access."))
+		if roles:
+			hints.append(_("Or make an agent of the role «%s» in AI Agents, Agents, New.", "», «".join(roles.mapped("name"))))
+		return " ".join(hints)
+
 	def _answer_without_ai(self, error):
 		"""A person waiting in the chat is answered by the built-in assistant when the AI fails, not left with a
 		queued or failed run; True when it answered"""
@@ -444,13 +457,15 @@ class AiRun(models.Model):
 			plan = tool.plan(ctx, args)
 			decision, reason, grant = self.agent_id._decide(tool, plan, env)
 		except registry.ToolDenied as error:
-			return done("denied", {"status": "denied", "reason": str(error)}, str(error))
+			reason = f"{error} {self._elsewhere(tool)}".strip()
+			return done("denied", {"status": "denied", "reason": reason}, reason)
 		except registry.ToolNeedsInfo as error:
 			request = self._ask(str(error))
 			return done("needs_info", {"status": "needs_info", "question": str(error), "request": request.name}, str(error))
 		except AccessError as error:
 			return done("denied", {"status": "denied", "reason": _("Odoo access rights refuse this.")}, redact.text(error))
 		if decision == "denied":
+			reason = f"{reason} {self._elsewhere(tool)}".strip()
 			return done("denied", {"status": "denied", "reason": reason}, reason)
 		if decision in ("approval", "suggestion"):
 			approval = self.env["veron.ai.approval"].sudo()._request(self, step, tool, args, plan, decision, grant)

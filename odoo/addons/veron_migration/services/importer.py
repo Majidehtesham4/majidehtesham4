@@ -305,8 +305,9 @@ class Importer:
 				if relation and "id" in row and field.comodel_name in self.env:
 					old_ids = self.pairs(*relation).get(row["id"], [])
 					new_ids = [i for i in (self.target(field.comodel_name, o) for o in old_ids) if i]
-					if new_ids:
-						values[name] = [Command.set(new_ids)]
+					# Empty stays empty: without it this version fills its defaults (the VAT of the company on a
+					# product or an invoice line that had no tax)
+					values[name] = [Command.set(new_ids)]
 				continue
 			if column in columns:
 				raw = row.get(column)
@@ -946,8 +947,6 @@ class Importer:
 		rows = self.rows("stock_location", "usage IN ('internal', 'transit', 'view')", order="parent_path, id") \
 			if self.old.has("stock_location", "parent_path") else self.rows("stock_location", "usage IN ('internal', "
 			"'transit', 'view')")
-		rows = [row for row in rows if row["id"] not in self.map["stock.location"] and row.get("location_id") and
-			self.target("stock.location", row["location_id"])]
 		Location = self.env["stock.location"]
 
 		def match(row):
@@ -958,7 +957,13 @@ class Importer:
 			return Location.search([("name", "=", row["name"]), ("location_id", "=", self.target("stock.location",
 				row["location_id"]))], limit=1)
 
-		self.copy("stock.location", rows, match=match, skip={"warehouse_id"}, label="stock locations")
+		# Level by level: a shelf is made once the location it is in is here
+		for _level in range(12):
+			ready = [row for row in rows if row["id"] not in self.map["stock.location"] and row.get("location_id") and
+				self.target("stock.location", row["location_id"])]
+			if not ready:
+				break
+			self.copy("stock.location", ready, match=match, skip={"warehouse_id"}, label="stock locations")
 		if "stock.lot" in self.env:
 			self.copy("stock.lot", self.rows("stock_lot"), label="lots and serial numbers") if self.old.has("stock_lot") \
 				else self.copy("stock.lot", self.rows("stock_production_lot"), table="stock_production_lot")
@@ -1381,11 +1386,14 @@ class Importer:
 			"q.product_id, q.location_id, q.lot_id HAVING sum(q.quantity) <> 0", (self.cid,))
 		Quant = self.env["stock.quant"].with_context(inventory_mode=True)
 		counted = 0
+		missed = defaultdict(int)
 		for row in rows:
 			product = self.new("product.product", row["product_id"])
 			location = self.target("stock.location", row["location_id"])
 			lot = self.target("stock.lot", row["lot_id"]) if row["lot_id"] else False
 			if not product or not location or not product.is_storable:
+				missed["product not brought" if not product else "location not brought" if not location else
+					"product not kept in stock here"] += 1
 				continue
 			domain = [("product_id", "=", product.id), ("location_id", "=", location), ("lot_id", "=", lot or False)]
 			quant = Quant.search(domain, limit=1)
@@ -1400,6 +1408,8 @@ class Importer:
 			except Exception as error:  # noqa: BLE001
 				self.note(f"The stock of «{product.display_name}» was not counted: {str(error).splitlines()[0][:150]}")
 		self.counts["stock counted"] = counted
+		for reason, count in missed.items():
+			self.note(f"{count} stock rows were not counted: {reason}.")
 
 	def image(self, model, field, res_id):
 		rows = self.old.rows("SELECT store_fname, db_datas FROM ir_attachment WHERE res_model = %s AND res_field = %s "

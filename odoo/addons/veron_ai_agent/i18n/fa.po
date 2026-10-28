@@ -7411,3 +7411,19 @@ msgstr "گزارش وضعیت واحدها"
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_fin_periodic_report
 msgid "گزارش کوتاه با اعداد اصلی و نکات مهم."
 msgstr "گزارش کوتاه با اعداد اصلی و نکات مهم."
+
+#. module: veron_ai_agent
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+msgid ""
+"Ask the assistant instead (the chat button at the bottom of every page): it "
+"works with your own access."
+msgstr ""
+"به‌جای آن از دستیار بپرسید (دکمه‌ی گفت‌وگو پایین هر صفحه): با دسترسی خود شما"
+" کار می‌کند."
+
+#. module: veron_ai_agent
+#: code:addons/veron_ai_agent/models/ai_run.py:0
+#, python-format
+msgid "Or make an agent of the role «%s» in AI Agents, Agents, New."
+msgstr ""
+"یا در ایجنت‌های هوش مصنوعی، ایجنت‌ها، جدید، یک ایجنت با نقش «%s» بسازید."
