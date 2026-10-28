@@ -10,8 +10,22 @@ from ..services import providers, redact
 # Without these the reading of a document is of no use, and the built-in reader is asked too
 ESSENTIAL = {"invoice": ("total_amount",), "receipt": ("amount",), "cheque": ("amount", "sayad_id"),
 	"purchase_doc": ("total_amount",)}
+# The fields of a document the built-in reader checks against each other, kept over an AI's reading of them
+CHECKED = {"invoice": ("total_amount", "untaxed_amount", "vat_amount", "gross_amount", "discount_amount",
+	"discount_percent", "date"), "purchase_doc": ("total_amount", "untaxed_amount", "vat_amount", "date")}
 PURPOSES = [("receipt", "Receipt"), ("invoice", "Invoice"), ("cheque", "Cheque"), ("purchase_doc", "Purchase Document"),
 	("product_image", "Product Photo"), ("voice", "Voice Message"), ("other", "Other")]
+
+
+def _alike(one, other):
+	"""Whether two readings of a field say the same: 1861500000 and «۱,۸۶۱,۵۰۰,۰۰۰», 1403/05/16 and 1403-5-16"""
+	def plain(value):
+		text = str(value if value is not None else "").translate(str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "0123456789" * 2))
+		try:
+			return round(float(text.replace(",", "").replace("٬", "")), 2)
+		except ValueError:
+			return [int(part) for part in re.findall(r"\d+", text)] or text.strip()
+	return plain(one) == plain(other)
 
 
 class AiSource(models.Model):
@@ -142,7 +156,6 @@ class AiSource(models.Model):
 		"""Fields read from a photo or a PDF, kept with the file for a person to check. The reading provider reads
 		it; when there is none, when it fails or gives no fields, the built-in reader reads the fields from the text
 		of the PDF or from the built-in OCR, without any AI."""
-		from ..services import ocr, reader
 		from ..tools.documents import DOCUMENTS
 
 		self.ensure_one()
@@ -160,23 +173,25 @@ class AiSource(models.Model):
 				failure = error
 		values = (result or {}).get("fields") or {}
 		essential = ESSENTIAL.get(document_type) or ()
-		if not any(value not in (None, "", []) for key, value in values.items() if key != "confidence") or \
-				essential and not any(values.get(key) for key in essential):
-			texts = [(result or {}).get("text") or "", self.extracted_text or ""]
-			texts += ocr.document_texts(self._data(), self.mimetype or "")
-			if document_type and self.mimetype == "application/pdf":
-				# A PDF that keeps Persian in drawing order is read turned back too
-				texts += [reader.visual_order(text) for text in texts[:3] if re.search(r"[\u0600-\u06ff\ufb50-\ufeff]", text)]
-			texts = list(dict.fromkeys(text for text in texts if text.strip()))
-			if document_type:
-				text, read = reader.best(document_type, texts)
-			else:
-				text, read = (max(texts, key=ocr.quality) if texts else ""), {}
-			if text and values and any(values.get(key) for key in values if key != "confidence"):
-				# The AI read part of it: what it missed is taken from the built-in reading
-				merged = dict(read)
+		empty = not any(value not in (None, "", []) for key, value in values.items() if key != "confidence") or \
+			essential and not any(values.get(key) for key in essential)
+		if empty or document_type in CHECKED:
+			# The built-in reading: in place of an AI that read nothing, and next to one that did, since AI models
+			# often misread the digits of Persian invoices
+			text, read = self._builtin_reading(document_type, result)
+			if text and not empty:
+				merged, differ = dict(read), {}
 				merged.update({key: value for key, value in values.items() if value not in (None, "", [])})
+				if read.get("confidence") == "medium":
+					# The amounts the built-in reader checked against each other win over the AI's
+					for key in CHECKED[document_type]:
+						if read.get(key) not in (None, "", []) and not _alike(read[key], values.get(key)):
+							merged[key] = read[key]
+							if values.get(key) not in (None, "", []):
+								differ[key] = values[key]
 				result = {"text": text, "fields": merged, "reader": (result or {}).get("reader") or "ai"}
+				if differ:
+					result["corrected"] = differ
 			elif text:
 				result = {"text": text, "fields": read or values, "reader": "builtin"}
 			if builtin and provider:
@@ -189,6 +204,21 @@ class AiSource(models.Model):
 		self.sudo().write({"extraction_state": "done", "extracted_json": providers.as_json(result.get("fields", {})),
 			"extracted_text": result.get("text") or self.extracted_text})
 		return result
+
+	def _builtin_reading(self, document_type, result=None):
+		"""The text and the fields the built-in reader takes from the file: the PDF's own text and the OCR's
+		readings, the one whose amounts agree best kept"""
+		from ..services import ocr, reader
+
+		texts = [(result or {}).get("text") or "", self.extracted_text or ""]
+		texts += ocr.document_texts(self._data(), self.mimetype or "")
+		if document_type and self.mimetype == "application/pdf":
+			# A PDF that keeps Persian in drawing order is read turned back too
+			texts += [reader.visual_order(text) for text in texts[:3] if re.search(r"[\u0600-\u06ff\ufb50-\ufeff]", text)]
+		texts = list(dict.fromkeys(text for text in texts if text.strip()))
+		if document_type:
+			return reader.best(document_type, texts)
+		return (max(texts, key=ocr.quality) if texts else ""), {}
 
 	def action_download(self):
 		self.ensure_one()

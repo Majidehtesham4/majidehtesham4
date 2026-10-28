@@ -83,9 +83,12 @@ class AiIntent(models.Model):
 		added = [phrase for phrase in phrases if nlu.normalize(phrase) not in known]
 		if added:
 			intent.phrases = "\n".join(lines + added)
-		if rename and intent.name == rename[0]:
-			# A name the library gave, not one a manager wrote
-			intent.name = rename[1]
+		if rename:
+			for code, _name in self.env["res.lang"].get_installed():
+				named = intent.with_context(lang=code)
+				if named.name == rename[0]:
+					# A name the library gave, not one a manager wrote
+					named.name = rename[1]
 		return True
 
 	def _slots(self):

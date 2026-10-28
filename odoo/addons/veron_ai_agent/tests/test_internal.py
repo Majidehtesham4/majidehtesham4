@@ -103,6 +103,8 @@ class TestBuiltInAssistant(AgentCase):
 		self.assertFalse(memory.get("pending"))
 
 	def test_follow_up_keeps_the_subject(self):
+		if "sale.order" not in self.env:
+			self.skipTest("Sales is not installed here")
 		Chat, conversation = self.chat(self.manager)
 		reply = self.say(Chat, conversation, "فروش ماه قبل چقدر بود")
 		first = self.env["veron.ai.run"].browse(reply["run"]["id"])
@@ -311,6 +313,15 @@ class TestBuiltInOcr(AgentCase):
 		self.assertEqual(result["reader"], "builtin")
 		self.assertEqual((result["fields"]["total_amount"], result["fields"]["vat_amount"]), (11_000_000, 1_000_000))
 		self.assertEqual(source.extraction_state, "done")
+		# An AI that misread a digit: the built-in reading, whose amounts agree with each other, is kept
+		vision = self.env["veron.ai.provider"].create({"name": "Fake vision", "kind": "vision", "adapter": "test_fake"})
+		misread = {"fields": {"vendor": "Pars Test Supply Co", "total_amount": 17_000_000, "vat_amount": 1_000_000},
+			"text": "", "reader": "ai"}
+		with patch.object(FakeAdapter, "extract", lambda adapter, files, schema, instructions: misread):
+			result = source._extract(DOCUMENTS["invoice"], INSTRUCTIONS, vision, document_type="invoice")
+		self.assertEqual(result["fields"]["total_amount"], 11_000_000)
+		self.assertEqual(result["corrected"], {"total_amount": 17_000_000})
+		self.assertEqual(result["fields"]["vendor"], "Pars Test Supply Co", "what only the AI read stays")
 
 
 @tagged("post_install", "-at_install")

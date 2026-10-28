@@ -1411,6 +1411,16 @@ msgid "Read with low confidence; compare the bill with the file."
 msgstr "با اطمینان کم خوانده شد؛ فاکتور را با فایل مقایسه کنید."
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/bills.py:0
+msgid ""
+"The AI read some amounts otherwise; the built-in reading, whose amounts agree "
+"with each other, was kept. Compare them with the file."
+msgstr ""
+"هوش مصنوعی بعضی مبلغ‌ها را طور دیگری خواند؛ خوانش داخلی که مبلغ‌هایش با هم "
+"جور درمی‌آیند نگه داشته شد. آن‌ها را با فایل مقایسه کنید."
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__extracted
 msgid "Read, to Confirm"
 msgstr "خوانده‌شده، منتظر تأیید"

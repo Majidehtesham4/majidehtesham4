@@ -34,7 +34,7 @@
 }
 
 // The chat box of every page
-// On the right of the page in every language (rtl:ignore keeps «right» as it is in Persian): the button at the
+// On the left of the page in every language (rtl:ignore keeps «left» as it is in Persian): the button at the
 // bottom, and the open box as a panel from the menu bar to the bottom; the page makes room for it on wide screens
 $o-veron-assistant-width: 420px;
 .o_veron_assistant {
@@ -43,7 +43,7 @@ $o-veron-assistant-width: 420px;
 		position: fixed;
 		bottom: 20px;
 		/*rtl:ignore*/
-		right: 20px;
+		left: 20px;
 		width: 52px;
 		height: 52px;
 	}
@@ -52,12 +52,12 @@ $o-veron-assistant-width: 420px;
 		top: var(--o-navbar-height, 46px);
 		bottom: 0;
 		/*rtl:ignore*/
-		right: 0;
+		left: 0;
 		width: $o-veron-assistant-width;
 		z-index: 1050;
 		background: $o-view-background-color;
 		/*rtl:ignore*/
-		border-left: 1px solid $o-gray-300;
+		border-right: 1px solid $o-gray-300;
 		border-radius: 0 !important;
 		.o_veron_assistant_head .badge {
 			max-width: 160px;
@@ -92,7 +92,7 @@ $o-veron-assistant-width: 420px;
 @include media-breakpoint-up(lg) {
 	body.o_veron_assistant_docked .o_action_manager {
 		/*rtl:ignore*/
-		margin-right: $o-veron-assistant-width;
+		margin-left: $o-veron-assistant-width;
 	}
 }
 @include media-breakpoint-down(md) {

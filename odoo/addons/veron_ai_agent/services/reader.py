@@ -8,7 +8,8 @@ import unicodedata
 
 _DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩يكۀ", "01234567890123456789یکه")
 NUMBER = r"(\d{1,3}(?:[,٬،]\d{3})+|\d+)(?:[.٫/]\d+)?"
-DATE = re.compile(r"\b(1[34]\d\d\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{1,2}|20\d\d-\d{1,2}-\d{1,2})\b")
+# A Shamsi date, its year in full (1403) or without its thousands as some programs print it (403), or a Gregorian one
+DATE = re.compile(r"(?<![\d/])((?:1[34]|[34])\d\d\s*[/\-.]\s*\d{1,2}\s*[/\-.]\s*\d{1,2}|20\d\d-\d{1,2}-\d{1,2})(?![\d/])")
 BANKS = ("ملی", "ملت", "صادرات", "تجارت", "سپه", "پاسارگاد", "سامان", "پارسیان", "رسالت", "رفاه", "کشاورزی", "مسکن",
 	"اقتصاد نوین", "آینده", "شهر", "دی", "سینا", "کارآفرین", "توسعه تعاون", "توسعه صادرات", "صنعت و معدن", "پست بانک",
 	"قرض الحسنه مهر ایران", "خاورمیانه", "سرمایه", "گردشگری", "ایران زمین", "ملل")
@@ -104,6 +105,8 @@ def _items(lines):
 				if _value(match.group(0)) == value:
 					text = text[:match.start()] + " " + text[match.end():]
 					break
+		# What is left of other columns (a total read in pieces) is not part of the description
+		text = re.sub(r"\b\d{1,3}(?:,\d{3})+\b|\b0+\b", " ", text)
 		text = re.sub(r"[|:،,()\[\]]+", " ", text)
 		text = re.sub(r"^\s*\d+\s+", "", re.sub(r"\s+", " ", text)).strip(" -")
 		# A description the OCR could not read keeps the row, with its number
@@ -144,19 +147,23 @@ def _amount(lines, pattern, exclude=None, least=1000):
 	return None
 
 
+def _shamsi(value):
+	value = re.sub(r"\s+", "", value)
+	if value.startswith("20"):
+		return value
+	value = value.replace("-", "/").replace(".", "/")
+	return "1" + value if re.match(r"[34]\d\d/", value) else value
+
+
 def _date(text, pattern=None):
 	if pattern:
 		for line in _lines(text):
 			if re.search(pattern, line):
 				match = DATE.search(line)
 				if match:
-					return re.sub(r"\s+", "", match.group(1)).replace("-", "/").replace(".", "/") \
-						if match.group(1).startswith("1") else match.group(1)
+					return _shamsi(match.group(1))
 	match = DATE.search(_clean(text))
-	if not match:
-		return ""
-	value = re.sub(r"\s+", "", match.group(1))
-	return value.replace("-", "/").replace(".", "/") if value.startswith("1") else value
+	return _shamsi(match.group(1)) if match else ""
 
 
 def _after_label(line):
@@ -167,11 +174,28 @@ def _after_label(line):
 
 def _section(lines, heading, others):
 	"""The lines of one part of an official invoice, e.g. from «مشخصات فروشنده» to «مشخصات خریدار»"""
-	start = next((i for i, line in enumerate(lines) if re.search(heading, line)), None)
+	# «امضاء فروشنده» at the foot of the page is where it is signed, not the seller's part
+	start = next((i for i, line in enumerate(lines) if re.search(heading, line, re.I) and not re.search(r"امضا", line)),
+		None)
 	if start is None:
 		return []
-	end = next((i for i, line in enumerate(lines[start + 1:], start + 1) if re.search(others, line)), len(lines))
+	end = next((i for i, line in enumerate(lines[start + 1:], start + 1) if re.search(others, line, re.I)), len(lines))
 	return lines[start:end]
+
+
+def _heading(lines):
+	"""The name in the heading of an invoice: what is left of its first line with a name once the title, the
+	number, the date and the page are taken out"""
+	for line in lines:
+		if re.search(r"شرح|تعداد|قیمت|ردیف|مبلغ", line):
+			continue
+		rest = re.sub(r"(?:شماره|تاریخ|صفحه|سریال)\s*[:：]?\s*[\w\-/]*(?:\s*از\s*\d+)?", " ", line)
+		rest = re.sub(r"(?:صورت\s*حساب|فاکتور|پیش\s*فاکتور)\s*(?:فروش|خرید|رسمی)?(?:\s*کالا\s*و\s*خدمات)?", " ", rest)
+		rest = re.sub(r"[^\u0600-\u06ffA-Za-z ]+", " ", rest)
+		words = [w for w in rest.split() if len(w) > 1 or w in "و"]
+		if len(words) >= 2:
+			return " ".join(words)[:120]
+	return ""
 
 
 def _party(lines):
@@ -196,7 +220,7 @@ def invoice(text):
 	lines = _lines(text)
 	clean = "\n".join(lines)
 	fields = {"date": "", "invoice_number": "", "vendor": "", "vendor_tax_id": "", "buyer": "", "buyer_tax_id": "",
-		"untaxed_amount": "",
+		"gross_amount": "", "discount_amount": "", "discount_percent": "", "untaxed_amount": "",
 		"vat_amount": "", "total_amount": "", "currency": "", "due_date": "", "lines": [], "confidence": "low"}
 	match = re.search(r"(?:شماره\s*(?:فاکتور|صورت\s*حساب|سریال|سند)?|invoice\s*(?:no|number|#)?)\s*[:：#]?\s*"
 		r"([A-Za-z0-9][A-Za-z0-9\-/]{0,30})", clean, re.I)
@@ -215,6 +239,13 @@ def invoice(text):
 				break
 	fields["vendor"], fields["vendor_tax_id"] = name, tax_id
 	fields["buyer"], fields["buyer_tax_id"] = _party(buyer)
+	if not seller and not buyer:
+		# A shop's invoice (Mohsensoft, Hesabfa...): the seller is the heading, the box «نام :» is the buyer
+		box = next((i for i, line in enumerate(lines) if re.match(r"(?:نام|نام\s*خریدار|خریدار|آقای|خانم)\s*[:：]", line)),
+			None)
+		if box is not None and _after_label(lines[box]):
+			fields["buyer"] = _after_label(lines[box])[:120]
+		fields["vendor"] = _heading(lines[:box if box is not None else 5][:5])
 	if not fields["vendor_tax_id"]:
 		match = re.search(r"(?:شماره|کد|شناسه)\s*(?:اقتصادی|ملی)[^\d]{0,15}(\d{10,14})", clean)
 		fields["vendor_tax_id"] = match.group(1) if match else ""
@@ -230,6 +261,8 @@ def invoice(text):
 	vat = _amount(lines, r"ارزش\s*افزوده|مالیات|عوارض|vat|tax", r"احتساب|پس\s*از|با\s*مالیات|بدون|قبل|قابل\s*پرداخت")
 	untaxed = _amount(lines, r"(?:جمع|مبلغ).*(?:قبل|بدون|پیش)\s*(?:از)?\s*مالیات|subtotal|untaxed|"
 		r"(?:جمع|مبلغ)\s*کل\s*پس\s*از\s*تخفیف", r"احتساب|با\s*مالیات")
+	gross = _amount(lines, r"جمع\s*(?:کل\s*)?فاکتور|جمع\s*ردیف|جمع\s*کالا|مبلغ\s*کل\s*کالا", r"قابل\s*پرداخت|تخفیف")
+	discount = _amount(lines, r"تخفیف", r"پس\s*از|بعد\s*از")
 	if not total:
 		values = _amounts(clean)
 		total = max(values) if values else None
@@ -245,6 +278,12 @@ def invoice(text):
 		total = written
 	elif written and written == total:
 		confidence = "medium"
+	if gross and discount and total and abs(gross - discount - (vat or 0) - total) <= max(1, total * 0.002):
+		# The sum of the rows less the discount, plus the tax, is what is paid: the amounts agree
+		confidence = "medium"
+		untaxed = untaxed or gross - discount
+	if gross and discount and discount < gross:
+		fields.update({"gross_amount": gross, "discount_amount": discount, "discount_percent": round(discount / gross * 100, 2)})
 	items = _items(lines)
 	if items:
 		fields["lines"] = [{"description": i["description"], "quantity": i["quantity"], "unit_price": i["unit_price"]}

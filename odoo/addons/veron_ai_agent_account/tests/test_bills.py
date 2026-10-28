@@ -105,3 +105,40 @@ class TestBills(FinanceCase):
 		self.assertEqual(tool._direction(ctx, {}, swapped), "purchase")
 		self.assertEqual(tool._direction(ctx, {"direction": "purchase"}, fields), "purchase", "what the person says wins")
 		self.assertTrue(customer)
+
+	def test_mohsensoft_invoice_with_discount(self):
+		"""The layout of Mohsensoft invoices: the seller as the heading, «نام :» for the buyer, a three-digit year, the
+		gross total and a discount at the foot"""
+		text = ("صفحه 1 از 1 فاکتور فروش\nشماره : 100-140305 ماشین بخت هرماگی\nتاریخ : 403/05/16\nنام : فروشگاه پاسارگاد\n"
+			"شرح | تعداد| قیمت واحد | قیمت کل(ریال)\n| فر پیتزا ریلی هرماگی دهنه 50 | 1 | 2,190,000,000 | 2,190,000,000\n"
+			"| جمع فاکتور | 1 | 2,190,000,000 |\nتخفیف )15%( : 328,500,000\nمالیات )0%( : 0\n"
+			"قابل پرداخت : یک میلیارد و هشتصد و شصت و یک میلیون و پانصد هزار 1,861,500,000\nامضاء خریدار امضاء فروشنده")
+		fields = text_fields(text)
+		self.assertEqual((fields["date"], fields["invoice_number"], fields["buyer"]),
+			("1403/05/16", "100-140305", "فروشگاه پاسارگاد"))
+		self.assertEqual((fields["gross_amount"], fields["discount_amount"], fields["total_amount"]),
+			(2_190_000_000, 328_500_000, 1_861_500_000))
+		self.assertEqual(fields["discount_percent"], 15)
+		from ..tools.bills import _same
+
+		self.assertTrue(_same("ماشین بخت هرماگی", ["ماشین های پخت هرماگی"]), "one word misread by the OCR")
+		self.assertFalse(_same("فروشگاه پاسارگاد", ["ماشین های پخت هرماگی"]))
+
+		# The discount goes on the rows, and the draft's total is the one on the file
+		from unittest.mock import patch
+
+		from ..tools.bills import BillFromDocument
+
+		self.env.company.name = "ماشین های پخت هرماگی"
+		customer = self.env["res.partner"].create({"name": "فروشگاه پاسارگاد", "customer_rank": 1})
+		self.env["veron.ai.agent"]._setup_assistant()
+		self.env.ref("veron_ai_agent.agent_assistant").enabled = True
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_assistant()["conversation_id"]
+		source = self.env["veron.ai.source"].with_user(self.accountant)._from_upload("invoice.pdf", pdf(["Invoice"]))
+		with patch.object(BillFromDocument, "_read", lambda tool, ctx, source: (dict(fields), "test")):
+			reply = Chat.veron_chat_send(conversation, "این فاکتور رو ثبت کن", [source.id], {}, "internal")[-1]
+		invoice = self.env["account.move"].search([("ref", "=", "100-140305")])
+		self.assertEqual((invoice.move_type, invoice.partner_id), ("out_invoice", customer), reply["body_html"])
+		self.assertEqual(invoice.invoice_line_ids.discount, 15)
+		self.assertEqual(invoice.amount_total, 1_861_500_000)

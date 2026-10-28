@@ -181,6 +181,28 @@ def pdf_text(data: bytes, max_pages=30):
 		return ""
 
 
+def pdf_images(data: bytes, pages=3, dpi=150):
+	"""The first pages of a PDF as PNG images, for a model that sees images but not PDFs; empty without pdftoppm"""
+	import os
+	import shutil
+	import subprocess
+	import tempfile
+
+	if not shutil.which("pdftoppm"):
+		return []
+	with tempfile.TemporaryDirectory() as folder:
+		path = os.path.join(folder, "in.pdf")
+		with open(path, "wb") as handle:
+			handle.write(data)
+		subprocess.run(["pdftoppm", "-r", str(dpi), "-png", "-f", "1", "-l", str(pages), path, os.path.join(folder, "p")],
+			capture_output=True, timeout=90, check=False)
+		images = []
+		for name in sorted(n for n in os.listdir(folder) if n.startswith("p") and n.endswith(".png")):
+			with open(os.path.join(folder, name), "rb") as handle:
+				images.append(handle.read())
+		return images
+
+
 def clamd_scan(host, port, data: bytes, timeout=20):
 	"""(clean, detail) from a ClamAV daemon, by its INSTREAM command"""
 	with socket.create_connection((host, int(port)), timeout=timeout) as sock:

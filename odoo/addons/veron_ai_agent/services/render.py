@@ -41,7 +41,8 @@ LABELS = {
 	"due_date": "سررسید", "sayad_id": "شناسه‌ی صیاد", "serial": "سریال", "bank": "بانک", "branch": "شعبه",
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
 	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
-	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "gross_amount": "جمع فاکتور", "discount_amount": "تخفیف",
+	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 
@@ -132,7 +133,10 @@ def _expense(o):
 
 
 def _draft(o):
-	return f"پیش‌نویس {o.get('draft', '')} ساخته شد (جمع {number(o.get('total', 0))}). هنوز ثبت قطعی نشده است."
+	draft = str(o.get("draft", ""))
+	# The name of a draft invoice already says it is one
+	draft = draft if draft.replace("\u200c", "").startswith(("پیش نویس", "پیشنویس")) else f"پیش‌نویس {draft}"
+	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}). هنوز ثبت قطعی نشده است."
 
 
 def _overview(o):

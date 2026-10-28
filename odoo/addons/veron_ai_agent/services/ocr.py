@@ -48,6 +48,19 @@ def _variants(data):
 	return result
 
 
+def _sized(data, low=1600, high=2600):
+	"""The image upright and grey, between 1600 and 2600 pixels wide: the size the shapes of digits are read at"""
+	from PIL import Image, ImageOps
+
+	image = ImageOps.exif_transpose(Image.open(io.BytesIO(data))).convert("L")
+	if not low <= image.width <= high:
+		width = 1800 if image.width < low else 2200
+		image = image.resize((width, int(image.height * width / image.width)), Image.BICUBIC)
+	buffer = io.BytesIO()
+	image.save(buffer, "PNG")
+	return buffer.getvalue()
+
+
 def _tesseract(png, languages=LANGUAGES, psm=6):
 	with tempfile.NamedTemporaryFile(suffix=".png") as handle:
 		handle.write(png)
@@ -76,9 +89,19 @@ def image_texts(data, languages=LANGUAGES):
 	except Exception:  # noqa: BLE001 - an image Pillow cannot open has no text for us
 		_logger.info("The image could not be prepared for the OCR")
 		return []
-	readings = [_tesseract(png, languages) for png in variants]
+	from . import digits
+
+	larger = variants[1 if len(variants) > 2 else 0]
+	# First the page without its table lines and with its numbers read by their shape: Tesseract reads Persian
+	# words well, but often not the digits of invoice fonts
+	try:
+		readings = [digits.page_text(_sized(data), languages)]
+	except Exception:  # noqa: BLE001 - the plain readings below still come
+		_logger.exception("The numbers of a page could not be read by their shape")
+		readings = []
+	readings += [_tesseract(png, languages) for png in variants]
 	# The larger size once more column by column (rows of a table) and as scattered text (boxes of a form)
-	readings += [_tesseract(variants[1 if len(variants) > 2 else 0], languages, psm=psm) for psm in (4, 11)]
+	readings += [_tesseract(larger, languages, psm=psm) for psm in (4, 11)]
 	return [text.strip() for text in readings if text.strip()]
 
 
@@ -103,7 +126,13 @@ def pdf_page_texts(data, languages=LANGUAGES, pages=MAX_PAGES):
 				with open(os.path.join(folder, name), "rb") as handle:
 					pages_png.append(handle.read())
 			if len(pages_png) == 1:
-				# A one-page PDF (most invoices) is read like a photo, in all its ways
+				# A one-page PDF (most invoices) is read like a photo, in all its ways, at 300 dpi
+				subprocess.run(["pdftoppm", "-r", "300", "-gray", "-png", "-f", "1", "-l", "1", path,
+					os.path.join(folder, "fine")], capture_output=True, timeout=TIMEOUT, check=False)
+				fine = [n for n in os.listdir(folder) if n.startswith("fine")]
+				if fine:
+					with open(os.path.join(folder, fine[0]), "rb") as handle:
+						return image_texts(handle.read(), languages)
 				return image_texts(pages_png[0], languages)
 			texts = [_tesseract(png, languages) for png in pages_png]
 			if any(text.strip() for text in texts):

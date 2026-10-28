@@ -98,6 +98,10 @@ class Brain:
 			score = max([nlu.similarity(message, phrase) for phrase in intent._phrase_tokens(self.user)] or [0.0])
 			if page and page in (intent.page_models or "").split(","):
 				score += 0.08
+			tool = registry.get(intent.tool_code) if intent.tool_code else None
+			if tool and not all(self.env[model].with_user(self.user).has_access("read") for model in tool.models):
+				# A command on what the person may not see is a weaker guess; asked for plainly, it still says why not
+				score -= 0.15
 			if self.sources and any(slot.get("file") for slot in intent._slots()):
 				# A file sent now makes its commands likelier; the file of an earlier message a little
 				score += 0.04 if self.run.sources_carried else 0.1

@@ -33,12 +33,21 @@ def _plain_name(name):
 
 
 def _same(name, others):
-	"""Whether two names are of the same company: written the same, or alike once the common words are left out"""
+	"""Whether two names are of the same company: written the same, alike once the common words are left out, or
+	sharing most of their words (the OCR may misread one: «بخت» for «پخت»)"""
 	whole = nlu.normalize(name or "")
 	if whole and any(whole == nlu.normalize(other or "") for other in others):
 		return True
-	name = _plain_name(name)
-	return len(name) >= 3 and any(len(other) >= 3 and (name in other or other in name) for other in map(_plain_name, others))
+	plain = _plain_name(name)
+	if len(plain) >= 3 and any(len(other) >= 3 and (plain in other or other in plain) for other in map(_plain_name, others)):
+		return True
+	words = {w for w in plain.split() if len(w) >= 3}
+	for other in map(_plain_name, others):
+		theirs = {w for w in other.split() if len(w) >= 3}
+		common = words & theirs
+		if theirs and len(common) >= 2 and len(common) >= len(theirs) / 2 and any(len(w) >= 4 for w in common):
+			return True
+	return False
 
 
 @tool
@@ -67,6 +76,9 @@ class BillFromDocument(Tool):
 			raise ToolDenied(ctx.env._("Nothing could be read from the file. Send a clearer photo or the PDF of the invoice."))
 		values = dict(result["fields"])
 		values.setdefault("confidence", "medium")
+		if result.get("corrected"):
+			# Amounts the AI read otherwise, taken from the built-in reading whose amounts agree with each other
+			values["corrected"] = sorted(result["corrected"])
 		if result.get("reader") == "builtin":
 			return values, ctx.env._("the built-in reader (no AI)")
 		provider = ctx.provider("vision")
@@ -169,6 +181,10 @@ class BillFromDocument(Tool):
 		vat = _number(values.get("vat_amount")) or 0.0
 		untaxed = _number(values.get("untaxed_amount")) or (total - vat if total else 0.0)
 		tax = self._tax(ctx, untaxed, vat, sale)
+		# A discount at the foot of the invoice goes on each row, as a percent
+		discount = _number(values.get("discount_percent")) or 0.0
+		if not discount and _number(values.get("discount_amount")) and _number(values.get("gross_amount")):
+			discount = round(_number(values["discount_amount"]) / _number(values["gross_amount"]) * 100, 4)
 		label = ctx.env._("Invoice %(number)s of %(vendor)s", number=number or "-", vendor=partner.name or party or "-")
 		lines = []
 		for line in values.get("lines") or []:
@@ -176,8 +192,9 @@ class BillFromDocument(Tool):
 			quantity = _number(line.get("quantity")) or 1.0
 			if line.get("description") and price:
 				lines.append((0, 0, {"name": str(line["description"])[:250], "quantity": quantity, "price_unit": price,
-					"tax_ids": [(6, 0, tax.ids)]}))
-		if not lines or (untaxed and abs(sum(l[2]["quantity"] * l[2]["price_unit"] for l in lines) - untaxed) > 1):
+					"discount": discount, "tax_ids": [(6, 0, tax.ids)]}))
+		net = sum(l[2]["quantity"] * l[2]["price_unit"] * (1 - l[2]["discount"] / 100) for l in lines)
+		if not lines or (untaxed and abs(net - untaxed) > max(1, untaxed * 0.0005)):
 			lines = [(0, 0, {"name": label, "quantity": 1, "price_unit": untaxed if tax else total, "tax_ids": [(6, 0, tax.ids)]})]
 		account = self._account(ctx, partner, sale)
 		for line in lines:
@@ -203,11 +220,15 @@ class BillFromDocument(Tool):
 				draft=f"{move.amount_total:,.0f}", file=f"{total:,.0f}"))
 		if values.get("confidence") == "low":
 			checks.append(ctx.env._("Read with low confidence; compare the bill with the file."))
+		if values.get("corrected"):
+			checks.append(ctx.env._("The AI read some amounts otherwise; the built-in reading, whose amounts agree with "
+				"each other, was kept. Compare them with the file."))
 		return {"draft_id": move.id, "draft": move.display_name,
 			"kind": ctx.env._("Customer invoice") if sale else ctx.env._("Vendor bill"),
 			"customer" if sale else "vendor": partner.display_name or party or None,
 			"number": number or None, "date": str(date) if date else None, "lines": [
-				{"description": l[2]["name"], "quantity": l[2]["quantity"], "price": l[2]["price_unit"]} for l in lines],
+				{"description": l[2]["name"], "quantity": l[2]["quantity"], "price": l[2]["price_unit"],
+					"discount": l[2].get("discount") or None} for l in lines],
 			"untaxed": round(move.amount_untaxed, 2), "tax": round(move.amount_tax, 2), "total": round(move.amount_total, 2),
 			"read_by": plan.data.get("reader"), "to_check": checks, "posted": False}
 
