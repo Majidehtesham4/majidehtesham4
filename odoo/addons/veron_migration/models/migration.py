@@ -33,7 +33,7 @@ LABELS = {
 	"pictures": _lt("Pictures"), "attached files": _lt("Attached Files"), "notes and messages": _lt("Notes and Messages"),
 	"custom fields": _lt("Fields Added by Hand or Studio"), "exchange rates": _lt("Exchange Rates"),
 	"manufacturing orders": _lt("Manufacturing Orders"), "work orders": _lt("Work Orders"),
-	"work times": _lt("Work Times"),
+	"work times": _lt("Work Times"), "product documents": _lt("Product Documents"),
 }
 SEQUENCE_PARAM = "sequence.mixin.constraint_start_date"
 

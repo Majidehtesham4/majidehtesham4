@@ -89,6 +89,7 @@ class Importer:
 		self.made_taxes = set()
 		self.payment_states = {}
 		self.langs = {code for code, _name in self.env["res.lang"].get_installed()}
+		self.model_tables = {model._table for model in self.env.registry.values() if not model._abstract}
 		self._load_map()
 
 	# --- notes
@@ -186,7 +187,7 @@ class Importer:
 
 	def target(self, comodel, old_id):
 		"""The id here of a record a relation of the old database points to; None when it is not brought"""
-		if not old_id:
+		if not old_id or not isinstance(old_id, int):
 			return None
 		if comodel == "res.company":
 			return self.company.id
@@ -297,6 +298,9 @@ class Importer:
 				continue
 			column = renamed.get(name, name)
 			if field.type == "many2many":
+				if field.relation in self.model_tables:
+					# A table of its own model (the members of a chat channel): not a plain link
+					continue
 				relation = self.old_relation(model, field)
 				if relation and "id" in row and field.comodel_name in self.env:
 					old_ids = self.pairs(*relation).get(row["id"], [])
@@ -315,7 +319,8 @@ class Importer:
 				raw = self.property(model, name, row["id"])
 			else:
 				continue
-			if field.company_dependent and isinstance(raw, dict):
+			if isinstance(raw, dict) and (field.company_dependent or field.type not in ("char", "text", "html", "json")):
+				# A value by company (a company-dependent field there, perhaps not here): the old company's
 				raw = raw.get(str(self.cid))
 			if raw is None or raw == "":
 				continue
@@ -460,7 +465,7 @@ class Importer:
 			self.taxes, self.journals, self.payment_terms, self.fiscal_positions, self.partners, self.banks, self.uoms,
 			self.products, self.pricelists, self.hr, self.warehouses, self.orders, self.extras, self.pickings, self.moves,
 			self.payments,
-			self.statements, self.reconciliations, self.stock, self.attachments, self.messages]
+			self.statements, self.reconciliations, self.stock, self.attachments, self.documents, self.messages]
 
 	def run(self):
 		for step in self.steps():
@@ -559,7 +564,7 @@ class Importer:
 			if not user:
 				groups = [g for g in (self.target("res.groups", gid) for gid in members.get(row["id"], [])) if g]
 				values = {"name": row["name"] or row["login"], "login": row["login"], "email": row["email"],
-					"active": False, "company_id": self.company.id, "company_ids": [Command.set(self.company.ids)]}
+					"company_id": self.company.id, "company_ids": [Command.set(self.company.ids)]}
 				if groups:
 					values[groups_field] = [Command.set(groups)]
 				try:
@@ -573,6 +578,9 @@ class Importer:
 					except Exception:  # noqa: BLE001
 						self.note(f"The user {row['login']} was not made: {str(error).splitlines()[0][:150]}")
 						continue
+				# Archived once made: an administrator here gives access
+				with self.env.cr.savepoint():
+					user.active = False
 				self.counts["users (archived)"] += 1
 			self.remember("res.users", row["id"], user.id)
 			self.remember("res.partner", row["partner_id"], user.partner_id.id)
@@ -1015,6 +1023,7 @@ class Importer:
 			("mrp.routing.workcenter", "mrp_routing_workcenter", None, set()),
 			("mrp.bom.line", "mrp_bom_line", None, set()),
 			("mrp.bom.byproduct", "mrp_bom_byproduct", None, set()),
+			("mrp.unbuild", "mrp_unbuild", None, {"state", "produce_line_ids", "consume_line_ids"}),
 			("project.task.type", "project_task_type", by_name("project.task.type"), set()),
 			("project.project", "project_project", None, {"task_ids", "analytic_account_id"}),
 			("project.task", "project_task", None, {"child_ids", "depend_on_ids", "dependent_ids",
@@ -1061,6 +1070,16 @@ class Importer:
 					self.copy("mrp.workcenter.productivity", [row for row in self.rows("mrp_workcenter_productivity")
 						if row.get("workorder_id") in self.map["mrp.workorder"]], label="work times")
 				self.env.invalidate_all()
+		if "mrp.unbuild" in self.env and self.old.has("mrp_unbuild", "state"):
+			for row in self.old.rows("SELECT id, state FROM mrp_unbuild"):
+				unbuild = self.target("mrp.unbuild", row["id"])
+				if unbuild:
+					self.env.cr.execute("UPDATE mrp_unbuild SET state = %s WHERE id = %s", (row["state"], unbuild))
+		if self.old.has("hr_expense_sheet") and "hr.expense.sheet" not in self.env:
+			count = self.old.value("SELECT count(*) FROM hr_expense_sheet WHERE company_id = %s", (self.cid,))
+			if count:
+				self.note(f"The {count} expense reports of the old system grouped expenses; in this version each expense "
+					f"stands alone: the expenses are brought, their reports are not.")
 		# Expenses in the states of this version
 		if "hr.expense" in self.env and self.old.has("hr_expense", "state"):
 			valid = [key for key, _l in self.env["hr.expense"]._fields["state"]._description_selection(self.env)]
@@ -1112,8 +1131,10 @@ class Importer:
 		pickings = self.copy("stock.picking", rows, skip={"move_ids", "move_line_ids", "state", "backorder_id",
 			"return_id"}, label="receipts and deliveries") or self.env["stock.picking"]
 		productions = self.map.get("mrp.production", {})
+		unbuilds = self.map.get("mrp.unbuild", {})
 		moves = [row for row in self.rows("stock_move") if row.get("picking_id") in self.map["stock.picking"] or
-			row.get("raw_material_production_id") in productions or row.get("production_id") in productions]
+			row.get("raw_material_production_id") in productions or row.get("production_id") in productions or
+			row.get("unbuild_id") in unbuilds or row.get("consume_unbuild_id") in unbuilds]
 		if not moves:
 			return
 		move_states = {row["id"]: row["state"] for row in moves}
@@ -1432,6 +1453,24 @@ class Importer:
 			self.counts["attached files"] += 1
 		self.flush()
 
+	def documents(self):
+		"""The documents of products (catalogues, drawings), files kept with the product"""
+		if "product.document" not in self.env or not self.old.has("product_document"):
+			return
+		for row in self.old.rows("SELECT d.id, d.ir_attachment_id, a.name, a.res_model, a.res_id, a.store_fname, a.db_datas, "
+				"a.mimetype FROM product_document d JOIN ir_attachment a ON a.id = d.ir_attachment_id ORDER BY d.id"):
+			if row["id"] in self.map["product.document"]:
+				continue
+			res_id = self.target(row["res_model"], row["res_id"]) if row["res_model"] in self.env else None
+			data = (self.backup.file(row["store_fname"]) if self.backup else None) if row["store_fname"] else row["db_datas"]
+			if not res_id or data is None:
+				continue
+			with self.env.cr.savepoint():
+				document = self.env["product.document"].create({"name": row["name"], "raw": bytes(data),
+					"mimetype": row["mimetype"], "res_model": row["res_model"], "res_id": res_id})
+			self.remember("product.document", row["id"], document.id)
+			self.counts["product documents"] += 1
+
 	def messages(self):
 		"""The notes and messages written on the records brought, with their dates and authors"""
 		if not self.old.has("mail_message"):
@@ -1460,6 +1499,21 @@ class Importer:
 			self.counts["notes and messages"] += 1
 		self.flush()
 
+	def describe(self, model):
+		"""The columns of a table of the old system, and the values of its short ones (states, kinds): what is needed
+		to write the transfer of a module of the company's own"""
+		table = model.replace(".", "_")
+		lines = []
+		for name, kind in sorted(self.old.columns(table).items()):
+			if name in ("create_uid", "write_uid", "create_date", "write_date"):
+				continue
+			values = ""
+			if kind == "character varying" and (name in ("state", "type") or name.endswith(("_type", "_state", "status"))):
+				found = self.old.rows(f'SELECT DISTINCT "{name}" AS v FROM "{table}" LIMIT 12')
+				values = " = " + ", ".join(str(row["v"]) for row in found)
+			lines.append(f"{name} ({kind}){values}")
+		return lines
+
 	# --- what is left
 
 	def left_out(self):
@@ -1481,7 +1535,8 @@ class Importer:
 			"html_editor", "account_account_res_company_rel", "res_users_settings", "res_company_users_rel", "rating_",
 			"res_device", "res_users_log", "discuss_", "properties_", "veron_ai_", "stock_reference", "privacy_",
 			"account_payment_register", "res_users_apikeys", "auth_totp", "portal_", "payment_method", "payment_provider",
-			"sale_pdf_form_field", "event_mail", "calendar_attendee", "mrp_production_group", "product_value")
+			"sale_pdf_form_field", "event_mail", "calendar_attendee", "mrp_production_group", "product_value",
+			"procurement_group", "hr_expense_sheet", "account_online_", "product_document", "account_fiscal_position_tax")
 		transient = "AND m.transient IS NOT TRUE" if self.old.has("ir_model", "transient") else ""
 		rows = self.old.rows(f"SELECT m.model, string_agg(DISTINCT d.module, ',') AS modules FROM ir_model m LEFT JOIN "
 			f"ir_model_data d ON d.model = 'ir.model' AND d.res_id = m.id WHERE true {transient} GROUP BY m.model")

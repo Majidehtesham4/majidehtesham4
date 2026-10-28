@@ -12,6 +12,7 @@
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 voice
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 restore <backup zip or folder> <database>
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 import18 <backup zip or folder> <database>
+#   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 dropdb <database>
 #   powershell -ExecutionPolicy Bypass -File .\odoo.ps1 remove
 
 param([string]$Action = "start", [string]$Module = "", [string]$Database = "trial")
@@ -139,12 +140,29 @@ switch ($Action) {
 		# The program is stopped meanwhile: the parts the old company used are installed into the database
 		docker compose up -d db
 		docker compose stop odoo
-		# Everything it says is also kept in import18-<database>.txt, to read again or to send
-		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$leaf" $Database 2>&1 | Tee-Object -FilePath "import18-$Database.txt"
+		# Persian as it is, in this window and in the file import18-<database>.txt kept to read again or to send
+		$encoding = [Console]::OutputEncoding
+		[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+		docker compose run --rm -T -v "${parent}:/mnt/backup:ro" --entrypoint python3 odoo /mnt/extra-addons/veron_migration/scripts/import_odoo.py "/mnt/backup/$leaf" $Database | Tee-Object -Variable output
 		$ok = $LASTEXITCODE -eq 0
-		Write-Host "The output is kept in $PSScriptRoot\import18-$Database.txt"
+		[Console]::OutputEncoding = $encoding
+		$log = Join-Path $PSScriptRoot "import18-$Database.txt"
+		if ($output) { [System.IO.File]::WriteAllLines($log, [string[]]$output, (New-Object System.Text.UTF8Encoding $true)) }
 		docker compose up -d odoo
+		Write-Host "The output is kept in $log"
 		if (-not $ok) { exit 1 }
+	}
+	"dropdb" {
+		# A database deleted with its files, to start it again:  .\odoo.ps1 dropdb hermagi
+		if (-not $Module) { Write-Host "Use: .\odoo.ps1 dropdb <database>"; exit 1 }
+		$answer = Read-Host "This deletes the database $Module and everything in it. Type its name to confirm"
+		if ($answer -ne $Module) { Write-Host "Nothing was deleted."; exit 0 }
+		docker compose up -d db
+		docker compose stop odoo
+		docker compose run --rm -T --entrypoint sh odoo -c 'odoo db -c /etc/odoo/odoo.conf --db_host $HOST -r $USER -w $PASSWORD drop $0' $Module
+		$ok = $LASTEXITCODE -eq 0
+		docker compose up -d odoo
+		if ($ok) { Write-Host "Deleted: $Module" } else { Write-Host "It was not deleted; the lines above say why."; exit 1 }
 	}
 	"voice" {
 		# The Persian model of Vosk, for voice messages turned into text on the server without any AI; kept in
@@ -162,5 +180,5 @@ switch ($Action) {
 		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database>, remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database>, dropdb <database>, remove" }
 }

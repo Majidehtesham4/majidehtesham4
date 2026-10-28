@@ -47,7 +47,9 @@ def main():
 	# Only warnings and errors from the program itself: what this tool says is enough to follow it
 	import logging
 
-	logging.getLogger("odoo").setLevel(logging.WARNING)
+	logging.getLogger("odoo").setLevel(logging.ERROR)
+	# A record that cannot be made is said once, by this tool, not with the query that failed
+	logging.getLogger("odoo.sql_db").setLevel(logging.CRITICAL)
 
 	from odoo.addons.veron_migration.services import source
 
@@ -178,6 +180,14 @@ def main():
 			say("Data of the old system that has no place here (module, records):")
 			for model, modules, count in left[:40]:
 				say(f"  {model} ({modules}): {count:,}")
+			# The tables of modules this program does not have (the company's own): described, to bring them later
+			known = set(env["ir.module.module"].search([]).mapped("name"))
+			own = [(model, modules) for model, modules, _count in left if modules and not set(modules.split(",")) & known]
+			for model, modules in own[:12]:
+				say("")
+				say(f"Table {model} of {modules}:")
+				for line in work.describe(model):
+					say("  " + line)
 	say("")
 	say("Done. Nothing was posted or applied. Open the program, Settings, Brought From Odoo:")
 	say("  1. Comparison: the balance of each account here next to the old system.")
