@@ -130,6 +130,22 @@ switch ($Action) {
 		docker compose up -d odoo
 		Write-Host "To add the Iranian settings and the programs of ERP-VERON to it: .\odoo.ps1 install veron_apps $Database"
 	}
+	"checkassistant" {
+		# The assistant tried with requests for sale invoices made from this database's own products and customers;
+		# nothing is kept. Its output is kept in checkassistant-<database>.txt, to send.
+		$encoding = [Console]::OutputEncoding
+		[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+		#   .\odoo.ps1 checkassistant hermagi        (200 requests)
+		#   .\odoo.ps1 checkassistant 500 hermagi
+		$count = "200"
+		if ($Module -match '^\d+$') { $count = $Module } elseif ($Module) { $Database = $Module }
+		docker compose up -d odoo
+		docker compose exec -T odoo python3 /mnt/extra-addons/veron_ai_agent/scripts/check_assistant.py $Database --requests $count | Tee-Object -Variable output
+		[Console]::OutputEncoding = $encoding
+		$log = Join-Path $PSScriptRoot "checkassistant-$Database.txt"
+		if ($output) { [System.IO.File]::WriteAllLines($log, [string[]]$output, (New-Object System.Text.UTF8Encoding $true)) }
+		Write-Host "The output is kept in $log"
+	}
 	"import18" {
 		# A company of Odoo 16, 17 or 18 (Community or Enterprise) brought into a database of this program with its
 		# history: contacts, products, accounts, every invoice and entry, payments, orders, stock, files. Nothing is
@@ -183,5 +199,5 @@ switch ($Action) {
 		docker image rm veron-odoo:19.0 odoo:19.0 postgres:16
 		Write-Host "Removed. To give the space back to Windows, see README.md (Compact the Docker disk)."
 	}
-	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database>, dropdb <database>, remove" }
+	default { Write-Host "Use: start, oca, createdb [name], stop, logs, install <module> [database], update <module> [database], ai, voice, restore <backup> <database>, import18 <backup> <database>, checkassistant [requests] <database>, dropdb <database>, remove" }
 }

@@ -8,6 +8,7 @@ question it is waiting an answer to."""
 
 import json
 import re
+from collections import Counter
 
 from markupsafe import Markup
 
@@ -41,11 +42,11 @@ class Brain:
 		self.options = []
 		self.label = ""
 		# The words of the request that named a record already (the customer's name), left out of the next search
-		self.taken = set()
+		self.taken = Counter()
 		# The asked values given by the lines of several products said at once
 		self.in_lines = set()
 		# Words of things (products) not yet chosen, kept out of a search for a person
-		self.not_people = set()
+		self.not_people = Counter()
 
 	# --- the answer
 
@@ -68,6 +69,7 @@ class Brain:
 			if follow is not None:
 				return follow
 		intent, score, ranked = self._match(text)
+		intent, score, ranked = self._by_what_is_named(text, intent, score, ranked)
 		if score < SURE:
 			if GREETING.match(words) and len(nlu.tokens(text)) <= 2:
 				return self._say(_("Hello! Ask me about sales, customers, invoices, purchases, stock, petty cash or payroll, "
@@ -89,6 +91,21 @@ class Brain:
 			self.options = [{"code": i.code, "label": i.name} for i, _s in candidates]
 			return self._say(_("Which one do you mean? Choose below; I will remember it for next time."))
 		return self._not_understood(ranked)
+
+	def _by_what_is_named(self, text, intent, score, ranked):
+		"""Of commands about as likely as each other, the one whose records are named in the request goes first:
+		«یک میز کار استیل ۳۰۱۰ برای معتمدی فاکتور کن» names a product and a customer, so it is an invoice, not the
+		«کار» of the tasks"""
+		close = [(i, s) for i, s in ranked[:4] if s >= max(UNSURE, score - 0.12)]
+		if len(close) < 2:
+			return intent, score, ranked
+		def named(candidate):
+			slots = [slot for slot in candidate._slots() if slot.get("model") and not slot.get("page")]
+			return sum(1 for slot in slots if slot["model"] in self.env and self._search(slot["model"], text, candidate))
+		rescored = sorted(((i, s + 0.08 * named(i)) for i, s in close), key=lambda item: -item[1])
+		rest = [item for item in ranked if item[0] not in {i for i, _s in close}]
+		ranked = rescored + rest
+		return ranked[0][0], ranked[0][1], ranked
 
 	def _say(self, message):
 		return Markup("<p>%s</p>") % message
@@ -202,11 +219,15 @@ class Brain:
 		if not intent:
 			self.memory.pop("pending", None)
 			return None
+		slot = next((s for s in intent._slots() if s.get("arg") == pending.get("arg")), None)
+		# A reply naming what was asked is the answer, even when its words sound like another command
+		# («میز کار استیل» is not the «کار» of the tasks)
+		answers = bool(slot and slot.get("model") in self.env and (self._pick_option(text, pending.get("options") or [])
+			or self._search(slot["model"], text, intent)))
 		new_intent, score, _ranked = self._match(text)
-		if new_intent and new_intent != intent and score >= SURE + 0.15:
+		if not answers and new_intent and new_intent != intent and score >= SURE + 0.15:
 			self.memory.pop("pending", None)
 			return None
-		slot = next((s for s in intent._slots() if s.get("arg") == pending.get("arg")), None)
 		args = dict(pending.get("args") or {})
 		if not slot:
 			self.memory.pop("pending", None)
@@ -405,10 +426,19 @@ class Brain:
 				continue
 			args["_segments"] = segments
 			options = [(record.id, record.display_name) for record in records[:6]]
-			return self._wait(intent, args, product_slot, text, _("Which product for «%s»?", part), options)
+			return self._wait(intent, args, product_slot, text, _("Which product for «%s»?", part) + self._more(records),
+				options)
 		args.pop("_segments", None)
 		if not args.get("_lines"):
 			return None
+		# A name with «و» in it («نصب و راه اندازی») was cut in two: the two halves are one line
+		merged = []
+		for item in args["_lines"]:
+			name = nlu.normalize(self.env[model].browse(item["id"]).display_name)
+			if merged and merged[-1]["id"] == item["id"] and " و " in f" {name} ":
+				continue
+			merged.append(item)
+		args["_lines"] = merged
 		# The products' words are left out of the customer's search only now: «فر ریلی» of one line is still
 		# looked for in the next
 		for item in args["_lines"]:
@@ -439,7 +469,7 @@ class Brain:
 			elif records:
 				said = set(nlu.name_words(text))
 				shared = set.intersection(*(set(nlu.name_words(r.display_name)) for r in records))
-				self.not_people |= shared & said
+				self.not_people.update(shared & said)
 
 	def _put_period(self, intent, args, said):
 		date_from, date_to, self.label = said
@@ -494,7 +524,7 @@ class Brain:
 
 	def _wait(self, intent, args, slot, text, question, options=None):
 		self.memory["pending"] = {"intent": intent.code, "args": args, "arg": slot["arg"], "text": text,
-			"options": options or []}
+			"options": options or [], "question": question}
 		if options:
 			self.options = [{"choice": index + 1, "label": name} for index, (_id, name) in enumerate(options)]
 		return self._say(question)
@@ -515,7 +545,13 @@ class Brain:
 	def _ask(self, intent, args, slot, records, text=""):
 		options = [(record.id, record.display_name) for record in records[:6]]
 		# The request is kept: its count and its other names are read again once this one is chosen
-		return self._wait(intent, args, slot, text, _("Which one? %s", slot.get("question") or ""), options)
+		return self._wait(intent, args, slot, text, _("Which one? %s", slot.get("question") or "") + self._more(records),
+			options)
+
+	def _more(self, records):
+		if len(records) <= 6:
+			return ""
+		return " " + _("%s fit; write a word more of the name (its code, its width...) to choose among them.", len(records))
 
 	# --- records and files
 
@@ -541,15 +577,16 @@ class Brain:
 		return None
 
 	def _take(self, record):
-		self.taken |= set(nlu.name_words(record.display_name))
+		# As many times as the name has them: «پیتزا» of the product, and again of «پیتزا خبازیان» the customer
+		self.taken.update(nlu.name_words(record.display_name))
 
 	def _numbers(self, text):
 		"""The numbers of the request that are not part of a name found in it («عرض ۵۰» of the product)"""
-		taken, words = set(self.taken), []
+		taken, words = Counter(self.taken), []
 		for word in nlu.normalize(text).split():
 			# Each word of the name once: «۵۰ عدد فر عرض ۵۰» still has its count
-			if word in taken:
-				taken.discard(word)
+			if taken[word] > 0:
+				taken[word] -= 1
 			else:
 				words.append(word)
 		left = " ".join(words)
@@ -573,9 +610,14 @@ class Brain:
 			if found:
 				return found
 		intent_words = intent._command_words() if intent else set()
-		left_out = self.taken | (self.not_people if model in PEOPLE else set())
-		words = [w for w in nlu.name_words(text) if nlu.stem(w) not in intent_words and w not in nlu.UNITS
-			and w not in nlu.SCALES and w not in left_out]
+		left_out = self.taken + (self.not_people if model in PEOPLE else Counter())
+		words = []
+		for w in nlu.name_words(text):
+			if left_out[w] > 0:
+				# A word of a record found already, once for each time that record has it
+				left_out[w] -= 1
+			elif nlu.stem(w) not in intent_words and w not in nlu.UNITS and w not in nlu.SCALES:
+				words.append(w)
 		# The records with any word of the request, in any of the ways it may be written, then ranked by how many
 		# of the words they have: «فر ریلی ۵۰» finds «فر پیتزا ریلی ۱۱۵۴ عرض ۵۰»
 		look = [w for w in words if len(w) >= 3 or len(w) == 2 and not w.isdigit()]
@@ -601,8 +643,23 @@ class Brain:
 		if len(top) == 1 or len(whole) == 1:
 			# The one whose whole name was said: «حسن پور», not «شرکت حسن‌پور و پسران»
 			return (whole or top)[0][2]
-		# Otherwise those as good as the best, and those a word less, to choose from
-		return Model.browse([item[2].id for item in ranked if item[0] >= best - 1][:6])
+		if model not in PEOPLE:
+			base = self._base(words, [item[2] for item in top])
+			if base:
+				return base
+		# Otherwise only those as good as the best: the others lack a word that was said
+		return Model.browse([item[2].id for item in top[:30]])
+
+	def _base(self, words, records):
+		"""Of things that fit the words equally, the one the others are variants of: «فر ۱۴۵۶ عرض ۸۰» rather than
+		«فر ۱۴۵۶ عرض ۸۰ بدون پایه», whose «بدون پایه» was not said. «عرض ۵۰» and «عرض ۶۰» are not variants of each
+		other, so they are asked."""
+		said = set(words)
+		extra = {record: set(nlu.name_words(record.display_name)) - said for record in records}
+		for record, own in extra.items():
+			if all(own < other for each, other in extra.items() if each != record):
+				return record
+		return None
 
 	def _rest(self, text, intent):
 		"""The words of the request beyond those of the command, e.g. the name to look for"""

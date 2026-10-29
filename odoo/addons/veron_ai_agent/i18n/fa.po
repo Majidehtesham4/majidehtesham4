@@ -104,6 +104,15 @@ msgstr "%s دستی اجرا نمی‌شود."
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid ""
+"%s fit; write a word more of the name (its code, its width...) to choose "
+"among them."
+msgstr ""
+"%s مورد جور است؛ برای انتخاب، یک کلمه‌ی دیگر از نام (کد، عرض...) را بنویسید."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/tools/collaboration.py:0
 msgid "%s has no email."
 msgstr "%s ایمیل ندارد."
