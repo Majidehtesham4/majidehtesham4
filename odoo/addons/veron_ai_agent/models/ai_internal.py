@@ -356,10 +356,11 @@ class Brain:
 			return
 		if output.get("draft_id"):
 			self.memory.setdefault("records", {})["account.move"] = output["draft_id"]
+			self.options = [{"label": _("Open the Draft"), "res_model": "account.move", "res_id": output["draft_id"]}]
 			# The next step of a draft invoice: posting it, which waits for an approval
 			post = self.env["veron.ai.intent"].sudo().search([("code", "=", "invoice_post")], limit=1)
 			if post and post._usable(self.user) and self.agent.sudo()._grant(post.tool_code):
-				self.options = [{"code": post.code, "label": post.name}]
+				self.options.append({"code": post.code, "label": post.name})
 
 	def _wait(self, intent, args, slot, text, question, options=None):
 		self.memory["pending"] = {"intent": intent.code, "args": args, "arg": slot["arg"], "text": text,

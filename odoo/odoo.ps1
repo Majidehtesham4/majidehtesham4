@@ -84,6 +84,7 @@ switch ($Action) {
 	"install" {
 		# A module in the addons folder installed into a database, without the Apps menu
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 install web_responsive trial"; exit 1 }
+		$Module = ($Module.Trim() -replace '\s+', ',')
 		Confirm-Oca | Out-Null
 		docker compose build odoo
 		docker compose stop odoo
@@ -97,6 +98,8 @@ switch ($Action) {
 	}
 	"update" {
 		if (-not $Module) { Write-Host "Which module? For example: .\odoo.ps1 update veron_base trial"; exit 1 }
+		# "a,b" is an array to PowerShell and arrives here as "a b": given to Odoo as one list again
+		$Module = ($Module.Trim() -replace '\s+', ',')
 		Confirm-Oca | Out-Null
 		# Python changes need Odoo restarted; the module's data and views are read again with -u
 		docker compose stop odoo

@@ -3470,6 +3470,12 @@ msgid "Open This Section"
 msgstr "باز کردن این بخش"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Open the Draft"
+msgstr "باز کردن پیش‌نویس"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.approval_view_form
 msgid "Open the Record"
 msgstr "باز کردن رکورد"

@@ -857,13 +857,16 @@ msgstr "ساخت پیش‌نویس سند"
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid ""
-"Makes a draft customer invoice or vendor bill from a contact and lines. "
-"Taxes and totals are computed by Odoo from the products; a price left out is"
-" the product's price. It is never posted here."
+"Makes a draft customer invoice or vendor bill from a contact and lines. A "
+"price, discount or taxes left out are those of the last invoice of the same "
+"contact and product (else the product's price and the discount and taxes of "
+"the contact's last invoice); totals are computed by Odoo. It is never posted"
+" here."
 msgstr ""
-"از یک مخاطب و ردیف‌ها پیش‌نویس فاکتور فروش یا خرید می‌سازد. مالیات و جمع‌ها "
-"را Veron از روی کالاها محاسبه می‌کند؛ قیمتِ داده‌نشده قیمت خود کالاست. اینجا"
-" هرگز ثبت قطعی نمی‌شود."
+"از یک مخاطب و ردیف‌ها پیش‌نویس فاکتور فروش یا خرید می‌سازد. قیمت، تخفیف و "
+"مالیاتی که داده نشود از آخرین فاکتور ثبت‌شده‌ی همان مخاطب و همان کالا "
+"برداشته می‌شود (وگرنه قیمت خود کالا و تخفیف و مالیات آخرین فاکتور آن مخاطب)؛"
+" جمع‌ها را Veron محاسبه می‌کند. اینجا هرگز ثبت قطعی نمی‌شود."
 
 #. module: veron_ai_agent_account
 #. odoo-python

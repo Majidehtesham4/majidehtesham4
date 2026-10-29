@@ -182,6 +182,10 @@ export class AgentChat extends Component {
 
     /** A button the assistant offered: the meaning it was unsure of, or one of the records it found */
     choose(option) {
+        if (option.res_model) {
+            this.action.doAction({ type: "ir.actions.act_window", res_model: option.res_model, res_id: option.res_id, views: [[false, "form"]] });
+            return;
+        }
         this.send(option.code ? `#intent:${option.code}` : String(option.choice), option.label);
     }
 

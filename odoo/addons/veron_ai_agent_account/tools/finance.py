@@ -4,6 +4,7 @@ data scope; the only one that writes makes a draft invoice, which a person check
 from datetime import timedelta
 
 from odoo import fields
+from odoo.exceptions import AccessError
 from odoo.fields import Domain
 from odoo.tools.translate import LazyTranslate
 
@@ -41,8 +42,9 @@ class FinanceTool(Tool):
 class InvoiceDraftCreate(FinanceTool):
 	code = "invoice_draft_create"
 	name = _lt("Make a Draft Invoice")
-	description = _lt("Makes a draft customer invoice or vendor bill from a contact and lines. Taxes and totals are "
-		"computed by Odoo from the products; a price left out is the product's price. It is never posted here.")
+	description = _lt("Makes a draft customer invoice or vendor bill from a contact and lines. A price, discount or "
+		"taxes left out are those of the last invoice of the same contact and product (else the product's price and "
+		"the discount and taxes of the contact's last invoice); totals are computed by Odoo. It is never posted here.")
 	category = "draft"
 	action = "draft"
 	risk = "medium"
@@ -57,6 +59,7 @@ class InvoiceDraftCreate(FinanceTool):
 			"description": {"type": "string", "maxLength": 300},
 			"quantity": {"type": "number", "minimum": 0},
 			"price_unit": {"type": "number", "minimum": 0},
+			"discount": {"type": "number", "minimum": 0, "maximum": 100, "description": "Percent"},
 		}, ["quantity"])},
 		"source_id": {"type": "integer", "minimum": 1, "description": "A file of this run to attach, e.g. the vendor's invoice"},
 	}, ["move_type", "partner_id", "lines"])
@@ -80,16 +83,39 @@ class InvoiceDraftCreate(FinanceTool):
 				raise ToolDenied(ctx.env._("A line without a product needs a price."))
 		return partner, products
 
-	def _price(self, args, line, products):
+	def _last(self, ctx, args, partner, product=None):
+		"""The last line of a posted invoice of this contact (and product): what was agreed with them"""
+		domain = [("move_id.move_type", "=", args["move_type"]), ("parent_state", "=", "posted"),
+			("move_id.partner_id.commercial_partner_id", "=", partner.commercial_partner_id.id),
+			("display_type", "=", "product")]
+		if product:
+			domain.append(("product_id", "=", product.id))
+		try:
+			return ctx.env["account.move.line"].search(domain, order="date desc, id desc", limit=1)
+		except AccessError:
+			return ctx.env["account.move.line"]
+
+	def _terms(self, ctx, args, line, partner, products):
+		"""Price, discount and taxes of a line: as given, else as on the last invoice of the contact"""
+		product = products.browse(line["product_id"]) if line.get("product_id") else products.browse()
+		same = self._last(ctx, args, partner, product) if product else ctx.env["account.move.line"]
+		before = same or self._last(ctx, args, partner)
 		if line.get("price_unit") is not None:
-			return line["price_unit"]
-		product = products.browse(line["product_id"])
-		return product.lst_price if args["move_type"] == "out_invoice" else product.standard_price
+			price = line["price_unit"]
+		elif same:
+			price = same.price_unit
+		else:
+			price = product.lst_price if args["move_type"] == "out_invoice" else product.standard_price
+		discount = line["discount"] if line.get("discount") is not None else (before.discount if before else 0.0)
+		return {"price_unit": price, "discount": discount, "taxes": before.tax_ids if before else None, "from": before}
 
 	def plan(self, ctx, args):
 		ctx.check_model("account.move")
 		partner, products = self._records(ctx, args)
-		amount = sum(line["quantity"] * self._price(args, line, products) for line in args["lines"])
+		amount = 0.0
+		for line in args["lines"]:
+			terms = self._terms(ctx, args, line, partner, products)
+			amount += line["quantity"] * terms["price_unit"] * (1 - terms["discount"] / 100)
 		kind = ctx.env._("customer invoice") if args["move_type"] == "out_invoice" else ctx.env._("vendor bill")
 		return Plan(summary=ctx.env._("Draft %(kind)s for %(partner)s, %(amount)s before taxes", kind=kind,
 			partner=partner.display_name, amount=f"{amount:,.0f}"), amount=amount, model="account.move",
@@ -97,13 +123,18 @@ class InvoiceDraftCreate(FinanceTool):
 
 	def execute(self, ctx, args, plan):
 		partner, products = self._records(ctx, args)
-		lines = []
+		lines, sources = [], ctx.env["account.move"]
 		for line in args["lines"]:
-			values = {"quantity": line["quantity"], "price_unit": self._price(args, line, products)}
+			terms = self._terms(ctx, args, line, partner, products)
+			values = {"quantity": line["quantity"], "price_unit": terms["price_unit"], "discount": terms["discount"]}
 			if line.get("product_id"):
 				values["product_id"] = line["product_id"]
 			if line.get("description"):
 				values["name"] = line["description"]
+			if terms["taxes"] is not None:
+				# The taxes this contact was invoiced with, none when it had none
+				values["tax_ids"] = [(6, 0, terms["taxes"].ids)]
+			sources |= terms["from"].move_id
 			lines.append((0, 0, values))
 		values = {"move_type": args["move_type"], "partner_id": partner.id, "invoice_line_ids": lines,
 			"ref": args.get("ref") or False}
@@ -118,8 +149,12 @@ class InvoiceDraftCreate(FinanceTool):
 			if source and source.sudo().attachment_id:
 				source.sudo().attachment_id.copy({"res_model": "account.move", "res_id": move.id})
 		ctx.link(move)
-		return {"draft_id": move.id, "draft": move.display_name, "state": move.state, "untaxed": _r(move.amount_untaxed),
-			"tax": _r(move.amount_tax), "total": _r(move.amount_total), "posted": False}
+		return {"draft_id": move.id, "draft": move.display_name, "partner": partner.display_name,
+			"lines": [{"product": item.product_id.display_name or item.name, "quantity": item.quantity,
+				"price": _r(item.price_unit), "discount": item.discount, "taxes": ", ".join(item.tax_ids.mapped("name")) or "-",
+				"amount": _r(item.price_subtotal)} for item in move.invoice_line_ids],
+			"terms_from": ", ".join(sources.mapped("display_name")),
+			"untaxed": _r(move.amount_untaxed), "tax": _r(move.amount_tax), "total": _r(move.amount_total), "posted": False}
 
 
 @tool

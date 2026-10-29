@@ -195,3 +195,15 @@ class TestSaleInvoiceFromChat(FinanceCase):
 	def test_asked_step_by_step(self):
 		move, _reply = self.invoice("فاکتور فروش بزن", "حسن پور", "فر ريلي ۵۰")
 		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id), (self.customer, self.oven50))
+
+	def test_terms_of_the_last_invoice(self):
+		"""The price, discount and taxes agreed with this customer last time, not the product's own"""
+		past = self.env["account.move"].create({"move_type": "out_invoice", "partner_id": self.customer.id,
+			"invoice_line_ids": [(0, 0, {"product_id": self.oven50.id, "quantity": 2, "price_unit": 1_400_000, "discount": 10,
+			"tax_ids": [(6, 0, [])]})]})
+		past.action_post()
+		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای اقای حسن پور فاکتور کن")
+		line = move.invoice_line_ids
+		self.assertEqual((line.price_unit, line.discount, line.tax_ids.ids), (1_400_000, 10, []), reply["body_html"])
+		self.assertIn(past.name, reply["body_html"])
+		self.assertTrue(any(option.get("res_id") == move.id for option in reply["options"]), "the draft opens with a button")

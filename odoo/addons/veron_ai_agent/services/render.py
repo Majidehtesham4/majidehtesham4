@@ -9,7 +9,7 @@ from odoo.addons.veron_core.models import jalali
 
 ISO_DATE = re.compile(r"\b(20\d\d|19\d\d)-(\d\d)-(\d\d)\b")
 # Keys that are for the program, not for people
-HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id"}
+HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from"}
 # Words of the tools' output written for people
 VALUES = {"low": "کم", "medium": "متوسط", "high": "زیاد", "built-in": "هوش داخلی، بدون هوش مصنوعی", "AI": "هوش مصنوعی",
 	"IRR": "ریال"}
@@ -42,7 +42,7 @@ LABELS = {
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
 	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
 	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "gross_amount": "جمع فاکتور", "discount_amount": "تخفیف",
-	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 
@@ -136,7 +136,8 @@ def _draft(o):
 	draft = str(o.get("draft", ""))
 	# The name of a draft invoice already says it is one
 	draft = draft if draft.replace("\u200c", "").startswith(("پیش نویس", "پیشنویس")) else f"پیش‌نویس {draft}"
-	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}). هنوز ثبت قطعی نشده است."
+	terms = f" قیمت، تخفیف و مالیات از {o['terms_from']} آمد." if o.get("terms_from") else ""
+	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{terms} هنوز ثبت قطعی نشده است."
 
 
 def _overview(o):
