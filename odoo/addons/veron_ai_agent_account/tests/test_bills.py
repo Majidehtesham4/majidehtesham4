@@ -207,3 +207,26 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		self.assertEqual((line.price_unit, line.discount, line.tax_ids.ids), (1_400_000, 10, []), reply["body_html"])
 		self.assertIn(past.name, reply["body_html"])
 		self.assertTrue(any(option.get("res_id") == move.id for option in reply["options"]), "the draft opens with a button")
+
+	def test_several_products_at_once(self):
+		thermo = self.env["product.product"].create({"name": "ترموکوپل فر", "list_price": 300_000})
+		move, reply = self.invoice("دو تا فر ریلی ۱۱۵۴ عرض ۵۰، یک فر ریلی عرض ۶۰ و سه ترموکوپل برای حسن پور فاکتور کن")
+		self.assertEqual([(line.product_id, line.quantity) for line in move.invoice_line_ids],
+			[(self.oven50, 2), (self.oven60, 1), (thermo, 3)], reply["body_html"])
+
+	def test_one_of_several_is_asked_then_the_next(self):
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		reply = self.say(Chat, conversation, "یک فر پیتزا ریلی و دو تا فر ریلی عرض ۵۰ برای حسن پور فاکتور کن")
+		labels = [option["label"] for option in reply["options"]]
+		self.assertEqual(len(labels), 2, reply["body_html"])
+		reply = self.say(Chat, conversation, str(next(i for i, label in enumerate(labels, 1) if "۶۰" in label)))
+		move = self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1)
+		self.assertEqual([(line.product_id, line.quantity) for line in move.invoice_line_ids],
+			[(self.oven60, 1), (self.oven50, 2)], reply["body_html"])
+
+	def test_product_words_are_not_a_customer(self):
+		"""«پیتزا ریلی» of the product does not make «پیتزا ریلی حسن» the customer"""
+		self.env["res.partner"].create({"name": "پیتزا ریلی حسن", "customer_rank": 1})
+		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای آقای حسن پور فاکتور کن")
+		self.assertEqual(move.partner_id, self.customer, reply["body_html"])

@@ -84,10 +84,12 @@ class InvoiceDraftCreate(FinanceTool):
 		return partner, products
 
 	def _last(self, ctx, args, partner, product=None):
-		"""The last line of a posted invoice of this contact (and product): what was agreed with them"""
+		"""The last line of a posted invoice of this contact (and product): what was agreed with them; without a
+		contact, the last of the product to anyone"""
 		domain = [("move_id.move_type", "=", args["move_type"]), ("parent_state", "=", "posted"),
-			("move_id.partner_id.commercial_partner_id", "=", partner.commercial_partner_id.id),
 			("display_type", "=", "product")]
+		if partner:
+			domain.append(("move_id.partner_id.commercial_partner_id", "=", partner.commercial_partner_id.id))
 		if product:
 			domain.append(("product_id", "=", product.id))
 		try:
@@ -100,14 +102,20 @@ class InvoiceDraftCreate(FinanceTool):
 		product = products.browse(line["product_id"]) if line.get("product_id") else products.browse()
 		same = self._last(ctx, args, partner, product) if product else ctx.env["account.move.line"]
 		before = same or self._last(ctx, args, partner)
+		anyone = self._last(ctx, args, None, product) if product and not same and line.get("price_unit") is None \
+			else ctx.env["account.move.line"]
 		if line.get("price_unit") is not None:
 			price = line["price_unit"]
 		elif same:
 			price = same.price_unit
+		elif anyone:
+			# Not sold to this contact before: the price it was last sold at
+			price = anyone.price_unit
 		else:
 			price = product.lst_price if args["move_type"] == "out_invoice" else product.standard_price
 		discount = line["discount"] if line.get("discount") is not None else (before.discount if before else 0.0)
-		return {"price_unit": price, "discount": discount, "taxes": before.tax_ids if before else None, "from": before}
+		return {"price_unit": price, "discount": discount, "taxes": before.tax_ids if before else None,
+			"from": before | anyone, "no_price": bool(product) and price <= 1 and line.get("price_unit") is None}
 
 	def plan(self, ctx, args):
 		ctx.check_model("account.move")
@@ -123,7 +131,7 @@ class InvoiceDraftCreate(FinanceTool):
 
 	def execute(self, ctx, args, plan):
 		partner, products = self._records(ctx, args)
-		lines, sources = [], ctx.env["account.move"]
+		lines, sources, unpriced = [], ctx.env["account.move"], []
 		for line in args["lines"]:
 			terms = self._terms(ctx, args, line, partner, products)
 			values = {"quantity": line["quantity"], "price_unit": terms["price_unit"], "discount": terms["discount"]}
@@ -135,6 +143,8 @@ class InvoiceDraftCreate(FinanceTool):
 				# The taxes this contact was invoiced with, none when it had none
 				values["tax_ids"] = [(6, 0, terms["taxes"].ids)]
 			sources |= terms["from"].move_id
+			if terms["no_price"]:
+				unpriced.append(products.browse(line["product_id"]).display_name)
 			lines.append((0, 0, values))
 		values = {"move_type": args["move_type"], "partner_id": partner.id, "invoice_line_ids": lines,
 			"ref": args.get("ref") or False}
@@ -154,6 +164,7 @@ class InvoiceDraftCreate(FinanceTool):
 				"price": _r(item.price_unit), "discount": item.discount, "taxes": ", ".join(item.tax_ids.mapped("name")) or "-",
 				"amount": _r(item.price_subtotal)} for item in move.invoice_line_ids],
 			"terms_from": ", ".join(sources.mapped("display_name")),
+			"no_price": unpriced,
 			"untaxed": _r(move.amount_untaxed), "tax": _r(move.amount_tax), "total": _r(move.amount_total), "posted": False}
 
 

@@ -6229,6 +6229,12 @@ msgid "Which one? %s"
 msgstr "کدام؟ %s"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Which product for «%s»?"
+msgstr "برای «%s» کدام کالا؟"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.agent_view_form
 msgid "Who"
 msgstr "چه کسی"

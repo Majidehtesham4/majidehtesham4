@@ -9,7 +9,7 @@ from odoo.addons.veron_core.models import jalali
 
 ISO_DATE = re.compile(r"\b(20\d\d|19\d\d)-(\d\d)-(\d\d)\b")
 # Keys that are for the program, not for people
-HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from"}
+HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from", "posted", "no_price"}
 # Words of the tools' output written for people
 VALUES = {"low": "کم", "medium": "متوسط", "high": "زیاد", "built-in": "هوش داخلی، بدون هوش مصنوعی", "AI": "هوش مصنوعی",
 	"IRR": "ریال"}
@@ -136,8 +136,10 @@ def _draft(o):
 	draft = str(o.get("draft", ""))
 	# The name of a draft invoice already says it is one
 	draft = draft if draft.replace("\u200c", "").startswith(("پیش نویس", "پیشنویس")) else f"پیش‌نویس {draft}"
-	terms = f" قیمت، تخفیف و مالیات از {o['terms_from']} آمد." if o.get("terms_from") else ""
-	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{terms} هنوز ثبت قطعی نشده است."
+	terms = f" قیمت، تخفیف و مالیات از فاکتورهای قبلی ({o['terms_from']}) برداشته شد." if o.get("terms_from") else ""
+	missing = (f" قیمت فروش «{'، '.join(o['no_price'])}» در برنامه ثبت نشده است؛ پیش‌نویس را باز کنید و قیمت را بنویسید."
+		if o.get("no_price") else "")
+	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{terms}{missing} هنوز ثبت قطعی نشده است."
 
 
 def _overview(o):
