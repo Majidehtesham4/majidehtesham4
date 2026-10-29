@@ -159,13 +159,101 @@ class InvoiceDraftCreate(FinanceTool):
 			if source and source.sudo().attachment_id:
 				source.sudo().attachment_id.copy({"res_model": "account.move", "res_id": move.id})
 		ctx.link(move)
-		return {"draft_id": move.id, "draft": move.display_name, "partner": partner.display_name,
-			"lines": [{"product": item.product_id.display_name or item.name, "quantity": item.quantity,
-				"price": _r(item.price_unit), "discount": item.discount, "taxes": ", ".join(item.tax_ids.mapped("name")) or "-",
-				"amount": _r(item.price_subtotal)} for item in move.invoice_line_ids],
-			"terms_from": ", ".join(sources.mapped("display_name")),
-			"no_price": unpriced,
-			"untaxed": _r(move.amount_untaxed), "tax": _r(move.amount_tax), "total": _r(move.amount_total), "posted": False}
+		return dict(_draft_output(move), terms_from=", ".join(sources.mapped("display_name")), no_price=unpriced)
+
+
+def _draft_output(move):
+	"""A draft invoice as the answer shows it: its lines and totals"""
+	return {"draft_id": move.id, "draft": move.display_name, "partner": move.partner_id.display_name,
+		"lines": [{"product": item.product_id.display_name or item.name, "quantity": item.quantity,
+			"price": _r(item.price_unit), "discount": item.discount, "taxes": ", ".join(item.tax_ids.mapped("name")) or "-",
+			"amount": _r(item.price_subtotal)} for item in move.invoice_line_ids],
+		"untaxed": _r(move.amount_untaxed), "tax": _r(move.amount_tax), "total": _r(move.amount_total), "posted": False}
+
+
+@tool
+class InvoiceDraftUpdate(FinanceTool):
+	code = "invoice_draft_update"
+	name = _lt("Change a Draft Invoice")
+	description = _lt("Changes a draft invoice or bill that is not posted: a discount (percent) on all its lines or "
+		"on the line of a product, the count or the price of a line, lines added, a line taken out. A posted one is "
+		"never changed here.")
+	category = "draft"
+	action = "draft"
+	risk = "medium"
+	models = ("account.move", "product.product")
+	schema = strict_object({
+		"move_id": {"type": "integer", "minimum": 1},
+		"product_id": {"type": "integer", "minimum": 1, "description": "The line changed; none for all lines"},
+		"discount": {"type": "number", "minimum": 0, "maximum": 100},
+		"quantity": {"type": "number", "minimum": 0},
+		"price_unit": {"type": "number", "minimum": 0},
+		"add_lines": {"type": "array", "maxItems": 50, "items": strict_object({
+			"product_id": {"type": "integer", "minimum": 1}, "quantity": {"type": "number", "minimum": 0},
+		}, ["product_id"])},
+		"remove_product_id": {"type": "integer", "minimum": 1},
+	}, ["move_id"])
+
+	def _move(self, ctx, args):
+		model, domain = scoped(ctx, "account.move", [("id", "=", args["move_id"])])
+		move = model.search(domain, limit=1)
+		if not move:
+			raise ToolDenied(ctx.env._("No such invoice in the agent's data."))
+		if move.state != "draft":
+			raise ToolDenied(ctx.env._("%s is posted; a posted invoice is not changed here.", move.display_name))
+		return move
+
+	def _lines(self, ctx, move, product_id):
+		lines = move.invoice_line_ids.filtered(lambda line: line.display_type == "product")
+		if product_id:
+			lines = lines.filtered(lambda line: line.product_id.id == product_id)
+			if not lines:
+				raise ToolDenied(ctx.env._("This draft has no line of that product."))
+		return lines
+
+	def plan(self, ctx, args):
+		ctx.check_model("account.move")
+		move = self._move(ctx, args)
+		if not any(key in args for key in ("discount", "quantity", "price_unit", "add_lines", "remove_product_id")):
+			raise ToolDenied(ctx.env._("Say what to change: a discount, a count, a price, a line to add or take out."))
+		return Plan(summary=ctx.env._("Change the draft %s", move.display_name), amount=move.amount_untaxed,
+			model="account.move", res_ids=[move.id], company_ids=[move.company_id.id])
+
+	def execute(self, ctx, args, plan):
+		move = self._move(ctx, args)
+		lines = self._lines(ctx, move, args.get("product_id"))
+		values = {key: args[key] for key in ("discount", "price_unit") if key in args}
+		if "quantity" in args:
+			if len(lines) > 1:
+				raise ToolDenied(ctx.env._("Which product's count? The draft has several lines."))
+			values["quantity"] = args["quantity"]
+		if values:
+			lines.write(values)
+		if args.get("remove_product_id"):
+			move.invoice_line_ids.filtered(lambda line: line.product_id.id == args["remove_product_id"]).unlink()
+		if args.get("add_lines"):
+			creator = InvoiceDraftCreate()
+			product_ids = [line["product_id"] for line in args["add_lines"]]
+			model, domain = scoped(ctx, "product.product", [("id", "in", product_ids)])
+			products = model.search(domain)
+			if set(products.ids) != set(product_ids):
+				raise ToolDenied(ctx.env._("A product is not in the agent's data."))
+			# A line added to a draft whose lines have one discount gets it too
+			shared = set(self._lines(ctx, move, None).mapped("discount"))
+			common = shared.pop() if len(shared) == 1 else 0.0
+			made = []
+			for line in args["add_lines"]:
+				line = dict(line, quantity=line.get("quantity", 1))
+				terms = creator._terms(ctx, {"move_type": move.move_type}, line, move.partner_id, products)
+				discount = common or terms["discount"]
+				item = {"product_id": line["product_id"], "quantity": line["quantity"], "price_unit": terms["price_unit"],
+					"discount": discount}
+				if terms["taxes"] is not None:
+					item["tax_ids"] = [(6, 0, terms["taxes"].ids)]
+				made.append((0, 0, item))
+			move.write({"invoice_line_ids": made})
+		ctx.link(move)
+		return _draft_output(move)
 
 
 @tool

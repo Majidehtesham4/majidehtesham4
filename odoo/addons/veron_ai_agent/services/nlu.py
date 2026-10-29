@@ -108,6 +108,25 @@ def variants(word):
 	return found
 
 
+_LOOSE = set("0123456789۰۱۲۳۴۵۶۷۸۹یيىکكهةۀاآأإ")
+
+
+def like(word):
+	"""An «ilike» pattern of a word that finds it however its digits and letters are written in the database, even
+	mixed in one name («۱۱۵۴C_S93»): those letters and digits match any one character. None when too little of the
+	word is left to search with."""
+	if word.isdigit():
+		return None
+	pattern, fixed = [], 0
+	for char in word:
+		if char in _LOOSE:
+			pattern.append("_")
+		else:
+			pattern.append("\\" + char if char in "%_\\" else char)
+			fixed += 1
+	return "%" + "".join(pattern) + "%" if fixed >= 2 else None
+
+
 def name_score(words, name):
 	"""How well the words of a request name a record: (score, the record's words found, how many it has)
 	Each word found counts 1, one with a typo or written joined or apart a little less; digits only when equal"""
@@ -182,6 +201,10 @@ def amounts(text):
 		if re.fullmatch(r"\d+(\.\d+)?", word) or word in UNITS or word in SCALES:
 			end = index
 			while end < len(words) and (re.fullmatch(r"\d+(\.\d+)?", words[end]) or words[end] in number_words):
+				# A number in digits starts a number of its own, except after «و»: «هفت ۱ تا» is seven, then one;
+				# «۱۱۵۴ ۵۰» two numbers; «۲ میلیون و ۵۰۰ هزار» one
+				if end > index and words[end].replace(".", "").isdigit() and words[end - 1] != "و":
+					break
 				end += 1
 			while end > index and words[end - 1] == "و":
 				end -= 1

@@ -242,4 +242,86 @@
 		<field name="slots">[]</field>
 		<field name="page_models">veron.petty.cash.closing,veron.petty.cash.fund</field>
 	</record>
+	<record id="intent_invoice_draft_discount" model="veron.ai.intent">
+		<field name="code">invoice_draft_discount</field>
+		<field name="name">تخفیف روی پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">تخفیف بده
+درصد تخفیف بده
+براش تخفیف ثبت کن
+تخفیف بزن
+تخفیف را درصد کن
+روی فاکتور تخفیف بده</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "discount": "$discount", "product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟", "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}, {"arg": "discount", "number": true, "question": "چند درصد تخفیف؟", "required": true}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_invoice_draft_quantity" model="veron.ai.intent">
+		<field name="code">invoice_draft_quantity</field>
+		<field name="name">تغییر تعداد در پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">تعداد را کن
+تعدادش را کن
+تعداد را تغییر بده
+تعداد را عوض کن</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "quantity": "$quantity", "product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟", "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}, {"arg": "quantity", "number": true, "question": "چند عدد؟", "required": true}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_invoice_draft_price" model="veron.ai.intent">
+		<field name="code">invoice_draft_price</field>
+		<field name="name">تغییر قیمت در پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">قیمت را کن
+قیمتش را کن
+قیمت را تغییر بده
+قیمت واحد را عوض کن</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "price_unit": "$price_unit", "product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟", "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}, {"arg": "price_unit", "number": true, "money": true, "question": "قیمت واحد چند ریال؟", "required": true}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_invoice_draft_add" model="veron.ai.intent">
+		<field name="code">invoice_draft_add</field>
+		<field name="name">افزودن کالا به پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">هم اضافه کن
+به فاکتور اضافه کن
+یک ردیف اضافه کن
+اینم اضافه کن</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "add_lines": [{"product_id": "$product_id", "quantity": "$quantity"}]}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true}, {"arg": "quantity", "number": true, "default": 1}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_invoice_draft_remove" model="veron.ai.intent">
+		<field name="code">invoice_draft_remove</field>
+		<field name="name">حذف کالا از پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">13</field>
+		<field name="phrases">را حذف کن
+از فاکتور بردار
+حذفش کن
+ردیف را پاک کن</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "remove_product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true, "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}]</field>
+		<field name="page_models">account.move</field>
+	</record>
 </odoo>

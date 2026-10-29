@@ -230,3 +230,21 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		self.env["res.partner"].create({"name": "پیتزا ریلی حسن", "customer_rank": 1})
 		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای آقای حسن پور فاکتور کن")
 		self.assertEqual(move.partner_id, self.customer, reply["body_html"])
+
+	def test_the_draft_is_changed_in_the_same_conversation(self):
+		thermo = self.env["product.product"].create({"name": "ترموکوپل فر", "list_price": 300_000})
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		self.say(Chat, conversation, "یک عدد فر ریلی عرض ۵۰ و دو تا فر ریلی عرض ۶۰ برای حسن پور فاکتور کن")
+		move = self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1)
+		reply = self.say(Chat, conversation, "براش ۱۰ درصد تخفیف ثبت کن")
+		self.assertEqual(move.invoice_line_ids.mapped("discount"), [10, 10], reply["body_html"])
+		reply = self.say(Chat, conversation, "تعداد فر ریلی عرض ۶۰ را ۳ کن")
+		self.assertEqual(move.invoice_line_ids.filtered(lambda l: l.product_id == self.oven60).quantity, 3, reply["body_html"])
+		reply = self.say(Chat, conversation, "دو تا ترموکوپل هم اضافه کن")
+		self.assertEqual(move.invoice_line_ids.filtered(lambda l: l.product_id == thermo).quantity, 2, reply["body_html"])
+		reply = self.say(Chat, conversation, "فر ریلی عرض ۵۰ را حذف کن")
+		self.assertNotIn(self.oven50, move.invoice_line_ids.product_id, reply["body_html"])
+		move.action_post()
+		reply = self.say(Chat, conversation, "۵ درصد تخفیف بده")
+		self.assertEqual(move.invoice_line_ids.mapped("discount"), [10, 10], "a posted invoice is not changed")

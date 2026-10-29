@@ -45,6 +45,12 @@ msgstr "بازبینی %s گذشته است."
 
 #. module: veron_ai_agent_account
 #. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "%s is posted; a posted invoice is not changed here."
+msgstr "%s ثبت قطعی شده است؛ فاکتور ثبت‌شده اینجا تغییر نمی‌کند."
+
+#. module: veron_ai_agent_account
+#. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid ""
 "%s receipts wait for a person's review or the custodian's confirmation."
@@ -316,6 +322,30 @@ msgstr "لغو شد"
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid "Cash and Bank Balances"
 msgstr "مانده‌ی صندوق و بانک"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Change a Draft Invoice"
+msgstr "تغییر پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Change the draft %s"
+msgstr "تغییر پیش‌نویس %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Changes a draft invoice or bill that is not posted: a discount (percent) on "
+"all its lines or on the line of a product, the count or the price of a line,"
+" lines added, a line taken out. A posted one is never changed here."
+msgstr ""
+"یک پیش‌نویس فاکتور فروش یا خرید را که ثبت قطعی نشده تغییر می‌دهد: درصد تخفیف"
+" روی همه‌ی ردیف‌ها یا ردیف یک کالا، تعداد یا قیمت یک ردیف، افزودن ردیف و حذف"
+" ردیف. فاکتور ثبت‌شده اینجا هرگز تغییر نمی‌کند."
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
@@ -1008,6 +1038,12 @@ msgstr "چنین تنخواهی در داده‌های ایجنت نیست."
 
 #. module: veron_ai_agent_account
 #. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "No such invoice in the agent's data."
+msgstr "چنین فاکتوری در داده‌های ایجنت نیست."
+
+#. module: veron_ai_agent_account
+#. odoo-python
 #: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
 msgid "No such petty cash closing in the agent's data."
 msgstr "چنین صورت تنخواهی در داده‌های ایجنت نیست."
@@ -1571,6 +1607,14 @@ msgid "Same Vendor, Date and Amount"
 msgstr "فروشنده، تاریخ و مبلغ یکسان"
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"Say what to change: a discount, a count, a price, a line to add or take out."
+msgstr ""
+"بگویید چه چیزی تغییر کند: تخفیف، تعداد، قیمت، یا ردیفی که اضافه یا حذف شود."
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__sequence
 msgid "Sequence"
 msgstr "دنباله"
@@ -1863,6 +1907,12 @@ msgstr "برای این رسید کد اقتصادی فروشنده لازم ا�
 
 #. module: veron_ai_agent_account
 #. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "This draft has no line of that product."
+msgstr "این پیش‌نویس ردیفی از این کالا ندارد."
+
+#. module: veron_ai_agent_account
+#. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid ""
 "This file is the same as the file of receipt %(other)s (%(closing)s); please"
@@ -2003,6 +2053,12 @@ msgstr ""
 
 #. module: veron_ai_agent_account
 #. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Which product's count? The draft has several lines."
+msgstr "تعداد کدام کالا؟ پیش‌نویس چند ردیف دارد؛ نام کالا را هم بنویسید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "You may not post accounting entries."
 msgstr "اجازه‌ی ثبت قطعی سند حسابداری را ندارید."
@@ -2063,6 +2119,11 @@ msgid "· <b>Posted by:</b>"
 msgstr "· <b>ثبت‌کننده:</b>"
 
 #. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_add
+msgid "افزودن کالا به پیش‌نویس فاکتور"
+msgstr "افزودن کالا به پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_petty_cash_open
 msgid "باز کردن صورت تنخواه"
 msgstr "باز کردن صورت تنخواه"
@@ -2078,6 +2139,21 @@ msgid "بودجه در برابر عملکرد"
 msgstr "بودجه در برابر عملکرد"
 
 #. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_discount
+msgid "تخفیف روی پیش‌نویس فاکتور"
+msgstr "تخفیف روی پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_quantity
+msgid "تغییر تعداد در پیش‌نویس فاکتور"
+msgstr "تغییر تعداد در پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_price
+msgid "تغییر قیمت در پیش‌نویس فاکتور"
+msgstr "تغییر قیمت در پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_bill_from_document
 msgid "ثبت فاکتور از روی فایل"
 msgstr "ثبت فاکتور از روی فایل"
@@ -2091,6 +2167,11 @@ msgstr "ثبت فاکتور فروش از روی فایل"
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_post
 msgid "ثبت قطعی فاکتور"
 msgstr "ثبت قطعی فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_remove
+msgid "حذف کالا از پیش‌نویس فاکتور"
+msgstr "حذف کالا از پیش‌نویس فاکتور"
 
 #. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_asset_check

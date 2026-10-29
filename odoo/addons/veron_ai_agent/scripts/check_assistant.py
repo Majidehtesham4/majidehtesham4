@@ -100,8 +100,54 @@ def main():
 			fits = [i for i, own in words.items() if said <= own]
 			extra = {i: words[i] - said for i in fits}
 			base = [i for i in fits if all(extra[i] < extra[j] for j in fits if j != i)]
-			chosen = base[0] if base and extra[target] != extra[base[0]] else target
-			return {i for i in fits if words[i] == words[chosen]}
+			if base:
+				return {i for i in fits if words[i] == words[base[0]]}
+			if expected(said, words, target) == "ask":
+				# Words that fit several: any of them is what a person may choose
+				return set(fits)
+			return {i for i in fits if words[i] == words[target]}
+
+		def change(conversation, move, wanted):
+			"""A change asked of the draft just made, in the same conversation; what went wrong, or nothing"""
+			line = random.choice(move.invoice_line_ids)
+			product = line.product_id
+			kind = random.choice(["discount", "discount_line", "quantity", "add", "remove"])
+			name = written(product.name)
+			other = random.choice(list(products))
+			percent, count = random.choice([5, 10, 12]), random.choice([4, 6, 7])
+			text = {
+				"discount": random.choice([f"براش {percent} درصد تخفیف ثبت کن", f"{percent} درصد تخفیف بده"]),
+				"discount_line": f"روی {name} {percent} درصد تخفیف بده",
+				"quantity": f"تعداد {name} را {count} کن",
+				"add": f"{written(other.name)} هم اضافه کن",
+				"remove": f"{name} را حذف کن",
+			}[kind]
+			reply = Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
+			for _turn in range(3):
+				pending = (Chat.browse(conversation).memory or {}).get("pending")
+				if not pending or not pending.get("options"):
+					break
+				ids = [option[0] for option in pending["options"]]
+				meant = {product.id, other.id, move.id}
+				pick = next((i for i, record_id in enumerate(ids, 1) if record_id in meant), None)
+				if not pick:
+					break
+				reply = Chat.veron_chat_send(conversation, str(pick), [], {}, "internal")[-1]
+			move.invalidate_recordset()
+			lines = move.invoice_line_ids
+			alive = line.exists()
+			done = {
+				"discount": lambda: all(item.discount == percent for item in lines),
+				"discount_line": lambda: bool(alive) and alive.discount == percent,
+				"quantity": lambda: bool(alive) and alive.quantity == count,
+				"add": lambda: other in lines.product_id,
+				"remove": lambda: product not in lines.product_id,
+			}[kind]()
+			if done:
+				counts["changes made"] = counts.get("changes made", 0) + 1
+				return ""
+			answer = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", reply.get("body_html") or ""))[:160]
+			return f"change not made: after «{text}»: {answer}"
 
 		failures, counts = [], {"ok": 0}
 		for _number in range(args.requests):
@@ -136,7 +182,16 @@ def main():
 						break
 					asked += 1
 					ids = [option[0] for option in pending.get("options") or []]
-					pick = next((index for index, record_id in enumerate(ids, 1) if record_id in targets), None)
+					question = nlu.name_words(pending.get("question") or "")
+					if pending.get("arg") == "partner_id":
+						meant_now = {i for i, own in people.items() if own == people[partner.id]}
+					else:
+						# The product of the part asked about («برای «...» کدام کالا؟»), else any of the request's
+						offered = [w for w in wanted if w[3] & set(ids) and w[0] not in done] or wanted
+						item = max(offered, key=lambda w: nlu.name_score(question, env["product.product"].browse(w[0]).name)[0])
+						meant_now = item[3] if "«" in (pending.get("question") or "") else set(targets)
+						done.add(item[0])
+					pick = next((index for index, record_id in enumerate(ids, 1) if record_id in meant_now), None)
 					answer = str(pick) if pick else None
 					if not answer and asked <= len(targets):
 						typed += 1
@@ -162,7 +217,7 @@ def main():
 				trouble = "no draft: " + re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", reply.get("body_html") or ""))[:200]
 			if not trouble:
 				got = [(line.product_id.id, line.quantity) for line in move.invoice_line_ids]
-				if move.partner_id != partner:
+				if people.get(move.partner_id.id) != people[partner.id]:
 					trouble = f"wrong customer: {move.partner_id.name}"
 				elif len(got) != len(wanted) or any(g[0] not in w[3] or g[1] != w[1] for g, w in zip(got, wanted)):
 					names = ", ".join(f"{line.product_id.name} x {line.quantity:g}" for line in move.invoice_line_ids)
@@ -173,6 +228,8 @@ def main():
 					needed = sum(1 for item in wanted if item[2] == "ask") + (partner_kind == "ask") + typed
 					if asked > needed:
 						trouble = f"asked {asked} times where {needed} was needed"
+					elif random.random() < 0.4:
+						trouble = change(conversation, move, wanted)
 			if trouble:
 				kind = trouble.split(":")[0].split(" where")[0]
 				counts[kind] = counts.get(kind, 0) + 1

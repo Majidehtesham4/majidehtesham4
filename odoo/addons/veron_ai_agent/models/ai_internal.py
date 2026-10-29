@@ -47,6 +47,8 @@ class Brain:
 		self.in_lines = set()
 		# Words of things (products) not yet chosen, kept out of a search for a person
 		self.not_people = Counter()
+		# The records a search is kept to: the products of the draft being changed
+		self.within = {}
 
 	# --- the answer
 
@@ -128,6 +130,12 @@ class Brain:
 			if tool and not all(self.env[model].with_user(self.user).has_access("read") for model in tool.models):
 				# A command on what the person may not see is a weaker guess; asked for plainly, it still says why not
 				score -= 0.15
+			remembered = self.memory.get("records") or {}
+			if any(slot.get("remembered") and remembered.get(slot.get("model")) for slot in intent._slots()):
+				# A change to what was just made: «براش تخفیف بده» after a draft invoice
+				score += 0.1
+			if not self.sources and any(slot.get("file") and slot.get("required") for slot in intent._slots()):
+				score -= 0.1
 			if self.sources and any(slot.get("file") for slot in intent._slots()):
 				# A file sent now makes its commands likelier; the file of an earlier message a little
 				score += 0.04 if self.run.sources_carried else 0.1
@@ -298,7 +306,9 @@ class Brain:
 			given = args.get(slot["arg"])
 			if slot["arg"] in args and not (isinstance(given, str) and given.startswith("$")):
 				if slot.get("model") in self.env and isinstance(args[slot["arg"]], int):
-					self._take(self.env[slot["model"]].browse(args[slot["arg"]]).exists())
+					record = self.env[slot["model"]].browse(args[slot["arg"]]).exists()
+					self._take(record)
+					self._keep_within(intent, slot, record)
 				continue
 			if slot.get("file"):
 				source = self._file(slot)
@@ -323,7 +333,7 @@ class Brain:
 					return self._say(_("Open the page of the section or of the record first, then ask here."))
 				continue
 			if slot.get("number"):
-				values = self._numbers(text)
+				values = self._numbers(text, money=slot.get("money"))
 				if values:
 					args[slot["arg"]] = values[0]
 				elif "default" in slot:
@@ -336,6 +346,7 @@ class Brain:
 				return record
 			if record:
 				args[slot["arg"]] = record.id
+				self._keep_within(intent, slot, record)
 			elif slot.get("required"):
 				return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"), self._recent(slot))
 		if self.run.page_filters and args.get("model") == self.run.page_model and "filters" in properties \
@@ -539,6 +550,9 @@ class Brain:
 			domain = self.agent._scope_domain(model, self.env) & Domain(slot.get("recent") or [])
 		except registry.ToolDenied:
 			return []
+		if model in self.within:
+			# The lines of the draft being changed, to choose from
+			domain &= Domain("id", "in", self.within[model])
 		order = "write_date desc, id desc" if "write_date" in Model._fields else "id desc"
 		return [(record.id, record.display_name) for record in Model.search(domain, order=order, limit=5)]
 
@@ -561,6 +575,11 @@ class Brain:
 			return None
 		page = self.run.page_model == model and self.run.page_res_id
 		remembered = (self.memory.get("records") or {}).get(model)
+		if slot.get("remembered") and remembered and not nlu.refs(text):
+			# The draft just made is the one to change: «براش ۱۰ درصد تخفیف بده»
+			found = self.env[model].browse(remembered).exists()
+			if found:
+				return found
 		if page and (nlu.refers_back(text) or not text):
 			return self.env[model].browse(self.run.page_res_id).exists()
 		if remembered and (nlu.refers_back(text) or not text):
@@ -576,11 +595,18 @@ class Brain:
 			return self.env[model].browse(self.run.page_res_id).exists()
 		return None
 
+	def _keep_within(self, intent, slot, record):
+		"""A slot «within» another («the product of this draft»): its search kept to the records of that one"""
+		for other in intent._slots():
+			within = other.get("within") or {}
+			if within.get("of") == slot["arg"] and other.get("model") in self.env and record:
+				self.within[other["model"]] = record.mapped(within.get("path", "id")).ids
+
 	def _take(self, record):
 		# As many times as the name has them: «پیتزا» of the product, and again of «پیتزا خبازیان» the customer
 		self.taken.update(nlu.name_words(record.display_name))
 
-	def _numbers(self, text):
+	def _numbers(self, text, money=False):
 		"""The numbers of the request that are not part of a name found in it («عرض ۵۰» of the product)"""
 		taken, words = Counter(self.taken), []
 		for word in nlu.normalize(text).split():
@@ -590,7 +616,8 @@ class Brain:
 			else:
 				words.append(word)
 		left = " ".join(words)
-		return [value for value, _unit in nlu.amounts(left)]
+		# Prices said in toman are kept in rial
+		return [value * 10 if money and unit == "toman" else value for value, unit in nlu.amounts(left)]
 
 	def _search(self, model, text, intent):
 		"""Records of a model named in the text: a quoted name, a document number, or the longest run of words that
@@ -611,13 +638,21 @@ class Brain:
 				return found
 		intent_words = intent._command_words() if intent else set()
 		left_out = self.taken + (self.not_people if model in PEOPLE else Counter())
-		words = []
+		words, commands = [], []
 		for w in nlu.name_words(text):
 			if left_out[w] > 0:
 				# A word of a record found already, once for each time that record has it
 				left_out[w] -= 1
-			elif nlu.stem(w) not in intent_words and w not in nlu.UNITS and w not in nlu.SCALES:
+			elif w in nlu.UNITS or w in nlu.SCALES:
+				continue
+			elif nlu.stem(w) in intent_words:
+				# «مشتری» of the command may still be part of a name: «پیتزا معتمدی مشتری خبازیان»
+				commands.append(w)
+			else:
 				words.append(w)
+		if model in self.within:
+			# A product of the draft spoken of: one of its lines
+			domain &= Domain("id", "in", self.within[model])
 		# The records with any word of the request, in any of the ways it may be written, then ranked by how many
 		# of the words they have: «فر ریلی ۵۰» finds «فر پیتزا ریلی ۱۱۵۴ عرض ۵۰»
 		look = [w for w in words if len(w) >= 3 or len(w) == 2 and not w.isdigit()]
@@ -628,6 +663,11 @@ class Brain:
 			if word.isdigit() and len(word) < 3:
 				continue
 			found = Domain.OR([Domain("display_name", "ilike", variant) for variant in nlu.variants(word)])
+			pattern = nlu.like(word)
+			if pattern:
+				found = found | Domain(name_field, "=ilike", pattern)
+				if "default_code" in Model._fields:
+					found = found | Domain("default_code", "=ilike", pattern)
 			candidates |= Model.search(domain & found, limit=80)
 		ranked = []
 		for record in candidates:
@@ -639,6 +679,14 @@ class Brain:
 		ranked.sort(key=lambda item: (-item[0], -item[1], item[2].id))
 		best = ranked[0][0]
 		top = [item for item in ranked if item[0] >= best - 0.01]
+		if len(top) > 1 and commands:
+			# Equal without the command's words: the one that also has them in its name
+			scored = [(nlu.name_score(words + commands, item[2].display_name)[0], item) for item in top]
+			most = max(score for score, _item in scored)
+			if most > best + 0.01:
+				top = [item for score, item in scored if score >= most - 0.01]
+		if len(top) > 1:
+			top = self._preferred(model, intent, top)
 		whole = [item for item in top if item[1] >= 0.999]
 		if len(top) == 1 or len(whole) == 1:
 			# The one whose whole name was said: «حسن پور», not «شرکت حسن‌پور و پسران»
@@ -649,6 +697,22 @@ class Brain:
 				return base
 		# Otherwise only those as good as the best: the others lack a word that was said
 		return Model.browse([item[2].id for item in top[:30]])
+
+	def _preferred(self, model, intent, top):
+		"""Of records that fit equally, those the command is about: an invoice's customer is one who buys (not the
+		employee or the supplier of the same name), its product one that is sold; a company and its own contacts are
+		the company"""
+		slot = next((s for s in (intent._slots() if intent else []) if s.get("model") == model), {})
+		records = self.env[model].browse([item[2].id for item in top])
+		if slot.get("prefer"):
+			liked = records.filtered_domain(slot["prefer"])
+			if liked:
+				top = [item for item in top if item[2] in liked]
+				records = liked
+		if model == "res.partner" and len(records) > 1 and len(records.commercial_partner_id) == 1 \
+				and records.commercial_partner_id in records:
+			top = [item for item in top if item[2] == records.commercial_partner_id]
+		return top
 
 	def _base(self, words, records):
 		"""Of things that fit the words equally, the one the others are variants of: «فر ۱۴۵۶ عرض ۸۰» rather than
@@ -700,7 +764,9 @@ def _fill(args):
 		if isinstance(v, (dict, list)):
 			used(v, inner)
 	filled = {k: value(v) for k, v in args.items() if k not in inner or isinstance(v, str) and v.startswith("$")}
-	return {k: v for k, v in filled.items() if not (isinstance(k, str) and k.startswith("_"))}
+	# A value not said and not needed (the product of «all the lines») is left out, not sent empty
+	return {k: v for k, v in filled.items() if not (isinstance(k, str) and k.startswith("_")) and v is not None
+		and not (isinstance(v, str) and v.startswith("$"))}
 
 
 class AiConversationMemory(models.Model):

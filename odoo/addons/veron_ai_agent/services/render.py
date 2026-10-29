@@ -142,6 +142,10 @@ def _draft(o):
 	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{terms}{missing} هنوز ثبت قطعی نشده است."
 
 
+def _changed(o):
+	return f"{o.get('draft', 'پیش‌نویس')} تغییر کرد (جمع {number(o.get('total', 0))}). هنوز ثبت قطعی نشده است."
+
+
 def _overview(o):
 	if "count" in o:
 		return f"{o.get('section', '')}: {number(o.get('count', 0))} مورد."
@@ -154,7 +158,7 @@ def _records(o):
 
 HEADLINES = {
 	"sales_summary": _sales, "receivables_overdue": _overdue, "cash_position": _cash, "expense_summary": _expense,
-	"invoice_draft_create": _draft, "bill_from_document": _draft, "records_search": _records,
+	"invoice_draft_create": _draft, "invoice_draft_update": _changed, "bill_from_document": _draft, "records_search": _records,
 	"page_overview": _overview,
 }
 

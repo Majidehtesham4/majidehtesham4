@@ -17,4 +17,42 @@
 		<value>move_id</value>
 		<value eval="{'recent': [['state', '=', 'draft'], ['move_type', 'in', ['out_invoice', 'in_invoice', 'out_refund', 'in_refund']]]}"/>
 	</function>
+	<!-- An invoice's customer is one who buys, its product one that is sold -->
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>sale_invoice_draft</value>
+		<value>partner_id</value>
+		<value eval="{'prefer': [['customer_rank', '>', 0]]}"/>
+	</function>
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>sale_invoice_draft</value>
+		<value>product_id</value>
+		<value eval="{'prefer': [['sale_ok', '=', True]]}"/>
+	</function>
+	<!-- The draft just made is the one posted -->
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_post</value>
+		<value>move_id</value>
+		<value eval="{'remembered': True}"/>
+	</function>
+	<!-- A product named while changing a draft is one of its lines -->
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_draft_discount</value>
+		<value>product_id</value>
+		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
+	</function>
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_draft_quantity</value>
+		<value>product_id</value>
+		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
+	</function>
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_draft_price</value>
+		<value>product_id</value>
+		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
+	</function>
+	<function model="veron.ai.intent" name="_update_slot">
+		<value>invoice_draft_remove</value>
+		<value>product_id</value>
+		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
+	</function>
 </odoo>

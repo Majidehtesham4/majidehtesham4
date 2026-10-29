@@ -25,7 +25,7 @@
 		<field name="description">از فاکتور خرید خوانده‌شده یک پیش‌نویس فاکتور خرید در حسابداری می‌سازد. پیش‌نویس ثبت قطعی نمی‌شود؛ حسابدار آن را بررسی و ثبت می‌کند.</field>
 		<field name="goal">ساخت پیش‌نویس درست فاکتور خرید از مدارک</field>
 		<field name="instructions">اول فیلدها را بخوان، فروشنده و کالاها را در Veron پیدا کن، بعد پیش‌نویس بساز. اگر فروشنده یا مبلغ مشخص نیست، از مسئول بپرس.</field>
-		<field name="tool_codes">document_extract,records_search,invoice_draft_create,request_human_input</field>
+		<field name="tool_codes">document_extract,records_search,invoice_draft_create,invoice_draft_update,request_human_input</field>
 		<field name="default_level">3</field>
 		<field name="is_supervisor" eval="False"/>
 		<field name="schedule_type">manual</field>
@@ -42,7 +42,7 @@
 		<field name="description">برای مشتری و کالاهایی که می‌گویید پیش‌نویس فاکتور فروش می‌سازد. ثبت قطعی و ارسال با شماست.</field>
 		<field name="goal">ساخت پیش‌نویس فاکتور فروش</field>
 		<field name="instructions">مشتری و کالا را جست‌وجو کن و مبلغ را از قیمت‌های Veron بگیر، نه از حدس.</field>
-		<field name="tool_codes">records_search,customer_summary,invoice_draft_create,request_human_input</field>
+		<field name="tool_codes">records_search,customer_summary,invoice_draft_create,invoice_draft_update,request_human_input</field>
 		<field name="default_level">3</field>
 		<field name="is_supervisor" eval="False"/>
 		<field name="schedule_type">manual</field>
