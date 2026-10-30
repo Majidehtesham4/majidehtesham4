@@ -9,8 +9,7 @@ from odoo.tests import tagged
 from odoo.addons.veron_ai_agent.tests.common import FakeAdapter, calls
 
 from ..tools.bills import text_fields
-from ..tools.finance import PARAM_TAXES
-from .common import FinanceCase
+from .common import FinanceCase, policy
 
 
 def pdf(lines):
@@ -161,8 +160,9 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		# Old data often has the Arabic «ي»
 		cls.oven50 = Product.create({"name": "فر پيتزا ريلي ۱۱۵۴ عرض ۵۰", "list_price": 1_500_000, "default_code": "F1154-50"})
 		cls.oven60 = Product.create({"name": "فر پیتزا ریلی ۱۱۵۴ عرض ۶۰", "list_price": 1_800_000})
-		# The taxes of each product, as a business sets it; asked when it is not set (test_safe_invoices)
-		cls.env["ir.config_parameter"].sudo().set_param(PARAM_TAXES, "product")
+		# The taxes of each product as set in the system, a customer's last price of a product, the discount of its
+		# last sale (test_invoice_policies has each choice)
+		policy(cls.env, taxes_mode="system", price_mode="pricelist_history", discount_mode="last")
 
 	def say(self, Chat, conversation, text):
 		return Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
@@ -200,16 +200,25 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id), (self.customer, self.oven50))
 
 	def test_terms_of_the_last_invoice(self):
-		"""The price and discount agreed with this customer last time for the product, not the product's own; the taxes
-		as set, not as the last invoice had them"""
+		"""The price and discount of this customer's last invoice of the product, as the policy says; its taxes differ
+		from the system's now, so they are asked before anything is made"""
+		tax = self.env["account.tax"].create({"name": "VAT 9 terms", "amount": 9, "type_tax_use": "sale",
+			"company_id": self.company.id})
+		self.oven50.taxes_id = tax
 		past = self.env["account.move"].create({"move_type": "out_invoice", "partner_id": self.customer.id,
 			"invoice_line_ids": [(0, 0, {"product_id": self.oven50.id, "quantity": 2, "price_unit": 1_400_000, "discount": 10,
 			"tax_ids": [(6, 0, [])]})]})
 		past.action_post()
-		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای اقای حسن پور فاکتور کن")
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		before = self.env["account.move"].search_count([])
+		reply = self.say(Chat, conversation, "یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای اقای حسن پور فاکتور کن")
+		self.assertEqual(self.env["account.move"].search_count([]), before, reply["body_html"])
+		self.assertEqual(Chat.browse(conversation).memory["pending"]["arg"], "taxes_unclear")
+		reply = self.say(Chat, conversation, "بله")
+		move = self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1)
 		line = move.invoice_line_ids
-		self.assertEqual((line.price_unit, line.discount), (1_400_000, 10), reply["body_html"])
-		self.assertEqual(line.tax_ids, self.oven50.taxes_id.filtered(lambda t: t.company_id == self.company))
+		self.assertEqual((line.price_unit, line.discount, line.tax_ids), (1_400_000, 10, tax), reply["body_html"])
 		self.assertIn(past.name, reply["body_html"])
 		self.assertTrue(any(option.get("res_id") == move.id for option in reply["options"]), "the draft opens with a button")
 

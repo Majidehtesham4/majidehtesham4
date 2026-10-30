@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<record id="invoice_policy_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.invoice.policy.list</field>
+		<field name="model">veron.ai.invoice.policy</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="company_id" groups="base.group_multi_company"/>
+				<field name="agent_id" placeholder="All Assistants"/>
+				<field name="taxes_mode"/>
+				<field name="price_mode"/>
+				<field name="discount_mode"/>
+				<field name="stock_mode"/>
+			</list>
+		</field>
+	</record>
+	<record id="invoice_policy_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.invoice.policy.form</field>
+		<field name="model">veron.ai.invoice.policy</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="alert alert-info" role="status">
+						These rules apply to the draft invoices asked from now on; drafts already made are not changed.
+						What a request says («بدون مالیات»، «۱۰ درصد تخفیف»، «به قیمت ...») always comes first, and the
+						draft shows where each tax, price and discount came from.
+					</div>
+					<group>
+						<group>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="agent_id" placeholder="All Assistants"/>
+							<field name="active" invisible="1"/>
+						</group>
+					</group>
+					<group>
+						<field name="taxes_mode" widget="radio"/>
+						<field name="price_mode" widget="radio"/>
+						<field name="discount_mode" widget="radio"/>
+						<field name="history_count" invisible="discount_mode != 'consistent'"/>
+						<field name="stock_mode" widget="radio"/>
+					</group>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+	<record id="action_invoice_policies" model="ir.actions.act_window">
+		<field name="name">Draft Invoice Policies</field>
+		<field name="res_model">veron.ai.invoice.policy</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'active_test': False}</field>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">How the assistants make draft invoices</p>
+			<p>With no policy, the defaults are used: taxes from the current tax setting (asked when it differs from the
+				customer's last invoice of the product or is missing), the current price, the discount of the last
+				posted sale of the same product to the same customer, and the stock only reported.</p>
+		</field>
+	</record>
+	<menuitem id="menu_invoice_policies" name="Draft Invoice Policies" parent="veron_ai_agent.menu_config"
+		action="action_invoice_policies" sequence="6" groups="veron_ai_agent.group_ai_manager"/>
+
 	<record id="res_config_settings_view_form_invoice" model="ir.ui.view">
 		<field name="name">res.config.settings.veron.ai.invoice</field>
 		<field name="model">res.config.settings</field>
@@ -7,14 +66,10 @@
 		<field name="arch" type="xml">
 			<xpath expr="//app[@name='veron_ai_agent']" position="inside">
 				<block title="Draft Invoices of the Assistant" name="veron_ai_invoice">
-					<setting string="Taxes" help="Never added or taken off silently: as said in the request, else as set here">
-						<field name="veron_ai_invoice_taxes"/>
-					</setting>
-					<setting string="Price" help="Where a price not said comes from; a line with no price stops the invoice">
-						<field name="veron_ai_invoice_price"/>
-					</setting>
-					<setting string="Discount" help="Where a discount not said comes from">
-						<field name="veron_ai_invoice_discount"/>
+					<setting string="Taxes, Price, Discount and Short Stock"
+						help="Set for the company, and for one assistant when it should work otherwise; every change is kept in the audit">
+						<button name="%(action_invoice_policies)d" type="action" string="Draft Invoice Policies"
+							icon="oi-arrow-right" class="btn-link"/>
 					</setting>
 				</block>
 			</xpath>

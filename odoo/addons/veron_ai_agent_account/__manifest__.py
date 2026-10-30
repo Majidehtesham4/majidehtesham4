@@ -9,7 +9,7 @@
   position, unreconciled bank lines, document quality, month-end checklist, VAT summary, budget
   against actual, fixed assets
 """,
-	"version": "19.0.1.0.0",
+	"version": "19.0.1.1.0",
 	"category": "Accounting",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",

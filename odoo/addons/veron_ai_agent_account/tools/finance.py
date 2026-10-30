@@ -8,7 +8,7 @@ from odoo.exceptions import AccessError
 from odoo.fields import Domain
 from odoo.tools.translate import LazyTranslate
 
-from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolDenied, tool
+from odoo.addons.veron_ai_agent.services.registry import Plan, Tool, ToolAsks, ToolDenied, tool
 from odoo.addons.veron_ai_agent.services.schema import strict_object
 from odoo.addons.veron_ai_agent.tools.common import PERIOD, period, scoped
 from odoo.addons.veron_core.models import jalali
@@ -38,31 +38,45 @@ class FinanceTool(Tool):
 		return Plan(summary=self.label(ctx.env), model=self.models[0] if self.models else "")
 
 
-# The rules of a draft invoice made by an assistant, set in the AI settings (a decision of the business)
-PARAM_TAXES = "veron_ai_agent_account.invoice_taxes"  # ask | product | none
-PARAM_PRICE = "veron_ai_agent_account.invoice_price"  # pricelist_history | pricelist
-PARAM_DISCOUNT = "veron_ai_agent_account.invoice_discount"  # consistent | said
 # A price at or under this is the empty default of a product (1), not a price
 NO_PRICE = 1.0
-# How many of the last sales of a product to a customer must agree for their discount to be used
-HISTORY = 3
 
 
-def invoice_policy(env):
-	get = env["ir.config_parameter"].sudo().get_param
-	return {"taxes": get(PARAM_TAXES, "ask"), "price": get(PARAM_PRICE, "pricelist_history"),
-		"discount": get(PARAM_DISCOUNT, "consistent")}
+def _tax_choices(ctx):
+	return [("product", ctx.env._("Yes, as set in the system now")), ("none", ctx.env._("No, without taxes"))]
+
+
+def _discount_choices(ctx):
+	return [("none", ctx.env._("No discount")), ("last", ctx.env._("The discount of the last sale of each product to "
+		"this customer")), ("pricelist", ctx.env._("The discount of the price list"))]
+
+
+def invoice_policy(ctx):
+	"""The rules of a draft invoice for the assistant running and its company (veron.ai.invoice.policy)"""
+	return ctx.env["veron.ai.invoice.policy"]._for(ctx.env.company, ctx.agent)
+
+
+def _day(ctx, line):
+	"""The date of the invoice of a line, written ISO: the answer shows it in Shamsi"""
+	return fields.Date.to_string(line.move_id.invoice_date or line.date) or ""
+
+
+def _taxes_names(taxes):
+	return ", ".join(taxes.mapped("name")) or "-"
 
 
 @tool
 class InvoiceDraftCreate(FinanceTool):
 	code = "invoice_draft_create"
 	name = _lt("Make a Draft Invoice")
-	description = _lt("Makes a draft customer invoice or vendor bill from a contact and lines, all checked first: if a "
-		"product has no price (said, in the customer's price list, in its last posted sale to the same customer when "
-		"the settings allow, or on the product), or the taxes are not said nor set, nothing is made and the reason is "
-		"given. A discount is the one said, or the same discount of the customer's last posted sales of the same "
-		"product when they agree. It is never posted here.")
+	description = _lt("Makes a draft customer invoice or vendor bill from a contact and lines, all checked first, as "
+		"the draft invoice policy of the assistant says. Taxes: said, else the current tax setting of the product "
+		"(with the customer's fiscal position) or the last posted invoice of the same customer and product; when they "
+		"differ or neither is there, nothing is made and the taxes are asked. Price: said, the price list, the "
+		"product's price (the customer's last price only when the policy says so); none: nothing is made. Discount: "
+		"said, else the policy's (the last posted sale of the same product to the same customer, the price list...), "
+		"each line on its own. The stock of each product is read and reported; it never changes the invoice. It is "
+		"never posted here.")
 	category = "draft"
 	action = "draft"
 	risk = "medium"
@@ -73,7 +87,11 @@ class InvoiceDraftCreate(FinanceTool):
 		"invoice_date": {"type": "string", "maxLength": 10, "description": "YYYY-MM-DD"},
 		"ref": {"type": "string", "maxLength": 100, "description": "The vendor's invoice number, for a bill"},
 		"taxes": {"type": "string", "enum": ["product", "none"],
-			"description": "product: the taxes set on each product; none: no taxes. Left out: the AI settings decide"},
+			"description": "Said for all lines. product: the current tax setting; none: no taxes. Left out: the policy"},
+		"taxes_unclear": {"type": "string", "enum": ["product", "none"],
+			"description": "The answer to the taxes asked, for the lines the policy could not decide only"},
+		"discount_rule": {"type": "string", "enum": ["none", "last", "pricelist"],
+			"description": "The answer to the discount asked, for the lines whose discount is not said"},
 		"lines": {"type": "array", "minItems": 1, "maxItems": 50, "items": strict_object({
 			"product_id": {"type": "integer", "minimum": 1},
 			"description": {"type": "string", "maxLength": 300},
@@ -81,7 +99,7 @@ class InvoiceDraftCreate(FinanceTool):
 			"price_unit": {"type": "number", "minimum": 0},
 			"discount": {"type": "number", "minimum": 0, "maximum": 100, "description": "Percent"},
 			"discount_from_history": {"type": "boolean",
-				"description": "The customer's usual discount on this product, from its last posted sales"},
+				"description": "The discount of the last posted sale of this product to this customer"},
 		}, ["quantity"])},
 		"source_id": {"type": "integer", "minimum": 1, "description": "A file of this run to attach, e.g. the vendor's invoice"},
 	}, ["move_type", "partner_id", "lines"])
@@ -105,50 +123,121 @@ class InvoiceDraftCreate(FinanceTool):
 				raise ToolDenied(ctx.env._("A line without a product needs a price."))
 		return partner, products
 
-	def _sales(self, ctx, args, partner, product, limit=HISTORY):
-		"""The last lines of posted invoices (not drafts, not cancelled, not credit notes) of this product to this
-		customer, the newest first"""
+	def _sales(self, ctx, args, partner, product, limit):
+		"""The last lines of posted invoices of this very product to this customer, the newest first: not drafts,
+		not cancelled ones, not credit notes nor the invoices they reversed"""
 		domain = [("move_id.move_type", "=", args["move_type"]), ("parent_state", "=", "posted"),
-			("display_type", "=", "product"), ("product_id", "=", product.id),
-			("move_id.partner_id.commercial_partner_id", "=", partner.commercial_partner_id.id)]
+			("move_id.payment_state", "!=", "reversed"), ("display_type", "=", "product"), ("product_id", "=", product.id),
+			("move_id.partner_id.commercial_partner_id", "=", partner.commercial_partner_id.id),
+			("company_id", "=", ctx.env.company.id)]
 		try:
 			return ctx.env["account.move.line"].search(domain, order="date desc, id desc", limit=limit)
 		except AccessError:
 			return ctx.env["account.move.line"]
 
-	def _pricelist_price(self, partner, product, quantity):
-		"""The price of the customer's price list when a rule of it applies to the product, else None"""
+	def _pricelist(self, partner, product, quantity):
+		"""The price of the customer's price list and the rule of it that applies to the product, else Nones"""
 		pricelist = "property_product_pricelist" in partner._fields and partner.property_product_pricelist
 		if not pricelist:
-			return None, None
+			return None, None, None
 		try:
 			price, rule = pricelist._get_product_price_rule(product, quantity or 1.0)
 		except Exception:  # noqa: BLE001 - a price list that cannot price this product gives no price
-			return None, None
-		return (price, pricelist) if rule else (None, None)
+			return None, None, None
+		if not rule:
+			return None, None, None
+		return price, pricelist, partner.env["product.pricelist.item"].browse(rule)
+
+	def _system_taxes(self, ctx, args, partner, product):
+		"""The taxes the system sets now for this product and customer: the product's, mapped by the customer's
+		fiscal position; empty when the product has none for this company"""
+		company = ctx.env.company
+		own = product.taxes_id if args["move_type"] == "out_invoice" else product.supplier_taxes_id
+		own = own.filtered(lambda t: t.company_id == company)
+		position = ctx.env["account.fiscal.position"].with_company(company)._get_fiscal_position(partner)
+		return (position.map_tax(own) if position and own else own), own, position
+
+	def _line_taxes(self, ctx, args, partner, terms, policy):
+		"""The taxes of a line and where they came from, or None with why they are not clear"""
+		product, said = terms["product"], args.get("taxes")
+		system, own, position = self._system_taxes(ctx, args, partner, product)
+		setting = ctx.env._("the current setting") + (f" ({position.display_name})" if position else "")
+		if said == "none":
+			return ctx.env["account.tax"], ctx.env._("said: without taxes"), None
+		if said == "product":
+			return system, ctx.env._("said: with taxes, %s", setting) if own else ctx.env._(
+				"said: with taxes, but none is set on the product"), None
+		last = terms["sales"][:1]
+		history = last.tax_ids.filtered(lambda t: t.active and t.company_id == ctx.env.company) if last else None
+		valid = bool(last) and len(history) == len(last.tax_ids)
+		since = ctx.env._("the last invoice %(move)s (%(date)s)", move=last.move_id.display_name, date=_day(ctx, last)) \
+			if last else ""
+		mode, why = policy["taxes_mode"], ""
+		if mode == "none":
+			return ctx.env["account.tax"], ctx.env._("the policy: no taxes unless said"), None
+		if mode == "system":
+			if own and valid and set(history.ids) != set(system.ids):
+				why = ctx.env._("%(setting)s is %(now)s, %(since)s had %(then)s", setting=setting,
+					now=_taxes_names(system), since=since, then=_taxes_names(history))
+			elif own:
+				return system, setting, None
+			elif valid:
+				return history, since, None
+			else:
+				why = ctx.env._("no tax is set on the product and it was not invoiced to this customer before")
+		elif mode == "history":
+			if valid:
+				return history, since, None
+			why = ctx.env._("no valid posted invoice of this product to this customer")
+		else:
+			why = ctx.env._("the policy asks each time")
+		answer = args.get("taxes_unclear")
+		if answer == "none":
+			return ctx.env["account.tax"], ctx.env._("answered: without taxes"), None
+		if answer == "product":
+			return system, ctx.env._("answered: %s", setting), None
+		return None, "", why
 
 	def _terms(self, ctx, args, line, partner, products, policy):
 		"""Price, discount and taxes of a line, each with where it came from; nothing made up"""
 		product = products.browse(line["product_id"]) if line.get("product_id") else products.browse()
-		sales = self._sales(ctx, args, partner, product) if product else ctx.env["account.move.line"]
+		count = max(policy["history_count"], 1)
+		sales = self._sales(ctx, args, partner, product, count) if product else ctx.env["account.move.line"]
 		terms = {"product": product, "price_unit": None, "price_from": "", "discount": 0.0, "discount_from": "",
-			"note": "", "sales": sales}
+			"note": "", "sales": sales, "taxes": ctx.env["account.tax"], "taxes_from": "", "taxes_unclear": ""}
+		sale = args["move_type"] == "out_invoice"
+		price, pricelist, rule = self._pricelist(partner, product, line.get("quantity")) if product and sale else (None,) * 3
+		said_discount = line.get("discount") is not None
+		rule_mode = args.get("discount_rule") or policy["discount_mode"]
+		if line.get("discount_from_history"):
+			rule_mode = "last"
 		if line.get("price_unit") is not None:
 			terms.update(price_unit=line["price_unit"], price_from=ctx.env._("said"))
 		elif product:
-			price, pricelist = self._pricelist_price(partner, product, line.get("quantity")) \
-				if args["move_type"] == "out_invoice" else (None, None)
 			if price is not None and price > NO_PRICE:
 				terms.update(price_unit=price, price_from=pricelist.display_name)
-			elif policy["price"] == "pricelist_history" and sales and sales[0].price_unit > NO_PRICE:
-				terms.update(price_unit=sales[0].price_unit, price_from=sales[0].move_id.display_name)
+				if not said_discount and rule_mode == "pricelist" and rule.compute_price == "percentage" \
+						and product.lst_price > NO_PRICE:
+					# The list's discount shown as a discount of the product's price, not hidden in the price
+					terms.update(price_unit=product.lst_price, price_from=ctx.env._("price of the product"),
+						discount=rule.percent_price, discount_from=pricelist.display_name)
+			elif policy["price_mode"] == "pricelist_history" and sales and sales[0].price_unit > NO_PRICE:
+				terms.update(price_unit=sales[0].price_unit, price_from=ctx.env._("%(move)s (%(date)s)",
+					move=sales[0].move_id.display_name, date=_day(ctx, sales[0])))
 			else:
-				own = product.lst_price if args["move_type"] == "out_invoice" else product.standard_price
+				own = product.lst_price if sale else product.standard_price
 				if own > NO_PRICE:
 					terms.update(price_unit=own, price_from=ctx.env._("price of the product"))
-		if line.get("discount") is not None:
+		if said_discount:
 			terms.update(discount=line["discount"], discount_from=ctx.env._("said"))
-		elif product and (line.get("discount_from_history") or policy["discount"] == "consistent"):
+		elif product and rule_mode == "last":
+			if sales:
+				last = sales[0]
+				terms.update(discount=last.discount, discount_from=ctx.env._("%(product)s in %(move)s (%(date)s)",
+					product=product.display_name, move=last.move_id.display_name, date=_day(ctx, last)))
+			else:
+				terms["no_history"] = True
+		elif product and rule_mode == "consistent":
 			discounts = sorted(set(sales.mapped("discount")))
 			if len(discounts) == 1 and discounts[0]:
 				terms.update(discount=discounts[0], discount_from=ctx.env._("the same in the last %(count)s sales (%(moves)s)",
@@ -158,22 +247,41 @@ class InvoiceDraftCreate(FinanceTool):
 				terms["note"] = ctx.env._("%(product)s: the last discounts to this customer differ (%(values)s); none is "
 					"used. Say the discount if one is wanted.", product=product.display_name,
 					values=", ".join(f"{d:g}%" for d in discounts))
-			elif line.get("discount_from_history"):
-				terms["note"] = ctx.env._("%s: no earlier discount of this product to this customer; none is used.",
-					product.display_name)
+		elif product and rule_mode == "pricelist" and not terms["discount_from"]:
+			terms["note"] = ctx.env._("%s: the price list gives no discount of it.", product.display_name)
+		terms["discount_asked"] = product and not said_discount and rule_mode == "ask"
+		if product:
+			taxes, source, why = self._line_taxes(ctx, args, partner, terms, policy)
+			if taxes is None:
+				terms["taxes_unclear"] = why
+			else:
+				terms.update(taxes=taxes, taxes_from=source)
+		elif args.get("taxes") == "none":
+			terms["taxes_from"] = ctx.env._("said: without taxes")
 		return terms
 
-	def _taxes(self, ctx, args, policy):
-		taxes = args.get("taxes") or (policy["taxes"] if policy["taxes"] in ("product", "none") else None)
-		if not taxes:
-			raise ToolDenied(ctx.env._("Say whether taxes apply: «with taxes» (as set on the products) or «without taxes»."))
-		return taxes
+	def _stock(self, ctx, product, quantity):
+		"""What the stock is of a product, to report: on hand, reserved, free and forecast, in the company's
+		warehouses; None for a product not kept in stock or without the stock app"""
+		if not product or "stock.quant" not in ctx.env or not product.is_storable:
+			return None
+		try:
+			product = product.with_company(ctx.env.company)
+			quants = ctx.env["stock.quant"].search([("product_id", "=", product.id), ("location_id.usage", "=", "internal"),
+				("company_id", "=", ctx.env.company.id)])
+			on_hand, forecast = product.qty_available, product.virtual_available
+		except AccessError:
+			return None
+		reserved = sum(quants.mapped("reserved_quantity"))
+		free = on_hand - reserved
+		return {"product": product.display_name, "product_id": product.id, "asked": quantity, "on_hand": on_hand,
+			"reserved": reserved, "free": free, "forecast": forecast, "short": max(quantity - max(free, 0), 0)}
 
 	def _checked(self, ctx, args):
-		"""Everything checked before anything is made: a line without a price stops the whole invoice"""
+		"""Everything checked before anything is made: a line without a price, or with taxes or a discount the
+		policy cannot decide, stops the whole invoice"""
 		partner, products = self._records(ctx, args)
-		policy = invoice_policy(ctx.env)
-		taxes = self._taxes(ctx, args, policy)
+		policy = invoice_policy(ctx)
 		lines = [self._terms(ctx, args, line, partner, products, policy) for line in args["lines"]]
 		unpriced = [terms["product"].display_name for terms in lines if terms["price_unit"] is None]
 		if unpriced:
@@ -181,11 +289,20 @@ class InvoiceDraftCreate(FinanceTool):
 				"before and has no sale price on the product. Say the price («به قیمت ...») or set it on the product. No "
 				"invoice was made.",
 				", ".join(unpriced)))
-		return partner, taxes, lines
+		unclear = [f"«{terms['product'].display_name}»: {terms['taxes_unclear']}" for terms in lines if terms["taxes_unclear"]]
+		if unclear:
+			raise ToolAsks(ctx.env._("The taxes are not clear for: %s. Apply taxes to them as set in the system now? "
+				"Nothing is made until then.", "؛ ".join(unclear)), "taxes_unclear",
+				_tax_choices(ctx))
+		asked = [terms["product"].display_name for terms in lines if terms.get("discount_asked")]
+		if asked:
+			raise ToolAsks(ctx.env._("Which discount for: %s? Nothing is made until then.", ", ".join(asked)),
+				"discount_rule", _discount_choices(ctx))
+		return partner, policy, lines
 
 	def plan(self, ctx, args):
 		ctx.check_model("account.move")
-		partner, _taxes, lines = self._checked(ctx, args)
+		partner, _policy, lines = self._checked(ctx, args)
 		amount = sum(line["quantity"] * terms["price_unit"] * (1 - terms["discount"] / 100)
 			for line, terms in zip(args["lines"], lines))
 		kind = ctx.env._("customer invoice") if args["move_type"] == "out_invoice" else ctx.env._("vendor bill")
@@ -194,16 +311,14 @@ class InvoiceDraftCreate(FinanceTool):
 			company_ids=[ctx.env.company.id])
 
 	def execute(self, ctx, args, plan):
-		partner, taxes, checked = self._checked(ctx, args)
-		lines, notes, sources = [], [], []
+		partner, policy, checked = self._checked(ctx, args)
+		lines, notes, sources, stock = [], [], [], []
 		for line, terms in zip(args["lines"], checked):
 			values = {"quantity": line["quantity"], "price_unit": terms["price_unit"], "discount": terms["discount"]}
 			if line.get("product_id"):
 				values["product_id"] = line["product_id"]
-				product = terms["product"]
-				own = product.taxes_id if args["move_type"] == "out_invoice" else product.supplier_taxes_id
-				values["tax_ids"] = [(6, 0, own.filtered(lambda t: t.company_id == ctx.env.company).ids if taxes == "product" else [])]
-			elif taxes == "none":
+				values["tax_ids"] = [(6, 0, terms["taxes"].ids)]
+			elif args.get("taxes") == "none":
 				values["tax_ids"] = [(6, 0, [])]
 			if line.get("description"):
 				values["name"] = line["description"]
@@ -211,7 +326,12 @@ class InvoiceDraftCreate(FinanceTool):
 			if terms["note"]:
 				notes.append(terms["note"])
 			sources.append({"product": terms["product"].display_name or line.get("description"),
-				"price_from": terms["price_from"], "discount_from": terms["discount_from"] or "-"})
+				"price_from": terms["price_from"], "discount": terms["discount"], "discount_from": terms["discount_from"] or "-",
+				"taxes": _taxes_names(terms["taxes"]), "taxes_from": terms["taxes_from"] or "-"})
+			if args["move_type"] == "out_invoice":
+				item = self._stock(ctx, terms["product"], line["quantity"])
+				if item:
+					stock.append(item)
 		values = {"move_type": args["move_type"], "partner_id": partner.id, "invoice_line_ids": lines,
 			"ref": args.get("ref") or False}
 		if args.get("invoice_date"):
@@ -225,8 +345,29 @@ class InvoiceDraftCreate(FinanceTool):
 			if source and source.sudo().attachment_id:
 				source.sudo().attachment_id.copy({"res_model": "account.move", "res_id": move.id})
 		ctx.link(move)
-		taxes_label = ctx.env._("as set on the products") if taxes == "product" else ctx.env._("none")
-		return dict(_draft_output(move), sources=sources, taxes_rule=taxes_label, notes=notes)
+		labels = {key: dict(ctx.env["veron.ai.invoice.policy"]._fields[key]._description_selection(ctx.env))
+			for key in ("taxes_mode", "price_mode", "discount_mode", "stock_mode")}
+		output = dict(_draft_output(move), sources=sources, notes=notes, policy={
+			"name": policy["policy"], "taxes": labels["taxes_mode"][policy["taxes_mode"]],
+			"price": labels["price_mode"][policy["price_mode"]], "discount": labels["discount_mode"][policy["discount_mode"]],
+			"stock": labels["stock_mode"][policy["stock_mode"]]})
+		if stock:
+			output["stock"] = stock
+		alone = [terms["product"].display_name for terms in checked if terms.get("no_history")]
+		if alone:
+			notes.append(ctx.env._("No discount, as there is no posted sale to this customer of: %s.", ", ".join(alone)))
+		short = [item for item in stock if item["short"] > 0]
+		if short:
+			notes.append(ctx.env._("Not enough in stock: %s. The invoice is made as asked.", ", ".join(
+				f"{item['product']} ({item['short']:g})" for item in short)))
+			if policy["stock_mode"] in ("ask", "draft") and "purchase.order" in ctx.env:
+				# A purchase draft of its own for what is short, asked first or made at once as the policy says
+				output["next"] = {"intent": "purchase_shortage_draft", "confirm": policy["stock_mode"] == "ask",
+					"args": {"origin": f"{move.display_name} #{move.id}",
+						"lines": [{"product_id": item["product_id"], "quantity": item["short"]} for item in short]},
+					"question": ctx.env._("Make a draft purchase (request for quotation) for what is short: %s?",
+						", ".join(f"{item['product']} × {item['short']:g}" for item in short))}
+		return output
 
 
 def _draft_output(move):
@@ -260,6 +401,11 @@ class InvoiceDraftUpdate(FinanceTool):
 		}, ["product_id"])},
 		"remove_product_id": {"type": "integer", "minimum": 1},
 		"remove_taxes": {"type": "boolean", "description": "Takes the taxes off all lines, or off the line of product_id"},
+		"taxes": {"type": "string", "enum": ["product", "none"], "description": "Said of the lines added"},
+		"taxes_unclear": {"type": "string", "enum": ["product", "none"],
+			"description": "The answer to the taxes asked of the lines added"},
+		"discount_rule": {"type": "string", "enum": ["none", "last", "pricelist"],
+			"description": "The answer to the discount asked of the lines added"},
 	}, ["move_id"])
 
 	def _move(self, ctx, args):
@@ -309,25 +455,36 @@ class InvoiceDraftUpdate(FinanceTool):
 			products = model.search(domain)
 			if set(products.ids) != set(product_ids):
 				raise ToolDenied(ctx.env._("A product is not in the agent's data."))
-			policy = invoice_policy(ctx.env)
-			# The taxes of an added line follow the draft's own: its lines have taxes, or none have
-			kept = self._lines(ctx, move, None)
-			taxes = ("product" if kept.tax_ids else "none") if kept else creator._taxes(ctx, args, policy)
-			made, unpriced = [], []
+			policy = invoice_policy(ctx)
+			# An added line follows the same policy as a new draft: its own taxes and discount, or asked
+			made, unpriced, unclear, asked = [], [], [], []
 			for line in args["add_lines"]:
 				line = dict(line, quantity=line.get("quantity", 1))
-				terms = creator._terms(ctx, {"move_type": move.move_type}, line, move.partner_id, products, policy)
+				terms = creator._terms(ctx, {"move_type": move.move_type, "taxes": args.get("taxes"),
+					"taxes_unclear": args.get("taxes_unclear"), "discount_rule": args.get("discount_rule")}, line,
+					move.partner_id, products, policy)
 				if terms["price_unit"] is None:
 					unpriced.append(terms["product"].display_name)
 					continue
-				product = terms["product"]
-				own = product.taxes_id if move.move_type == "out_invoice" else product.supplier_taxes_id
+				if terms["taxes_unclear"]:
+					unclear.append(f"«{terms['product'].display_name}»: {terms['taxes_unclear']}")
+					continue
+				if terms.get("discount_asked"):
+					asked.append(terms["product"].display_name)
+					continue
 				made.append((0, 0, {"product_id": line["product_id"], "quantity": line["quantity"],
 					"price_unit": terms["price_unit"], "discount": terms["discount"],
-					"tax_ids": [(6, 0, own.filtered(lambda t: t.company_id == move.company_id).ids if taxes == "product" else [])]}))
+					"tax_ids": [(6, 0, terms["taxes"].ids)]}))
 			if unpriced:
 				raise ToolDenied(ctx.env._("No price for: %s. Say the price («به قیمت ...») or set it on the product.",
 					", ".join(unpriced)))
+			if unclear:
+				raise ToolAsks(ctx.env._("The taxes are not clear for: %s. Apply taxes to them as set in the system now? "
+					"Nothing is made until then.", "؛ ".join(unclear)), "taxes_unclear",
+					_tax_choices(ctx))
+			if asked:
+				raise ToolAsks(ctx.env._("Which discount for: %s? Nothing is made until then.", ", ".join(asked)),
+					"discount_rule", _discount_choices(ctx))
 			move.write({"invoice_line_ids": made})
 		ctx.link(move)
 		return _draft_output(move)

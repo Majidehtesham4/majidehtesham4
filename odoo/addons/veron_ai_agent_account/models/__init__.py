@@ -1,2 +1,2 @@
 from . import petty_cash
-from . import res_config_settings
+from . import invoice_policy

@@ -4,8 +4,7 @@ errors met in use, each as a test, and the cases that must refuse."""
 
 from odoo.tests import tagged
 
-from ..tools.finance import PARAM_DISCOUNT, PARAM_TAXES
-from .common import FinanceCase
+from .common import FinanceCase, policy
 
 
 @tagged("post_install", "-at_install")
@@ -39,8 +38,8 @@ class TestSafeInvoices(FinanceCase):
 		cls.socket = product("سوکت دوشاخه قرمز", 60_000)
 		cls.unpriced = product("مهره سفید گالوانیزه M6", 0)
 		cls.discount_item = product("تخفیف", 0)
-		cls.Param = cls.env["ir.config_parameter"].sudo()
-		cls.Param.set_param(PARAM_TAXES, "none")
+		# No taxes unless said, so each test changes only what it is about
+		policy(cls.env, taxes_mode="none")
 
 	def chat(self):
 		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
@@ -124,6 +123,18 @@ class TestSafeInvoices(FinanceCase):
 		self.assertEqual(sum(move.invoice_line_ids.filtered(lambda l: l.product_id == legless).mapped("quantity")), 3,
 			"one more: the numbers of the name are not a count")
 
+	def test_a_customer_name_with_a_word_of_the_command(self):
+		"""«مشتری» inside a name, the name said in part: the contact whose name the request follows word by word"""
+		Partner = self.env["res.partner"]
+		short = Partner.create({"name": "پیتزا معتمدی", "customer_rank": 1})
+		long = Partner.create({"name": "پیتزا معتمدی مشتری خبازیان اصفهان", "customer_rank": 1})
+		Chat, conversation = self.chat()
+		self.say(Chat, conversation, "۱ عدد درب شیشه ای واسه پیتزا معتمدی مشتری خبازیان فاکتور کن")
+		self.assertEqual(self.last().partner_id, long)
+		Chat, conversation = self.chat()
+		self.say(Chat, conversation, "۲ عدد درب شیشه ای برای پیتزا معتمدی فاکتور کن")
+		self.assertEqual(self.last().partner_id, short, "the whole of a shorter name is that one")
+
 	# --- what is not found for certain is asked or refused, never replaced
 
 	def test_a_product_not_there_makes_nothing(self):
@@ -157,19 +168,19 @@ class TestSafeInvoices(FinanceCase):
 	# --- taxes: said, set, or asked
 
 	def test_taxes_are_asked_when_not_said_nor_set(self):
-		self.Param.set_param(PARAM_TAXES, "ask")
+		policy(self.env, taxes_mode="ask")
 		Chat, conversation = self.chat()
 		before = self.env["account.move"].search_count([])
 		reply = self.say(Chat, conversation, "۲ عدد درب شیشه ای برای خبازیان فاکتور کن")
 		self.assertEqual(self.env["account.move"].search_count([]), before, "asked first: " + reply["body_html"])
-		self.assertEqual(Chat.browse(conversation).memory["pending"]["arg"], "taxes")
+		self.assertEqual(Chat.browse(conversation).memory["pending"]["arg"], "taxes_unclear")
 		self.say(Chat, conversation, "خیر")
 		self.assertFalse(self.last().invoice_line_ids.tax_ids, "no taxes, as answered")
 		self.say(Chat, conversation, "۲ عدد درب شیشه ای برای خبازیان فاکتور کن با مالیات")
 		self.assertEqual(self.last().invoice_line_ids.tax_ids, self.tax, "the taxes of the product, as said")
 
 	def test_taxes_said_while_a_product_is_asked(self):
-		self.Param.set_param(PARAM_TAXES, "ask")
+		policy(self.env, taxes_mode="ask")
 		Chat, conversation = self.chat()
 		reply = self.say(Chat, conversation, "۲ عدد ترمینال برای خبازیان فاکتور کن")
 		labels = [option["label"] for option in reply["options"]]
@@ -182,6 +193,7 @@ class TestSafeInvoices(FinanceCase):
 	# --- discounts: only the same customer and the same product, only when they agree
 
 	def test_the_discount_of_the_same_product_only(self):
+		policy(self.env, discount_mode="consistent")
 		self.sold(self.khabbazian, self.oven, 10)
 		self.sold(self.khabbazian, self.oven, 10)
 		self.sold(self.khabbazian, self.nut, 5)
@@ -196,7 +208,7 @@ class TestSafeInvoices(FinanceCase):
 		self.assertEqual(discounts[self.door], 0, "the 15% of another product is not this one's")
 
 	def test_the_discount_only_when_said(self):
-		self.Param.set_param(PARAM_DISCOUNT, "said")
+		policy(self.env, discount_mode="none")
 		self.sold(self.khabbazian, self.oven, 10)
 		Chat, conversation = self.chat()
 		self.say(Chat, conversation, "۱ عدد فر پیتزا ۱۱۵۴ برای خبازیان فاکتور کن")

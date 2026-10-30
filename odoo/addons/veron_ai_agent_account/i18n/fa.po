@@ -10,12 +10,30 @@ msgstr ""
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "%(move)s (%(date)s)"
+msgstr "%(move)s (%(date)s)"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "%(product)s in %(move)s (%(date)s)"
+msgstr "%(product)s در %(move)s (%(date)s)"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid ""
 "%(product)s: the last discounts to this customer differ (%(values)s); none "
 "is used. Say the discount if one is wanted."
 msgstr ""
 "%(product)s: تخفیف‌های اخیر این مشتری یکسان نیست (%(values)s)؛ هیچ‌کدام "
 "اعمال نشد. اگر تخفیف می‌خواهید، آن را بگویید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "%(setting)s is %(now)s, %(since)s had %(then)s"
+msgstr "%(setting)s «%(now)s» است، ولی %(since)s «%(then)s» داشت"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -75,9 +93,8 @@ msgstr "%s رسید منتظر بازبینی انسان یا تأیید تنخ�
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
-msgid ""
-"%s: no earlier discount of this product to this customer; none is used."
-msgstr "%s: تخفیف قبلی برای این کالا به این مشتری پیدا نشد؛ تخفیفی اعمال نشد."
+msgid "%s: the price list gives no discount of it."
+msgstr "%s: لیست قیمت تخفیفی برای آن ندارد."
 
 #. module: veron_ai_agent_account
 #: model:ir.actions.report,print_report_name:veron_ai_agent_account.action_report_settlement
@@ -122,6 +139,7 @@ msgstr "صورت تنخواهِ ثبت‌شده با برگشت سندش در ح
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
 msgid "A product is not in the agent's data."
 msgstr "یکی از کالاها در داده‌های ایجنت نیست."
 
@@ -163,6 +181,7 @@ msgstr ""
 " بدون شماره‌ی فروشنده یا بدون فایل پیوست، و شماره‌ی فروشنده‌ی تکراری."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_needaction
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction
@@ -170,6 +189,7 @@ msgid "Action Needed"
 msgstr "اقدام مورد نیاز است"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__active
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__active
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__active
 msgid "Active"
@@ -226,6 +246,14 @@ msgstr ""
 "است؛ رسید بدون یافته فقط در بازبینی هوش مصنوعی پذیرفته می‌شود."
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/invoice_policy.py:0
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.invoice_policy_view_form
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.invoice_policy_view_list
+msgid "All Assistants"
+msgstr "همه‌ی دستیارها"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__category_ids
 msgid "Allowed Expense Types"
 msgstr "انواع هزینه‌ی مجاز"
@@ -265,14 +293,30 @@ msgid "Approved by<br/><br/>Signature"
 msgstr "تأییدکننده<br/><br/>امضا"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_taxes__ask
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__taxes_mode__ask
 msgid "Ask Each Time"
 msgstr "هر بار پرسیده شود"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__discount_mode__ask
+msgid "Ask When Not Said"
+msgstr "اگر گفته نشد، پرسیده شود"
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
 msgid "Ask for the Documents"
 msgstr "درخواست مدارک"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__agent_id
+msgid "Assistant"
+msgstr "دستیار"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/invoice_policy.py:0
+msgid "At least one sale is compared."
+msgstr "دست‌کم یک فروش باید مقایسه شود."
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_closings
@@ -287,6 +331,7 @@ msgstr ""
 " را بازبینی و ثبت قطعی می‌کند."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_attachment_count
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_attachment_count
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_attachment_count
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_attachment_count
@@ -431,6 +476,7 @@ msgid "Collecting Documents"
 msgstr "جمع‌آوری مدارک"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__company_id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__company_id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__company_id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__company_id
@@ -443,11 +489,6 @@ msgstr "شرکت"
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__confidence
 msgid "Confidence"
 msgstr "اطمینان خواندن"
-
-#. module: veron_ai_agent_account
-#: model:ir.model,name:veron_ai_agent_account.model_res_config_settings
-msgid "Config Settings"
-msgstr "تنظیمات پیکربندی"
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
@@ -482,6 +523,7 @@ msgid "Confirmed by the Custodian"
 msgstr "تأییدشده توسط تنخواه‌دار"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__create_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__create_uid
@@ -491,6 +533,7 @@ msgid "Created by"
 msgstr "ایجاد شده توسط"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__create_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__create_date
@@ -544,31 +587,23 @@ msgid "Dates are written YYYY-MM-DD."
 msgstr "تاریخ به شکل YYYY-MM-DD نوشته می‌شود."
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/invoice_policy.py:0
+msgid "Defaults"
+msgstr "پیش‌فرض‌ها"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__description
 msgid "Description"
 msgstr "توضیح"
 
 #. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__discount_mode
 msgid "Discount"
 msgstr "تخفیف"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields,field_description:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_discount
-msgid "Discount of a Line"
-msgstr "تخفیف هر ردیف"
-
-#. module: veron_ai_agent_account
-#: model:ir.model.fields,help:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_discount
-msgid ""
-"Discounts of other products are never used; differing discounts are shown, "
-"not applied"
-msgstr ""
-"تخفیف کالاهای دیگر هرگز به کار نمی‌رود؛ تخفیف‌های ناهمسان فقط نشان داده "
-"می‌شوند و اعمال نمی‌شوند"
-
-#. module: veron_ai_agent_account
-#: model:ir.model.fields,field_description:veron_ai_agent_account.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__display_name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__display_name
@@ -604,6 +639,18 @@ msgid "Draft %(kind)s for %(partner)s, %(amount)s before taxes"
 msgstr "پیش‌نویس %(kind)s برای %(partner)s، %(amount)s پیش از مالیات"
 
 #. module: veron_ai_agent_account
+#: model:ir.actions.act_window,name:veron_ai_agent_account.action_invoice_policies
+#: model:ir.ui.menu,name:veron_ai_agent_account.menu_invoice_policies
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+msgid "Draft Invoice Policies"
+msgstr "سیاست‌های پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:ir.model,name:veron_ai_agent_account.model_veron_ai_invoice_policy
+msgid "Draft Invoice Policy of an Assistant"
+msgstr "سیاست پیش‌نویس فاکتور دستیار"
+
+#. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
 msgid "Draft Invoices of the Assistant"
 msgstr "پیش‌نویس فاکتورهای دستیار"
@@ -631,6 +678,18 @@ msgstr "پیش‌نویس فاکتور فروش از %(file)s، %(amount)s"
 #: code:addons/veron_ai_agent_account/tools/petty_cash.py:0
 msgid "Draft entry of %(closing)s: %(amount)s"
 msgstr "پیش‌نویس سند %(closing)s: %(amount)s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/invoice_policy.py:0
+msgid "Draft invoice policy «%s»"
+msgstr "سیاست پیش‌نویس فاکتور «%s»"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "Draft purchase from %(vendor)s: %(lines)s"
+msgstr "پیش‌نویس خرید از %(vendor)s: %(lines)s"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -710,6 +769,7 @@ msgid "Fixed Assets to Check"
 msgstr "دارایی‌های ثابت نیازمند بررسی"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_follower_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_follower_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_follower_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_follower_ids
@@ -717,6 +777,7 @@ msgid "Followers"
 msgstr "دنبال کنندگان"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_partner_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_partner_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_partner_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_partner_ids
@@ -741,9 +802,31 @@ msgstr ""
 "وضعیت هر تنخواه را برمی‌گرداند."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__history_count
+msgid ""
+"For «only when they agree»: how many of the last sales of the product to the"
+" customer are compared"
+msgstr ""
+"برای «فقط اگر یکسان باشند»: چند فروش اخیر همان کالا به همان مشتری مقایسه شود"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__date_from
 msgid "From"
 msgstr "از"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "From which vendor? No vendor is set on these products; write its name."
+msgstr ""
+"از کدام تأمین‌کننده؟ روی این کالاها تأمین‌کننده‌ای ثبت نشده؛ نامش را "
+"بنویسید."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "From which vendor? The vendors set on these products: %s."
+msgstr "از کدام تأمین‌کننده؟ تأمین‌کنندگان ثبت‌شده‌ی این کالاها: %s."
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__fund_id
@@ -788,6 +871,7 @@ msgstr ""
 "تأیید می‌کند."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__has_message
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__has_message
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__has_message
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__has_message
@@ -813,7 +897,12 @@ msgid ""
 msgstr "میزان شباهت دو عکس برای مشابه دانستن: ۰ یکسان، ۱۰ شباهت کم"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields,field_description:veron_ai_agent_account.field_res_config_settings__id
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_invoice_policies
+msgid "How the assistants make draft invoices"
+msgstr "دستیارها پیش‌نویس فاکتور را چگونه می‌سازند"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__id
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__id
@@ -833,6 +922,7 @@ msgid "Icon to indicate an exception activity."
 msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__message_needaction
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction
@@ -841,6 +931,8 @@ msgstr ""
 "اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_error
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_sms_error
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_sms_error
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error
@@ -877,6 +969,7 @@ msgid "Invoice %(number)s of %(vendor)s"
 msgstr "فاکتور %(number)s از %(vendor)s"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_is_follower
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_is_follower
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_is_follower
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_is_follower
@@ -899,6 +992,7 @@ msgid "Kind"
 msgstr "نوع"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__write_uid
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__write_uid
@@ -908,6 +1002,7 @@ msgid "Last Updated by"
 msgstr "آخرین تغییر توسط"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__write_date
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__write_date
@@ -939,6 +1034,18 @@ msgid "Make a Draft Invoice From Its File"
 msgstr "ساخت پیش‌نویس فاکتور از روی فایل آن"
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "Make a Draft Purchase"
+msgstr "ساخت پیش‌نویس خرید"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Make a draft purchase (request for quotation) for what is short: %s?"
+msgstr "برای کسری، پیش‌نویس خرید (درخواست استعلام) ساخته شود: %s؟"
+
+#. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_form
 msgid "Make the Draft Entry"
 msgstr "ساخت پیش‌نویس سند"
@@ -948,19 +1055,42 @@ msgstr "ساخت پیش‌نویس سند"
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid ""
 "Makes a draft customer invoice or vendor bill from a contact and lines, all "
-"checked first: if a product has no price (said, in the customer's price "
-"list, in its last posted sale to the same customer when the settings allow, "
-"or on the product), or the taxes are not said nor set, nothing is made and "
-"the reason is given. A discount is the one said, or the same discount of the"
-" customer's last posted sales of the same product when they agree. It is "
-"never posted here."
+"checked first, as the draft invoice policy of the assistant says. Taxes: "
+"said, else the current tax setting of the product (with the customer's "
+"fiscal position) or the last posted invoice of the same customer and "
+"product; when they differ or neither is there, nothing is made and the taxes"
+" are asked. Price: said, the price list, the product's price (the customer's"
+" last price only when the policy says so); none: nothing is made. Discount: "
+"said, else the policy's (the last posted sale of the same product to the "
+"same customer, the price list...), each line on its own. The stock of each "
+"product is read and reported; it never changes the invoice. It is never "
+"posted here."
 msgstr ""
-"پیش‌نویس فاکتور فروش یا خرید را از طرف حساب و ردیف‌ها می‌سازد و همه را پیش "
-"از ساخت بررسی می‌کند: اگر کالایی قیمت نداشته باشد (گفته‌شده، در لیست قیمت "
-"مشتری، در آخرین فروش ثبت‌شده به همین مشتری اگر تنظیمات اجازه دهد، یا روی "
-"کالا) یا مالیات نه گفته شده و نه تنظیم شده باشد، چیزی ساخته نمی‌شود و علت "
-"گفته می‌شود. تخفیف همان است که گفته شده، یا تخفیف یکسان آخرین فروش‌های "
-"ثبت‌شده‌ی همان کالا به همین مشتری. اینجا هرگز ثبت قطعی نمی‌شود."
+"پیش‌نویس فاکتور فروش یا خرید را از طرف حساب و ردیف‌ها، طبق سیاست پیش‌نویس "
+"فاکتور دستیار می‌سازد و همه را پیش از ساخت بررسی می‌کند. مالیات: گفته‌شده، "
+"وگرنه تنظیم مالیاتی فعلی کالا (با موقعیت مالی مشتری) یا آخرین فاکتور قطعی "
+"همان مشتری و همان کالا؛ اگر فرق داشته باشند یا هیچ‌کدام نباشد، چیزی ساخته "
+"نمی‌شود و مالیات پرسیده می‌شود. قیمت: گفته‌شده، لیست قیمت، قیمت کالا (قیمت "
+"قبلی مشتری فقط اگر سیاست بگوید)؛ اگر نباشد چیزی ساخته نمی‌شود. تخفیف: "
+"گفته‌شده، وگرنه طبق سیاست (آخرین فروش قطعی همان کالا به همان مشتری، لیست "
+"قیمت...)، هر ردیف جداگانه. موجودی هر کالا خوانده و گزارش می‌شود و فاکتور را "
+"تغییر نمی‌دهد. اینجا هرگز ثبت قطعی نمی‌شود."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid ""
+"Makes a request for quotation (a draft purchase order) of products and "
+"counts, for a vendor and a receiving warehouse. A vendor not said is the one"
+" vendor set on all the products, else asked; a warehouse not said is the "
+"company's only one, else asked. It is never confirmed or sent here; «origin»"
+" links it to the sale it is for."
+msgstr ""
+"درخواست استعلام (پیش‌نویس سفارش خرید) کالاها و تعدادها را برای یک "
+"تأمین‌کننده و انبار دریافت می‌سازد. تأمین‌کننده‌ی گفته‌نشده همان "
+"تأمین‌کننده‌ی یکتای ثبت‌شده روی همه‌ی کالاهاست، وگرنه پرسیده می‌شود؛ انبار "
+"گفته‌نشده تنها انبار شرکت است، وگرنه پرسیده می‌شود. اینجا هرگز تأیید یا "
+"ارسال نمی‌شود؛ «منبع» آن را به فروشی که برایش است پیوند می‌دهد."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -984,6 +1114,7 @@ msgid "Message"
 msgstr "پیام"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error
@@ -991,6 +1122,7 @@ msgid "Message Delivery error"
 msgstr "خطای تحویل پیام"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_ids
@@ -1020,6 +1152,7 @@ msgid "My Funds"
 msgstr "تنخواه‌های من"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__name
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__name
@@ -1036,14 +1169,6 @@ msgstr "نیازمند بازبینی انسان"
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__needs_tax_id
 msgid "Needs the Vendor's Tax ID"
 msgstr "کد اقتصادی فروشنده لازم است"
-
-#. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
-msgid ""
-"Never added or taken off silently: as said in the request, else as set here"
-msgstr ""
-"هرگز بی‌صدا افزوده یا برداشته نمی‌شود: همان‌طور که در درخواست گفته شده، "
-"وگرنه طبق این تنظیم"
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__new
@@ -1071,9 +1196,26 @@ msgid "Next Activity Type"
 msgstr "نوع فعالیت بعدی"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_taxes__none
-msgid "No Taxes"
-msgstr "بدون مالیات"
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__discount_mode__none
+msgid "No Automatic Discount"
+msgstr "بدون تخفیف خودکار"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__taxes_mode__none
+msgid "No Taxes Unless Said"
+msgstr "بدون مالیات، مگر گفته شود"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "No discount"
+msgstr "بدون تخفیف"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "No discount, as there is no posted sale to this customer of: %s."
+msgstr "تخفیفی اعمال نشد، چون فروش قطعی‌شده‌ای به این مشتری نیست برای: %s."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1129,6 +1271,7 @@ msgstr "هیچ رسیدی پذیرفته نشده؛ چیزی برای تسویه
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
 msgid "No such contact in the agent's data."
 msgstr "چنین مخاطبی در داده‌های ایجنت نیست."
 
@@ -1163,6 +1306,12 @@ msgid "No tax of this rate was found; the VAT is inside the amount."
 msgstr "مالیاتی با این نرخ پیدا نشد؛ ارزش افزوده داخل مبلغ آمده است."
 
 #. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "No, without taxes"
+msgstr "خیر، بدون مالیات"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rejected_amount
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_receipt__state__rejected
 msgid "Not Accepted"
@@ -1172,6 +1321,12 @@ msgstr "پذیرفته نشد"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
 msgid "Not accepted"
 msgstr "پذیرفته نشده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Not enough in stock: %s. The invoice is made as asked."
+msgstr "موجودی کافی نیست: %s. فاکتور همان‌طور که خواسته شد ساخته شد."
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__note
@@ -1199,6 +1354,7 @@ msgid "Number"
 msgstr "شماره"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_needaction_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction_counter
@@ -1206,6 +1362,7 @@ msgid "Number of Actions"
 msgstr "تعداد اقدامات"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_error_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error_counter
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error_counter
@@ -1213,6 +1370,7 @@ msgid "Number of errors"
 msgstr "تعداد خطاها"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__message_needaction_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_needaction_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_needaction_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_needaction_counter
@@ -1220,6 +1378,7 @@ msgid "Number of messages requiring action"
 msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_error_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_error_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_error_counter
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_error_counter
@@ -1237,15 +1396,19 @@ msgid "Oldest Receipt (Days Before the Period)"
 msgstr "قدیمی‌ترین رسید (روز پیش از دوره)"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_discount__said
-msgid "Only When Said"
-msgstr "فقط وقتی گفته شود"
-
-#. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "Only an accountant does this."
 msgstr "فقط حسابدار این کار را انجام می‌دهد."
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__agent_id
+msgid ""
+"Only this assistant works this way; empty, all the assistants and agents of "
+"the company"
+msgstr ""
+"فقط این دستیار این‌طور کار می‌کند؛ اگر خالی باشد، همه‌ی دستیارها و ایجنت‌های"
+" شرکت"
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.closing_view_search
@@ -1529,24 +1692,21 @@ msgstr ""
 "منتظر تأیید انسان است و با حقوق دسترسی تأییدکننده انجام می‌شود."
 
 #. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__price_mode
 msgid "Price"
 msgstr "قیمت"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_price__pricelist_history
-msgid "Price List, Then the Customer's Last Sale, Then the Product's Price"
-msgstr "لیست قیمت، سپس آخرین فروش به مشتری، سپس قیمت کالا"
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__price_mode__pricelist_history
+msgid ""
+"Price List, Then the Customer's Last Price of the Product, Then the "
+"Product's Price"
+msgstr "لیست قیمت، سپس آخرین قیمت همان کالا به مشتری، سپس قیمت کالا"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_price__pricelist
-msgid "Price List, Then the Product's Price"
-msgstr "لیست قیمت، سپس قیمت کالا"
-
-#. module: veron_ai_agent_account
-#: model:ir.model.fields,field_description:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_price
-msgid "Price of a Line"
-msgstr "قیمت هر ردیف"
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__price_mode__pricelist
+msgid "Price List, Then the Product's Current Price"
+msgstr "لیست قیمت، سپس قیمت فعلی کالا"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1555,6 +1715,7 @@ msgid "Quality of Accounting Documents"
 msgstr "کیفیت اسناد حسابداری"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__rating_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__rating_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__rating_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__rating_ids
@@ -1694,6 +1855,21 @@ msgstr ""
 "بازبینی تأیید حسابداری نیست. سند فقط توسط انسان ثبت قطعی می‌شود."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__stock_mode__report
+msgid "Report the Stock Only"
+msgstr "فقط گزارش موجودی"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__stock_mode__draft
+msgid "Report, and Make a Purchase Draft for What Is Short (Never Confirmed)"
+msgstr "گزارش، و ساخت پیش‌نویس خرید برای کسری (هرگز تأیید نمی‌شود)"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__stock_mode__ask
+msgid "Report, and Offer a Purchase Draft for What Is Short"
+msgstr "گزارش، و پیشنهاد پیش‌نویس خرید برای کسری (با اجازه‌ی کاربر)"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_issue__resolution
 msgid "Resolution"
 msgstr "نتیجه‌ی رسیدگی"
@@ -1724,11 +1900,17 @@ msgid "Reviewed By"
 msgstr "بازبینی‌کننده"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__message_has_sms_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__message_has_sms_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__message_has_sms_error
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__message_has_sms_error
 msgid "SMS Delivery error"
 msgstr "خطای تحویل پیامک"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__history_count
+msgid "Sales That Must Agree"
+msgstr "تعداد فروش‌هایی که باید یکسان باشند"
 
 #. module: veron_ai_agent_account
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_file
@@ -1754,19 +1936,18 @@ msgstr ""
 "بگویید چه چیزی تغییر کند: تخفیف، تعداد، قیمت، یا ردیفی که اضافه یا حذف شود."
 
 #. module: veron_ai_agent_account
-#. odoo-python
-#: code:addons/veron_ai_agent_account/tools/finance.py:0
-msgid ""
-"Say whether taxes apply: «with taxes» (as set on the products) or «without "
-"taxes»."
-msgstr ""
-"بگویید مالیات اعمال شود یا نه: «با مالیات» (طبق تنظیم کالاها) یا «بدون "
-"مالیات»."
-
-#. module: veron_ai_agent_account
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_category__sequence
 msgid "Sequence"
 msgstr "دنباله"
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+msgid ""
+"Set for the company, and for one assistant when it should work otherwise; "
+"every change is kept in the audit"
+msgstr ""
+"برای شرکت، و در صورت نیاز برای یک دستیار جداگانه، تعیین می‌شود؛ هر تغییر در "
+"سابقه‌ی حسابرسی ثبت می‌شود"
 
 #. module: veron_ai_agent_account
 #: model:ir.ui.menu,name:veron_ai_agent_account.menu_config
@@ -1812,6 +1993,11 @@ msgid "Sha256"
 msgstr "اثر SHA-256"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__stock_mode
+msgid "Short Stock"
+msgstr "کمبود موجودی"
+
+#. module: veron_ai_agent_account
 #: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_petty_cash_issue__kind__duplicate_image
 msgid "Similar Photo"
 msgstr "عکس مشابه"
@@ -1848,14 +2034,20 @@ msgid "Tax ID Needed Above"
 msgstr "کد اقتصادی لازم از مبلغ"
 
 #. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__taxes_mode
 msgid "Taxes"
 msgstr "مالیات ها"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields,field_description:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_taxes
-msgid "Taxes of a Draft Invoice"
-msgstr "مالیات پیش‌نویس فاکتور"
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+msgid "Taxes, Price, Discount and Short Stock"
+msgstr "مالیات، قیمت، تخفیف و کمبود موجودی"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "That warehouse receives no purchases."
+msgstr "آن انبار خرید دریافت نمی‌کند."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1868,16 +2060,39 @@ msgstr ""
 "جور درمی‌آیند نگه داشته شد. آن‌ها را با فایل مقایسه کنید."
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_discount__consistent
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__taxes_mode__system
 msgid ""
-"The Same Discount of the Customer's Last Sales of the Product, When They "
-"Agree"
-msgstr "تخفیف یکسان آخرین فروش‌های همان کالا به همین مشتری، اگر یکسان باشند"
+"The Current Tax Setting; Asked When It Differs From the Last Invoice or Is "
+"Missing"
+msgstr ""
+"تنظیم مالیاتی فعلی سامانه؛ اگر با آخرین فاکتور فرق داشت یا نبود، پرسیده شود"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__res_config_settings__veron_ai_invoice_taxes__product
-msgid "The Taxes Set on Each Product"
-msgstr "مالیات تنظیم‌شده روی هر کالا"
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__discount_mode__last
+msgid ""
+"The Discount of the Last Posted Sale of the Same Product to the Same "
+"Customer"
+msgstr "تخفیف آخرین فروش قطعی همان کالا به همان مشتری"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__discount_mode__pricelist
+msgid "The Discount of the Price List or Agreed Contract"
+msgstr "تخفیف لیست قیمت یا قرارداد مصوب"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__taxes_mode__history
+msgid ""
+"The Last Posted Invoice of the Same Customer and Product; Asked When There "
+"Is None"
+msgstr "آخرین فاکتور قطعی همان مشتری و همان کالا؛ اگر نبود، پرسیده شود"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields.selection,name:veron_ai_agent_account.selection__veron_ai_invoice_policy__discount_mode__consistent
+msgid ""
+"The Same Discount of the Last Sales of the Product to the Customer, Only "
+"When They Agree"
+msgstr ""
+"تخفیف یکسانِ فروش‌های اخیر همان کالا به همان مشتری، فقط اگر یکسان باشند"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -1960,6 +2175,18 @@ msgstr "تاریخ %(date)s خارج از دوره‌ی %(period)s است."
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "The date is missing."
 msgstr "تاریخ وارد نشده است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "The discount of the last sale of each product to this customer"
+msgstr "تخفیف آخرین فروش هر کالا به همین مشتری"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "The discount of the price list"
+msgstr "تخفیف لیست قیمت"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2067,6 +2294,25 @@ msgstr ""
 "تنخواه نگه داشته می‌شود."
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__stock_mode
+msgid ""
+"The stock never changes the invoice: a purchase draft is a document of its "
+"own, never confirmed here"
+msgstr ""
+"موجودی هرگز فاکتور را تغییر نمی‌دهد: پیش‌نویس خرید سندی جداست و اینجا هرگز "
+"تأیید نمی‌شود"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"The taxes are not clear for: %s. Apply taxes to them as set in the system "
+"now? Nothing is made until then."
+msgstr ""
+"مالیات این ردیف‌ها روشن نیست: %s. مالیات طبق تنظیم فعلی سامانه اعمال شود؟ تا"
+" پاسخ ندهید چیزی ساخته نمی‌شود."
+
+#. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/bills.py:0
 msgid ""
@@ -2087,6 +2333,24 @@ msgstr "فروشنده‌ی «%s» پیدا نشد؛ آن را روی فاکتو
 #: code:addons/veron_ai_agent_account/models/petty_cash.py:0
 msgid "The vendor's tax ID (economic code) is needed for this receipt."
 msgstr "برای این رسید کد اقتصادی فروشنده لازم است."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/models/invoice_policy.py:0
+msgid "There is already a policy for this company and assistant."
+msgstr "برای این شرکت و دستیار از قبل سیاستی هست."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.invoice_policy_view_form
+msgid ""
+"These rules apply to the draft invoices asked from now on; drafts already made are not changed.\n"
+"\t\t\t\t\t\tWhat a request says («بدون مالیات»، «۱۰ درصد تخفیف»، «به قیمت ...») always comes first, and the\n"
+"\t\t\t\t\t\tdraft shows where each tax, price and discount came from."
+msgstr ""
+"این قواعد برای پیش‌نویس‌هایی است که از این به بعد خواسته می‌شوند؛ "
+"پیش‌نویس‌های ساخته‌شده تغییر نمی‌کنند. آنچه در درخواست گفته شود («بدون "
+"مالیات»، «۱۰ درصد تخفیف»، «به قیمت ...») همیشه اول است، و پیش‌نویس نشان "
+"می‌دهد هر مالیات، قیمت و تخفیف از کجا آمده است."
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2144,6 +2408,12 @@ msgstr "برای بررسی"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.report_settlement
 msgid "To review"
 msgstr "نیازمند بازبینی"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "To which warehouse?"
+msgstr "به کدام انبار؟"
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_list
@@ -2212,6 +2482,7 @@ msgid "Waiting for Approval"
 msgstr "در انتظار تأیید"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_ai_invoice_policy__website_message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_closing__website_message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_fund__website_message_ids
 #: model:ir.model.fields,field_description:veron_ai_agent_account.field_veron_petty_cash_receipt__website_message_ids
@@ -2219,6 +2490,7 @@ msgid "Website Messages"
 msgstr "پیام های وب سایت"
 
 #. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__website_message_ids
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_closing__website_message_ids
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_fund__website_message_ids
 #: model:ir.model.fields,help:veron_ai_agent_account.field_veron_petty_cash_receipt__website_message_ids
@@ -2235,35 +2507,62 @@ msgstr ""
 "این حساب می‌نشیند"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields,help:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_price
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__discount_mode
 msgid ""
-"When the request does not say the price. A product with none of these is not"
-" invoiced: the price is asked"
+"When the request does not say the discount of a line. A discount of another "
+"product or another customer is never used; drafts, cancelled invoices and "
+"credit notes do not count"
 msgstr ""
-"وقتی درخواست قیمت را نگوید. کالایی که هیچ‌کدام از این‌ها را ندارد فاکتور "
-"نمی‌شود و قیمتش پرسیده می‌شود"
+"وقتی درخواست تخفیف ردیف را نگوید. تخفیف کالای دیگر یا مشتری دیگر هرگز به کار"
+" نمی‌رود؛ پیش‌نویس، فاکتور باطل و برگشتی حساب نمی‌شوند"
 
 #. module: veron_ai_agent_account
-#: model:ir.model.fields,help:veron_ai_agent_account.field_res_config_settings__veron_ai_invoice_taxes
-msgid "When the request does not say «with taxes» or «without taxes»"
-msgstr "وقتی درخواست «با مالیات» یا «بدون مالیات» را نگوید"
-
-#. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
-msgid "Where a discount not said comes from"
-msgstr "تخفیفی که گفته نشده از کجا بیاید"
-
-#. module: veron_ai_agent_account
-#: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.res_config_settings_view_form_invoice
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__price_mode
 msgid ""
-"Where a price not said comes from; a line with no price stops the invoice"
-msgstr "قیمتی که گفته نشده از کجا بیاید؛ ردیف بدون قیمت مانع ساخت فاکتور است"
+"When the request does not say the price. A line with no price stops the "
+"draft: nothing is made"
+msgstr ""
+"وقتی درخواست قیمت را نگوید. ردیف بدون قیمت مانع پیش‌نویس است: چیزی ساخته "
+"نمی‌شود"
+
+#. module: veron_ai_agent_account
+#: model:ir.model.fields,help:veron_ai_agent_account.field_veron_ai_invoice_policy__taxes_mode
+msgid ""
+"When the request does not say «with taxes» or «without taxes». Taxes are "
+"never added or taken off silently: what is used is shown with the draft"
+msgstr ""
+"وقتی درخواست «با مالیات» یا «بدون مالیات» را نگوید. مالیات هرگز بی‌صدا "
+"افزوده یا برداشته نمی‌شود: آنچه به کار رفته با پیش‌نویس نشان داده می‌شود"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Which discount for: %s? Nothing is made until then."
+msgstr "چه تخفیفی برای: %s؟ تا پاسخ ندهید چیزی ساخته نمی‌شود."
 
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid "Which product's count? The draft has several lines."
 msgstr "تعداد کدام کالا؟ پیش‌نویس چند ردیف دارد؛ نام کالا را هم بنویسید."
+
+#. module: veron_ai_agent_account
+#: model_terms:ir.actions.act_window,help:veron_ai_agent_account.action_invoice_policies
+msgid ""
+"With no policy, the defaults are used: taxes from the current tax setting (asked when it differs from the\n"
+"\t\t\t\tcustomer's last invoice of the product or is missing), the current price, the discount of the last\n"
+"\t\t\t\tposted sale of the same product to the same customer, and the stock only reported."
+msgstr ""
+"اگر سیاستی ثبت نشده باشد، پیش‌فرض‌ها به کار می‌روند: مالیات از تنظیم فعلی "
+"سامانه (اگر با آخرین فاکتور همان مشتری برای همان کالا فرق داشت یا نبود، "
+"پرسیده می‌شود)، قیمت فعلی، تخفیف آخرین فروش قطعی همان کالا به همان مشتری، و "
+"فقط گزارش موجودی."
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "Yes, as set in the system now"
+msgstr "بله، طبق تنظیم فعلی سامانه"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2274,8 +2573,14 @@ msgstr "اجازه‌ی ثبت قطعی سند حسابداری را نداری�
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
-msgid "as set on the products"
-msgstr "طبق تنظیم کالاها"
+msgid "answered: %s"
+msgstr "پاسخ شما: %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "answered: without taxes"
+msgstr "پاسخ شما: بدون مالیات"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2287,6 +2592,25 @@ msgstr "فاکتور فروش"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.fund_view_form
 msgid "e.g. Petty cash of the showroom"
 msgstr "مثلاً تنخواه نمایشگاه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "last"
+msgstr "last"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid ""
+"no tax is set on the product and it was not invoiced to this customer before"
+msgstr "روی کالا مالیاتی تنظیم نشده و قبلاً هم به این مشتری فاکتور نشده است"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "no valid posted invoice of this product to this customer"
+msgstr "فاکتور قطعی معتبری از این کالا به این مشتری نیست"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2303,14 +2627,68 @@ msgstr "قیمت کالا"
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "pricelist"
+msgstr "pricelist"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/supply.py:0
+msgid "request for quotation (draft); not confirmed nor sent"
+msgstr "درخواست استعلام (پیش‌نویس)؛ تأیید یا ارسال نشده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
 msgid "said"
 msgstr "گفته‌شده در درخواست"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "said: with taxes, %s"
+msgstr "گفته‌شده: با مالیات، %s"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "said: with taxes, but none is set on the product"
+msgstr "گفته‌شده: با مالیات، ولی روی کالا مالیاتی تنظیم نشده"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "said: without taxes"
+msgstr "گفته‌شده: بدون مالیات"
 
 #. module: veron_ai_agent_account
 #. odoo-python
 #: code:addons/veron_ai_agent_account/tools/bills.py:0
 msgid "the built-in reader (no AI)"
 msgstr "خواننده‌ی داخلی (بدون هوش مصنوعی)"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "the current setting"
+msgstr "تنظیم فعلی سامانه"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "the last invoice %(move)s (%(date)s)"
+msgstr "آخرین فاکتور %(move)s (%(date)s)"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "the policy asks each time"
+msgstr "سیاست، پرسیدن در هر بار است"
+
+#. module: veron_ai_agent_account
+#. odoo-python
+#: code:addons/veron_ai_agent_account/tools/finance.py:0
+msgid "the policy: no taxes unless said"
+msgstr "سیاست: بدون مالیات مگر گفته شود"
 
 #. module: veron_ai_agent_account
 #. odoo-python
@@ -2485,6 +2863,11 @@ msgstr "موجودی بانک و صندوق"
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_expense_summary
 msgid "هزینه‌ها"
 msgstr "هزینه‌ها"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_purchase_shortage_draft
+msgid "پیش‌نویس درخواست خرید"
+msgstr "پیش‌نویس درخواست خرید"
 
 #. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_sale_invoice_draft

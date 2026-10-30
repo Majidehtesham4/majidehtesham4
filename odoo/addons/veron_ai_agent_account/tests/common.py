@@ -84,3 +84,14 @@ class FinanceCase(TransactionCase):
 	@staticmethod
 	def today():
 		return fields.Date.today()
+
+
+def policy(env, company=None, agent=None, **values):
+	"""The draft invoice policy of a company (or of one assistant of it), set as an AI manager would"""
+	Policy = env["veron.ai.invoice.policy"].sudo()
+	company = company or env.company
+	record = Policy.search([("company_id", "=", company.id), ("agent_id", "=", agent.id if agent else False)], limit=1)
+	if record:
+		record.write(values)
+		return record
+	return Policy.create(dict(values, company_id=company.id, agent_id=agent.id if agent else False))

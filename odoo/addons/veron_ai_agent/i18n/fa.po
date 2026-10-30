@@ -3080,6 +3080,12 @@ msgstr "اجرای بعدی"
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "No"
+msgstr "خیر"
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_run.py:0
 msgid "No AI provider is working, so the built-in assistant answered."
 msgstr "هیچ سرویس هوش مصنوعی فعال نبود، پس هوش داخلی پاسخ داد."
@@ -3267,6 +3273,12 @@ msgstr "یادداشت: کلید را چه کسی داده، تا کی معتب�
 #: model_terms:ir.actions.act_window,help:veron_ai_agent.action_approvals
 msgid "Nothing waits for you"
 msgstr "چیزی منتظر شما نیست"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Nothing was made."
+msgstr "چیزی ساخته نشد."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_tool__category__notify
@@ -4620,6 +4632,12 @@ msgstr "اهمیت"
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_source__sha256
 msgid "Sha256"
 msgstr "اثر SHA-256"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Shall I do it?"
+msgstr "انجام بدهم؟"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_schedule__calendar__shamsi
@@ -6369,6 +6387,12 @@ msgstr "درخواستتان را بنویسید..."
 #: code:addons/veron_ai_agent/models/ai_guide.py:0
 msgid "Yes"
 msgstr "بله"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Yes, make the draft"
+msgstr "بله، پیش‌نویس را بساز"
 
 #. module: veron_ai_agent
 #. odoo-python

@@ -10,3 +10,5 @@ access_closing_manager,petty cash closing manager,model_veron_petty_cash_closing
 access_receipt_user,petty cash receipt user,model_veron_petty_cash_receipt,base.group_user,1,1,1,1
 access_issue_user,petty cash finding user,model_veron_petty_cash_issue,base.group_user,1,0,0,0
 access_source_user,agent file of a receipt,veron_ai_agent.model_veron_ai_source,base.group_user,1,0,1,0
+access_invoice_policy_user,draft invoice policy reader,model_veron_ai_invoice_policy,veron_ai_agent.group_ai_user,1,0,0,0
+access_invoice_policy_manager,draft invoice policy manager,model_veron_ai_invoice_policy,veron_ai_agent.group_ai_manager,1,1,1,1

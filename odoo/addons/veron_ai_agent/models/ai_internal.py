@@ -27,6 +27,8 @@ HELP = re.compile(r"\b(چه کار|چکار|چیکار|چه کارهایی|کم�
 ABOUT = re.compile(r"\b(بلدی|راهنما|راهنمایی|help)\b|(چه|چی) کار(ها)?(یی)? (می|می )?(تونی|توانی|کنی|بلدی)|چیکار (میتونی|می تونی|می کنی)")
 # Records of people: looked for after the things (products) named in the same request
 PEOPLE = {"res.partner", "hr.employee", "res.users"}
+YES = re.compile(r"^(بله|بلی|اره|آره|آری|اری|باشه|حتما|حتماً|بساز|بسازش|اوکی|ok|yes|درسته|موافقم)\b")
+NO = re.compile(r"^(نه|خیر|نخیر|لازم نیست|نمیخواد|نمی خواد|نساز|no)\b")
 NUMBER_WORDS = {"اولی": 1, "اول": 1, "دومی": 2, "دوم": 2, "سومی": 3, "سوم": 3, "چهارمی": 4, "چهارم": 4, "پنجمی": 5, "پنجم": 5}
 
 
@@ -356,7 +358,10 @@ class Brain:
 		if not intent:
 			self.memory.pop("pending", None)
 			return None
-		slot = next((s for s in intent._slots() if s.get("arg") == pending.get("arg")), None)
+		if pending.get("arg") == "_confirm":
+			return self._confirmed(intent, text, pending)
+		# A slot of the command, or the choice a tool asked of its own
+		slot = next((s for s in intent._slots() if s.get("arg") == pending.get("arg")), None) or pending.get("slot")
 		if slot and len(nlu.tokens(text)) <= 3 and not self._pick_option(text, pending.get("options") or []):
 			# What is said in the reply of another choice of the request («بدون مالیات» while a product is asked):
 			# kept, and the question asked still waits
@@ -408,6 +413,20 @@ class Brain:
 			args[slot["arg"]] = choice
 		self.memory.pop("pending", None)
 		return self._do(intent, pending.get("text") or "", args)
+
+	def _confirmed(self, intent, text, pending):
+		"""The answer to a step proposed after a tool's work: done on a yes, dropped on a no; anything else is a
+		request of its own and the proposal is dropped"""
+		words = nlu.normalize(text)
+		choice = self._pick_option(text, pending.get("options") or [])
+		if not choice:
+			choice = "yes" if YES.search(words) else "no" if NO.search(words) else None
+		self.memory.pop("pending", None)
+		if choice == "yes":
+			return self._do(intent, "", dict(pending.get("args") or {}))
+		if choice == "no":
+			return self._say(_("Nothing was made."))
+		return None
 
 	def _new_request(self, text, intent, slot, pending):
 		"""Whether a reply to a question is a request of its own: it still asks a command once the words of the
@@ -589,6 +608,8 @@ class Brain:
 			args["filters"] = list(args.get("filters") or []) + list(self.run.page_filters)
 		if self.dry:
 			self._note_args(intent, args)
+		# What was asked and found, for a question the tool may still ask (the taxes of a line, a vendor)
+		self.asked = (text, dict(args))
 		return self._run(intent, _fill(args))
 
 	# --- several products in one request, and things named before people
@@ -642,10 +663,20 @@ class Brain:
 				domain = self.agent._scope_domain("res.partner", self.env)
 			except registry.ToolDenied:
 				continue
+			start = index + 1 + next((i for i, w in enumerate(words[index + 1:index + 3]) if w not in nlu.NAME_STOP), 0)
 			for record in self.env["res.partner"].search(domain & Domain("name", "=ilike", pattern), limit=50):
 				name = nlu.normalize(record.name or "")
 				if len(name.split()) > len(first) and f" {name} " in f" {' '.join(words)} ":
 					names.append(name)
+					continue
+				# Said in part, past a word of the command in it («پیتزا معتمدی مشتری» of «پیتزا معتمدی مشتری خبازیان»)
+				size = 0
+				for said, own in zip(words[start:], name.split()):
+					if said != own:
+						break
+					size += 1
+				if size > len(first):
+					names.append(" ".join(name.split()[:size]))
 		return names
 
 	def _line_said(self, said, properties):
@@ -800,6 +831,8 @@ class Brain:
 					"supervisor", text=self.run.input_text, parent=self.run)
 				by = delegate.name
 		output = run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
+		if isinstance(output, dict) and output.get("status") == "asks" and not by:
+			return self._tool_asks(intent, output)
 		self._offer_open(intent, run)
 		if intent._args().get("_open"):
 			# «باز کن»: what was found is opened at once
@@ -818,7 +851,43 @@ class Brain:
 		if by:
 			head += Markup("<p class='text-muted small'>%s</p>") % _("Done by «%s», of this supervisor's team.", by)
 		self._remember(output)
-		return head + render.answer(intent.tool_code, output)
+		answer = head + render.answer(intent.tool_code, output)
+		if isinstance(output, dict) and output.get("next"):
+			answer += self._next_step(output["next"])
+		return answer
+
+	def _tool_asks(self, intent, output):
+		"""A choice the tool cannot make (taxes the settings and the history differ on, the vendor of a purchase):
+		asked here with its choices, and the request is done again with the answer"""
+		text, args = getattr(self, "asked", ("", {}))
+		slot = next((s for s in intent._slots() if s.get("arg") == output.get("arg")), None)
+		choices = [tuple(choice) for choice in output.get("choices") or []]
+		own = slot is None
+		if own:
+			slot = {"arg": output.get("arg"), "choices": [list(choice) for choice in choices]}
+		answer = self._wait(intent, dict(args), slot, text, output.get("question") or _("Which one?"), choices)
+		if own and self.memory.get("pending"):
+			self.memory["pending"]["slot"] = slot
+		return answer
+
+	def _next_step(self, step):
+		"""What a tool proposes after its work (a purchase draft for what is short): asked first when it says so,
+		else done at once; a command the person or the assistant may not use is not proposed"""
+		intent = self.env["veron.ai.intent"].sudo().search([("code", "=", step.get("intent"))], limit=1)
+		if not intent or not intent._usable(self.user) or not self.agent.sudo()._grant(intent.tool_code):
+			return Markup("")
+		args = dict(step.get("args") or {})
+		for slot in intent._slots():
+			if slot.get("model") and slot["arg"] not in args and slot["arg"] not in ("product_id",):
+				# Only what the tool proposed: the customer just spoken of is not the vendor of a purchase
+				args[slot["arg"]] = None
+		if step.get("confirm"):
+			question = step.get("question") or _("Shall I do it?")
+			self.memory["pending"] = {"intent": intent.code, "args": args, "arg": "_confirm", "text": "",
+				"options": [["yes", _("Yes, make the draft")], ["no", _("No")]], "question": question}
+			self.options += [{"choice": 1, "label": _("Yes, make the draft")}, {"choice": 2, "label": _("No")}]
+			return self._say(question)
+		return self._do(intent, "", args)
 
 	def _offer_open(self, intent, run):
 		"""The records an answer is about, to open as a list (or a form) in the program; remembered for «بازش کن»"""

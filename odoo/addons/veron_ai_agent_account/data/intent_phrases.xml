@@ -55,10 +55,22 @@
 		<value>product_id</value>
 		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
 	</function>
-	<!-- Taxes are never added or taken off silently: said, set in the AI settings, or asked -->
+	<!-- Taxes are never added or taken off silently: said («بدون مالیات» for all lines), else as the draft invoice
+	policy decides line by line; what it cannot decide is asked (taxes_unclear), as is the discount when the policy
+	says to ask (discount_rule) -->
 	<function model="veron.ai.intent" name="_ensure_slot">
 		<value>sale_invoice_draft</value>
-		<value eval='{"arg": "taxes", "choices": [["product", "بله، مالیات طبق تنظیم کالاها"], ["none", "خیر، بدون مالیات"]], "detect": {"بدون مالیات": "none", "بدون ارزش افزوده": "none", "مالیات نزن": "none", "بی مالیات": "none", "با مالیات": "product", "با ارزش افزوده": "product", "مالیات دار": "product", "مالیات بزن": "product"}, "answers": {"بله": "product", "اره": "product", "اری": "product", "اعمال شود": "product", "خیر": "none", "نه": "none", "نخیر": "none"}, "param": "veron_ai_agent_account.invoice_taxes", "question": "مالیات اعمال شود؟", "required": True}'/>
+		<value eval='{"arg": "taxes", "choices": [["product", "بله، مالیات طبق تنظیم کالاها"], ["none", "خیر، بدون مالیات"]], "detect": {"بدون مالیات": "none", "بدون ارزش افزوده": "none", "مالیات نزن": "none", "بی مالیات": "none", "با مالیات": "product", "با ارزش افزوده": "product", "مالیات دار": "product", "مالیات بزن": "product"}, "answers": {"بله": "product", "اره": "product", "اری": "product", "اعمال شود": "product", "خیر": "none", "نه": "none", "نخیر": "none"}}'/>
 		<value>$taxes</value>
+	</function>
+	<function model="veron.ai.intent" name="_ensure_slot">
+		<value>sale_invoice_draft</value>
+		<value eval='{"arg": "taxes_unclear", "choices": [["product", "بله، طبق تنظیم سامانه"], ["none", "خیر، بدون مالیات"]], "detect": {"بدون مالیات": "none", "بی مالیات": "none", "طبق تنظیم": "product"}, "answers": {"بله": "product", "اره": "product", "اری": "product", "اعمال شود": "product", "با مالیات": "product", "خیر": "none", "نه": "none", "نخیر": "none"}, "question": "مالیات اعمال شود؟"}'/>
+		<value>$taxes_unclear</value>
+	</function>
+	<function model="veron.ai.intent" name="_ensure_slot">
+		<value>sale_invoice_draft</value>
+		<value eval='{"arg": "discount_rule", "choices": [["none", "بدون تخفیف"], ["last", "تخفیف آخرین فروش همان کالا به همین مشتری"], ["pricelist", "تخفیف لیست قیمت"]], "answers": {"بدون تخفیف": "none", "نه": "none", "خیر": "none", "قبلی": "last", "همیشگی": "last", "مثل قبل": "last", "لیست قیمت": "pricelist"}, "question": "چه تخفیفی؟"}'/>
+		<value>$discount_rule</value>
 	</function>
 </odoo>

@@ -489,4 +489,21 @@
 		<field name="slots">[]</field>
 		<field name="page_models">res.partner</field>
 	</record>
+	<record id="intent_purchase_shortage_draft" model="veron.ai.intent">
+		<field name="code">purchase_shortage_draft</field>
+		<field name="name">پیش‌نویس درخواست خرید</field>
+		<field name="section">purchase</field>
+		<field name="sequence">30</field>
+		<field name="example">۱۰ عدد مهره m5 از بازرگانی نور درخواست خرید بساز</field>
+		<field name="phrases">درخواست خرید بساز
+پیش نویس سفارش خرید
+استعلام خرید
+برای کسری کالا سفارش خرید بزن
+درخواست تامین کالا</field>
+		<field name="tool_code">purchase_draft_create</field>
+		<field name="args">{"partner_id": "$partner_id", "lines": [{"product_id": "$product_id", "quantity": "$quantity"}]}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "از کدام تأمین‌کننده؟", "prefer": [["supplier_rank", "&gt;", 0]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true, "prefer": [["purchase_ok", "=", true]]}, {"arg": "quantity", "number": true, "default": 1}]</field>
+	</record>
 </odoo>

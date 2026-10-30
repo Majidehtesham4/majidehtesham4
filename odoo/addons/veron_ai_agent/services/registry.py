@@ -58,6 +58,18 @@ class ToolNeedsInfo(Exception):
 	"""Data the tool needs is missing (a rate, a rule, a document): the run stops and asks a person"""
 
 
+class ToolAsks(ToolNeedsInfo):
+	"""A choice only the person can make (the taxes of a line the settings and the history do not agree on, the
+	vendor of a purchase): nothing is done, and the question is asked with its choices. `arg` is the argument the
+	answer fills, `choices` the (value, label) pairs offered. An agent's run asks its responsible person, as with
+	any missing information."""
+
+	def __init__(self, question, arg, choices=()):
+		super().__init__(question)
+		self.arg = arg
+		self.choices = [list(choice) for choice in choices]
+
+
 @dataclass
 class Plan:
 	"""What a tool is about to do, checked before it does it"""

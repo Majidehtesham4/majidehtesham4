@@ -7,6 +7,11 @@
 		<field name="comment">Gives the receipts of the petty cash fund they hold and confirms what was read from them.</field>
 	</record>
 
+	<record id="rule_invoice_policy_company" model="ir.rule">
+		<field name="name">Draft invoice policies: own companies</field>
+		<field name="model_id" ref="model_veron_ai_invoice_policy"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
 	<record id="rule_category_company" model="ir.rule">
 		<field name="name">Petty cash expense types: own companies</field>
 		<field name="model_id" ref="model_veron_petty_cash_category"/>

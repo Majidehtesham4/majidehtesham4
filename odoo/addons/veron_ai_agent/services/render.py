@@ -9,7 +9,7 @@ from odoo.addons.veron_core.models import jalali
 
 ISO_DATE = re.compile(r"\b(20\d\d|19\d\d)-(\d\d)-(\d\d)\b")
 # Keys that are for the program, not for people
-HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from", "posted", "no_price", "notes"}
+HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from", "posted", "no_price", "notes", "next", "product_id", "purchase_id", "confirmed"}
 # Words of the tools' output written for people
 VALUES = {"low": "کم", "medium": "متوسط", "high": "زیاد", "built-in": "هوش داخلی، بدون هوش مصنوعی", "AI": "هوش مصنوعی",
 	"IRR": "ریال"}
@@ -42,7 +42,7 @@ LABELS = {
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
 	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
 	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "gross_amount": "جمع فاکتور", "discount_amount": "تخفیف",
-	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "shown_from": "از ردیف", "sources": "مبنای قیمت و تخفیف", "price_from": "قیمت از", "discount_from": "تخفیف از", "taxes_rule": "مالیات", "notes": "توجه", "documents": "اسناد", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "shown_from": "از ردیف", "sources": "مبنای قیمت و تخفیف", "price_from": "قیمت از", "discount_from": "تخفیف از", "taxes_rule": "مالیات", "taxes_from": "مالیات از", "policy": "سیاست به‌کاررفته", "stock": "موجودی انبار (فقط اطلاع)", "asked": "درخواستی", "reserved": "رزروشده", "free": "آزاد", "forecast": "پیش‌بینی", "short": "کسری", "purchase": "پیش‌نویس خرید", "origin": "برای سند", "notes": "توجه", "documents": "اسناد", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 
@@ -72,6 +72,7 @@ STATUS = {
 	"waiting_approval": "درخواست «{summary}» ثبت شد و منتظر تأیید است ({approval}).",
 	"suggested": "این را پیشنهاد کردم و چیزی تغییر نکرد: {summary} ({approval}).",
 	"needs_info": "{question}",
+	"asks": "{question}",
 	"failed": "انجام نشد: {error}",
 	"invalid": "ورودی درست نبود: {error}",
 }
@@ -137,7 +138,11 @@ def _draft(o):
 	# The name of a draft invoice already says it is one
 	draft = draft if draft.replace("\u200c", "").startswith(("پیش نویس", "پیشنویس")) else f"پیش‌نویس {draft}"
 	notes = (" " + " ".join(o["notes"])) if o.get("notes") else ""
-	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{notes} مبنای هر قیمت و تخفیف در جدول آمده است. هنوز ثبت قطعی نشده است."
+	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{notes} مبنای هر قیمت، تخفیف و مالیات در جدول آمده است. هنوز ثبت قطعی نشده است."
+
+
+def _purchase(o):
+	return f"پیش‌نویس خرید {o.get('purchase', '')} از {o.get('vendor', '')} ساخته شد؛ تأیید یا ارسال نشده است."
 
 
 def _documents(o):
@@ -162,7 +167,7 @@ def _records(o):
 
 HEADLINES = {
 	"sales_summary": _sales, "receivables_overdue": _overdue, "cash_position": _cash, "expense_summary": _expense,
-	"invoice_draft_create": _draft, "invoice_draft_update": _changed, "sales_documents_read": _documents, "bill_from_document": _draft, "records_search": _records,
+	"invoice_draft_create": _draft, "invoice_draft_update": _changed, "sales_documents_read": _documents, "purchase_draft_create": _purchase, "bill_from_document": _draft, "records_search": _records,
 	"page_overview": _overview,
 }
 

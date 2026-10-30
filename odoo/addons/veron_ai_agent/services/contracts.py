@@ -55,11 +55,13 @@ CONTRACTS = {
 	"expense_summary": ("finance", "report", ("account.move.line",), (), ""),
 	"image_draft": ("website", "agent", ("veron.ai.content",), (), "Needs an image service; off without one"),
 	"invoice_draft_create": ("finance", "form", ("account.move", "res.partner", "product.product"),
-		("partner_id", "product_id", "price_unit", "taxes"),
-		"Every line checked first, nothing made if one fails. Price: said, the customer's price list, the customer's "
-		"last posted sale of the product (when the settings allow), the product's price; none of them: nothing is "
-		"made and the price is asked. Discount: said, or the same one of the customer's last sales of the same "
-		"product. Taxes: said, as set in the AI settings, or asked"),
+		("partner_id", "product_id", "price_unit", "taxes", "discount"),
+		"Every line checked first, nothing made if one fails, as the draft invoice policy of the assistant and company "
+		"says. Taxes: said, the current tax setting of the product (with the fiscal position) or the last posted "
+		"invoice of the same customer and product; when they differ or neither is there, asked. Price: said, the price "
+		"list, the product's current price (the customer's last price only when the policy says so); none: nothing is "
+		"made. Discount: said, else the policy's, each line on its own and only of the same customer and product. "
+		"Stock read and reported; it never changes the invoice"),
 	"invoice_draft_update": ("finance", "form", ("account.move", "product.product"),
 		("move_id", "product_id", "discount", "quantity", "price_unit"),
 		"Only a draft; a product named is one of its lines"),
@@ -84,6 +86,10 @@ CONTRACTS = {
 	"petty_cash_review": ("finance", "form", ("veron.petty.cash.closing",), ("closing_id",), ""),
 	"product_quality": ("stock", "report", ("product.template",), (), ""),
 	"purchase_compare": ("purchase", "report", ("purchase.order.line",), ("product_id",), ""),
+	"purchase_draft_create": ("purchase", "form", ("purchase.order", "res.partner", "product.product"),
+		("partner_id", "warehouse_id", "quantity"),
+		"A request for quotation, made after the person says yes (or as the policy says) for what a sale is short "
+		"of; a vendor or a warehouse not clear is asked; never confirmed or sent"),
 	"purchase_late": ("purchase", "report", ("purchase.order.line",), (), ""),
 	"purchase_summary": ("purchase", "report", ("purchase.order",), (), ""),
 	"quotes_pending": ("sales", "report", ("sale.order",), (), ""),

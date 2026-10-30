@@ -466,6 +466,13 @@ class AiRun(models.Model):
 			# The tool's own refusal (a price not found, a draft already posted): another agent would refuse it too
 			reason = str(error)
 			return done("denied", {"status": "denied", "reason": reason}, reason)
+		except registry.ToolAsks as error:
+			if origin == "internal":
+				# The person is in the chat: asked there with the choices, and no request is filed for anyone else
+				return done("needs_info", {"status": "asks", "question": str(error), "arg": error.arg,
+					"choices": error.choices}, str(error))
+			request = self._ask(str(error))
+			return done("needs_info", {"status": "needs_info", "question": str(error), "request": request.name}, str(error))
 		except registry.ToolNeedsInfo as error:
 			request = self._ask(str(error))
 			return done("needs_info", {"status": "needs_info", "question": str(error), "request": request.name}, str(error))
@@ -491,6 +498,13 @@ class AiRun(models.Model):
 				output = tool.execute(ctx, args, plan)
 		except registry.ToolDenied as error:
 			return done("denied", {"status": "denied", "reason": str(error)}, str(error))
+		except registry.ToolAsks as error:
+			if origin == "internal":
+				# The person is in the chat: asked there with the choices, and no request is filed for anyone else
+				return done("needs_info", {"status": "asks", "question": str(error), "arg": error.arg,
+					"choices": error.choices}, str(error))
+			request = self._ask(str(error))
+			return done("needs_info", {"status": "needs_info", "question": str(error), "request": request.name}, str(error))
 		except registry.ToolNeedsInfo as error:
 			request = self._ask(str(error))
 			return done("needs_info", {"status": "needs_info", "question": str(error), "request": request.name}, str(error))

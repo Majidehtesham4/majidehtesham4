@@ -127,6 +127,10 @@ def main():
 			reply = Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
 			for _turn in range(3):
 				pending = (Chat.browse(conversation).memory or {}).get("pending")
+				if pending and pending.get("arg") in ("taxes_unclear", "discount_rule"):
+					# The policy asks of an added line too: answered as a person would
+					reply = Chat.veron_chat_send(conversation, "1", [], {}, "internal")[-1]
+					continue
 				if not pending or not pending.get("options"):
 					break
 				ids = [option[0] for option in pending["options"]]
@@ -183,10 +187,13 @@ def main():
 					if not pending:
 						break
 					asked += 1
-					if pending.get("arg") == "taxes":
-						# Asked when neither the request nor the settings say it: one more question, as needed
+					if pending.get("arg") in ("taxes_unclear", "discount_rule", "_confirm"):
+						# Asked as the draft invoice policy says (taxes it cannot decide, a discount, a purchase for what is
+						# short): one more question, as needed
 						taxes_asked += 1
-						reply = Chat.veron_chat_send(conversation, random.choice(["خیر", "بله", "2"]), [], {}, "internal")[-1]
+						answer = {"taxes_unclear": random.choice(["خیر", "بله", "2"]), "discount_rule": "1",
+							"_confirm": "خیر"}[pending["arg"]]
+						reply = Chat.veron_chat_send(conversation, answer, [], {}, "internal")[-1]
 						continue
 					ids = [option[0] for option in pending.get("options") or []]
 					question = nlu.name_words(pending.get("question") or "")
