@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="res_config_settings_view_form_invoice" model="ir.ui.view">
+		<field name="name">res.config.settings.veron.ai.invoice</field>
+		<field name="model">res.config.settings</field>
+		<field name="inherit_id" ref="veron_ai_agent.res_config_settings_view_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//app[@name='veron_ai_agent']" position="inside">
+				<block title="Draft Invoices of the Assistant" name="veron_ai_invoice">
+					<setting string="Taxes" help="Never added or taken off silently: as said in the request, else as set here">
+						<field name="veron_ai_invoice_taxes"/>
+					</setting>
+					<setting string="Price" help="Where a price not said comes from; a line with no price stops the invoice">
+						<field name="veron_ai_invoice_price"/>
+					</setting>
+					<setting string="Discount" help="Where a discount not said comes from">
+						<field name="veron_ai_invoice_discount"/>
+					</setting>
+				</block>
+			</xpath>
+		</field>
+	</record>
+</odoo>

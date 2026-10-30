@@ -9,6 +9,7 @@ from odoo.tests import tagged
 from odoo.addons.veron_ai_agent.tests.common import FakeAdapter, calls
 
 from ..tools.bills import text_fields
+from ..tools.finance import PARAM_TAXES
 from .common import FinanceCase
 
 
@@ -160,6 +161,8 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		# Old data often has the Arabic «ي»
 		cls.oven50 = Product.create({"name": "فر پيتزا ريلي ۱۱۵۴ عرض ۵۰", "list_price": 1_500_000, "default_code": "F1154-50"})
 		cls.oven60 = Product.create({"name": "فر پیتزا ریلی ۱۱۵۴ عرض ۶۰", "list_price": 1_800_000})
+		# The taxes of each product, as a business sets it; asked when it is not set (test_safe_invoices)
+		cls.env["ir.config_parameter"].sudo().set_param(PARAM_TAXES, "product")
 
 	def say(self, Chat, conversation, text):
 		return Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
@@ -197,14 +200,16 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		self.assertEqual((move.partner_id, move.invoice_line_ids.product_id), (self.customer, self.oven50))
 
 	def test_terms_of_the_last_invoice(self):
-		"""The price, discount and taxes agreed with this customer last time, not the product's own"""
+		"""The price and discount agreed with this customer last time for the product, not the product's own; the taxes
+		as set, not as the last invoice had them"""
 		past = self.env["account.move"].create({"move_type": "out_invoice", "partner_id": self.customer.id,
 			"invoice_line_ids": [(0, 0, {"product_id": self.oven50.id, "quantity": 2, "price_unit": 1_400_000, "discount": 10,
 			"tax_ids": [(6, 0, [])]})]})
 		past.action_post()
 		move, reply = self.invoice("یک عدد فر پیتزا ریلی ۱۱۵۴ عرض ۵۰ برای اقای حسن پور فاکتور کن")
 		line = move.invoice_line_ids
-		self.assertEqual((line.price_unit, line.discount, line.tax_ids.ids), (1_400_000, 10, []), reply["body_html"])
+		self.assertEqual((line.price_unit, line.discount), (1_400_000, 10), reply["body_html"])
+		self.assertEqual(line.tax_ids, self.oven50.taxes_id.filtered(lambda t: t.company_id == self.company))
 		self.assertIn(past.name, reply["body_html"])
 		self.assertTrue(any(option.get("res_id") == move.id for option in reply["options"]), "the draft opens with a button")
 
@@ -242,12 +247,14 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		reply = self.say(Chat, conversation, "تعداد فر ریلی عرض ۶۰ را ۳ کن")
 		self.assertEqual(move.invoice_line_ids.filtered(lambda l: l.product_id == self.oven60).quantity, 3, reply["body_html"])
 		reply = self.say(Chat, conversation, "دو تا ترموکوپل هم اضافه کن")
-		self.assertEqual(move.invoice_line_ids.filtered(lambda l: l.product_id == thermo).quantity, 2, reply["body_html"])
+		added = move.invoice_line_ids.filtered(lambda l: l.product_id == thermo)
+		self.assertEqual(added.quantity, 2, reply["body_html"])
+		self.assertEqual(added.discount, 0, "the discount said of the other lines is not this product's")
 		reply = self.say(Chat, conversation, "فر ریلی عرض ۵۰ را حذف کن")
 		self.assertNotIn(self.oven50, move.invoice_line_ids.product_id, reply["body_html"])
 		move.action_post()
 		reply = self.say(Chat, conversation, "۵ درصد تخفیف بده")
-		self.assertEqual(move.invoice_line_ids.mapped("discount"), [10, 10], "a posted invoice is not changed")
+		self.assertEqual(move.invoice_line_ids.mapped("discount"), [10, 0], "a posted invoice is not changed")
 
 	def _draft(self, Chat, conversation, text):
 		self.say(Chat, conversation, text)

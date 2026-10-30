@@ -50,6 +50,8 @@ class Brain:
 		self.not_people = Counter()
 		# The records a search is kept to: the products of the draft being changed
 		self.within = {}
+		# The words that name the party of an order («برای خبازیان»): the only words a search for it reads
+		self.party = None
 		# Understanding only, nothing done: what «analyze» gives back
 		self.dry = False
 		self.frame = {}
@@ -71,7 +73,7 @@ class Brain:
 		intent, score, ranked = self._by_what_is_named(text, intent, score, ranked)
 		self.frame["candidates"] = [(i.code, round(s, 3)) for i, s in ranked[:3]]
 		self.frame["score"] = round(score, 3)
-		tied = score >= SURE and len(ranked) > 1 and ranked[1][1] >= score - 0.02
+		intent, tied = self._untie(text, intent, score, ranked)
 		if not intent or score < UNSURE or tied or score < SURE:
 			# Not sure: the person would be asked which one
 			self.frame["missing"].append("intent")
@@ -130,6 +132,13 @@ class Brain:
 		words = nlu.normalize(text)
 		if text.startswith("#intent:"):
 			return self._chosen(text.split(":", 1)[1].strip())
+		codes = self.memory.pop("unclear_codes", None)
+		code = self._pick_option(text, codes) if codes and len(nlu.tokens(text)) <= 3 else None
+		if code:
+			return self._chosen(code)
+		if (words.isdigit() or words in NUMBER_WORDS) and not self.memory.get("pending"):
+			# A number alone answers a list of choices; with none open it is not taken for anything else
+			return self._say(_("No question is open for «%s» to answer. Write the whole request, please.", text))
 		if not words and self.sources and not self.run.sources_carried:
 			return self._files_only()
 		if self.memory.get("pending") and ABOUT.search(words) and len(nlu.tokens(text)) <= 5:
@@ -164,15 +173,36 @@ class Brain:
 			if follow is not None:
 				return follow
 		# Two meanings as likely as each other: the person chooses rather than the assistant guessing
-		tied = score >= SURE and len(ranked) > 1 and ranked[1][1] >= score - 0.02
+		intent, tied = self._untie(text, intent, score, ranked)
 		if score >= SURE and not tied:
 			return self._do(intent, text)
 		candidates = [(i, s) for i, s in ranked if s >= UNSURE * 0.7][:3]
 		if score >= UNSURE and candidates:
 			self.memory["unclear"] = text
 			self.options = [{"code": i.code, "label": i.name} for i, _s in candidates]
+			# «۱» or «اولی» typed instead of a click is the same choice
+			self.memory["unclear_codes"] = [[i.code, i.name] for i, _s in candidates]
 			return self._say(_("Which one do you mean? Choose below; I will remember it for next time."))
 		return self._not_understood(ranked)
+
+	def _untie(self, text, intent, score, ranked):
+		"""The command and whether another is as likely; of two, the one whose words stand together in the request
+		wins: «۵ درصد تخفیف» on «... بدون پایه» is a discount, though «بدون» and «تخفیف» are both in it"""
+		tied = score >= SURE and len(ranked) > 1 and ranked[1][1] >= score - 0.02
+		if tied:
+			together = [i for i, _s in ranked[:2] if self._said_together(i, text)]
+			if len(together) == 1:
+				return together[0], False
+		return intent, tied
+
+	def _said_together(self, intent, text):
+		"""Whether a phrase of two words or more of the command is in the request with its words side by side"""
+		words = nlu.tokens(text)
+		for phrase in intent._phrase_tokens(self.user):
+			size = len(phrase)
+			if size >= 2 and any(words[i:i + size] == list(phrase) for i in range(len(words) - size + 1)):
+				return True
+		return False
 
 	def _by_what_is_named(self, text, intent, score, ranked):
 		"""Of commands about as likely as each other, the one whose records are named in the request goes first:
@@ -199,6 +229,11 @@ class Brain:
 		intents = self.env["veron.ai.intent"].sudo().search([]).filtered(lambda i: i._usable(self.user))
 		vocabulary = {w for intent in intents for phrase in intent._phrase_tokens(self.user) for w in phrase}
 		known = nlu.known_words(message, vocabulary)
+		# «برای فرزامی چی فاکتور شده»، «محتوای فاکتور ... رو بیار» ask what there is: not a command that makes or changes
+		asks = nlu.asks_what_is(text) or nlu.action(text) in ("view", "report", "search")
+		# A whole order («۲ عدد X برای عباسی ...») is a new request, not a change to what was just made
+		order = nlu.order_parts(text)
+		ordered = bool(order["party"] and any(line["count"] for line in order["lines"]))
 		for intent in intents:
 			needs = {slot["page"] for slot in intent._slots() if slot.get("page") and slot.get("required")}
 			if "model" in needs and not page or "id" in needs and not self.run.page_res_id:
@@ -210,8 +245,17 @@ class Brain:
 			if tool and not all(self.env[model].with_user(self.user).has_access("read") for model in tool.models):
 				# A command on what the person may not see is a weaker guess; asked for plainly, it still says why not
 				score -= 0.15
+			if tool and tool.action != "read" and asks:
+				score -= 0.15
+			elif tool and tool.action == "read" and ordered and not asks:
+				# Counts of things for a customer, with no word of a question: an order, not a report
+				score -= 0.1
 			remembered = self.memory.get("records") or {}
-			if any(slot.get("remembered") and remembered.get(slot.get("model")) for slot in intent._slots()):
+			changes = any(slot.get("remembered") for slot in intent._slots())
+			if changes and ordered and nlu.action(text) not in ("edit", "delete"):
+				# A whole order with its customer and counts is a new one, whatever is said of it («بدون مالیات»)
+				score -= 0.1
+			elif changes and any(slot.get("remembered") and remembered.get(slot.get("model")) for slot in intent._slots()):
 				# A change to what was just made: «براش تخفیف بده» after a draft invoice
 				score += 0.1
 			if not self.sources and any(slot.get("file") and slot.get("required") for slot in intent._slots()):
@@ -257,6 +301,7 @@ class Brain:
 			return self._do(candidates[0], "")
 		self.memory["unclear"] = ""
 		self.options = [{"code": i.code, "label": i.name} for i in candidates[:4]]
+		self.memory["unclear_codes"] = [[i.code, i.name] for i in candidates[:4]]
 		return self._say(_("What should I do with this file?"))
 
 	def _chosen(self, code):
@@ -312,12 +357,20 @@ class Brain:
 			self.memory.pop("pending", None)
 			return None
 		slot = next((s for s in intent._slots() if s.get("arg") == pending.get("arg")), None)
-		# A reply naming what was asked is the answer, even when its words sound like another command
-		# («میز کار استیل» is not the «کار» of the tasks)
-		answers = bool(slot and slot.get("model") in self.env and (self._pick_option(text, pending.get("options") or [])
-			or self._search(slot["model"], text, intent)))
-		new_intent, score, _ranked = self._match(text)
-		if not answers and new_intent and new_intent != intent and score >= SURE + 0.15:
+		if slot and len(nlu.tokens(text)) <= 3 and not self._pick_option(text, pending.get("options") or []):
+			# What is said in the reply of another choice of the request («بدون مالیات» while a product is asked):
+			# kept, and the question asked still waits
+			said = {other["arg"]: self._choice(other, text, said_only=True, detect_only=True) for other in intent._slots()
+				if other.get("choices") and other is not slot}
+			said = {key: value for key, value in said.items() if value}
+			if said:
+				args = dict(pending.get("args") or {}, **said)
+				asked = self._wait(intent, args, slot, pending.get("text") or "", pending.get("question") or "",
+					[tuple(option) for option in pending.get("options") or []])
+				return self._say(_("Noted.")) + asked
+		if self._new_request(text, intent, slot, pending):
+			# A request of its own («یک فاکتور برای خبازیان بزن ...»), not the answer to the question still open:
+			# the question is dropped, nothing of it is carried over
 			self.memory.pop("pending", None)
 			return None
 		args = dict(pending.get("args") or {})
@@ -329,6 +382,12 @@ class Brain:
 			if not source:
 				return self._say(slot.get("question") or _("Send the file, please."))
 			args[slot["arg"]] = source.id
+		elif slot.get("choices"):
+			choice = self._pick_option(text, pending.get("options") or []) or self._choice(slot, text, said_only=True)
+			if not choice:
+				return self._wait(intent, args, slot, pending.get("text") or "", slot.get("question") or _("Which one?"),
+					[(key, label) for key, label in slot["choices"]])
+			args[slot["arg"]] = choice
 		elif slot.get("text"):
 			args[slot["arg"]] = text.strip()[:100]
 		elif slot.get("number"):
@@ -349,6 +408,54 @@ class Brain:
 			args[slot["arg"]] = choice
 		self.memory.pop("pending", None)
 		return self._do(intent, pending.get("text") or "", args)
+
+	def _new_request(self, text, intent, slot, pending):
+		"""Whether a reply to a question is a request of its own: it still asks a command once the words of the
+		record it names are taken out. «میز کار استیل ۱۴۵۶» names a product (its «کار» is not the tasks); «یک
+		فاکتور برای خبازیان بزن ۱ عدد درب» asks an invoice of its own."""
+		if self._pick_option(text, pending.get("options") or []):
+			return False
+		if slot and slot.get("text") and not nlu.action(text):
+			# Words asked for («مشتری الف» to look for) are the answer, unless they ask something to be done
+			return False
+		new_intent, score, _ranked = self._match(text)
+		if not new_intent or score < SURE:
+			return False
+		rest = nlu.normalize(text)
+		if slot and slot.get("model") in self.env:
+			found = self._search(slot["model"], text, intent)
+			if found:
+				name = Counter(nlu.name_words(found[0].display_name))
+				kept = []
+				for word in rest.split():
+					if name[word] > 0:
+						name[word] -= 1
+					else:
+						kept.append(word)
+				rest = " ".join(kept)
+		if not nlu.tokens(rest):
+			return False
+		again, score_again, _ranked = self._match(rest)
+		return bool(again) and score_again >= SURE
+
+	def _choice(self, slot, text, said_only=False, detect_only=False):
+		"""The value of a choice said in the text («بدون مالیات»), else the one set for it (a setting, the page)"""
+		words = f" {nlu.normalize(text)} "
+		# Short answers («بله»، «نه») only as the reply to the question: in a request «نه» is nine
+		answers = (slot.get("answers") or {}) if said_only and not detect_only else {}
+		phrases = dict(slot.get("detect") or {}, **answers)
+		for phrase, value in sorted(phrases.items(), key=lambda item: -len(item[0])):
+			if f" {nlu.normalize(phrase)} " in words:
+				return value
+		if said_only:
+			return None
+		keys = {key for key, _label in slot["choices"]}
+		if slot.get("param"):
+			value = self.env["ir.config_parameter"].sudo().get_param(slot["param"])
+			if value in keys:
+				return value
+		value = (slot.get("page_default") or {}).get(self.run.page_model or "")
+		return value if value in keys else slot.get("default")
 
 	def _pick_option(self, text, options):
 		if not options:
@@ -426,6 +533,23 @@ class Brain:
 				elif slot.get("required"):
 					return self._say(_("Open the page of the section or of the record first, then ask here."))
 				continue
+			if slot.get("choices"):
+				value = self._choice(slot, text)
+				if value:
+					args[slot["arg"]] = value
+				elif slot.get("required"):
+					if self.dry:
+						self._note_missing(slot, [(key, label) for key, label in slot["choices"]])
+						continue
+					return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"),
+						[(key, label) for key, label in slot["choices"]])
+				continue
+			if slot.get("ref"):
+				# A document's number said in the request: «S00051»
+				refs = nlu.refs(text)
+				if refs:
+					args[slot["arg"]] = refs[0]
+				continue
 			if slot.get("ahead"):
 				# «فردا»، «سه روز دیگه»: in how many days
 				days = nlu.days_ahead(text)
@@ -447,10 +571,11 @@ class Brain:
 			record = self._record(slot, text, intent, args)
 			if isinstance(record, Markup):
 				return record
+			other = args.get(slot.get("unless") or "")
 			if record:
 				args[slot["arg"]] = record.id
 				self._keep_within(intent, slot, record)
-			elif slot.get("required"):
+			elif slot.get("required") and not (other and not (isinstance(other, str) and other.startswith("$"))):
 				if self.dry:
 					self._note_missing(slot)
 					continue
@@ -480,41 +605,75 @@ class Brain:
 					return key, value[0], product, count
 		return None
 
-	def _segments(self, text):
-		"""The parts of a request joined by «و» or commas: «یک فر ۱۱۵۴ و دو فر ۱۴۵۶». «بیست و پنج» stays one number"""
-		# Commas (not those of «۲,۰۰۰,۰۰۰») go before the text is made one form, which takes punctuation out
-		words = nlu.normalize(re.sub(r"[،,](?!\d)|(?<!\d)[،,]|[+\n]", " و ", text or "")).split()
-		numberish = set(nlu.UNITS) | set(nlu.SCALES)
-		parts, current = [], []
+	def _joined_names(self, text):
+		"""Names of products and contacts with «و» or «+» in them that the request says («قلم و قلتک»، «لیزر و پانچ
+		سلینمی»، «نصب و راه» of «نصب و راه‌اندازی»): those are not where one line ends and the next begins"""
+		words = nlu.normalize(re.sub(r"\+", " + ", text or "")).split()
+		names = []
 		for index, word in enumerate(words):
-			before = words[index - 1] if index else ""
-			after = words[index + 1] if index + 1 < len(words) else ""
-			# Only a number in words goes on after «و»: «۱۱۵۴ و یک عدد ۱۴۵۶» is two parts
-			joins = word == "و" and before in numberish and after in numberish
-			if word == "و" and not joins:
-				if current:
-					parts.append(" ".join(current))
-				current = []
-			else:
-				current.append(word)
-		if current:
-			parts.append(" ".join(current))
-		return parts
+			if word not in ("و", "+") or not 0 < index < len(words) - 1:
+				continue
+			pattern = nlu.like(f"{words[index - 1]} {word} {words[index + 1]}")
+			for model in ("product.product", "res.partner"):
+				if not pattern or model not in self.env:
+					continue
+				try:
+					domain = self.agent._scope_domain(model, self.env)
+				except registry.ToolDenied:
+					continue
+				field = self.env[model]._rec_name or "name"
+				said = f"{words[index - 1]} {word} {words[index + 1]}"
+				for record in self.env[model].search(domain & Domain(field, "=ilike", pattern), limit=20):
+					name = nlu.normalize(record[field].replace("+", " + "))
+					if f" {name} " in f" {' '.join(words)} ":
+						names.append(name)
+					elif f" {said}" in f" {name}":
+						# The name said in part, up to a word after its «و» begun or whole
+						names.append(said)
+		# A contact's whole name after «برای» with words of the command in it («پیتزا معتمدی مشتری خبازیان»)
+		for index, word in enumerate(words):
+			if word not in nlu.PARTY_MARKERS or "res.partner" not in self.env:
+				continue
+			first = [w for w in words[index + 1:index + 4] if w not in nlu.NAME_STOP][:2]
+			pattern = nlu.like(" ".join(first)) if first else None
+			if not pattern:
+				continue
+			try:
+				domain = self.agent._scope_domain("res.partner", self.env)
+			except registry.ToolDenied:
+				continue
+			for record in self.env["res.partner"].search(domain & Domain("name", "=ilike", pattern), limit=50):
+				name = nlu.normalize(record.name or "")
+				if len(name.split()) > len(first) and f" {name} " in f" {' '.join(words)} ":
+					names.append(name)
+		return names
 
-	def _count_in(self, text, record, default):
-		"""The count said in a part of the request, leaving out the numbers of the record's own name"""
-		name = list(nlu.name_words(record.display_name))
-		left = []
-		for word in nlu.normalize(text).split():
-			if word in name:
-				name.remove(word)
-			else:
-				left.append(word)
-		values = [value for value, _unit in nlu.amounts(" ".join(left))]
-		return values[0] if values else default
+	def _line_said(self, said, properties):
+		"""What is said of a line, as arguments its tool takes: «بدون تخفیف»، «با تخفیف همیشگی»، «۵ درصد تخفیف»،
+		«به قیمت ۲ میلیون»"""
+		values, text = {}, nlu.normalize(said)
+		if not text:
+			return values
+		if "discount" in properties:
+			percent = re.search(r"(\d+(?:\.\d+)?)\s*(?:درصد|%)", text)
+			if re.search(r"\bبدون تخفیف\b", text):
+				values["discount"] = 0.0
+			elif percent and "تخفیف" in text:
+				values["discount"] = float(percent.group(1))
+			elif "discount_from_history" in properties and re.search(r"\bتخفیف\b.*\b(همیشگی|همیشه|قبلی|معمول|همیشگیش)\b", text):
+				values["discount_from_history"] = True
+		price = re.search(r"\b(?:قیمت|فی)\b(.*)", text)
+		if "price_unit" in properties and price:
+			amounts = nlu.amounts(price.group(1))
+			if amounts:
+				value, unit = amounts[0]
+				values["price_unit"] = value * 10 if unit == "toman" else value
+		return values
 
 	def _lines(self, intent, args, text):
-		"""Several products said at once become several lines; one that is not clear is asked, then the next"""
+		"""The lines of an order said in one sentence («یک فاکتور برای خبازیان بزن ۱ عدد درب شیشه ای و ۱۰ عدد مهره
+		m5 بدون تخفیف»), each found among the products; one that fits several is asked, one that is not a product is
+		said so. Nothing goes to the tool until every line is found."""
 		found = self._line_slots(intent)
 		if not found:
 			return None
@@ -522,53 +681,71 @@ class Brain:
 		model, arg = product_slot["model"], product_slot["arg"]
 		default = (count_slot or {}).get("default", 1)
 		count_arg = count_slot["arg"] if count_slot else None
-		if "_segments" in args:
-			segments = list(args["_segments"])
-			if isinstance(args.get(arg), int) and segments:
-				# The answer to the part that was asked
-				record = self.env[model].browse(args.pop(arg)).exists()
-				args.pop(count_arg, None)
-				args["_lines"] = args.get("_lines", []) + [{"id": record.id, "count": self._count_in(segments[0], record, default)}]
-				segments = segments[1:]
-		else:
-			parts = self._segments(text)
-			if len(parts) < 2 or not all(self._search(model, part, intent) for part in parts[:2]):
-				return None
-			segments, args["_lines"] = parts, []
-		while segments:
-			part = segments[0]
-			records = self._search(model, part, intent)
-			if len(records) == 1:
-				args["_lines"].append({"id": records.id, "count": self._count_in(part, records, default)})
-				segments = segments[1:]
-				continue
-			if not records:
-				# A part with no product in it: the customer's name, «فاکتور کن»
-				segments = segments[1:]
-				continue
-			args["_segments"] = segments
-			options = [(record.id, record.display_name) for record in records[:6]]
-			return self._wait(intent, args, product_slot, text, _("Which product for «%s»?", part) + self._more(records),
-				options)
-		args.pop("_segments", None)
-		if not args.get("_lines"):
+		tool = registry.get(intent.tool_code)
+		items = (((tool.schema or {}).get("properties") or {}).get(key) or {}).get("items") or {}
+		properties = set((items.get("properties") or {}))
+		made_before = args.get(key)
+		if isinstance(made_before, list) and made_before and not any(isinstance(v, str) and v.startswith("$")
+				for item in made_before for v in item.values()):
+			# The lines were found before another question (the customer, the taxes): kept as they are
+			self.party = args.get("_party")
+			for item in made_before:
+				self._take(self.env[model].browse(item.get(arg)).exists())
+			self.in_lines = {arg} | ({count_arg} if count_arg else set())
 			return None
-		# A name with «و» in it («نصب و راه اندازی») was cut in two: the two halves are one line
-		merged = []
-		for item in args["_lines"]:
-			name = nlu.normalize(self.env[model].browse(item["id"]).display_name)
-			if merged and merged[-1]["id"] == item["id"] and " و " in f" {name} ":
+		if "_parts" in args:
+			parts, done = list(args["_parts"]), list(args.get("_lines") or [])
+			self.party = args.get("_party")
+			if isinstance(args.get(arg), int) and parts:
+				# The answer to the line that was asked
+				done.append(dict(parts[0], id=args.pop(arg)))
+				args.pop(count_arg, None)
+				parts = parts[1:]
+		else:
+			parsed = nlu.order_parts(text, intent._command_words(), self._joined_names(text))
+			self.party = parsed["party"]
+			parts = [part for part in parsed["lines"] if part["name"]]
+			if not parts:
+				return None
+			done = []
+		args["_party"] = self.party
+		while parts:
+			part = parts[0]
+			records = self._search(model, part["name"], intent)
+			if len(records) == 1:
+				done.append(dict(part, id=records.id))
+				parts = parts[1:]
 				continue
-			merged.append(item)
-		args["_lines"] = merged
-		# The products' words are left out of the customer's search only now: «فر ریلی» of one line is still
-		# looked for in the next
-		for item in args["_lines"]:
+			args.update(_parts=parts, _lines=done)
+			if self.dry:
+				self._note_missing(product_slot, [(record.id, record.display_name) for record in records[:6]])
+				return Markup("")
+			if records:
+				options = [(record.id, record.display_name) for record in records[:6]]
+				return self._wait(intent, args, product_slot, text, _("Which product for «%s»?", part["name"]) +
+					self._more(records), options)
+			# Not a product of the program: the nearest ones if any, never one put in its place
+			near = self._search(model, part["name"], intent, loose=True)
+			if near:
+				options = [(record.id, record.display_name) for record in near[:6]]
+				return self._wait(intent, args, product_slot, text, _("«%s» is not among the products. Is it one of "
+					"these? If not, write its name or code as it is in the products.", part["name"]), options)
+			return self._wait(intent, args, product_slot, text, _("«%s» was not found among the products of the "
+				"program. Write its name or code as it is in the products; no invoice is made until then.", part["name"]))
+		for key_ in ("_parts", "_lines"):
+			args.pop(key_, None)
+		if not done:
+			return None
+		for item in done:
 			self._take(self.env[model].browse(item["id"]).exists())
+
 		def made(item):
-			return {k: (item["id"] if v == "$" + arg else item["count"] if count_arg and v == "$" + count_arg else v)
-				for k, v in line.items()}
-		args[key] = [made(item) for item in args["_lines"]]
+			values = {k: (item["id"] if v == "$" + arg else (item["count"] or default) if count_arg and v == "$" + count_arg
+				else v) for k, v in line.items()}
+			values.update(self._line_said(item.get("said") or "", properties))
+			return values
+
+		args[key] = [made(item) for item in done]
 		self.in_lines = {arg} | ({count_arg} if count_arg else set())
 		return None
 
@@ -624,6 +801,12 @@ class Brain:
 				by = delegate.name
 		output = run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
 		self._offer_open(intent, run)
+		if intent._args().get("_open"):
+			# «باز کن»: what was found is opened at once
+			for option in self.options:
+				if option.get("res_model"):
+					option["auto"] = True
+					break
 		if by:
 			run.sudo().write({"state": "done", "finished_at": fields.Datetime.now(),
 				"output_html": render.answer(intent.tool_code, output)})
@@ -727,6 +910,22 @@ class Brain:
 		if slot.get("after"):
 			# A record of a role in the request: «از انبار مرکزی» is the source, «به شعبه» the destination
 			text = nlu.after(text, slot["after"])
+		if model in PEOPLE and self.party:
+			# The party of an order said apart: only its words are read, and all of them
+			found = self._search(model, self.party, intent, untaken=True)
+			if len(found) == 1:
+				self.memory.setdefault("records", {})[model] = found.id
+				return found
+			if found:
+				if self.dry:
+					self._note_missing(slot, [(record.id, record.display_name) for record in found[:6]])
+					return None
+				return self._ask(intent, args, slot, found, text)
+			near = self._search(model, self.party, intent, loose=True, untaken=True)
+			if near and not self.dry:
+				return self._wait(intent, args, slot, text, _("«%s» is not among the contacts. Is it one of these?",
+					self.party), [(record.id, record.display_name) for record in near[:6]])
+			return None
 		page = self.run.page_model == model and self.run.page_res_id
 		remembered = (self.memory.get("records") or {}).get(model)
 		if slot.get("remembered") and remembered and not nlu.refs(text):
@@ -776,7 +975,7 @@ class Brain:
 		# Prices said in toman are kept in rial
 		return [value * 10 if money and unit == "toman" else value for value, unit in nlu.amounts(left)]
 
-	def _search(self, model, text, intent):
+	def _search(self, model, text, intent, loose=False, untaken=False):
 		"""Records of a model named in the text: a quoted name, a document number, or the longest run of words that
 		names a record the person may see"""
 		Model = self.env[model]
@@ -794,7 +993,8 @@ class Brain:
 			if found:
 				return found
 		intent_words = intent._command_words() if intent else set()
-		left_out = self.taken + (self.not_people if model in PEOPLE else Counter())
+		# The words of a party said apart («برای پیتزا خبازیان») are all its own, even those a product also has
+		left_out = Counter() if untaken else self.taken + (self.not_people if model in PEOPLE else Counter())
 		words, commands = [], []
 		for w in nlu.name_words(text):
 			if left_out[w] > 0:
@@ -829,10 +1029,14 @@ class Brain:
 		ranked = []
 		for record in candidates:
 			score, hit, size = nlu.name_score(words, record.display_name)
-			if score >= 1 or score >= 0.8 and size == 1:
+			if score >= 1 or score >= 0.8 and size == 1 or loose and score >= 0.5:
 				ranked.append((score, hit / size if size else 0, record))
 		if not ranked:
 			return Model.browse()
+		if loose:
+			# The nearest, to choose from; none is taken in place of what was said
+			ranked.sort(key=lambda item: (-item[0], -item[1], item[2].id))
+			return Model.browse([item[2].id for item in ranked[:6]])
 		ranked.sort(key=lambda item: (-item[0], -item[1], item[2].id))
 		best = ranked[0][0]
 		top = [item for item in ranked if item[0] >= best - 0.01]

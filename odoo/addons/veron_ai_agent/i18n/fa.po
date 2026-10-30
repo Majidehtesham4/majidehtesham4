@@ -3125,6 +3125,13 @@ msgstr "سرویس ساخت تصویر تنظیم نشده است."
 
 #. module: veron_ai_agent
 #. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid ""
+"No question is open for «%s» to answer. Write the whole request, please."
+msgstr "پرسشی باز نیست که «%s» پاسخ آن باشد. لطفاً درخواست را کامل بنویسید."
+
+#. module: veron_ai_agent
+#. odoo-python
 #: code:addons/veron_ai_agent/models/ai_source.py:0
 msgid ""
 "No speech-to-text is set. Type the message, or connect an AI for voices in "
@@ -3239,6 +3246,12 @@ msgstr "بازبینی‌نشده"
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_finding__severity__info
 msgid "Note"
 msgstr "یادداشت"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Noted."
+msgstr "ثبت شد."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_provider__note
@@ -6632,6 +6645,32 @@ msgstr "سالم است، فعلاً به سقف رسیده"
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.provider_view_form
 msgid "{\"voice\": \"alloy\"}"
 msgstr "{\"voice\": \"alloy\"}"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "«%s» is not among the contacts. Is it one of these?"
+msgstr "«%s» در میان مخاطبان نیست. یکی از این‌هاست؟"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid ""
+"«%s» is not among the products. Is it one of these? If not, write its name "
+"or code as it is in the products."
+msgstr ""
+"«%s» در میان کالاها نیست. یکی از این‌هاست؟ اگر نه، نام یا کد آن را همان‌طور "
+"که در کالاها ثبت شده بنویسید."
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid ""
+"«%s» was not found among the products of the program. Write its name or code"
+" as it is in the products; no invoice is made until then."
+msgstr ""
+"«%s» در کالاهای برنامه پیدا نشد. نام یا کد آن را همان‌طور که در کالاها ثبت "
+"شده بنویسید؛ تا آن موقع فاکتوری ساخته نمی‌شود."
 
 #. module: veron_ai_agent
 #: model:veron.ai.agent.template,goal:veron_ai_agent.role_fin_tax_prep

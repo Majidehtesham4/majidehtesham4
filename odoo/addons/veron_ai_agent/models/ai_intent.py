@@ -106,6 +106,22 @@ class AiIntent(models.Model):
 		intent.slots = json.dumps(slots, ensure_ascii=False)
 		return True
 
+	@api.model
+	def _ensure_slot(self, code, slot, arg_value=None):
+		"""An asked value a new version of the library adds to a command already there, with the argument it fills;
+		a slot of the same name, maybe changed by a manager, stays as it is"""
+		intent = self.sudo().with_context(active_test=False).search([("code", "=", code)], limit=1)
+		if not intent:
+			return False
+		slots = intent._slots()
+		if not any(item.get("arg") == slot["arg"] for item in slots):
+			intent.slots = json.dumps(slots + [slot], ensure_ascii=False)
+		if arg_value is not None:
+			args = intent._args()
+			args.setdefault(slot["arg"], arg_value)
+			intent.args = json.dumps(args, ensure_ascii=False)
+		return True
+
 	def _slots(self):
 		self.ensure_one()
 		return json.loads(self.slots or "[]")

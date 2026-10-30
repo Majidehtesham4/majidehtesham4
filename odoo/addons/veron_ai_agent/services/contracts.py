@@ -55,9 +55,11 @@ CONTRACTS = {
 	"expense_summary": ("finance", "report", ("account.move.line",), (), ""),
 	"image_draft": ("website", "agent", ("veron.ai.content",), (), "Needs an image service; off without one"),
 	"invoice_draft_create": ("finance", "form", ("account.move", "res.partner", "product.product"),
-		("partner_id", "product_id", "price_unit"),
-		"Price, discount and taxes from the customer's last posted invoice of the product, else the product's price; "
-		"a product without a sale price is named in the answer, never priced by the assistant"),
+		("partner_id", "product_id", "price_unit", "taxes"),
+		"Every line checked first, nothing made if one fails. Price: said, the customer's price list, the customer's "
+		"last posted sale of the product (when the settings allow), the product's price; none of them: nothing is "
+		"made and the price is asked. Discount: said, or the same one of the customer's last sales of the same "
+		"product. Taxes: said, as set in the AI settings, or asked"),
 	"invoice_draft_update": ("finance", "form", ("account.move", "product.product"),
 		("move_id", "product_id", "discount", "quantity", "price_unit"),
 		"Only a draft; a product named is one of its lines"),
@@ -94,6 +96,8 @@ CONTRACTS = {
 	"report_pdf": ("system", "agent", (), (), "The PDF of an agent's report"),
 	"request_human_input": ("system", "agent", (), (), "An agent asks a person"),
 	"review_task": ("system", "agent", ("veron.ai.task",), (), "A supervisor reviews a task"),
+	"sales_documents_read": ("sales", "answer", ("sale.order", "account.move"), ("ref", "partner_id"),
+		"A document by its number or its customer; a number not found is said, no other document is shown in its place"),
 	"sales_summary": ("sales", "report", ("sale.order",), (), ""),
 	"spreadsheet_read": ("documents", "answer", ("veron.ai.source",), ("source_id",), ""),
 	"stock_alerts": ("stock", "report", ("stock.quant",), (), ""),

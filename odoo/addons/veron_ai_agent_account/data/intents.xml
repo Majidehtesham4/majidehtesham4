@@ -418,4 +418,75 @@
 		<field name="slots">[{"arg": "closing_id", "model": "veron.petty.cash.closing", "remembered": true, "question": "کدام صورت تنخواه؟ از فهرست انتخاب کنید.", "required": true, "recent": [["state", "not in", ["posted", "cancel"]]]}]</field>
 		<field name="page_models">veron.petty.cash.closing</field>
 	</record>
+	<record id="intent_document_content" model="veron.ai.intent">
+		<field name="code">document_content</field>
+		<field name="name">محتوای پیش‌فاکتور یا فاکتور</field>
+		<field name="section">sales</field>
+		<field name="sequence">9</field>
+		<field name="phrases">محتوای پیش فاکتور را بیار
+ردیف های فاکتور را نشان بده
+پیش فاکتور را نشان بده
+جزئیات سفارش
+اقلام فاکتور
+فاکتور چی داره</field>
+		<field name="tool_code">sales_documents_read</field>
+		<field name="args">{"kind": "$kind", "ref": "$ref", "partner_id": "$partner_id", "limit": 1}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "kind", "choices": [["quotation", "پیش‌فاکتور"], ["order", "سفارش فروش"], ["invoice", "فاکتور فروش"], ["bill", "فاکتور خرید"]], "detect": {"پیش فاکتور": "quotation", "پیشفاکتور": "quotation", "سفارش": "order", "فاکتور خرید": "bill", "فاکتور فروش": "invoice", "فاکتور": "invoice", "صورتحساب": "invoice"}, "page_default": {"sale.order": "quotation", "account.move": "invoice"}, "default": "invoice", "question": "کدام سند؟", "required": true}, {"arg": "ref", "ref": true}, {"arg": "partner_id", "model": "res.partner", "question": "شماره‌ی سند یا نام مشتری را بنویسید.", "required": true, "unless": "ref"}]</field>
+		<field name="page_models">sale.order,account.move</field>
+	</record>
+	<record id="intent_partner_invoiced" model="veron.ai.intent">
+		<field name="code">partner_invoiced</field>
+		<field name="name">آنچه برای یک مشتری فاکتور شده</field>
+		<field name="section">sales</field>
+		<field name="sequence">9</field>
+		<field name="phrases">برای مشتری چی فاکتور شده
+چه چیزهایی فاکتور شده
+فاکتورهای مشتری
+به مشتری چی فروختیم
+فاکتورهای قبلی مشتری
+فاکتور شده
+فاکتورهای صادر شده برای مشتری
+چه فاکتورهایی برای مشتری صادر شده</field>
+		<field name="tool_code">sales_documents_read</field>
+		<field name="args">{"kind": "invoice", "partner_id": "$partner_id", "state": "done", "limit": 5}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "کدام مشتری؟", "required": true}]</field>
+		<field name="page_models">res.partner,account.move</field>
+	</record>
+	<record id="intent_last_draft_open" model="veron.ai.intent">
+		<field name="code">last_draft_open</field>
+		<field name="name">باز کردن آخرین پیش‌نویس</field>
+		<field name="section">sales</field>
+		<field name="sequence">9</field>
+		<field name="phrases">آخرین پیش نویس را باز کن
+پیش نویس آخر را باز کن
+آخرین پیش فاکتور را باز کن
+آخرین فاکتور پیش نویس</field>
+		<field name="tool_code">sales_documents_read</field>
+		<field name="args">{"kind": "$kind", "state": "draft", "limit": 1, "_open": true}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "kind", "choices": [["quotation", "پیش‌فاکتور"], ["order", "سفارش فروش"], ["invoice", "فاکتور فروش"], ["bill", "فاکتور خرید"]], "detect": {"پیش فاکتور": "quotation", "پیشفاکتور": "quotation", "سفارش": "order", "فاکتور خرید": "bill", "فاکتور فروش": "invoice", "فاکتور": "invoice", "صورتحساب": "invoice"}, "page_default": {"account.move": "invoice"}, "default": "invoice", "question": "کدام سند؟", "required": true}]</field>
+		<field name="page_models">sale.order,account.move</field>
+	</record>
+	<record id="intent_customer_list" model="veron.ai.intent">
+		<field name="code">customer_list</field>
+		<field name="name">فهرست مشتری‌ها</field>
+		<field name="section">sales</field>
+		<field name="sequence">9</field>
+		<field name="phrases">لیست مشتری ها
+فهرست مشتریان
+مشتری ها رو بیار
+همه مشتری ها
+مشتریان ما</field>
+		<field name="tool_code">records_search</field>
+		<field name="args">{"model": "res.partner", "filters": [["customer_rank", "&gt;", 0]], "fields": ["name", "phone", "email", "city"], "limit": 20}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[]</field>
+		<field name="page_models">res.partner</field>
+	</record>
 </odoo>

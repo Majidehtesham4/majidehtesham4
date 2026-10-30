@@ -60,12 +60,14 @@ def main():
 		partners = env["res.partner"].search([("customer_rank", ">", 0), ("name", "!=", False)], limit=3000) or \
 			env["res.partner"].search([("is_company", "=", True)], limit=3000)
 		products = products.filtered(lambda p: len(nlu.name_words(p.name)) >= 1)
-		if not products or not partners:
-			say("No products or customers to make requests from.")
+		# Every product is among the choices; only those with a price are asked for, as one without is not invoiced
+		priced = products.filtered(lambda p: p.lst_price > 1)
+		if not priced or not partners:
+			say("No products with a price or customers to make requests from.")
 			return 1
 		words = {p.id: set(nlu.name_words(p.name)) for p in products}
 		people = {p.id: set(nlu.name_words(p.name)) for p in partners}
-		say(f"Checking {args.requests} requests made from {len(products)} products and {len(partners)} customers...")
+		say(f"Checking {args.requests} requests made from {len(priced)} products and {len(partners)} customers...")
 		assistant = env.ref("veron_ai_agent.agent_assistant")
 		Chat = env["veron.ai.conversation"]
 
@@ -113,7 +115,7 @@ def main():
 			product = line.product_id
 			kind = random.choice(["discount", "discount_line", "quantity", "add", "remove"])
 			name = written(product.name)
-			other = random.choice(list(products))
+			other = random.choice(list(priced))
 			percent, count = random.choice([5, 10, 12]), random.choice([4, 6, 7])
 			text = {
 				"discount": random.choice([f"براش {percent} درصد تخفیف ثبت کن", f"{percent} درصد تخفیف بده"]),
@@ -151,7 +153,7 @@ def main():
 
 		failures, counts = [], {"ok": 0}
 		for _number in range(args.requests):
-			chosen = random.sample(list(products), k=min(random.choice([1, 1, 2, 3]), len(products)))
+			chosen = random.sample(list(priced), k=min(random.choice([1, 1, 2, 3]), len(priced)))
 			partner = random.choice(list(partners))
 			items, wanted = [], []
 			for product in chosen:
@@ -172,7 +174,7 @@ def main():
 			assistant.sudo().enabled = True
 			before = env["account.move"].search([], order="id desc", limit=1).id
 			conversation = Chat.veron_chat_new(assistant.id)["conversation_id"]
-			asked, trouble, done, typed = 0, "", set(), 0
+			asked, trouble, done, typed, taxes_asked = 0, "", set(), 0, 0
 			targets = [i for item in wanted for i in item[3]] + [partner.id]
 			try:
 				reply = Chat.veron_chat_send(conversation, text, [], {}, "internal")[-1]
@@ -181,6 +183,11 @@ def main():
 					if not pending:
 						break
 					asked += 1
+					if pending.get("arg") == "taxes":
+						# Asked when neither the request nor the settings say it: one more question, as needed
+						taxes_asked += 1
+						reply = Chat.veron_chat_send(conversation, random.choice(["خیر", "بله", "2"]), [], {}, "internal")[-1]
+						continue
 					ids = [option[0] for option in pending.get("options") or []]
 					question = nlu.name_words(pending.get("question") or "")
 					if pending.get("arg") == "partner_id":
@@ -213,6 +220,13 @@ def main():
 			except Exception as error:  # noqa: BLE001 - said, and the next request is tried
 				trouble = f"error: {error}"
 			move = env["account.move"].search([("id", ">", before), ("move_type", "=", "out_invoice")], limit=1)
+			unpriced = [env["product.product"].browse(i) for item in wanted for i in item[3]]
+			if not trouble and not move and any(p.lst_price <= 1 and p.name in (reply.get("body_html") or "") for p in unpriced):
+				# The words fit a product with no price better: nothing made and the price asked, as it should
+				counts["refused, no price"] = counts.get("refused, no price", 0) + 1
+				cr.rollback()
+				env.invalidate_all()
+				continue
 			if not trouble and not move:
 				trouble = "no draft: " + re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", reply.get("body_html") or ""))[:200]
 			if not trouble:
@@ -225,7 +239,7 @@ def main():
 					trouble = f"wrong lines: {names} (meant: {meant})"
 				else:
 					# A list too long to show is narrowed by typing the name: one more question each
-					needed = sum(1 for item in wanted if item[2] == "ask") + (partner_kind == "ask") + typed
+					needed = sum(1 for item in wanted if item[2] == "ask") + (partner_kind == "ask") + typed + taxes_asked
 					if asked > needed:
 						trouble = f"asked {asked} times where {needed} was needed"
 					elif random.random() < 0.4:

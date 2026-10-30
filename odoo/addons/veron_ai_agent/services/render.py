@@ -9,7 +9,7 @@ from odoo.addons.veron_core.models import jalali
 
 ISO_DATE = re.compile(r"\b(20\d\d|19\d\d)-(\d\d)-(\d\d)\b")
 # Keys that are for the program, not for people
-HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from", "posted", "no_price"}
+HIDDEN = {"status", "note", "currency", "model", "id", "draft_id", "source_id", "run", "task_id", "terms_from", "posted", "no_price", "notes"}
 # Words of the tools' output written for people
 VALUES = {"low": "کم", "medium": "متوسط", "high": "زیاد", "built-in": "هوش داخلی، بدون هوش مصنوعی", "AI": "هوش مصنوعی",
 	"IRR": "ریال"}
@@ -42,7 +42,7 @@ LABELS = {
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
 	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
 	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "gross_amount": "جمع فاکتور", "discount_amount": "تخفیف",
-	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "shown_from": "از ردیف", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "shown_from": "از ردیف", "sources": "مبنای قیمت و تخفیف", "price_from": "قیمت از", "discount_from": "تخفیف از", "taxes_rule": "مالیات", "notes": "توجه", "documents": "اسناد", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 
@@ -136,10 +136,14 @@ def _draft(o):
 	draft = str(o.get("draft", ""))
 	# The name of a draft invoice already says it is one
 	draft = draft if draft.replace("\u200c", "").startswith(("پیش نویس", "پیشنویس")) else f"پیش‌نویس {draft}"
-	terms = f" قیمت، تخفیف و مالیات از فاکتورهای قبلی ({o['terms_from']}) برداشته شد." if o.get("terms_from") else ""
-	missing = (f" قیمت فروش «{'، '.join(o['no_price'])}» در برنامه ثبت نشده است؛ پیش‌نویس را باز کنید و قیمت را بنویسید."
-		if o.get("no_price") else "")
-	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{terms}{missing} هنوز ثبت قطعی نشده است."
+	notes = (" " + " ".join(o["notes"])) if o.get("notes") else ""
+	return f"{draft} ساخته شد (جمع {number(o.get('total', 0))}).{notes} مبنای هر قیمت و تخفیف در جدول آمده است. هنوز ثبت قطعی نشده است."
+
+
+def _documents(o):
+	if not o.get("count"):
+		return "سندی پیدا نشد."
+	return f"{number(o['count'])} سند." if o["count"] > 1 else ""
 
 
 def _changed(o):
@@ -158,7 +162,7 @@ def _records(o):
 
 HEADLINES = {
 	"sales_summary": _sales, "receivables_overdue": _overdue, "cash_position": _cash, "expense_summary": _expense,
-	"invoice_draft_create": _draft, "invoice_draft_update": _changed, "bill_from_document": _draft, "records_search": _records,
+	"invoice_draft_create": _draft, "invoice_draft_update": _changed, "sales_documents_read": _documents, "bill_from_document": _draft, "records_search": _records,
 	"page_overview": _overview,
 }
 

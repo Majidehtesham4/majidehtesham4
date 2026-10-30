@@ -25,7 +25,8 @@ UNITS = {"صفر": 0, "یک": 1, "یه": 1, "دو": 2, "سه": 3, "چهار": 4,
 	"هفتاد": 70, "هشتاد": 80, "نود": 90, "صد": 100, "یکصد": 100, "دویست": 200, "سیصد": 300, "چهارصد": 400,
 	"پانصد": 500, "پونصد": 500, "ششصد": 600, "هفتصد": 700, "هشتصد": 800, "نهصد": 900}
 SCALES = {"هزار": 1000, "میلیون": 1_000_000, "ملیون": 1_000_000, "میلیارد": 1_000_000_000, "ملیارد": 1_000_000_000}
-REF = re.compile(r"\b([A-Za-z]{1,8}[/-]?\d{2,}(?:[/-]\d+)*)\b")
+# Latin («INV/2026/00012»، «S00045») or a Persian journal's own («فروش/1405/0015»), which always has its slashes
+REF = re.compile(r"(?<!\w)([A-Za-z]{1,8}[/-]?\d{2,}(?:[/-]\d+)*|[\u0600-\u06FF]{2,10}/\d{2,}(?:/\d+)+)(?!\w)")
 
 
 JOINED_WORDS = {"پیشنویس": "پیش نویس", "پیشفاکتور": "پیش فاکتور", "صورت حساب": "صورتحساب", "اینو": "این را",
@@ -354,7 +355,8 @@ ACTIONS = {
 	"create": ("بساز", "بزن", "صادر", "صدور", "ایجاد", "بنویس", "ثبت", "اضافه", "پیشنویس", "پیش نویس", "درست"),
 	"search": ("پیدا", "بگرد", "جستجو", "جست", "کجاست"),
 	"report": ("گزارش", "خلاصه", "جمع", "آمار", "چقدر", "چند", "مانده", "وضعیت"),
-	"view": ("نشان", "نشون", "ببینم", "لیست", "فهرست", "مشخصات", "اطلاعات", "بخوان", "بخون"),
+	"view": ("نشان", "نشون", "ببینم", "لیست", "فهرست", "مشخصات", "اطلاعات", "بخوان", "بخون", "بیار", "بیاور", "محتوای",
+		"محتوا", "جزئیات"),
 }
 # Nouns and what they are about
 SUBJECTS = {
@@ -394,6 +396,22 @@ def action(text):
 		if any(_has(words, normal, verb) for verb in verbs):
 			return name
 	return None
+
+
+# A question about what is or was: «چی فاکتور شده»، «کدوم چک‌ها پاس شدن»; with no word of a command in it
+QUESTION_WORDS = ("چی", "چه", "کدام", "کدوم", "چند", "چقدر", "ایا", "آیا", "کی")
+DONE_WORDS = ("شده", "شدن", "شدند", "شد", "بوده", "شدہ")
+COMMAND_WORDS = ("کن", "بکن", "کنید", "بکنید", "بزن", "بزنید", "بساز", "بسازید", "بنویس", "بنویسید", "بده", "بدید",
+	"بفرست", "بفرستید", "کنم", "بشه", "شود", "بشود")
+
+
+def asks_what_is(text):
+	"""Does the request ask what is or was done, rather than ask to do it: a question word or a «...شده» and
+	no word of a command"""
+	words = normalize(text).split()
+	if any(word in COMMAND_WORDS for word in words):
+		return False
+	return any(word in QUESTION_WORDS for word in words) or any(word in DONE_WORDS for word in words)
 
 
 def subjects(text):
@@ -439,3 +457,118 @@ def days_ahead(text):
 	if re.search(r"\bامروز\b", words):
 		return 0
 	return None
+
+
+# --- an order said in a sentence: its lines, its party and what is said of each line
+
+COUNT_UNITS = ("عدد", "تا", "دونه", "دانه", "عددی", "تایی", "بسته", "کارتن", "شاخه", "متر", "کیلو", "جفت", "دست")
+PARTY_MARKERS = ("برای", "واسه", "برا", "بنام", "بهنام")
+# Words that end the name of a product in a line: what is said about it follows
+LINE_MODIFIERS = ("بدون", "با", "به قیمت", "قیمت", "فی", "هر کدام", "هرکدام")
+SPLITTERS = ("و",)
+
+
+def _is_number(word):
+	return word.replace(".", "").replace("/", "").isdigit() or word in UNITS or word in SCALES
+
+
+# What may be said of a line after «بدون» or «با»
+SAID_TERMS = {"تخفیف", "مالیات", "قیمت", "ارزش", "درصد"}
+# Words that end a party's name: the command and what is said of the order («... برای عباسی فاکتور کن بدون مالیات»)
+PARTY_ENDS = set(COMMAND_WORDS) | {"بدون", "با", "فی", "قیمت"}
+
+
+def order_parts(text, command_words=(), keep=()):
+	"""The lines of an order said in one sentence, its party and what is said of each line:
+	«یک فاکتور برای خبازیان بزن ۱ عدد درب شیشه ای و ۱۰ عدد مهره m5 بدون تخفیف» gives the party «خبازیان» and two
+	lines: (1, «درب شیشه ای»), (10, «مهره m5», «بدون تخفیف»).
+
+	A count is a number followed by a unit («عدد»، «تا») or by the first word of a name; the numbers after it are
+	part of the name («فر ۱۱۵۴ عرض ۵۰»). «و», «،» and «+» part lines, except inside the names in `keep` (names of the
+	database that have them: «قلم و قلتک»، «رنگ + قلم»). The party is what follows «برای» up to a count or a word of
+	the command. `command_words` are the stems of the command («فاکتور»، «بزن»): out of names, except after a count."""
+	raw = re.sub(r"[،,](?!\d)|(?<!\d)[،,]|\n", " و ", text or "")
+	raw = re.sub(r"\s\+\s|\+", " + ", raw)
+	words = normalize(raw).split()
+	# The «و» and «+» inside a name kept are not where a line ends
+	protected = set()
+	for name in keep:
+		name_words = normalize(name).replace("+", " + ").split()
+		size = len(name_words)
+		for start in range(len(words) - size + 1):
+			if words[start:start + size] == name_words:
+				protected.update(start + i for i, w in enumerate(name_words) if w in ("و", "+"))
+	parts, current = [], []
+	numberish = set(UNITS) | set(SCALES)
+	for index, word in enumerate(words):
+		before = words[index - 1] if index else ""
+		after = words[index + 1] if index + 1 < len(words) else ""
+		in_number = word == "و" and before in numberish and after in numberish
+		if word in ("و", "+") and index not in protected and not in_number:
+			if current:
+				parts.append(current)
+			current = []
+		else:
+			current.append(word)
+	if current:
+		parts.append(current)
+	commands = {stem(w) for w in command_words}
+
+	def is_command(word):
+		return word in commands or stem(word) in commands
+
+	party, lines = None, []
+	for part in parts:
+		# The party: after «برای», up to a count or a word of the command
+		index = next((i for i, w in enumerate(part) if w in PARTY_MARKERS), None)
+		if index is not None:
+			end, whole = index + 1, False
+			for name in keep:
+				# A whole name of the database after the marker (and a title) is the party, whatever words it has
+				name_words = normalize(name).split()
+				for at in (index + 1, index + 2):
+					if part[at:at + len(name_words)] == name_words and party is None:
+						end, whole = max(end, at + len(name_words)), True
+			while not whole and end < len(part) and not is_command(part[end]) and part[end] not in PARTY_ENDS and not (
+					_is_number(part[end]) and (end + 1 < len(part) and (part[end + 1] in COUNT_UNITS or not _is_number(part[end + 1])))):
+				end += 1
+			if end > index + 1 and party is None:
+				party = " ".join(part[index + 1:end])
+			part = part[:index] + part[end:]
+		# The count: the first number followed by a unit, or by a word when no name is begun before it («فر ریلی
+		# ۱۴۵۶ عرض ۸۰»: those are numbers of the name); a count with its unit after the name («فر پیتزا ۲ عدد»)
+		count, start, before = None, None, []
+		for i, word in enumerate(part):
+			if not _is_number(word):
+				continue
+			j = i
+			while j < len(part) and (_is_number(part[j]) or part[j] == "و"):
+				j += 1
+			begun = [w for w in part[:i] if not (_is_number(w) or is_command(w) or w in STOP or w in COUNT_UNITS)]
+			if j < len(part) and part[j] in COUNT_UNITS:
+				count, start = words_number(part[i:j]) if not part[i].replace(".", "").isdigit() else float(part[i]), j + 1
+				before = begun
+				break
+			if j < len(part) and not is_command(part[j]) and i == j - 1 and not begun:
+				value = float(part[i]) if part[i].replace(".", "").isdigit() else words_number(part[i:j])
+				count, start = value, j
+				break
+		if start is None:
+			name_words = [w for w in part if not is_command(w) and w not in STOP]
+		else:
+			name_words = before + part[start:]
+		# What is said of the line: «بدون تخفیف»، «با تخفیف همیشگی»، «به قیمت ۲ میلیون»
+		said, name = [], []
+		for i, word in enumerate(name_words):
+			# «بدون»/«با» start what is said only before its terms: «بدون پایه» is part of a name, «بدون تخفیف» is not
+			terms = word in ("بدون", "با") and any(w in SAID_TERMS or stem(w) in SAID_TERMS for w in name_words[i + 1:i + 4])
+			if terms or word in ("فی", "قیمت") or (word == "به" and i + 1 < len(name_words) and name_words[i + 1] == "قیمت"):
+				said = name_words[i:]
+				break
+			name.append(word)
+		name = [w for w in name if not (start is None and is_command(w))]
+		while name and (is_command(name[-1]) or name[-1] in STOP):
+			name.pop()
+		if name or count is not None:
+			lines.append({"count": count, "name": " ".join(name), "said": " ".join(said)})
+	return {"party": party, "lines": lines}

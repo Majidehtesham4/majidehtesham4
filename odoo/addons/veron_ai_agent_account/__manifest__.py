@@ -22,6 +22,7 @@
 		"data/intent_phrases.xml",
 		"report/settlement_report.xml",
 		"views/petty_cash_views.xml",
+		"views/settings_views.xml",
 	],
 	"installable": True,
 	"application": False,

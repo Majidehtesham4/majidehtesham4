@@ -55,4 +55,10 @@
 		<value>product_id</value>
 		<value eval="{'within': {'of': 'move_id', 'path': 'invoice_line_ids.product_id'}}"/>
 	</function>
+	<!-- Taxes are never added or taken off silently: said, set in the AI settings, or asked -->
+	<function model="veron.ai.intent" name="_ensure_slot">
+		<value>sale_invoice_draft</value>
+		<value eval='{"arg": "taxes", "choices": [["product", "بله، مالیات طبق تنظیم کالاها"], ["none", "خیر، بدون مالیات"]], "detect": {"بدون مالیات": "none", "بدون ارزش افزوده": "none", "مالیات نزن": "none", "بی مالیات": "none", "با مالیات": "product", "با ارزش افزوده": "product", "مالیات دار": "product", "مالیات بزن": "product"}, "answers": {"بله": "product", "اره": "product", "اری": "product", "اعمال شود": "product", "خیر": "none", "نه": "none", "نخیر": "none"}, "param": "veron_ai_agent_account.invoice_taxes", "question": "مالیات اعمال شود؟", "required": True}'/>
+		<value>$taxes</value>
+	</function>
 </odoo>

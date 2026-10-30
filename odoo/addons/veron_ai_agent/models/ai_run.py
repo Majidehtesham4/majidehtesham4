@@ -463,7 +463,8 @@ class AiRun(models.Model):
 			plan = tool.plan(ctx, args)
 			decision, reason, grant = self.agent_id._decide(tool, plan, env)
 		except registry.ToolDenied as error:
-			reason = f"{error} {self._elsewhere(tool)}".strip()
+			# The tool's own refusal (a price not found, a draft already posted): another agent would refuse it too
+			reason = str(error)
 			return done("denied", {"status": "denied", "reason": reason}, reason)
 		except registry.ToolNeedsInfo as error:
 			request = self._ask(str(error))

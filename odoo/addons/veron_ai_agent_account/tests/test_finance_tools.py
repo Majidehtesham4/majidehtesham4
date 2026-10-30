@@ -51,6 +51,13 @@ class TestFinanceTools(FinanceCase):
 	def test_draft_invoice(self):
 		models = ["account.move", "res.partner", "product.product"]
 		args = {"move_type": "out_invoice", "partner_id": self.customer.id, "lines": [{"product_id": self.product.id, "quantity": 2}]}
+		# Taxes neither said nor set: refused, nothing made
+		maker = self.agent("3", ["invoice_draft_create"], models, name="بی مالیات")
+		before = self.env["account.move"].search_count([])
+		run = self.start(maker, [calls(("invoice_draft_create", args))])
+		self.assertEqual((run.step_ids.decision, self.env["account.move"].search_count([])), ("denied", before))
+		self.assertTrue("taxes" in run.step_ids.output_json or "مالیات" in run.step_ids.output_json, run.step_ids.output_json)
+		args["taxes"] = "product"
 		reader = self.agent("1", ["invoice_draft_create"], models, name="خواننده")
 		run = self.start(reader, [calls(("invoice_draft_create", args))])
 		self.assertEqual(run.step_ids.decision, "denied")
