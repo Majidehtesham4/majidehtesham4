@@ -248,3 +248,59 @@ class TestSaleInvoiceFromChat(FinanceCase):
 		move.action_post()
 		reply = self.say(Chat, conversation, "۵ درصد تخفیف بده")
 		self.assertEqual(move.invoice_line_ids.mapped("discount"), [10, 10], "a posted invoice is not changed")
+
+	def _draft(self, Chat, conversation, text):
+		self.say(Chat, conversation, text)
+		return self.env["account.move"].search([("move_type", "=", "out_invoice")], order="id desc", limit=1)
+
+	def test_what_is_understood_before_the_invoice(self):
+		frame = self.env["veron.ai.run"].with_user(self.accountant)._analyze(
+			"دو تا فر ریلی عرض ۶۰ و یک فر ریلی عرض ۵۰ برای آقای حسن پور فاکتور کن")
+		self.assertEqual((frame["intent"], frame["tool"], frame["response"]), ("sale_invoice_draft", "invoice_draft_create", "form"))
+		self.assertEqual(frame["entities"]["partner_id"]["id"], self.customer.id)
+		self.assertEqual(frame["lines"], [{"product_id": self.oven60.id, "quantity": 2}, {"product_id": self.oven50.id, "quantity": 1}])
+		self.assertFalse(frame["missing"])
+		self.assertFalse(any("price_unit" in line for line in frame["args"]["lines"]), "no price is made up")
+		frame = self.env["veron.ai.run"].with_user(self.accountant)._analyze("برای حسن پور فاکتور کن")
+		self.assertEqual(frame["missing"], ["product_id"], "only what is missing is asked")
+
+	def test_taxes_off_not_a_line(self):
+		tax = self.env["account.tax"].create({"name": "VAT 9 test", "amount": 9, "type_tax_use": "sale", "company_id": self.company.id})
+		self.oven50.taxes_id = tax
+		self.oven60.taxes_id = tax
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		move = self._draft(Chat, conversation, "یک فر ریلی عرض ۵۰ و یک فر ریلی عرض ۶۰ برای حسن پور فاکتور کن")
+		self.assertTrue(move.invoice_line_ids.tax_ids)
+		reply = self.say(Chat, conversation, "مالیات را بردار")
+		self.assertEqual(len(move.invoice_line_ids), 2, "the lines stay: only the taxes are taken off")
+		self.assertFalse(move.invoice_line_ids.tax_ids, reply["body_html"])
+
+	def test_discount_on_the_line_said_then_off(self):
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		move = self._draft(Chat, conversation, "یک فر ریلی عرض ۵۰ و یک فر ریلی عرض ۶۰ برای حسن پور فاکتور کن")
+		self.say(Chat, conversation, "روی فر ریلی عرض ۶۰ پنج درصد تخفیف بده")
+		discounts = {line.product_id: line.discount for line in move.invoice_line_ids}
+		self.assertEqual((discounts[self.oven60], discounts[self.oven50]), (5, 0), "only the line said")
+		self.say(Chat, conversation, "تخفیفش را بردار")
+		self.assertEqual(move.invoice_line_ids.mapped("discount"), [0, 0])
+
+	def test_no_rights_no_change(self):
+		from odoo.tests import new_test_user
+
+		seller = new_test_user(self.env, "pc_seller", groups="base.group_user,veron_ai_agent.group_ai_user")
+		Chat = self.env["veron.ai.conversation"].with_user(seller)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		before = self.env["account.move"].search_count([])
+		reply = self.say(Chat, conversation, "یک فر ریلی عرض ۵۰ برای حسن پور فاکتور کن")
+		self.assertEqual(self.env["account.move"].search_count([]), before, reply["body_html"])
+		self.assertTrue("دسترسی" in reply["body_html"] or "access rights" in reply["body_html"], reply["body_html"])
+
+	def test_posting_waits_for_a_person(self):
+		Chat = self.env["veron.ai.conversation"].with_user(self.accountant)
+		conversation = Chat.veron_chat_new(self.env.ref("veron_ai_agent.agent_assistant").id)["conversation_id"]
+		move = self._draft(Chat, conversation, "یک فر ریلی عرض ۵۰ برای حسن پور فاکتور کن")
+		reply = self.say(Chat, conversation, "ثبت قطعی فاکتور")
+		self.assertEqual(move.state, "draft", reply["body_html"])
+		self.assertTrue(reply["pending"], "an approval is asked")

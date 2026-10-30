@@ -341,11 +341,12 @@ msgstr "تغییر پیش‌نویس %s"
 msgid ""
 "Changes a draft invoice or bill that is not posted: a discount (percent) on "
 "all its lines or on the line of a product, the count or the price of a line,"
-" lines added, a line taken out. A posted one is never changed here."
+" the taxes taken off, lines added, a line taken out. A posted one is never "
+"changed here."
 msgstr ""
 "یک پیش‌نویس فاکتور فروش یا خرید را که ثبت قطعی نشده تغییر می‌دهد: درصد تخفیف"
-" روی همه‌ی ردیف‌ها یا ردیف یک کالا، تعداد یا قیمت یک ردیف، افزودن ردیف و حذف"
-" ردیف. فاکتور ثبت‌شده اینجا هرگز تغییر نمی‌کند."
+" روی همه‌ی ردیف‌ها یا ردیف یک کالا، تعداد یا قیمت یک ردیف، برداشتن مالیات، "
+"افزودن ردیف و حذف ردیف. فاکتور ثبت‌شده اینجا هرگز تغییر نمی‌کند."
 
 #. module: veron_ai_agent_account
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent_account.receipt_view_form
@@ -2134,6 +2135,21 @@ msgid "بدهی‌های سررسید"
 msgstr "بدهی‌های سررسید"
 
 #. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_discount_off
+msgid "برداشتن تخفیف پیش‌نویس فاکتور"
+msgstr "برداشتن تخفیف پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_draft_untax
+msgid "برداشتن مالیات پیش‌نویس فاکتور"
+msgstr "برداشتن مالیات پیش‌نویس فاکتور"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_petty_cash_review
+msgid "بررسی رسیدهای تنخواه"
+msgstr "بررسی رسیدهای تنخواه"
+
+#. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_budget_vs_actual
 msgid "بودجه در برابر عملکرد"
 msgstr "بودجه در برابر عملکرد"
@@ -2164,6 +2180,11 @@ msgid "ثبت فاکتور فروش از روی فایل"
 msgstr "ثبت فاکتور فروش از روی فایل"
 
 #. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_petty_cash_post
+msgid "ثبت قطعی سند تنخواه"
+msgstr "ثبت قطعی سند تنخواه"
+
+#. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_invoice_post
 msgid "ثبت قطعی فاکتور"
 msgstr "ثبت قطعی فاکتور"
@@ -2182,6 +2203,11 @@ msgstr "دارایی‌های ثابت"
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_bank_unreconciled
 msgid "ردیف‌های بانکی تطبیق‌نشده"
 msgstr "ردیف‌های بانکی تطبیق‌نشده"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_petty_cash_draft_entry
+msgid "سند پیش‌نویس تسویه‌ی تنخواه"
+msgstr "سند پیش‌نویس تسویه‌ی تنخواه"
 
 #. module: veron_ai_agent_account
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_tax_summary
@@ -2217,3 +2243,8 @@ msgstr "چک‌لیست بستن ماه"
 #: model:veron.ai.intent,name:veron_ai_agent_account.intent_documents_quality
 msgid "کیفیت اسناد حسابداری"
 msgstr "کیفیت اسناد حسابداری"
+
+#. module: veron_ai_agent_account
+#: model:veron.ai.intent,name:veron_ai_agent_account.intent_petty_cash_report
+msgid "گزارش تسویه‌ی تنخواه"
+msgstr "گزارش تسویه‌ی تنخواه"

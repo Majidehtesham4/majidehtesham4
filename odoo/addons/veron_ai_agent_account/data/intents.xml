@@ -324,4 +324,98 @@
 		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true, "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}]</field>
 		<field name="page_models">account.move</field>
 	</record>
+	<record id="intent_invoice_draft_discount_off" model="veron.ai.intent">
+		<field name="code">invoice_draft_discount_off</field>
+		<field name="name">برداشتن تخفیف پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">14</field>
+		<field name="phrases">تخفیف را بردار
+تخفیفش را بردار
+بدون تخفیف کن
+تخفیف را حذف کن
+تخفیف نده</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "discount": 0, "product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟", "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_invoice_draft_untax" model="veron.ai.intent">
+		<field name="code">invoice_draft_untax</field>
+		<field name="name">برداشتن مالیات پیش‌نویس فاکتور</field>
+		<field name="section">accounting</field>
+		<field name="sequence">14</field>
+		<field name="phrases">مالیات را بردار
+مالیاتش را حذف کن
+بدون مالیات کن
+ارزش افزوده را حذف کن
+بدون ارزش افزوده</field>
+		<field name="tool_code">invoice_draft_update</field>
+		<field name="args">{"move_id": "$move_id", "remove_taxes": true, "product_id": "$product_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "move_id", "model": "account.move", "remembered": true, "question": "کدام پیش‌نویس؟ از فهرست انتخاب کنید یا شماره‌اش را بنویسید.", "required": true, "recent": [["state", "=", "draft"], ["move_type", "in", ["out_invoice", "in_invoice", "out_refund", "in_refund"]]]}, {"arg": "product_id", "model": "product.product", "question": "کدام کالا؟", "within": {"of": "move_id", "path": "invoice_line_ids.product_id"}}]</field>
+		<field name="page_models">account.move</field>
+	</record>
+	<record id="intent_petty_cash_review" model="veron.ai.intent">
+		<field name="code">petty_cash_review</field>
+		<field name="name">بررسی رسیدهای تنخواه</field>
+		<field name="section">petty_cash</field>
+		<field name="sequence">14</field>
+		<field name="phrases">رسیدهای تنخواه را بررسی کن
+رسیدها را بخوان و کنترل کن
+بررسی صورت تنخواه</field>
+		<field name="tool_code">petty_cash_review</field>
+		<field name="args">{"closing_id": "$closing_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "closing_id", "model": "veron.petty.cash.closing", "remembered": true, "question": "کدام صورت تنخواه؟ از فهرست انتخاب کنید.", "required": true, "recent": [["state", "not in", ["posted", "cancel"]]]}]</field>
+		<field name="page_models">veron.petty.cash.closing</field>
+	</record>
+	<record id="intent_petty_cash_draft_entry" model="veron.ai.intent">
+		<field name="code">petty_cash_draft_entry</field>
+		<field name="name">سند پیش‌نویس تسویه‌ی تنخواه</field>
+		<field name="section">petty_cash</field>
+		<field name="sequence">14</field>
+		<field name="phrases">سند تنخواه را بساز
+سند تسویه تنخواه
+پیش نویس سند تنخواه</field>
+		<field name="tool_code">petty_cash_draft_entry</field>
+		<field name="args">{"closing_id": "$closing_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "closing_id", "model": "veron.petty.cash.closing", "remembered": true, "question": "کدام صورت تنخواه؟ از فهرست انتخاب کنید.", "required": true, "recent": [["state", "not in", ["posted", "cancel"]]]}]</field>
+		<field name="page_models">veron.petty.cash.closing</field>
+	</record>
+	<record id="intent_petty_cash_post" model="veron.ai.intent">
+		<field name="code">petty_cash_post</field>
+		<field name="name">ثبت قطعی سند تنخواه</field>
+		<field name="section">petty_cash</field>
+		<field name="sequence">14</field>
+		<field name="phrases">سند تنخواه را ثبت قطعی کن
+تنخواه را ثبت کن
+پست سند تنخواه</field>
+		<field name="tool_code">petty_cash_post</field>
+		<field name="args">{"closing_id": "$closing_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "closing_id", "model": "veron.petty.cash.closing", "remembered": true, "question": "کدام صورت تنخواه؟ از فهرست انتخاب کنید.", "required": true, "recent": [["state", "not in", ["posted", "cancel"]]]}]</field>
+		<field name="page_models">veron.petty.cash.closing</field>
+	</record>
+	<record id="intent_petty_cash_report" model="veron.ai.intent">
+		<field name="code">petty_cash_report</field>
+		<field name="name">گزارش تسویه‌ی تنخواه</field>
+		<field name="section">petty_cash</field>
+		<field name="sequence">14</field>
+		<field name="phrases">گزارش تنخواه
+صورت تسویه تنخواه
+گزارش تسویه</field>
+		<field name="tool_code">petty_cash_report</field>
+		<field name="args">{"closing_id": "$closing_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "closing_id", "model": "veron.petty.cash.closing", "remembered": true, "question": "کدام صورت تنخواه؟ از فهرست انتخاب کنید.", "required": true, "recent": [["state", "not in", ["posted", "cancel"]]]}]</field>
+		<field name="page_models">veron.petty.cash.closing</field>
+	</record>
 </odoo>

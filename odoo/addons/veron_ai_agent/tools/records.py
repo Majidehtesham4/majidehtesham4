@@ -29,6 +29,7 @@ class RecordsSearch(Tool):
 		"filters": FILTER_SCHEMA,
 		"fields": {"type": "array", "maxItems": 20, "items": {"type": "string", "maxLength": 64}},
 		"limit": {"type": "integer", "minimum": 1, "maximum": 80},
+		"offset": {"type": "integer", "minimum": 0, "description": "Records to skip: the next page of an earlier search"},
 		"order": {"type": "string", "maxLength": 80, "description": "A field, optionally followed by desc"},
 	}, ["model"])
 
@@ -49,9 +50,13 @@ class RecordsSearch(Tool):
 				raise ToolDenied(ctx.env._("The agent may not sort by %s.", order))
 			if not model._fields[field_name].store:
 				order = None
-		records = model.search(domain, limit=args.get("limit") or 20, order=order)
+		offset = args.get("offset") or 0
+		records = model.search(domain, offset=offset, limit=args.get("limit") or 20, order=order)
 		ctx.link(records[:20])
-		return {"model": args["model"], "count": model.search_count(domain), "records": [plain(r, names) for r in records]}
+		result = {"model": args["model"], "count": model.search_count(domain), "records": [plain(r, names) for r in records]}
+		if offset:
+			result["shown_from"] = offset + 1
+		return result
 
 
 @tool

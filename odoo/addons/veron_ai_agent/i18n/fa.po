@@ -3474,9 +3474,21 @@ msgid "Open"
 msgstr "باز"
 
 #. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Open It"
+msgstr "باز کردن"
+
+#. module: veron_ai_agent
 #: model_terms:ir.ui.view,arch_db:veron_ai_agent.guide_view_form
 msgid "Open This Section"
 msgstr "باز کردن این بخش"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Open in the Program"
+msgstr "باز کردن در برنامه"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -3499,6 +3511,12 @@ msgstr "اول صفحه‌ی آن بخش یا آن رکورد را باز کنی
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__openrouter
 msgid "OpenRouter"
 msgstr "OpenRouter"
+
+#. module: veron_ai_agent
+#. odoo-python
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
+msgid "Opened in the program."
+msgstr "در برنامه باز شد."
 
 #. module: veron_ai_agent
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_message__options
@@ -6356,6 +6374,7 @@ msgstr ""
 #. module: veron_ai_agent
 #. odoo-python
 #: code:addons/veron_ai_agent/models/ai_conversation.py:0
+#: code:addons/veron_ai_agent/models/ai_internal.py:0
 #: code:addons/veron_ai_agent/models/ai_run.py:0
 msgid "You may not use %s."
 msgstr "اجازه‌ی استفاده از %s را ندارید."
@@ -7625,6 +7644,11 @@ msgid "پیش‌فاکتورهای نیازمند پیگیری و فعالیت�
 msgstr "پیش‌فاکتورهای نیازمند پیگیری و فعالیت‌ها."
 
 #. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_stock_transfer_draft
+msgid "پیش‌نویس انتقال بین انبارها"
+msgstr "پیش‌نویس انتقال بین انبارها"
+
+#. module: veron_ai_agent
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_web_image
 msgid "پیش‌نویس تصاویر."
 msgstr "پیش‌نویس تصاویر."
@@ -7794,3 +7818,8 @@ msgstr "گزارش وضعیت واحدها"
 #: model:veron.ai.agent.template,expected_output:veron_ai_agent.role_fin_periodic_report
 msgid "گزارش کوتاه با اعداد اصلی و نکات مهم."
 msgstr "گزارش کوتاه با اعداد اصلی و نکات مهم."
+
+#. module: veron_ai_agent
+#: model:veron.ai.intent,name:veron_ai_agent.intent_activity_create
+msgid "یادآوری و پیگیری برای یک مخاطب"
+msgstr "یادآوری و پیگیری برای یک مخاطب"

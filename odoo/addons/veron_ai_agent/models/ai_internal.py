@@ -13,6 +13,7 @@ from collections import Counter
 from markupsafe import Markup
 
 from odoo import _, api, fields, models
+from odoo.exceptions import AccessError
 from odoo.fields import Domain
 
 from ..services import nlu, registry, render
@@ -49,6 +50,78 @@ class Brain:
 		self.not_people = Counter()
 		# The records a search is kept to: the products of the draft being changed
 		self.within = {}
+		# Understanding only, nothing done: what «analyze» gives back
+		self.dry = False
+		self.frame = {}
+
+	# --- what is understood, without doing it
+
+	def analyze(self, text):
+		"""The structured reading of a request, nothing done or remembered: the command, the action and the subjects
+		said, the records found (or the candidates when several fit), the values, the period, what is still missing, the
+		tool and its arguments, and the kind of answer. The same steps as an answer, stopped before the tool runs."""
+		from ..services import contracts
+
+		self.dry = True
+		self.memory = dict(self.memory)
+		self.frame = {"text": text, "action": nlu.action(text), "subjects": nlu.subjects(text), "intent": None,
+			"tool": None, "score": 0.0, "candidates": [], "entities": {}, "values": {}, "period": None, "missing": [],
+			"choices": {}, "args": None, "response": None}
+		intent, score, ranked = self._match(text)
+		intent, score, ranked = self._by_what_is_named(text, intent, score, ranked)
+		self.frame["candidates"] = [(i.code, round(s, 3)) for i, s in ranked[:3]]
+		self.frame["score"] = round(score, 3)
+		tied = score >= SURE and len(ranked) > 1 and ranked[1][1] >= score - 0.02
+		if not intent or score < UNSURE or tied or score < SURE:
+			# Not sure: the person would be asked which one
+			self.frame["missing"].append("intent")
+			return self.frame
+		self.frame.update(intent=intent.code, tool=intent.tool_code or None)
+		tool = registry.get(intent.tool_code) if intent.tool_code else None
+		if not self.frame["action"] and tool:
+			# Not said in words: the action of the command's tool
+			self.frame["action"] = {"draft": "create", "execute": "approve", "suggest": "suggest"}.get(tool.action, "report"
+				if tool.category in ("analyze", "report") else "view")
+			self.frame["action_said"] = False
+		else:
+			self.frame["action_said"] = bool(self.frame["action"])
+		said = nlu.period(text, self.today)
+		if said:
+			self.frame["period"] = {"from": str(said[0]), "to": str(said[1]), "label": said[2]}
+		item = contracts.contract(intent.tool_code) if intent.tool_code else None
+		self.frame["response"] = item["result"] if item else "answer"
+		if intent.tool_code:
+			self._do(intent, text)
+		return self.frame
+
+	def _note_missing(self, slot, options=None):
+		if slot["arg"] not in self.frame["missing"]:
+			self.frame["missing"].append(slot["arg"])
+		if options:
+			self.frame["choices"][slot["arg"]] = [record_id for record_id, _name in options]
+
+	def _note_args(self, intent, args):
+		"""The records and values the tool would be given"""
+		self.frame["args"] = args
+		for slot in intent._slots():
+			value = args.get(slot["arg"])
+			if slot.get("model") in self.env and isinstance(value, int):
+				record = self.env[slot["model"]].browse(value).exists()
+				self.frame["entities"][slot["arg"]] = {"model": slot["model"], "id": value, "name": record.display_name}
+			elif slot.get("number") and isinstance(value, (int, float)):
+				self.frame["values"][slot["arg"]] = value
+			elif (slot.get("text") or slot.get("ahead")) and value not in (None, ""):
+				self.frame["values"][slot["arg"]] = value
+		found = self._line_slots(intent)
+		if found and isinstance(args.get(found[0]), list):
+			key, _line, product_slot, count_slot = found
+			lines = []
+			for item in args[key]:
+				product_id = item.get(product_slot["arg"])
+				if isinstance(product_id, int):
+					lines.append({"product_id": product_id, "quantity": item.get(count_slot["arg"]) if count_slot else None})
+			if lines:
+				self.frame["lines"] = lines
 
 	# --- the answer
 
@@ -59,10 +132,17 @@ class Brain:
 			return self._chosen(text.split(":", 1)[1].strip())
 		if not words and self.sources and not self.run.sources_carried:
 			return self._files_only()
+		if self.memory.get("pending") and ABOUT.search(words) and len(nlu.tokens(text)) <= 5:
+			# Help asked in the middle of a question: given, and the question still waits for its answer
+			return self._help()
 		if self.memory.get("pending") and not GREETING.match(words):
 			answer = self._answer_pending(text)
 			if answer is not None:
 				return answer
+		if nlu.opens(text) and len(nlu.tokens(text)) <= 3:
+			opened = self._open_last()
+			if opened is not None:
+				return opened
 		if ABOUT.search(words) and len(nlu.tokens(text)) <= 5:
 			return self._help()
 		if self.memory.get("last") and (words.startswith("و ") or nlu.only_context(text)):
@@ -203,7 +283,11 @@ class Brain:
 		tool = registry.get(intent.tool_code) if intent.tool_code else None
 		properties = (tool.schema.get("properties") or {}) if tool else {}
 		changed = False
-		if nlu.is_more(text) and "limit" in properties:
+		if nlu.is_more(text) and "offset" in properties:
+			# «بعدی»: the next page, not the same list again
+			args["offset"] = (args.get("offset") or 0) + (args.get("limit") or 20)
+			changed = True
+		elif nlu.is_more(text) and "limit" in properties:
 			args["limit"] = min((args.get("limit") or 20) * 2, properties["limit"].get("maximum", 100))
 			changed = True
 		said = nlu.period(text, self.today)
@@ -296,6 +380,10 @@ class Brain:
 		wanted = nlu.count(text)
 		if wanted and "limit" in properties and "limit" not in args:
 			args["limit"] = min(wanted, properties["limit"].get("maximum", 100))
+		for key, value in list(args.items()):
+			if value == "$_me":
+				# The person asking: a follow-up for themselves
+				args[key] = self.user.id
 		lines = self._lines(intent, args, text)
 		if isinstance(lines, Markup):
 			return lines
@@ -315,6 +403,9 @@ class Brain:
 				if source:
 					args[slot["arg"]] = source.id
 				elif slot.get("required"):
+					if self.dry:
+						self._note_missing(slot)
+						continue
 					return self._wait(intent, args, slot, text, slot.get("question") or _("Send the file, please."))
 				continue
 			if slot.get("text"):
@@ -322,6 +413,9 @@ class Brain:
 				if value:
 					args[slot["arg"]] = value
 				elif slot.get("required"):
+					if self.dry:
+						self._note_missing(slot)
+						continue
 					return self._wait(intent, args, slot, text, slot.get("question") or _("What should I look for?"))
 				continue
 			if slot.get("page"):
@@ -332,6 +426,12 @@ class Brain:
 				elif slot.get("required"):
 					return self._say(_("Open the page of the section or of the record first, then ask here."))
 				continue
+			if slot.get("ahead"):
+				# «فردا»، «سه روز دیگه»: in how many days
+				days = nlu.days_ahead(text)
+				if days is not None:
+					args[slot["arg"]] = days
+				continue
 			if slot.get("number"):
 				values = self._numbers(text, money=slot.get("money"))
 				if values:
@@ -339,6 +439,9 @@ class Brain:
 				elif "default" in slot:
 					args[slot["arg"]] = slot["default"]
 				elif slot.get("required"):
+					if self.dry:
+						self._note_missing(slot)
+						continue
 					return self._wait(intent, args, slot, text, slot.get("question") or _("How many?"))
 				continue
 			record = self._record(slot, text, intent, args)
@@ -348,11 +451,19 @@ class Brain:
 				args[slot["arg"]] = record.id
 				self._keep_within(intent, slot, record)
 			elif slot.get("required"):
+				if self.dry:
+					self._note_missing(slot)
+					continue
 				return self._wait(intent, args, slot, text, slot.get("question") or _("Which one?"), self._recent(slot))
+		if self.dry and self.frame.get("missing"):
+			self._note_args(intent, {k: v for k, v in args.items() if not (isinstance(v, str) and v.startswith("$"))})
+			return Markup("")
 		if self.run.page_filters and args.get("model") == self.run.page_model and "filters" in properties \
 				and any(slot.get("page") for slot in intent._slots()):
 			# «This section» is the list as the person sees it: the conditions of the page come along
 			args["filters"] = list(args.get("filters") or []) + list(self.run.page_filters)
+		if self.dry:
+			self._note_args(intent, args)
 		return self._run(intent, _fill(args))
 
 	# --- several products in one request, and things named before people
@@ -473,7 +584,7 @@ class Brain:
 			if slot["model"] in PEOPLE or slot["model"] not in self.env or slot["arg"] in args and not (
 					isinstance(given, str) and given.startswith("$")):
 				continue
-			records = self._search(slot["model"], text, intent)
+			records = self._search(slot["model"], nlu.after(text, slot["after"]) if slot.get("after") else text, intent)
 			if len(records) == 1:
 				args[slot["arg"]] = records.id
 				self._take(records)
@@ -499,6 +610,9 @@ class Brain:
 			args["days"] = max((self.today - date_from).days + 1, 1)
 
 	def _run(self, intent, args):
+		if self.dry:
+			self.frame["args"] = args
+			return Markup("")
 		run, by = self.run, ""
 		agent = run.agent_id
 		if agent.is_supervisor and not agent._grant(intent.tool_code):
@@ -509,6 +623,7 @@ class Brain:
 					"supervisor", text=self.run.input_text, parent=self.run)
 				by = delegate.name
 		output = run._call_tool(intent.tool_code, args, origin="internal", env=self.env)
+		self._offer_open(intent, run)
 		if by:
 			run.sudo().write({"state": "done", "finished_at": fields.Datetime.now(),
 				"output_html": render.answer(intent.tool_code, output)})
@@ -522,18 +637,54 @@ class Brain:
 		self._remember(output)
 		return head + render.answer(intent.tool_code, output)
 
+	def _offer_open(self, intent, run):
+		"""The records an answer is about, to open as a list (or a form) in the program; remembered for «بازش کن»"""
+		from ..services import contracts
+
+		links = run.sudo().link_ids
+		if not links:
+			return
+		model = links[0].res_model
+		ids = links.filtered(lambda link: link.res_model == model).mapped("res_id")[:80]
+		self.memory["opened"] = {"model": model, "ids": ids}
+		item = contracts.contract(intent.tool_code) or {}
+		if item.get("result") in ("answer", "report"):
+			label = _("Open in the Program") if len(ids) > 1 else _("Open It")
+			option = {"label": label, "res_model": model}
+			option.update({"ids": ids} if len(ids) > 1 else {"res_id": ids[0]})
+			self.options.append(option)
+
+	def _open_last(self):
+		"""«بازش کن»: the records of the last answer opened in the program"""
+		opened = self.memory.get("opened") or {}
+		if not opened.get("ids") or opened.get("model") not in self.env:
+			return None
+		ids = self.env[opened["model"]].browse(opened["ids"]).exists().ids
+		if not ids:
+			return None
+		option = {"label": _("Open in the Program") if len(ids) > 1 else _("Open It"), "res_model": opened["model"],
+			"auto": True}
+		option.update({"ids": ids} if len(ids) > 1 else {"res_id": ids[0]})
+		self.options = [option]
+		return self._say(_("Opened in the program."))
+
 	def _remember(self, output):
 		if not isinstance(output, dict):
 			return
 		if output.get("draft_id"):
 			self.memory.setdefault("records", {})["account.move"] = output["draft_id"]
-			self.options = [{"label": _("Open the Draft"), "res_model": "account.move", "res_id": output["draft_id"]}]
+			self.options = [{"label": _("Open the Draft"), "res_model": "account.move", "res_id": output["draft_id"]}] + [
+				option for option in self.options if option.get("res_model") != "account.move"]
 			# The next step of a draft invoice: posting it, which waits for an approval
 			post = self.env["veron.ai.intent"].sudo().search([("code", "=", "invoice_post")], limit=1)
 			if post and post._usable(self.user) and self.agent.sudo()._grant(post.tool_code):
 				self.options.append({"code": post.code, "label": post.name})
 
 	def _wait(self, intent, args, slot, text, question, options=None):
+		if self.dry:
+			self._note_missing(slot, options)
+			self._note_args(intent, {k: v for k, v in args.items() if not (isinstance(v, str) and v.startswith("$"))})
+			return Markup("")
 		self.memory["pending"] = {"intent": intent.code, "args": args, "arg": slot["arg"], "text": text,
 			"options": options or [], "question": question}
 		if options:
@@ -573,6 +724,9 @@ class Brain:
 		model = slot["model"]
 		if model not in self.env:
 			return None
+		if slot.get("after"):
+			# A record of a role in the request: «از انبار مرکزی» is the source, «به شعبه» the destination
+			text = nlu.after(text, slot["after"])
 		page = self.run.page_model == model and self.run.page_res_id
 		remembered = (self.memory.get("records") or {}).get(model)
 		if slot.get("remembered") and remembered and not nlu.refs(text):
@@ -590,6 +744,9 @@ class Brain:
 			self._take(found)
 			return found
 		if len(found) > 1:
+			if self.dry:
+				self._note_missing(slot, [(record.id, record.display_name) for record in found[:6]])
+				return None
 			return self._ask(intent, args, slot, found, text)
 		if page and not slot.get("ask_on_page"):
 			return self.env[model].browse(self.run.page_res_id).exists()
@@ -728,7 +885,14 @@ class Brain:
 	def _rest(self, text, intent):
 		"""The words of the request beyond those of the command, e.g. the name to look for"""
 		intent_words = intent._command_words()
-		words = [w for w in nlu.normalize(text).split() if w not in nlu.STOP and nlu.stem(w) not in intent_words]
+		taken = Counter(self.taken)
+		words = []
+		for w in nlu.normalize(text).split():
+			if taken[w] > 0:
+				# The name of the record it is about is not part of the text: «برای حسن پور» of «تماس بگیرم»
+				taken[w] -= 1
+			elif w not in nlu.STOP and nlu.stem(w) not in intent_words and w not in nlu.MARKERS:
+				words.append(w)
 		return " ".join(words)[:100]
 
 	def _file(self, slot):
@@ -758,11 +922,14 @@ def _fill(args):
 			found.add(item[1:])
 		return found
 
-	# A value asked only to be put inside another argument (the product and quantity of a line) is not an argument
+	# A value asked only to be put inside another argument (the product and quantity of a line, the contact of «id»)
+	# is not an argument of its own
 	inner = set()
-	for v in args.values():
+	for k, v in args.items():
 		if isinstance(v, (dict, list)):
 			used(v, inner)
+		elif isinstance(v, str) and v.startswith("$") and v[1:] != k:
+			inner.add(v[1:])
 	filled = {k: value(v) for k, v in args.items() if k not in inner or isinstance(v, str) and v.startswith("$")}
 	# A value not said and not needed (the product of «all the lines») is left out, not sent empty
 	return {k: v for k, v in filled.items() if not (isinstance(k, str) and k.startswith("_")) and v is not None
@@ -788,6 +955,19 @@ class AiRunInternal(models.Model):
 			brain.conversation.sudo().memory = brain.memory
 		self.sudo().options_json = json.dumps(brain.options, ensure_ascii=False) if brain.options else False
 		return html
+
+	@api.model
+	def _analyze(self, text, agent=None, page=None, conversation=None):
+		"""How the built-in assistant reads a request for the current person, without doing it (see Brain.analyze):
+		for tests, and to see why a request was understood the way it was"""
+		agent = agent or self.env.ref("veron_ai_agent.agent_assistant")
+		if not agent._may_use(self.env.user):
+			raise AccessError(_("You may not use %s.", agent.name))
+		page = self.env["veron.ai.conversation"]._page(page) or {}
+		run = self.sudo().new({"agent_id": agent.id, "conversation_id": conversation.id if conversation else False,
+			"page_model": page.get("model") or False, "page_res_id": page.get("res_id") or 0,
+			"page_title": page.get("title") or False, "page_filters": page.get("filters") or False})
+		return Brain(run, self.env).analyze(text or "")
 
 	@api.model
 	def _render_results(self, results):

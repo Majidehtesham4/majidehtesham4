@@ -339,3 +339,103 @@ def only_context(text):
 def refers_back(text):
 	"""«همین», «همون», «اون», «این مشتری»: the record spoken of before"""
 	return bool(re.search(r"\b(همین|همون|همان|اون|او|این مشتری|این کالا|این فاکتور|این سند|این شخص)\b", normalize(text)))
+
+
+# --- the parts of a request: what is done, to what, and in relation to what
+
+# Verbs and the action they ask; each list is matched on whole words, in any order of the request
+ACTIONS = {
+	"delete": ("حذف", "بردار", "برداری", "پاک"),
+	"edit": ("تغییر", "عوض", "اصلاح", "ویرایش", "بشه", "بکنش"),
+	"approve": ("تایید", "تأیید", "قطعی", "پست"),
+	"send": ("بفرست", "ارسال", "بفرستید"),
+	"open": ("بازش", "باز"),
+	"compare": ("مقایسه", "تغییرات", "اختلاف"),
+	"create": ("بساز", "بزن", "صادر", "صدور", "ایجاد", "بنویس", "ثبت", "اضافه", "پیشنویس", "پیش نویس", "درست"),
+	"search": ("پیدا", "بگرد", "جستجو", "جست", "کجاست"),
+	"report": ("گزارش", "خلاصه", "جمع", "آمار", "چقدر", "چند", "مانده", "وضعیت"),
+	"view": ("نشان", "نشون", "ببینم", "لیست", "فهرست", "مشخصات", "اطلاعات", "بخوان", "بخون"),
+}
+# Nouns and what they are about
+SUBJECTS = {
+	"customer": ("مشتری", "مشتریان", "خریدار"),
+	"vendor": ("تامین کننده", "تأمین کننده", "تامین‌کننده"),
+	"contact": ("مخاطب", "طرف حساب", "شخص"),
+	"invoice": ("فاکتور", "صورتحساب"),
+	"quotation": ("پیش فاکتور", "پیشفاکتور"),
+	"order": ("سفارش",),
+	"product": ("کالا", "محصول", "جنس"),
+	"stock": ("موجودی", "انبار"),
+	"employee": ("کارمند", "پرسنل", "کارکنان", "کارمندان"),
+	"payroll": ("حقوق", "فیش"),
+	"cheque": ("چک",),
+	"bank": ("بانک", "حساب بانکی"),
+	"petty_cash": ("تنخواه",),
+	"tax": ("مالیات", "ارزش افزوده"),
+	"discount": ("تخفیف",),
+	"expense": ("هزینه",),
+	"receivable": ("مطالبات", "بدهکار", "بدهکاران"),
+	"payable": ("بدهی", "پرداختنی"),
+	"task": ("کار", "کارها", "پیگیری", "فعالیت"),
+}
+# Words that join a name to its role in the request: «از انبار مرکزی»، «به انبار شعبه»، «برای حسن پور»
+MARKERS = ("از", "به", "برای", "واسه", "برا", "در", "توی", "تو", "با")
+
+
+def _has(words, text, phrase):
+	return (" " + phrase + " ") in (" " + text + " ") if " " in phrase else phrase in words or stem(phrase) in words
+
+
+def action(text):
+	"""The action a request asks (create, edit, delete, report...), or None; the most specific wins"""
+	normal = normalize(text)
+	words = set(normal.split()) | {stem(w) for w in normal.split()}
+	for name, verbs in ACTIONS.items():
+		if any(_has(words, normal, verb) for verb in verbs):
+			return name
+	return None
+
+
+def subjects(text):
+	"""What a request is about (customer, invoice, product...), in the order of the list"""
+	normal = normalize(text)
+	words = set(normal.split()) | {stem(w) for w in normal.split()}
+	return [name for name, nouns in SUBJECTS.items() if any(_has(words, normal, noun) for noun in nouns)]
+
+
+def after(text, markers):
+	"""The words of the text after one of the markers, up to the next marker: «از انبار مرکزی به شعبه» and
+	«از» give «انبار مرکزی». The whole text when no marker is in it."""
+	words = normalize(text).split()
+	for index, word in enumerate(words):
+		if word in markers:
+			part = []
+			for other in words[index + 1:]:
+				if other in MARKERS:
+					break
+				part.append(other)
+			if part:
+				return " ".join(part)
+	return normalize(text)
+
+
+def opens(text):
+	"""«بازش کن»، «باز کن»، «نشونم بده توی برنامه»: the last result opened in the program"""
+	return bool(re.search(r"\b(بازش|باز کن|باز کنید|بازشون|باز شود|توی برنامه نشون|در برنامه نشان)\b", normalize(text)))
+
+
+def days_ahead(text):
+	"""In how many days a time said in the request falls: «فردا» 1, «پس فردا» 2, «۳ روز دیگه» 3, «هفته بعد» 7"""
+	words = normalize(text)
+	if re.search(r"\bپس ?فردا\b", words):
+		return 2
+	if re.search(r"\bفردا\b", words):
+		return 1
+	match = re.search(r"\b(\d{1,2})\s*روز\s*(دیگه|دیگر|بعد)\b", words)
+	if match:
+		return int(match.group(1))
+	if re.search(r"\bهفته\s*(بعد|دیگه|دیگر|آینده|اینده)\b", words):
+		return 7
+	if re.search(r"\bامروز\b", words):
+		return 0
+	return None

@@ -182,6 +182,12 @@ export class AgentChat extends Component {
 
     /** A button the assistant offered: the meaning it was unsure of, or one of the records it found */
     choose(option) {
+        if (option.res_model && option.ids) {
+            // The records of an answer, as a list in the program
+            this.action.doAction({ type: "ir.actions.act_window", res_model: option.res_model, name: option.label,
+                domain: [["id", "in", option.ids]], views: [[false, "list"], [false, "form"]] });
+            return;
+        }
         if (option.res_model) {
             this.action.doAction({ type: "ir.actions.act_window", res_model: option.res_model, res_id: option.res_id, views: [[false, "form"]] });
             return;
@@ -235,6 +241,12 @@ export class AgentChat extends Component {
                 command || !this.state.ai ? "internal" : this.state.engine, this.page(),
             ]);
             this.state.messages = this.state.messages.filter((m) => m.id !== "tmp").concat(messages);
+            // «بازش کن»: what the answer says to open is opened at once
+            const last = messages[messages.length - 1];
+            const auto = last && (last.options || []).find((option) => option.auto);
+            if (auto) {
+                this.choose(auto);
+            }
             if (!command) {
                 this.state.text = "";
             }

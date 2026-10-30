@@ -176,8 +176,8 @@ class InvoiceDraftUpdate(FinanceTool):
 	code = "invoice_draft_update"
 	name = _lt("Change a Draft Invoice")
 	description = _lt("Changes a draft invoice or bill that is not posted: a discount (percent) on all its lines or "
-		"on the line of a product, the count or the price of a line, lines added, a line taken out. A posted one is "
-		"never changed here.")
+		"on the line of a product, the count or the price of a line, the taxes taken off, lines added, a line taken "
+		"out. A posted one is never changed here.")
 	category = "draft"
 	action = "draft"
 	risk = "medium"
@@ -192,6 +192,7 @@ class InvoiceDraftUpdate(FinanceTool):
 			"product_id": {"type": "integer", "minimum": 1}, "quantity": {"type": "number", "minimum": 0},
 		}, ["product_id"])},
 		"remove_product_id": {"type": "integer", "minimum": 1},
+		"remove_taxes": {"type": "boolean", "description": "Takes the taxes off all lines, or off the line of product_id"},
 	}, ["move_id"])
 
 	def _move(self, ctx, args):
@@ -214,7 +215,8 @@ class InvoiceDraftUpdate(FinanceTool):
 	def plan(self, ctx, args):
 		ctx.check_model("account.move")
 		move = self._move(ctx, args)
-		if not any(key in args for key in ("discount", "quantity", "price_unit", "add_lines", "remove_product_id")):
+		if not any(key in args for key in ("discount", "quantity", "price_unit", "add_lines", "remove_product_id",
+				"remove_taxes")):
 			raise ToolDenied(ctx.env._("Say what to change: a discount, a count, a price, a line to add or take out."))
 		return Plan(summary=ctx.env._("Change the draft %s", move.display_name), amount=move.amount_untaxed,
 			model="account.move", res_ids=[move.id], company_ids=[move.company_id.id])
@@ -227,6 +229,8 @@ class InvoiceDraftUpdate(FinanceTool):
 			if len(lines) > 1:
 				raise ToolDenied(ctx.env._("Which product's count? The draft has several lines."))
 			values["quantity"] = args["quantity"]
+		if args.get("remove_taxes"):
+			values["tax_ids"] = [(5, 0, 0)]
 		if values:
 			lines.write(values)
 		if args.get("remove_product_id"):

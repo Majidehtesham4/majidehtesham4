@@ -5,3 +5,4 @@ from . import test_openai
 from . import test_internal
 from . import test_team
 from . import test_guide
+from . import test_operations

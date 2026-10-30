@@ -42,7 +42,7 @@ LABELS = {
 	"account_number": "شماره‌ی حساب", "amount_in_words": "مبلغ به حروف", "payee": "در وجه", "drawer": "صادرکننده",
 	"receipt_number": "شماره‌ی پیگیری", "confidence": "اطمینان", "visible_text": "متن", "description": "شرح",
 	"brand": "برند", "color": "رنگ", "unit_price": "قیمت واحد", "gross_amount": "جمع فاکتور", "discount_amount": "تخفیف",
-	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
+	"discount_percent": "درصد تخفیف", "discount": "تخفیف٪", "shown_from": "از ردیف", "terms_from": "قیمت، تخفیف و مالیات از", "employees": "کارکنان", "ready": "آماده", "payslips": "فیش‌ها", "funds": "تنخواه‌ها", "period_days": "روزها",
 }
 
 

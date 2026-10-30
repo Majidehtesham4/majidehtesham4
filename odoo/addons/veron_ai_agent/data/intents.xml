@@ -430,4 +430,38 @@
 		<field name="slots">[{"arg": "_name", "text": true, "question": "درباره‌ی چه چیزی جست‌وجو کنم؟", "required": true}]</field>
 		<field name="page_models">document.page</field>
 	</record>
+	<record id="intent_stock_transfer_draft" model="veron.ai.intent">
+		<field name="code">stock_transfer_draft</field>
+		<field name="name">پیش‌نویس انتقال بین انبارها</field>
+		<field name="section">stock</field>
+		<field name="sequence">20</field>
+		<field name="phrases">انتقال بده
+از انبار به انبار منتقل کن
+حواله انتقال بزن
+جابجایی کالا بین انبارها
+از انبار ببر به انبار</field>
+		<field name="tool_code">stock_transfer_draft</field>
+		<field name="args">{"product_id": "$product_id", "quantity": "$quantity", "from_warehouse_id": "$from_warehouse_id", "to_warehouse_id": "$to_warehouse_id"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "product_id", "model": "product.product", "question": "کدام کالا؟ نام یا کدش را بنویسید.", "required": true}, {"arg": "from_warehouse_id", "model": "stock.warehouse", "after": ["از"], "question": "از کدام انبار؟", "required": true}, {"arg": "to_warehouse_id", "model": "stock.warehouse", "after": ["به"], "question": "به کدام انبار؟", "required": true}, {"arg": "quantity", "number": true, "question": "چند عدد؟", "required": true}]</field>
+		<field name="page_models">stock.picking,stock.warehouse</field>
+	</record>
+	<record id="intent_activity_create" model="veron.ai.intent">
+		<field name="code">activity_create</field>
+		<field name="name">یادآوری و پیگیری برای یک مخاطب</field>
+		<field name="section">general</field>
+		<field name="sequence">20</field>
+		<field name="phrases">یادآوری بساز
+پیگیری بگذار
+یک کار برای پیگیری
+یادم بنداز
+فعالیت پیگیری بساز</field>
+		<field name="tool_code">activity_create</field>
+		<field name="args">{"model": "res.partner", "id": "$partner_id", "summary": "$summary", "user_id": "$_me", "days": "$days"}</field>
+		<field name="period">none</field>
+		<field name="default_days">0</field>
+		<field name="slots">[{"arg": "partner_id", "model": "res.partner", "question": "برای کدام مخاطب؟", "required": true}, {"arg": "summary", "text": true, "question": "چه کاری را پیگیری کنم؟", "required": true}, {"arg": "days", "ahead": true}]</field>
+		<field name="page_models">res.partner</field>
+	</record>
 </odoo>
