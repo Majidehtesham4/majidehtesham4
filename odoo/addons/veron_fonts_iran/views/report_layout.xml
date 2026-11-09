@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Every printed document in the font its company chose -->
+	<template id="report_layout_font" inherit_id="web.report_layout">
+		<xpath expr="//head" position="inside">
+			<t t-set="veron_font" t-value="(res_company.veron_report_font if res_company else False) or 'Vazirmatn'"/>
+			<style>
+				body, .page, .vr-form, table, td, th, p, div, span { font-family: "<t t-out="veron_font"/>", Tahoma, sans-serif !important; }
+			</style>
+		</xpath>
+	</template>
+</odoo>

@@ -1,0 +1,65 @@
+/* Persian fonts of ERP-VERON, under the SIL Open Font License (the licenses are next to the files) */
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Vazirmatn-Regular.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Vazirmatn-Regular.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Vazirmatn-Bold.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Vazirmatn-Bold.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Sahel";
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Sahel.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Sahel.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Sahel";
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Sahel-Bold.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Sahel-Bold.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Shabnam";
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Shabnam.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Shabnam.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Shabnam";
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Shabnam-Bold.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Shabnam-Bold.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Samim";
+	font-style: normal;
+	font-weight: normal;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Samim.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Samim.ttf") format("truetype");
+}
+@font-face {
+	font-family: "Samim";
+	font-style: normal;
+	font-weight: bold;
+	font-display: swap;
+	src: url("/veron_fonts_iran/static/fonts/Samim-Bold.woff2") format("woff2"),
+		url("/veron_fonts_iran/static/fonts/Samim-Bold.ttf") format("truetype");
+}
