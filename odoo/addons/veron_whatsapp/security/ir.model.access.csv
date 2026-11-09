@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_user,account user,model_veron_whatsapp_account,group_whatsapp_user,1,0,0,0
+access_account_system,account system,model_veron_whatsapp_account,base.group_system,1,1,1,1
+access_template_user,template user,model_veron_whatsapp_template,group_whatsapp_user,1,0,0,0
+access_template_system,template system,model_veron_whatsapp_template,base.group_system,1,1,1,1
+access_message_user,message user,model_veron_whatsapp_message,group_whatsapp_user,1,0,1,0
+access_message_system,message system,model_veron_whatsapp_message,base.group_system,1,1,1,1
+access_composer_user,composer user,model_veron_whatsapp_composer,group_whatsapp_user,1,1,1,0

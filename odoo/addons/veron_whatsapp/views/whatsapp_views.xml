@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="account_view_list" model="ir.ui.view">
+		<field name="name">veron.whatsapp.account.list</field>
+		<field name="model">veron.whatsapp.account</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="phone_number_id"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+			</list>
+		</field>
+	</record>
+	<record id="account_view_form" model="ir.ui.view">
+		<field name="name">veron.whatsapp.account.form</field>
+		<field name="model">veron.whatsapp.account</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. Sales"/></h1></div>
+					<group>
+						<group>
+							<field name="phone_number_id"/>
+							<field name="token" password="True" groups="base.group_system"/>
+							<field name="app_secret" password="True" groups="base.group_system"/>
+						</group>
+						<group>
+							<field name="api_url"/>
+							<field name="webhook_url" widget="CopyClipboardChar"/>
+							<field name="verify_token" groups="base.group_system" widget="CopyClipboardChar"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="active" invisible="1"/>
+						</group>
+					</group>
+					<div class="text-muted">
+						In Meta's app, the webhook is given the address and the verify token above, with the fields «messages».
+						The access token and the app's secret are entered here by the administrator and shown to no one.
+					</div>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_account" model="ir.actions.act_window">
+		<field name="name">WhatsApp Numbers</field>
+		<field name="res_model">veron.whatsapp.account</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="template_view_list" model="ir.ui.view">
+		<field name="name">veron.whatsapp.template.list</field>
+		<field name="model">veron.whatsapp.template</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="language"/>
+				<field name="model_id"/>
+				<field name="account_id"/>
+			</list>
+		</field>
+	</record>
+	<record id="template_view_form" model="ir.ui.view">
+		<field name="name">veron.whatsapp.template.form</field>
+		<field name="model">veron.whatsapp.template</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_add_to_menu" type="object" string="Add to the Action Menu"/>
+				</header>
+				<sheet>
+					<group>
+						<group><field name="name"/><field name="language"/><field name="account_id"/></group>
+						<group><field name="model_id" options="{'no_create': True}"/><field name="value_fields"/></group>
+					</group>
+					<field name="body" placeholder="سلام {{1}}، فاکتور {{2}} به مبلغ {{3}} ریال صادر شد."/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_template" model="ir.actions.act_window">
+		<field name="name">WhatsApp Templates</field>
+		<field name="res_model">veron.whatsapp.template</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="message_view_list" model="ir.ui.view">
+		<field name="name">veron.whatsapp.message.list</field>
+		<field name="model">veron.whatsapp.message</field>
+		<field name="arch" type="xml">
+			<list create="0" edit="0" decoration-danger="state == 'failed'" decoration-info="direction == 'in'">
+				<field name="create_date" string="Date"/>
+				<field name="direction"/>
+				<field name="phone"/>
+				<field name="partner_id"/>
+				<field name="body"/>
+				<field name="state" widget="badge"/>
+				<field name="error" optional="hide"/>
+			</list>
+		</field>
+	</record>
+	<record id="message_view_search" model="ir.ui.view">
+		<field name="name">veron.whatsapp.message.search</field>
+		<field name="model">veron.whatsapp.message</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="phone"/>
+				<field name="partner_id"/>
+				<field name="body"/>
+				<filter name="received" string="Received" domain="[('direction', '=', 'in')]"/>
+				<filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+			</search>
+		</field>
+	</record>
+	<record id="action_message" model="ir.actions.act_window">
+		<field name="name">WhatsApp Messages</field>
+		<field name="res_model">veron.whatsapp.message</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<menuitem id="menu_root" name="WhatsApp" web_icon="veron_whatsapp,static/description/icon.png" sequence="62"
+		groups="group_whatsapp_user"/>
+	<menuitem id="menu_messages" name="Messages" parent="menu_root" action="action_message" sequence="1"/>
+	<menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="10" groups="base.group_system"/>
+	<menuitem id="menu_accounts" name="Numbers" parent="menu_config" action="action_account"/>
+	<menuitem id="menu_templates" name="Templates" parent="menu_config" action="action_template"/>
+</odoo>
