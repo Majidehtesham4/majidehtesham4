@@ -3,7 +3,7 @@ from . import models
 
 from odoo.addons.payment import reset_payment_provider, setup_provider
 
-CODES = ("zarinpal", "zibal")
+from .const import CODES
 
 
 def post_init_hook(env):

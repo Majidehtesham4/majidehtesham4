@@ -99,19 +99,19 @@ class PaymentTransaction(models.Model):
 
 	@api.model
 	def _extract_reference(self, provider_code, payment_data):
-		if provider_code not in ("zarinpal", "zibal"):
+		if provider_code not in const.CODES:
 			return super()._extract_reference(provider_code, payment_data)
 		return payment_data.get("ref")
 
 	def _extract_amount_data(self, payment_data):
-		if self.provider_code not in ("zarinpal", "zibal"):
+		if self.provider_code not in const.CODES:
 			return super()._extract_amount_data(payment_data)
 		if payment_data.get("status") != "paid":
 			return None  # nothing paid: no amount to check
 		return {"amount": float(payment_data.get("amount") or 0), "currency_code": "IRR", "precision_digits": 0}
 
 	def _apply_updates(self, payment_data):
-		if self.provider_code not in ("zarinpal", "zibal"):
+		if self.provider_code not in const.CODES:
 			return super()._apply_updates(payment_data)
 		status = payment_data.get("status")
 		if status == "paid":

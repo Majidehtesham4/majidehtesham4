@@ -16,4 +16,28 @@
 		<field name="redirect_form_view_id" ref="redirect_form"/>
 		<field name="payment_method_ids" eval="[Command.set([ref('payment_method_shetab')])]"/>
 	</record>
+	<record id="payment_provider_mellat" model="payment.provider">
+		<field name="name">Behpardakht Mellat</field>
+		<field name="code">mellat</field>
+		<field name="image_128" type="base64" file="veron_payment_iran/static/img/shetab.png"/>
+		<field name="module_id" ref="base.module_veron_payment_iran"/>
+		<field name="redirect_form_view_id" ref="redirect_form"/>
+		<field name="payment_method_ids" eval="[Command.set([ref('payment_method_shetab')])]"/>
+	</record>
+	<record id="payment_provider_sadad" model="payment.provider">
+		<field name="name">Sadad (Bank Melli)</field>
+		<field name="code">sadad</field>
+		<field name="image_128" type="base64" file="veron_payment_iran/static/img/shetab.png"/>
+		<field name="module_id" ref="base.module_veron_payment_iran"/>
+		<field name="redirect_form_view_id" ref="redirect_form"/>
+		<field name="payment_method_ids" eval="[Command.set([ref('payment_method_shetab')])]"/>
+	</record>
+	<record id="payment_provider_asanpardakht" model="payment.provider">
+		<field name="name">Asan Pardakht</field>
+		<field name="code">asanpardakht</field>
+		<field name="image_128" type="base64" file="veron_payment_iran/static/img/shetab.png"/>
+		<field name="module_id" ref="base.module_veron_payment_iran"/>
+		<field name="redirect_form_view_id" ref="redirect_form"/>
+		<field name="payment_method_ids" eval="[Command.set([ref('payment_method_shetab')])]"/>
+	</record>
 </odoo>

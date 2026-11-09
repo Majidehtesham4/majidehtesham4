@@ -14,7 +14,8 @@ class IranianGatewayController(http.Controller):
 	is asked again from the gateway itself (_veron_verify) before it is recorded."""
 
 	@http.route(
-		["/payment/zarinpal/return", "/payment/zibal/return"],
+		["/payment/zarinpal/return", "/payment/zibal/return", "/payment/mellat/return", "/payment/sadad/return",
+			"/payment/asanpardakht/return"],
 		type="http", auth="public", methods=["GET", "POST"], csrf=False, save_session=False,
 	)
 	def veron_return(self, **data):

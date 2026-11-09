@@ -7,9 +7,16 @@ class PaymentProvider(models.Model):
 	_inherit = "payment.provider"
 
 	code = fields.Selection(
-		selection_add=[("zarinpal", "Zarinpal"), ("zibal", "Zibal")],
-		ondelete={"zarinpal": "set default", "zibal": "set default"},
+		selection_add=[("zarinpal", "Zarinpal"), ("zibal", "Zibal"), ("mellat", "Behpardakht Mellat"),
+			("sadad", "Sadad (Bank Melli)"), ("asanpardakht", "Asan Pardakht")],
+		ondelete={code: "set default" for code in const.CODES},
 	)
+	veron_terminal = fields.Char("Terminal ID", copy=False, groups="base.group_system",
+		help="Mellat's and Sadad's terminal; for Asan Pardakht its merchant configuration id")
+	veron_username = fields.Char("Gateway Username", copy=False, groups="base.group_system")
+	veron_password = fields.Char("Gateway Password", copy=False, groups="base.group_system")
+	veron_key = fields.Char("Merchant Key", copy=False, groups="base.group_system",
+		help="Sadad's merchant key (Base64), used to sign each request")
 	veron_merchant = fields.Char(
 		string="Merchant Code",
 		help="The merchant code the gateway gave for this website (Zarinpal's merchant ID, Zibal's merchant)",
@@ -19,13 +26,13 @@ class PaymentProvider(models.Model):
 
 	def _get_supported_currencies(self):
 		currencies = super()._get_supported_currencies()
-		if self.code in ("zarinpal", "zibal"):
+		if self.code in const.CODES:
 			currencies = currencies.filtered(lambda c: c.name in const.SUPPORTED_CURRENCIES)
 		return currencies
 
 	def _get_default_payment_method_codes(self):
 		self.ensure_one()
-		if self.code not in ("zarinpal", "zibal"):
+		if self.code not in const.CODES:
 			return super()._get_default_payment_method_codes()
 		return const.DEFAULT_PAYMENT_METHOD_CODES
 

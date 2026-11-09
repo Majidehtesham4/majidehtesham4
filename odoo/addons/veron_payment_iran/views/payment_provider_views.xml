@@ -16,6 +16,16 @@
 						In test mode, payments go to Zarinpal's sandbox.
 					</div>
 				</group>
+				<group invisible="code not in ('mellat', 'sadad', 'asanpardakht')">
+					<field name="veron_merchant" string="Merchant ID" invisible="code != 'sadad'" required="code == 'sadad' and state != 'disabled'"/>
+					<field name="veron_terminal" required="code in ('mellat', 'sadad', 'asanpardakht') and state != 'disabled'"/>
+					<field name="veron_username" invisible="code == 'sadad'" required="code in ('mellat', 'asanpardakht') and state != 'disabled'"/>
+					<field name="veron_password" password="True" invisible="code == 'sadad'" required="code in ('mellat', 'asanpardakht') and state != 'disabled'"/>
+					<field name="veron_key" password="True" invisible="code != 'sadad'" required="code == 'sadad' and state != 'disabled'"/>
+					<div class="text-muted" colspan="2">
+						The bank's gateway has no sandbox: test with a small amount. Each payment is verified and settled with the bank before it is recorded.
+					</div>
+				</group>
 			</group>
 		</field>
 	</record>
