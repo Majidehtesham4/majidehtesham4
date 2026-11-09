@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem id="menu_iran" name="Iranian Accounting" parent="account.menu_finance" sequence="5"
+		groups="account.group_account_user"/>
+	<menuitem id="menu_from_template" name="Voucher From a Template" parent="menu_iran" action="action_from_template" sequence="1"/>
+	<menuitem id="menu_release" name="Release a Deposit" parent="menu_iran" action="action_release" sequence="2"/>
+	<menuitem id="menu_books" name="Legal Books" parent="menu_iran" action="action_books" sequence="3"/>
+	<menuitem id="menu_treasury" name="Treasury Report" parent="menu_iran" action="action_treasury" sequence="4"/>
+	<menuitem id="menu_templates" name="Voucher Templates" parent="menu_iran" action="action_voucher_templates" sequence="10"/>
+	<menuitem id="menu_renumber" name="Put Voucher Numbers in Date Order" parent="menu_iran" action="action_renumber"
+		sequence="11" groups="account.group_account_manager"/>
+</odoo>

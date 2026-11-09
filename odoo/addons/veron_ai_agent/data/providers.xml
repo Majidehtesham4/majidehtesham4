@@ -80,4 +80,16 @@
 		<field name="sequence">30</field>
 		<field name="active" eval="False"/>
 	</record>
+	<!-- GapGPT (gapgpt.app): an Iranian gateway to several companies' models, in OpenAI's format -->
+	<record id="provider_gapgpt" model="veron.ai.provider">
+		<field name="name">GapGPT</field>
+		<field name="kind">llm</field>
+		<field name="adapter">openai_chat</field>
+		<field name="base_url">https://api.gapgpt.app/v1</field>
+		<field name="model_name">gpt-4o-mini</field>
+		<field name="max_tokens">4000</field>
+		<field name="timeout">120</field>
+		<field name="sequence">30</field>
+		<field name="active" eval="False"/>
+	</record>
 </odoo>

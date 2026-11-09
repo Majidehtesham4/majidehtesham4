@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_books">
+		<t t-call="web.html_container">
+			<t t-call="veron_account_iran.form_style"/>
+			<t t-set="money" t-value="lambda v: '{:,.0f}'.format(v or 0) if v else ''"/>
+			<t t-foreach="docs" t-as="wizard">
+				<t t-set="data" t-value="wizard._data()"/>
+				<div class="page vr-form">
+					<table>
+						<tr>
+							<td style="width: 30%;"><b t-out="wizard.company_id.name"/></td>
+							<td class="vr-title" style="width: 40%;">
+								<t t-if="wizard.book == 'trial'">تراز آزمایشی چهارستونی</t>
+								<t t-if="wizard.book == 'journal'">دفتر روزنامه</t>
+								<t t-if="wizard.book == 'ledger'">دفتر کل</t>
+							</td>
+							<td style="width: 30%;">از تاریخ تا تاریخ: <t t-out="wizard._period()"/>
+								<t t-if="wizard.book == 'trial'"><br/>سطح: <span t-field="wizard.level"/></t></td>
+						</tr>
+					</table>
+
+					<t t-if="wizard.book == 'trial'">
+						<table class="vr-grid">
+							<thead>
+								<tr><th rowspan="2">کد</th><th rowspan="2">نام حساب</th><th colspan="2">گردش دوره</th><th colspan="2">مانده پایان دوره</th></tr>
+								<tr><th>بدهکار</th><th>بستانکار</th><th>بدهکار</th><th>بستانکار</th></tr>
+							</thead>
+							<tbody>
+								<tr t-foreach="data" t-as="row">
+									<td class="text-center"><t t-out="row['code']"/></td>
+									<td><t t-out="row['name']"/></td>
+									<td class="vr-num"><t t-out="money(row['debit'])"/></td>
+									<td class="vr-num"><t t-out="money(row['credit'])"/></td>
+									<td class="vr-num"><t t-out="money(row['balance_debit'])"/></td>
+									<td class="vr-num"><t t-out="money(row['balance_credit'])"/></td>
+								</tr>
+								<tr style="font-weight: bold;">
+									<td colspan="2" class="text-center">جمع</td>
+									<td class="vr-num"><t t-out="money(sum(r['debit'] for r in data))"/></td>
+									<td class="vr-num"><t t-out="money(sum(r['credit'] for r in data))"/></td>
+									<td class="vr-num"><t t-out="money(sum(r['balance_debit'] for r in data))"/></td>
+									<td class="vr-num"><t t-out="money(sum(r['balance_credit'] for r in data))"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</t>
+
+					<t t-if="wizard.book == 'journal'">
+						<table class="vr-grid">
+							<thead>
+								<tr><th>تاریخ</th><th>شماره سند</th><th>کد کل</th><th>شرح</th><th>بدهکار</th><th>بستانکار</th></tr>
+							</thead>
+							<tbody>
+								<t t-foreach="data" t-as="voucher">
+									<tr t-foreach="voucher['rows']" t-as="row">
+										<td class="text-center"><t t-if="row_first" t-out="voucher['date']"/></td>
+										<td class="text-center"><t t-if="row_first" t-out="voucher['number']"/></td>
+										<td class="text-center"><t t-out="row['code']"/></td>
+										<td t-att-style="'padding-right: 18px;' if row['credit'] > row['debit'] else ''">
+											<t t-out="row['name']"/><t t-if="row_last"> - <i t-out="voucher['ref']"/></t></td>
+										<td class="vr-num"><t t-out="money(row['debit'])"/></td>
+										<td class="vr-num"><t t-out="money(row['credit'])"/></td>
+									</tr>
+								</t>
+								<tr style="font-weight: bold;">
+									<td colspan="4" class="text-center">جمع</td>
+									<td class="vr-num"><t t-out="money(sum(r['debit'] for v in data for r in v['rows']))"/></td>
+									<td class="vr-num"><t t-out="money(sum(r['credit'] for v in data for r in v['rows']))"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</t>
+
+					<t t-if="wizard.book == 'ledger'">
+						<t t-foreach="data" t-as="ledger">
+							<div class="vr-band"><t t-out="ledger['code']"/> - <t t-out="ledger['name']"/></div>
+							<table class="vr-grid" style="margin-bottom: 8px;">
+								<thead>
+									<tr><th>تاریخ</th><th>شماره سند</th><th>شرح</th><th>بدهکار</th><th>بستانکار</th><th>تشخیص</th><th>مانده</th></tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="5">مانده از قبل</td>
+										<td class="text-center"><t t-out="'بد' if ledger['opening'] > 0 else 'بس' if ledger['opening'] &lt; 0 else '-'"/></td>
+										<td class="vr-num"><t t-out="money(abs(ledger['opening']))"/></td>
+									</tr>
+									<tr t-foreach="ledger['rows']" t-as="row">
+										<td class="text-center"><t t-out="row['date']"/></td>
+										<td class="text-center"><t t-out="row['number']"/></td>
+										<td><t t-out="row['ref']"/></td>
+										<td class="vr-num"><t t-out="money(row['debit'])"/></td>
+										<td class="vr-num"><t t-out="money(row['credit'])"/></td>
+										<td class="text-center"><t t-out="row['side']"/></td>
+										<td class="vr-num"><t t-out="money(row['balance'])"/></td>
+									</tr>
+								</tbody>
+							</table>
+						</t>
+					</t>
+					<p t-if="not data">در این دوره سند قطعی‌شده‌ای نیست.</p>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

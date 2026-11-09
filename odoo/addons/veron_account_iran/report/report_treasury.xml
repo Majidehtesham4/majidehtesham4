@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_treasury">
+		<t t-call="web.html_container">
+			<t t-call="veron_account_iran.form_style"/>
+			<t t-set="money" t-value="lambda v: '{:,.0f}'.format(v or 0)"/>
+			<t t-foreach="docs" t-as="wizard">
+				<t t-set="shamsi" t-value="wizard.env['account.move']._veron_shamsi_date"/>
+				<div class="page vr-form">
+					<div class="vr-title">گزارش خزانه‌داری - <t t-out="wizard.company_id.name"/></div>
+					<p class="text-center">از <t t-out="shamsi(wizard.date_from)"/> تا <t t-out="shamsi(wizard.date_to)"/></p>
+					<div class="vr-band">صندوق و بانک</div>
+					<t t-set="journals" t-value="wizard._journals()"/>
+					<table class="vr-grid">
+						<thead><tr><th>نام</th><th>نوع</th><th>مانده اول دوره</th><th>دریافت</th><th>پرداخت</th><th>مانده پایان دوره</th></tr></thead>
+						<tbody>
+							<tr t-foreach="journals" t-as="row">
+								<td><t t-out="row['name']"/></td><td class="text-center"><t t-out="row['kind']"/></td>
+								<td class="vr-num"><t t-out="money(row['opening'])"/></td><td class="vr-num"><t t-out="money(row['in'])"/></td>
+								<td class="vr-num"><t t-out="money(row['out'])"/></td><td class="vr-num"><t t-out="money(row['closing'])"/></td>
+							</tr>
+							<tr style="font-weight: bold;">
+								<td colspan="2" class="text-center">جمع</td>
+								<td class="vr-num"><t t-out="money(sum(r['opening'] for r in journals))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['in'] for r in journals))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['out'] for r in journals))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['closing'] for r in journals))"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<table style="margin-top: 8px;">
+						<tr>
+							<td style="width: 50%; vertical-align: top; padding-left: 4px;">
+								<div class="vr-band">دریافتنی تا <t t-out="wizard.days_ahead"/> روز آینده</div>
+								<table class="vr-grid"><tr t-foreach="wizard._due('receivable')" t-as="item"><td><t t-out="item[0]"/></td><td class="vr-num"><t t-out="money(item[1])"/></td></tr></table>
+							</td>
+							<td style="width: 50%; vertical-align: top; padding-right: 4px;">
+								<div class="vr-band">پرداختنی تا <t t-out="wizard.days_ahead"/> روز آینده</div>
+								<table class="vr-grid"><tr t-foreach="wizard._due('payable')" t-as="item"><td><t t-out="item[0]"/></td><td class="vr-num"><t t-out="money(item[1])"/></td></tr></table>
+							</td>
+						</tr>
+					</table>
+					<t t-set="cheques" t-value="wizard._cheques()"/>
+					<t t-if="cheques is not None">
+						<div class="vr-band" style="margin-top: 8px;">چک‌های سررسید</div>
+						<table class="vr-grid">
+							<thead><tr><th>نوع</th><th>طرف حساب</th><th>سریال</th><th>سررسید</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+							<tbody>
+								<tr t-foreach="cheques" t-as="row">
+									<td class="text-center"><t t-out="'دریافتی' if row['direction'] == 'in' else 'پرداختی'"/></td>
+									<td><t t-out="row['partner']"/></td><td class="text-center"><t t-out="row['serial']"/></td>
+									<td class="text-center"><t t-out="shamsi(row['due'])"/></td>
+									<td class="vr-num"><t t-out="money(row['amount'])"/></td><td><t t-out="row['state']"/></td>
+								</tr>
+							</tbody>
+						</table>
+					</t>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

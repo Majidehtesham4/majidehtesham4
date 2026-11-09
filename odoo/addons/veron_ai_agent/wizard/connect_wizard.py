@@ -15,7 +15,8 @@ class ConnectWizard(models.TransientModel):
 	_description = "Connect AI"
 
 	service = fields.Selection([("auto", "Find It From the Key"), ("groq", "Groq"), ("openai", "ChatGPT (OpenAI)"),
-		("openrouter", "OpenRouter"), ("anthropic", "Claude (Anthropic)")], default="auto", required=True)
+		("openrouter", "OpenRouter"), ("anthropic", "Claude (Anthropic)"), ("gapgpt", "GapGPT")], default="auto",
+		required=True)
 	keys = fields.Text(help="One key a line, or separated by commas; they are not shown again once connected")
 	use_stt = fields.Boolean("Also for Voice Messages", default=True)
 	use_vision = fields.Boolean("Also for Reading Photos", default=False,

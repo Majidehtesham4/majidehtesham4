@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="aggregate_view_form" model="ir.ui.view">
+		<field name="name">veron.aggregate.vouchers.form</field>
+		<field name="model">veron.aggregate.vouchers</field>
+		<field name="arch" type="xml">
+			<form>
+				<p class="text-muted">The draft entries chosen become one draft voucher, their lines summed by account; the drafts are removed. Posted entries and invoices are not merged.</p>
+				<group>
+					<group><field name="journal_id"/><field name="date"/><field name="ref"/></group>
+					<group><field name="by_partner"/><field name="net"/></group>
+				</group>
+				<field name="move_ids" widget="many2many_tags"/>
+				<footer>
+					<button name="action_aggregate" type="object" string="Aggregate" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_aggregate" model="ir.actions.act_window">
+		<field name="name">Aggregate Vouchers</field>
+		<field name="res_model">veron.aggregate.vouchers</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="binding_model_id" ref="account.model_account_move"/>
+		<field name="binding_view_types">list</field>
+	</record>
+
+	<record id="from_template_view_form" model="ir.ui.view">
+		<field name="name">veron.voucher.from.template.form</field>
+		<field name="model">veron.voucher.from.template</field>
+		<field name="arch" type="xml">
+			<form>
+				<group><field name="template_id"/><field name="amount"/><field name="currency_id" invisible="1"/><field name="date"/><field name="ref"/></group>
+				<footer>
+					<button name="action_make" type="object" string="Make the Draft" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_from_template" model="ir.actions.act_window">
+		<field name="name">Voucher From a Template</field>
+		<field name="res_model">veron.voucher.from.template</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<record id="renumber_view_form" model="ir.ui.view">
+		<field name="name">veron.renumber.vouchers.form</field>
+		<field name="model">veron.renumber.vouchers</field>
+		<field name="arch" type="xml">
+			<form>
+				<p class="text-muted">The posted vouchers of the year are numbered again from 1 in the order of their dates: the opening voucher first, the closing one last. A locked year is not changed.</p>
+				<group><field name="company_id" groups="base.group_multi_company"/><field name="year"/></group>
+				<footer>
+					<button name="action_renumber" type="object" string="Number in Date Order" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_renumber" model="ir.actions.act_window">
+		<field name="name">Put Voucher Numbers in Date Order</field>
+		<field name="res_model">veron.renumber.vouchers</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<record id="release_view_form" model="ir.ui.view">
+		<field name="name">veron.release.deposit.form</field>
+		<field name="model">veron.release.deposit</field>
+		<field name="arch" type="xml">
+			<form>
+				<p class="text-muted">When the clearance of a contract comes (مفاصاحساب), what was held as a deposit goes back to the partner as a draft entry.</p>
+				<group>
+					<group><field name="partner_id"/><field name="account_id"/><field name="held"/><field name="amount"/><field name="currency_id" invisible="1"/></group>
+					<group><field name="journal_id"/><field name="date"/><field name="ref"/><field name="company_id" invisible="1"/></group>
+				</group>
+				<footer>
+					<button name="action_release" type="object" string="Make the Release Entry" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_release" model="ir.actions.act_window">
+		<field name="name">Release a Deposit</field>
+		<field name="res_model">veron.release.deposit</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<record id="books_view_form" model="ir.ui.view">
+		<field name="name">veron.books.wizard.form</field>
+		<field name="model">veron.books.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<group>
+					<group><field name="book" widget="radio"/><field name="level" invisible="book != 'trial'"/></group>
+					<group><field name="date_from"/><field name="date_to"/><field name="ledger_codes" invisible="book != 'ledger'"/>
+						<field name="company_id" groups="base.group_multi_company"/></group>
+				</group>
+				<footer>
+					<button name="action_print" type="object" string="Print" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_books" model="ir.actions.act_window">
+		<field name="name">Legal Books</field>
+		<field name="res_model">veron.books.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+	<record id="treasury_view_form" model="ir.ui.view">
+		<field name="name">veron.treasury.wizard.form</field>
+		<field name="model">veron.treasury.wizard</field>
+		<field name="arch" type="xml">
+			<form>
+				<group><field name="date_from"/><field name="date_to"/><field name="days_ahead"/><field name="company_id" groups="base.group_multi_company"/></group>
+				<footer>
+					<button name="action_print" type="object" string="Print" class="btn-primary"/>
+					<button string="Cancel" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_treasury" model="ir.actions.act_window">
+		<field name="name">Treasury Report</field>
+		<field name="res_model">veron.treasury.wizard</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+</odoo>

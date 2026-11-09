@@ -11,7 +11,7 @@
 						<label for="veron_sms_provider" class="col-lg-4 o_light_label"/>
 						<field name="veron_sms_provider" class="col-lg-8"/>
 					</div>
-					<div class="row" invisible="veron_sms_provider != 'melipayamak'">
+					<div class="row" invisible="veron_sms_provider not in ('melipayamak', 'farapayamak')">
 						<label for="veron_sms_username" class="col-lg-4 o_light_label"/>
 						<field name="veron_sms_username" class="col-lg-8"/>
 					</div>
@@ -21,7 +21,20 @@
 					</div>
 					<div class="row" invisible="not veron_sms_provider">
 						<label for="veron_sms_line" class="col-lg-4 o_light_label"/>
-						<field name="veron_sms_line" class="col-lg-8" required="veron_sms_provider in ('smsir', 'melipayamak')"/>
+						<field name="veron_sms_line" class="col-lg-8" required="veron_sms_provider in ('smsir', 'melipayamak', 'farapayamak', 'farazsms')"/>
+					</div>
+					<div class="mt8" invisible="not veron_sms_provider">
+						<label for="veron_sms_backup_ids" class="o_light_label"/>
+						<field name="veron_sms_backup_ids" groups="base.group_system">
+							<list editable="bottom">
+								<field name="sequence" widget="handle"/>
+								<field name="provider"/>
+								<field name="username" optional="hide"/>
+								<field name="key" password="True"/>
+								<field name="line"/>
+								<field name="active" widget="boolean_toggle"/>
+							</list>
+						</field>
 					</div>
 				</div>
 			</xpath>

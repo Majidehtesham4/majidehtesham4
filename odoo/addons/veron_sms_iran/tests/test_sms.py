@@ -60,3 +60,35 @@ class TestIranianSms(TransactionCase):
 		self.env.company.veron_sms_provider = False
 		from odoo.addons.sms.tools.sms_api import SmsApi
 		self.assertIs(self.env.company._get_sms_api_class(), SmsApi)
+
+	def test_farazsms_and_ghasedak(self):
+		self.env.company.write({"veron_sms_provider": "farazsms", "veron_sms_key": "FK", "veron_sms_line": "+983000505"})
+		sms = self._sms()
+		with patch(POST, return_value=answer({"status": "OK", "code": 200, "data": {"message_id": 1}})) as post:
+			sms._send(unlink_sent=False)
+		self.assertEqual(post.call_args.args[0], "https://api2.ippanel.com/api/v1/sms/send/webservice/single")
+		self.assertEqual(post.call_args.kwargs["json"]["recipient"], ["09121234567"])
+		self.assertEqual(post.call_args.kwargs["headers"]["apikey"], "FK")
+		self.assertEqual(sms.state, "pending")
+		self.env.company.write({"veron_sms_provider": "ghasedak", "veron_sms_key": "GK", "veron_sms_line": "10008566"})
+		sms = self._sms()
+		with patch(POST, return_value=answer({"result": {"code": 407, "message": "اعتبار کافی نیست"}})):
+			sms._send(unlink_failed=False)
+		self.assertEqual((sms.state, sms.failure_type), ("error", "sms_credit"))
+
+	def test_the_hub_tries_the_next_panel(self):
+		"""The main panel has no credit: the backup sends it; a wrong number is not tried again"""
+		company = self.env.company
+		company.write({"veron_sms_provider": "kavenegar", "veron_sms_key": "KEY"})
+		self.env["veron.sms.panel"].create({"company_id": company.id, "provider": "smsir", "key": "K2", "line": "3000"})
+		sms = self._sms()
+		replies = [answer({"return": {"status": 418, "message": "no credit"}}), answer({"status": 1, "message": "ok"})]
+		with patch(POST, side_effect=replies) as post:
+			sms._send(unlink_sent=False)
+		self.assertEqual(post.call_count, 2)
+		self.assertEqual(post.call_args.args[0], "https://api.sms.ir/v1/send/bulk")
+		self.assertEqual(sms.state, "pending")
+		sms = self._sms()
+		with patch(POST, return_value=answer({"return": {"status": 411, "message": "bad number"}})) as post:
+			sms._send(unlink_failed=False)
+		self.assertEqual((post.call_count, sms.failure_type), (1, "sms_number_format"))

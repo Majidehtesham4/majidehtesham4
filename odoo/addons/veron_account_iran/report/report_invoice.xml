@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The layout of the tax organization's sales invoice (صورتحساب فروش کالا و خدمات): the parties, then each
+	line with its amount before the discount, the discount, the amount after it, the taxes and the total -->
+	<template id="invoice_party">
+		<table class="vr-grid">
+			<tr>
+				<td style="width: 40%;">نام شخص حقیقی / حقوقی: <b t-out="party['name']"/></td>
+				<td style="width: 20%;">شماره اقتصادی: <t t-out="party['economic']"/></td>
+				<td style="width: 20%;">شناسه / کد ملی: <t t-out="party['national']"/></td>
+				<td style="width: 20%;">شماره ثبت: <t t-out="party['registry']"/></td>
+			</tr>
+			<tr>
+				<td colspan="2">نشانی: <t t-out="party['address']"/></td>
+				<td>کد پستی: <t t-out="party['zip']"/></td>
+				<td>تلفن: <t t-out="party['phone']"/></td>
+			</tr>
+		</table>
+	</template>
+
+	<template id="report_official_invoice">
+		<t t-call="web.html_container">
+			<t t-call="veron_account_iran.form_style"/>
+			<t t-set="money" t-value="lambda v: '{:,.0f}'.format(v or 0)"/>
+			<t t-foreach="docs" t-as="move">
+				<t t-set="sale" t-value="move.move_type in ('out_invoice', 'out_refund')"/>
+				<div class="page vr-form">
+					<table>
+						<tr>
+							<td style="width: 25%;"/>
+							<td class="vr-title" style="width: 50%;"><t t-out="move._veron_title()"/></td>
+							<td style="width: 25%;">
+								شماره: <b t-out="move.name if move.name and move.name != '/' else '-'"/><br/>
+								تاریخ: <b t-out="move._veron_shamsi_date(move.invoice_date or move.date)"/>
+								<t t-if="move.veron_tax_id if 'veron_tax_id' in move._fields else False"><br/>شماره منحصربه‌فرد مالیاتی: <t t-out="move.veron_tax_id"/></t>
+							</td>
+						</tr>
+					</table>
+					<div class="vr-band">مشخصات فروشنده</div>
+					<t t-call="veron_account_iran.invoice_party"><t t-set="party" t-value="move._veron_party(move.company_id.partner_id if sale else move.partner_id)"/></t>
+					<div class="vr-band">مشخصات خریدار</div>
+					<t t-call="veron_account_iran.invoice_party"><t t-set="party" t-value="move._veron_party(move.partner_id if sale else move.company_id.partner_id)"/></t>
+					<div class="vr-band">مشخصات کالا یا خدمات مورد معامله</div>
+					<t t-set="rows" t-value="move._veron_invoice_lines()"/>
+					<table class="vr-grid">
+						<thead>
+							<tr><th>ردیف</th><th>کد کالا</th><th>شرح کالا یا خدمات</th><th>تعداد / مقدار</th><th>واحد</th>
+								<th>مبلغ واحد (ریال)</th><th>مبلغ کل (ریال)</th><th>مبلغ تخفیف</th><th>مبلغ کل پس از تخفیف</th>
+								<th>جمع مالیات و عوارض</th><th>جمع کل پس از تخفیف و مالیات و عوارض</th></tr>
+						</thead>
+						<tbody>
+							<tr t-foreach="rows" t-as="row">
+								<td class="text-center"><t t-out="row_index + 1"/></td>
+								<td><t t-out="row['code']"/></td>
+								<td><t t-out="row['name']"/></td>
+								<td class="vr-num"><t t-out="'{:g}'.format(row['quantity'])"/></td>
+								<td><t t-out="row['uom']"/></td>
+								<td class="vr-num"><t t-out="money(row['price'])"/></td>
+								<td class="vr-num"><t t-out="money(row['gross'])"/></td>
+								<td class="vr-num"><t t-out="money(row['discount'])"/></td>
+								<td class="vr-num"><t t-out="money(row['net'])"/></td>
+								<td class="vr-num"><t t-out="money(row['tax'])"/></td>
+								<td class="vr-num"><t t-out="money(row['total'])"/></td>
+							</tr>
+							<tr style="font-weight: bold;">
+								<td colspan="6" class="text-center">جمع کل</td>
+								<td class="vr-num"><t t-out="money(sum(r['gross'] for r in rows))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['discount'] for r in rows))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['net'] for r in rows))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['tax'] for r in rows))"/></td>
+								<td class="vr-num"><t t-out="money(sum(r['total'] for r in rows))"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<table class="vr-grid">
+						<tr>
+							<td style="width: 60%;">مبلغ قابل پرداخت به حروف: <b t-out="move._veron_words(move.amount_total)"/> ریال</td>
+							<td>شرایط و نحوه فروش: <t t-out="move.invoice_payment_term_id.name or 'نقدی'"/></td>
+						</tr>
+						<tr t-if="move.narration"><td colspan="2">توضیحات: <t t-out="move.narration"/></td></tr>
+					</table>
+					<table class="vr-sign">
+						<tr><td>مهر و امضای فروشنده</td><td>مهر و امضای خریدار</td></tr>
+					</table>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="report_voucher">
+		<t t-call="web.html_container">
+			<t t-call="veron_account_iran.form_style"/>
+			<t t-set="money" t-value="lambda v: '{:,.0f}'.format(v or 0) if v else ''"/>
+			<t t-foreach="docs" t-as="move">
+				<div class="page vr-form">
+					<table>
+						<tr>
+							<td style="width: 30%;"><b t-out="move.company_id.name"/></td>
+							<td class="vr-title" style="width: 40%;">سند حسابداری</td>
+							<td style="width: 30%;">
+								شماره سند: <b t-out="move.veron_voucher or '-'"/><br/>
+								تاریخ: <b t-out="move._veron_shamsi_date(move.date)"/><br/>
+								شماره عطف: <t t-out="move.name or ''"/>
+							</td>
+						</tr>
+					</table>
+					<p>شرح: <t t-out="move.ref or ''"/> <t t-if="move.veron_voucher_kind and move.veron_voucher_kind != 'normal'">
+						(<span t-field="move.veron_voucher_kind"/>)</t></p>
+					<table class="vr-grid">
+						<thead>
+							<tr><th style="width: 5%;">ردیف</th><th style="width: 10%;">کد حساب</th><th style="width: 22%;">نام حساب</th>
+								<th style="width: 15%;">طرف حساب</th><th>شرح</th><th style="width: 13%;">بدهکار</th><th style="width: 13%;">بستانکار</th></tr>
+						</thead>
+						<tbody>
+							<t t-foreach="move.line_ids.sorted(lambda l: (l.credit > l.debit, l.account_id.code or ''))" t-as="line">
+								<tr>
+									<td class="text-center"><t t-out="line_index + 1"/></td>
+									<td class="text-center"><t t-out="line.account_id.code or ''"/></td>
+									<td><t t-out="line.account_id.name or ''"/></td>
+									<td><t t-out="line.partner_id.name or ''"/></td>
+									<td><t t-out="line.name or ''"/></td>
+									<td class="vr-num"><t t-out="money(line.debit)"/></td>
+									<td class="vr-num"><t t-out="money(line.credit)"/></td>
+								</tr>
+							</t>
+							<tr style="font-weight: bold;">
+								<td colspan="5" class="text-center">جمع</td>
+								<td class="vr-num"><t t-out="money(sum(move.line_ids.mapped('debit')))"/></td>
+								<td class="vr-num"><t t-out="money(sum(move.line_ids.mapped('credit')))"/></td>
+							</tr>
+						</tbody>
+					</table>
+					<p>جمع به حروف: <t t-out="move._veron_words(sum(move.line_ids.mapped('debit')))"/></p>
+					<p t-if="move.veron_aggregated_from" style="font-size: 9px;">سند تجمیعی از: <t t-out="move.veron_aggregated_from"/></p>
+					<table class="vr-sign">
+						<tr><td>تنظیم‌کننده<br/><t t-out="move.create_uid.name or ''"/></td><td>رئیس حسابداری</td><td>مدیر مالی</td></tr>
+					</table>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>

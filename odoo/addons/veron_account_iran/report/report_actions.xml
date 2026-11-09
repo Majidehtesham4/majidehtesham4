@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="paperformat_a4_portrait" model="report.paperformat">
+		<field name="name">A4 (ERP-VERON forms)</field>
+		<field name="format">A4</field>
+		<field name="orientation">Portrait</field>
+		<field name="margin_top">10</field>
+		<field name="margin_bottom">12</field>
+		<field name="margin_left">8</field>
+		<field name="margin_right">8</field>
+		<field name="header_line" eval="False"/>
+		<field name="header_spacing">0</field>
+		<field name="dpi">96</field>
+	</record>
+	<record id="paperformat_a4_landscape" model="report.paperformat">
+		<field name="name">A4 Landscape (ERP-VERON forms)</field>
+		<field name="format">A4</field>
+		<field name="orientation">Landscape</field>
+		<field name="margin_top">8</field>
+		<field name="margin_bottom">10</field>
+		<field name="margin_left">8</field>
+		<field name="margin_right">8</field>
+		<field name="header_line" eval="False"/>
+		<field name="header_spacing">0</field>
+		<field name="dpi">96</field>
+	</record>
+	<record id="action_report_voucher" model="ir.actions.report">
+		<field name="name">Accounting Voucher</field>
+		<field name="model">account.move</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_account_iran.report_voucher</field>
+		<field name="report_file">veron_account_iran.report_voucher</field>
+		<field name="print_report_name">'سند %s' % (object.veron_voucher or object.name)</field>
+		<field name="paperformat_id" ref="paperformat_a4_portrait"/>
+		<field name="binding_model_id" ref="account.model_account_move"/>
+		<field name="binding_type">report</field>
+	</record>
+	<record id="action_report_official_invoice" model="ir.actions.report">
+		<field name="name">Official Invoice (Tax Organization)</field>
+		<field name="model">account.move</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_account_iran.report_official_invoice</field>
+		<field name="report_file">veron_account_iran.report_official_invoice</field>
+		<field name="print_report_name">'%s %s' % (object._veron_title(), object.name or '')</field>
+		<field name="paperformat_id" ref="paperformat_a4_landscape"/>
+		<field name="binding_model_id" ref="account.model_account_move"/>
+		<field name="binding_type">report</field>
+	</record>
+	<record id="action_report_books" model="ir.actions.report">
+		<field name="name">Legal Books</field>
+		<field name="model">veron.books.wizard</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_account_iran.report_books</field>
+		<field name="report_file">veron_account_iran.report_books</field>
+		<field name="paperformat_id" ref="paperformat_a4_portrait"/>
+	</record>
+	<record id="action_report_treasury" model="ir.actions.report">
+		<field name="name">Treasury Report</field>
+		<field name="model">veron.treasury.wizard</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_account_iran.report_treasury</field>
+		<field name="report_file">veron_account_iran.report_treasury</field>
+		<field name="paperformat_id" ref="paperformat_a4_portrait"/>
+	</record>
+
+	<!-- The look of the forms: right to left, a Persian font, ruled tables -->
+	<template id="form_style">
+		<style>
+			.vr-form { direction: rtl; text-align: right; font-family: Vazirmatn, Vazir, Tahoma, sans-serif; font-size: 11px; }
+			.vr-form table { width: 100%; border-collapse: collapse; }
+			.vr-form .vr-grid td, .vr-form .vr-grid th { border: 1px solid #555; padding: 3px 4px; }
+			.vr-form .vr-grid th { background: #eee; text-align: center; }
+			.vr-form .vr-num { text-align: left; direction: ltr; white-space: nowrap; }
+			.vr-form .vr-title { text-align: center; font-size: 16px; font-weight: bold; margin: 4px 0; }
+			.vr-form .vr-band { background: #ddd; font-weight: bold; text-align: center; border: 1px solid #555; padding: 2px; }
+			.vr-form .vr-sign td { text-align: center; height: 60px; vertical-align: top; }
+		</style>
+	</template>
+</odoo>

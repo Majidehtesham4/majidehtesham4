@@ -35,6 +35,15 @@ SERVICES = {
 			("veron_ai_agent.provider_chatgpt", "llm", "openai_chat", "gpt-4.1-mini"),
 		],
 	},
+	# An Iranian gateway to the models of several companies, in OpenAI's format; its keys look like ChatGPT's
+	# («sk-»), so it is chosen by name in the wizard, never found from the key
+	"gapgpt": {
+		"label": "GapGPT", "prefix": None, "base": "https://api.gapgpt.app/v1", "adapter": "openai_chat",
+		"keys_at": "https://gapgpt.app/platform",
+		"providers": [
+			("veron_ai_agent.provider_gapgpt", "llm", "openai_chat", "gpt-4o-mini"),
+		],
+	},
 }
 # The longer prefixes first: «sk-or-» and «sk-ant-» are not ChatGPT keys
 ORDER = ("anthropic", "openrouter", "groq", "openai")

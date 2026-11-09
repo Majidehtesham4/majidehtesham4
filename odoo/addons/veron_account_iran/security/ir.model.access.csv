@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_voucher_template_user,voucher template user,model_veron_voucher_template,account.group_account_user,1,1,1,1
+access_voucher_template_line_user,voucher template line user,model_veron_voucher_template_line,account.group_account_user,1,1,1,1
+access_voucher_template_read,voucher template reader,model_veron_voucher_template,account.group_account_invoice,1,0,0,0
+access_voucher_template_line_read,voucher template line reader,model_veron_voucher_template_line,account.group_account_invoice,1,0,0,0
+access_aggregate,aggregate vouchers,model_veron_aggregate_vouchers,account.group_account_user,1,1,1,1
+access_from_template,voucher from template,model_veron_voucher_from_template,account.group_account_user,1,1,1,1
+access_renumber,renumber vouchers,model_veron_renumber_vouchers,account.group_account_manager,1,1,1,1
+access_release,release deposit,model_veron_release_deposit,account.group_account_user,1,1,1,1
+access_books,legal books,model_veron_books_wizard,account.group_account_user,1,1,1,1
+access_treasury,treasury report,model_veron_treasury_wizard,account.group_account_user,1,1,1,1

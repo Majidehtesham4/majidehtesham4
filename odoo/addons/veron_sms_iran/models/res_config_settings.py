@@ -8,3 +8,4 @@ class ResConfigSettings(models.TransientModel):
 	veron_sms_key = fields.Char(related="company_id.veron_sms_key", readonly=False)
 	veron_sms_username = fields.Char(related="company_id.veron_sms_username", readonly=False)
 	veron_sms_line = fields.Char(related="company_id.veron_sms_line", readonly=False)
+	veron_sms_backup_ids = fields.One2many(related="company_id.veron_sms_backup_ids", readonly=False)
