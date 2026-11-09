@@ -54,5 +54,5 @@ class TestRates(TransactionCase):
 		self.assertIn("USD", source.last_error, "a jump of 200% is not used")
 		self.assertEqual(self.rate(self.usd), yesterday)
 		with patch("requests.get", return_value=answer({"rates": {}})):
-			source.action_fetch()
+			source.with_context(lang="en_US").action_fetch()
 		self.assertIn("no rate", source.last_error)
