@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rotation_hr,rotation hr,model_veron_planning_rotation,hr.group_hr_user,1,1,1,1
+access_rotation_day_hr,rotation day hr,model_veron_planning_rotation_day,hr.group_hr_user,1,1,1,1
+access_rotation_member_hr,rotation member hr,model_veron_planning_rotation_member,hr.group_hr_user,1,1,1,1
+access_rotation_generate_hr,rotation generate hr,model_veron_planning_rotation_generate,hr.group_hr_user,1,1,1,0

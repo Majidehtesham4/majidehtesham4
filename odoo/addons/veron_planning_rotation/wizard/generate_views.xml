@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="rotation_generate_view_form" model="ir.ui.view">
+		<field name="name">veron.planning.rotation.generate.form</field>
+		<field name="model">veron.planning.rotation.generate</field>
+		<field name="arch" type="xml">
+			<form>
+				<group invisible="result">
+					<field name="rotation_ids" widget="many2many_tags"/>
+					<field name="date_from"/>
+					<field name="date_to"/>
+				</group>
+				<field name="result" invisible="not result"/>
+				<footer>
+					<button name="action_generate" type="object" string="Make the Shifts" class="btn-primary" invisible="result"/>
+					<button special="cancel" string="Close"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_rotation_generate" model="ir.actions.act_window">
+		<field name="name">Make the Shifts of Rotating Patterns</field>
+		<field name="res_model">veron.planning.rotation.generate</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	<menuitem id="menu_rotation_generate" name="Make Rotating Shifts" parent="veron_planning.menu_planning_root"
+		action="action_rotation_generate" sequence="4" groups="hr.group_hr_user"/>
+</odoo>
