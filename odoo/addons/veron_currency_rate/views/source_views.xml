@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="source_view_list" model="ir.ui.view">
+		<field name="name">veron.currency.source.list</field>
+		<field name="model">veron.currency.source</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="last_update"/>
+				<field name="last_error"/>
+			</list>
+		</field>
+	</record>
+	<record id="source_view_form" model="ir.ui.view">
+		<field name="name">veron.currency.source.form</field>
+		<field name="model">veron.currency.source</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_fetch" type="object" string="Fetch the Rates Now" class="btn-primary"/>
+				</header>
+				<sheet>
+					<group>
+						<group><field name="name"/><field name="kind"/><field name="url" invisible="kind != 'json'"/>
+							<field name="api_key" password="True" groups="base.group_system"/></group>
+						<group><field name="unit"/><field name="max_change"/><field name="company_id" groups="base.group_multi_company"/>
+							<field name="last_update"/><field name="active" invisible="1"/></group>
+					</group>
+					<field name="last_error" invisible="not last_error" class="text-danger"/>
+					<field name="line_ids">
+						<list editable="bottom">
+							<field name="currency_id"/>
+							<field name="key"/>
+							<field name="factor"/>
+							<field name="last_rate"/>
+						</list>
+					</field>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+	<record id="action_sources" model="ir.actions.act_window">
+		<field name="name">Exchange Rate Sources</field>
+		<field name="res_model">veron.currency.source</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<menuitem id="menu_sources" name="Exchange Rate Sources" parent="account.account_account_menu" action="action_sources"
+		sequence="30" groups="account.group_account_manager"/>
+</odoo>

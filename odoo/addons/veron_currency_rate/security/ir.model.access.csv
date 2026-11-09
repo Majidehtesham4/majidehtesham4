@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_source_manager,currency source manager,model_veron_currency_source,account.group_account_manager,1,1,1,1
+access_source_line_manager,currency source line manager,model_veron_currency_source_line,account.group_account_manager,1,1,1,1
+access_source_read,currency source reader,model_veron_currency_source,account.group_account_invoice,1,0,0,0
+access_source_line_read,currency source line reader,model_veron_currency_source_line,account.group_account_invoice,1,0,0,0
