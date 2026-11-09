@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="storage_view_list" model="ir.ui.view">
+		<field name="name">veron.storage.s3.list</field>
+		<field name="model">veron.storage.s3</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="name"/>
+				<field name="endpoint"/>
+				<field name="bucket"/>
+				<field name="in_use"/>
+			</list>
+		</field>
+	</record>
+	<record id="storage_view_form" model="ir.ui.view">
+		<field name="name">veron.storage.s3.form</field>
+		<field name="model">veron.storage.s3</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_test" type="object" string="Try the Storage"/>
+					<button name="action_use" type="object" string="Keep New Files Here" class="btn-primary" invisible="in_use"
+						confirm="New files will be kept on this storage. Continue?"/>
+					<button name="action_move" type="object" string="Move a Part of the Files" invisible="not in_use or not on_disk"/>
+					<button name="action_stop" type="object" string="Stop" invisible="not in_use"
+						confirm="New files will be kept on the disk again; those on the storage are still read from it."/>
+				</header>
+				<sheet>
+					<widget name="web_ribbon" title="In Use" invisible="not in_use"/>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group>
+							<field name="endpoint" placeholder="https://s3.ir-thr-at1.arvanstorage.ir"/>
+							<field name="region"/>
+							<field name="bucket"/>
+							<field name="folder"/>
+						</group>
+						<group>
+							<field name="access_key"/>
+							<field name="secret_key" password="True"/>
+							<field name="on_storage"/>
+							<field name="on_disk"/>
+						</group>
+					</group>
+					<div class="text-muted">
+						A storage is tried before it is used. The files already on the disk are moved 500 at a time with the
+						button, or by the scheduled action «S3 Storage: Move the Files Still on the Disk» once it is turned on;
+						until then they are read from the disk. Keep a backup of the bucket as of the database.
+					</div>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_storage" model="ir.actions.act_window">
+		<field name="name">S3 Storage</field>
+		<field name="res_model">veron.storage.s3</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<menuitem id="menu_storage" name="S3 Storage" parent="base.menu_custom" action="action_storage" sequence="90"/>
+</odoo>

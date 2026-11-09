@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_storage_system,storage system,model_veron_storage_s3,base.group_system,1,1,1,1
+access_garbage_system,garbage system,model_veron_storage_s3_garbage,base.group_system,1,1,1,1
