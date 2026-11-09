@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="kardex_view_form" model="ir.ui.view">
+		<field name="name">veron.stock.kardex.form</field>
+		<field name="model">veron.stock.kardex</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_compute" type="object" string="Show" class="btn-primary"/>
+					<button name="action_print" type="object" string="Print"/>
+				</header>
+				<sheet>
+					<group>
+						<group><field name="product_id"/><field name="warehouse_id"/><field name="location_id"/></group>
+						<group><field name="date_from"/><field name="date_to"/><field name="opening"/><field name="closing"/></group>
+					</group>
+					<field name="line_ids">
+						<list>
+							<field name="date"/>
+							<field name="reference"/>
+							<field name="partner"/>
+							<field name="quantity_in" sum="Total"/>
+							<field name="quantity_out" sum="Total"/>
+							<field name="balance"/>
+							<field name="cost" optional="show"/>
+							<field name="value_in" sum="Total" optional="show"/>
+							<field name="value_out" sum="Total" optional="show"/>
+						</list>
+					</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_kardex" model="ir.actions.act_window">
+		<field name="name">Stock Kardex</field>
+		<field name="res_model">veron.stock.kardex</field>
+		<field name="view_mode">form</field>
+		<field name="target">current</field>
+	</record>
+	<menuitem id="menu_kardex" name="Stock Kardex" parent="stock.menu_warehouse_report" action="action_kardex" sequence="5"/>
+</odoo>

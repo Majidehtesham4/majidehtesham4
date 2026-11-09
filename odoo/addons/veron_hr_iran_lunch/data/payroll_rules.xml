@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="rule_meal" model="hr.salary.rule">
+		<field name="name">کسر هزینه غذا</field>
+		<field name="code">MEAL</field>
+		<field name="sequence">74</field>
+		<field name="category_id" ref="veron_payroll_iran.categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.MEAL and inputs.MEAL.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.MEAL.amount</field>
+		<field name="veron_credit_code">211210</field>
+	</record>
+	<record id="input_meal" model="hr.rule.input">
+		<field name="name">کسر هزینه غذا (مبلغ)</field>
+		<field name="code">MEAL</field>
+		<field name="input_id" ref="rule_meal"/>
+	</record>
+	<function model="hr.payroll.structure" name="write">
+		<value eval="[ref('veron_payroll_iran.structure_iran')]"/>
+		<value eval="{'rule_ids': [(4, ref('rule_meal'))]}"/>
+	</function>
+</odoo>

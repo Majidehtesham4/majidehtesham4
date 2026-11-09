@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_report_kardex" model="ir.actions.report">
+		<field name="name">Stock Kardex</field>
+		<field name="model">veron.stock.kardex</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_stock_kardex.report_kardex</field>
+		<field name="report_file">veron_stock_kardex.report_kardex</field>
+	</record>
+	<template id="report_kardex">
+		<t t-call="web.html_container">
+			<t t-set="number" t-value="lambda v: '{:,.2f}'.format(v).rstrip('0').rstrip('.') if v else ''"/>
+			<t t-foreach="docs" t-as="card">
+				<div class="page" dir="rtl" style="text-align: right; font-family: Vazirmatn, Vazir, Tahoma, sans-serif; font-size: 11px;">
+					<h4 style="text-align: center;">کاردکس کالا</h4>
+					<p>کالا: <b t-out="card.product_id.display_name"/> · محل: <t t-out="card.location_id.complete_name or card.warehouse_id.name or 'همه'"/>
+						· از <t t-out="card._shamsi(card.date_from)"/> تا <t t-out="card._shamsi(card.date_to)"/></p>
+					<table style="width: 100%; border-collapse: collapse;" border="1" cellpadding="3">
+						<thead style="background: #eee;">
+							<tr><th>تاریخ</th><th>شماره سند</th><th>طرف حساب</th><th>وارده</th><th>صادره</th><th>مانده</th><th>نرخ</th><th>مبلغ وارده</th><th>مبلغ صادره</th></tr>
+						</thead>
+						<tbody>
+							<tr><td colspan="5">مانده از قبل</td><td style="direction: ltr; text-align: left;"><t t-out="number(card.opening)"/></td><td colspan="3"/></tr>
+							<tr t-foreach="card.line_ids" t-as="line">
+								<td><t t-out="card._shamsi(line.date)"/></td><td><t t-out="line.reference"/></td><td><t t-out="line.partner"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.quantity_in)"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.quantity_out)"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.balance)"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.cost)"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.value_in)"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(line.value_out)"/></td>
+							</tr>
+							<tr style="font-weight: bold;">
+								<td colspan="3">جمع</td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(sum(card.line_ids.mapped('quantity_in')))"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(sum(card.line_ids.mapped('quantity_out')))"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(card.closing)"/></td>
+								<td/>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(sum(card.line_ids.mapped('value_in')))"/></td>
+								<td style="direction: ltr; text-align: left;"><t t-out="number(sum(card.line_ids.mapped('value_out')))"/></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</t>
+		</t>
+	</template>
+</odoo>
