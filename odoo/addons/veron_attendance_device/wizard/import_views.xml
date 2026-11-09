@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="punch_import_view_form" model="ir.ui.view">
+		<field name="name">veron.attendance.punch.import.form</field>
+		<field name="model">veron.attendance.punch.import</field>
+		<field name="arch" type="xml">
+			<form>
+				<group invisible="result">
+					<field name="device_id"/>
+					<field name="file" filename="filename"/>
+					<field name="filename" invisible="1"/>
+				</group>
+				<div class="text-muted" invisible="result">
+					The file of the device's software, as Excel or text: a row a punch, with the person's device code and the
+					time (Shamsi or Gregorian). The columns are found by their titles, or the first is the code and the
+					second the time. A punch already recorded is not recorded again.
+				</div>
+				<field name="result" invisible="not result"/>
+				<footer>
+					<button name="action_import" type="object" string="Import" class="btn-primary" invisible="result"/>
+					<button special="cancel" string="Close"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_punch_import" model="ir.actions.act_window">
+		<field name="name">Import Attendance Punches</field>
+		<field name="res_model">veron.attendance.punch.import</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	<menuitem id="menu_import" name="Import Device Punches" parent="hr_attendance.menu_hr_attendance_configuration"
+		action="action_punch_import" sequence="41" groups="hr_attendance.group_hr_attendance_manager"/>
+</odoo>

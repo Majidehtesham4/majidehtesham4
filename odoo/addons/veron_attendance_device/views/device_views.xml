@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="device_view_list" model="ir.ui.view">
+		<field name="name">veron.attendance.device.list</field>
+		<field name="model">veron.attendance.device</field>
+		<field name="arch" type="xml">
+			<list decoration-danger="last_error">
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="address"/>
+				<field name="last_pull"/>
+				<field name="unknown_count"/>
+				<field name="last_error" optional="hide"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+			</list>
+		</field>
+	</record>
+	<record id="device_view_form" model="ir.ui.view">
+		<field name="name">veron.attendance.device.form</field>
+		<field name="model">veron.attendance.device</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_pull" type="object" string="Pull the Punches" class="btn-primary" invisible="kind != 'zkteco'"/>
+					<button name="%(action_punch_import)d" type="action" string="Import the Device's File"
+						context="{'default_device_id': id}"/>
+				</header>
+				<sheet>
+					<widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. The entrance of the factory"/></h1></div>
+					<group>
+						<group>
+							<field name="kind"/>
+							<field name="address" invisible="kind != 'zkteco'" required="kind == 'zkteco'"/>
+							<field name="port" invisible="kind != 'zkteco'"/>
+							<field name="password" invisible="kind != 'zkteco'" password="True"/>
+						</group>
+						<group>
+							<field name="tz"/>
+							<field name="company_id" groups="base.group_multi_company"/>
+							<field name="last_pull"/>
+							<field name="unknown_count"/>
+							<field name="active" invisible="1"/>
+						</group>
+					</group>
+					<field name="last_error" invisible="not last_error" class="text-danger"/>
+					<div class="text-muted" invisible="kind != 'zkteco'">
+						Pulling over the network needs the «pyzk» library on the server; otherwise the file of the device's
+						software is imported. The scheduled action «Attendance Devices: Pull the Punches» pulls every device
+						when it is turned on.
+					</div>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_device" model="ir.actions.act_window">
+		<field name="name">Attendance Devices</field>
+		<field name="res_model">veron.attendance.device</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="punch_view_list" model="ir.ui.view">
+		<field name="name">veron.attendance.punch.list</field>
+		<field name="model">veron.attendance.punch</field>
+		<field name="arch" type="xml">
+			<list create="0" edit="0" decoration-warning="not employee_id or problem">
+				<field name="time"/>
+				<field name="code"/>
+				<field name="employee_id"/>
+				<field name="device_id"/>
+				<field name="attendance_id" optional="hide"/>
+				<field name="problem"/>
+				<button name="action_match" type="object" string="Match" icon="fa-link" invisible="employee_id"/>
+			</list>
+		</field>
+	</record>
+	<record id="punch_view_search" model="ir.ui.view">
+		<field name="name">veron.attendance.punch.search</field>
+		<field name="model">veron.attendance.punch</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="employee_id"/>
+				<field name="code"/>
+				<field name="device_id"/>
+				<filter name="unknown" string="Unknown Codes" domain="[('employee_id', '=', False)]"/>
+				<filter name="problems" string="Not in an Attendance" domain="[('employee_id', '!=', False), ('attendance_id', '=', False)]"/>
+				<separator/>
+				<filter name="day" string="Day" date="day"/>
+				<group>
+					<filter name="by_employee" string="Employee" context="{'group_by': 'employee_id'}"/>
+					<filter name="by_day" string="Day" context="{'group_by': 'day:day'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+	<record id="action_punch" model="ir.actions.act_window">
+		<field name="name">Device Punches</field>
+		<field name="res_model">veron.attendance.punch</field>
+		<field name="view_mode">list</field>
+	</record>
+
+	<record id="hr_employee_view_form" model="ir.ui.view">
+		<field name="name">hr.employee.form.veron.device</field>
+		<field name="model">hr.employee</field>
+		<field name="inherit_id" ref="hr.view_employee_form"/>
+		<field name="arch" type="xml">
+			<field name="pin" position="after">
+				<field name="veron_device_code"/>
+			</field>
+		</field>
+	</record>
+
+	<menuitem id="menu_devices" name="Attendance Devices" parent="hr_attendance.menu_hr_attendance_configuration"
+		action="action_device" sequence="40" groups="hr_attendance.group_hr_attendance_manager"/>
+	<menuitem id="menu_punches" name="Device Punches" parent="hr_attendance.menu_hr_attendance_root"
+		action="action_punch" sequence="25" groups="hr_attendance.group_hr_attendance_officer"/>
+</odoo>

@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_device_officer,device officer,model_veron_attendance_device,hr_attendance.group_hr_attendance_officer,1,0,0,0
+access_device_manager,device manager,model_veron_attendance_device,hr_attendance.group_hr_attendance_manager,1,1,1,1
+access_punch_officer,punch officer,model_veron_attendance_punch,hr_attendance.group_hr_attendance_officer,1,0,0,0
+access_punch_manager,punch manager,model_veron_attendance_punch,hr_attendance.group_hr_attendance_manager,1,0,0,1
+access_import_manager,import manager,model_veron_attendance_punch_import,hr_attendance.group_hr_attendance_manager,1,1,1,0
