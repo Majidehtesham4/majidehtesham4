@@ -8,6 +8,69 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 
 #. module: veron_payment_iran
+#: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__asanpardakht
+#: model:payment.provider,name:veron_payment_iran.payment_provider_asanpardakht
+msgid "Asan Pardakht"
+msgstr "آسان پرداخت"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Asan Pardakht could not be reached: %s"
+msgstr "آسان پرداخت در دسترس نبود: %s"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Asan Pardakht did not settle it."
+msgstr "آسان پرداخت آن را تسویه نکرد."
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Asan Pardakht did not verify it."
+msgstr "آسان پرداخت آن را تأیید نکرد."
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Asan Pardakht refused the payment (%s)."
+msgstr "آسان پرداخت پرداخت را نپذیرفت (%s)."
+
+#. module: veron_payment_iran
+#: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__mellat
+#: model:payment.provider,name:veron_payment_iran.payment_provider_mellat
+msgid "Behpardakht Mellat"
+msgstr "به‌پرداخت ملت"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__code
+msgid "Code"
+msgstr "کد"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__display_name
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_transaction__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_password
+msgid "Gateway Password"
+msgstr "رمز درگاه"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_username
+msgid "Gateway Username"
+msgstr "نام کاربری درگاه"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__id
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_transaction__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_payment_iran
 #: model_terms:ir.ui.view,arch_db:veron_payment_iran.payment_provider_form
 msgid ""
 "In test mode without a merchant code, Zibal's test merchant is used: "
@@ -23,14 +86,108 @@ msgstr ""
 "در حالت آزمایشی، پرداخت‌ها به محیط آزمایشی (سندباکس) زرین‌پال می‌روند."
 
 #. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Mellat did not settle it (code %s)."
+msgstr "ملت آن را تسویه نکرد (کد %s)."
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Mellat did not verify it (code %s)."
+msgstr "ملت آن را تأیید نکرد (کد %s)."
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Mellat refused the payment (code %s)."
+msgstr "ملت پرداخت را نپذیرفت (کد %s)."
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,help:veron_payment_iran.field_payment_provider__veron_terminal
+msgid ""
+"Mellat's and Sadad's terminal; for Asan Pardakht its merchant configuration "
+"id"
+msgstr "ترمینال ملت و سداد؛ برای آسان پرداخت شناسه پیکربندی پذیرنده"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Mellat's gateway could not be reached: %s"
+msgstr "درگاه ملت در دسترس نبود: %s"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Mellat's gateway gave no answer (%s)."
+msgstr "درگاه ملت پاسخی نداد (%s)."
+
+#. module: veron_payment_iran
 #: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_merchant
 msgid "Merchant Code"
 msgstr "کد پذیرنده (مرچنت)"
 
 #. module: veron_payment_iran
+#: model_terms:ir.ui.view,arch_db:veron_payment_iran.payment_provider_form
+msgid "Merchant ID"
+msgstr "شناسه فروشنده"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_key
+msgid "Merchant Key"
+msgstr "کلید پذیرنده"
+
+#. module: veron_payment_iran
+#: model:ir.model,name:veron_payment_iran.model_payment_provider
+msgid "Payment Provider"
+msgstr "سرویس دهنده پرداخت"
+
+#. module: veron_payment_iran
+#: model:ir.model,name:veron_payment_iran.model_payment_transaction
+msgid "Payment Transaction"
+msgstr "تراکنش پرداخت"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__sadad
+#: model:payment.provider,name:veron_payment_iran.payment_provider_sadad
+msgid "Sadad (Bank Melli)"
+msgstr "سداد (بانک ملی)"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Sadad refused the payment: %s"
+msgstr "سداد پرداخت را نپذیرفت: %s"
+
+#. module: veron_payment_iran
+#. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
+msgid "Sadad's gateway could not be reached: %s"
+msgstr "درگاه سداد در دسترس نبود: %s"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,help:veron_payment_iran.field_payment_provider__veron_key
+msgid "Sadad's merchant key (Base64), used to sign each request"
+msgstr "کلید پذیرنده سداد (Base64) که هر درخواست با آن امضا می‌شود"
+
+#. module: veron_payment_iran
 #: model:payment.method,name:veron_payment_iran.payment_method_shetab
 msgid "Shetab Card"
 msgstr "کارت شتاب"
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,field_description:veron_payment_iran.field_payment_provider__veron_terminal
+msgid "Terminal ID"
+msgstr "شناسه ترمینال"
+
+#. module: veron_payment_iran
+#: model_terms:ir.ui.view,arch_db:veron_payment_iran.payment_provider_form
+msgid ""
+"The bank's gateway has no sandbox: test with a small amount. Each payment is"
+" verified and settled with the bank before it is recorded."
+msgstr ""
+"درگاه بانک محیط آزمایشی ندارد: با مبلغ کم آزمایش کنید. هر پرداخت پیش از ثبت،"
+" نزد بانک تأیید و تسویه می‌شود."
 
 #. module: veron_payment_iran
 #. odoo-python
@@ -54,9 +211,15 @@ msgstr ""
 
 #. module: veron_payment_iran
 #. odoo-python
+#: code:addons/veron_payment_iran/models/payment_bank.py:0
 #: code:addons/veron_payment_iran/models/payment_transaction.py:0
 msgid "The payment returned does not belong to this transaction."
 msgstr "پرداختی که برگشته مال این تراکنش نیست."
+
+#. module: veron_payment_iran
+#: model:ir.model.fields,help:veron_payment_iran.field_payment_provider__code
+msgid "The technical code of this payment provider."
+msgstr "کد فنی این ارائه دهنده پرداخت."
 
 #. module: veron_payment_iran
 #: model:ir.model.fields.selection,name:veron_payment_iran.selection__payment_provider__code__zarinpal

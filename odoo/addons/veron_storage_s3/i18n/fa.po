@@ -1,0 +1,221 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid ""
+"A storage is tried before it is used. The files already on the disk are moved 500 at a time with the\n"
+"\t\t\t\t\t\tbutton, or by the scheduled action «S3 Storage: Move the Files Still on the Disk» once it is turned on;\n"
+"\t\t\t\t\t\tuntil then they are read from the disk. Keep a backup of the bucket as of the database."
+msgstr ""
+"هر فضای ذخیره‌سازی پیش از استفاده آزموده می‌شود. فایل‌هایی که روی دیسک‌اند "
+"با دکمه ۵۰۰ تا ۵۰۰ تا منتقل می‌شوند، یا با کار زمان‌بندی‌شده «فضای S3: "
+"انتقال فایل‌های مانده روی دیسک» وقتی روشن شود؛ تا آن زمان از دیسک خوانده "
+"می‌شوند. از باکت هم مانند پایگاه داده پشتیبان بگیرید."
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__access_key
+msgid "Access Key"
+msgstr "کلید دسترسی"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__endpoint
+msgid "Address"
+msgstr "نشانی"
+
+#. module: veron_storage_s3
+#: model:ir.model,name:veron_storage_s3.model_ir_attachment
+msgid "Attachment"
+msgstr "پیوست"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__bucket
+msgid "Bucket"
+msgstr "باکت"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__create_uid
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__create_date
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_ir_attachment__display_name
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__display_name
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__on_disk
+msgid "Files Still on the Disk or in the Database"
+msgstr "فایل‌های مانده روی دیسک یا در پایگاه داده"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__on_storage
+msgid "Files on the Storage"
+msgstr "فایل‌های روی فضای ذخیره‌سازی"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__fname
+msgid "Fname"
+msgstr "نام فایل"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__folder
+msgid "Folder"
+msgstr "پوشه"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_ir_attachment__id
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__id
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "In Use"
+msgstr "در حال استفاده"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "Keep New Files Here"
+msgstr "نگهداری فایل‌های جدید اینجا"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__write_uid
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__write_date
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3_garbage__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "Move a Part of the Files"
+msgstr "انتقال بخشی از فایل‌ها"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__in_use
+msgid "New Files Kept Here"
+msgstr "فایل‌های جدید اینجا نگهداری می‌شوند"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid ""
+"New files will be kept on the disk again; those on the storage are still "
+"read from it."
+msgstr ""
+"فایل‌های جدید دوباره روی دیسک نگهداری می‌شوند؛ فایل‌های روی فضای ذخیره‌سازی "
+"همچنان از آن خوانده می‌شوند."
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "New files will be kept on this storage. Continue?"
+msgstr "فایل‌های جدید روی این فضای ذخیره‌سازی نگهداری می‌شوند. ادامه می‌دهید؟"
+
+#. module: veron_storage_s3
+#. odoo-python
+#: code:addons/veron_storage_s3/models/storage.py:0
+msgid "No storage is in use."
+msgstr "هیچ فضای ذخیره‌سازی‌ای در حال استفاده نیست."
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__region
+msgid "Region"
+msgstr "منطقه"
+
+#. module: veron_storage_s3
+#: model:ir.model,name:veron_storage_s3.model_veron_storage_s3_garbage
+msgid "S3 Files to Remove"
+msgstr "فایل‌های S3 برای حذف"
+
+#. module: veron_storage_s3
+#: model:ir.actions.act_window,name:veron_storage_s3.action_storage
+#: model:ir.model,name:veron_storage_s3.model_veron_storage_s3
+#: model:ir.ui.menu,name:veron_storage_s3.menu_storage
+msgid "S3 Storage"
+msgstr "فضای ذخیره‌سازی S3"
+
+#. module: veron_storage_s3
+#: model:ir.actions.server,name:veron_storage_s3.cron_move_ir_actions_server
+msgid "S3 Storage: Move the Files Still on the Disk"
+msgstr "فضای S3: انتقال فایل‌های مانده روی دیسک"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,field_description:veron_storage_s3.field_veron_storage_s3__secret_key
+msgid "Secret Key"
+msgstr "کلید محرمانه"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "Stop"
+msgstr "توقف"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,help:veron_storage_s3.field_veron_storage_s3__folder
+msgid "The files of this database go under this folder of the bucket"
+msgstr "فایل‌های این پایگاه داده زیر این پوشه باکت قرار می‌گیرند"
+
+#. module: veron_storage_s3
+#. odoo-python
+#: code:addons/veron_storage_s3/models/storage.py:0
+msgid "The secret key of the storage %s is not entered."
+msgstr "کلید محرمانه فضای ذخیره‌سازی %s وارد نشده است."
+
+#. module: veron_storage_s3
+#. odoo-python
+#: code:addons/veron_storage_s3/models/storage.py:0
+msgid "The storage gave back something else than what was put."
+msgstr "فضای ذخیره‌سازی چیزی غیر از آنچه گذاشته شد برگرداند."
+
+#. module: veron_storage_s3
+#. odoo-python
+#: code:addons/veron_storage_s3/models/storage.py:0
+msgid "The storage is reachable: a file was put, read and removed."
+msgstr "فضای ذخیره‌سازی در دسترس است: یک فایل گذاشته، خوانده و حذف شد."
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,help:veron_storage_s3.field_veron_storage_s3__region
+msgid ""
+"The storage's region; for most Iranian storages «us-east-1» or as they say"
+msgstr ""
+"منطقه فضای ذخیره‌سازی؛ برای بیشتر فضاهای ایرانی «us-east-1» یا همان که "
+"خودشان می‌گویند"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "Try the Storage"
+msgstr "آزمودن فضای ذخیره‌سازی"
+
+#. module: veron_storage_s3
+#: model:ir.model.fields,help:veron_storage_s3.field_veron_storage_s3__endpoint
+msgid "e.g. https://s3.ir-thr-at1.arvanstorage.ir"
+msgstr "مثلاً https://s3.ir-thr-at1.arvanstorage.ir"
+
+#. module: veron_storage_s3
+#: model_terms:ir.ui.view,arch_db:veron_storage_s3.storage_view_form
+msgid "https://s3.ir-thr-at1.arvanstorage.ir"
+msgstr "https://s3.ir-thr-at1.arvanstorage.ir"

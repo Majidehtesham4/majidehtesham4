@@ -1,0 +1,260 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_planning_rotation
+#. odoo-python
+#: code:addons/veron_planning_rotation/wizard/generate.py:0
+msgid ""
+"%(made)s draft shifts made; %(skipped)s not made, as the person already has "
+"a shift then. Check them and publish them in the planning."
+msgstr ""
+"%(made)s نوبت پیش‌نویس ساخته شد؛ %(skipped)s ساخته نشد، چون شخص در آن زمان "
+"نوبت دیگری دارد. آن‌ها را در برنامه‌ریزی بررسی و منتشر کنید."
+
+#. module: veron_planning_rotation
+#. odoo-python
+#: code:addons/veron_planning_rotation/models/rotation.py:0
+msgid "A shift starts in the day and lasts up to 24 hours (%s)."
+msgstr "نوبت در طول روز شروع می‌شود و حداکثر ۲۴ ساعت است (%s)."
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_planning_rotation
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_generate_view_form
+msgid "Close"
+msgstr "بستن"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__create_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__create_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__create_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__create_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__create_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__create_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__date_from
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__date_to
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: veron_planning_rotation
+#: model:ir.model,name:veron_planning_rotation.model_veron_planning_rotation_day
+msgid "Day of a Rotating Shift Pattern"
+msgstr "روز الگوی نوبت چرخشی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__length
+msgid "Days in the Cycle"
+msgstr "روزهای چرخه"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__day_ids
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_view_form
+msgid "Days of the Cycle"
+msgstr "روزهای چرخه"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__display_name
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__display_name
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__display_name
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__employee_id
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__start_date
+msgid "From"
+msgstr "از"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__hours
+msgid "Hours"
+msgstr "ساعت"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__id
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__id
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__id
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__write_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__write_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__write_uid
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__write_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__write_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__write_date
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_planning_rotation
+#: model:ir.ui.menu,name:veron_planning_rotation.menu_rotation_generate
+msgid "Make Rotating Shifts"
+msgstr "ساخت نوبت‌های چرخشی"
+
+#. module: veron_planning_rotation
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_generate_view_form
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_view_form
+msgid "Make the Shifts"
+msgstr "ساخت نوبت‌ها"
+
+#. module: veron_planning_rotation
+#: model:ir.actions.act_window,name:veron_planning_rotation.action_rotation_generate
+#: model:ir.model,name:veron_planning_rotation.model_veron_planning_rotation_generate
+msgid "Make the Shifts of Rotating Patterns"
+msgstr "ساخت نوبت‌های الگوهای چرخشی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__rotation_ids
+msgid "Patterns"
+msgstr "الگوها"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__member_ids
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_view_form
+msgid "People"
+msgstr "افراد"
+
+#. module: veron_planning_rotation
+#: model:ir.model,name:veron_planning_rotation.model_veron_planning_rotation_member
+msgid "Person on a Rotating Shift Pattern"
+msgstr "شخص در الگوی نوبت چرخشی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__rest
+msgid "Rest"
+msgstr "استراحت"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_generate__result
+msgid "Result"
+msgstr "نتیجه"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__role_id
+msgid "Role"
+msgstr "نقش"
+
+#. module: veron_planning_rotation
+#: model:ir.model,name:veron_planning_rotation.model_veron_planning_rotation
+msgid "Rotating Shift Pattern"
+msgstr "الگوی نوبت چرخشی"
+
+#. module: veron_planning_rotation
+#: model:ir.actions.act_window,name:veron_planning_rotation.action_rotation
+#: model:ir.ui.menu,name:veron_planning_rotation.menu_rotation
+msgid "Rotating Shifts"
+msgstr "نوبت‌های چرخشی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__rotation_id
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__rotation_id
+msgid "Rotation"
+msgstr "چرخش"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__name
+msgid "Shift"
+msgstr "نوبت"
+
+#. module: veron_planning_rotation
+#. odoo-python
+#: code:addons/veron_planning_rotation/wizard/generate.py:0
+msgid "Shifts are made for three months at most at once."
+msgstr "در هر بار حداکثر برای سه ماه نوبت ساخته می‌شود."
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_day__start_hour
+msgid "Starts At"
+msgstr "شروع ساعت"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__offset
+msgid "Starts on Day"
+msgstr "شروع از روز"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,help:veron_planning_rotation.field_veron_planning_rotation_member__offset
+msgid ""
+"The day of the cycle the person is on at the start, counted from 0: people "
+"starting on other days make the groups that follow each other"
+msgstr ""
+"روزی از چرخه که شخص در آغاز در آن است، از ۰ شمرده می‌شود: کسانی که از روزهای"
+" دیگر شروع می‌کنند گروه‌هایی می‌سازند که پشت سر هم می‌آیند"
+
+#. module: veron_planning_rotation
+#. odoo-python
+#: code:addons/veron_planning_rotation/models/rotation.py:0
+msgid "The pattern %s has no days."
+msgstr "الگوی %s هیچ روزی ندارد."
+
+#. module: veron_planning_rotation
+#. odoo-python
+#: code:addons/veron_planning_rotation/wizard/generate.py:0
+msgid "The period ends before it starts."
+msgstr "پایان دوره پیش از شروع آن است."
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation__tz
+msgid "Time Zone"
+msgstr "منطقه‌ی زمانی"
+
+#. module: veron_planning_rotation
+#: model:ir.model.fields,field_description:veron_planning_rotation.field_veron_planning_rotation_member__end_date
+msgid "Until"
+msgstr "تا"
+
+#. module: veron_planning_rotation
+#: model_terms:ir.ui.view,arch_db:veron_planning_rotation.rotation_view_form
+msgid "e.g. Four groups, 24 hours"
+msgstr "مثلاً چهار گروه، ۲۴ ساعته"

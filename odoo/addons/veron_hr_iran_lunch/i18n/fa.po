@@ -1,0 +1,42 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model,name:veron_hr_iran_lunch.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model.fields,field_description:veron_hr_iran_lunch.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran_lunch.field_res_company__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model.fields,field_description:veron_hr_iran_lunch.field_res_company__veron_lunch_share
+msgid "Employee's Share of Lunch (%)"
+msgstr "سهم کارمند از ناهار (٪)"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model.fields,field_description:veron_hr_iran_lunch.field_hr_payslip__id
+#: model:ir.model.fields,field_description:veron_hr_iran_lunch.field_res_company__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model,name:veron_hr_iran_lunch.model_hr_payslip
+msgid "Payslip"
+msgstr "فیش حقوق"
+
+#. module: veron_hr_iran_lunch
+#: model:ir.model.fields,help:veron_hr_iran_lunch.field_res_company__veron_lunch_share
+msgid ""
+"The share of the cost of the lunches ordered that is deducted from the "
+"payslip"
+msgstr "سهمی از هزینه ناهارهای سفارش‌داده‌شده که از فیش حقوقی کسر می‌شود"

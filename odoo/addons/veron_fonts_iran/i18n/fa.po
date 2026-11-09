@@ -1,0 +1,61 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_fonts_iran
+#: model:ir.model,name:veron_fonts_iran.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields,field_description:veron_fonts_iran.field_res_company__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields,field_description:veron_fonts_iran.field_res_company__veron_report_font
+msgid "Font of Printed Documents"
+msgstr "قلم اسناد چاپی"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields,field_description:veron_fonts_iran.field_res_company__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields.selection,name:veron_fonts_iran.selection__res_company__veron_report_font__sahel
+msgid "Sahel"
+msgstr "ساحل"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields.selection,name:veron_fonts_iran.selection__res_company__veron_report_font__samim
+msgid "Samim"
+msgstr "صمیم"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields.selection,name:veron_fonts_iran.selection__res_company__veron_report_font__shabnam
+msgid "Shabnam"
+msgstr "شبنم"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields.selection,name:veron_fonts_iran.selection__res_company__veron_report_font__tahoma
+msgid "Tahoma"
+msgstr "تاهوما"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields,help:veron_fonts_iran.field_res_company__veron_report_font
+msgid ""
+"The font of the invoices, vouchers, payslips and letters printed for this "
+"company"
+msgstr ""
+"قلم فاکتورها، اسناد، فیش‌های حقوقی و نامه‌هایی که برای این شرکت چاپ می‌شود"
+
+#. module: veron_fonts_iran
+#: model:ir.model.fields.selection,name:veron_fonts_iran.selection__res_company__veron_report_font__vazirmatn
+msgid "Vazirmatn"
+msgstr "وزیرمتن"

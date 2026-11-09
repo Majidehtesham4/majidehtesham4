@@ -1,0 +1,491 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "%(model)s has no field %(field)s."
+msgstr "%(model)s فیلد %(field)s را ندارد."
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/wizard/composer.py:0
+msgid "%s WhatsApp messages sent."
+msgstr "%s پیام واتس‌اپ فرستاده شد."
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/wizard/composer.py:0
+msgid "%s has no phone number"
+msgstr "%s شماره تلفن ندارد"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "(a %s message)"
+msgstr "(پیام از نوع %s)"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__api_url
+msgid "API Address"
+msgstr "نشانی API"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__token
+msgid "Access Token"
+msgstr "توکن دسترسی"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__account_id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__account_id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__account_id
+msgid "Account"
+msgstr "حساب"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.template_view_form
+msgid "Add to the Action Menu"
+msgstr "افزودن به منوی عملیات"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__app_secret
+msgid "App Secret"
+msgstr "رمز برنامه (App Secret)"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__body
+msgid "Body"
+msgstr "بدنه"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.composer_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__company_id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_whatsapp
+#: model:ir.ui.menu,name:veron_whatsapp.menu_config
+msgid "Configuration"
+msgstr "پیکربندی"
+
+#. module: veron_whatsapp
+#: model:ir.model,name:veron_whatsapp.model_res_partner
+msgid "Contact"
+msgstr "مخاطب"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__create_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__create_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__create_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__create_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__create_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__create_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.message_view_list
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__state__delivered
+msgid "Delivered"
+msgstr "تحویل داده شد"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__direction
+msgid "Direction"
+msgstr "جهت"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_res_partner__display_name
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__display_name
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__display_name
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__display_name
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_template__model_id
+msgid "Empty: for contacts"
+msgstr "خالی: برای مخاطبان"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__error
+msgid "Error"
+msgstr "خطا"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_template__name
+msgid "Exactly as approved in the WhatsApp Manager"
+msgstr "دقیقاً همان‌طور که در WhatsApp Manager تأیید شده"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__state__failed
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.message_view_search
+msgid "Failed"
+msgstr "ناموفق"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__model_id
+msgid "For"
+msgstr "برای"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.composer_view_form
+msgid "Free text, within 24 hours of the customer's last message"
+msgstr "متن آزاد، در ۲۴ ساعت پس از آخرین پیام مشتری"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_composer__text
+msgid "Free text: only within 24 hours of the customer's last message"
+msgstr "متن آزاد: فقط در ۲۴ ساعت پس از آخرین پیام مشتری"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_res_partner__id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.account_view_form
+msgid ""
+"In Meta's app, the webhook is given the address and the verify token above, with the fields «messages».\n"
+"\t\t\t\t\t\tThe access token and the app's secret are entered here by the administrator and shown to no one."
+msgstr ""
+"در برنامه Meta، نشانی و توکن تأیید بالا به وب‌هوک داده می‌شود، با فیلد "
+"«messages». توکن دسترسی و رمز برنامه را مدیر سیستم اینجا وارد می‌کند و به "
+"کسی نشان داده نمی‌شود."
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__language
+msgid "Language"
+msgstr "زبان"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__write_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__write_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__write_uid
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__write_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__write_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__write_date
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_whatsapp
+#: model:ir.ui.menu,name:veron_whatsapp.menu_messages
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_account__api_url
+msgid "Meta's Graph API, or a relay that passes to it from a server in Iran"
+msgstr "Graph API متا، یا واسطی که از سروری در ایران به آن می‌رساند"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__model
+msgid "Model"
+msgstr "مدل"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_whatsapp
+#: model:ir.ui.menu,name:veron_whatsapp.menu_accounts
+msgid "Numbers"
+msgstr "اعداد"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__partner_id
+msgid "Partner"
+msgstr "همکار"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__phone
+msgid "Phone"
+msgstr "تلفن"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__phone_number_id
+msgid "Phone Number ID"
+msgstr "شناسه شماره تلفن"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__phones
+msgid "Phones"
+msgstr "تلفن‌ها"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__preview
+msgid "Preview"
+msgstr "پیش‌نمایش"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__state__read
+msgid "Read"
+msgstr "خوانده شده"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__direction__in
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__state__received
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.message_view_search
+msgid "Received"
+msgstr "دریافت شده"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__res_ids
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__res_id
+msgid "Res"
+msgstr "رکورد"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__res_model
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__res_model
+msgid "Res Model"
+msgstr "مدل Res"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.composer_view_form
+msgid "Send"
+msgstr "ارسال"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+#: code:addons/veron_whatsapp/wizard/composer.py:0
+#: model:ir.actions.act_window,name:veron_whatsapp.action_composer_partner
+msgid "Send WhatsApp"
+msgstr "ارسال واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.model,name:veron_whatsapp.model_veron_whatsapp_composer
+msgid "Send a WhatsApp Message"
+msgstr "ارسال پیام واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__direction__out
+#: model:ir.model.fields.selection,name:veron_whatsapp.selection__veron_whatsapp_message__state__sent
+msgid "Sent"
+msgstr "ارسال"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_account__app_secret
+msgid ""
+"Signs what the webhook receives; without it the webhook accepts nothing"
+msgstr ""
+"آنچه وب‌هوک دریافت می‌کند را امضا می‌کند؛ بدون آن وب‌هوک چیزی نمی‌پذیرد"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__template_id
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__template_id
+msgid "Template"
+msgstr "پوسته"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__name
+msgid "Template Name"
+msgstr "نام قالب"
+
+#. module: veron_whatsapp
+#: model:ir.ui.menu,name:veron_whatsapp.menu_templates
+msgid "Templates"
+msgstr "قالبها"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__text
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__body
+msgid "Text"
+msgstr "متن"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "The access token of %s is not entered."
+msgstr "توکن دسترسی %s وارد نشده است."
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_template__value_fields
+msgid ""
+"The fields of the record that give {{1}}, {{2}}..., separated by commas, "
+"e.g. «partner_id.name, name, amount_total»"
+msgstr ""
+"فیلدهای رکورد که {{1}}، {{2}}... را می‌دهند، جداشده با ویرگول، مانند "
+"«partner_id.name, name, amount_total»"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_account__phone_number_id
+msgid "The id of the number in Meta's WhatsApp Manager"
+msgstr "شناسه شماره در WhatsApp Manager متا"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "The message has no text."
+msgstr "پیام متنی ندارد."
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/wizard/composer.py:0
+msgid "The template is for %s."
+msgstr "این الگو برای %s است."
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,help:veron_whatsapp.field_veron_whatsapp_template__body
+msgid "The text as approved, with {{1}}, {{2}}... where the values go"
+msgstr "متن تأییدشده، با {{1}}، {{2}}... به‌جای مقادیر"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/wizard/composer.py:0
+msgid "There is no one to send to."
+msgstr "کسی برای ارسال نیست."
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.composer_view_form
+msgid "To"
+msgstr "تا"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_template__value_fields
+msgid "Values"
+msgstr "مقادیر"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__webhook_url
+msgid "Webhook Url"
+msgstr "نشانی وب‌هوک"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_account__verify_token
+msgid "Webhook Verify Token"
+msgstr "توکن تأیید وب‌هوک"
+
+#. module: veron_whatsapp
+#: model:ir.ui.menu,name:veron_whatsapp.menu_root
+#: model:res.groups,name:veron_whatsapp.group_whatsapp_user
+msgid "WhatsApp"
+msgstr "واتس‌اَپ"
+
+#. module: veron_whatsapp
+#: model:ir.model,name:veron_whatsapp.model_veron_whatsapp_account
+msgid "WhatsApp Business Number"
+msgstr "شماره واتس‌اپ بیزینس"
+
+#. module: veron_whatsapp
+#: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__wa_id
+msgid "WhatsApp ID"
+msgstr "شناسه واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.model,name:veron_whatsapp.model_veron_whatsapp_message
+msgid "WhatsApp Message"
+msgstr "پیام واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.actions.act_window,name:veron_whatsapp.action_message
+msgid "WhatsApp Messages"
+msgstr "پیام‌های واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.actions.act_window,name:veron_whatsapp.action_account
+msgid "WhatsApp Numbers"
+msgstr "شماره‌های واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.model,name:veron_whatsapp.model_veron_whatsapp_template
+msgid "WhatsApp Template"
+msgstr "الگوی واتس‌اپ"
+
+#. module: veron_whatsapp
+#: model:ir.actions.act_window,name:veron_whatsapp.action_template
+msgid "WhatsApp Templates"
+msgstr "الگوهای واتس‌اپ"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid ""
+"WhatsApp allows a free text only within 24 hours of the customer's last "
+"message; send an approved template."
+msgstr ""
+"واتس‌اپ متن آزاد را فقط در ۲۴ ساعت پس از آخرین پیام مشتری اجازه می‌دهد؛ یک "
+"الگوی تأییدشده بفرستید."
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid ""
+"WhatsApp could not be reached (%s). A server in Iran reaches it only through"
+" a route out of the country, given as the API address."
+msgstr ""
+"واتس‌اپ در دسترس نبود (%s). سروری در ایران فقط از راه مسیری به خارج از کشور،"
+" که به‌عنوان نشانی API وارد می‌شود، به آن می‌رسد."
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "WhatsApp from %(name)s: %(text)s"
+msgstr "واتس‌اپ از %(name)s: %(text)s"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "WhatsApp refused the message: %s"
+msgstr "واتس‌اپ پیام را نپذیرفت: %s"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "WhatsApp to %(phone)s: %(text)s"
+msgstr "واتس‌اپ به %(phone)s: %(text)s"
+
+#. module: veron_whatsapp
+#: model_terms:ir.ui.view,arch_db:veron_whatsapp.account_view_form
+msgid "e.g. Sales"
+msgstr "مثلاً فروش"
+
+#. module: veron_whatsapp
+#. odoo-python
+#: code:addons/veron_whatsapp/models/whatsapp.py:0
+msgid "«%s» is not a phone number."
+msgstr "«%s» شماره تلفن نیست."

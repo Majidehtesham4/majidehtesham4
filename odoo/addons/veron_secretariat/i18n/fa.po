@@ -1,0 +1,553 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "%(user)s: done. %(answer)s"
+msgstr "%(user)s: انجام شد. %(answer)s"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "A registered letter is not deleted; it is archived."
+msgstr "نامه ثبت‌شده حذف نمی‌شود؛ بایگانی می‌شود."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_ids
+msgid "Activities"
+msgstr "فعالیت ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__activity_id
+msgid "Activity"
+msgstr "فعالیت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "دکوراسیون استثنایی فعالیت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_state
+msgid "Activity State"
+msgstr "وضعیت فعالیت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "آیکون نوع فعالیت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__answer
+msgid "Answer"
+msgstr "پاسخ"
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Archive"
+msgstr "بایگانی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__state__archived
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__body
+msgid "Body"
+msgstr "بدنه"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__classification
+msgid "Classification"
+msgstr "طبقه‌بندی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__classification__confidential
+msgid "Confidential"
+msgstr "محرمانه"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__create_uid
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__create_date
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__deadline
+msgid "Deadline"
+msgstr "آخرین مهلت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__display_name
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter_referral__state__done
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Done"
+msgstr "انجام شده"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__enclosure
+msgid "Enclosures"
+msgstr "پیوست‌ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__follows_id
+msgid "Following Up"
+msgstr "پیرو"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "آیکون فونت عالی به عبارتی fa-tasks"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__from_id
+msgid "From"
+msgstr "از"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__id
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_exception_icon
+msgid "Icon"
+msgstr "شمایل"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "آیکون برای نشان دادن یک فعالیت استثنا."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__message_has_error
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__priority__2
+msgid "Immediate"
+msgstr "فوری"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__answers_id
+msgid "In Answer To"
+msgstr "در پاسخ به"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__reference_id
+msgid "In Reference To"
+msgstr "عطف به"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__kind__incoming
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Incoming"
+msgstr "پیش رو"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__instruction
+msgid "Instruction"
+msgstr "دستورالعمل"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__kind__internal
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Internal"
+msgstr "داخلی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__kind
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__write_uid
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__write_date
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_secretariat
+#: model:ir.actions.report,name:veron_secretariat.action_report_letter
+#: model:ir.model,name:veron_secretariat.model_veron_letter
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__letter_id
+msgid "Letter"
+msgstr "نامه"
+
+#. module: veron_secretariat
+#: model:ir.actions.act_window,name:veron_secretariat.action_letters
+#: model:ir.ui.menu,name:veron_secretariat.menu_letters
+msgid "Letters"
+msgstr "نامه‌ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Month"
+msgstr "ماه"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "موعد نهای فعالیت من"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr "رویداد تقویم فعالیت بعدی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "موعد فعالیت بعدی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_summary
+msgid "Next Activity Summary"
+msgstr "خلاصه فعالیت بعدی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_type_id
+msgid "Next Activity Type"
+msgstr "نوع فعالیت بعدی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__classification__normal
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__priority__0
+msgid "Normal"
+msgstr "عادی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__name
+msgid "Number"
+msgstr "شماره"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "Only the person it is referred to marks it done."
+msgstr "فقط کسی که نامه به او ارجاع شده آن را انجام‌شده می‌کند."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__partner_id
+msgid "Organization or Person"
+msgstr "سازمان یا شخص"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__kind__outgoing
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Outgoing"
+msgstr "خروجی"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter_referral__state__pending
+msgid "Pending"
+msgstr "معلق"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__priority
+msgid "Priority"
+msgstr "اولویت"
+
+#. module: veron_secretariat
+#: model:ir.model,name:veron_secretariat.model_veron_letter_referral
+msgid "Referral of a Letter"
+msgstr "ارجاع نامه"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__referral_ids
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Referrals"
+msgstr "ارجاع کارمند"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "Referred to %(user)s: %(what)s"
+msgstr "ارجاع به %(user)s: %(what)s"
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_search
+msgid "Referred to Me"
+msgstr "ارجاع‌شده به من"
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Register"
+msgstr "ثبت نام"
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__state__registered
+msgid "Registered"
+msgstr "ثبت شده"
+
+#. module: veron_secretariat
+#: model:res.groups,comment:veron_secretariat.group_user
+msgid "Registers letters and refers them."
+msgstr "نامه‌ها را ثبت و ارجاع می‌کند."
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Related Letters"
+msgstr "نامه‌های مرتبط"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__activity_user_id
+msgid "Responsible User"
+msgstr "کاربر مسئول"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "Say who sent the incoming letter."
+msgstr "فرستنده نامه وارده را مشخص کنید."
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__classification__secret
+msgid "Secret"
+msgstr "محرمانه"
+
+#. module: veron_secretariat
+#: model:ir.module.category,name:veron_secretariat.module_category
+#: model:ir.ui.menu,name:veron_secretariat.menu_root
+msgid "Secretariat"
+msgstr "دبیرخانه"
+
+#. module: veron_secretariat
+#: model:res.groups,name:veron_secretariat.group_manager
+msgid "Secretariat: Manager"
+msgstr "دبیرخانه: مدیر"
+
+#. module: veron_secretariat
+#: model:res.groups,name:veron_secretariat.group_user
+msgid "Secretariat: User"
+msgstr "دبیرخانه: کاربر"
+
+#. module: veron_secretariat
+#: model:res.groups,comment:veron_secretariat.group_manager
+msgid "Sees every letter, the confidential ones too."
+msgstr "همه نامه‌ها، حتی محرمانه‌ها را می‌بیند."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__sequence_number
+msgid "Sequence Number"
+msgstr "شماره دنباله"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__sequence_year
+msgid "Sequence Year"
+msgstr "سال شماره"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__signer_id
+msgid "Signed By"
+msgstr "امضاء شده توسط"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__state
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"وضعیت بر اساس فعالیت ها\n"
+"سررسید: تاریخ سررسید گذشته است\n"
+"امروز: تاریخ فعالیت امروز است\n"
+"برنامه ریزی شده: فعالیت های آینده."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__subject
+msgid "Subject"
+msgstr "موضوع"
+
+#. module: veron_secretariat
+#: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
+msgid "Text"
+msgstr "متن"
+
+#. module: veron_secretariat
+#. odoo-python
+#: code:addons/veron_secretariat/models/letter.py:0
+msgid "The number of a registered letter is not changed."
+msgstr "شماره نامه ثبت‌شده تغییر نمی‌کند."
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__their_number
+msgid "The number the sender gave an incoming letter"
+msgstr "شماره‌ای که فرستنده به نامه وارده داده"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__user_ids
+msgid "The people of the organization it is for"
+msgstr "افرادی از سازمان که نامه برای آن‌هاست"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__their_date
+msgid "Their Date"
+msgstr "تاریخ آن‌ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__their_number
+msgid "Their Number"
+msgstr "شماره آن‌ها"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__user_ids
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter_referral__user_id
+msgid "To"
+msgstr "تا"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "نوع فعالیت استثنایی برای رکورد."
+
+#. module: veron_secretariat
+#: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__priority__1
+msgid "Urgent"
+msgstr "فوری"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,field_description:veron_secretariat.field_veron_letter__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__enclosure
+msgid "What is sent with it, as «دو برگ»; empty for none"
+msgstr "آنچه همراه نامه فرستاده می‌شود، مانند «دو برگ»؛ خالی یعنی بدون پیوست"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter_referral__instruction
+msgid "What to do: «جهت اقدام»، «جهت استحضار»، «جهت پاسخ»"
+msgstr "چه باید کرد: «جهت اقدام»، «جهت استحضار»، «جهت پاسخ»"
+
+#. module: veron_secretariat
+#: model:ir.model.fields,help:veron_secretariat.field_veron_letter__partner_id
+msgid "Who sent an incoming letter, or who an outgoing one is to"
+msgstr "فرستنده نامه وارده، یا گیرنده نامه صادره"

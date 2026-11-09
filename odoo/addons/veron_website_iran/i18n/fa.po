@@ -1,0 +1,387 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "A code was just sent to this number; wait a minute."
+msgstr "همین الان کدی به این شماره فرستاده شد؛ یک دقیقه صبر کنید."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__address
+msgid "Address"
+msgstr "نشانی"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "Another number or a new code"
+msgstr "شماره دیگر یا کد جدید"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.snippets
+msgid "Aparat Video"
+msgstr "ویدئوی آپارات"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_veron_podcast_episode__duration
+msgid "As «24:30»"
+msgstr "مانند «۲۴:۳۰»"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__audio
+msgid "Audio"
+msgstr "صدا"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__audio_url
+msgid "Audio Address"
+msgstr "نشانی فایل صوتی"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__audio_name
+msgid "Audio Name"
+msgstr "نام فایل صوتی"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__can_publish
+msgid "Can Publish"
+msgstr "می تواند منتشر کند"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__code_hash
+msgid "Code Hash"
+msgstr "هش کد"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/controllers/main.py:0
+msgid "Content-Type"
+msgstr "نوع محتوا"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__create_uid
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__create_date
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__description
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_res_users__display_name
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__display_name
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__display_name
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__duration
+msgid "Duration"
+msgstr "مدت زمان"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__expires
+msgid "Expires"
+msgstr "انقضا"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_res_users__id
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__id
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__id
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__image
+msgid "Image"
+msgstr "تصویر"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_veron_podcast_episode__audio_url
+msgid "Instead of a file, the address of the audio elsewhere"
+msgstr "به‌جای فایل، نشانی فایل صوتی در جای دیگر"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__veron_otp_internal
+msgid "Internal Users Too"
+msgstr "کاربران داخلی هم"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.view_website_form
+msgid "Iranian Website"
+msgstr "وب‌سایت ایرانی"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__is_published
+msgid "Is Published"
+msgstr "منتشر شده است"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__write_uid
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__write_date
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "Log In"
+msgstr "ورود"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "Log in to this account with its password."
+msgstr "با رمز عبور به این حساب وارد شوید."
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.login_mobile_link
+msgid "Log in with a mobile number"
+msgstr "ورود با شماره موبایل"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "Log in with a password"
+msgstr "ورود با رمز عبور"
+
+#. module: veron_website_iran
+#: model:ir.model,name:veron_website_iran.model_veron_login_code
+msgid "Login Code by SMS"
+msgstr "کد ورود با پیامک"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__veron_otp_login
+msgid "Login With a Mobile Number"
+msgstr "ورود با شماره موبایل"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__mobile
+msgid "Mobile"
+msgstr "موبایل"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "Mobile number"
+msgstr "شماره موبایل"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "More than one account has this number; log in with your password."
+msgstr "بیش از یک حساب این شماره را دارد؛ با رمز عبور وارد شوید."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__veron_neshan_key
+msgid "Neshan API Key"
+msgstr "کلید API نشان"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.snippets
+msgid "Neshan Map"
+msgstr "نقشه نشان"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "No account has this number, and sign-up is closed."
+msgstr "هیچ حسابی این شماره را ندارد و ثبت‌نام بسته است."
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.podcast_page
+msgid "No episode yet."
+msgstr "هنوز قسمتی نیست."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_website__veron_otp_internal
+msgid ""
+"Off, only portal users log in with a code; internal users use their password"
+" (and two-factor authentication)"
+msgstr ""
+"خاموش: فقط کاربران پورتال با کد وارد می‌شوند؛ کاربران داخلی با رمز عبور (و "
+"ورود دومرحله‌ای)"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_website__veron_font
+msgid "Persian Font"
+msgstr "قلم فارسی"
+
+#. module: veron_website_iran
+#: model:ir.actions.act_window,name:veron_website_iran.action_episodes
+#: model:ir.ui.menu,name:veron_website_iran.menu_episodes
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.podcast_page
+msgid "Podcast"
+msgstr "پادکست"
+
+#. module: veron_website_iran
+#: model:ir.model,name:veron_website_iran.model_veron_podcast_episode
+msgid "Podcast Episode"
+msgstr "قسمت پادکست"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.podcast_page
+msgid "RSS"
+msgstr "RSS"
+
+#. module: veron_website_iran
+#: model:ir.model.fields.selection,name:veron_website_iran.selection__website__veron_font__sahel
+msgid "Sahel"
+msgstr "ساحل"
+
+#. module: veron_website_iran
+#: model:ir.model.fields.selection,name:veron_website_iran.selection__website__veron_font__samim
+msgid "Samim"
+msgstr "صمیم"
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "Send the Code"
+msgstr "ارسال کد"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/controllers/main.py:0
+msgid "Set the Neshan key of the website."
+msgstr "کلید نشان وب‌سایت را وارد کنید."
+
+#. module: veron_website_iran
+#: model:ir.model.fields.selection,name:veron_website_iran.selection__website__veron_font__shabnam
+msgid "Shabnam"
+msgstr "شبنم"
+
+#. module: veron_website_iran
+#: model:ir.model.fields.selection,name:veron_website_iran.selection__website__veron_font__tahoma
+msgid "Tahoma"
+msgstr "تاهوما"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "The code has expired; ask for a new one."
+msgstr "کد منقضی شده؛ کد جدید بخواهید."
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/controllers/main.py:0
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "The code is not right."
+msgstr "کد درست نیست."
+
+#. module: veron_website_iran
+#: model_terms:ir.ui.view,arch_db:veron_website_iran.mobile_login
+msgid "The code sent to it"
+msgstr "کدی که به آن فرستاده شد"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_veron_podcast_episode__website_absolute_url
+msgid "The full absolute URL to access the document through the website."
+msgstr "URL مطلق کامل برای دسترسی به سند از طریق وب سایت."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_veron_podcast_episode__website_url
+msgid "The full relative URL to access the document through the website."
+msgstr "URL نسبی کامل برای دسترسی به سند از طریق وب سایت."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,help:veron_website_iran.field_website__veron_neshan_key
+msgid "The service key of Neshan's static maps; kept on the server"
+msgstr "کلید سرویس نقشه‌های ایستای نشان؛ روی سرور نگه داشته می‌شود"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "This is not a mobile number."
+msgstr "این شماره موبایل نیست."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__name
+msgid "Title"
+msgstr "عنوان"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__token_hash
+msgid "Token Hash"
+msgstr "هش توکن"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid "Too many codes were asked from here; try again later."
+msgstr "از اینجا کدهای زیادی خواسته شده؛ بعداً دوباره امتحان کنید."
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__tries
+msgid "Tries"
+msgstr "تلاش‌ها"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__used
+msgid "Used"
+msgstr "استفاده شده"
+
+#. module: veron_website_iran
+#: model:ir.model,name:veron_website_iran.model_res_users
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_login_code__user_id
+msgid "User"
+msgstr "کاربر"
+
+#. module: veron_website_iran
+#: model:ir.model.fields.selection,name:veron_website_iran.selection__website__veron_font__vazirmatn
+msgid "Vazirmatn"
+msgstr "وزیرمتن"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__website_published
+msgid "Visible on current website"
+msgstr "قابل دید در وبسایت حاضر"
+
+#. module: veron_website_iran
+#: model:ir.model,name:veron_website_iran.model_website
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__website_id
+msgid "Website"
+msgstr "تارنما"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__website_absolute_url
+msgid "Website Absolute URL"
+msgstr "URL مطلق وب سایت"
+
+#. module: veron_website_iran
+#: model:ir.model.fields,field_description:veron_website_iran.field_veron_podcast_episode__website_url
+msgid "Website URL"
+msgstr "URL وبسایت"
+
+#. module: veron_website_iran
+#. odoo-python
+#: code:addons/veron_website_iran/models/otp.py:0
+msgid ""
+"Your login code: %(code)s\n"
+"%(site)s"
+msgstr ""
+"کد ورود شما: %(code)s\n"
+"%(site)s"

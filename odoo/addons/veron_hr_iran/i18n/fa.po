@@ -1,0 +1,1101 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/loan.py:0
+msgid "%s has instalments already deducted; it is not cancelled."
+msgstr "%s اقساط کسرشده دارد؛ لغو نمی‌شود."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/mission.py:0
+msgid "A mission ends after it starts."
+msgstr "پایان مأموریت باید بعد از شروع آن باشد."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__kind__abroad
+msgid "Abroad"
+msgstr "خارج از کشور"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_needaction
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_needaction
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_needaction
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__kind__advance
+msgid "Advance"
+msgstr "مساعده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__amount
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/absence.py:0
+msgid "An absence is of more than zero days."
+msgstr "غیبت باید بیش از صفر روز باشد."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__first_month
+msgid "Any day of the Shamsi month of the first instalment"
+msgstr "هر روزی از ماه شمسی نخستین قسط"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.absence_view_list
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.correction_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.mission_view_form
+msgid "Approve"
+msgstr "موافقت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_absence__state__approved
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_attendance_correction__state__approved
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__state__approved
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__state__approved
+msgid "Approved"
+msgstr "موافقت شد"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__approved_by
+msgid "Approved By"
+msgstr "تأییدکننده"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.correction_view_form
+msgid "Ask"
+msgstr "پرسش"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_attendance_correction__state__asked
+msgid "Asked"
+msgstr "درخواست‌شده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_attachment_count
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_attachment_count
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_attachment_count
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__attendance_id
+msgid "Attendance Changed"
+msgstr "حضور تغییر کرد"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_attendance_correction
+msgid "Attendance Correction"
+msgstr "اصلاح حضور و غیاب"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_corrections
+#: model:ir.ui.menu,name:veron_hr_iran.menu_corrections
+msgid "Attendance Corrections"
+msgstr "اصلاحات حضور و غیاب"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__daily
+msgid "Base Wage of a Day"
+msgstr "مزد پایه روزانه"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_job_group_wage
+msgid "Base Wage of a Job Group"
+msgstr "مزد پایه گروه شغلی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__wage_ids
+msgid "Base Wages"
+msgstr "مزدهای پایه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__before
+msgid "Before the Correction"
+msgstr "پیش از اصلاح"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_id_number
+msgid "Birth Certificate Number"
+msgstr "شماره شناسنامه"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.absence_view_list
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.mission_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_absence__state__cancelled
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__state__cancelled
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__state__cancelled
+msgid "Cancelled"
+msgstr "لغو شد"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__check_in
+msgid "Check In"
+msgstr "ورود"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__check_out
+msgid "Check Out"
+msgstr "خروج از سیستم"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.bank_file_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.sso_disk_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.tax_list_view_form
+msgid "Close"
+msgstr "بستن"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__company_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__company_share
+msgid "Company's Share a Month"
+msgstr "سهم شرکت در ماه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_sso_contract_row
+msgid "Contract Row"
+msgstr "ردیف پیمان"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__create_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__create_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__currency_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__currency_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__currency_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__currency_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__date_from
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__date_from
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__date_from
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__date_to
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__date_to
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__date_to
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_id_date
+msgid "Date of Issue"
+msgstr "تاریخ صدور"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__days
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__days
+msgid "Days"
+msgstr "روز"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__payslip_id
+msgid "Deducted In"
+msgstr "کسرشده در"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__amount
+msgid "Deducted a Month"
+msgstr "کسر ماهانه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__description
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__description
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__destination
+msgid "Destination"
+msgstr "شرح"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_job__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip_input__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_version__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__display_name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_absence__state__draft
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_attendance_correction__state__draft
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__state__draft
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__state__draft
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+#. module: veron_hr_iran
+#: model:ir.model.constraint,message:veron_hr_iran.constraint_veron_hr_job_group_number_unique
+msgid "Each group once."
+msgstr "هر گروه یک بار."
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_hr_employee
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__employee_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__employee_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__employee_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__employee_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__employee_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__employee_id
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_hr_version
+msgid "Employee Contract / Version"
+msgstr "قرارداد / نسخه کارمند"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_loan
+msgid "Employee Loan or Advance"
+msgstr "وام یا مساعده کارمند"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_mission
+msgid "Employee Mission"
+msgstr "مأموریت کارمند"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_insurance_member
+msgid "Employee in an Insurance Plan"
+msgstr "کارمند در طرح بیمه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__employee_share
+msgid "Employee's Share a Month"
+msgstr "سهم کارمند در ماه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_sso_employer
+msgid "Employer Name"
+msgstr "نام کارفرما"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__attendance_id
+msgid "Empty to add an attendance"
+msgstr "خالی برای افزودن حضور"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__file
+msgid "Excel"
+msgstr "اکسل"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__dependants
+msgid "Family Members Insured"
+msgstr "اعضای خانواده بیمه‌شده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_father_name
+msgid "Father's Name"
+msgstr "نام پدر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__file
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__file
+msgid "File"
+msgstr "پرونده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__filename
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__filename
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__filename
+msgid "Filename"
+msgstr "نام فایل"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip_input__veron_auto
+msgid "Filled From the Records"
+msgstr "پرشده از سوابق"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_hr_payslip_input__veron_auto
+msgid "Filled again at each computation; typed by hand, it stays"
+msgstr "در هر محاسبه دوباره پر می‌شود؛ اگر دستی وارد شود می‌ماند"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__first_month
+msgid "First Instalment In"
+msgstr "نخستین قسط در"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_follower_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_follower_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_follower_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_partner_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_partner_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_partner_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_insurance_plan__company_share
+msgid "For each person insured; not deducted"
+msgstr "برای هر شخص بیمه‌شده؛ کسر نمی‌شود"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_insurance_plan__employee_share
+msgid "For the employee and for each person insured"
+msgstr "برای کارمند و برای هر شخص بیمه‌شده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__number
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__group_id
+msgid "Group"
+msgstr "گروه"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/job_group.py:0
+msgid "Group %s"
+msgstr "گروه %s"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__has_message
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__has_message
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__has_message
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_job__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip_input__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_version__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.view_employee_form
+msgid "Identity"
+msgstr "شناسه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__message_needaction
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__message_needaction
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__message_needaction
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__message_has_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__message_has_sms_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__message_has_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__message_has_sms_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__message_has_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__message_has_sms_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__message_has_error
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__kind__city
+msgid "In the City"
+msgstr "داخل شهر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__installments
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__line_ids
+msgid "Instalments"
+msgstr "اقساط"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_payslip__veron_loan_line_ids
+msgid "Instalments Deducted"
+msgstr "اقساط کسرشده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__insurer_id
+msgid "Insurer"
+msgstr "بیمه‌گر"
+
+#. module: veron_hr_iran
+#: model:ir.ui.menu,name:veron_hr_iran.menu_iran
+msgid "Iranian HR"
+msgstr "منابع انسانی ایران"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.view_employee_form
+msgid "Iranian Records"
+msgstr "سوابق ایرانی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_is_follower
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_is_follower
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_is_follower
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_job_group
+msgid "Job Classification Group"
+msgstr "گروه طبقه‌بندی مشاغل"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_job_groups
+#: model:ir.ui.menu,name:veron_hr_iran.menu_job_groups
+msgid "Job Classification Groups"
+msgstr "گروه‌های طبقه‌بندی مشاغل"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_job_group_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_job__veron_job_group_id
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_version__veron_job_group_id
+msgid "Job Group"
+msgstr "گروه شغلی"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_hr_job
+msgid "Job Position"
+msgstr "موقعیت شغلی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__kind
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__kind
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__kind
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__kind
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__write_uid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__write_date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__left
+msgid "Left to Pay"
+msgstr "مانده پرداخت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_insurance_plan__kind__life
+msgid "Life"
+msgstr "عمر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__list_number
+msgid "List Number"
+msgstr "شماره لیست"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__loan_id
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__kind__loan
+msgid "Loan"
+msgstr "وام"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_loan_line
+msgid "Loan Instalment"
+msgstr "قسط وام"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_loans
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_loan_ids
+#: model:ir.ui.menu,name:veron_hr_iran.menu_loans
+msgid "Loans and Advances"
+msgstr "وام‌ها و مساعده‌ها"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.bank_file_view_form
+msgid "Make the File"
+msgstr "ساخت فایل"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.sso_disk_view_form
+msgid "Make the Files"
+msgstr "ساخت فایل‌ها"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.tax_list_view_form
+msgid "Make the List"
+msgstr "ساخت لیست"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.bank_file_view_form
+msgid "Make the Payment Entry"
+msgstr "ساخت سند پرداخت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_has_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_has_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_has_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_mission_rate_abroad
+msgid "Mission Rate, Abroad"
+msgstr "نرخ مأموریت، خارج از کشور"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_mission_rate_city
+msgid "Mission Rate, in the City"
+msgstr "نرخ مأموریت، داخل شهر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_mission_rate_out
+msgid "Mission Rate, out of the City"
+msgstr "نرخ مأموریت، خارج از شهر"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_missions
+#: model:ir.ui.menu,name:veron_hr_iran.menu_missions
+msgid "Missions"
+msgstr "مأموریت‌ها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__date
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__month
+msgid "Month"
+msgstr "ماه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_plan__name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__name
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/wizard/tax_list.py:0
+msgid "No payslip done in %(month)s %(year)s."
+msgstr "در %(month)s %(year)s فیش حقوقی نهایی‌شده‌ای نیست."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/wizard/sso_disk.py:0
+msgid "No payslip done of an insured employee in %(month)s %(year)s."
+msgstr "در %(month)s %(year)s فیش نهایی‌شده‌ای از کارمند بیمه‌شده نیست."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/wizard/bank_file.py:0
+msgid "No payslip of this batch is done."
+msgstr "هیچ فیشی از این دسته نهایی نشده است."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group__note
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__note
+msgid "Note"
+msgstr "یادداشت"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_form
+msgid "Notes"
+msgstr "یادداشت‌ها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_needaction_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_has_error_counter
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__message_needaction_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__message_needaction_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__message_needaction_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__message_has_error_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__message_has_error_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__message_has_error_counter
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_hr_iran
+#: model:ir.model.constraint,message:veron_hr_iran.constraint_veron_hr_job_group_wage_year_unique
+msgid "One base wage of a group a year."
+msgstr "برای هر گروه در هر سال یک مزد پایه."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/attendance_correction.py:0
+msgid "Only an attendance officer approves a correction."
+msgstr "فقط مسئول حضور و غیاب اصلاح را تأیید می‌کند."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_mission__kind__out
+msgid "Out of the City"
+msgstr "خارج از شهر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__paid
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan_line__paid
+msgid "Paid"
+msgstr "پرداخت شد"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_loan__state__paid
+msgid "Paid Back"
+msgstr "بازپرداخت‌شده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__journal_id
+msgid "Paid From"
+msgstr "پرداخت از"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__move_id
+msgid "Payment Entry"
+msgstr "سند پرداخت"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_hr_payslip
+msgid "Payslip"
+msgstr "فیش حقوق"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__run_id
+msgid "Payslip Batch"
+msgstr "دسته فیش حقوقی"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_hr_payslip_input
+msgid "Payslip Input"
+msgstr "ورودی فیش حقوقی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__amount
+msgid "Per-Diem"
+msgstr "فوق‌العاده روزانه"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_id_place
+msgid "Place of Issue"
+msgstr "محل صدور"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_insurance_member__plan_id
+msgid "Plan"
+msgstr "طرح"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__daily_rate
+msgid "Rate of a Day"
+msgstr "نرخ روزانه"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.view_company_form
+msgid "Rate of a Day of Mission"
+msgstr "نرخ روزانه مأموریت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__reason
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__reason
+msgid "Reason"
+msgstr "علت"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.correction_view_form
+msgid "Refuse"
+msgstr "ردکردن"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_attendance_correction__state__refused
+msgid "Refused"
+msgstr "رد شده"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__message_has_sms_error
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_bank_file
+#: model:ir.model,name:veron_hr_iran.model_veron_salary_bank_file
+#: model:ir.ui.menu,name:veron_hr_iran.menu_bank_file
+msgid "Salary Bank File"
+msgstr "فایل بانکی حقوق"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_tax_list
+#: model:ir.model,name:veron_hr_iran.model_veron_salary_tax_list
+#: model:ir.ui.menu,name:veron_hr_iran.menu_tax_list
+msgid "Salary Tax List"
+msgstr "لیست مالیات حقوق"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/wizard/sso_disk.py:0
+msgid ""
+"Set the workshop code of the Social Security Organization in the company "
+"first."
+msgstr "نخست کد کارگاه سازمان تأمین اجتماعی را در شرکت وارد کنید."
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_form
+msgid "Set to Draft"
+msgstr "تبدیل به پیشنویس"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__month
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__month
+msgid "Shamsi Month"
+msgstr "ماه شمسی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_job_group_wage__year
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_tax_list__year
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_sso_disk__year
+msgid "Shamsi Year"
+msgstr "سال شمسی"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.view_company_form
+msgid "Social Security"
+msgstr "تأمین اجتماعی"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_sso_disk
+#: model:ir.model,name:veron_hr_iran.model_veron_sso_disk
+#: model:ir.ui.menu,name:veron_hr_iran.menu_sso
+msgid "Social Security Disk"
+msgstr "دیسکت تأمین اجتماعی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_sso_job_code
+msgid "Social Security Job Code"
+msgstr "کد شغل تأمین اجتماعی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_res_company__veron_sso_workshop
+msgid "Social Security Workshop Code"
+msgstr "کد کارگاه تأمین اجتماعی"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.view_company_form
+msgid "Social Security and Missions"
+msgstr "تأمین اجتماعی و مأموریت‌ها"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__state
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__state
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__state
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__state
+msgid "State"
+msgstr "وضعیت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__name
+msgid "Subject"
+msgstr "موضوع"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields.selection,name:veron_hr_iran.selection__veron_hr_insurance_plan__kind__supplementary
+msgid "Supplementary Health"
+msgstr "درمان تکمیلی"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_plans
+#: model:ir.model.fields,field_description:veron_hr_iran.field_hr_employee__veron_insurance_ids
+#: model:ir.ui.menu,name:veron_hr_iran.menu_plans
+msgid "Supplementary and Life Insurance"
+msgstr "بیمه تکمیلی و عمر"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_insurance_plan
+msgid "Supplementary or Life Insurance Plan"
+msgstr "طرح بیمه تکمیلی یا عمر"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__text_file
+msgid "Text"
+msgstr "متن"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__text_filename
+msgid "Text Filename"
+msgstr "نام فایل متنی"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/wizard/bank_file.py:0
+msgid ""
+"The account of salaries payable (211208) or the bank's account is not set."
+msgstr "حساب حقوق پرداختنی (211208) یا حساب بانک تعیین نشده است."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/loan.py:0
+msgid "The amount is more than zero and there is one instalment at least."
+msgstr "مبلغ باید بیشتر از صفر باشد و دست‌کم یک قسط باشد."
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/attendance_correction.py:0
+msgid "The check-out is after the check-in."
+msgstr "خروج باید بعد از ورود باشد."
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.sso_disk_view_form
+msgid ""
+"The insurance list of the month from its payslips done, as the two files of "
+"the Social Security Organization. Check the first one with the "
+"organization's program before sending it."
+msgstr ""
+"لیست بیمه ماه از روی فیش‌های نهایی‌شده آن، به‌صورت دو فایل سازمان تأمین "
+"اجتماعی. پیش از ارسال، فایل را با برنامه خود سازمان بررسی کنید."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_res_company__veron_sso_employer
+msgid "The name of the employer as the Social Security Organization has it"
+msgstr "نام کارفرما همان‌طور که در سازمان تأمین اجتماعی ثبت است"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.bank_file_view_form
+msgid ""
+"The net pay of each employee of the batch to their IBAN, for the bank's "
+"group transfer; the payment entry is made as a draft."
+msgstr ""
+"خالص پرداختی هر کارمند دسته به شبای او، برای انتقال گروهی بانک؛ سند پرداخت "
+"به‌صورت پیش‌نویس ساخته می‌شود."
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_res_company__veron_mission_rate_city
+msgid "The per-diem of a day of mission in the city"
+msgstr "فوق‌العاده روزانه یک روز مأموریت داخل شهر"
+
+#. module: veron_hr_iran
+#. odoo-python
+#: code:addons/veron_hr_iran/models/job_group.py:0
+msgid ""
+"The wage of %(employee)s (%(wage)s) is under the base wage of %(group)s in "
+"%(year)s (%(base)s)."
+msgstr ""
+"مزد %(employee)s (%(wage)s) کمتر از مزد پایه %(group)s در سال %(year)s "
+"(%(base)s) است."
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_form
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.loan_view_list
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.mission_view_list
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: veron_hr_iran
+#: model:ir.model,name:veron_hr_iran.model_veron_hr_absence
+msgid "Unpaid Absence"
+msgstr "غیبت بدون حقوق"
+
+#. module: veron_hr_iran
+#: model:ir.actions.act_window,name:veron_hr_iran.action_absences
+#: model:ir.ui.menu,name:veron_hr_iran.menu_absences
+msgid "Unpaid Absences"
+msgstr "غیبت‌های بدون حقوق"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_absence__website_message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_attendance_correction__website_message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_loan__website_message_ids
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_hr_mission__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_absence__website_message_ids
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_attendance_correction__website_message_ids
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_loan__website_message_ids
+#: model:ir.model.fields,help:veron_hr_iran.field_veron_hr_mission__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_hr_iran
+#: model_terms:ir.ui.view,arch_db:veron_hr_iran.correction_view_form
+msgid "Why the attendance is to be corrected"
+msgstr "چرا حضور باید اصلاح شود"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,field_description:veron_hr_iran.field_veron_salary_bank_file__missing
+msgid "Without an IBAN"
+msgstr "بدون شبا"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_res_company__veron_sso_contract_row
+msgid "ردیف پیمان; 000 for a workshop without a contract"
+msgstr "ردیف پیمان؛ برای کارگاه بدون پیمان 000"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_hr_employee__veron_sso_job_code
+msgid "کد شغل, of six digits"
+msgstr "کد شغل، شش‌رقمی"
+
+#. module: veron_hr_iran
+#: model:ir.model.fields,help:veron_hr_iran.field_res_company__veron_sso_workshop
+msgid "کد کارگاه, of ten digits"
+msgstr "کد کارگاه، ده‌رقمی"

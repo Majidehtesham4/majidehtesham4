@@ -8,6 +8,84 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 
 #. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__key
+msgid "API Key or Password"
+msgstr "کلید API یا رمز"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_sms_iran
+#: model:ir.model,name:veron_sms_iran.model_veron_sms_panel
+msgid "Backup SMS Panel"
+msgstr "پنل پیامک پشتیبان"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_backup_ids
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_backup_ids
+msgid "Backup SMS Panels"
+msgstr "پنل‌های پیامک پشتیبان"
+
+#. module: veron_sms_iran
+#: model:ir.model,name:veron_sms_iran.model_res_company
+msgid "Companies"
+msgstr "شرکت"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_sms_iran
+#: model:ir.model,name:veron_sms_iran.model_res_config_settings
+msgid "Config Settings"
+msgstr "تنظیمات پیکربندی"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__display_name
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__farapayamak
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__farapayamak
+msgid "Farapayamak"
+msgstr "فراپیامک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__farazsms
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__farazsms
+msgid "FarazSMS (IPPanel)"
+msgstr "فراز اس‌ام‌اس (IPPanel)"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__ghasedak
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__ghasedak
+msgid "Ghasedak"
+msgstr "قاصدک"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__id
+#: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__id
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_sms_iran
 #: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_provider
 #: model:ir.model.fields,field_description:veron_sms_iran.field_res_config_settings__veron_sms_provider
 msgid "Iranian SMS Panel"
@@ -15,13 +93,36 @@ msgstr "پنل پیامک ایرانی"
 
 #. module: veron_sms_iran
 #: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__kavenegar
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__kavenegar
 msgid "Kavenegar"
 msgstr "کاوه‌نگار"
 
 #. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_sms_iran
 #: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__melipayamak
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__melipayamak
 msgid "Melipayamak"
 msgstr "ملی پیامک"
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "No SMS panel is set."
+msgstr "هیچ پنل پیامکی تعیین نشده است."
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__provider
+msgid "Provider"
+msgstr "فراهم‌کننده"
 
 #. module: veron_sms_iran
 #: model:ir.model.fields,field_description:veron_sms_iran.field_res_company__veron_sms_key
@@ -43,8 +144,19 @@ msgstr "نام کاربری پنل پیامک"
 
 #. module: veron_sms_iran
 #: model:ir.model.fields.selection,name:veron_sms_iran.selection__res_company__veron_sms_provider__smsir
+#: model:ir.model.fields.selection,name:veron_sms_iran.selection__veron_sms_panel__provider__smsir
 msgid "SMS.ir"
 msgstr "اس‌ام‌اس دات آی‌آر (SMS.ir)"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__line
+msgid "Sender Line"
+msgstr "خط فرستنده"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__sequence
+msgid "Sequence"
+msgstr "دنباله"
 
 #. module: veron_sms_iran
 #. odoo-python
@@ -75,6 +187,27 @@ msgstr "این شماره برای پنل پیامک معتبر نیست."
 #: model:ir.model.fields,help:veron_sms_iran.field_res_config_settings__veron_sms_line
 msgid "The panel's line number the SMS are sent from"
 msgstr "شماره‌ی خطی از پنل که پیامک‌ها با آن فرستاده می‌شوند"
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,help:veron_sms_iran.field_res_company__veron_sms_backup_ids
+#: model:ir.model.fields,help:veron_sms_iran.field_res_config_settings__veron_sms_backup_ids
+msgid ""
+"Tried in their order when the main panel is not reached, has no credit or "
+"refuses its account"
+msgstr ""
+"وقتی پنل اصلی در دسترس نیست، اعتبار ندارد یا حساب را نمی‌پذیرد، به ترتیب "
+"آزموده می‌شوند"
+
+#. module: veron_sms_iran
+#. odoo-python
+#: code:addons/veron_sms_iran/tools/sms_api.py:0
+msgid "Unknown SMS panel."
+msgstr "پنل پیامک ناشناخته."
+
+#. module: veron_sms_iran
+#: model:ir.model.fields,field_description:veron_sms_iran.field_veron_sms_panel__username
+msgid "Username"
+msgstr "نام کاربری"
 
 #. module: veron_sms_iran
 #: model:ir.model.fields,help:veron_sms_iran.field_res_company__veron_sms_provider

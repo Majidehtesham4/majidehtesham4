@@ -1,0 +1,329 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid ""
+"%(currency)s: %(new)s rials is %(change).0f%% from the last rate; not used."
+msgstr ""
+"%(currency)s: %(new)s ریال، %(change).0f%% با نرخ قبلی فاصله دارد؛ استفاده "
+"نشد."
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid "%s: no rate in the answer."
+msgstr "%s: نرخی در پاسخ نیست."
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__max_change
+msgid ""
+"A rate that moved more than this since the last one is not used, as a wrong "
+"answer may"
+msgstr ""
+"نرخی که از نرخ قبلی بیش از این تغییر کرده باشد استفاده نمی‌شود، چون ممکن است"
+" پاسخ نادرست باشد"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__api_key
+msgid "API Key"
+msgstr "کلید API"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_needaction
+msgid "Action Needed"
+msgstr "اقدام مورد نیاز است"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__url
+msgid "Address"
+msgstr "نشانی"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields.selection,name:veron_currency_rate.selection__veron_currency_source__kind__json
+msgid "Any JSON Address"
+msgstr "هر نشانی JSON"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_attachment_count
+msgid "Attachment Count"
+msgstr "تعداد پیوست ها"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__create_uid
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__create_date
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__line_ids
+msgid "Currencies"
+msgstr "ارزها"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_currency_rate
+#: model:ir.model,name:veron_currency_rate.model_veron_currency_source_line
+msgid "Currency of a Rate Source"
+msgstr "ارز منبع نرخ"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__display_name
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_currency_rate
+#: model:ir.actions.act_window,name:veron_currency_rate.action_sources
+#: model:ir.ui.menu,name:veron_currency_rate.menu_sources
+msgid "Exchange Rate Sources"
+msgstr "منابع نرخ ارز"
+
+#. module: veron_currency_rate
+#: model:ir.actions.server,name:veron_currency_rate.cron_fetch_ir_actions_server
+msgid "Exchange Rates: Fetch"
+msgstr "نرخ ارز: دریافت"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__factor
+msgid "Factor"
+msgstr "فاکتور"
+
+#. module: veron_currency_rate
+#: model_terms:ir.ui.view,arch_db:veron_currency_rate.source_view_form
+msgid "Fetch the Rates Now"
+msgstr "دریافت نرخ‌ها همین حالا"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__key
+msgid "Field in the Answer"
+msgstr "فیلد در پاسخ"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_follower_ids
+msgid "Followers"
+msgstr "دنبال کنندگان"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "پیروان (شرکاء)"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__url
+msgid "For any JSON address: the address that answers with the rates"
+msgstr "برای هر نشانی JSON: نشانی‌ای که نرخ‌ها را برمی‌گرداند"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__has_message
+msgid "Has Message"
+msgstr "آیا دارای پیام است"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__id
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+"اگر این گزینه را انتخاب کنید، پیام‌های جدید به توجه شما نیاز خواهند داشت."
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__message_has_error
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "اگر علامت زده شود، برخی از پیام ها دارای خطای تحویل هستند."
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_is_follower
+msgid "Is Follower"
+msgstr "آیا دنبال می کند"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__max_change
+msgid "Largest Change Accepted (%)"
+msgstr "بیشترین تغییر پذیرفتنی (٪)"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__last_error
+msgid "Last Error"
+msgstr "آخرین خطا"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__last_rate
+msgid "Last Rate (Rial)"
+msgstr "آخرین نرخ (ریال)"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__last_update
+msgid "Last Update"
+msgstr "اخرین بروزرسانی"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__write_uid
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__write_date
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_has_error
+msgid "Message Delivery error"
+msgstr "خطای تحویل پیام"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_ids
+msgid "Messages"
+msgstr "پیام ها"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields.selection,name:veron_currency_rate.selection__veron_currency_source__kind__navasan
+msgid "Navasan"
+msgstr "نوسان"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source_line__key
+msgid ""
+"Navasan: its item, as «usd», «eur», «aed»; another address: the dotted path "
+"to the number, as «rates.USD.sell». Empty: the currency's code in lowercase"
+msgstr ""
+"نوسان: قلم آن، مانند «usd»، «eur»، «aed»؛ نشانی دیگر: مسیر نقطه‌دار تا عدد، "
+"مانند «rates.USD.sell». خالی: کد ارز با حروف کوچک"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_needaction_counter
+msgid "Number of Actions"
+msgstr "تعداد اقدامات"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_has_error_counter
+msgid "Number of errors"
+msgstr "تعداد خطاها"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "تعداد پیام هایی که نیاز به اقدام دارند"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "تعداد پیامهای با خطای تحویل"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields.selection,name:veron_currency_rate.selection__veron_currency_source__unit__rial
+msgid "Rial"
+msgstr "دینار"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطای تحویل پیامک"
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid "Set Navasan's API key on the source."
+msgstr "کلید API نوسان را روی منبع وارد کنید."
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid "Set the address of the source."
+msgstr "نشانی منبع را وارد کنید."
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source_line__source_id
+msgid "Source"
+msgstr "مبدا"
+
+#. module: veron_currency_rate
+#: model:ir.model,name:veron_currency_rate.model_veron_currency_source
+msgid "Source of Exchange Rates"
+msgstr "منبع نرخ ارز"
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid "The currency of %s is not the rial."
+msgstr "ارز %s ریال نیست."
+
+#. module: veron_currency_rate
+#. odoo-python
+#: code:addons/veron_currency_rate/models/source.py:0
+msgid "The source could not be read: %s"
+msgstr "منبع خوانده نشد: %s"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields.selection,name:veron_currency_rate.selection__veron_currency_source__unit__toman
+msgid "Toman"
+msgstr "تومان"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__unit
+msgid "Unit"
+msgstr "عدد"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,field_description:veron_currency_rate.field_veron_currency_source__website_message_ids
+msgid "Website Messages"
+msgstr "پیام های وب سایت"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__website_message_ids
+msgid "Website communication history"
+msgstr "تاریخچه ارتباط با وبسایت"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source__unit
+msgid "What the source's numbers are in; Navasan's are in toman"
+msgstr "واحد اعداد منبع؛ اعداد نوسان به تومان است"
+
+#. module: veron_currency_rate
+#: model:ir.model.fields,help:veron_currency_rate.field_veron_currency_source_line__factor
+msgid "When the source gives the rate of several units, as 1/10 for 10 units"
+msgstr "وقتی منبع نرخ چند واحد را می‌دهد، مانند ۱/۱۰ برای ۱۰ واحد"

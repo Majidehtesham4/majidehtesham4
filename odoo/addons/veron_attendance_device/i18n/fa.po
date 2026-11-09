@@ -1,0 +1,343 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_attendance_device
+#. odoo-python
+#: code:addons/veron_attendance_device/wizard/punch_import.py:0
+msgid ""
+"%(made)s punches recorded, %(known)s already there, %(skipped)s rows not "
+"read; %(unknown)s of codes no employee has."
+msgstr ""
+"%(made)s تردد ثبت شد، %(known)s از قبل بود، %(skipped)s سطر خوانده نشد؛ "
+"%(unknown)s تردد با کدی که به هیچ کارمندی داده نشده."
+
+#. module: veron_attendance_device
+#: model:ir.model.constraint,message:veron_attendance_device.constraint_veron_attendance_punch_unique
+msgid "A punch of the device is kept once."
+msgstr "هر تردد دستگاه یک بار ثبت می‌شود."
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__address
+msgid "Address"
+msgstr "نشانی"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.device_view_form
+msgid "Archived"
+msgstr "بایگانی شده"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__attendance_id
+msgid "Attendance"
+msgstr "حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.model,name:veron_attendance_device.model_veron_attendance_device
+msgid "Attendance Device"
+msgstr "دستگاه حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_hr_employee__veron_device_code
+msgid "Attendance Device Code"
+msgstr "کد دستگاه حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.actions.act_window,name:veron_attendance_device.action_device
+#: model:ir.ui.menu,name:veron_attendance_device.menu_devices
+msgid "Attendance Devices"
+msgstr "دستگاه‌های حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.actions.server,name:veron_attendance_device.cron_pull_ir_actions_server
+msgid "Attendance Devices: Pull the Punches"
+msgstr "دستگاه‌های حضور و غیاب: دریافت ترددها"
+
+#. module: veron_attendance_device
+#: model:ir.model,name:veron_attendance_device.model_veron_attendance_punch
+msgid "Attendance Punch"
+msgstr "تردد"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_import_view_form
+msgid "Close"
+msgstr "بستن"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__code
+msgid "Code"
+msgstr "کد"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__create_uid
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__create_uid
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__create_date
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__create_date
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__day
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_view_search
+msgid "Day"
+msgstr "روز"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__device_id
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__device_id
+msgid "Device"
+msgstr "دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__password
+msgid "Device Password"
+msgstr "رمز دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.actions.act_window,name:veron_attendance_device.action_punch
+#: model:ir.ui.menu,name:veron_attendance_device.menu_punches
+msgid "Device Punches"
+msgstr "ترددهای دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__display_name
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__display_name
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_attendance_device
+#: model:ir.model,name:veron_attendance_device.model_hr_employee
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__employee_id
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_view_search
+msgid "Employee"
+msgstr "کارمند"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__file
+msgid "File"
+msgstr "پرونده"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__filename
+msgid "Filename"
+msgstr "نام فایل"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_hr_employee__id
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__id
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__id
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_import_view_form
+msgid "Import"
+msgstr "ورود"
+
+#. module: veron_attendance_device
+#: model:ir.actions.act_window,name:veron_attendance_device.action_punch_import
+#: model:ir.model,name:veron_attendance_device.model_veron_attendance_punch_import
+msgid "Import Attendance Punches"
+msgstr "ورود ترددهای حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.ui.menu,name:veron_attendance_device.menu_import
+msgid "Import Device Punches"
+msgstr "ورود ترددهای دستگاه"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.device_view_form
+msgid "Import the Device's File"
+msgstr "ورود فایل نرم‌افزار دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields.selection,name:veron_attendance_device.selection__veron_attendance_device__kind__file
+msgid "Its Software's File Only"
+msgstr "فقط فایل نرم‌افزار دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__kind
+msgid "Kind"
+msgstr "نوع"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__last_error
+msgid "Last Error"
+msgstr "آخرین خطا"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__last_pull
+msgid "Last Pull"
+msgstr "آخرین دریافت"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__write_uid
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__write_uid
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__write_date
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__write_date
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_view_list
+msgid "Match"
+msgstr "همخوانی"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_attendance_device
+#. odoo-python
+#: code:addons/veron_attendance_device/models/device.py:0
+msgid "No check-out after it"
+msgstr "بعد از آن خروجی نیست"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_view_search
+msgid "Not in an Attendance"
+msgstr "در هیچ حضوری نیست"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__port
+msgid "Port"
+msgstr "پورت"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__problem
+msgid "Problem"
+msgstr "مشکل"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.device_view_form
+msgid "Pull the Punches"
+msgstr "دریافت ترددها"
+
+#. module: veron_attendance_device
+#. odoo-python
+#: code:addons/veron_attendance_device/models/device.py:0
+msgid ""
+"Pulling over the network needs the «pyzk» library on the server (pip install"
+" pyzk); import the file of the device's software instead."
+msgstr ""
+"دریافت از راه شبکه به کتابخانه «pyzk» روی سرور نیاز دارد (pip install pyzk)؛"
+" به‌جای آن فایل نرم‌افزار دستگاه را وارد کنید."
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.device_view_form
+msgid ""
+"Pulling over the network needs the «pyzk» library on the server; otherwise the file of the device's\n"
+"\t\t\t\t\t\tsoftware is imported. The scheduled action «Attendance Devices: Pull the Punches» pulls every device\n"
+"\t\t\t\t\t\twhen it is turned on."
+msgstr ""
+"دریافت از راه شبکه به کتابخانه «pyzk» روی سرور نیاز دارد؛ وگرنه فایل "
+"نرم‌افزار دستگاه وارد می‌شود. کار زمان‌بندی‌شده «دستگاه‌های حضور و غیاب: "
+"دریافت ترددها» وقتی روشن شود ترددهای همه دستگاه‌ها را دریافت می‌کند."
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__punch_ids
+msgid "Punch"
+msgstr "تردد"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__unknown_count
+msgid "Punches of Unknown Codes"
+msgstr "ترددهای کدهای ناشناخته"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch_import__result
+msgid "Result"
+msgstr "نتیجه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,help:veron_attendance_device.field_veron_attendance_punch__day
+msgid "The day of the punch in the device's time zone"
+msgstr "روز تردد در منطقه زمانی دستگاه"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,help:veron_attendance_device.field_veron_attendance_device__address
+msgid "The device's IP address on the network of the company"
+msgstr "نشانی IP دستگاه در شبکه شرکت"
+
+#. module: veron_attendance_device
+#. odoo-python
+#: code:addons/veron_attendance_device/wizard/punch_import.py:0
+msgid "The file has no rows."
+msgstr "فایل هیچ سطری ندارد."
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_import_view_form
+msgid ""
+"The file of the device's software, as Excel or text: a row a punch, with the person's device code and the\n"
+"\t\t\t\t\ttime (Shamsi or Gregorian). The columns are found by their titles, or the first is the code and the\n"
+"\t\t\t\t\tsecond the time. A punch already recorded is not recorded again."
+msgstr ""
+"فایل نرم‌افزار دستگاه، به‌صورت اکسل یا متن: هر سطر یک تردد، با کد دستگاه شخص"
+" و زمان (شمسی یا میلادی). ستون‌ها از روی عنوانشان پیدا می‌شوند، وگرنه ستون "
+"اول کد و ستون دوم زمان است. تردد ثبت‌شده دوباره ثبت نمی‌شود."
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,help:veron_attendance_device.field_hr_employee__veron_device_code
+msgid "The number of the person on the attendance devices"
+msgstr "شماره شخص روی دستگاه‌های حضور و غیاب"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_punch__time
+msgid "Time"
+msgstr "زمان"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,field_description:veron_attendance_device.field_veron_attendance_device__tz
+msgid "Time Zone of the Device"
+msgstr "منطقه زمانی دستگاه"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.punch_view_search
+msgid "Unknown Codes"
+msgstr "کدهای ناشناخته"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields,help:veron_attendance_device.field_veron_attendance_punch__problem
+msgid "Why the punch is not in an attendance"
+msgstr "چرا تردد در هیچ حضوری نیست"
+
+#. module: veron_attendance_device
+#: model:ir.model.fields.selection,name:veron_attendance_device.selection__veron_attendance_device__kind__zkteco
+msgid "ZKTeco (over the network)"
+msgstr "زِدکِی‌تِکو (ZKTeco، از راه شبکه)"
+
+#. module: veron_attendance_device
+#: model_terms:ir.ui.view,arch_db:veron_attendance_device.device_view_form
+msgid "e.g. The entrance of the factory"
+msgstr "مثلاً ورودی کارخانه"

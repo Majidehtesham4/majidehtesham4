@@ -1,0 +1,588 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/renumber.py:0
+msgid "%(count)s vouchers of %(year)s numbered in date order."
+msgstr "%(count)s سند سال %(year)s به ترتیب تاریخ شماره‌گذاری شد."
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__account_id
+msgid "Account"
+msgstr "حساب"
+
+#. module: veron_account_iran
+#: model:ir.actions.report,name:veron_account_iran.action_report_voucher
+msgid "Accounting Voucher"
+msgstr "سند حسابداری"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__active
+msgid "Active"
+msgstr "فعال"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__account_move__veron_voucher_kind__adjusting
+msgid "Adjusting"
+msgstr "اصلاحی"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.aggregate_view_form
+msgid "Aggregate"
+msgstr "مجموع"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_aggregate
+#: model:ir.model,name:veron_account_iran.model_veron_aggregate_vouchers
+msgid "Aggregate Vouchers"
+msgstr "تجمیع اسناد"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_bank_statement_line__veron_aggregated_from
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__veron_aggregated_from
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.view_move_form
+msgid "Aggregated From"
+msgstr "تجمیع‌شده از"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/aggregate.py:0
+msgid "Aggregated from %(count)s draft entries: %(names)s"
+msgstr "تجمیع‌شده از %(count)s سند پیش‌نویس: %(names)s"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__amount
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__amount
+msgid "Amount"
+msgstr "مقدار"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__book
+msgid "Book"
+msgstr "دفتر"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.aggregate_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.books_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.from_template_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.release_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.renumber_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.treasury_view_form
+msgid "Cancel"
+msgstr "لغو"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/aggregate.py:0
+msgid "Choose two entries or more to aggregate."
+msgstr "دو سند یا بیشتر را برای تجمیع انتخاب کنید."
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__account_move__veron_voucher_kind__closing
+msgid "Closing"
+msgstr "در حال بسته شدن"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__company_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__company_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__company_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__company_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__company_id
+msgid "Company"
+msgstr "شرکت"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__create_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__create_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_voucher_template_line__side__credit
+msgid "Credit"
+msgstr "بستانکار"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__currency_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__currency_id
+msgid "Currency"
+msgstr "ارز"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__date_from
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__date_from
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__date_to
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__date_to
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__days_ahead
+msgid "Days Ahead"
+msgstr "روزهای پیش رو"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_voucher_template_line__side__debit
+msgid "Debit"
+msgstr "بدهکار"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__account_id
+msgid "Deposit Account"
+msgstr "حساب سپرده"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__ref
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__ref
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__ref
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__label
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__label
+msgid "Description"
+msgstr "توصیف"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_tax__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_account_iran_books__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__display_name
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__move_ids
+msgid "Entries"
+msgstr "داده ها"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,help:veron_account_iran.field_veron_books_wizard__ledger_codes
+msgid ""
+"For the general ledger: codes of four digits separated by commas; empty for "
+"all"
+msgstr "برای دفتر کل: کدهای چهاررقمی جداشده با ویرگول؛ خالی برای همه"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__book__trial
+msgid "Four-Column Trial Balance"
+msgstr "تراز آزمایشی چهارستونی"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__book__ledger
+msgid "General Ledger Book"
+msgstr "دفتر کل"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__level__group
+msgid "Group"
+msgstr "گروه"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__held
+msgid "Held Now"
+msgstr "مانده سپرده"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_tax__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_account_iran_books__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/aggregate.py:0
+msgid "Invoices and bills are not aggregated; only journal entries are."
+msgstr "فاکتورها و صورتحساب‌های خرید تجمیع نمی‌شوند؛ فقط اسناد روزنامه."
+
+#. module: veron_account_iran
+#: model:ir.ui.menu,name:veron_account_iran.menu_iran
+msgid "Iranian Accounting"
+msgstr "حسابداری ایرانی"
+
+#. module: veron_account_iran
+#: model:ir.model,name:veron_account_iran.model_veron_account_iran_books
+msgid "Iranian Legal Books"
+msgstr "دفاتر قانونی ایران"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__journal_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__journal_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__journal_id
+msgid "Journal"
+msgstr "روزنامه"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__book__journal
+msgid "Journal Book"
+msgstr "دفتر روزنامه"
+
+#. module: veron_account_iran
+#: model:ir.model,name:veron_account_iran.model_account_move
+msgid "Journal Entry"
+msgstr "داده روزنامه"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__by_partner
+msgid "Keep the Partners"
+msgstr "حفظ طرف حساب‌ها"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__write_uid
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_treasury_wizard__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__write_date
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__level__ledger
+msgid "Ledger"
+msgstr "دفتر کل"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__ledger_codes
+msgid "Ledger Codes"
+msgstr "کدهای کل"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_books
+#: model:ir.actions.report,name:veron_account_iran.action_report_books
+#: model:ir.model,name:veron_account_iran.model_veron_books_wizard
+#: model:ir.ui.menu,name:veron_account_iran.menu_books
+msgid "Legal Books"
+msgstr "دفاتر قانونی"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_books_wizard__level
+msgid "Level"
+msgstr "سطح"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__line_ids
+msgid "Lines"
+msgstr "سطرها"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.from_template_view_form
+msgid "Make the Draft"
+msgstr "ساخت پیش‌نویس"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.release_view_form
+msgid "Make the Release Entry"
+msgstr "ساخت سند آزادسازی"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template__name
+msgid "Name"
+msgstr "نام"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_aggregate_vouchers__net
+msgid "Net Debit and Credit of an Account"
+msgstr "خالص بدهکار و بستانکار حساب"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__account_move__veron_voucher_kind__normal
+msgid "Normal"
+msgstr "عادی"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.renumber_view_form
+msgid "Number in Date Order"
+msgstr "شماره‌گذاری به ترتیب تاریخ"
+
+#. module: veron_account_iran
+#: model:ir.actions.report,name:veron_account_iran.action_report_official_invoice
+msgid "Official Invoice (Tax Organization)"
+msgstr "صورتحساب رسمی (سازمان امور مالیاتی)"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,help:veron_account_iran.field_veron_aggregate_vouchers__net
+msgid ""
+"One line per account (and partner) with what is left, instead of its debits "
+"and credits apart"
+msgstr ""
+"برای هر حساب (و طرف حساب) یک سطر با مانده، به‌جای بدهکار و بستانکار جدا"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,help:veron_account_iran.field_account_bank_statement_line__veron_voucher_number
+#: model:ir.model.fields,help:veron_account_iran.field_account_move__veron_voucher_number
+msgid ""
+"One series for all the journals of the company in the Shamsi year, given "
+"when the entry is posted"
+msgstr ""
+"یک سری برای همه دفترهای شرکت در سال شمسی، که هنگام ثبت قطعی سند داده می‌شود"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/aggregate.py:0
+msgid "Only draft entries are aggregated; a posted entry stays as it is."
+msgstr "فقط اسناد پیش‌نویس تجمیع می‌شوند؛ سند قطعی همان‌طور می‌ماند."
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__account_move__veron_voucher_kind__opening
+msgid "Opening"
+msgstr "ابتدای دوره"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_release_deposit__partner_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__partner_id
+msgid "Partner"
+msgstr "همکار"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.books_view_form
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.treasury_view_form
+msgid "Print"
+msgstr "چاپ"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_renumber
+#: model:ir.model,name:veron_account_iran.model_veron_renumber_vouchers
+#: model:ir.ui.menu,name:veron_account_iran.menu_renumber
+msgid "Put Voucher Numbers in Date Order"
+msgstr "مرتب‌سازی شماره اسناد به ترتیب تاریخ"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_release
+#: model:ir.model,name:veron_account_iran.model_veron_release_deposit
+#: model:ir.ui.menu,name:veron_account_iran.menu_release
+msgid "Release a Deposit"
+msgstr "آزادسازی سپرده"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__sequence
+msgid "Sequence"
+msgstr "دنباله"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_renumber_vouchers__year
+msgid "Shamsi Year"
+msgstr "سال شمسی"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__share
+msgid "Share (%)"
+msgstr "سهم (٪)"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__side
+msgid "Side"
+msgstr "طرف"
+
+#. module: veron_account_iran
+#: model:ir.model.fields.selection,name:veron_account_iran.selection__veron_books_wizard__level__account
+msgid "Sub-Ledger"
+msgstr "معین"
+
+#. module: veron_account_iran
+#: model:ir.model,name:veron_account_iran.model_account_tax
+msgid "Tax"
+msgstr "مالیات"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_from_template__template_id
+#: model:ir.model.fields,field_description:veron_account_iran.field_veron_voucher_template_line__template_id
+msgid "Template"
+msgstr "پوسته"
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/models/voucher_template.py:0
+msgid "The %(side)s shares of «%(name)s» add up to %(share)s%%, not 100%%."
+msgstr "سهم‌های %(side)s «%(name)s» روی هم %(share)s%% است، نه ۱۰۰%%."
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/voucher_from_template.py:0
+msgid "The amount is more than zero."
+msgstr "مبلغ باید بیشتر از صفر باشد."
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/release_deposit.py:0
+msgid "The amount released is more than zero and at most what is held (%s)."
+msgstr "مبلغ آزادسازی باید بیشتر از صفر و حداکثر برابر مانده سپرده (%s) باشد."
+
+#. module: veron_account_iran
+#: model:ir.model.fields,help:veron_account_iran.field_veron_voucher_template__label
+msgid "The description of the entry; its lines keep their own"
+msgstr "شرح سند؛ سطرها شرح خودشان را دارند"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.aggregate_view_form
+msgid ""
+"The draft entries chosen become one draft voucher, their lines summed by "
+"account; the drafts are removed. Posted entries and invoices are not merged."
+msgstr ""
+"اسناد پیش‌نویس انتخاب‌شده یک سند پیش‌نویس می‌شوند و سطرهایشان به تفکیک حساب "
+"جمع می‌شود؛ پیش‌نویس‌ها حذف می‌شوند. اسناد قطعی و فاکتورها ادغام نمی‌شوند."
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/wizard/aggregate.py:0
+msgid "The entries are of different companies."
+msgstr "اسناد مربوط به شرکت‌های مختلف‌اند."
+
+#. module: veron_account_iran
+#: model:ir.model.fields,help:veron_account_iran.field_account_bank_statement_line__veron_aggregated_from
+#: model:ir.model.fields,help:veron_account_iran.field_account_move__veron_aggregated_from
+msgid "The entries this voucher was made of"
+msgstr "اسنادی که این سند از آن‌ها ساخته شده"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.renumber_view_form
+msgid ""
+"The posted vouchers of the year are numbered again from 1 in the order of "
+"their dates: the opening voucher first, the closing one last. A locked year "
+"is not changed."
+msgstr ""
+"اسناد قطعی سال از ۱ و به ترتیب تاریخ دوباره شماره‌گذاری می‌شوند: سند "
+"افتتاحیه اول و سند اختتامیه آخر. سال قفل‌شده تغییر نمی‌کند."
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.voucher_template_view_form
+msgid ""
+"The shares of the debit lines add up to 100%, and those of the credit lines "
+"too."
+msgstr "جمع سهم سطرهای بدهکار باید ۱۰۰٪ باشد و جمع سهم سطرهای بستانکار هم."
+
+#. module: veron_account_iran
+#. odoo-python
+#: code:addons/veron_account_iran/models/account_move.py:0
+msgid "The year %s is locked; its voucher numbers are not changed."
+msgstr "سال %s قفل است؛ شماره اسنادش تغییر نمی‌کند."
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_treasury
+#: model:ir.actions.report,name:veron_account_iran.action_report_treasury
+#: model:ir.model,name:veron_account_iran.model_veron_treasury_wizard
+#: model:ir.ui.menu,name:veron_account_iran.menu_treasury
+msgid "Treasury Report"
+msgstr "گزارش خزانه‌داری"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_bank_statement_line__veron_voucher
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__veron_voucher
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.view_move_tree
+msgid "Voucher"
+msgstr "سند"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_from_template
+#: model:ir.model,name:veron_account_iran.model_veron_voucher_from_template
+#: model:ir.ui.menu,name:veron_account_iran.menu_from_template
+msgid "Voucher From a Template"
+msgstr "سند از روی الگو"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_bank_statement_line__veron_voucher_kind
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__veron_voucher_kind
+msgid "Voucher Kind"
+msgstr "نوع سند"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_bank_statement_line__veron_voucher_number
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__veron_voucher_number
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.view_account_move_filter
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.view_move_form
+msgid "Voucher Number"
+msgstr "شماره سند"
+
+#. module: veron_account_iran
+#: model:ir.model,name:veron_account_iran.model_veron_voucher_template
+msgid "Voucher Template"
+msgstr "الگوی سند"
+
+#. module: veron_account_iran
+#: model:ir.model,name:veron_account_iran.model_veron_voucher_template_line
+msgid "Voucher Template Line"
+msgstr "سطر الگوی سند"
+
+#. module: veron_account_iran
+#: model:ir.actions.act_window,name:veron_account_iran.action_voucher_templates
+#: model:ir.ui.menu,name:veron_account_iran.menu_templates
+msgid "Voucher Templates"
+msgstr "الگوهای سند"
+
+#. module: veron_account_iran
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_bank_statement_line__veron_voucher_year
+#: model:ir.model.fields,field_description:veron_account_iran.field_account_move__veron_voucher_year
+msgid "Voucher Year"
+msgstr "سال سند"
+
+#. module: veron_account_iran
+#: model_terms:ir.ui.view,arch_db:veron_account_iran.release_view_form
+msgid ""
+"When the clearance of a contract comes (مفاصاحساب), what was held as a "
+"deposit goes back to the partner as a draft entry."
+msgstr ""
+"وقتی مفاصاحساب پیمان می‌رسد، آنچه به‌عنوان سپرده نگه داشته شده با یک سند "
+"پیش‌نویس به طرف حساب برمی‌گردد."

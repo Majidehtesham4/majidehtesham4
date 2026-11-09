@@ -1,0 +1,179 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,help:veron_stock_kardex.field_veron_stock_kardex__location_id
+msgid ""
+"A location of its own; empty, all the internal locations of the warehouse"
+msgstr "یک مکان مشخص؛ خالی یعنی همه مکان‌های داخلی انبار"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__balance
+msgid "Balance"
+msgstr "تراز"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__closing
+msgid "Balance After"
+msgstr "مانده پس از"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__opening
+msgid "Balance Before"
+msgstr "مانده پیش از"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__create_uid
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__create_uid
+msgid "Created by"
+msgstr "ایجاد شده توسط"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__create_date
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__create_date
+msgid "Created on"
+msgstr "ایجادشده در"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__date
+msgid "Date"
+msgstr "تاریخ"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__date_from
+msgid "Date From"
+msgstr "تاریخ از"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__date_to
+msgid "Date To"
+msgstr "تاریخ تا"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__display_name
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__id
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__quantity_in
+msgid "In"
+msgstr "در"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__kardex_id
+msgid "Kardex"
+msgstr "کاردکس"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__write_uid
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__write_uid
+msgid "Last Updated by"
+msgstr "آخرین تغییر توسط"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__write_date
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__write_date
+msgid "Last Updated on"
+msgstr "آخرین بروز رسانی در"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__line_ids
+msgid "Line"
+msgstr "سطر"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__location_id
+msgid "Location"
+msgstr "مکان"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__move_id
+msgid "Move"
+msgstr "جابجایی"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__quantity_out
+msgid "Out"
+msgstr "خروج"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__partner
+msgid "Partner"
+msgstr "همکار"
+
+#. module: veron_stock_kardex
+#: model_terms:ir.ui.view,arch_db:veron_stock_kardex.kardex_view_form
+msgid "Print"
+msgstr "چاپ"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__product_id
+msgid "Product"
+msgstr "محصول"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__reference
+msgid "Reference"
+msgstr "مرجع‌"
+
+#. module: veron_stock_kardex
+#: model_terms:ir.ui.view,arch_db:veron_stock_kardex.kardex_view_form
+msgid "Show"
+msgstr "نمایش"
+
+#. module: veron_stock_kardex
+#: model:ir.actions.act_window,name:veron_stock_kardex.action_kardex
+#: model:ir.actions.report,name:veron_stock_kardex.action_report_kardex
+#: model:ir.model,name:veron_stock_kardex.model_veron_stock_kardex
+#: model:ir.ui.menu,name:veron_stock_kardex.menu_kardex
+msgid "Stock Kardex"
+msgstr "کاردکس کالا"
+
+#. module: veron_stock_kardex
+#: model:ir.model,name:veron_stock_kardex.model_veron_stock_kardex_line
+msgid "Stock Kardex Line"
+msgstr "سطر کاردکس کالا"
+
+#. module: veron_stock_kardex
+#. odoo-python
+#: code:addons/veron_stock_kardex/wizard/kardex.py:0
+msgid "The period ends after it starts."
+msgstr "پایان دوره باید بعد از شروع آن باشد."
+
+#. module: veron_stock_kardex
+#: model_terms:ir.ui.view,arch_db:veron_stock_kardex.kardex_view_form
+msgid "Total"
+msgstr "جمع کل:"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__cost
+msgid "Unit Cost"
+msgstr "هزینه واحد"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__value_in
+msgid "Value In"
+msgstr "ارزش ورودی"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex_line__value_out
+msgid "Value Out"
+msgstr "ارزش خروجی"
+
+#. module: veron_stock_kardex
+#: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__warehouse_id
+msgid "Warehouse"
+msgstr "انبار"

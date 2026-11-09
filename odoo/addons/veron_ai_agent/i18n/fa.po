@@ -2137,6 +2137,11 @@ msgid "From and To Dates"
 msgstr "از تاریخ تا تاریخ"
 
 #. module: veron_ai_agent
+#: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_connect_wizard__service__gapgpt
+msgid "GapGPT"
+msgstr "GapGPT (گپ جی‌پی‌تی)"
+
+#. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_intent__section__general
 msgid "General"
 msgstr "عمومی"
@@ -2775,12 +2780,6 @@ msgstr "ساخته‌شده با هوش مصنوعی: این عکس واقعی �
 #: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_conversation__company_id
 msgid "Main Company"
 msgstr "شرکت اصلی"
-
-#. module: veron_ai_agent
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__activity_main_partner_id
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__activity_main_partner_id
-msgid "Main Contact"
-msgstr "مخاطب اصلی"
 
 #. module: veron_ai_agent
 #. odoo-python
@@ -3922,14 +3921,6 @@ msgstr ""
 #: code:addons/veron_ai_agent/tools/business.py:0
 msgid "Quotations to Follow Up"
 msgstr "پیش‌فاکتورهای نیازمند پیگیری"
-
-#. module: veron_ai_agent
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_agent__rating_ids
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_approval__rating_ids
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_content__rating_ids
-#: model:ir.model.fields,field_description:veron_ai_agent.field_veron_ai_run__rating_ids
-msgid "Ratings"
-msgstr "رتبه‌ها"
 
 #. module: veron_ai_agent
 #: model:ir.model.fields.selection,name:veron_ai_agent.selection__veron_ai_source__extraction_state__done
