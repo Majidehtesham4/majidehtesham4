@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sso_disk_view_form" model="ir.ui.view">
+		<field name="name">veron.sso.disk.form</field>
+		<field name="model">veron.sso.disk</field>
+		<field name="arch" type="xml">
+			<form>
+				<p class="text-muted">The insurance list of the month from its payslips done, as the two files of the Social Security Organization. Check the first one with the organization's program before sending it.</p>
+				<group>
+					<group><field name="year"/><field name="month"/><field name="list_number"/></group>
+					<group><field name="description"/><field name="company_id" groups="base.group_multi_company"/></group>
+				</group>
+				<group invisible="not file"><field name="file" filename="filename"/><field name="filename" invisible="1"/></group>
+				<footer>
+					<button name="action_make" type="object" string="Make the Files" class="btn-primary"/>
+					<button string="Close" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_sso_disk" model="ir.actions.act_window">
+		<field name="name">Social Security Disk</field>
+		<field name="res_model">veron.sso.disk</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	<record id="tax_list_view_form" model="ir.ui.view">
+		<field name="name">veron.salary.tax.list.form</field>
+		<field name="model">veron.salary.tax.list</field>
+		<field name="arch" type="xml">
+			<form>
+				<group><field name="year"/><field name="month"/><field name="company_id" groups="base.group_multi_company"/></group>
+				<group invisible="not file"><field name="file" filename="filename"/><field name="filename" invisible="1"/></group>
+				<footer>
+					<button name="action_make" type="object" string="Make the List" class="btn-primary"/>
+					<button string="Close" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_tax_list" model="ir.actions.act_window">
+		<field name="name">Salary Tax List</field>
+		<field name="res_model">veron.salary.tax.list</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+	<record id="bank_file_view_form" model="ir.ui.view">
+		<field name="name">veron.salary.bank.file.form</field>
+		<field name="model">veron.salary.bank.file</field>
+		<field name="arch" type="xml">
+			<form>
+				<p class="text-muted">The net pay of each employee of the batch to their IBAN, for the bank's group transfer; the payment entry is made as a draft.</p>
+				<group>
+					<group><field name="run_id"/><field name="journal_id"/></group>
+					<group><field name="date"/><field name="description"/></group>
+				</group>
+				<group invisible="not file">
+					<field name="file" filename="filename"/><field name="filename" invisible="1"/>
+					<field name="text_file" filename="text_filename"/><field name="text_filename" invisible="1"/>
+					<field name="missing" invisible="not missing"/>
+					<field name="move_id" invisible="not move_id"/>
+				</group>
+				<footer>
+					<button name="action_make" type="object" string="Make the File" class="btn-primary"/>
+					<button name="action_entry" type="object" string="Make the Payment Entry" invisible="not file or move_id"/>
+					<button string="Close" special="cancel"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+	<record id="action_bank_file" model="ir.actions.act_window">
+		<field name="name">Salary Bank File</field>
+		<field name="res_model">veron.salary.bank.file</field>
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+		<field name="binding_model_id" ref="payroll.model_hr_payslip_run"/>
+	</record>
+</odoo>

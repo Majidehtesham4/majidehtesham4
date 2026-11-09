@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_employee_form" model="ir.ui.view">
+		<field name="name">hr.employee.form.veron.iran</field>
+		<field name="model">hr.employee</field>
+		<field name="inherit_id" ref="hr.view_employee_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="inside">
+				<page string="Iranian Records" name="veron_iran" groups="hr.group_hr_user">
+					<group>
+						<group string="Identity">
+							<field name="veron_father_name"/>
+							<field name="veron_id_number"/>
+							<field name="veron_id_place"/>
+							<field name="veron_id_date"/>
+							<field name="veron_sso_job_code"/>
+						</group>
+					</group>
+					<field name="veron_insurance_ids">
+						<list editable="bottom">
+							<field name="plan_id"/>
+							<field name="kind"/>
+							<field name="dependants"/>
+							<field name="date_from"/>
+							<field name="date_to"/>
+							<field name="amount"/>
+							<field name="currency_id" column_invisible="1"/>
+						</list>
+					</field>
+				</page>
+			</xpath>
+		</field>
+	</record>
+</odoo>

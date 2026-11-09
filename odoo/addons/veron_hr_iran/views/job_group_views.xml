@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="job_group_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.job.group.list</field>
+		<field name="model">veron.hr.job.group</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="number"/>
+				<field name="name"/>
+				<field name="note"/>
+			</list>
+		</field>
+	</record>
+	<record id="job_group_view_form" model="ir.ui.view">
+		<field name="name">veron.hr.job.group.form</field>
+		<field name="model">veron.hr.job.group</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group><field name="number"/><field name="note"/></group>
+					<field name="wage_ids">
+						<list editable="bottom"><field name="year"/><field name="daily"/></list>
+					</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_job_groups" model="ir.actions.act_window">
+		<field name="name">Job Classification Groups</field>
+		<field name="res_model">veron.hr.job.group</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<record id="view_hr_job_form" model="ir.ui.view">
+		<field name="name">hr.job.form.veron.iran</field>
+		<field name="model">hr.job</field>
+		<field name="inherit_id" ref="hr.view_hr_job_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='department_id']" position="after">
+				<field name="veron_job_group_id"/>
+			</xpath>
+		</field>
+	</record>
+	<record id="hr_employee_group_form" model="ir.ui.view">
+		<field name="name">hr.employee.form.veron.iran.group</field>
+		<field name="model">hr.employee</field>
+		<field name="inherit_id" ref="hr.view_employee_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//group[@name='contract']" position="inside">
+				<field name="veron_job_group_id"/>
+			</xpath>
+		</field>
+	</record>
+</odoo>

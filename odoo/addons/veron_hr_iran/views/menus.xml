@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<menuitem id="menu_iran" name="Iranian HR" parent="payroll.payroll_menu_root" sequence="40"
+		groups="hr.group_hr_user,payroll.group_payroll_user"/>
+	<menuitem id="menu_loans" name="Loans and Advances" parent="menu_iran" action="action_loans" sequence="1" groups="payroll.group_payroll_user"/>
+	<menuitem id="menu_missions" name="Missions" parent="menu_iran" action="action_missions" sequence="2"/>
+	<menuitem id="menu_absences" name="Unpaid Absences" parent="menu_iran" action="action_absences" sequence="3"/>
+	<menuitem id="menu_sso" name="Social Security Disk" parent="menu_iran" action="action_sso_disk" sequence="10" groups="payroll.group_payroll_user"/>
+	<menuitem id="menu_tax_list" name="Salary Tax List" parent="menu_iran" action="action_tax_list" sequence="11" groups="payroll.group_payroll_user"/>
+	<menuitem id="menu_bank_file" name="Salary Bank File" parent="menu_iran" action="action_bank_file" sequence="12" groups="payroll.group_payroll_manager"/>
+	<menuitem id="menu_plans" name="Supplementary and Life Insurance" parent="menu_iran" action="action_plans" sequence="20"/>
+	<menuitem id="menu_job_groups" name="Job Classification Groups" parent="menu_iran" action="action_job_groups" sequence="21"/>
+	<menuitem id="menu_corrections" name="Attendance Corrections" action="action_corrections" sequence="206"
+		web_icon="hr_attendance,static/description/icon.png"/>
+</odoo>

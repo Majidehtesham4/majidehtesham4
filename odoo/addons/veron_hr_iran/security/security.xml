@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="rule_correction_own" model="ir.rule">
+		<field name="name">Attendance corrections: an employee's own</field>
+		<field name="model_id" ref="model_veron_hr_attendance_correction"/>
+		<field name="domain_force">[('employee_id.user_id', '=', user.id)]</field>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+	</record>
+	<record id="rule_correction_officer" model="ir.rule">
+		<field name="name">Attendance corrections: all, for an officer</field>
+		<field name="model_id" ref="model_veron_hr_attendance_correction"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+		<field name="groups" eval="[(4, ref('hr_attendance.group_hr_attendance_officer'))]"/>
+	</record>
+	<record id="rule_correction_company" model="ir.rule">
+		<field name="name">Attendance corrections: own companies</field>
+		<field name="model_id" ref="model_veron_hr_attendance_correction"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_loan_company" model="ir.rule">
+		<field name="name">Loans: own companies</field>
+		<field name="model_id" ref="model_veron_hr_loan"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+	<record id="rule_mission_company" model="ir.rule">
+		<field name="name">Missions: own companies</field>
+		<field name="model_id" ref="model_veron_hr_mission"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+</odoo>

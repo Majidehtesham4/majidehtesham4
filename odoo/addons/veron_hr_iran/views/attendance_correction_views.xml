@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="correction_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.attendance.correction.list</field>
+		<field name="model">veron.hr.attendance.correction</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="state == 'refused'" decoration-info="state == 'asked'">
+				<field name="employee_id"/>
+				<field name="check_in"/>
+				<field name="check_out"/>
+				<field name="reason"/>
+				<field name="state" widget="badge"/>
+			</list>
+		</field>
+	</record>
+	<record id="correction_view_form" model="ir.ui.view">
+		<field name="name">veron.hr.attendance.correction.form</field>
+		<field name="model">veron.hr.attendance.correction</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_ask" type="object" string="Ask" class="btn-primary" invisible="state != 'draft'"/>
+					<button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state not in ('draft', 'asked')"
+						groups="hr_attendance.group_hr_attendance_officer"/>
+					<button name="action_refuse" type="object" string="Refuse" invisible="state not in ('draft', 'asked')"
+						groups="hr_attendance.group_hr_attendance_officer"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,asked,approved"/>
+				</header>
+				<sheet>
+					<group>
+						<group><field name="employee_id" readonly="state not in ('draft',)"/><field name="attendance_id" readonly="state not in ('draft', 'asked')"/></group>
+						<group><field name="check_in" readonly="state not in ('draft', 'asked')"/><field name="check_out" readonly="state not in ('draft', 'asked')"/></group>
+					</group>
+					<field name="reason" placeholder="Why the attendance is to be corrected" readonly="state not in ('draft', 'asked')"/>
+					<group invisible="state != 'approved'"><field name="approved_by"/><field name="before"/></group>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+	<record id="action_corrections" model="ir.actions.act_window">
+		<field name="name">Attendance Corrections</field>
+		<field name="res_model">veron.hr.attendance.correction</field>
+		<field name="view_mode">list,form</field>
+	</record>
+</odoo>

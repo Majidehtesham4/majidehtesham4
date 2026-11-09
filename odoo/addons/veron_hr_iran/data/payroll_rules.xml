@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="rule_mission" model="hr.salary.rule">
+		<field name="name">فوق‌العاده مأموریت</field>
+		<field name="code">MISSION</field>
+		<field name="sequence">46</field>
+		<field name="category_id" ref="veron_payroll_iran.categ_noins"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.MISSION and inputs.MISSION.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = inputs.MISSION.amount</field>
+		<field name="veron_debit_code">611001</field>
+		<field name="note">از مأموریت‌های تأییدشده‌ی ماه؛ مشمول بیمه نیست. معافیت مالیاتی آن را با مقررات سال بررسی کنید.</field>
+	</record>
+	<record id="input_mission" model="hr.rule.input">
+		<field name="name">فوق‌العاده مأموریت (مبلغ)</field>
+		<field name="code">MISSION</field>
+		<field name="input_id" ref="rule_mission"/>
+	</record>
+	<record id="rule_ins_supp" model="hr.salary.rule">
+		<field name="name">بیمه تکمیلی سهم کارمند</field>
+		<field name="code">INS_SUPP</field>
+		<field name="sequence">72</field>
+		<field name="category_id" ref="veron_payroll_iran.categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.INS_SUPP and inputs.INS_SUPP.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.INS_SUPP.amount</field>
+		<field name="veron_credit_code">211223</field>
+	</record>
+	<record id="input_ins_supp" model="hr.rule.input">
+		<field name="name">بیمه تکمیلی سهم کارمند (مبلغ)</field>
+		<field name="code">INS_SUPP</field>
+		<field name="input_id" ref="rule_ins_supp"/>
+	</record>
+	<record id="rule_ins_life" model="hr.salary.rule">
+		<field name="name">بیمه عمر سهم کارمند</field>
+		<field name="code">INS_LIFE</field>
+		<field name="sequence">73</field>
+		<field name="category_id" ref="veron_payroll_iran.categ_ded"/>
+		<field name="condition_select">python</field>
+		<field name="condition_python">result = bool(inputs.INS_LIFE and inputs.INS_LIFE.amount)</field>
+		<field name="amount_select">code</field>
+		<field name="amount_python_compute">result = -inputs.INS_LIFE.amount</field>
+		<field name="veron_credit_code">211206</field>
+	</record>
+	<record id="input_ins_life" model="hr.rule.input">
+		<field name="name">بیمه عمر سهم کارمند (مبلغ)</field>
+		<field name="code">INS_LIFE</field>
+		<field name="input_id" ref="rule_ins_life"/>
+	</record>
+	<function model="hr.payroll.structure" name="write">
+		<value eval="[ref('veron_payroll_iran.structure_iran')]"/>
+		<value eval="{'rule_ids': [(4, ref('rule_mission')), (4, ref('rule_ins_supp')), (4, ref('rule_ins_life'))]}"/>
+	</function>
+</odoo>

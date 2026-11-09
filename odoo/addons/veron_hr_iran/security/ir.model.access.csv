@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loan_payroll,loan payroll,model_veron_hr_loan,payroll.group_payroll_user,1,1,1,1
+access_loan_line_payroll,loan line payroll,model_veron_hr_loan_line,payroll.group_payroll_user,1,1,1,1
+access_mission_hr,mission hr,model_veron_hr_mission,hr.group_hr_user,1,1,1,1
+access_absence_hr,absence hr,model_veron_hr_absence,hr.group_hr_user,1,1,1,1
+access_plan_hr,insurance plan hr,model_veron_hr_insurance_plan,hr.group_hr_user,1,1,1,1
+access_member_hr,insurance member hr,model_veron_hr_insurance_member,hr.group_hr_user,1,1,1,1
+access_group_hr,job group hr,model_veron_hr_job_group,hr.group_hr_user,1,1,1,1
+access_group_wage_hr,job group wage hr,model_veron_hr_job_group_wage,hr.group_hr_user,1,1,1,1
+access_group_read,job group read,model_veron_hr_job_group,base.group_user,1,0,0,0
+access_group_wage_read,job group wage read,model_veron_hr_job_group_wage,base.group_user,1,0,0,0
+access_correction_user,attendance correction user,model_veron_hr_attendance_correction,base.group_user,1,1,1,0
+access_correction_officer,attendance correction officer,model_veron_hr_attendance_correction,hr_attendance.group_hr_attendance_officer,1,1,1,1
+access_sso_disk,sso disk,model_veron_sso_disk,payroll.group_payroll_user,1,1,1,1
+access_tax_list,salary tax list,model_veron_salary_tax_list,payroll.group_payroll_user,1,1,1,1
+access_bank_file,salary bank file,model_veron_salary_bank_file,payroll.group_payroll_manager,1,1,1,1

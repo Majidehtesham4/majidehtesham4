@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_company_form" model="ir.ui.view">
+		<field name="name">res.company.form.veron.hr.iran</field>
+		<field name="model">res.company</field>
+		<field name="inherit_id" ref="base.view_company_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//notebook" position="inside">
+				<page string="Social Security and Missions" name="veron_hr_iran" groups="hr.group_hr_user">
+					<group>
+						<group string="Social Security">
+							<field name="veron_sso_workshop"/>
+							<field name="veron_sso_employer"/>
+							<field name="veron_sso_contract_row"/>
+						</group>
+						<group string="Rate of a Day of Mission">
+							<field name="veron_mission_rate_city"/>
+							<field name="veron_mission_rate_out"/>
+							<field name="veron_mission_rate_abroad"/>
+						</group>
+					</group>
+				</page>
+			</xpath>
+		</field>
+	</record>
+</odoo>

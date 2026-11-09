@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="plan_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.insurance.plan.list</field>
+		<field name="model">veron.hr.insurance.plan</field>
+		<field name="arch" type="xml">
+			<list editable="top">
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="insurer_id"/>
+				<field name="employee_share"/>
+				<field name="company_share"/>
+				<field name="date_from"/>
+				<field name="date_to"/>
+				<field name="currency_id" column_invisible="1"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_plans" model="ir.actions.act_window">
+		<field name="name">Supplementary and Life Insurance</field>
+		<field name="res_model">veron.hr.insurance.plan</field>
+		<field name="view_mode">list</field>
+	</record>
+</odoo>

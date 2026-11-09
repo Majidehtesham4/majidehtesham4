@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="mission_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.mission.list</field>
+		<field name="model">veron.hr.mission</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="state == 'cancelled'">
+				<field name="employee_id"/>
+				<field name="name"/>
+				<field name="kind"/>
+				<field name="date_from"/>
+				<field name="date_to"/>
+				<field name="days"/>
+				<field name="amount" sum="Total"/>
+				<field name="state" widget="badge"/>
+				<field name="currency_id" column_invisible="1"/>
+			</list>
+		</field>
+	</record>
+	<record id="mission_view_form" model="ir.ui.view">
+		<field name="name">veron.hr.mission.form</field>
+		<field name="model">veron.hr.mission</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'draft'"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancelled'"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<group>
+						<group><field name="employee_id"/><field name="name"/><field name="kind"/><field name="destination"/></group>
+						<group><field name="date_from"/><field name="date_to"/><field name="days"/><field name="daily_rate"/>
+							<field name="amount"/><field name="currency_id" invisible="1"/></group>
+					</group>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+	<record id="action_missions" model="ir.actions.act_window">
+		<field name="name">Missions</field>
+		<field name="res_model">veron.hr.mission</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<record id="absence_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.absence.list</field>
+		<field name="model">veron.hr.absence</field>
+		<field name="arch" type="xml">
+			<list editable="top" decoration-muted="state == 'cancelled'">
+				<field name="employee_id"/>
+				<field name="date"/>
+				<field name="days"/>
+				<field name="reason"/>
+				<field name="state" widget="badge"/>
+				<button name="action_approve" type="object" string="Approve" invisible="state != 'draft'"/>
+				<button name="action_cancel" type="object" string="Cancel" invisible="state == 'cancelled'"/>
+			</list>
+		</field>
+	</record>
+	<record id="action_absences" model="ir.actions.act_window">
+		<field name="name">Unpaid Absences</field>
+		<field name="res_model">veron.hr.absence</field>
+		<field name="view_mode">list</field>
+	</record>
+</odoo>

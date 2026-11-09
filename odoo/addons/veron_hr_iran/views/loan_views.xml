@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="loan_view_list" model="ir.ui.view">
+		<field name="name">veron.hr.loan.list</field>
+		<field name="model">veron.hr.loan</field>
+		<field name="arch" type="xml">
+			<list decoration-muted="state in ('paid', 'cancelled')">
+				<field name="employee_id"/>
+				<field name="kind"/>
+				<field name="date"/>
+				<field name="amount" sum="Total"/>
+				<field name="installments"/>
+				<field name="left" sum="Total"/>
+				<field name="state" widget="badge"/>
+				<field name="currency_id" column_invisible="1"/>
+			</list>
+		</field>
+	</record>
+	<record id="loan_view_form" model="ir.ui.view">
+		<field name="name">veron.hr.loan.form</field>
+		<field name="model">veron.hr.loan</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_approve" type="object" string="Approve" class="btn-primary" invisible="state != 'draft'"/>
+					<button name="action_cancel" type="object" string="Cancel" invisible="state not in ('draft', 'approved')"/>
+					<button name="action_draft" type="object" string="Set to Draft" invisible="state != 'cancelled'"/>
+					<field name="state" widget="statusbar" statusbar_visible="draft,approved,paid"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="employee_id" readonly="state != 'draft'"/>
+							<field name="kind" readonly="state != 'draft'"/>
+							<field name="amount" readonly="state != 'draft'"/>
+							<field name="currency_id" invisible="1"/>
+						</group>
+						<group>
+							<field name="date" readonly="state != 'draft'"/>
+							<field name="installments" readonly="state != 'draft'"/>
+							<field name="first_month" readonly="state != 'draft'"/>
+							<field name="paid"/>
+							<field name="left"/>
+						</group>
+					</group>
+					<field name="line_ids" readonly="1">
+						<list>
+							<field name="month"/>
+							<field name="amount" sum="Total"/>
+							<field name="payslip_id"/>
+							<field name="paid"/>
+							<field name="currency_id" column_invisible="1"/>
+						</list>
+					</field>
+					<field name="note" placeholder="Notes"/>
+				</sheet>
+				<chatter/>
+			</form>
+		</field>
+	</record>
+	<record id="action_loans" model="ir.actions.act_window">
+		<field name="name">Loans and Advances</field>
+		<field name="res_model">veron.hr.loan</field>
+		<field name="view_mode">list,form</field>
+	</record>
+</odoo>
