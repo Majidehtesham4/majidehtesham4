@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="module_category" model="ir.module.category">
+		<field name="name">Secretariat</field>
+	</record>
+	<record id="group_user" model="res.groups">
+		<field name="name">Secretariat: User</field>
+		<field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+		<field name="comment">Registers letters and refers them.</field>
+	</record>
+	<record id="group_manager" model="res.groups">
+		<field name="name">Secretariat: Manager</field>
+		<field name="implied_ids" eval="[(4, ref('group_user'))]"/>
+		<field name="comment">Sees every letter, the confidential ones too.</field>
+	</record>
+	<!-- A letter of an ordinary classification is seen by every person of the company; a confidential or secret one only
+	by those it concerns -->
+	<record id="rule_letter_seen" model="ir.rule">
+		<field name="name">Letters: ordinary, or concerning the person</field>
+		<field name="model_id" ref="model_veron_letter"/>
+		<field name="domain_force">['|', '|', '|', '|', ('classification', '=', 'normal'), ('create_uid', '=', user.id),
+			('user_ids', 'in', user.id), ('referral_ids.user_id', '=', user.id), ('signer_id', '=', user.id)]</field>
+		<field name="groups" eval="[(4, ref('base.group_user'))]"/>
+	</record>
+	<record id="rule_letter_manager" model="ir.rule">
+		<field name="name">Letters: all, for a secretariat manager</field>
+		<field name="model_id" ref="model_veron_letter"/>
+		<field name="domain_force">[(1, '=', 1)]</field>
+		<field name="groups" eval="[(4, ref('group_manager'))]"/>
+	</record>
+	<record id="rule_letter_company" model="ir.rule">
+		<field name="name">Letters: own companies</field>
+		<field name="model_id" ref="model_veron_letter"/>
+		<field name="domain_force">[('company_id', 'in', company_ids)]</field>
+	</record>
+</odoo>

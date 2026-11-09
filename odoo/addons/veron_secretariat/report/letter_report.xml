@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="action_report_letter" model="ir.actions.report">
+		<field name="name">Letter</field>
+		<field name="model">veron.letter</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">veron_secretariat.report_letter</field>
+		<field name="report_file">veron_secretariat.report_letter</field>
+		<field name="print_report_name">'نامه %s' % object.name</field>
+		<field name="binding_model_id" ref="model_veron_letter"/>
+		<field name="binding_type">report</field>
+	</record>
+	<template id="report_letter">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="letter">
+				<t t-call="web.external_layout">
+					<div class="page" dir="rtl" style="text-align: right; font-family: Vazirmatn, Vazir, Tahoma, sans-serif;">
+						<table style="width: 100%;">
+							<tr>
+								<td style="width: 65%;"><t t-if="letter.classification != 'normal'"><b style="color: #a00;"><span t-field="letter.classification"/></b></t>
+									<t t-if="letter.priority != '0'"> · <b><span t-field="letter.priority"/></b></t></td>
+								<td>
+									شماره: <b t-out="letter.name"/><br/>
+									تاریخ: <b t-out="letter._shamsi(letter.date)"/><br/>
+									پیوست: <t t-out="letter.enclosure or 'ندارد'"/>
+								</td>
+							</tr>
+						</table>
+						<p t-if="letter.partner_id" style="margin-top: 16px;"><b t-out="letter.partner_id.name"/></p>
+						<p><b>موضوع: <t t-out="letter.subject"/></b></p>
+						<p t-if="letter.follows_id">پیرو نامه‌ی شماره‌ی <t t-out="letter.follows_id.name"/> مورخ <t t-out="letter._shamsi(letter.follows_id.date)"/></p>
+						<p t-if="letter.answers_id">بازگشت به نامه‌ی شماره‌ی <t t-out="letter.answers_id.their_number or letter.answers_id.name"/></p>
+						<div t-out="letter.body"/>
+						<p t-if="letter.signer_id" style="margin-top: 40px; margin-right: 60%; text-align: center;"><t t-out="letter.signer_id.name"/></p>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>
