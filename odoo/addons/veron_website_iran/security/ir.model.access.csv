@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_episode_public,podcast episode public,model_veron_podcast_episode,,1,0,0,0
+access_episode_designer,podcast episode designer,model_veron_podcast_episode,website.group_website_designer,1,1,1,1
+access_login_code_system,login code system,model_veron_login_code,base.group_system,1,0,0,1

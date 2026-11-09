@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_website_form" model="ir.ui.view">
+		<field name="name">website.form.veron.iran</field>
+		<field name="model">website</field>
+		<field name="inherit_id" ref="website.view_website_form"/>
+		<field name="arch" type="xml">
+			<xpath expr="//sheet" position="inside">
+				<group string="Iranian Website" name="veron_iran">
+					<field name="veron_font"/>
+					<field name="veron_otp_login"/>
+					<field name="veron_otp_internal" invisible="not veron_otp_login"/>
+					<field name="veron_neshan_key" password="True" groups="base.group_system"/>
+				</group>
+			</xpath>
+		</field>
+	</record>
+	<!-- The website in its Persian font -->
+	<template id="layout_font" inherit_id="website.layout">
+		<xpath expr="//head" position="inside">
+			<style t-if="website and website.veron_font">
+				body, .o_website_text, h1, h2, h3, h4, h5, h6, .btn, input, textarea, select { font-family: "<t t-out="website.veron_font"/>", Tahoma, sans-serif; }
+			</style>
+		</xpath>
+	</template>
+</odoo>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="podcast_page" name="Podcast">
+		<t t-call="website.layout">
+			<div class="container py-4">
+				<div class="d-flex justify-content-between align-items-center mb-3">
+					<h1 class="mb-0"><t t-if="episode" t-out="episode.name"/><t t-else="">Podcast</t></h1>
+					<a href="/podcast/rss.xml" class="btn btn-outline-secondary btn-sm">RSS</a>
+				</div>
+				<t t-foreach="episode or episodes" t-as="item">
+					<div class="card mb-3">
+						<div class="card-body">
+							<h5 t-if="not episode"><a t-att-href="item.website_url" t-out="item.name"/></h5>
+							<p class="text-muted small"><span t-field="item.date"/> <t t-if="item.duration">· <t t-out="item.duration"/></t></p>
+							<audio t-if="item._audio_address()" controls="controls" preload="none" class="w-100" t-att-src="item._audio_address()"/>
+							<div t-if="episode" t-field="item.description"/>
+							<p t-else="" t-out="item._summary()"/>
+						</div>
+					</div>
+				</t>
+				<p t-if="not episodes" class="text-muted">No episode yet.</p>
+			</div>
+		</t>
+	</template>
+</odoo>

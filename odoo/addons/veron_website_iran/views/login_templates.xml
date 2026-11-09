@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="login_mobile_link" inherit_id="web.login">
+		<xpath expr="//form" position="after">
+			<div t-if="request.website and request.website.veron_otp_login" class="text-center mt-3">
+				<a t-att-href="'/web/login/mobile' + ('?redirect=%s' % redirect if redirect else '')">Log in with a mobile number</a>
+			</div>
+		</xpath>
+	</template>
+	<template id="mobile_login" name="Login With a Mobile Number">
+		<t t-call="web.login_layout">
+			<form class="oe_login_form" role="form" method="post" action="/web/login/mobile">
+				<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+				<input type="hidden" name="redirect" t-att-value="redirect"/>
+				<div class="mb-3">
+					<label for="mobile" class="form-label">Mobile number</label>
+					<input type="tel" name="mobile" id="mobile" class="form-control" t-att-value="mobile" placeholder="09121234567"
+						required="required" autocomplete="tel" t-att-readonly="'readonly' if sent else None"/>
+				</div>
+				<div class="mb-3" t-if="sent">
+					<label for="code" class="form-label">The code sent to it</label>
+					<input type="text" name="code" id="code" class="form-control" inputmode="numeric" maxlength="6"
+						autocomplete="one-time-code" required="required" autofocus="autofocus"/>
+				</div>
+				<p class="alert alert-danger" t-if="error" role="alert"><t t-out="error"/></p>
+				<button type="submit" class="btn btn-primary w-100"><t t-if="sent">Log In</t><t t-else="">Send the Code</t></button>
+				<div class="text-center mt-3">
+					<a t-if="sent" t-att-href="'/web/login/mobile?mobile=%s' % mobile">Another number or a new code</a>
+					<a t-else="" href="/web/login">Log in with a password</a>
+				</div>
+			</form>
+		</t>
+	</template>
+</odoo>

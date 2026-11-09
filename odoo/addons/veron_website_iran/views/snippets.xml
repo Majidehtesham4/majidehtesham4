@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Blocks made as the «Embed Code» block, so the builder's own «Edit» replaces the address in them -->
+	<template id="s_aparat" name="Aparat Video">
+		<t t-set="embed_code"><div class="ratio ratio-16x9"><iframe src="https://www.aparat.com/video/video/embed/videohash/VIDEO/vt/frame" allowfullscreen="true" style="border:0"></iframe></div></t>
+		<section class="s_embed_code s_veron_aparat text-center pt16 pb16">
+			<template class="s_embed_code_saved"><t t-out="embed_code"/></template>
+			<div class="s_embed_code_embedded container o_not_editable"><t t-out="embed_code"/></div>
+		</section>
+	</template>
+	<template id="s_neshan" name="Neshan Map">
+		<t t-set="embed_code"><div class="ratio ratio-16x9"><iframe src="/veron/neshan/map?lat=35.6997&amp;lng=51.3380&amp;zoom=15" style="border:0" loading="lazy"></iframe></div></t>
+		<section class="s_embed_code s_veron_neshan text-center pt16 pb16">
+			<template class="s_embed_code_saved"><t t-out="embed_code"/></template>
+			<div class="s_embed_code_embedded container o_not_editable"><t t-out="embed_code"/></div>
+		</section>
+	</template>
+	<template id="snippets" inherit_id="website.snippets" priority="20">
+		<xpath expr="//snippets[@id='snippet_structure']" position="inside">
+			<t t-snippet="veron_website_iran.s_aparat" string="Aparat Video" t-forbid-sanitize="true" group="content"
+				t-thumbnail="/website/static/src/img/snippets_thumbs/s_embed_code.svg"/>
+			<t t-snippet="veron_website_iran.s_neshan" string="Neshan Map" t-forbid-sanitize="true" group="contact_and_forms"
+				t-thumbnail="/website/static/src/img/snippets_thumbs/s_map.svg"/>
+		</xpath>
+	</template>
+</odoo>

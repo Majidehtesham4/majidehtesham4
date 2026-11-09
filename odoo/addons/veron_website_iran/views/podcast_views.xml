@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="episode_view_list" model="ir.ui.view">
+		<field name="name">veron.podcast.episode.list</field>
+		<field name="model">veron.podcast.episode</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="date"/>
+				<field name="name"/>
+				<field name="duration"/>
+				<field name="is_published" widget="boolean_toggle"/>
+			</list>
+		</field>
+	</record>
+	<record id="episode_view_form" model="ir.ui.view">
+		<field name="name">veron.podcast.episode.form</field>
+		<field name="model">veron.podcast.episode</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<field name="image" widget="image" class="oe_avatar"/>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group><field name="date"/><field name="duration"/><field name="is_published"/><field name="website_id"/></group>
+						<group><field name="audio" filename="audio_name"/><field name="audio_name" invisible="1"/><field name="audio_url"/></group>
+					</group>
+					<field name="description"/>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_episodes" model="ir.actions.act_window">
+		<field name="name">Podcast</field>
+		<field name="res_model">veron.podcast.episode</field>
+		<field name="view_mode">list,form</field>
+	</record>
+	<menuitem id="menu_episodes" name="Podcast" parent="website.menu_website_global_configuration" action="action_episodes" sequence="40"/>
+</odoo>
