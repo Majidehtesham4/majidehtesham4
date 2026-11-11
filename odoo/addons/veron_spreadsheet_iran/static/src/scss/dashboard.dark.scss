@@ -1,0 +1,13 @@
+// Odoo keeps its spreadsheets light in the dark theme. The sheet of a dashboard, its charts and its figures are
+// drawn on canvases in light colors: they are turned dark as a whole, their hues kept
+.o_spreadsheet_dashboard_action {
+	.o-spreadsheet {
+		filter: invert(0.9) hue-rotate(180deg);
+		background-color: #fff;
+	}
+	// the sheet's own images and maps keep their colors
+	.o-spreadsheet img,
+	.o-spreadsheet .o-figure-image {
+		filter: invert(1) hue-rotate(180deg);
+	}
+}

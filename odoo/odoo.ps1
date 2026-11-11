@@ -66,13 +66,14 @@ switch ($Action) {
 	}
 	"createdb" {
 		# The same as the web page's «Create database», with its progress shown here: in Persian,
-		# without demo data, the administrator signing in as admin / admin
+		# without demo data, the administrator signing in as admin / admin. ERP-VERON's core and look are
+		# installed with it, so the Persian, the Shamsi dates and the dark theme are there from the start
 		$name = if ($Module) { $Module } else { $Database }
 		Write-Host "Creating the database $name (a few minutes; the lines below are its progress)..."
 		Confirm-Oca | Out-Null
 		docker compose up -d db
 		docker compose stop odoo
-		docker compose run --rm odoo -d $name -i base --load-language=fa_IR --stop-after-init
+		docker compose run --rm odoo -d $name -i base,veron_theme --load-language=fa_IR --stop-after-init
 		$ok = $LASTEXITCODE -eq 0
 		docker compose up -d odoo
 		if (-not $ok) { Write-Host "It did not finish; the lines above say why."; exit 1 }

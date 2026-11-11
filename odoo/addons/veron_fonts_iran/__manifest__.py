@@ -21,4 +21,5 @@ Iran): Vazirmatn, Sahel, Shabnam and Samim, each regular and bold, under the SIL
 		"web.assets_frontend": ["veron_fonts_iran/static/src/css/fonts.css"],
 	},
 	"installable": True,
+	"auto_install": True,
 }
