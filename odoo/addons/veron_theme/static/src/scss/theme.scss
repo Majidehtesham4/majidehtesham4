@@ -1,0 +1,555 @@
+// ERP-VERON's look. Compiled once with the light colors and once with the dark ones: the same rules, the colors
+// of each theme. Written left to right; the right-to-left bundle is turned by Odoo.
+
+$o-webclient-color-scheme: bright !default;
+$v-dark: $o-webclient-color-scheme == dark;
+
+$v-accent: $o-enterprise-action-color;
+$v-primary: $o-brand-primary;
+$v-page: if($v-dark, #1f1f23, #f5f5f8);
+$v-surface: if($v-dark, #2c2e35, #ffffff);
+$v-surface-2: if($v-dark, #26272d, #f8f8fb);
+$v-border: if($v-dark, #34363e, #e3e3ea);
+$v-band: if($v-dark, #34353c, #eeeef3);
+$v-text: if($v-dark, #ededee, #1f1f23);
+$v-muted: if($v-dark, #9a9ca3, #6b6e78);
+$v-shadow: if($v-dark, rgba(0, 0, 0, 0.45), rgba(31, 31, 35, 0.12));
+$v-radius: 10px;
+
+// --- the whole program
+
+.o_web_client {
+	--bs-form-check-input-checked-bg-color: #{$v-accent};
+	.form-switch .form-check-input:checked,
+	.form-check-input:checked {
+		background-color: $v-accent;
+		border-color: $v-accent;
+	}
+	font-family: $o-font-family-sans-serif;
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: if($v-dark, #45474f, #c9c9d3) transparent;
+	}
+	::-webkit-scrollbar {
+		width: 8px;
+		height: 8px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: if($v-dark, #45474f, #c9c9d3);
+		border-radius: 8px;
+	}
+	::-webkit-scrollbar-track {
+		background: transparent;
+	}
+}
+
+.btn {
+	border-radius: 8px;
+}
+
+.dropdown-menu,
+.o-dropdown--menu {
+	background-color: $v-surface;
+	border-radius: 12px;
+	border: 1px solid $v-border;
+	box-shadow: 0 12px 32px $v-shadow;
+	padding: 0.35rem;
+	.dropdown-item {
+		border-radius: 7px;
+	}
+}
+
+.modal-content {
+	background-color: if($v-dark, #26272d, #ffffff);
+	border-radius: 16px;
+	border: 1px solid $v-border;
+	overflow: hidden;
+	box-shadow: 0 24px 60px $v-shadow;
+}
+
+.popover {
+	--bs-popover-bg: #{$v-surface};
+	border-radius: 12px;
+	border-color: $v-border;
+}
+
+.badge.rounded-pill,
+.o_tag {
+	font-weight: 500;
+}
+
+// --- the bar on top
+
+.o_main_navbar {
+	box-shadow: none;
+	.o_menu_brand {
+		font-weight: 700;
+		font-size: 1.2rem;
+		color: $o-navbar-brand-color;
+		padding-left: 0.35rem;
+	}
+	.o_veron_app_icon {
+		width: 28px;
+		height: 28px;
+		margin: auto 0.15rem auto 0.25rem;
+		border-radius: 7px;
+		object-fit: contain;
+		flex-shrink: 0;
+	}
+	.o_menu_sections .o_nav_entry,
+	.o_menu_sections .dropdown-toggle {
+		border-radius: 8px;
+		margin-top: 7px;
+		height: 36px;
+		line-height: 36px;
+		font-size: 1rem;
+	}
+	.o_menu_systray {
+		.badge,
+		.o-mail-MessagingMenu-counter {
+			background: #e05d5d !important;
+			color: #fff !important;
+			border-radius: 999px;
+			text-shadow: none;
+		}
+		.o_avatar,
+		.o_user_avatar {
+			border-radius: 8px;
+		}
+	}
+	.o_grid_apps_menu__button {
+		color: $o-navbar-entry-color;
+	}
+}
+.o_apps_menu_opened .o_main_navbar .o_veron_app_icon {
+	display: none;
+}
+
+// --- the home screen of the apps
+
+:root body .o_grid_apps_menu[data-theme] {
+	--app-menu-background: radial-gradient(circle at 1px 1px, #{if($v-dark, rgba(255, 255, 255, 0.07), rgba(31, 31, 35, 0.09))} 1.2px, transparent 1.6px) 0 0 / 22px 22px,
+		radial-gradient(ellipse at 50% -10%, #{if($v-dark, rgba(143, 65, 121, 0.22), rgba(143, 65, 121, 0.10))}, transparent 60%),
+		#{if($v-dark, #1c1c1e, #f3f3f6)};
+	--app-menu-text-color: #{$v-text};
+	--app-menu-text-shadow: none;
+	--app-menu-hover-background: transparent;
+	--apps-menu-scrollbar-background: #{$v-border};
+	--apps-menu-empty-search-color: #{$v-muted};
+}
+
+.app-menu-container {
+	padding-top: 3rem !important;
+	@include media-breakpoint-up(lg) {
+		padding-left: calc((100vw - 1040px) / 2) !important;
+		padding-right: calc((100vw - 1040px) / 2) !important;
+	}
+	.search-container {
+		width: 100%;
+		max-width: 640px;
+		margin: 0 auto 1.5rem;
+		.search-input {
+			border-radius: 12px;
+			background: $v-surface !important;
+			border: 1px solid $v-border;
+			box-shadow: 0 6px 20px $v-shadow;
+			padding: 0.35rem 0.75rem;
+			&:focus-within {
+				border-color: $v-accent;
+			}
+			.form-control {
+				background: transparent;
+				font-size: 1.05rem;
+			}
+		}
+	}
+}
+
+.o_grid_apps_menu .o-app-menu-list {
+	grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
+	gap: 1.75rem 0.5rem !important;
+	padding: 0 1rem;
+}
+
+.o_grid_apps_menu .o-app-menu-item {
+	background: transparent !important;
+	padding: 0.4rem;
+	text-decoration: none;
+	.o_app {
+		width: 96px;
+		height: 96px;
+		margin: 0 auto;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 20px;
+		background: if($v-dark, #2d2e35, #ffffff);
+		border: 1px solid if($v-dark, #383a42, #e4e4ec);
+		box-shadow: 0 6px 18px $v-shadow;
+		transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+	}
+	&__icon {
+		width: 62px !important;
+		height: 62px !important;
+		background: transparent !important;
+		border-radius: 14px !important;
+		box-shadow: none !important;
+	}
+	&__name {
+		margin-top: 0.75rem;
+		font-size: 1.05rem;
+		font-weight: 500;
+		color: $v-text !important;
+		text-shadow: none !important;
+	}
+	&__active {
+		background: $v-accent !important;
+		color: #fff !important;
+	}
+	&:hover .o_app,
+	&:focus .o_app {
+		transform: translateY(-4px);
+		border-color: rgba($v-accent, 0.6);
+		box-shadow: 0 14px 30px $v-shadow;
+	}
+}
+
+// --- the bar of the view: buttons, search, switcher
+
+.o_control_panel {
+	padding-top: 0.75rem !important;
+	padding-bottom: 0.75rem !important;
+	border-bottom: 1px solid $v-border;
+	.btn {
+		padding: 0.45rem 0.95rem;
+		font-weight: 500;
+	}
+	.o_control_panel_breadcrumbs {
+		.o_last_breadcrumb_item,
+		.breadcrumb-item.active {
+			font-size: 1.3rem;
+			font-weight: 600;
+			color: $v-text;
+		}
+	}
+}
+
+.o_searchview {
+	border-radius: 10px !important;
+	border: 1px solid $v-border !important;
+	background: $v-surface !important;
+	padding: 0.35rem 0.65rem !important;
+	min-height: 40px;
+	transition: border-color 0.15s, box-shadow 0.15s;
+	&:focus-within {
+		border-color: $v-accent !important;
+		box-shadow: 0 0 0 3px rgba($v-accent, 0.15);
+	}
+	.o_searchview_facet {
+		border: 0;
+		border-radius: 7px;
+		overflow: hidden;
+		background: mix($v-primary, $v-surface, 28%);
+		color: $v-text;
+		.o_searchview_facet_label {
+			background: $v-primary !important;
+			color: #fff;
+			border-radius: 7px;
+		}
+	}
+}
+
+.o_searchview_dropdown_toggler,
+.o_control_panel .o_searchview + .btn,
+.o_control_panel .o_searchview ~ .dropdown-toggle {
+	border-radius: 10px !important;
+	border: 1px solid $v-border !important;
+	background: $v-surface !important;
+	margin-inline-start: 6px;
+	min-height: 40px;
+}
+
+.o_cp_switch_buttons {
+	background: $v-surface;
+	border: 1px solid $v-border;
+	border-radius: 10px;
+	padding: 3px;
+	gap: 2px;
+	.btn {
+		border: 0 !important;
+		border-radius: 7px !important;
+		padding: 0.35rem 0.6rem !important;
+		background: transparent;
+		&.active {
+			background: if($v-dark, #ededee, #1f1f23) !important;
+			color: if($v-dark, #1f1f23, #ffffff) !important;
+		}
+	}
+}
+
+// --- kanban
+
+.o_kanban_renderer {
+	.o_kanban_record:not(.o_kanban_ghost):not(.o_kanban_quick_create) {
+		border-radius: $v-radius;
+		border: 1px solid $v-border !important;
+		box-shadow: none;
+		transition: box-shadow 0.15s, border-color 0.15s;
+		&:hover {
+			border-color: rgba($v-accent, 0.5) !important;
+			box-shadow: 0 8px 22px $v-shadow;
+		}
+	}
+	.o_kanban_header {
+		.o_column_title {
+			font-weight: 700;
+			font-size: 1.1rem;
+		}
+		.o_kanban_quick_add {
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			border: 1.5px solid $v-muted;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			opacity: 0.85;
+			&:hover {
+				border-color: $v-accent;
+				color: $v-accent;
+				opacity: 1;
+			}
+		}
+	}
+	.o_column_progress {
+		height: 6px;
+		border-radius: 6px;
+		overflow: hidden;
+	}
+}
+
+// --- lists
+
+.o_list_renderer .o_list_table {
+	thead th {
+		font-weight: 600;
+		color: $v-muted;
+		background: $v-surface-2;
+		border-bottom: 1px solid $v-border;
+	}
+	tbody tr.o_data_row {
+		transition: background-color 0.1s;
+	}
+	tbody tr.o_data_row > td {
+		padding-top: 0.55rem;
+		padding-bottom: 0.55rem;
+		border-color: $v-border;
+	}
+	tfoot td {
+		font-weight: 700;
+	}
+}
+
+// --- forms
+
+.o_form_view {
+	.o_form_sheet_bg {
+		background: if($v-dark, #1c1c20, #f5f5f8);
+	}
+	.o_form_sheet {
+		border-radius: 14px;
+		border: 1px solid $v-border !important;
+		box-shadow: 0 2px 10px $v-shadow;
+	}
+	.o_form_statusbar {
+		border-bottom: 1px solid $v-border;
+	}
+	.oe_title h1,
+	.oe_title .o_field_widget[name="name"] {
+		font-weight: 700;
+	}
+	.oe_button_box .oe_stat_button {
+		border-radius: 10px;
+	}
+}
+
+// --- settings
+
+.o_settings_container ~ * {
+	min-width: 0;
+}
+.settings {
+	.settings_tab {
+		padding-top: 0.75rem;
+		background: if($v-dark, #1f1f23, #ffffff);
+		.tab {
+			margin: 2px 0.6rem;
+			padding: 0.65rem 0.9rem !important;
+			border-radius: 9px;
+			font-size: 1.02rem;
+			gap: 0.35rem;
+			.icon {
+				width: 26px;
+				height: 26px;
+			}
+			&:hover {
+				background: rgba($v-accent, 0.08);
+			}
+			&.selected {
+				background: rgba($v-accent, 0.16) !important;
+				color: $v-text;
+				font-weight: 600;
+				box-shadow: none;
+			}
+		}
+	}
+	.o_setting_box,
+	.o_setting_container .o_settings_container > div {
+		a,
+		.btn-link {
+			color: $v-accent;
+		}
+	}
+}
+
+.o_setting_container .app_settings_block h2 {
+	background: $v-band !important;
+	color: $v-text;
+	font-size: 1.15rem !important;
+	font-weight: 700;
+	padding: 0.9rem 1.5rem !important;
+	margin: 0 0 0.5rem !important;
+	border: 0 !important;
+}
+
+// --- messages (the menu of the bar)
+
+.o-mail-MessagingMenu {
+	border-radius: 14px;
+	overflow: hidden;
+	.o-mail-MessagingMenu-header {
+		padding: 0.5rem 0.6rem !important;
+		gap: 0.25rem;
+		border-bottom: 1px solid $v-border;
+		.o-mail-MessagingMenu-headerFilter {
+			border-radius: 999px;
+			padding: 0.4rem 0.9rem !important;
+			margin: 0 !important;
+			text-decoration: none;
+			color: $v-muted !important;
+			box-shadow: none !important;
+			border: 1px solid $v-border;
+			&.o-active {
+				background: rgba($v-accent, 0.18) !important;
+				border-color: transparent;
+				color: $v-accent !important;
+			}
+		}
+		> .btn-link:last-child {
+			background: $v-primary;
+			color: #fff !important;
+			border-radius: 8px;
+			padding: 0.35rem 0.85rem !important;
+			text-decoration: none;
+			font-weight: 600;
+			&::before {
+				content: "+";
+				margin-inline-end: 0.35rem;
+				font-weight: 700;
+			}
+		}
+	}
+	.o-mail-NotificationItem {
+		border-radius: 10px;
+		margin: 2px 6px;
+		border: 0 !important;
+	}
+	.o-discuss-badge {
+		background: #e05d5d !important;
+		color: #fff !important;
+	}
+	.btn-primary,
+	.o-mail-MessagingMenu-headerFilter.active,
+	button.o-active {
+		border-radius: 999px;
+	}
+}
+.o-mail-MessagingMenu-navbar .o-mail-MessagingMenu-tab .o-mail-MessagingMenu-tabIcon {
+	border-radius: 12px !important;
+}
+.o-mail-ChatWindow {
+	border-radius: 14px 14px 0 0;
+	overflow: hidden;
+}
+
+// --- the assistant (ERP-VERON's own chat)
+
+.o_veron_assistant {
+	.o_veron_assistant_button {
+		width: 58px;
+		height: 58px;
+		border: 0 !important;
+		background: linear-gradient(135deg, #7a3fae, #8f4179 55%, #1cbcb1) !important;
+		box-shadow: 0 10px 28px rgba(122, 63, 174, 0.45) !important;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+		> i {
+			display: none;
+		}
+		&::before {
+			content: "";
+			width: 30px;
+			height: 30px;
+			background: url("/veron_theme/static/src/img/veron-glyph.svg") center / contain no-repeat;
+		}
+		&:hover {
+			transform: translateY(-2px) scale(1.05);
+			box-shadow: 0 14px 34px rgba(122, 63, 174, 0.55) !important;
+		}
+	}
+	.o_veron_assistant_panel {
+		background: $v-surface-2 !important;
+		border: 1px solid $v-border;
+		border-radius: 16px !important;
+		overflow: hidden;
+		.o_veron_assistant_head {
+			background: $v-surface;
+			border-color: $v-border !important;
+			padding: 0.7rem 0.9rem !important;
+			> .fa-comments {
+				width: 28px;
+				height: 28px;
+				border-radius: 8px;
+				background: url("/veron_theme/static/src/img/veron-mark.svg") center / contain no-repeat;
+				&::before {
+					content: none;
+				}
+			}
+			b {
+				font-size: 1.05rem;
+			}
+		}
+		.o_veron_ai_bubble {
+			border-radius: 14px !important;
+		}
+		.o_veron_ai_input {
+			border-color: $v-border !important;
+			textarea,
+			input.form-control {
+				border-radius: 20px;
+				background: $v-surface;
+				border: 1px solid $v-border;
+				padding: 0.55rem 0.9rem;
+				&:focus {
+					border-color: $v-accent;
+					box-shadow: 0 0 0 3px rgba($v-accent, 0.15);
+				}
+			}
+			.btn {
+				border-radius: 50%;
+			}
+		}
+	}
+}

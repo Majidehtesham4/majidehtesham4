@@ -1,0 +1,101 @@
+// The sign-in page of ERP-VERON: dark, the card in the middle
+body.o_veron_login_page {
+	min-height: 100vh;
+	background: radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.06) 1.2px, transparent 1.6px) 0 0 / 22px 22px,
+		radial-gradient(ellipse at 50% -10%, rgba(143, 65, 121, 0.35), transparent 60%),
+		radial-gradient(ellipse at 100% 110%, rgba(28, 188, 177, 0.18), transparent 55%), #1c1c1e !important;
+	color: #ededee;
+	font-family: "Vazirmatn", -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+	main > .container {
+		min-height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.card.o_database_list {
+		max-width: 400px !important;
+		width: 100%;
+		background: rgba(44, 46, 53, 0.85) !important;
+		border: 1px solid #3a3c44 !important;
+		border-radius: 20px;
+		box-shadow: 0 30px 70px rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(8px);
+		color: #ededee;
+		.card-body {
+			padding: 2rem 2rem 1.5rem;
+			background: transparent !important;
+		}
+		.btn-light,
+		.btn-outline-secondary,
+		.o_login_auth .btn,
+		button.btn:not(.btn-primary):not(.btn-link),
+		a.btn:not(.btn-primary):not(.btn-link),
+		.btn-secondary,
+		.list-group-item {
+			background: #1f1f23 !important;
+			border: 1px solid #3a3c44 !important;
+			color: #ededee !important;
+		}
+		.border-bottom,
+		.border-top {
+			border-color: #3a3c44 !important;
+		}
+		.form-label,
+		label {
+			color: #c9cad0;
+		}
+		.form-control,
+		.form-select {
+			background: #1f1f23;
+			border: 1px solid #3a3c44;
+			color: #ffffff;
+			border-radius: 10px;
+			padding: 0.6rem 0.85rem;
+			&:focus {
+				border-color: #1cbcb1;
+				box-shadow: 0 0 0 3px rgba(28, 188, 177, 0.18);
+			}
+			&::placeholder {
+				color: #7d8089;
+			}
+		}
+		.btn-primary {
+			background: linear-gradient(135deg, #7a3fae, #8f4179) !important;
+			border: 0 !important;
+			border-radius: 10px;
+			padding: 0.6rem;
+			font-weight: 600;
+		}
+		.btn-secondary,
+		.btn-light {
+			border-radius: 10px;
+		}
+		a {
+			color: #1cbcb1;
+		}
+		em,
+		.o_login_auth,
+		.text-muted,
+		.small {
+			color: #9a9ca3 !important;
+		}
+	}
+	.o_veron_login_brand {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.6rem;
+		img {
+			width: 76px;
+			height: 76px;
+			filter: drop-shadow(0 10px 22px rgba(107, 53, 160, 0.5));
+		}
+		.o_veron_login_name {
+			font-size: 1.45rem;
+			font-weight: 800;
+			letter-spacing: 0.5px;
+			color: #ffffff;
+		}
+	}
+}

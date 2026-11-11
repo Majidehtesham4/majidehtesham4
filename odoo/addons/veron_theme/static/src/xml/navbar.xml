@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+	<t t-inherit="web.NavBar" t-inherit-mode="extension">
+		<xpath expr="//DropdownItem[@t-esc='currentApp.name']" position="before">
+			<img t-if="!this.ui.isSmall and currentApp" class="o_veron_app_icon" t-att-src="veronAppIcon(currentApp)" alt=""/>
+		</xpath>
+	</t>
+</templates>

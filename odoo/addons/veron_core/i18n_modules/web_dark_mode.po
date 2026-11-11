@@ -1,0 +1,22 @@
+# Persian of OCA's Dark Mode
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fa\n"
+
+#. module: web_dark_mode
+#. odoo-javascript
+#: code:addons/web_dark_mode/static/src/js/switch_item.esm.js:0
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users__dark_mode
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__dark_mode
+msgid "Dark Mode"
+msgstr "حالت تاریک"
+
+#. module: web_dark_mode
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users__dark_mode_device_dependent
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__dark_mode_device_dependent
+msgid "Device Dependent Dark Mode"
+msgstr "حالت تاریک بر اساس تنظیم دستگاه"

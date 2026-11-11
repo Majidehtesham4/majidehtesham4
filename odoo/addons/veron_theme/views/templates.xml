@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The sign-in page: dark, with ERP-VERON's mark while the company has no logo of its own -->
+	<template id="login_layout" inherit_id="web.login_layout" priority="20">
+		<xpath expr="//t[@t-set='body_classname']" position="attributes">
+			<attribute name="t-value">'bg-100 o_veron_login_page'</attribute>
+		</xpath>
+		<xpath expr="//img[contains(@t-attf-src, 'company_logo')]" position="replace">
+			<t t-set="veron_company" t-value="request.env['res.company'].sudo().search([], limit=1, order='id')"/>
+			<t t-if="not veron_company or veron_company.uses_default_logo">
+				<div class="o_veron_login_brand">
+					<img src="/veron_theme/static/src/img/veron-mark.svg" alt="ERP-VERON"/>
+					<div class="o_veron_login_name">ERP-VERON</div>
+				</div>
+			</t>
+			<img t-else="" t-attf-src="/web/binary/company_logo{{ '?dbname='+db if db else '' }}" alt="Logo"
+				style="max-height:120px; max-width: 100%; width:auto"/>
+		</xpath>
+	</template>
+</odoo>
