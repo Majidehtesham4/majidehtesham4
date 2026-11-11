@@ -16,3 +16,7 @@ from . import ai_internal
 from . import res_config_settings
 from . import ir_http
 from . import ai_guide
+from . import ai_skill
+from . import ai_knowledge
+from . import ai_trigger
+from . import ai_prompt_rule

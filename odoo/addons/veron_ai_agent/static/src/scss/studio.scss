@@ -1,0 +1,96 @@
+// The agents' kanban, the switches of the tools, the choosers of sources and triggers, the ready requests
+
+.o_veron_ai_agent_kanban .o_kanban_record {
+	padding: 1rem 1.1rem !important;
+	.o_veron_ai_agent_avatar img {
+		width: 64px;
+		height: 64px;
+		border-radius: 12px;
+		object-fit: cover;
+		background: rgba(143, 65, 121, 0.08);
+	}
+	.o_veron_ai_agent_desc {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		margin-top: 0.25rem;
+	}
+	.o_veron_ai_agent_skills .badge {
+		border-radius: 999px;
+		border: 1px solid currentColor;
+		background: transparent !important;
+		font-weight: 600;
+		padding: 0.25rem 0.55rem;
+	}
+}
+
+.o_veron_ai_switches {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	max-width: 720px;
+	.o_veron_ai_switch {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.75rem 1rem;
+		border: 1px solid $border-color;
+		border-radius: 12px;
+	}
+}
+
+.o_veron_ai_cards {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1rem;
+	@include media-breakpoint-down(md) {
+		grid-template-columns: 1fr;
+	}
+	.o_veron_ai_card {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.4rem;
+		min-height: 150px;
+		padding: 1.25rem;
+		border: 1px solid $border-color;
+		border-radius: 14px;
+		background: transparent;
+		color: inherit;
+		transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+		> i {
+			font-size: 2.4rem;
+			color: $o-brand-primary;
+			margin-bottom: 0.35rem;
+		}
+		> b {
+			font-size: 1.1rem;
+		}
+		> span {
+			font-size: 0.9rem;
+			opacity: 0.7;
+			text-align: center;
+		}
+		&:hover {
+			border-color: $o-enterprise-action-color;
+			transform: translateY(-2px);
+			box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+		}
+	}
+}
+
+.o_veron_ai_prompts .o_veron_ai_prompt {
+	border-radius: 999px;
+	border: 1px solid rgba($o-enterprise-action-color, 0.55);
+	background: rgba($o-enterprise-action-color, 0.08);
+	color: inherit;
+	padding: 0.25rem 0.75rem;
+	font-weight: 500;
+	&:hover {
+		border-color: $o-enterprise-action-color;
+		color: $o-enterprise-action-color;
+	}
+}

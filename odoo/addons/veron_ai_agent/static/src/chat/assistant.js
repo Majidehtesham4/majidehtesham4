@@ -57,6 +57,7 @@ export class AssistantBox extends AgentChat {
             this.useEngine(result.agent_id, result.ai, result.engine);
         }
         if (this.box.open) {
+            this.loadPrompts();
             setTimeout(() => this.scroll());
         }
     }

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The skills the program comes with, made or brought up to date at each update -->
+	<function model="veron.ai.skill" name="_setup_builtin"/>
+</odoo>

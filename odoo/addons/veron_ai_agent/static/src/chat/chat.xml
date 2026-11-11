@@ -100,6 +100,10 @@
                     <i class="fa fa-magic"/> AI
                 </button>
             </div>
+            <div t-if="state.prompts.length and !state.busy" class="o_veron_ai_prompts d-flex flex-wrap gap-1 mb-2">
+                <button t-foreach="state.prompts" t-as="prompt" t-key="prompt.id" type="button"
+                    class="btn btn-sm o_veron_ai_prompt" t-on-click="() => this.usePrompt(prompt)" t-esc="prompt.title"/>
+            </div>
             <div class="d-flex gap-2 align-items-end">
                 <textarea class="form-control" rows="2" t-model="state.text" t-on-keydown="onKeydown"
                     placeholder="Write your request..." t-att-disabled="state.busy"/>

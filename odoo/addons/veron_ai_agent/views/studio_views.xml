@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- Skills -->
+	<record id="skill_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.skill.list</field>
+		<field name="model">veron.ai.skill</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="description"/>
+				<field name="tool_ids" widget="many2many_tags"/>
+				<field name="agent_count"/>
+				<field name="available" string="Ready"/>
+			</list>
+		</field>
+	</record>
+	<record id="skill_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.skill.form</field>
+		<field name="model">veron.ai.skill</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. Answer customers' questions"/></h1></div>
+					<group>
+						<group>
+							<field name="description"/>
+							<field name="icon"/>
+						</group>
+						<group>
+							<field name="available" string="Ready"/>
+							<field name="active" invisible="1"/>
+						</group>
+					</group>
+					<label for="instructions"/>
+					<field name="instructions" placeholder="Purpose, rules, steps of the work..."/>
+					<label for="tool_ids"/>
+					<field name="tool_ids" options="{'no_create': True}">
+						<list>
+							<field name="name"/>
+							<field name="category"/>
+							<field name="level"/>
+							<field name="risk" widget="badge"/>
+						</list>
+					</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_skills" model="ir.actions.act_window">
+		<field name="name">Skills</field>
+		<field name="res_model">veron.ai.skill</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<!-- Knowledge sources -->
+	<record id="knowledge_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.knowledge.list</field>
+		<field name="model">veron.ai.knowledge</field>
+		<field name="arch" type="xml">
+			<list decoration-danger="state == 'failed'" decoration-muted="not active">
+				<field name="name"/>
+				<field name="kind" widget="badge"/>
+				<field name="agent_ids" widget="many2many_tags"/>
+				<field name="state" widget="badge" decoration-success="state == 'indexed'" decoration-warning="state == 'processing'" decoration-danger="state == 'failed'"/>
+				<field name="chunk_count"/>
+				<field name="indexed_on" optional="show"/>
+				<field name="error" optional="hide"/>
+				<field name="active" widget="boolean_toggle"/>
+				<button name="action_reprocess" type="object" icon="fa-refresh" title="Reprocess"/>
+			</list>
+		</field>
+	</record>
+	<record id="knowledge_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.knowledge.form</field>
+		<field name="model">veron.ai.knowledge</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="action_reprocess" type="object" string="Reprocess" icon="fa-refresh"/>
+					<field name="state" widget="statusbar"/>
+				</header>
+				<sheet>
+					<div class="oe_title"><h1><field name="name"/></h1></div>
+					<group>
+						<group>
+							<field name="kind" readonly="id"/>
+							<field name="file" filename="filename" invisible="kind != 'file'"/>
+							<field name="filename" invisible="1"/>
+							<field name="url" widget="url" invisible="kind != 'link'"/>
+							<field name="page_ref" invisible="kind not in ('page', 'document')" readonly="1"/>
+						</group>
+						<group>
+							<field name="agent_ids" widget="many2many_tags"/>
+							<field name="chunk_count"/>
+							<field name="characters"/>
+							<field name="indexed_on"/>
+							<field name="active" widget="boolean_toggle"/>
+						</group>
+					</group>
+					<div class="alert alert-danger" invisible="not error"><field name="error"/></div>
+					<field name="chunk_ids" readonly="1">
+						<list>
+							<field name="sequence"/>
+							<field name="text"/>
+						</list>
+					</field>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_knowledge" model="ir.actions.act_window">
+		<field name="name">Knowledge Sources</field>
+		<field name="res_model">veron.ai.knowledge</field>
+		<field name="view_mode">list,form</field>
+		<field name="context">{'active_test': False}</field>
+	</record>
+
+	<!-- Default prompts -->
+	<record id="prompt_rule_view_list" model="ir.ui.view">
+		<field name="name">veron.ai.prompt.rule.list</field>
+		<field name="model">veron.ai.prompt.rule</field>
+		<field name="arch" type="xml">
+			<list>
+				<field name="sequence" widget="handle"/>
+				<field name="name"/>
+				<field name="model_ids" widget="many2many_tags"/>
+				<field name="agent_id"/>
+			</list>
+		</field>
+	</record>
+	<record id="prompt_rule_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.prompt.rule.form</field>
+		<field name="model">veron.ai.prompt.rule</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title"><h1><field name="name" placeholder="e.g. Customer invoices"/></h1></div>
+					<group>
+						<field name="model_ids" widget="many2many_tags" options="{'no_create': True}"/>
+						<field name="agent_id" options="{'no_create': True}"/>
+					</group>
+					<notebook>
+						<page string="Instructions" name="instructions">
+							<field name="instructions" placeholder="What the agent is told on these pages..."/>
+						</page>
+						<page string="Buttons" name="buttons">
+							<field name="button_ids">
+								<list editable="bottom">
+									<field name="sequence" widget="handle"/>
+									<field name="title"/>
+									<field name="prompt"/>
+								</list>
+							</field>
+						</page>
+					</notebook>
+				</sheet>
+			</form>
+		</field>
+	</record>
+	<record id="action_prompt_rules" model="ir.actions.act_window">
+		<field name="name">Default Prompts</field>
+		<field name="res_model">veron.ai.prompt.rule</field>
+		<field name="view_mode">list,form</field>
+	</record>
+
+	<!-- Add Sources -->
+	<record id="knowledge_add_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.knowledge.add.form</field>
+		<field name="model">veron.ai.knowledge.add</field>
+		<field name="arch" type="xml">
+			<form>
+				<field name="step" invisible="1"/>
+				<field name="has_pages" invisible="1"/>
+				<field name="agent_id" invisible="1"/>
+				<div invisible="step != 'choose'">
+					<p>Add sources to your agent to get answers based on specific content.</p>
+					<div class="o_veron_ai_cards">
+						<button name="action_choose_file" type="object" class="o_veron_ai_card">
+							<i class="fa fa-upload"/><b>Upload a File</b><span>PDF, Word, text or HTML</span>
+						</button>
+						<button name="action_choose_link" type="object" class="o_veron_ai_card">
+							<i class="fa fa-link"/><b>Add a Link</b><span>Pages of the internet, one a line</span>
+						</button>
+						<button name="action_choose_document" type="object" class="o_veron_ai_card">
+							<i class="fa fa-files-o"/><b>Add From Documents</b><span>Files already in the program</span>
+						</button>
+						<button name="action_choose_page" type="object" class="o_veron_ai_card" invisible="not has_pages">
+							<i class="fa fa-book"/><b>Add From Knowledge</b><span>Pages of the Knowledge app</span>
+						</button>
+					</div>
+				</div>
+				<group invisible="step == 'choose'">
+					<field name="file" filename="filename" invisible="step != 'file'"/>
+					<field name="filename" invisible="1"/>
+					<field name="links" invisible="step != 'link'" placeholder="https://..."/>
+					<field name="page_ref" invisible="step != 'page'"/>
+					<field name="attachment_ids" widget="many2many_tags" invisible="step != 'document'" options="{'no_create': True}"/>
+				</group>
+				<footer>
+					<button name="action_save" type="object" string="Save" class="btn-primary" invisible="step == 'choose'"/>
+					<button name="action_back" type="object" string="Back" invisible="step == 'choose'"/>
+					<button special="cancel" string="Close"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+
+	<!-- When should your agent be triggered? -->
+	<record id="trigger_add_view_form" model="ir.ui.view">
+		<field name="name">veron.ai.trigger.add.form</field>
+		<field name="model">veron.ai.trigger.add</field>
+		<field name="arch" type="xml">
+			<form>
+				<field name="agent_id" invisible="1"/>
+				<field name="kind" invisible="1"/>
+				<div invisible="kind">
+					<div class="o_veron_ai_cards">
+						<button name="action_schedule" type="object" class="o_veron_ai_card">
+							<i class="fa fa-clock-o"/><b>On a Schedule</b><span>Runs at a set frequency, e.g. on Saturdays at 8</span>
+						</button>
+						<button name="action_date" type="object" class="o_veron_ai_card">
+							<i class="fa fa-calendar"/><b>Based on a Date Field</b><span>Runs once a record, when a date of it is reached</span>
+						</button>
+						<button name="action_create" type="object" class="o_veron_ai_card">
+							<i class="fa fa-bolt"/><b>After Creation</b><span>Runs whenever a new record is added</span>
+						</button>
+						<button name="action_update" type="object" class="o_veron_ai_card">
+							<i class="fa fa-pencil-square-o"/><b>After Update</b><span>Runs whenever a chosen field changes</span>
+						</button>
+					</div>
+					<button name="action_help" type="object" class="btn btn-link px-0 mt-2" string="I need help to choose"/>
+				</div>
+				<group invisible="not kind">
+					<group>
+						<field name="interval" invisible="kind != 'schedule'"/>
+						<field name="hour" widget="float_time" invisible="kind != 'schedule'"/>
+						<field name="model_id" invisible="not kind or kind == 'schedule'" required="kind and kind != 'schedule'" options="{'no_create': True}"/>
+						<field name="date_field_id" invisible="kind != 'date'" required="kind == 'date'" options="{'no_create': True}"/>
+						<label for="delay" invisible="kind != 'date'"/>
+						<div class="d-flex gap-2" invisible="kind != 'date'">
+							<field name="delay" class="o_field_integer" style="max-width: 5rem"/>
+							<field name="delay_unit"/>
+							<field name="delay_mode"/>
+						</div>
+						<field name="field_ids" widget="many2many_tags" invisible="kind != 'update'" options="{'no_create': True}"/>
+					</group>
+					<group>
+						<field name="filter_domain" widget="domain" options="{'model': 'model_id'}" invisible="kind == 'schedule' or not model_id"/>
+					</group>
+				</group>
+				<group invisible="not kind">
+					<field name="input_text" placeholder="e.g. Check this invoice against its order and tell me what differs"/>
+				</group>
+				<footer>
+					<button name="action_save" type="object" string="Save" class="btn-primary" invisible="not kind"/>
+					<button name="action_back" type="object" string="Back" invisible="not kind"/>
+					<button special="cancel" string="Close"/>
+				</footer>
+			</form>
+		</field>
+	</record>
+</odoo>

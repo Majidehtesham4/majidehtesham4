@@ -126,6 +126,7 @@
 							<field name="approval_count" widget="statinfo" string="Waiting"/>
 						</button>
 					</div>
+					<field name="image_128" widget="image" class="oe_avatar" options="{'size': [96, 96]}"/>
 					<div class="oe_title">
 						<h1><field name="name" placeholder="e.g. Morning report"/></h1>
 						<field name="template_id" readonly="1" invisible="not template_id"/>
@@ -133,31 +134,108 @@
 					<div class="alert alert-info" role="alert" invisible="enabled">
 						This agent is off. Check its tools, data and authority, then turn it on.
 					</div>
-					<group>
-						<group string="Who">
-							<field name="responsible_user_id"/>
-							<field name="supervisor_user_id"/>
-							<field name="run_as_user_id"/>
-							<field name="user_ids" widget="many2many_tags"/>
-							<field name="supervisor_agent_id"/>
-						</group>
-						<group string="Authority">
-							<field name="authority_level"/>
-							<field name="max_amount"/>
-							<field name="max_risk"/>
-							<field name="company_ids" widget="many2many_tags" groups="base.group_multi_company"/>
-							<field name="company_id" groups="base.group_multi_company"/>
-						</group>
-					</group>
-					<field name="explanation"/>
+					<field name="description" class="text-muted" placeholder="What this agent is for, in a line"/>
 					<notebook>
-						<page string="Goal" name="goal">
+						<page string="Instructions" name="goal">
+							<group>
+								<group>
+									<field name="response_style" widget="radio"/>
+								</group>
+								<group>
+									<field name="restrict_to_sources" widget="boolean_toggle"/>
+								</group>
+							</group>
+							<label for="instructions" string="System Prompt"/>
+							<field name="instructions" placeholder="The agent's role, what it does and does not do, and how it answers..."/>
 							<group>
 								<field name="goal"/>
-								<field name="description"/>
-								<field name="instructions"/>
 								<field name="expected_output"/>
 							</group>
+						</page>
+						<page string="Skills" name="skills">
+							<h5 class="mt-2">Tools</h5>
+							<div class="o_veron_ai_switches">
+								<div class="o_veron_ai_switch">
+									<div><b>Web Search</b><div class="text-muted small">Searches the internet through the web search provider</div></div>
+									<field name="use_web_search" widget="boolean_toggle" nolabel="1"/>
+								</div>
+								<div class="o_veron_ai_switch">
+									<div><b>Generate Images</b><div class="text-muted small">Makes images as drafts through the image provider</div></div>
+									<field name="use_image" widget="boolean_toggle" nolabel="1"/>
+								</div>
+								<div class="o_veron_ai_switch">
+									<div><b>Self Update</b><div class="text-muted small">Proposes changes to its own instructions; a manager applies them</div></div>
+									<field name="self_update" widget="boolean_toggle" nolabel="1"/>
+								</div>
+							</div>
+							<h5 class="mt-4">Skills</h5>
+							<field name="skill_ids" widget="many2many" options="{'no_create': True}">
+								<list>
+									<field name="name"/>
+									<field name="description"/>
+									<field name="tool_ids" widget="many2many_tags"/>
+									<field name="available" string="Ready"/>
+								</list>
+							</field>
+							<h5 class="mt-4">Subagents</h5>
+							<p class="text-muted small">The agents this agent may give part of a task to; it uses their results in its answer.</p>
+							<group>
+								<field name="is_supervisor"/>
+								<field name="delegate_agent_ids" widget="many2many_tags" invisible="not is_supervisor"/>
+							</group>
+						</page>
+						<page string="Knowledge" name="knowledge">
+							<div class="d-flex align-items-center gap-2 mb-2">
+								<span class="text-muted flex-grow-1">Give the agent the information it needs to answer accurately: files, links, Knowledge pages.</span>
+								<button name="action_add_knowledge" type="object" string="Add" icon="fa-plus" class="btn-primary"/>
+							</div>
+							<field name="knowledge_ids" widget="many2many" options="{'no_create': True}" context="{'active_test': False}">
+								<list decoration-danger="state == 'failed'" decoration-muted="not active">
+									<field name="name"/>
+									<field name="kind" widget="badge"/>
+									<field name="state" widget="badge" decoration-success="state == 'indexed'" decoration-warning="state == 'processing'" decoration-danger="state == 'failed'"/>
+									<field name="chunk_count"/>
+									<field name="error" optional="show"/>
+									<field name="active" widget="boolean_toggle"/>
+									<button name="action_reprocess" type="object" icon="fa-refresh" title="Reprocess"/>
+								</list>
+							</field>
+						</page>
+						<page string="Triggers" name="triggers">
+							<div class="d-flex align-items-center gap-2 mb-2">
+								<span class="text-muted flex-grow-1">Have the agent run by itself on a schedule or when something happens to the records.</span>
+								<button name="action_add_trigger" type="object" string="Add" icon="fa-plus" class="btn-primary"/>
+							</div>
+							<field name="trigger_ids">
+								<list editable="bottom" create="0">
+									<field name="kind" readonly="1"/>
+									<field name="name" readonly="1"/>
+									<field name="input_text"/>
+									<field name="fired_count" readonly="1"/>
+									<field name="last_fired" readonly="1"/>
+									<field name="active" widget="boolean_toggle"/>
+									<button name="action_open_schedule" type="object" icon="fa-clock-o" title="Schedule" invisible="kind != 'schedule'"/>
+								</list>
+							</field>
+						</page>
+						<page string="Access and Authority" name="access">
+							<group>
+								<group string="Who">
+									<field name="responsible_user_id"/>
+									<field name="supervisor_user_id"/>
+									<field name="run_as_user_id"/>
+									<field name="user_ids" widget="many2many_tags"/>
+									<field name="supervisor_agent_id"/>
+								</group>
+								<group string="Authority">
+									<field name="authority_level"/>
+									<field name="max_amount"/>
+									<field name="max_risk"/>
+									<field name="company_ids" widget="many2many_tags" groups="base.group_multi_company"/>
+									<field name="company_id" groups="base.group_multi_company"/>
+								</group>
+							</group>
+							<field name="explanation"/>
 						</page>
 						<page string="Tools" name="tools">
 							<field name="grant_ids" context="{'default_level': authority_level}">
@@ -269,10 +347,6 @@
 							<p class="text-muted">Empty: the default provider of each kind is used.</p>
 						</page>
 						<page string="Supervision" name="supervision" invisible="not is_supervisor">
-							<group>
-								<field name="is_supervisor"/>
-								<field name="delegate_agent_ids" widget="many2many_tags"/>
-							</group>
 							<p class="text-muted">A supervisor gives tasks only to these agents and reviews their results. It cannot change any agent's access or authority, and its acceptance is not an accounting or legal approval.</p>
 						</page>
 						<page string="Fixed Steps" name="playbook">
@@ -307,21 +381,30 @@
 		<field name="name">veron.ai.agent.kanban</field>
 		<field name="model">veron.ai.agent</field>
 		<field name="arch" type="xml">
-			<kanban>
+			<kanban class="o_veron_ai_agent_kanban" action="action_open_card" type="object">
 				<field name="enabled"/>
+				<field name="id"/>
+				<field name="image_128"/>
 				<templates>
+					<t t-name="menu">
+						<a role="menuitem" type="open" class="dropdown-item">Configuration</a>
+						<a role="menuitem" type="object" name="action_open_runs" class="dropdown-item">Runs</a>
+					</t>
 					<t t-name="card">
-						<div class="d-flex align-items-center">
-							<i class="fa fa-user-circle fa-2x me-2" title="Agent" t-att-class="record.enabled.raw_value ? 'text-success' : 'text-muted'"/>
-							<field name="name" class="fw-bold"/>
+						<div class="d-flex gap-3">
+							<div class="o_veron_ai_agent_avatar flex-shrink-0">
+								<img t-if="record.image_128.raw_value" t-att-src="'/web/image/veron.ai.agent/' + record.id.raw_value + '/image_128'" alt="Agent"/>
+								<img t-else="" src="/veron_ai_agent/static/src/img/agent.png" alt="Agent"/>
+							</div>
+							<div class="flex-grow-1 overflow-hidden">
+								<div class="d-flex align-items-center gap-2">
+									<field name="name" class="fw-bold fs-4 text-truncate"/>
+									<span t-if="!record.enabled.raw_value" class="badge text-bg-secondary">Off</span>
+								</div>
+								<field name="description" class="text-muted o_veron_ai_agent_desc"/>
+							</div>
 						</div>
-						<field name="template_id" class="text-muted small"/>
-						<footer>
-							<field name="authority_level" class="small"/>
-							<button name="action_open_chat" type="object" class="btn btn-sm btn-primary ms-auto" invisible="not enabled">
-								<i class="fa fa-comments"/> Talk
-							</button>
-						</footer>
+						<field name="skill_ids" widget="many2many_tags" class="o_veron_ai_agent_skills mt-2"/>
 					</t>
 				</templates>
 			</kanban>

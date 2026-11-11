@@ -41,3 +41,16 @@ access_veron_ai_connect_wizard_admin,veron.ai.connect.wizard admin,model_veron_a
 access_veron_ai_team_wizard_manager,veron.ai.team.wizard manager,model_veron_ai_team_wizard,group_ai_manager,1,1,1,1
 access_veron_ai_guide_user,veron.ai.guide user,model_veron_ai_guide,base.group_user,1,0,0,0
 access_veron_ai_guide_manager,veron.ai.guide manager,model_veron_ai_guide,group_ai_manager,1,1,1,1
+access_veron_ai_skill_user,veron.ai.skill user,model_veron_ai_skill,group_ai_user,1,0,0,0
+access_veron_ai_skill_manager,veron.ai.skill manager,model_veron_ai_skill,group_ai_manager,1,1,1,1
+access_veron_ai_knowledge_user,veron.ai.knowledge user,model_veron_ai_knowledge,group_ai_user,1,0,0,0
+access_veron_ai_knowledge_manager,veron.ai.knowledge manager,model_veron_ai_knowledge,group_ai_manager,1,1,1,1
+access_veron_ai_knowledge_chunk_manager,veron.ai.knowledge.chunk manager,model_veron_ai_knowledge_chunk,group_ai_manager,1,0,0,0
+access_veron_ai_trigger_user,veron.ai.trigger user,model_veron_ai_trigger,group_ai_user,1,0,0,0
+access_veron_ai_trigger_manager,veron.ai.trigger manager,model_veron_ai_trigger,group_ai_manager,1,1,1,1
+access_veron_ai_prompt_rule_user,veron.ai.prompt.rule user,model_veron_ai_prompt_rule,group_ai_user,1,0,0,0
+access_veron_ai_prompt_rule_manager,veron.ai.prompt.rule manager,model_veron_ai_prompt_rule,group_ai_manager,1,1,1,1
+access_veron_ai_prompt_button_user,veron.ai.prompt.button user,model_veron_ai_prompt_button,group_ai_user,1,0,0,0
+access_veron_ai_prompt_button_manager,veron.ai.prompt.button manager,model_veron_ai_prompt_button,group_ai_manager,1,1,1,1
+access_veron_ai_knowledge_add_manager,veron.ai.knowledge.add manager,model_veron_ai_knowledge_add,group_ai_manager,1,1,1,0
+access_veron_ai_trigger_add_manager,veron.ai.trigger.add manager,model_veron_ai_trigger_add,group_ai_manager,1,1,1,0

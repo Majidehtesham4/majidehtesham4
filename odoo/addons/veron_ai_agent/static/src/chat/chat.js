@@ -18,7 +18,7 @@ export class AgentChat extends Component {
         this.list = useRef("list");
         this.state = useState({
             agents: [], agentId: false, conversationId: false, messages: [], text: "",
-            files: [], busy: false, recording: false, uploading: false, ai: false, engine: "internal",
+            files: [], busy: false, recording: false, uploading: false, ai: false, engine: "internal", prompts: [],
         });
         this.recorder = null;
         onWillStart(() => this.start());
@@ -84,6 +84,7 @@ export class AgentChat extends Component {
         Object.assign(this.state, { agentId, conversationId: result.conversation_id, messages: result.messages, files: [] });
         const agent = this.agent;
         this.useEngine(agentId, Boolean(agent?.ai), agent?.engine);
+        this.loadPrompts();
         setTimeout(() => this.scroll());
     }
 
@@ -212,6 +213,18 @@ export class AgentChat extends Component {
             this.state.busy = false;
             setTimeout(() => this.scroll());
         }
+    }
+
+    /** The ready requests of the page (default prompts); one is sent as if typed */
+    async loadPrompts() {
+        const page = this.page() || {};
+        this.state.prompts = await this.orm.call("veron.ai.prompt.rule", "veron_prompts", [page.model || false,
+            this.state.agentId || false]);
+    }
+
+    usePrompt(prompt) {
+        this.state.text = prompt.prompt;
+        this.send();
     }
 
     async send(command = false, shown = false) {

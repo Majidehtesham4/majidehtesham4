@@ -34,6 +34,7 @@ RESULTS = {
 
 # code: (domain, result, entities, never guessed, note)
 CONTRACTS = {
+	"agent_self_update": ("system", "agent", (), ("proposal", "reason"), "Proposes a change; the agent's manager applies it"),
 	"activity_create": ("documents", "form", ("mail.activity",), ("summary", "user_id"),
 		"A follow-up on a record the person names; the summary is the person's words"),
 	"asset_check": ("finance", "report", ("account.asset",), (), ""),
@@ -66,6 +67,7 @@ CONTRACTS = {
 		("move_id", "product_id", "discount", "quantity", "price_unit"),
 		"Only a draft; a product named is one of its lines"),
 	"invoice_post": ("finance", "approval", ("account.move",), ("move_id",), "Posting always waits for a person"),
+	"knowledge_sources": ("documents", "agent", (), ("query",), "Searches the agent's own knowledge sources; the built-in route answers from them too"),
 	"knowledge_search": ("documents", "answer", ("document.page",), ("query",), ""),
 	"month_end_checklist": ("finance", "report", ("account.move",), (), ""),
 	"notify_external": ("system", "agent", ("res.partner",), ("partner_id", "body"), "Contacting outside waits for a person"),
