@@ -139,6 +139,8 @@ class TestAccountIran(TransactionCase):
 		move = self.entry("2026-10-05", 1_500_000)
 		html = self.env["ir.actions.report"]._render_qweb_html("veron_account_iran.report_voucher", move.ids)[0].decode()
 		self.assertIn("سند حسابداری", html)
+		words = move._veron_words(1_500_000)
+		self.assertEqual(words, "یک میلیون و پانصد هزار ریال", "the rial, not Odoo's «Dinar»")
 		self.assertIn(move.veron_voucher, html)
 		customer = self.env["res.partner"].create({"name": "خریدار نمونه", "vat": "10101010101", "zip": "1234567890"})
 		product = self.env["product.product"].create({"name": "کالای نمونه", "list_price": 2_000_000, "default_code": "K-1"})

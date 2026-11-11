@@ -74,7 +74,7 @@
 					</table>
 					<table class="vr-grid">
 						<tr>
-							<td style="width: 60%;">مبلغ قابل پرداخت به حروف: <b t-out="move._veron_words(move.amount_total)"/> ریال</td>
+							<td style="width: 60%;">مبلغ قابل پرداخت به حروف: <b t-out="move._veron_words(move.amount_total)"/></td>
 							<td>شرایط و نحوه فروش: <t t-out="move.invoice_payment_term_id.name or 'نقدی'"/></td>
 						</tr>
 						<tr t-if="move.narration"><td colspan="2">توضیحات: <t t-out="move.narration"/></td></tr>

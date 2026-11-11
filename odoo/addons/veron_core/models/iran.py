@@ -81,6 +81,10 @@ class VeronIran(models.AbstractModel):
 		if rial.rounding != 1 and not self._has_entries(rial):
 			values["rounding"] = 1.0
 		rial.write(values)
+		# Odoo calls the rial's units «Dinar» and «Fils», so every amount in words ended in «دینار»
+		rial.with_context(lang="en_US").write({"currency_unit_label": "Rial", "currency_subunit_label": "Dinar"})
+		rial.update_field_translations("currency_unit_label", {"fa_IR": "ریال"})
+		rial.update_field_translations("currency_subunit_label", {"fa_IR": "دینار"})
 		return rial
 
 	def _has_entries(self, currency):
