@@ -1,12 +1,12 @@
 <!doctype html>
 <html><head><meta charset="utf-8">
 <style>
-@font-face { font-family: "Montserrat"; font-weight: 600; src: url("fonts/montserrat-latin-600-normal.woff2") format("woff2"); }
 html, body { margin: 0; background: #000; }
 canvas { display: block; }
 </style></head>
 <body>
 <canvas id="c" width="1920" height="1080"></canvas>
+<script src="wordmark_mask.js"></script>
 <script>
 // VERON ERP intros. The logo is rebuilt as lines (in the 1032 x 1048 space of the traced logo, its tile centred on
 // 511, 526) so that every line can be drawn, lit and swept by light on its own. render(t, scene) draws one frame.
@@ -205,90 +205,120 @@ function withLogo(x, y, s, fn) {
 	ctx.restore();
 }
 
-// --- the words VERON ERP: brushed dark metal, a red light on their edges, a light that runs across them
-const TEXT = "VERON ERP";
-const layer = document.createElement("canvas");
-layer.width = 1500; layer.height = 260;
-const lx = layer.getContext("2d");
+// --- the wordmark VERON ERP (traced from the designed one: VERON heavy, ERP light, a red line under ERP), drawn as
+// brushed metal; its red light is a thin line around the outside of every letter, and a brighter spot of it can run
+// all the way round the word
+const MASK_W = 1755, MASK_H = 290, UNDER = [1298, 258, 1740, 258];
+const maskImg = new Image();
+maskImg.src = window.WORDMARK_MASK;
+const maskReady = new Promise((r) => (maskImg.onload = r));
+const wordCache = {};
 
-function textSetup(cx, size) {
-	cx.font = `600 ${size}px Montserrat`;
-	cx.letterSpacing = `${Math.round(size * 0.13)}px`;
-	cx.textAlign = "center";
-	cx.textBaseline = "middle";
-	cx.lineJoin = "round";
+function wordLayers(w) {
+	if (wordCache[w]) return wordCache[w];
+	const k = w / MASK_W, h = Math.round(MASK_H * k), pad = 60;
+	const make = () => { const cv = document.createElement("canvas"); cv.width = w + pad * 2; cv.height = h + pad * 2; return cv; };
+	const mask = make(), contour = make(), face = make(), edge = make();
+	const mc = mask.getContext("2d");
+	mc.drawImage(maskImg, pad, pad, w, h);
+	// the outline: the letters grown by a little, less the letters themselves
+	const cc = contour.getContext("2d");
+	const r = Math.max(1.6, w / 520);
+	for (let i = 0; i < 16; i++) {
+		const a = (i / 16) * Math.PI * 2;
+		cc.drawImage(mask, Math.cos(a) * r, Math.sin(a) * r);
+	}
+	cc.globalCompositeOperation = "destination-out";
+	cc.drawImage(mask, 0, 0);
+	return (wordCache[w] = { k, h, pad, mask, contour, face, edge });
 }
 
-function drawText(x, y, size, p) {
-	// p: alpha, rim (red edge light), sweep (position of the moving light, -1..2), sweepColor, blur, metal (0 dark..1)
-	if (p.alpha <= 0) return;
-	const cx0 = layer.width / 2, cy0 = layer.height / 2;
-	// the metal face
-	lx.clearRect(0, 0, layer.width, layer.height);
-	textSetup(lx, size);
-	const g = lx.createLinearGradient(0, cy0 - size * 0.5, 0, cy0 + size * 0.5);
+function drawWord(x, y, w, p) {
+	// p: alpha, blur, metal (0 dark .. 1 bright), sweep (-0.5..1.5) and sweepStrength, rim (0..1, the red outline),
+	// orbit (an angle: where the bright spot of the outline is) and orbitStrength, under (0..1 drawn) and underLit
+	if ((p.alpha ?? 1) <= 0) return;
+	const L = wordLayers(w), { k, h, pad } = L;
+	const fw = L.face.width, fh = L.face.height;
+	const fx = L.face.getContext("2d");
+	fx.globalCompositeOperation = "source-over";
+	fx.clearRect(0, 0, fw, fh);
+	fx.drawImage(L.mask, 0, 0);
+	fx.globalCompositeOperation = "source-in";
 	const m = p.metal ?? 1;
-	g.addColorStop(0, `rgb(${mix(40, 150, m)},${mix(42, 155, m)},${mix(46, 163, m)})`);
-	g.addColorStop(0.45, `rgb(${mix(28, 86, m)},${mix(30, 90, m)},${mix(34, 97, m)})`);
-	g.addColorStop(0.55, `rgb(${mix(20, 48, m)},${mix(21, 51, m)},${mix(24, 57, m)})`);
-	g.addColorStop(1, `rgb(${mix(30, 108, m)},${mix(32, 112, m)},${mix(36, 120, m)})`);
-	lx.fillStyle = g;
-	lx.fillText(TEXT, cx0, cy0);
-	// the moving light, only on the letters
+	const g = fx.createLinearGradient(0, pad, 0, pad + h);
+	const c = (lo, hi) => Math.round(mix(lo, hi, m));
+	g.addColorStop(0, `rgb(${c(46, 214)},${c(48, 218)},${c(53, 226)})`);
+	g.addColorStop(0.42, `rgb(${c(32, 150)},${c(34, 155)},${c(38, 164)})`);
+	g.addColorStop(0.5, `rgb(${c(24, 92)},${c(25, 96)},${c(29, 104)})`);
+	g.addColorStop(1, `rgb(${c(34, 168)},${c(36, 172)},${c(40, 182)})`);
+	fx.fillStyle = g;
+	fx.fillRect(0, 0, fw, fh);
 	if (p.sweep !== undefined && p.sweep > -0.5 && p.sweep < 1.5) {
-		lx.save();
-		lx.globalCompositeOperation = "source-atop";
-		const sx = mix(-200, layer.width + 200, p.sweep);
-		const band = lx.createLinearGradient(sx - 160, 0, sx + 160, 0);
+		fx.globalCompositeOperation = "source-atop";
+		const sx = mix(-260, fw + 260, p.sweep);
+		const band = fx.createLinearGradient(sx - 150, 0, sx + 150, 0);
 		const col = p.sweepColor || [255, 255, 255];
 		band.addColorStop(0, rgba(col, 0));
-		band.addColorStop(0.5, rgba(col, 0.75 * (p.sweepStrength ?? 1)));
+		band.addColorStop(0.5, rgba(col, 0.85 * (p.sweepStrength ?? 1)));
 		band.addColorStop(1, rgba(col, 0));
-		lx.fillStyle = band;
-		lx.setTransform(1, 0, -0.35, 1, 0.35 * cy0, 0);
-		lx.fillRect(0, 0, layer.width, layer.height);
-		lx.restore();
+		fx.save();
+		fx.setTransform(1, 0, -0.4, 1, 0.4 * fh / 2, 0);
+		fx.fillStyle = band;
+		fx.fillRect(-fw, 0, fw * 3, fh);
+		fx.restore();
 	}
+	const ox = x - fw / 2, oy = y - fh / 2;
 	ctx.save();
-	ctx.globalAlpha = p.alpha;
+	ctx.globalAlpha = p.alpha ?? 1;
 	if (p.blur) ctx.filter = `blur(${p.blur}px)`;
-	// depth below the letters
-	ctx.save();
 	ctx.shadowColor = "rgba(0,0,0,0.9)";
-	ctx.shadowBlur = 18;
-	ctx.shadowOffsetY = 8;
-	ctx.drawImage(layer, x - cx0, y - cy0);
-	ctx.restore();
-	// the red light on the edges, and where the light passes, brighter
-	textSetup(ctx, size);
-	if ((p.rim ?? 0) > 0) {
-		ctx.save();
+	ctx.shadowBlur = 22;
+	ctx.shadowOffsetY = 9;
+	ctx.drawImage(L.face, ox, oy);
+	ctx.shadowColor = "transparent";
+	// the red outline, brighter where the orbiting spot is
+	const rim = p.rim ?? 0, orbit = p.orbitStrength ?? 0;
+	if (rim > 0 || orbit > 0) {
+		const ex = L.edge.getContext("2d");
+		ex.globalCompositeOperation = "source-over";
+		ex.clearRect(0, 0, fw, fh);
+		ex.drawImage(L.contour, 0, 0);
+		ex.globalCompositeOperation = "source-in";
+		if (orbit > 0 && p.orbit !== undefined) {
+			const cg = ex.createConicGradient(p.orbit, fw / 2, fh / 2);
+			const base = rgba([255, 36, 46], rim);
+			cg.addColorStop(0, rgba([255, 225, 215], Math.min(1, rim + orbit)));
+			cg.addColorStop(0.035, rgba([255, 70, 70], Math.min(1, rim + orbit * 0.8)));
+			cg.addColorStop(0.11, base);
+			cg.addColorStop(0.89, base);
+			cg.addColorStop(0.965, rgba([255, 70, 70], Math.min(1, rim + orbit * 0.8)));
+			cg.addColorStop(1, rgba([255, 225, 215], Math.min(1, rim + orbit)));
+			ex.fillStyle = cg;
+		} else {
+			ex.fillStyle = rgba([255, 36, 46], rim);
+		}
+		ex.fillRect(0, 0, fw, fh);
 		ctx.globalCompositeOperation = "lighter";
-		ctx.shadowColor = rgba(RED, 0.9 * p.rim);
-		ctx.shadowBlur = 22;
-		ctx.strokeStyle = rgba([255, 45, 55], 0.85 * p.rim);
-		ctx.lineWidth = 2.2;
-		ctx.strokeText(TEXT, x, y);
+		ctx.shadowColor = rgba(RED, 0.9);
+		ctx.shadowBlur = 16;
+		ctx.drawImage(L.edge, ox, oy);
+		ctx.shadowBlur = 5;
+		ctx.drawImage(L.edge, ox, oy);
+		ctx.globalCompositeOperation = "source-over";
+		ctx.shadowColor = "transparent";
+	}
+	ctx.restore();
+	// the red line under ERP: drawn from the left, a neon line
+	const under = p.under ?? 1;
+	if (under > 0) {
+		const x0 = ox + pad + UNDER[0] * k, x1 = ox + pad + UNDER[2] * k, uy = oy + pad + UNDER[1] * k;
+		const xe = mix(x0, x1, under);
+		ctx.save();
+		ctx.globalAlpha = p.alpha ?? 1;
+		neon(() => { ctx.beginPath(); ctx.moveTo(x0, uy); ctx.lineTo(xe, uy); }, Math.max(3, 9 * k * 1.3), p.underLit ?? 1, 1, { cap: "round", dark: 0.9 });
+		if (under < 1) head(xe, uy, 22, p.underLit ?? 1);
 		ctx.restore();
 	}
-	if (p.edgeSweep !== undefined && p.edgeSweep > -0.3 && p.edgeSweep < 1.3) {
-		// a bar of red light running along the edges, from left to right
-		ctx.save();
-		ctx.globalCompositeOperation = "lighter";
-		const width = ctx.measureText(TEXT).width;
-		const sx = x - width / 2 - 150 + (width + 300) * p.edgeSweep;
-		const band = ctx.createLinearGradient(sx - 140, 0, sx + 140, 0);
-		band.addColorStop(0, "rgba(255,60,60,0)");
-		band.addColorStop(0.5, "rgba(255,170,160,1)");
-		band.addColorStop(1, "rgba(255,60,60,0)");
-		ctx.strokeStyle = band;
-		ctx.shadowColor = "rgba(255,30,40,1)";
-		ctx.shadowBlur = 30;
-		ctx.lineWidth = 3;
-		ctx.strokeText(TEXT, x, y);
-		ctx.restore();
-	}
-	ctx.restore();
 }
 
 // --- the background
@@ -306,11 +336,11 @@ grain.width = 512; grain.height = 512;
 	g.putImageData(d, 0, 0);
 })();
 
-function background(base, glow, glowY, t) {
+function background(base, glow, glowY, t, glowX = W / 2) {
 	ctx.fillStyle = base;
 	ctx.fillRect(0, 0, W, H);
 	if (glow > 0) {
-		const g = ctx.createRadialGradient(W / 2, glowY, 0, W / 2, glowY, 760);
+		const g = ctx.createRadialGradient(glowX, glowY, 0, glowX, glowY, 760);
 		g.addColorStop(0, rgba([120, 8, 14], 0.55 * glow));
 		g.addColorStop(0.5, rgba([60, 4, 8], 0.25 * glow));
 		g.addColorStop(1, "rgba(0,0,0,0)");
@@ -361,6 +391,7 @@ const SPARKS = Array.from({ length: 70 }, (_, i) => {
 });
 
 // =============== scene 1: Signal ===============
+const WORD_W = 860;
 const SIGNAL_LEN = 8.0;
 function signal(t) {
 	const flare = seg(t, 4.35, 4.55) * (1 - seg(t, 4.55, 5.4));
@@ -442,9 +473,10 @@ function signal(t) {
 	}
 	// the words come out of the dark; a bar of red light runs along their edges
 	const tp = easeOut(seg(t, 5.1, 6.0));
-	drawText(W / 2, mix(880, 850, tp), 92, {
-		alpha: tp, blur: 10 * (1 - tp), metal: 0.85, rim: 0.35 + 0.25 * seg(t, 6.0, 6.8),
-		edgeSweep: mix(-0.3, 1.3, seg(t, 5.7, 7.0)), sweep: mix(-0.4, 1.4, seg(t, 5.9, 7.1)), sweepStrength: 0.45,
+	drawWord(W / 2, mix(820, 795, tp), WORD_W, {
+		alpha: tp, blur: 10 * (1 - tp), metal: 0.85, rim: 0.3 + 0.25 * seg(t, 6.0, 6.8),
+		orbit: mix(-Math.PI / 2, Math.PI * 1.5, easeInOut(seg(t, 5.6, 7.2))), orbitStrength: 0.9 * seg(t, 5.6, 5.8) * (1 - seg(t, 7.0, 7.4)),
+		sweep: mix(-0.4, 1.4, seg(t, 5.9, 7.1)), sweepStrength: 0.35, under: easeInOut(seg(t, 5.5, 6.3)),
 	});
 	vignette(0.75);
 	filmGrain(t, 0.05);
@@ -534,9 +566,10 @@ function metal(t) {
 	});
 	// the words: dark metal, then the white light across them, then their red edge
 	const ta = easeOut(seg(t, 4.6, 5.8));
-	drawText(W / 2, 852, 92, {
-		alpha: ta, metal: mix(0.25, 0.9, seg(t, 5.0, 6.6)), rim: 0.55 * seg(t, 6.0, 7.2),
-		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 5.2, 6.6))), sweepColor: [255, 255, 255], sweepStrength: 0.9,
+	drawWord(W / 2, 795, WORD_W, {
+		alpha: ta, metal: mix(0.2, 0.88, seg(t, 5.0, 6.6)), rim: 0.55 * seg(t, 6.0, 7.2),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 5.2, 6.6))), sweepStrength: 0.9,
+		under: 1, underLit: easeOut(seg(t, 6.0, 6.8)),
 	});
 	ctx.restore();
 	vignette(0.85);
@@ -545,8 +578,221 @@ function metal(t) {
 	fade(seg(t, METAL_LEN - 0.6, METAL_LEN));
 }
 
-window.SCENES = { signal: [signal, SIGNAL_LEN], metal: [metal, METAL_LEN] };
+// all the parts of the logo, lit alike (each 0..1 drawn)
+function drawAll(lit, s, drawn = 1) {
+	for (let i = 0; i < RINGS.length; i++) drawRing(i, drawn, lit, s);
+	for (let i = 2; i >= 0; i--) drawV(i, drawn, lit, s);
+	for (let i = 0; i < ARCS.length; i++) drawArc(i, drawn, lit, s);
+}
+
+// =============== scene 2: Drawing with light ===============
+const DRAW_LEN = 8.5;
+function grid(a) {
+	if (a <= 0) return;
+	ctx.save();
+	ctx.strokeStyle = `rgba(150,60,64,${0.07 * a})`;
+	ctx.lineWidth = 1;
+	ctx.beginPath();
+	for (let x = (W / 2) % 60; x < W; x += 60) { ctx.moveTo(x + 0.5, 0); ctx.lineTo(x + 0.5, H); }
+	for (let y = 0; y < H; y += 60) { ctx.moveTo(0, y + 0.5); ctx.lineTo(W, y + 0.5); }
+	ctx.stroke();
+	ctx.strokeStyle = `rgba(190,70,74,${0.1 * a})`;
+	ctx.beginPath();
+	ctx.moveTo(W / 2 + 0.5, 0); ctx.lineTo(W / 2 + 0.5, H); ctx.moveTo(0, 430.5); ctx.lineTo(W, 430.5);
+	ctx.stroke();
+	ctx.restore();
+}
+
+function drawWithLight(t) {
+	const lxp = W / 2, lyp = 430, s = 0.47;
+	const tileIn = easeOut(seg(t, 5.0, 5.9));
+	background("#050506", 0.25 + 0.5 * seg(t, 0.5, 5) + 0.3 * tileIn, lyp, t);
+	grid(seg(t, 0, 0.8) * (1 - seg(t, 5.0, 6.0)));
+	// just drawn, a line shines whiter, then settles to red
+	const fresh = (end) => 1 + 0.7 * (t > end ? 1 - seg(t, end, end + 0.7) : 0);
+	withLogo(lxp, lyp, s, () => {
+		ctx.save();
+		ctx.translate(0, 40 * (1 - tileIn));
+		drawTile(tileIn, s, 0.06 + 0.06 * tileIn);
+		ctx.restore();
+		for (let i = 0; i < RINGS.length; i++) {
+			const at = 0.4 + i * 0.32;
+			drawRing(i, easeInOut(seg(t, at, at + 1.0)), fresh(at + 1.0), s);
+		}
+		for (let k = 0; k < 3; k++) {
+			const i = 2 - k, at = 2.5 + k * 0.3;
+			drawV(i, easeInOut(seg(t, at, at + 0.8)), fresh(at + 0.8), s);
+		}
+		for (let i = 0; i < ARCS.length; i++) {
+			const at = 3.7 + i * 0.18;
+			drawArc(i, easeInOut(seg(t, at, at + 0.5)), fresh(at + 0.5), s, false);
+		}
+	});
+	const ta = easeOut(seg(t, 5.6, 6.4));
+	drawWord(W / 2, 795, WORD_W, {
+		alpha: ta, metal: 0.88, rim: 0.32 * ta, under: easeInOut(seg(t, 5.8, 6.5)),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 6.0, 6.9))), sweepStrength: 1.0,
+	});
+	vignette(0.8);
+	filmGrain(t, 0.05);
+	fade(1 - seg(t, 0, 0.4));
+	fade(seg(t, DRAW_LEN - 0.6, DRAW_LEN));
+}
+
+// =============== scene 3: Energy ===============
+const ENERGY_LEN = 7.5, HIT = 1.4;
+const STREAKS = Array.from({ length: 9 }, (_, i) => {
+	const f = (v) => v - Math.floor(v);
+	const r = f(Math.sin(i * 91.7) * 4375.5);
+	return { a: (i / 9) * Math.PI * 2 + 0.35 + r * 0.3, dur: 0.7 + r * 0.5, arrive: HIT - 0.04 + (r - 0.5) * 0.08, w: 3 + r * 4 };
+});
+const EMBERS = Array.from({ length: 60 }, (_, i) => {
+	const f = (v) => v - Math.floor(v);
+	return { x: f(Math.sin(i * 12.3) * 9999) * W, y: f(Math.sin(i * 7.7) * 7777) * H, v: 18 + f(Math.sin(i * 3.1) * 5555) * 40, s: 1 + f(Math.sin(i * 5.9) * 3333) * 2.2, ph: i };
+});
+
+function energy(t) {
+	const boom = t >= HIT ? Math.exp(-(t - HIT) * 3.2) : 0;
+	const shake = t >= HIT ? Math.exp(-(t - HIT) * 5) * 16 : 0;
+	ctx.save();
+	ctx.translate(Math.sin(t * 91) * shake, Math.cos(t * 77) * shake);
+	const move = easeInOut(seg(t, 2.6, 3.4));
+	const lxp = W / 2, lyp = mix(540, 430, move);
+	background("#050506", 0.3 + 0.5 * seg(t, 0, HIT) + boom, lyp, t);
+	// embers drifting up after the hit
+	if (t > HIT) {
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		for (const e of EMBERS) {
+			const y = ((e.y - (t - HIT) * e.v * 2) % H + H) % H;
+			const a = 0.5 * seg(t, HIT, HIT + 0.6) * (0.5 + 0.5 * Math.sin(t * 3 + e.ph));
+			ctx.fillStyle = `rgba(255,70,60,${a})`;
+			ctx.beginPath(); ctx.arc(e.x + Math.sin(t + e.ph) * 12, y, e.s, 0, Math.PI * 2); ctx.fill();
+		}
+		ctx.restore();
+	}
+	// the streaks rushing to the middle
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	ctx.lineCap = "round";
+	for (const st of STREAKS) {
+		const p = seg(t, st.arrive - st.dur, st.arrive);
+		if (p <= 0 || p >= 1) continue;
+		const d = 1150 * (1 - Math.pow(p, 1.6)), len = 420 * (0.5 + p);
+		const hx = W / 2 + Math.cos(st.a) * d, hy = 540 + Math.sin(st.a) * d;
+		const tx = W / 2 + Math.cos(st.a) * (d + len), ty = 540 + Math.sin(st.a) * (d + len);
+		const g = ctx.createLinearGradient(tx, ty, hx, hy);
+		g.addColorStop(0, "rgba(255,30,40,0)");
+		g.addColorStop(0.8, "rgba(255,60,60,0.85)");
+		g.addColorStop(1, "rgba(255,230,220,1)");
+		ctx.strokeStyle = g;
+		ctx.shadowColor = rgba(RED, 1);
+		ctx.shadowBlur = 24;
+		ctx.lineWidth = st.w;
+		ctx.beginPath(); ctx.moveTo(tx, ty); ctx.lineTo(hx, hy); ctx.stroke();
+		head(hx, hy, 26, 0.9);
+	}
+	ctx.restore();
+	// the logo out of the light: larger at first, settling with a small spring
+	if (t >= HIT) {
+		const p = seg(t, HIT, HIT + 0.9);
+		const spring = 1 + 0.32 * Math.exp(-p * 5) * Math.cos(p * 9);
+		const s = 0.47 * spring;
+		withLogo(lxp, lyp, s, () => {
+			drawTile(seg(t, HIT, HIT + 0.3), s, 0.08);
+			drawAll(1 + 1.2 * boom, s);
+			const sp = seg(t, HIT, HIT + 1.1);
+			if (sp < 1) {
+				ctx.save();
+				ctx.globalCompositeOperation = "lighter";
+				for (const [k, r0] of [[1, 100], [0.6, 40]]) {
+					ctx.strokeStyle = rgba([255, 110, 100], 0.6 * (1 - sp) * k);
+					ctx.shadowColor = rgba(RED, 1);
+					ctx.shadowBlur = 50;
+					ctx.lineWidth = 34 * (1 - sp) + 2;
+					ctx.beginPath(); ctx.arc(CX, CY, r0 + 1900 * easeOut(sp) * k, 0, Math.PI * 2); ctx.stroke();
+				}
+				ctx.restore();
+				for (const k of SPARKS) {
+					const age = (t - HIT) / (k.life * 1.2);
+					if (age <= 0 || age >= 1) continue;
+					const d = 120 + k.v * easeOut(age) * 2.4;
+					head(CX + Math.cos(k.a) * d, CY + Math.sin(k.a) * d, k.size * 11, (1 - age) * 0.9);
+				}
+			}
+		});
+	}
+	// the flash of the hit
+	if (t >= HIT - 0.05) {
+		const fl = seg(t, HIT - 0.05, HIT) * Math.exp(-Math.max(0, t - HIT) * 4.5);
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		const g = ctx.createRadialGradient(lxp, lyp, 0, lxp, lyp, 1300);
+		g.addColorStop(0, `rgba(255,235,225,${0.95 * fl})`);
+		g.addColorStop(0.3, `rgba(255,70,60,${0.6 * fl})`);
+		g.addColorStop(1, "rgba(255,0,0,0)");
+		ctx.fillStyle = g;
+		ctx.fillRect(-100, -100, W + 200, H + 200);
+		ctx.restore();
+	}
+	// the words land with a low boom; the red light runs once around them
+	const ta = easeOut(seg(t, 3.3, 3.75));
+	const wk = 1 + 0.08 * (1 - ta);
+	drawWord(W / 2, 795, WORD_W * wk, {
+		alpha: ta, metal: 0.9, rim: 0.35 * ta, under: easeInOut(seg(t, 3.45, 3.95)),
+		orbit: mix(-Math.PI / 2, Math.PI * 1.5, easeInOut(seg(t, 3.6, 5.1))), orbitStrength: 1.0 * seg(t, 3.6, 3.8) * (1 - seg(t, 4.9, 5.3)),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 3.4, 4.3))), sweepStrength: 0.5,
+	});
+	ctx.restore();
+	vignette(0.8);
+	filmGrain(t, 0.05);
+	fade(seg(t, ENERGY_LEN - 0.6, ENERGY_LEN));
+}
+const easeIn = (x) => x * x * x;
+
+// =============== scene 5: Pulse (short) ===============
+const PULSE_LEN = 3.6;
+function pulse(t) {
+	const lxp = 474, lyp = 540, s = 0.32;
+	const beats = [0.35, 0.8];
+	let lit = 0, flash = 0;
+	beats.forEach((b, k) => {
+		if (t >= b) {
+			lit = k === 0 ? 0.45 : 1;
+			flash = Math.max(flash, Math.exp(-(t - b) * 6) * (k === 0 ? 0.6 : 0.9));
+		}
+	});
+	background("#050506", 0.2 + 0.5 * lit + flash, lyp, t, lxp);
+	withLogo(lxp, lyp, s, () => {
+		drawTile(1, s, 0.07);
+		drawAll(lit + flash, s);
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		beats.forEach((b, k) => {
+			const p = seg(t, b, b + 0.9);
+			if (p <= 0 || p >= 1) return;
+			ctx.strokeStyle = rgba([255, 90, 85], (1 - p) * (k ? 0.75 : 0.5));
+			ctx.shadowColor = rgba(RED, 1);
+			ctx.shadowBlur = 40;
+			ctx.lineWidth = 22 * (1 - p) + 2;
+			ctx.beginPath(); ctx.arc(CX, CY, 60 + 900 * easeOut(p), 0, Math.PI * 2); ctx.stroke();
+		});
+		ctx.restore();
+	});
+	const ta = easeOut(seg(t, 1.25, 1.85));
+	drawWord(1140 - 40 * (1 - ta), 548, 900, {
+		alpha: ta, metal: 0.88, rim: 0.32 * ta, under: easeInOut(seg(t, 1.55, 2.1)),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 1.8, 2.6))), sweepStrength: 0.8,
+	});
+	vignette(0.75);
+	filmGrain(t, 0.05);
+	fade(1 - seg(t, 0, 0.25));
+	fade(seg(t, PULSE_LEN - 0.35, PULSE_LEN));
+}
+
+window.SCENES = { signal: [signal, SIGNAL_LEN], draw: [drawWithLight, DRAW_LEN], energy: [energy, ENERGY_LEN],
+	metal: [metal, METAL_LEN], pulse: [pulse, PULSE_LEN] };
 window.render = (t, scene) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = "none"; SCENES[scene][0](t); };
-window.ready = document.fonts.load("600 92px Montserrat").then(() => true);
+window.ready = maskReady.then(() => true);
 </script>
 </body></html>

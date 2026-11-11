@@ -192,5 +192,80 @@ def metal(path):
 	finish(buf, path, fade_in=0.4, fade_out=0.8)
 
 
+def pen(dur):
+	"""the hiss of a pen of light: filtered noise with a light tremble"""
+	n = int(dur * SR)
+	t = t_(dur)
+	x = lowpass(rng.normal(0, 1, n), 0.25) - lowpass(rng.normal(0, 1, n), 0.02)
+	trem = 0.7 + 0.3 * np.sin(2 * math.pi * 13 * t) * np.sin(2 * math.pi * 0.7 * t)
+	env = np.minimum(1, t / 0.15) * np.minimum(1, (dur - t) / 0.3)
+	return x * trem * env * 0.5
+
+
+def thump(f=55, decay=9):
+	t = t_(0.8)
+	x = np.sin(2 * math.pi * np.cumsum(f + 70 * np.exp(-t * 35)) / SR) * np.exp(-t * decay)
+	return x + lowpass(rng.normal(0, 1, len(t)), 0.15) * np.exp(-t * 60) * 0.4
+
+
+def chime(f=1760):
+	t = t_(2.4)
+	x = sum(np.sin(2 * math.pi * f * r * t + i) * a for i, (r, a) in enumerate(((1, 1), (2.0, 0.4), (3.0, 0.2), (4.2, 0.1))))
+	return x * np.exp(-t * 2.2) * np.minimum(1, t / 0.005) * 0.4
+
+
+def draw(path):
+	dur = 8.5
+	buf = np.zeros((int(dur * SR), 2))
+	pad = drone(dur, [49, 73.4, 98], lambda t: 0.25 + 0.35 * np.clip(t / 5, 0, 1) + 0.3 * np.clip((t - 5) / 1.5, 0, 1))
+	place(buf, reverb(pad, 0.35), 0, 0.6)
+	for i in range(5):
+		at = 0.4 + i * 0.32
+		place(buf, pen(1.0), at, 0.22, pan=-0.5)
+		place(buf, pen(1.0), at, 0.22, pan=0.5)
+		place(buf, reverb(blip(880 + i * 110) * 0.5, 0.4), at, 0.15)
+	for k in range(3):
+		place(buf, pen(0.8), 2.5 + k * 0.3, 0.3)
+	for i in range(6):
+		place(buf, pen(0.5), 3.7 + i * 0.18, 0.2, pan=-0.3 + i * 0.12)
+		place(buf, reverb(blip(1320 + i * 90) * 0.4, 0.4), 3.7 + i * 0.18, 0.12)
+	place(buf, reverb(thump(48, 5), 0.4), 5.0, 0.7)
+	place(buf, pen(0.7), 5.8, 0.22, 0.3)
+	place(buf, reverb(shing(2349), 0.5, 1.3), 6.0, 0.45)
+	place(buf, reverb(chime(1174.7), 0.5, 1.3), 6.1, 0.35)
+	finish(buf, path, fade_in=0.3)
+
+
+def energy(path):
+	dur = 7.5
+	buf = np.zeros((int(dur * SR), 2))
+	hit = 1.4
+	for k in range(5):
+		w = whoosh(0.9, 0.85)
+		place(buf, w, hit - 0.9 + (k - 2) * 0.03, 0.22, pan=-0.8 + k * 0.4)
+	place(buf, riser(1.2), hit - 1.2, 0.45)
+	place(buf, reverb(impact(), 0.35, 1.4), hit, 1.0)
+	burst = lowpass(rng.normal(0, 1, int(0.8 * SR)), 0.5) * np.exp(-t_(0.8) * 7)
+	place(buf, reverb(burst, 0.4), hit, 0.45)
+	pad = drone(dur, [55, 82.4, 110], lambda t: np.where(t < hit, 0.15 * t / hit, 0.65 * np.exp(-(t - hit) * 0.25) + 0.25))
+	place(buf, reverb(pad, 0.35), 0, 0.6)
+	place(buf, reverb(thump(40, 3.5) * 1.2, 0.4, 1.4), 3.3, 0.8)
+	place(buf, reverb(shimmer(1.5, 1760), 0.5), 3.6, 0.45, -0.4)
+	place(buf, reverb(shimmer(1.2, 2349), 0.5), 4.2, 0.35, 0.4)
+	finish(buf, path)
+
+
+def pulse(path):
+	dur = 3.6
+	buf = np.zeros((int(dur * SR), 2))
+	pad = drone(dur, [55, 82.4], lambda t: 0.2 + 0.4 * np.clip(t / 1.5, 0, 1))
+	place(buf, reverb(pad, 0.3), 0, 0.5)
+	place(buf, reverb(thump(52, 8), 0.3), 0.35, 0.75)
+	place(buf, reverb(thump(48, 6) * 1.2, 0.35), 0.8, 0.9)
+	place(buf, reverb(whoosh(0.6, 0.5), 0.3), 1.2, 0.18)
+	place(buf, reverb(chime(1318.5), 0.5, 1.3), 1.6, 0.4)
+	finish(buf, path, fade_in=0.05, fade_out=0.35)
+
+
 if __name__ == "__main__":
-	{"signal": signal, "metal": metal}[sys.argv[1]](sys.argv[2])
+	{"signal": signal, "metal": metal, "draw": draw, "energy": energy, "pulse": pulse}[sys.argv[1]](sys.argv[2])
