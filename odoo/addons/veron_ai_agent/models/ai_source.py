@@ -131,7 +131,7 @@ class AiSource(models.Model):
 		ordered = local if engine != "ai" else outside + local
 		if not ordered:
 			raise UserError(_("No speech-to-text is set. Type the message, or connect an AI for voices in AI Agents, "
-				"Settings, Connect AI."))
+				"Configuration, Connect AI."))
 		errors = []
 		for provider in ordered.with_env(self.env):
 			try:

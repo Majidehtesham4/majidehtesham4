@@ -101,7 +101,7 @@ class Adapter:
 	def secret(self):
 		key = self.config.get("api_key")
 		if not key:
-			raise ProviderError(_lt("The provider has no key. Enter it in AI Agents, Settings, Providers."), kind="config")
+			raise ProviderError(_lt("The provider has no key. Enter it in AI Agents, Configuration, Providers."), kind="config")
 		return key
 
 	def keys(self):

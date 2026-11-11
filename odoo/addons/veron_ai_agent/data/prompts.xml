@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<!-- Ready requests under the agent's name in a new chat, on every page and for every agent, as in Odoo's AI app.
+		A manager changes them, or adds others for a page, in Configuration > Default Prompts. -->
+	<record id="prompt_rule_everywhere" model="veron.ai.prompt.rule">
+		<field name="name">Everywhere</field>
+		<field name="sequence">100</field>
+	</record>
+	<record id="prompt_button_late" model="veron.ai.prompt.button">
+		<field name="rule_id" ref="prompt_rule_everywhere"/>
+		<field name="sequence">1</field>
+		<field name="title">What is late for me?</field>
+		<field name="prompt">What are my late tasks and activities?</field>
+	</record>
+	<record id="prompt_button_sales" model="veron.ai.prompt.button">
+		<field name="rule_id" ref="prompt_rule_everywhere"/>
+		<field name="sequence">2</field>
+		<field name="title">This month's sales report</field>
+		<field name="prompt">Give me the sales report of this month.</field>
+	</record>
+	<record id="prompt_button_stock" model="veron.ai.prompt.button">
+		<field name="rule_id" ref="prompt_rule_everywhere"/>
+		<field name="sequence">3</field>
+		<field name="title">Products short in stock</field>
+		<field name="prompt">Which products are short in stock?</field>
+	</record>
+</odoo>

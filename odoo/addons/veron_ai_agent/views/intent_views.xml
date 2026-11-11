@@ -116,6 +116,6 @@
 		<field name="context">{'search_default_approved': 0}</field>
 	</record>
 
-	<menuitem id="menu_intents" name="Assistant Library" parent="menu_config" action="action_intents" sequence="4"/>
-	<menuitem id="menu_phrases" name="Learned Phrases" parent="menu_config" action="action_phrases" sequence="5"/>
+	<menuitem id="menu_intents" name="Assistant Library" parent="menu_config" action="action_intents" sequence="6"/>
+	<menuitem id="menu_phrases" name="Learned Phrases" parent="menu_config" action="action_phrases" sequence="7"/>
 </odoo>

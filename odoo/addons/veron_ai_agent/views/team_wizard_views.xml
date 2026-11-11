@@ -46,6 +46,6 @@
 		<field name="target">new</field>
 	</record>
 
-	<menuitem id="menu_team_wizard" name="Build a Team" parent="menu_agents" action="action_team_wizard" sequence="3"
+	<menuitem id="menu_team_wizard" name="Build a Team" parent="menu_config" action="action_team_wizard" sequence="2"
 		groups="group_ai_manager"/>
 </odoo>

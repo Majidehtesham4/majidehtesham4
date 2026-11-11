@@ -20,3 +20,4 @@ from . import ai_skill
 from . import ai_knowledge
 from . import ai_trigger
 from . import ai_prompt_rule
+from . import ai_chat_ui

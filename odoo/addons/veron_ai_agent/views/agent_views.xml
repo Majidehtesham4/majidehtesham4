@@ -394,7 +394,7 @@
 						<div class="d-flex gap-3">
 							<div class="o_veron_ai_agent_avatar flex-shrink-0">
 								<img t-if="record.image_128.raw_value" t-att-src="'/web/image/veron.ai.agent/' + record.id.raw_value + '/image_128'" alt="Agent"/>
-								<img t-else="" src="/veron_ai_agent/static/src/img/agent.png" alt="Agent"/>
+								<img t-else="" src="/veron_ai_agent/static/description/icon.svg" alt="Agent"/>
 							</div>
 							<div class="flex-grow-1 overflow-hidden">
 								<div class="d-flex align-items-center gap-2">

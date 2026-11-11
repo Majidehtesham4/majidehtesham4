@@ -103,7 +103,7 @@ class ClaudeAdapter(providers.Adapter):
 			with client.messages.stream(**params) as stream:
 				return stream.get_final_message()
 		except anthropic.AuthenticationError as error:
-			raise ProviderError(_lt("Claude refused the key. Check it in AI Agents, Settings, Providers."), kind="config") from error
+			raise ProviderError(_lt("Claude refused the key. Check it in AI Agents, Configuration, Providers."), kind="config") from error
 		except anthropic.PermissionDeniedError as error:
 			raise ProviderError(_lt("The key may not use this model or feature."), kind="config") from error
 		except anthropic.NotFoundError as error:

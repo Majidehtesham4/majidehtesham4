@@ -364,7 +364,9 @@ class AiRun(models.Model):
 		adapter = provider._adapter()
 		self.provider_name = f"{provider.name} ({provider.model_name or provider.adapter})"
 		tools = []
-		for grant in agent.grant_ids.filtered("active"):
+		# The tools the person turned off for this conversation, e.g. the web search
+		skipped = set(self.env.context.get("veron_ai_skip_tools") or ())
+		for grant in agent.grant_ids.filtered(lambda g: g.active and g.tool_id.code not in skipped):
 			tool = registry.get(grant.tool_id.code)
 			if tool and tool.available(env) and (not tool.supervisor_only or agent.is_supervisor):
 				tools.append(tool.definition())
@@ -397,7 +399,7 @@ class AiRun(models.Model):
 		answer = ""
 		try:
 			for _step in range(max(agent.max_steps, 1)):
-				result = adapter.chat(self._system_prompt(), messages, tools, max_tokens=provider.max_tokens or 8000)
+				result = adapter.chat(self._system_prompt(), messages, tools, max_tokens=provider._answer_tokens())
 				for key in usage:
 					usage[key] += result.usage.get(key, 0)
 				messages.append(result.assistant_message)

@@ -1,45 +1,138 @@
-/** The agent chat: text, a voice message whose text the person checks before it is sent, a photo from the
- * camera, a PDF or an Excel file. Answers can be read aloud. The person chooses, per message, the built-in
- * assistant (no AI) or the AI when the agent has one. */
+/** What the agent's page and the chat window share: the conversation, text, a voice message whose text the
+ * person checks before it is sent, a photo from the camera, a PDF or an Excel file, the options of the
+ * conversation, and answers read aloud. The person chooses the built-in assistant (no AI) or the AI when the
+ * agent has one. */
 import { Component, markup, onMounted, onWillStart, useRef, useState } from "@odoo/owl";
+import { Dropdown } from "@web/core/dropdown/dropdown";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
+import { deserializeDateTime, formatDate } from "@web/core/l10n/dates";
 import { _t } from "@web/core/l10n/translation";
-import { registry } from "@web/core/registry";
+import { user } from "@web/core/user";
 import { useService } from "@web/core/utils/hooks";
 import { rpc } from "@web/core/network/rpc";
 
+const { DateTime } = luxon;
+
 export class AgentChat extends Component {
-    static template = "veron_ai_agent.Chat";
+    static template = "";
     static props = ["*"];
+    static components = { Dropdown, DropdownItem };
 
     setup() {
         this.orm = useService("orm");
         this.action = useService("action");
         this.notification = useService("notification");
         this.list = useRef("list");
+        this.fileInput = useRef("fileInput");
+        this.photoInput = useRef("photoInput");
+        this.textarea = useRef("textarea");
         this.state = useState({
             agents: [], agentId: false, conversationId: false, messages: [], text: "",
             files: [], busy: false, recording: false, uploading: false, ai: false, engine: "internal", prompts: [],
+            options: { web_search: true, show_steps: false, think_longer: false }, previousId: false,
+            agentName: "", agentImage: "", agentDescription: "", webSearch: false, filter: "",
         });
         this.recorder = null;
+        this.userAvatar = `/web/image/res.users/${user.userId}/avatar_128`;
+        this.userName = user.name;
         onWillStart(() => this.start());
         onMounted(() => this.scroll());
     }
 
-    async start() {
-        this.state.agents = await this.orm.call("veron.ai.conversation", "veron_chat_agents", []);
-        const wanted = this.props.action?.params?.agent_id;
-        const first = this.state.agents.find((a) => a.id === wanted) || this.state.agents[0];
-        if (first) {
-            await this.openAgent(first.id);
-        }
-    }
+    async start() {}
+
+    /** After an answer: the page refreshes its list of conversations */
+    afterSend() {}
 
     get agent() {
         return this.state.agents.find((a) => a.id === this.state.agentId);
     }
 
+    /** The messages shown: all, or those that hold the words searched for */
+    get shownMessages() {
+        const words = this.state.filter.trim().toLowerCase();
+        if (!words) {
+            return this.state.messages;
+        }
+        return this.state.messages.filter((m) => `${m.body} ${m.body_html}`.toLowerCase().includes(words));
+    }
+
+    get placeholder() {
+        return this.state.agentName ? _t("Message %s...", this.state.agentName) : _t("Write your request...");
+    }
+
     html(value) {
         return markup(value || "");
+    }
+
+    /** The time of a message or a conversation: the hour today, else the date */
+    when(value) {
+        if (!value) {
+            return "";
+        }
+        const date = deserializeDateTime(value.split(".")[0]);
+        return date.hasSame(DateTime.local(), "day") ? date.toFormat("HH:mm") : formatDate(date);
+    }
+
+    /** The agent the conversation is with, as the page and the window show it */
+    useAgent(info) {
+        Object.assign(this.state, {
+            agentName: info.name || "", agentImage: info.image || "", agentDescription: info.description || "",
+        });
+    }
+
+    /** A conversation brought in from the server */
+    useConversation(result) {
+        Object.assign(this.state, {
+            conversationId: result.conversation_id, messages: result.messages || [], files: [],
+            options: result.options || this.state.options,
+        });
+        if ("previous_id" in result) {
+            this.state.previousId = result.previous_id;
+        }
+        setTimeout(() => this.scroll());
+    }
+
+    /** A new chat with the agent; the latest one with messages may be resumed */
+    async newChat(agentId = this.state.agentId) {
+        const result = await this.orm.call("veron.ai.conversation", "veron_chat_start", [agentId]);
+        this.state.agentId = result.agent_id;
+        this.useConversation(result);
+        this.state.text = "";
+    }
+
+    async openConversation(conversationId) {
+        const result = await this.orm.call("veron.ai.conversation", "veron_chat_load", [conversationId]);
+        this.state.agentId = result.agent_id;
+        this.state.previousId = false;
+        this.useConversation(result);
+    }
+
+    async setOption(key, value) {
+        this.state.options[key] = value;
+        if (this.state.conversationId) {
+            this.state.options = await this.orm.call("veron.ai.conversation", "veron_chat_options",
+                [this.state.conversationId, { [key]: value }]);
+        }
+    }
+
+    pick(kind) {
+        (kind === "photo" ? this.photoInput : this.fileInput).el?.click();
+    }
+
+    stepIcon(step) {
+        return {
+            allowed: "fa-check text-success", reused: "fa-check text-success", approval: "fa-hourglass-half text-warning",
+            suggestion: "fa-lightbulb-o text-info", denied: "fa-ban text-danger", failed: "fa-times text-danger",
+            needs_info: "fa-question-circle text-warning",
+        }[step.decision] || "fa-circle-o";
+    }
+
+    /** The box to write in grows with the text, up to a few lines */
+    onInput(ev) {
+        const el = ev.target;
+        el.style.height = "auto";
+        el.style.height = `${Math.min(el.scrollHeight, 180)}px`;
     }
 
     fileIcon(kind) {
@@ -79,14 +172,6 @@ export class AgentChat extends Component {
         }
     }
 
-    async openAgent(agentId) {
-        const result = await this.orm.call("veron.ai.conversation", "veron_chat_open", [agentId]);
-        Object.assign(this.state, { agentId, conversationId: result.conversation_id, messages: result.messages, files: [] });
-        const agent = this.agent;
-        this.useEngine(agentId, Boolean(agent?.ai), agent?.engine);
-        this.loadPrompts();
-        setTimeout(() => this.scroll());
-    }
 
     /** A photo the server may not open (HEIC, AVIF... often named .jpg) is sent as a JPEG when the browser can
      * draw it; a JPEG, a PNG, a PDF and other files are sent as they are */
@@ -262,8 +347,12 @@ export class AgentChat extends Component {
             }
             if (!command) {
                 this.state.text = "";
+                if (this.textarea.el) {
+                    this.textarea.el.style.height = "";
+                }
             }
             this.state.files = [];
+            this.afterSend();
         } catch (error) {
             this.state.messages = this.state.messages.filter((m) => m.id !== "tmp");
             throw error;
@@ -311,4 +400,3 @@ export class AgentChat extends Component {
     }
 }
 
-registry.category("actions").add("veron_ai_agent.chat", AgentChat);

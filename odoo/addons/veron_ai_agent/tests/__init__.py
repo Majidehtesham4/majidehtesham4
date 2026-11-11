@@ -7,3 +7,4 @@ from . import test_team
 from . import test_guide
 from . import test_operations
 from . import test_studio
+from . import test_chat_ui

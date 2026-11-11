@@ -22,7 +22,7 @@ Agents that do company work inside Odoo, under the control of a manager:
 - Replaceable providers: language model, vision, speech, text to speech, image generation, web search,
   antivirus. Without them the agents run their fixed steps; ai_claude_anthropic adds Claude
 """,
-	"version": "19.0.1.4.0",
+	"version": "19.0.1.5.0",
 	"category": "Productivity",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
@@ -44,10 +44,12 @@ Agents that do company work inside Odoo, under the control of a manager:
 		"views/guide_views.xml",
 		"data/guides.xml",
 		"data/skills.xml",
+		"data/prompts.xml",
 	],
 	"assets": {
 		"web.assets_backend": [
 			"veron_ai_agent/static/src/chat/chat.js",
+			"veron_ai_agent/static/src/chat/agent_page.js",
 			"veron_ai_agent/static/src/chat/assistant.js",
 			"veron_ai_agent/static/src/chat/chat.xml",
 			"veron_ai_agent/static/src/chat/chat.scss",

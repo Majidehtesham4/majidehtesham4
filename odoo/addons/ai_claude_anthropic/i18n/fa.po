@@ -64,9 +64,9 @@ msgstr "Claude کلید را نپذیرفت."
 #. module: ai_claude_anthropic
 #. odoo-python
 #: code:addons/ai_claude_anthropic/services/claude.py:0
-msgid "Claude refused the key. Check it in AI Agents, Settings, Providers."
+msgid "Claude refused the key. Check it in AI Agents, Configuration, Providers."
 msgstr ""
-"Claude کلید را نپذیرفت. آن را در ایجنت‌های هوش مصنوعی ← تنظیمات ← "
+"Claude کلید را نپذیرفت. آن را در ایجنت‌های هوش مصنوعی ← پیکربندی ← "
 "سرویس‌دهنده‌ها بررسی کنید."
 
 #. module: ai_claude_anthropic

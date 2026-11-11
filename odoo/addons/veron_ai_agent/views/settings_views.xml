@@ -216,9 +216,10 @@
 		<field name="tag">veron_ai_agent.chat</field>
 	</record>
 
-	<menuitem id="menu_root" name="AI Agents" web_icon="veron_ai_agent,static/description/icon.png" sequence="6"
+	<!-- As in Odoo's AI app: the agents first, the work and the approvals, then the configuration -->
+	<menuitem id="menu_root" name="AI Agents" web_icon="veron_ai_agent,static/description/icon.svg" sequence="6"
 		groups="group_ai_user"/>
-	<menuitem id="menu_chat" name="Talk" parent="menu_root" action="action_chat" sequence="1"/>
+	<menuitem id="menu_agents" name="Agents" parent="menu_root" action="action_agents" sequence="1"/>
 	<menuitem id="menu_approvals" name="Approvals and Questions" parent="menu_root" action="action_approvals" sequence="5"/>
 	<menuitem id="menu_work" name="Work" parent="menu_root" sequence="10">
 		<menuitem id="menu_runs" name="Runs" action="action_runs" sequence="1"/>
@@ -226,18 +227,15 @@
 		<menuitem id="menu_tasks" name="Supervisor Tasks" action="action_tasks" sequence="3"/>
 		<menuitem id="menu_contents" name="Drafts" action="action_contents" sequence="4"/>
 	</menuitem>
-	<menuitem id="menu_agents" name="Agents" parent="menu_root" sequence="20">
-		<menuitem id="menu_agent_list" name="Agents" action="action_agents" sequence="1"/>
-		<menuitem id="menu_library" name="Role Library" action="action_templates" sequence="2" groups="group_ai_manager"/>
-		<menuitem id="menu_skills" name="Skills" action="action_skills" sequence="3" groups="group_ai_manager"/>
-		<menuitem id="menu_knowledge" name="Knowledge Sources" action="action_knowledge" sequence="4" groups="group_ai_manager"/>
-	</menuitem>
-	<menuitem id="menu_config" name="Settings" parent="menu_root" sequence="90" groups="group_ai_manager">
-		<menuitem id="menu_connect" name="Connect AI" action="action_connect_wizard" sequence="0" groups="base.group_system"/>
-		<menuitem id="menu_providers" name="Providers" action="action_providers" sequence="1"/>
-		<menuitem id="menu_tools" name="Tools" action="action_tools" sequence="2"/>
-		<menuitem id="menu_prompt_rules" name="Default Prompts" action="action_prompt_rules" sequence="4"/>
-		<menuitem id="menu_audit" name="History of Actions" action="action_audit" sequence="3"/>
-		<menuitem id="menu_settings" name="Settings" action="action_settings" sequence="9"/>
+	<menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="90" groups="group_ai_manager">
+		<menuitem id="menu_library" name="Role Library" action="action_templates" sequence="1"/>
+		<menuitem id="menu_skills" name="Skills" action="action_skills" sequence="3"/>
+		<menuitem id="menu_knowledge" name="Knowledge Sources" action="action_knowledge" sequence="4"/>
+		<menuitem id="menu_prompt_rules" name="Default Prompts" action="action_prompt_rules" sequence="5"/>
+		<menuitem id="menu_connect" name="Connect AI" action="action_connect_wizard" sequence="10" groups="base.group_system"/>
+		<menuitem id="menu_providers" name="Providers" action="action_providers" sequence="11"/>
+		<menuitem id="menu_tools" name="Tools" action="action_tools" sequence="12"/>
+		<menuitem id="menu_audit" name="History of Actions" action="action_audit" sequence="13"/>
+		<menuitem id="menu_settings" name="Settings" action="action_settings" sequence="20"/>
 	</menuitem>
 </odoo>

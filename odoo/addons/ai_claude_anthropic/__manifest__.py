@@ -10,7 +10,7 @@ Claude (Anthropic) behind the provider interface of veron_ai_agent:
 - web search, only on the sites the provider allows
 
 It needs the official anthropic library (odoo.ps1 ai, or ./veron ai on a server) and a key, entered in
-AI Agents, Settings, Providers. Without them it installs and agents keep working with their own steps.
+AI Agents, Configuration, Providers. Without them it installs and agents keep working with their own steps.
 """,
 	"version": "19.0.1.0.0",
 	"category": "Productivity",

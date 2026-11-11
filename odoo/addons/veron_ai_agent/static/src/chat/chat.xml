@@ -1,88 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-    <t t-name="veron_ai_agent.Chat">
-        <div class="o_veron_ai_chat d-flex h-100" dir="rtl">
-            <aside class="o_veron_ai_agents border-start p-2">
-                <h6 class="text-muted px-2 d-flex align-items-center">
-                    <span class="flex-grow-1">Agents</span>
-                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="() => this.openGuide('talk')" title="Guide">
-                        <i class="fa fa-question-circle"/> Guide
-                    </button>
-                </h6>
-                <t t-if="!state.agents.length">
-                    <p class="text-muted small px-2">No working agent you may use. A manager activates one from the Role Library.</p>
+
+    <!-- The messages of a conversation, shared by the agent's page and the chat window -->
+    <t t-name="veron_ai_agent.Thread">
+        <div class="o_vai_thread flex-grow-1 overflow-auto" t-ref="list">
+            <div class="o_vai_thread_inner">
+                <t t-if="!state.messages.length">
+                    <div class="o_vai_intro">
+                        <img class="o_vai_intro_logo" t-att-src="state.agentImage or '/veron_ai_agent/static/description/icon.svg'" alt=""/>
+                        <h2 class="o_vai_intro_name" t-esc="state.agentName"/>
+                        <p class="o_vai_intro_desc" t-if="state.agentDescription" t-esc="state.agentDescription"/>
+                        <div t-if="state.prompts.length" class="o_vai_prompts">
+                            <button t-foreach="state.prompts" t-as="prompt" t-key="prompt.id" type="button"
+                                class="o_vai_prompt" t-on-click="() => this.usePrompt(prompt)" t-att-disabled="state.busy"
+                                t-esc="prompt.title"/>
+                        </div>
+                    </div>
                 </t>
-                <button t-foreach="state.agents" t-as="agent" t-key="agent.id" type="button"
-                    t-att-class="'btn w-100 text-start mb-1 ' + (agent.id === state.agentId ? 'btn-primary' : 'btn-light')"
-                    t-on-click="() => this.openAgent(agent.id)">
-                    <div class="fw-bold" t-esc="agent.name"/>
-                    <div class="small opacity-75" t-esc="agent.role"/>
-                </button>
-            </aside>
-            <section class="flex-grow-1 d-flex flex-column">
-                <div t-if="agent" class="o_veron_ai_head border-bottom p-2">
-                    <b t-esc="agent.name"/> <span class="badge text-bg-light" t-esc="agent.level"/>
-                    <div class="small text-muted" t-esc="agent.description"/>
+                <div t-foreach="shownMessages" t-as="message" t-key="message.id"
+                    t-att-class="'o_vai_message ' + (message.role === 'user' ? 'o_vai_from_user' : 'o_vai_from_agent')">
+                    <img class="o_vai_avatar" t-att-src="message.role === 'user' ? userAvatar : (state.agentImage or '/veron_ai_agent/static/description/icon.svg')" alt=""/>
+                    <div class="o_vai_message_main">
+                        <div class="o_vai_message_head">
+                            <b t-esc="message.role === 'user' ? userName : state.agentName"/>
+                            <span class="o_vai_time" t-esc="when(message.date)"/>
+                            <span t-if="message.role === 'agent' and message.engine === 'internal'" class="o_vai_engine">Built-in Assistant</span>
+                        </div>
+                        <div class="o_vai_body">
+                            <t t-if="message.role === 'user'"><div class="o_vai_text" t-esc="message.body"/></t>
+                            <t t-else=""><div t-out="html(message.body_html)"/></t>
+                        </div>
+                        <div t-if="message.sources and message.sources.length" class="o_vai_files">
+                            <span t-foreach="message.sources" t-as="source" t-key="source_index" class="o_vai_file_chip">
+                                <i t-att-class="'fa ' + fileIcon(source.kind)"/>
+                                <t t-esc="source.name"/>
+                            </span>
+                        </div>
+                        <details t-if="state.options.show_steps and message.steps and message.steps.length" class="o_vai_steps">
+                            <summary><span>Steps</span> (<t t-esc="message.steps.length"/>)</summary>
+                            <div t-foreach="message.steps" t-as="step" t-key="step.id" class="o_vai_step">
+                                <i t-att-class="'fa fa-fw ' + stepIcon(step)"/>
+                                <span class="fw-semibold" t-esc="step.name"/>
+                                <span class="text-muted" t-esc="step.decision_label"/>
+                                <span t-if="step.message" class="text-muted small"> · <t t-esc="step.message"/></span>
+                            </div>
+                        </details>
+                        <div t-if="message.options and message.options.length and message_last" class="o_vai_choices">
+                            <button t-foreach="message.options" t-as="option" t-key="option_index" type="button"
+                                class="o_vai_prompt" t-on-click="() => this.choose(option)" t-att-disabled="state.busy">
+                                <t t-if="option.choice"><t t-esc="option.choice"/>. </t><t t-esc="option.label"/>
+                            </button>
+                        </div>
+                        <div t-if="message.pending and message.pending.length" class="o_vai_pending">
+                            <div t-foreach="message.pending" t-as="approval" t-key="approval.id" class="o_vai_approval">
+                                <i class="fa fa-hourglass-half"/>
+                                <a href="#" class="flex-grow-1" t-on-click.prevent="() => this.openApproval(approval)" t-esc="approval.summary"/>
+                                <t t-if="approval.can_decide and approval.kind === 'action'">
+                                    <button type="button" class="btn btn-sm btn-primary" t-on-click="() => this.decide(approval, true)"
+                                        t-att-disabled="state.busy">Approve and Do</button>
+                                    <button type="button" class="btn btn-sm btn-secondary" t-on-click="() => this.decide(approval, false)"
+                                        t-att-disabled="state.busy">Reject</button>
+                                </t>
+                            </div>
+                        </div>
+                        <div t-if="message.role === 'agent'" class="o_vai_actions">
+                            <button type="button" class="btn btn-link" t-on-click="() => this.speak(message)" title="Read aloud"><i class="fa fa-volume-up"/></button>
+                            <button t-if="message.run" type="button" class="btn btn-link" t-on-click="() => this.openRun(message.run)" title="Run">
+                                <i class="fa fa-list-alt"/> <t t-esc="message.run.state_label"/>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <t t-call="veron_ai_agent.Conversation"/>
-            </section>
+                <div t-if="state.busy" class="o_vai_message o_vai_from_agent">
+                    <img class="o_vai_avatar" t-att-src="state.agentImage or '/veron_ai_agent/static/description/icon.svg'" alt=""/>
+                    <div class="o_vai_message_main"><div class="o_vai_typing"><span/><span/><span/></div></div>
+                </div>
+            </div>
         </div>
     </t>
 
-    <!-- The messages and the box to write in, shared by the chat page and the chat box of every page -->
-    <t t-name="veron_ai_agent.Conversation">
-        <div class="o_veron_ai_messages flex-grow-1 overflow-auto p-3" t-ref="list">
-            <div t-foreach="state.messages" t-as="message" t-key="message.id"
-                t-att-class="'o_veron_ai_message mb-3 ' + (message.role === 'user' ? 'o_from_user' : 'o_from_agent')">
-                <div class="o_veron_ai_bubble p-2 rounded">
-                    <t t-if="message.role === 'user'"><div class="o_veron_ai_text" t-esc="message.body"/></t>
-                    <t t-else=""><div t-out="html(message.body_html)"/></t>
-                    <div t-if="message.sources and message.sources.length" class="small mt-1">
-                        <span t-foreach="message.sources" t-as="source" t-key="source_index" class="badge text-bg-light me-1">
-                            <i t-att-class="'fa ' + fileIcon(source.kind)"/>
-                            <t t-esc="source.name"/>
-                        </span>
-                    </div>
-                    <div t-if="message.options and message.options.length and message_last" class="mt-2 d-flex flex-wrap gap-1">
-                        <button t-foreach="message.options" t-as="option" t-key="option_index" type="button"
-                            class="btn btn-sm btn-outline-primary" t-on-click="() => this.choose(option)"
-                            t-att-disabled="state.busy">
-                            <t t-if="option.choice"><t t-esc="option.choice"/>. </t><t t-esc="option.label"/>
-                        </button>
-                    </div>
-                    <div t-if="message.pending and message.pending.length" class="mt-2">
-                        <div t-foreach="message.pending" t-as="approval" t-key="approval.id" class="o_veron_ai_pending mb-1">
-                            <button type="button" class="btn btn-sm btn-warning me-1" t-on-click="() => this.openApproval(approval)">
-                                <i class="fa fa-hourglass-half"/> <t t-esc="approval.summary"/>
-                            </button>
-                            <t t-if="approval.can_decide and approval.kind === 'action'">
-                                <button type="button" class="btn btn-sm btn-success me-1" t-on-click="() => this.decide(approval, true)"
-                                    t-att-disabled="state.busy">Approve and Do</button>
-                                <button type="button" class="btn btn-sm btn-light" t-on-click="() => this.decide(approval, false)"
-                                    t-att-disabled="state.busy">Reject</button>
-                            </t>
-                        </div>
-                    </div>
-                    <div t-if="message.role === 'agent'" class="small text-muted mt-1 d-flex gap-2 align-items-center">
-                        <span t-if="message.engine" class="badge text-bg-light">
-                            <t t-if="message.engine === 'internal'">Built-in Assistant</t>
-                            <t t-else="">AI</t>
-                        </span>
-                        <a t-if="message.run" href="#" t-on-click.prevent="() => this.openRun(message.run)">
-                            <t t-esc="message.run.name"/> · <t t-esc="message.run.state_label"/>
-                        </a>
-                        <a href="#" t-on-click.prevent="() => this.speak(message)" title="Read aloud"><i class="fa fa-volume-up"/></a>
-                    </div>
-                </div>
-            </div>
-            <div t-if="state.busy" class="text-muted small"><i class="fa fa-circle-o-notch fa-spin"/> The agent is working...</div>
-        </div>
-        <div t-if="state.conversationId" class="o_veron_ai_input border-top p-2">
-            <div t-foreach="state.files" t-as="file" t-key="file.id" class="o_veron_ai_file mb-2">
+    <!-- The box to write in, with the + menu: files, a photo, and the options of the conversation -->
+    <t t-name="veron_ai_agent.Composer">
+        <div t-if="state.conversationId" class="o_vai_composer">
+            <div t-foreach="state.files" t-as="file" t-key="file.id" class="o_vai_pick">
                 <div class="d-flex align-items-center gap-2">
                     <i t-att-class="'fa ' + fileIcon(file.kind)"/>
-                    <span t-esc="file.name"/>
-                    <button type="button" class="btn btn-sm btn-link text-danger" t-on-click="() => this.removeFile(file)"><i class="fa fa-times"/></button>
+                    <span class="text-truncate" t-esc="file.name"/>
+                    <button type="button" class="btn btn-link p-0 ms-auto text-danger" t-on-click="() => this.removeFile(file)" title="Remove"><i class="fa fa-times"/></button>
                 </div>
                 <t t-if="file.kind === 'audio'">
                     <label class="small text-muted">Text of the voice message; correct it before sending (empty: what you
@@ -90,63 +94,291 @@
                     <textarea class="form-control form-control-sm" rows="2" t-model="file.transcriptEdit"/>
                 </t>
             </div>
-            <div t-if="state.ai" class="btn-group btn-group-sm mb-2" role="group">
-                <button type="button" t-att-class="'btn ' + (state.engine === 'internal' ? 'btn-primary' : 'btn-outline-primary')"
-                    t-on-click="() => this.setEngine('internal')" title="Answers from the program's data, without AI">
-                    <i class="fa fa-cogs"/> Built-in Assistant
-                </button>
-                <button type="button" t-att-class="'btn ' + (state.engine === 'ai' ? 'btn-primary' : 'btn-outline-primary')"
-                    t-on-click="() => this.setEngine('ai')" title="Answers with the language model set in the providers">
-                    <i class="fa fa-magic"/> AI
-                </button>
-            </div>
-            <div t-if="state.prompts.length and !state.busy" class="o_veron_ai_prompts d-flex flex-wrap gap-1 mb-2">
-                <button t-foreach="state.prompts" t-as="prompt" t-key="prompt.id" type="button"
-                    class="btn btn-sm o_veron_ai_prompt" t-on-click="() => this.usePrompt(prompt)" t-esc="prompt.title"/>
-            </div>
-            <div class="d-flex gap-2 align-items-end">
-                <textarea class="form-control" rows="2" t-model="state.text" t-on-keydown="onKeydown"
-                    placeholder="Write your request..." t-att-disabled="state.busy"/>
-                <div class="d-flex gap-1">
-                    <button type="button" t-att-class="'btn ' + (state.recording ? 'btn-danger' : 'btn-light')" t-on-click="toggleRecording" title="Voice message">
-                        <i t-att-class="'fa ' + (state.recording ? 'fa-stop' : 'fa-microphone')"/>
+            <div class="o_vai_compose_row">
+                <img t-if="showUserAvatar" class="o_vai_avatar o_vai_me" t-att-src="userAvatar" alt=""/>
+                <div class="o_vai_input">
+                    <Dropdown position="'top-start'" menuClass="'o_vai_plus_menu'">
+                        <button type="button" class="o_vai_icon_btn" title="Add"><i class="fa fa-plus-circle"/></button>
+                        <t t-set-slot="content">
+                            <DropdownItem onSelected="() => this.pick('file')"><i class="fa fa-fw fa-paperclip me-2"/>Attach Files</DropdownItem>
+                            <DropdownItem onSelected="() => this.pick('photo')"><i class="fa fa-fw fa-camera me-2"/>Take a Photo</DropdownItem>
+                            <div class="dropdown-divider"/>
+                            <div class="dropdown-header">AI Chat Settings</div>
+                            <label t-if="state.ai" class="o_vai_switch form-check form-switch">
+                                <span><i class="fa fa-fw fa-magic me-2"/>Use AI</span>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="state.engine === 'ai'"
+                                    t-on-change="(ev) => this.setEngine(ev.target.checked ? 'ai' : 'internal')"/>
+                            </label>
+                            <label t-if="state.ai and state.webSearch" class="o_vai_switch form-check form-switch">
+                                <span><i class="fa fa-fw fa-search me-2"/>Web Search</span>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="state.options.web_search"
+                                    t-on-change="(ev) => this.setOption('web_search', ev.target.checked)"/>
+                            </label>
+                            <label class="o_vai_switch form-check form-switch">
+                                <span><i class="fa fa-fw fa-list-ol me-2"/>Show Steps</span>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="state.options.show_steps"
+                                    t-on-change="(ev) => this.setOption('show_steps', ev.target.checked)"/>
+                            </label>
+                            <label t-if="state.ai" class="o_vai_switch form-check form-switch">
+                                <span><i class="fa fa-fw fa-lightbulb-o me-2"/>Think Longer</span>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="state.options.think_longer"
+                                    t-on-change="(ev) => this.setOption('think_longer', ev.target.checked)"/>
+                            </label>
+                        </t>
+                    </Dropdown>
+                    <input type="file" class="d-none" t-ref="fileInput" multiple="multiple"
+                        accept="image/*,application/pdf,.xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        t-on-change="(ev) => this.onPickFile(ev, 'other')"/>
+                    <input type="file" class="d-none" t-ref="photoInput" accept="image/*" capture="environment"
+                        t-on-change="(ev) => this.onPickFile(ev, 'receipt')"/>
+                    <textarea t-ref="textarea" rows="1" t-model="state.text" t-on-keydown="onKeydown" t-on-input="onInput"
+                        t-att-placeholder="placeholder" t-att-disabled="state.busy"/>
+                    <button t-if="state.text.trim() or state.files.length" type="button" class="o_vai_send" t-on-click="() => this.send()"
+                        t-att-disabled="state.busy or state.uploading or state.recording" title="Send">
+                        <i class="fa fa-arrow-up"/>
                     </button>
-                    <label class="btn btn-light mb-0" title="Photo">
-                        <i class="fa fa-camera"/>
-                        <input type="file" accept="image/*" capture="environment" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'receipt')"/>
-                    </label>
-                    <label class="btn btn-light mb-0" title="A photo, a PDF, or an Excel or CSV file">
-                        <i class="fa fa-paperclip"/>
-                        <input type="file" accept="image/*,application/pdf,.xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                            multiple="multiple" class="d-none" t-on-change="(ev) => this.onPickFile(ev, 'other')"/>
-                    </label>
-                    <button type="button" class="btn btn-primary" t-on-click="() => this.send()" t-att-disabled="state.busy or state.uploading or state.recording">
-                        <i class="fa fa-paper-plane"/>
+                    <button t-else="" type="button" t-att-class="'o_vai_icon_btn' + (state.recording ? ' o_vai_recording' : '')"
+                        t-on-click="toggleRecording" title="Voice message">
+                        <i t-att-class="'fa ' + (state.recording ? 'fa-stop-circle' : 'fa-microphone')"/>
                     </button>
                 </div>
             </div>
-            <div class="small text-muted mt-1">The agent acts only within its tools; actions that need approval wait for a person.</div>
+            <div class="o_vai_note">The agent acts only within its tools; actions that need approval wait for a person.</div>
         </div>
     </t>
 
-    <!-- The chat box of every page -->
-    <t t-name="veron_ai_agent.AssistantBox">
-        <div t-if="box.available" class="o_veron_assistant" dir="rtl">
-            <button t-if="!box.open" type="button" class="o_veron_assistant_button btn btn-primary rounded-circle shadow"
-                t-on-click="toggle" title="Assistant">
-                <i class="fa fa-comments fa-lg"/>
-            </button>
-            <div t-if="box.open" class="o_veron_assistant_panel shadow rounded d-flex flex-column">
-                <div class="o_veron_assistant_head d-flex align-items-center gap-2 p-2 border-bottom">
-                    <i class="fa fa-comments"/>
-                    <b class="flex-grow-1" t-esc="box.name"/>
-                    <span t-if="pageLabel" class="badge text-bg-light text-truncate" t-esc="pageLabel"/>
-                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="() => this.openGuide('assistant')" title="Guide"><i class="fa fa-question-circle"/></button>
-                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="clear" title="New conversation"><i class="fa fa-eraser"/></button>
-                    <button type="button" class="btn btn-sm btn-link p-0" t-on-click="toggle" title="Close"><i class="fa fa-times"/></button>
-                </div>
-                <t t-call="veron_ai_agent.Conversation"/>
+    <!-- The page of an agent: conversations, chat, and the agent's panel -->
+    <t t-name="veron_ai_agent.AgentPage">
+        <div class="o_vai_page o_action">
+            <div class="o_vai_crumbs">
+                <t t-foreach="breadcrumbs" t-as="crumb" t-key="crumb_index">
+                    <a href="#" t-on-click.prevent="() => crumb.onSelected()" t-esc="crumb.name"/>
+                </t>
+                <span class="o_vai_crumb_current" t-esc="state.agentName"/>
             </div>
+            <div t-if="!state.agentId" class="o_vai_none">
+                <p>No working agent you may use. A manager activates one from the Role Library.</p>
+            </div>
+            <div t-else="" class="o_vai_columns">
+                <aside class="o_vai_card o_vai_threads">
+                    <div class="o_vai_threads_top">
+                        <button type="button" class="btn btn-primary o_vai_new" t-on-click="onNewChat"><i class="fa fa-plus"/> Chat</button>
+                        <div class="o_vai_search">
+                            <i class="fa fa-search"/>
+                            <input type="text" placeholder="Search Conversation" t-att-value="page_.search" t-on-input="onSearchThreads"/>
+                        </div>
+                    </div>
+                    <div class="o_vai_filters">
+                        <button type="button" t-att-class="'o_vai_pill' + (page_.unread ? '' : ' active')" t-on-click="() => this.setUnread(false)">All</button>
+                        <button type="button" t-att-class="'o_vai_pill' + (page_.unread ? ' active' : '')" t-on-click="() => this.setUnread(true)">Unread</button>
+                    </div>
+                    <div class="o_vai_thread_list">
+                        <p t-if="!page_.threads.length" class="o_vai_muted px-3">No conversation yet.</p>
+                        <button t-foreach="page_.threads" t-as="thread" t-key="thread.id" type="button"
+                            t-att-class="'o_vai_thread_item' + (thread.id === state.conversationId ? ' active' : '') + (thread.unread ? ' unread' : '')"
+                            t-on-click="() => this.onOpenThread(thread)">
+                            <img class="o_vai_avatar" t-att-src="state.agentImage" alt=""/>
+                            <span class="o_vai_thread_text">
+                                <span class="o_vai_thread_title">
+                                    <b class="text-truncate" t-esc="thread.title"/>
+                                    <span class="o_vai_time" t-esc="when(thread.date)"/>
+                                </span>
+                                <span class="o_vai_thread_snippet" t-esc="thread.snippet"/>
+                            </span>
+                        </button>
+                    </div>
+                </aside>
+
+                <main class="o_vai_main">
+                    <div class="o_vai_main_head">
+                        <span class="o_vai_agent_pill">
+                            <img t-att-src="state.agentImage" alt=""/>
+                            <b t-esc="state.agentName"/>
+                        </span>
+                        <input t-if="page_.searching" type="text" class="form-control o_vai_message_search" placeholder="Search in the conversation"
+                            t-model="state.filter"/>
+                        <button type="button" class="o_vai_square_btn ms-auto" t-on-click="toggleSearch" title="Search"><i class="fa fa-search"/></button>
+                    </div>
+                    <t t-call="veron_ai_agent.Thread"/>
+                    <t t-set="showUserAvatar" t-value="true"/>
+                    <t t-call="veron_ai_agent.Composer"/>
+                </main>
+
+                <aside class="o_vai_card o_vai_panel" t-if="page_.panel">
+                    <div class="o_vai_panel_head">
+                        <img class="o_vai_panel_logo" t-att-src="panel.image" alt=""/>
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h4 class="mb-1 text-truncate" t-esc="panel.name"/>
+                            <p class="o_vai_muted mb-0" t-esc="panel.description"/>
+                        </div>
+                        <Dropdown position="'bottom-end'">
+                            <button type="button" class="btn btn-link o_vai_kebab" title="More"><i class="fa fa-ellipsis-v"/></button>
+                            <t t-set-slot="content">
+                                <DropdownItem onSelected="() => this.configure()"><i class="fa fa-fw fa-cog me-2"/>Configuration</DropdownItem>
+                                <DropdownItem onSelected="() => this.openRuns()"><i class="fa fa-fw fa-history me-2"/>Runs</DropdownItem>
+                            </t>
+                        </Dropdown>
+                    </div>
+                    <div class="o_vai_tabs">
+                        <t t-foreach="[['instructions', 'Instructions'], ['skills', 'Skills'], ['knowledge', 'Knowledge'], ['triggers', 'Triggers']]" t-as="tab" t-key="tab[0]">
+                            <button type="button" t-att-class="'o_vai_tab' + (page_.tab === tab[0] ? ' active' : '')"
+                                t-on-click="() => this.page_.tab = tab[0]">
+                                <t t-if="tab[0] === 'instructions'">Instructions</t>
+                                <t t-elif="tab[0] === 'skills'">Skills</t>
+                                <t t-elif="tab[0] === 'knowledge'">Knowledge</t>
+                                <t t-else="">Triggers</t>
+                            </button>
+                        </t>
+                    </div>
+                    <div class="o_vai_tab_body">
+                        <t t-if="page_.tab === 'instructions'">
+                            <t t-if="page_.editing">
+                                <textarea class="form-control o_vai_instructions_edit" t-model="page_.draft"/>
+                                <div class="d-flex gap-2 mt-2">
+                                    <button type="button" class="btn btn-primary btn-sm" t-on-click="saveInstructions">Save</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" t-on-click="() => this.page_.editing = false">Discard</button>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <div t-if="panel.can_edit" class="o_vai_tab_tools">
+                                    <button type="button" class="btn btn-link o_vai_kebab" t-on-click="editInstructions" title="Edit"><i class="fa fa-pencil"/> Edit</button>
+                                </div>
+                                <div t-if="panel.instructions" class="o_vai_instructions" t-out="html(panel.instructions_html)"/>
+                                <p t-else="" class="o_vai_muted">No instructions yet: the agent follows its role and its skills.</p>
+                            </t>
+                        </t>
+
+                        <t t-if="page_.tab === 'skills'">
+                            <h6 class="o_vai_section">Tools</h6>
+                            <label t-foreach="panel.tools" t-as="tool" t-key="tool.field" class="o_vai_row o_vai_switch form-check form-switch">
+                                <span t-esc="tool.label"/>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="tool.value"
+                                    t-att-disabled="!panel.can_edit" t-on-change="(ev) => this.write({ [tool.field]: ev.target.checked })"/>
+                            </label>
+                            <h6 class="o_vai_section">
+                                <span>Skills</span>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-primary btn-sm o_vai_add" t-on-click="addSkill"><i class="fa fa-plus"/> Add</button>
+                            </h6>
+                            <p t-if="!panel.skills.length" class="o_vai_muted">No skill: the agent only informs.</p>
+                            <div t-foreach="panel.skills" t-as="skill" t-key="skill.id" class="o_vai_row" t-att-title="skill.description">
+                                <i t-att-class="'fa fa-fw ' + skill.icon"/>
+                                <span class="flex-grow-1 text-truncate" t-esc="skill.name"/>
+                                <Dropdown t-if="panel.can_edit" position="'bottom-end'">
+                                    <button type="button" class="btn btn-link o_vai_kebab" title="More"><i class="fa fa-ellipsis-v"/></button>
+                                    <t t-set-slot="content">
+                                        <DropdownItem onSelected="() => this.openRecord('veron.ai.skill', skill.id)"><i class="fa fa-fw fa-pencil me-2"/>Open</DropdownItem>
+                                        <DropdownItem onSelected="() => this.write({ remove_skill: skill.id })"><i class="fa fa-fw fa-trash me-2"/>Remove</DropdownItem>
+                                    </t>
+                                </Dropdown>
+                            </div>
+                            <h6 class="o_vai_section">
+                                <span>Subagents</span>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-primary btn-sm o_vai_add" t-on-click="addSubagent"><i class="fa fa-plus"/> Add</button>
+                            </h6>
+                            <p t-if="!panel.subagents.length" class="o_vai_muted">No subagent: an agent with subagents gives them tasks and reviews their results.</p>
+                            <div t-foreach="panel.subagents" t-as="sub" t-key="sub.id" class="o_vai_row">
+                                <img class="o_vai_row_img" t-att-src="sub.image" alt=""/>
+                                <span class="flex-grow-1 text-truncate" t-esc="sub.name"/>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-link o_vai_kebab" title="Remove"
+                                    t-on-click="() => this.write({ remove_subagent: sub.id })"><i class="fa fa-times"/></button>
+                            </div>
+                        </t>
+
+                        <t t-if="page_.tab === 'knowledge'">
+                            <h6 class="o_vai_section">
+                                <span>Sources</span>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-primary btn-sm o_vai_add" t-on-click="() => this.openWizard('action_add_knowledge')"><i class="fa fa-plus"/> Add</button>
+                            </h6>
+                            <p t-if="!panel.knowledge.length" class="o_vai_muted">No source: add files, links or pages the agent answers from.</p>
+                            <div t-foreach="panel.knowledge" t-as="item" t-key="item.id" class="o_vai_row" t-att-title="item.error">
+                                <i t-att-class="'fa fa-fw ' + knowledgeIcon(item)"/>
+                                <span class="flex-grow-1 text-truncate" t-esc="item.name"/>
+                                <span t-att-class="'o_vai_state o_vai_state_' + item.state" t-esc="item.state_label"/>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-link o_vai_kebab" title="Remove"
+                                    t-on-click="() => this.write({ remove_knowledge: item.id })"><i class="fa fa-times"/></button>
+                            </div>
+                            <label class="o_vai_row o_vai_switch form-check form-switch mt-3">
+                                <span>Restrict Answers to Sources</span>
+                                <input type="checkbox" class="form-check-input" role="switch" t-att-checked="panel.restrict_to_sources"
+                                    t-att-disabled="!panel.can_edit" t-on-change="(ev) => this.write({ restrict_to_sources: ev.target.checked })"/>
+                            </label>
+                            <div class="o_vai_row">
+                                <span class="flex-grow-1">Response Style</span>
+                                <select class="form-select form-select-sm w-auto" t-att-disabled="!panel.can_edit"
+                                    t-on-change="(ev) => this.write({ response_style: ev.target.value })">
+                                    <option t-foreach="panel.styles" t-as="style" t-key="style[0]" t-att-value="style[0]"
+                                        t-att-selected="style[0] === panel.response_style" t-esc="style[1]"/>
+                                </select>
+                            </div>
+                        </t>
+
+                        <t t-if="page_.tab === 'triggers'">
+                            <h6 class="o_vai_section">
+                                <span>Triggers</span>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-primary btn-sm o_vai_add" t-on-click="() => this.openWizard('action_add_trigger')"><i class="fa fa-plus"/> Add</button>
+                            </h6>
+                            <p t-if="!panel.triggers.length" class="o_vai_muted">No trigger: the agent runs when someone talks to it.</p>
+                            <div t-foreach="panel.triggers" t-as="trigger" t-key="trigger.id" class="o_vai_row">
+                                <i t-att-class="'fa fa-fw ' + triggerIcon(trigger)"/>
+                                <a href="#" class="flex-grow-1 text-truncate" t-on-click.prevent="() => this.openRecord('veron.ai.trigger', trigger.id)" t-esc="trigger.name"/>
+                                <span class="form-check form-switch o_vai_inline_switch">
+                                    <input type="checkbox" class="form-check-input" role="switch" t-att-checked="trigger.active"
+                                        t-att-disabled="!panel.can_edit" t-on-change="() => this.toggleTrigger(trigger)" title="Active"/>
+                                </span>
+                                <button t-if="panel.can_edit" type="button" class="btn btn-link o_vai_kebab" title="Remove"
+                                    t-on-click="() => this.removeTrigger(trigger)"><i class="fa fa-times"/></button>
+                            </div>
+                        </t>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </t>
+
+    <!-- The chat window of every page and its AI logo at the bottom corner -->
+    <t t-name="veron_ai_agent.AssistantBox">
+        <t t-if="box.available">
+            <button t-if="!box.open" type="button" class="o_vai_launcher" t-on-click="toggle" title="AI">
+                <img t-att-src="logo" alt="AI"/>
+            </button>
+            <div t-else="" t-att-class="'o_vai_window' + (box.minimized ? ' o_vai_minimized' : '')">
+                <div class="o_vai_window_head">
+                    <img class="o_vai_window_logo" t-att-src="state.agentImage or logo" alt=""/>
+                    <Dropdown t-if="state.agents.length > 1" position="'bottom-start'">
+                        <button type="button" class="o_vai_window_title"><b t-esc="state.agentName"/> <i class="fa fa-caret-down"/></button>
+                        <t t-set-slot="content">
+                            <DropdownItem t-foreach="state.agents" t-as="agent" t-key="agent.id" onSelected="() => this.switchAgent(agent.id)">
+                                <img class="o_vai_row_img me-2" t-att-src="agent.image" alt=""/><t t-esc="agent.name"/>
+                            </DropdownItem>
+                        </t>
+                    </Dropdown>
+                    <b t-else="" class="o_vai_window_title" t-esc="state.agentName"/>
+                    <span class="flex-grow-1"/>
+                    <button type="button" class="o_vai_icon_btn" t-on-click="clear" title="New Chat"><i class="fa fa-pencil-square-o"/></button>
+                    <button type="button" class="o_vai_icon_btn" t-on-click="() => this.box.minimized = !this.box.minimized" title="Minimize"><i class="fa fa-minus"/></button>
+                    <button type="button" class="o_vai_icon_btn" t-on-click="expand" title="Open in Full Page"><i class="fa fa-expand"/></button>
+                    <button type="button" class="o_vai_icon_btn" t-on-click="close" title="Close"><i class="fa fa-times"/></button>
+                </div>
+                <t t-if="!box.minimized">
+                    <div t-if="box.banner" class="o_vai_banner">
+                        <span>New chat started.</span>
+                        <a href="#" t-on-click.prevent="resume">Resume previous chat <i class="fa fa-angle-right o_vai_fwd"/></a>
+                        <button type="button" class="o_vai_icon_btn ms-auto" t-on-click="() => this.box.banner = false" title="Close"><i class="fa fa-times"/></button>
+                    </div>
+                    <div t-if="pageLabel" class="o_vai_page_chip"><i class="fa fa-file-text-o"/> <t t-esc="pageLabel"/></div>
+                    <t t-call="veron_ai_agent.Thread"/>
+                    <t t-set="showUserAvatar" t-value="false"/>
+                    <t t-call="veron_ai_agent.Composer"/>
+                </t>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="veron_ai_agent.AiSystray">
+        <div t-if="available" class="o_vai_systray o-dropdown dropdown">
+            <button type="button" class="o_nav_entry" t-on-click="toggle" title="AI">
+                <img t-att-src="logo" alt="AI"/>
+            </button>
         </div>
     </t>
 </templates>

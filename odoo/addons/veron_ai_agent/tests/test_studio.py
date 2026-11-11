@@ -144,8 +144,10 @@ class TestStudio(AgentCase):
 		rule = self.env["veron.ai.prompt.rule"].create({"name": "فاکتورها", "instructions": "روی فاکتورها مبلغ را با سفارش مقایسه کن.",
 			"model_ids": [(6, 0, self.env["ir.model"]._get("res.partner").ids)],
 			"button_ids": [(0, 0, {"title": "خلاصه مشتری", "prompt": "خلاصه این مشتری را بگو"})]})
-		self.assertEqual(self.env["veron.ai.prompt.rule"].veron_prompts("res.partner")[0]["title"], "خلاصه مشتری")
-		self.assertFalse(self.env["veron.ai.prompt.rule"].veron_prompts("res.users"))
+		self.assertEqual(self.env["veron.ai.prompt.rule"].veron_prompts("res.partner")[0]["title"], "خلاصه مشتری",
+			"the prompts of the page come before those of every page")
+		everywhere = self.env.ref("veron_ai_agent.prompt_rule_everywhere").button_ids.mapped("title")
+		self.assertEqual([p["title"] for p in self.env["veron.ai.prompt.rule"].veron_prompts("res.users")], everywhere)
 		values = self.env["veron.ai.run"]._values(self.agent, self.env.user, "chat", text="سلام",
 			page={"model": "res.partner", "res_id": 1, "title": "x"})
 		run = self.env["veron.ai.run"].sudo().create(values)
