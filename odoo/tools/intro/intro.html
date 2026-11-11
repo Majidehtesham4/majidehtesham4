@@ -1,0 +1,552 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face { font-family: "Montserrat"; font-weight: 600; src: url("fonts/montserrat-latin-600-normal.woff2") format("woff2"); }
+html, body { margin: 0; background: #000; }
+canvas { display: block; }
+</style></head>
+<body>
+<canvas id="c" width="1920" height="1080"></canvas>
+<script>
+// VERON ERP intros. The logo is rebuilt as lines (in the 1032 x 1048 space of the traced logo, its tile centred on
+// 511, 526) so that every line can be drawn, lit and swept by light on its own. render(t, scene) draws one frame.
+const W = 1920, H = 1080;
+const c = document.getElementById("c");
+const ctx = c.getContext("2d");
+
+const RED = [235, 22, 34];
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const easeOut = (x) => 1 - Math.pow(1 - x, 3);
+const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const mix = (a, b, x) => a + (b - a) * x;
+const rgba = (rgb, a) => `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
+const rad = (d) => (d * Math.PI) / 180;
+
+// --- the logo's geometry
+const CX = 512, CY = 532;              // centre of the rings
+const TOPY = 288, SLOPE = 0.5, VW = 24; // the V: its top, its slope (dx/dy), its line width
+const APEX = [610, 725, 855];           // the three nested V's, inner to outer
+const ARCS = [                          // the signal arcs above, top to bottom: top y, half chord, sagitta, width
+	[207, 162, 30, 22], [250, 140, 26, 16], [292, 120, 24, 16], [335, 100, 22, 15], [377, 78, 20, 14], [412, 57, 16, 12],
+].map(([y, h, s, w]) => {
+	const R = (h * h + s * s) / (2 * s);
+	const phi = Math.asin(h / R);
+	return { cy: y + R, R, a0: -Math.PI / 2 - phi, a1: -Math.PI / 2 + phi, w, len: 2 * phi * R };
+});
+const RINGS = [ // radius, width, upper angle, lower angle (left side, degrees, clockwise from +x)
+	[330, 26, 221, 100], [281, 20, 233, 104], [235, 18, 233, 108], [199, 13, 240, 150], [160, 11, 235, 165],
+].map(([r, w, up, low]) => ({ r, w, up: rad(up), low: rad(low) }));
+
+function vArm(i, side) {
+	// from the top (a little above, cut flat by the clip) to the apex
+	const ay = APEX[i], top = TOPY - 20;
+	const half = (ay - top) * SLOPE;
+	return { x0: CX + side * half, y0: top, x1: CX, y1: ay, len: Math.hypot(half, ay - top) };
+}
+
+// The V's outer triangle, widened by the gap the rings keep from it
+function outsideV(cx) {
+	const d = 30, apex = APEX[2] + d / Math.sin(Math.atan(SLOPE)), sh = d / Math.cos(Math.atan(SLOPE));
+	const topY = -200, half = (apex - topY) * SLOPE;
+	cx.beginPath();
+	cx.rect(-500, -500, 2100, 2100);
+	cx.moveTo(CX - half - sh * 0, topY);
+	cx.lineTo(CX, apex);
+	cx.lineTo(CX + half, topY);
+	cx.closePath();
+	cx.clip("evenodd");
+}
+
+// --- light: a neon line in three passes, «lit» from 0 (dark metal) to 1 (full red light)
+function neon(path, w, lit, s, opts = {}) {
+	const dark = opts.dark ?? 1;
+	ctx.save();
+	ctx.lineCap = opts.cap || "butt";
+	ctx.lineJoin = "miter";
+	ctx.miterLimit = 10;
+	// the unlit metal line: deep red-brown with a faint edge
+	if (dark > 0 && lit < 1) {
+		ctx.strokeStyle = `rgba(52,14,17,${dark * (1 - lit * 0.7)})`;
+		ctx.lineWidth = w;
+		path(); ctx.stroke();
+		ctx.strokeStyle = `rgba(120,40,44,${0.35 * dark * (1 - lit)})`;
+		ctx.lineWidth = w * 0.18;
+		path(); ctx.stroke();
+	}
+	if (lit > 0) {
+		ctx.globalCompositeOperation = "lighter";
+		ctx.shadowColor = rgba(RED, 0.95 * lit);
+		ctx.shadowBlur = 40 * s;
+		ctx.strokeStyle = rgba([190, 8, 18], 0.22 * lit);
+		ctx.lineWidth = w * 1.35;
+		path(); ctx.stroke();
+		ctx.shadowBlur = 12 * s;
+		ctx.strokeStyle = rgba([222, 18, 28], 0.95 * lit);
+		ctx.lineWidth = w * 0.92;
+		path(); ctx.stroke();
+		ctx.shadowBlur = 0;
+		ctx.strokeStyle = rgba([255, 92, 84], 0.5 * lit * (opts.core ?? 1));
+		ctx.lineWidth = Math.max(1.5, w * 0.22);
+		path(); ctx.stroke();
+	}
+	ctx.restore();
+}
+
+// a glowing head where a line is being drawn
+function head(x, y, size, a) {
+	if (a <= 0) return;
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	const g = ctx.createRadialGradient(x, y, 0, x, y, size);
+	g.addColorStop(0, `rgba(255,235,230,${a})`);
+	g.addColorStop(0.25, `rgba(255,70,70,${0.8 * a})`);
+	g.addColorStop(1, "rgba(255,0,0,0)");
+	ctx.fillStyle = g;
+	ctx.fillRect(x - size, y - size, size * 2, size * 2);
+	ctx.restore();
+}
+
+// --- the parts of the logo, each with its own amount drawn (0..1) and lit (0..1)
+function drawArc(i, drawn, lit, s, fromMiddle = true) {
+	const a = ARCS[i];
+	if (drawn <= 0) return;
+	const mid = -Math.PI / 2, span = (a.a1 - a.a0) / 2 * drawn;
+	const a0 = fromMiddle ? mid - span : a.a0, a1 = fromMiddle ? mid + span : a.a0 + (a.a1 - a.a0) * drawn;
+	neon(() => { ctx.beginPath(); ctx.arc(CX, a.cy, a.R, a0, a1); }, a.w, lit, s);
+	if (drawn < 1) {
+		head(CX + a.R * Math.cos(a0), a.cy + a.R * Math.sin(a0), 26, lit);
+		head(CX + a.R * Math.cos(a1), a.cy + a.R * Math.sin(a1), 26, lit);
+	}
+}
+
+function drawV(i, drawn, lit, s) {
+	if (drawn <= 0) return;
+	ctx.save();
+	ctx.beginPath();
+	ctx.rect(-500, TOPY, 2100, 2100);
+	ctx.clip();
+	const L = vArm(i, -1), R = vArm(i, 1);
+	if (drawn >= 1) {
+		neon(() => { ctx.beginPath(); ctx.moveTo(L.x0, L.y0); ctx.lineTo(CX, L.y1); ctx.lineTo(R.x0, R.y0); }, VW, lit, s);
+	} else {
+		const e = drawn;
+		for (const A of [L, R]) {
+			const x = mix(A.x0, A.x1, e), y = mix(A.y0, A.y1, e);
+			neon(() => { ctx.beginPath(); ctx.moveTo(A.x0, A.y0); ctx.lineTo(x, y); }, VW, lit, s);
+			head(x, y, 34, lit);
+		}
+	}
+	ctx.restore();
+}
+
+function drawRing(i, drawn, lit, s) {
+	if (drawn <= 0) return;
+	const r = RINGS[i];
+	ctx.save();
+	outsideV(ctx);
+	const left = r.up - (r.up - r.low) * drawn;          // the left side runs down, anticlockwise
+	const rightStart = Math.PI - r.up + 2 * Math.PI, rightEnd = rightStart + (r.up - r.low) * drawn;
+	neon(() => {
+		ctx.beginPath(); ctx.arc(CX, CY, r.r, r.up, left, true);
+		ctx.moveTo(CX + r.r * Math.cos(rightStart), CY + r.r * Math.sin(rightStart));
+		ctx.arc(CX, CY, r.r, rightStart, rightEnd, false);
+	}, r.w, lit, s);
+	if (drawn < 1) {
+		head(CX + r.r * Math.cos(left), CY + r.r * Math.sin(left), 30, lit);
+		head(CX + r.r * Math.cos(rightEnd), CY + r.r * Math.sin(rightEnd), 30, lit);
+	}
+	ctx.restore();
+}
+
+function tilePath(cx = ctx) {
+	cx.beginPath();
+	cx.roundRect(54, 68, 914, 916, 132);
+}
+
+function drawTile(a, s, edge = 0.08) {
+	if (a <= 0) return;
+	ctx.save();
+	ctx.globalAlpha = a;
+	ctx.shadowColor = "rgba(0,0,0,0.85)";
+	ctx.shadowBlur = 80 * s;
+	ctx.shadowOffsetY = 30 * s;
+	const g = ctx.createLinearGradient(0, 68, 0, 984);
+	g.addColorStop(0, "#252830");
+	g.addColorStop(0.5, "#1a1c22");
+	g.addColorStop(1, "#111216");
+	ctx.fillStyle = g;
+	tilePath(); ctx.fill();
+	ctx.shadowColor = "transparent";
+	// the bevel of the edge: light above, dark below
+	const e = ctx.createLinearGradient(0, 68, 0, 984);
+	e.addColorStop(0, `rgba(255,255,255,${edge * 2.2})`);
+	e.addColorStop(0.5, `rgba(255,255,255,${edge * 0.5})`);
+	e.addColorStop(1, `rgba(0,0,0,0.5)`);
+	ctx.strokeStyle = e;
+	ctx.lineWidth = 5;
+	tilePath(); ctx.stroke();
+	// a soft sheen on the upper left
+	const sh = ctx.createRadialGradient(260, 200, 0, 260, 200, 700);
+	sh.addColorStop(0, "rgba(255,255,255,0.05)");
+	sh.addColorStop(1, "rgba(255,255,255,0)");
+	ctx.fillStyle = sh;
+	tilePath(); ctx.fill();
+	ctx.restore();
+}
+
+// the logo, placed on the screen: centre x, y and its scale (the tile is 914 units wide)
+function withLogo(x, y, s, fn) {
+	ctx.save();
+	ctx.translate(x, y);
+	ctx.scale(s, s);
+	ctx.translate(-511, -526);
+	fn();
+	ctx.restore();
+}
+
+// --- the words VERON ERP: brushed dark metal, a red light on their edges, a light that runs across them
+const TEXT = "VERON ERP";
+const layer = document.createElement("canvas");
+layer.width = 1500; layer.height = 260;
+const lx = layer.getContext("2d");
+
+function textSetup(cx, size) {
+	cx.font = `600 ${size}px Montserrat`;
+	cx.letterSpacing = `${Math.round(size * 0.13)}px`;
+	cx.textAlign = "center";
+	cx.textBaseline = "middle";
+	cx.lineJoin = "round";
+}
+
+function drawText(x, y, size, p) {
+	// p: alpha, rim (red edge light), sweep (position of the moving light, -1..2), sweepColor, blur, metal (0 dark..1)
+	if (p.alpha <= 0) return;
+	const cx0 = layer.width / 2, cy0 = layer.height / 2;
+	// the metal face
+	lx.clearRect(0, 0, layer.width, layer.height);
+	textSetup(lx, size);
+	const g = lx.createLinearGradient(0, cy0 - size * 0.5, 0, cy0 + size * 0.5);
+	const m = p.metal ?? 1;
+	g.addColorStop(0, `rgb(${mix(40, 150, m)},${mix(42, 155, m)},${mix(46, 163, m)})`);
+	g.addColorStop(0.45, `rgb(${mix(28, 86, m)},${mix(30, 90, m)},${mix(34, 97, m)})`);
+	g.addColorStop(0.55, `rgb(${mix(20, 48, m)},${mix(21, 51, m)},${mix(24, 57, m)})`);
+	g.addColorStop(1, `rgb(${mix(30, 108, m)},${mix(32, 112, m)},${mix(36, 120, m)})`);
+	lx.fillStyle = g;
+	lx.fillText(TEXT, cx0, cy0);
+	// the moving light, only on the letters
+	if (p.sweep !== undefined && p.sweep > -0.5 && p.sweep < 1.5) {
+		lx.save();
+		lx.globalCompositeOperation = "source-atop";
+		const sx = mix(-200, layer.width + 200, p.sweep);
+		const band = lx.createLinearGradient(sx - 160, 0, sx + 160, 0);
+		const col = p.sweepColor || [255, 255, 255];
+		band.addColorStop(0, rgba(col, 0));
+		band.addColorStop(0.5, rgba(col, 0.75 * (p.sweepStrength ?? 1)));
+		band.addColorStop(1, rgba(col, 0));
+		lx.fillStyle = band;
+		lx.setTransform(1, 0, -0.35, 1, 0.35 * cy0, 0);
+		lx.fillRect(0, 0, layer.width, layer.height);
+		lx.restore();
+	}
+	ctx.save();
+	ctx.globalAlpha = p.alpha;
+	if (p.blur) ctx.filter = `blur(${p.blur}px)`;
+	// depth below the letters
+	ctx.save();
+	ctx.shadowColor = "rgba(0,0,0,0.9)";
+	ctx.shadowBlur = 18;
+	ctx.shadowOffsetY = 8;
+	ctx.drawImage(layer, x - cx0, y - cy0);
+	ctx.restore();
+	// the red light on the edges, and where the light passes, brighter
+	textSetup(ctx, size);
+	if ((p.rim ?? 0) > 0) {
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		ctx.shadowColor = rgba(RED, 0.9 * p.rim);
+		ctx.shadowBlur = 22;
+		ctx.strokeStyle = rgba([255, 45, 55], 0.85 * p.rim);
+		ctx.lineWidth = 2.2;
+		ctx.strokeText(TEXT, x, y);
+		ctx.restore();
+	}
+	if (p.edgeSweep !== undefined && p.edgeSweep > -0.3 && p.edgeSweep < 1.3) {
+		// a bar of red light running along the edges, from left to right
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		const width = ctx.measureText(TEXT).width;
+		const sx = x - width / 2 - 150 + (width + 300) * p.edgeSweep;
+		const band = ctx.createLinearGradient(sx - 140, 0, sx + 140, 0);
+		band.addColorStop(0, "rgba(255,60,60,0)");
+		band.addColorStop(0.5, "rgba(255,170,160,1)");
+		band.addColorStop(1, "rgba(255,60,60,0)");
+		ctx.strokeStyle = band;
+		ctx.shadowColor = "rgba(255,30,40,1)";
+		ctx.shadowBlur = 30;
+		ctx.lineWidth = 3;
+		ctx.strokeText(TEXT, x, y);
+		ctx.restore();
+	}
+	ctx.restore();
+}
+
+// --- the background
+const grain = document.createElement("canvas");
+grain.width = 512; grain.height = 512;
+(() => {
+	const g = grain.getContext("2d"), d = g.createImageData(512, 512);
+	let seed = 7;
+	const rnd = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+	for (let i = 0; i < d.data.length; i += 4) {
+		const v = rnd() * 255;
+		d.data[i] = d.data[i + 1] = d.data[i + 2] = v;
+		d.data[i + 3] = 255;
+	}
+	g.putImageData(d, 0, 0);
+})();
+
+function background(base, glow, glowY, t) {
+	ctx.fillStyle = base;
+	ctx.fillRect(0, 0, W, H);
+	if (glow > 0) {
+		const g = ctx.createRadialGradient(W / 2, glowY, 0, W / 2, glowY, 760);
+		g.addColorStop(0, rgba([120, 8, 14], 0.55 * glow));
+		g.addColorStop(0.5, rgba([60, 4, 8], 0.25 * glow));
+		g.addColorStop(1, "rgba(0,0,0,0)");
+		ctx.fillStyle = g;
+		ctx.fillRect(0, 0, W, H);
+	}
+}
+
+function vignette(a) {
+	const g = ctx.createRadialGradient(W / 2, H / 2, H * 0.35, W / 2, H / 2, H * 1.0);
+	g.addColorStop(0, "rgba(0,0,0,0)");
+	g.addColorStop(1, `rgba(0,0,0,${a})`);
+	ctx.fillStyle = g;
+	ctx.fillRect(0, 0, W, H);
+}
+
+function filmGrain(t, a) {
+	// a little light noise added everywhere: it breaks the steps of the dark gradients (no rings after compression)
+	ctx.save();
+	ctx.globalAlpha = 0.03;
+	ctx.globalCompositeOperation = "lighter";
+	const dx = Math.floor((t * 431) % 512), dy = Math.floor((t * 277) % 512);
+	ctx.fillStyle = ctx.createPattern(grain, "repeat");
+	ctx.translate(-dx, -dy);
+	ctx.fillRect(dx, dy, W, H);
+	ctx.restore();
+	ctx.save();
+	ctx.globalAlpha = a;
+	ctx.globalCompositeOperation = "overlay";
+	const ox = Math.floor((t * 997) % 512), oy = Math.floor((t * 613) % 512);
+	ctx.fillStyle = ctx.createPattern(grain, "repeat");
+	ctx.translate(-ox, -oy);
+	ctx.fillRect(ox, oy, W, H);
+	ctx.restore();
+}
+
+function fade(a) {
+	if (a <= 0) return;
+	ctx.fillStyle = `rgba(0,0,0,${a})`;
+	ctx.fillRect(0, 0, W, H);
+}
+
+// deterministic sparks
+const SPARKS = Array.from({ length: 70 }, (_, i) => {
+	const r1 = Math.sin(i * 12.9898) * 43758.5453, r2 = Math.sin(i * 78.233) * 12345.678, r3 = Math.sin(i * 39.425) * 9876.54;
+	const f = (v) => v - Math.floor(v);
+	return { a: f(r1) * Math.PI * 2, v: 260 + f(r2) * 620, size: 1.2 + f(r3) * 2.6, life: 0.7 + f(r2 * 1.7) * 1.1 };
+});
+
+// =============== scene 1: Signal ===============
+const SIGNAL_LEN = 8.0;
+function signal(t) {
+	const flare = seg(t, 4.35, 4.55) * (1 - seg(t, 4.55, 5.4));
+	const settle = easeInOut(seg(t, 4.6, 5.8));
+	// before the flare the logo is built large in the middle; then it moves up to make room for the words
+	const lxp = W / 2, lyp = mix(540, 430, settle), s = mix(0.58, 0.47, settle);
+	background("#050506", 0.35 + 0.6 * seg(t, 1, 4.3) + flare * 0.8, lyp, t);
+
+	// the first point of light and its ping
+	const dotY = 452;
+	const dot = seg(t, 0.15, 0.45) * (1 - seg(t, 1.6, 2.4));
+	withLogo(lxp, lyp, s, () => {
+		if (dot > 0) {
+			head(CX, dotY, 60 + 10 * Math.sin(t * 9), dot);
+			for (const [at, k] of [[0.35, 1], [1.0, 0.7]]) {
+				const p = seg(t, at, at + 1.1);
+				if (p > 0 && p < 1) {
+					ctx.save();
+					ctx.globalCompositeOperation = "lighter";
+					ctx.strokeStyle = rgba(RED, (1 - p) * 0.7 * k);
+					ctx.shadowColor = rgba(RED, 1);
+					ctx.shadowBlur = 20;
+					ctx.lineWidth = 4;
+					ctx.beginPath();
+					ctx.arc(CX, dotY, 20 + 520 * easeOut(p), 0, Math.PI * 2);
+					ctx.stroke();
+					ctx.restore();
+				}
+			}
+		}
+		drawTile(easeOut(seg(t, 4.62, 5.5)), s);
+		// the signal arcs, smallest first, each a pulse
+		for (let k = 0; k < 6; k++) {
+			const i = 5 - k, at = 0.75 + k * 0.24;
+			const d = easeOut(seg(t, at, at + 0.32));
+			const pulse = 1 + 0.8 * (1 - seg(t, at + 0.15, at + 0.7));
+			drawArc(i, d, Math.min(1.4, pulse) * (1 + flare * 0.6), s);
+		}
+		// the V: the three lines drawn from their tops down to the point
+		for (let i = 2; i >= 0; i--) {
+			const at = 2.2 + (2 - i) * 0.16;
+			drawV(i, easeInOut(seg(t, at, at + 0.75)), 1 + flare * 0.6, s);
+		}
+		// the rings, from both sides at once, around to the bottom
+		for (let i = 0; i < RINGS.length; i++) {
+			const at = 3.05 + i * 0.1;
+			drawRing(i, easeInOut(seg(t, at, at + 0.95)), 1 + flare * 0.6, s);
+		}
+		// the shock of light
+		const sp = seg(t, 4.35, 5.6);
+		if (sp > 0 && sp < 1) {
+			ctx.save();
+			ctx.globalCompositeOperation = "lighter";
+			const r = 120 + 1500 * easeOut(sp);
+			ctx.strokeStyle = rgba([255, 80, 80], 0.55 * (1 - sp));
+			ctx.shadowColor = rgba(RED, 1);
+			ctx.shadowBlur = 50;
+			ctx.lineWidth = 26 * (1 - sp) + 2;
+			ctx.beginPath(); ctx.arc(CX, CY, r, 0, Math.PI * 2); ctx.stroke();
+			ctx.restore();
+			for (const k of SPARKS) {
+				const age = (t - 4.4) / k.life;
+				if (age <= 0 || age >= 1) continue;
+				const d = 150 + k.v * easeOut(age) * 1.6;
+				head(CX + Math.cos(k.a) * d, CY + Math.sin(k.a) * d, k.size * 9, (1 - age) * 0.8);
+			}
+		}
+	});
+	// a flash over everything
+	if (flare > 0) {
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		const g = ctx.createRadialGradient(lxp, lyp, 0, lxp, lyp, 900);
+		g.addColorStop(0, `rgba(255,120,110,${0.55 * flare})`);
+		g.addColorStop(1, "rgba(255,0,0,0)");
+		ctx.fillStyle = g;
+		ctx.fillRect(0, 0, W, H);
+		ctx.restore();
+	}
+	// the words come out of the dark; a bar of red light runs along their edges
+	const tp = easeOut(seg(t, 5.1, 6.0));
+	drawText(W / 2, mix(880, 850, tp), 92, {
+		alpha: tp, blur: 10 * (1 - tp), metal: 0.85, rim: 0.35 + 0.25 * seg(t, 6.0, 6.8),
+		edgeSweep: mix(-0.3, 1.3, seg(t, 5.7, 7.0)), sweep: mix(-0.4, 1.4, seg(t, 5.9, 7.1)), sweepStrength: 0.45,
+	});
+	vignette(0.75);
+	filmGrain(t, 0.05);
+	fade(seg(t, SIGNAL_LEN - 0.55, SIGNAL_LEN));
+}
+
+// =============== scene 4: Dark metal ===============
+const METAL_LEN = 9.0;
+function fog(t, a) {
+	if (a <= 0) return;
+	ctx.save();
+	ctx.globalCompositeOperation = "screen";
+	const blobs = [[0.18, 0.78, 520, 0.9], [0.82, 0.82, 600, 1.2], [0.5, 1.0, 760, 0.7], [0.3, 0.3, 420, 1.5], [0.75, 0.25, 460, 1.1]];
+	for (const [bx, by, r, sp] of blobs) {
+		const x = W * bx + Math.sin(t * 0.25 * sp + bx * 9) * 120, y = H * by + Math.cos(t * 0.2 * sp + by * 7) * 60;
+		const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+		g.addColorStop(0, `rgba(110,12,18,${0.22 * a})`);
+		g.addColorStop(1, "rgba(0,0,0,0)");
+		ctx.fillStyle = g;
+		ctx.fillRect(0, 0, W, H);
+	}
+	ctx.restore();
+}
+
+function metal(t) {
+	// the camera comes closer, very slowly, the whole time
+	const cam = mix(0.9, 1.0, easeInOut(seg(t, 0, METAL_LEN)));
+	ctx.save();
+	ctx.fillStyle = "#060607";
+	ctx.fillRect(0, 0, W, H);
+	ctx.translate(W / 2, H / 2);
+	ctx.scale(cam, cam);
+	ctx.translate(-W / 2, -H / 2 + mix(14, 0, seg(t, 0, METAL_LEN)));
+
+	const lx0 = W / 2, ly0 = 420, s = 0.47;
+	const back = easeInOut(seg(t, 1.2, 3.6));       // the red light rising behind the logo
+	fog(t, seg(t, 4.5, 7.5));
+	// the light behind: from below, rising
+	if (back > 0) {
+		const gy = mix(ly0 + 420, ly0, back);
+		const g = ctx.createRadialGradient(lx0, gy, 0, lx0, gy, 620);
+		g.addColorStop(0, rgba([170, 12, 20], 0.65 * back));
+		g.addColorStop(0.45, rgba([90, 6, 12], 0.32 * back));
+		g.addColorStop(1, "rgba(0,0,0,0)");
+		ctx.fillStyle = g;
+		ctx.fillRect(-200, -200, W + 400, H + 400);
+	}
+	// the lines catch light one by one, like neon tubes coming on
+	const order = [];
+	for (let i = 2; i >= 0; i--) order.push(["v", i]);
+	for (let i = 0; i < RINGS.length; i++) order.push(["r", i]);
+	for (let i = 5; i >= 0; i--) order.push(["a", i]);
+	const litOf = (k) => {
+		const at = 2.0 + k * 0.17;
+		const p = seg(t, at, at + 0.5);
+		// a short flicker as the tube starts
+		const flick = p > 0 && p < 0.6 ? 0.55 + 0.45 * Math.sin(k * 7 + t * 60) : 1;
+		return easeOut(p) * flick;
+	};
+	withLogo(lx0, ly0, s, () => {
+		drawTile(1, s, 0.06 + 0.05 * back);
+		order.forEach(([kind, i], k) => {
+			const lit = litOf(k);
+			if (kind === "v") drawV(i, 1, lit, s);
+			else if (kind === "r") drawRing(i, 1, lit, s);
+			else drawArc(i, 1, lit, s);
+		});
+		// the polished-metal reflection: a thin white streak across the tile and its lines
+		const sp = seg(t, 4.2, 5.4);
+		if (sp > 0 && sp < 1) {
+			ctx.save();
+			tilePath(); ctx.clip();
+			ctx.globalCompositeOperation = "lighter";
+			const x = mix(-300, 1350, easeInOut(sp));
+			ctx.translate(x, 0);
+			ctx.rotate(rad(18));
+			const g = ctx.createLinearGradient(-90, 0, 90, 0);
+			g.addColorStop(0, "rgba(255,255,255,0)");
+			g.addColorStop(0.5, "rgba(255,240,235,0.22)");
+			g.addColorStop(1, "rgba(255,255,255,0)");
+			ctx.fillStyle = g;
+			ctx.fillRect(-90, -400, 180, 1900);
+			ctx.fillStyle = "rgba(255,255,255,0.35)";
+			ctx.fillRect(-3, -400, 6, 1900);
+			ctx.restore();
+		}
+	});
+	// the words: dark metal, then the white light across them, then their red edge
+	const ta = easeOut(seg(t, 4.6, 5.8));
+	drawText(W / 2, 852, 92, {
+		alpha: ta, metal: mix(0.25, 0.9, seg(t, 5.0, 6.6)), rim: 0.55 * seg(t, 6.0, 7.2),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 5.2, 6.6))), sweepColor: [255, 255, 255], sweepStrength: 0.9,
+	});
+	ctx.restore();
+	vignette(0.85);
+	filmGrain(t, 0.06);
+	fade(1 - seg(t, 0, 0.9));
+	fade(seg(t, METAL_LEN - 0.6, METAL_LEN));
+}
+
+window.SCENES = { signal: [signal, SIGNAL_LEN], metal: [metal, METAL_LEN] };
+window.render = (t, scene) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = "none"; SCENES[scene][0](t); };
+window.ready = document.fonts.load("600 92px Montserrat").then(() => true);
+</script>
+</body></html>
