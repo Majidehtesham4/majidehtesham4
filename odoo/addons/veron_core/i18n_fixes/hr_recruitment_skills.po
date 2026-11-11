@@ -1,0 +1,26 @@
+# Corrections of the Persian Odoo ships for hr_recruitment_skills (French or unrelated text): these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: hr_recruitment_skills
+#: model:ir.model.fields,help:hr_recruitment_skills.field_hr_applicant_skill__level_progress
+msgid "Progress from zero knowledge (0%) to fully mastered (100%)."
+msgstr "پیشرفت از بدون دانش (۰٪) تا تسلط کامل (۱۰۰٪)."
+
+#. module: hr_recruitment_skills
+#: model:ir.model.fields,field_description:hr_recruitment_skills.field_hr_applicant__skill_ids
+#: model:ir.model.fields,field_description:hr_recruitment_skills.field_hr_applicant_skill__skill_id
+msgid "Skill"
+msgstr "مهارت"
+
+#. module: hr_recruitment_skills
+#: model:ir.model.fields,field_description:hr_recruitment_skills.field_hr_applicant_skill__skill_level_id
+msgid "Skill Level"
+msgstr "سطح مهارت"
+
+#. module: hr_recruitment_skills
+#: model:ir.model.fields,field_description:hr_recruitment_skills.field_hr_applicant_skill__skill_type_id
+msgid "Skill Type"
+msgstr "نوع مهارت"

@@ -73,3 +73,336 @@ msgid ""
 msgstr ""
 "نوع رکوردی که باید ایجاد شود را مشخص کنید. این فیلد را فقط برای مشخص کردن "
 "مدلی متفاوتی نسبت به مدل پایه تنظیم کنید."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "\nUser: %(user)s\nGroups: %(allowed_groups_msg)s"
+msgstr "\nکاربر: %(user)s\nگروه‌ها: %(allowed_groups_msg)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_actions.py:0
+msgid "%(date_label)s - %(author)s"
+msgstr "%(date_label)s - %(author)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields.py:0 code:addons/models.py:0
+msgid "%(previous_message)s\n\nImplicitly accessed through '%(document_kind)s' (%(document_model)s)."
+msgstr "%(previous_message)s\n\nبه‌طور غیرمستقیم از راه «%(document_kind)s» (%(document_model)s)."
+
+#. module: base
+#. odoo-python
+#: code:addons/fields.py:0 code:addons/fields_relational.py:0
+msgid "(Record: %(record)s, User: %(user)s)"
+msgstr "(رکورد: %(record)s، کاربر: %(user)s)"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_rule.py:0
+msgid "- %(description)s (%(model)s)"
+msgstr "- %(description)s (%(model)s)"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "- Only a root company can be set on “%(record)s”. Currently set to “%(company)s”"
+msgstr "- روی «%(record)s» فقط شرکت اصلی قابل تعیین است. اکنون «%(company)s» تعیین شده است"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "- Record is company “%(company)s” while “%(field)s” (%(fname)s: %(values)s) belongs to another company."
+msgstr "- رکورد مال شرکت «%(company)s» است، اما «%(field)s» (%(fname)s: %(values)s) مال شرکت دیگری است."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "- “%(record)s” belongs to company “%(company)s” while “%(field)s” (%(fname)s: %(values)s) belongs to another company."
+msgstr "- «%(record)s» مال شرکت «%(company)s» است، اما «%(field)s» (%(fname)s: %(values)s) مال شرکت دیگری است."
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_binary.py:0
+msgid "ASCII characters are required for %(value)s in %(field)s"
+msgstr "برای %(value)s در %(field)s فقط نویسه‌های ASCII مجاز است"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_model__abstract
+msgid "Abstract Model"
+msgstr "مدل انتزاعی"
+
+#. module: base
+#. odoo-python
+#: code:addons/environments.py:0
+msgid "Access to unauthorized or invalid companies."
+msgstr "دسترسی به شرکت‌های غیرمجاز یا نامعتبر."
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_country_state__name
+msgid "Administrative divisions of a country. E.g. Fed. State, Departement, Canton"
+msgstr "تقسیمات کشوری؛ مانند استان، ایالت یا بخش"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_model.py:0
+msgid "An error occurred while evaluating the domain:\n%(error)s"
+msgstr "هنگام بررسی دامنه خطایی رخ داد:\n%(error)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Another model is using the record you are trying to delete.\n\nThe troublemaker is: %(model_display)s\nThanks to the following constraint: %(field_display)s\nHow about archiving the record instead?"
+msgstr "رکوردی که می‌خواهید حذف کنید در مدل دیگری استفاده شده است.\n\nمدل مربوط: %(model_display)s\nبه دلیل این محدودیت: %(field_display)s\nبه‌جای حذف، آن را بایگانی کنید."
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_accounting_localizations_uk_cis
+msgid "CIS"
+msgstr "کشورهای مستقل همسود"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Cannot grab a lock on records"
+msgstr "قفل کردن رکوردها ممکن نشد"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Cannot update a record without specifying its id or xml_id"
+msgstr "به‌روزرسانی رکورد بدون شناسه یا xml_id ممکن نیست"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "Couldn't generate a company-dependent domain for field %s. The model doesn't have a 'company_id' or 'company_ids' field, and isn't company-dependent either."
+msgstr "دامنه وابسته به شرکت برای فیلد %s ساخته نشد. مدل نه فیلد «company_id» یا «company_ids» دارد و نه وابسته به شرکت است."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/res_users.py:0
+msgid "Deleting the public user is not allowed. Deleting this profile will compromise critical functionalities."
+msgstr "حذف کاربر عمومی مجاز نیست؛ این کار کارکردهای مهم را از کار می‌اندازد."
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "Failed to read field %s"
+msgstr "خواندن فیلد %s ممکن نشد"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "Failed to write field %s"
+msgstr "نوشتن فیلد %s ممکن نشد"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Found more than 10 errors and more than one error per 10 records, interrupted to avoid showing too many errors."
+msgstr "بیش از ۱۰ خطا و بیش از یک خطا در هر ۱۰ رکورد پیدا شد؛ برای جلوگیری از نمایش خطاهای زیاد متوقف شد."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Grouping by HTML properties is not supported."
+msgstr "گروه‌بندی بر اساس ویژگی‌های HTML پشتیبانی نمی‌شود."
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_accounting_localizations_uk_hmrc
+msgid "HMRC"
+msgstr "اداره مالیات و گمرک بریتانیا (HMRC)"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_health_and_fitness
+msgid "Health and Fitness"
+msgstr "سلامت و تناسب اندام"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_hospitaility
+msgid "Hospitaility"
+msgstr "مهمان‌داری"
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_hospitality
+msgid "Hospitality"
+msgstr "مهمان‌داری"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_binary.py:0
+msgid "Image is not encoded in base64."
+msgstr "تصویر با base64 کدگذاری نشده است."
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_ui_view.py:0
+msgid "Inherited view cannot have 'Groups' define on the record. Use 'groups' attributes inside the view definition"
+msgstr "نمای ارث‌بری‌شده نمی‌تواند روی رکورد «گروه‌ها» داشته باشد؛ ویژگی groups را داخل تعریف نما به کار ببرید"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Invalid \"order\" specified (%s). A valid \"order\" specification is a comma-separated list of valid field names (optionally followed by asc/desc for the direction)"
+msgstr "«order» نامعتبر است (%s). «order» باید فهرستی از نام فیلدهای معتبر با ویرگول باشد (در صورت نیاز با asc/desc برای جهت)"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_default.py:0
+msgid "Invalid value in Default Value field. Expected type '%(field_type)s' for '%(model_name)s.%(field_name)s'."
+msgstr "مقدار پیش‌فرض نامعتبر است. نوع «%(field_type)s» برای «%(model_name)s.%(field_name)s» انتظار می‌رفت."
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_website_sale_localizations
+msgid "Localizations"
+msgstr "بومی‌سازی‌ها"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_base_partner_merge_line__min_id
+msgid "MinID"
+msgstr "کمترین شناسه"
+
+#. module: base
+#. odoo-python
+#: code:addons/template_inheritance.py:0
+msgid "Missing 'expr' attribute in xpath specification"
+msgstr "ویژگی «expr» در تعریف xpath نیست"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Missing required value for the field %(field_display)s.\nModel: %(model_display)s\n- create/update: a mandatory field is not set\n- delete: another model requires the record being deleted, you can archive it instead\n"
+msgstr "مقدار الزامی فیلد %(field_display)s وارد نشده است.\nمدل: %(model_display)s\n- ایجاد/ویرایش: یک فیلد الزامی خالی است\n- حذف: مدل دیگری به این رکورد نیاز دارد؛ به‌جای حذف آن را بایگانی کنید\n"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_relational.py:0
+msgid "No inverse field \"%(inverse_field)s\" found for \"%(comodel)s\""
+msgstr "فیلد معکوس «%(inverse_field)s» برای «%(comodel)s» پیدا نشد"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_binary.py:0
+msgid "Only admins can upload SVG files."
+msgstr "فقط مدیران می‌توانند فایل SVG بارگذاری کنند."
+
+#. module: base
+#: model:ir.model,name:base.model_report_paperformat
+msgid "Paper Format Config"
+msgstr "پیکربندی قالب کاغذ"
+
+#. module: base
+#: model:ir.model,name:base.model_ir_qweb_field_one2many
+msgid "Qweb field one2many"
+msgstr "فیلد یک‌به‌چند Qweb"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Recursion Detected."
+msgstr "حلقه بی‌پایان پیدا شد."
+
+#. module: base
+#: model:ir.model,name:base.model_reset_view_arch_wizard
+msgid "Reset View Architecture Wizard"
+msgstr "ویزارد بازنشانی ساختار نما"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Skipping a company check for model %(model_name)s. Its fields %(field_names)s are set as company-dependent, but the model doesn't have a `company_id` or `company_ids` field!"
+msgstr "بررسی شرکت برای مدل %(model_name)s انجام نشد. فیلدهای %(field_names)s وابسته به شرکت‌اند، اما مدل فیلد `company_id` یا `company_ids` ندارد!"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_ir_profile__sql
+msgid "Sql"
+msgstr "SQL"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "The value for %(field_display)s already exists.\n\nDetail: %(detail)s\n"
+msgstr "مقدار %(field_display)s از قبل وجود دارد.\n\nجزئیات: %(detail)s\n"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "To avoid a mess, no company crossover is allowed!"
+msgstr "برای جلوگیری از به‌هم‌ریختگی، داده‌های شرکت‌ها نباید با هم قاطی شوند!"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_actions_server__state
+#: model:ir.model.fields,help:base.field_ir_cron__state
+msgid "Type of server action. The following values are available:\n- 'Update a Record': update the values of a record\n- 'Create Activity': create an activity (Discuss)\n- 'Send Email': post a message, a note or send an email (Discuss)\n- 'Send SMS': send SMS, log them on documents (SMS)- 'Add/Remove Followers': add or remove followers to a record (Discuss)\n- 'Create Record': create a new record with new values\n- 'Execute Code': a block of Python code that will be executed\n- 'Send Webhook Notification': send a POST request to an external system, also known as a Webhook\n- 'Multi Actions': define an action that triggers several other server actions\n"
+msgstr "نوع کنش سرور. مقدارهای ممکن:\n- «به‌روزرسانی رکورد»: مقدارهای یک رکورد را تغییر می‌دهد\n- «ایجاد فعالیت»: یک فعالیت می‌سازد (گفتگو)\n- «ارسال ایمیل»: پیام، یادداشت یا ایمیل می‌فرستد (گفتگو)\n- «ارسال پیامک»: پیامک می‌فرستد و روی سند ثبت می‌کند (پیامک)- «افزودن/حذف دنبال‌کنندگان»: دنبال‌کننده اضافه یا حذف می‌کند (گفتگو)\n- «ایجاد رکورد»: رکورد تازه‌ای با مقدارهای تازه می‌سازد\n- «اجرای کد»: یک قطعه کد پایتون اجرا می‌شود\n- «ارسال اعلان وب‌هوک»: یک درخواست POST به سامانه بیرونی (وب‌هوک) می‌فرستد\n- «چند کنش»: کنشی که چند کنش سرور دیگر را اجرا می‌کند\n"
+
+#. module: base
+#. odoo-python
+#: code:addons/base/models/ir_attachment.py:0
+msgid "URL attachment (%s) shouldn't be migrated to local."
+msgstr "پیوست نشانی‌دار (%s) نباید به حافظه محلی منتقل شود."
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Uh-oh! You’ve got some company inconsistencies here:"
+msgstr "اوه! داده‌های شرکت‌ها با هم ناسازگار است:"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Unable to delete %(record)s because it is used as the default value of %(field)s"
+msgstr "%(record)s حذف نمی‌شود، چون مقدار پیش‌فرض %(field)s است"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "Unknown error during import: %(error_type)s: %(error_message)s"
+msgstr "خطای ناشناخته هنگام ورود داده: %(error_type)s: %(error_message)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/domains.py:0
+msgid "Unsupported operator on %(field_label)s %(model_label)s in %(domain)s"
+msgstr "عملگر پشتیبانی‌نشده روی %(field_label)s %(model_label)s در %(domain)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/fields_properties.py:0
+msgid "Updating records with different property fields definitions is not supported. Update by separate definition instead."
+msgstr "به‌روزرسانی هم‌زمان رکوردهایی با تعریف ویژگی‌های متفاوت پشتیبانی نمی‌شود. هر تعریف را جدا به‌روز کنید."
+
+#. module: base
+#: model:ir.module.category,name:base.module_category_website_sale
+msgid "Website Sale"
+msgstr "فروش وب‌سایت"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_ir_model__abstract
+msgid "Whether this model is abstract"
+msgstr "آیا این مدل انتزاعی است"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "You cannot delete %(to_delete_record)s, as it is used by %(on_restrict_record)s"
+msgstr "%(to_delete_record)s حذف نمی‌شود، چون %(on_restrict_record)s از آن استفاده می‌کند"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "You cannot use “%(property_name)s” because the linked “%(model_name)s” model doesn't exist or is invalid"
+msgstr "«%(property_name)s» قابل استفاده نیست، چون مدل «%(model_name)s» وجود ندارد یا نامعتبر است"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "You do not have enough rights to access the field \"%(field)s\" on %(document_kind)s (%(document_model)s). Please contact your system administrator.\n\nOperation: %(operation)s"
+msgstr "شما اجازه دسترسی به فیلد «%(field)s» در %(document_kind)s (%(document_model)s) را ندارید. با مدیر سیستم تماس بگیرید.\n\nعملیات: %(operation)s"
+
+#. module: base
+#. odoo-python
+#: code:addons/models.py:0
+msgid "custom field access rules"
+msgstr "قواعد دسترسی فیلدهای سفارشی"

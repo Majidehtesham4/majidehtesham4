@@ -17,3 +17,19 @@ msgstr ""
 "بر اساس پیکربندی محصول، مقدار تحویل داده شده می‌تواند به صورت خودکار توسط مکانیسم زیر محاسبه شود:\n"
 "  - دستی: مقدار به صورت دستی در سطر تنظیم می‌شود\n"
 "  - انتقال انبار: مقدار از برداشت‌های تأیید شده دریافت می‌شود\n"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_bill_line_match__aml_id
+msgid "Aml"
+msgstr "سطر حسابداری"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_bill_line_match__pol_id
+msgid "Pol"
+msgstr "سطر سفارش خرید"
+
+#. module: purchase
+#. odoo-python
+#: code:addons/purchase/models/res_partner.py:0
+msgid "The partner cannot be deleted because it is used as a dropship address"
+msgstr "این مخاطب حذف نمی‌شود، چون نشانی ارسال مستقیم است"

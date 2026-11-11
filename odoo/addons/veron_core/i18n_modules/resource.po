@@ -1,0 +1,13 @@
+# Persian of resource that Odoo or the OCA has not
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fa\n"
+
+#. module: resource
+#: model:ir.model.fields,help:resource.field_res_company__tz
+msgid "When printing documents and exporting/importing data, time values are computed according to this timezone.\nIf the timezone is not set, UTC (Coordinated Universal Time) is used.\nAnywhere else, time values are computed according to the time offset of your web client."
+msgstr "هنگام چاپ اسناد و خروجی/ورودی داده، زمان‌ها بر اساس این منطقه زمانی محاسبه می‌شوند.\nاگر منطقه زمانی تعیین نشده باشد، UTC (زمان هماهنگ جهانی) به کار می‌رود.\nدر جاهای دیگر، زمان‌ها بر اساس اختلاف ساعت مرورگر شما محاسبه می‌شوند."

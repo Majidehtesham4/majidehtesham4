@@ -12,3 +12,57 @@ msgstr ""
 #: code:addons/html_editor/static/src/main/movenode_plugin.js:0
 msgid "Click to select"
 msgstr "کلیک کنید برای انتخاب"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/others/embedded_components/plugins/caption_plugin/caption_plugin.js:0
+msgid "Caption"
+msgstr "زیرنویس"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/column_plugin.js:0
+msgid "Convert columns to regular content"
+msgstr "تبدیل ستون‌ها به محتوای عادی"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/movenode_plugin.js:0
+msgid "Drag to move"
+msgstr "برای جابه‌جایی بکشید"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/components/history_dialog/history_dialog.js:0
+msgid "Dynamic element"
+msgstr "بخش پویا"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/link/link_popover.xml:0
+msgid "Link Popover"
+msgstr "پنجره پیوند"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/media/media_dialog/video_selector.xml:0
+msgid "MM:SS"
+msgstr "دقیقه:ثانیه"
+
+#. module: html_editor
+#. odoo-python
+#: code:addons/html_editor/controllers/main.py:0
+msgid "Only internal users can use AI text generation."
+msgstr "فقط کاربران داخلی می‌توانند متن را با هوش مصنوعی بسازند."
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/core/format_plugin.js:0
+msgid "Remove Format (Ctrl + Space)"
+msgstr "حذف قالب‌بندی (Ctrl + Space)"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/column_plugin.js:0
+msgid "Remove column layout"
+msgstr "حذف چیدمان ستونی"

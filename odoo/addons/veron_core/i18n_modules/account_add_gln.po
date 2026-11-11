@@ -26,3 +26,9 @@ msgstr "نام نمایشی"
 #: model:ir.model.fields,field_description:account_add_gln.field_res_partner__id
 msgid "ID"
 msgstr "شناسه"
+
+#. module: account_add_gln
+#: model:ir.model.fields,help:account_add_gln.field_res_partner__global_location_number
+#: model:ir.model.fields,help:account_add_gln.field_res_users__global_location_number
+msgid "Global Location Number"
+msgstr "شماره جهانی مکان (GLN)"

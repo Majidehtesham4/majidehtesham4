@@ -1,0 +1,15 @@
+# Persian of base
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: base
+#: model:ir.model.fields,field_description:base.field_base_language_import__code
+msgid "ISO Code"
+msgstr "کد ISO"
+
+#. module: base
+#: model:ir.model.fields,help:base.field_res_currency_rate__rate
+msgid "The rate of the currency to the currency of rate 1"
+msgstr "نرخ این ارز نسبت به ارزی که نرخش ۱ است"

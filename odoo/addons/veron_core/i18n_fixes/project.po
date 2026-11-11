@@ -1,0 +1,20 @@
+# Corrections of the Persian of project
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: project
+#: model_terms:ir.ui.view,arch_db:project.view_project_kanban
+msgid "Dates"
+msgstr "تاریخ‌ها"
+
+#. module: project
+#: model_terms:ir.ui.view,arch_db:project.view_project_kanban
+msgid "Domain Alias"
+msgstr "نام مستعار دامنه"
+
+#. module: project
+#: model_terms:ir.ui.view,arch_db:project.view_task_kanban
+msgid "Private Task"
+msgstr "وظیفه خصوصی"

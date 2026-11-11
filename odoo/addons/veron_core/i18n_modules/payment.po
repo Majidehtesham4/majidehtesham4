@@ -36,3 +36,19 @@ msgstr "سرویس دهنده پرداخت"
 #: model:payment.provider,name:payment.payment_provider_xendit
 msgid "Xendit"
 msgstr "Xendit"
+
+#. module: payment
+#: model_terms:ir.ui.view,arch_db:payment.payment_transaction_form
+msgid "Post-process"
+msgstr "پس‌پردازش"
+
+#. module: payment
+#. odoo-python
+#: code:addons/payment/controllers/portal.py:0
+msgid "This payment provider is not available."
+msgstr "این درگاه پرداخت در دسترس نیست."
+
+#. module: payment
+#: model:ir.model.fields,field_description:payment.field_payment_transaction__partner_zip
+msgid "Zip Code"
+msgstr "کد پستی"

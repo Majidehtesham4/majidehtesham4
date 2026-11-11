@@ -45,6 +45,11 @@ class VeronIran(models.AbstractModel):
 		lang = self._persian()
 		installed = self.env["ir.module.module"].search([("state", "=", "installed")]).mapped("name")
 		self.env["ir.module.module"]._veron_load_persian(installed, [lang.code])
+		self.env["ir.module.module"]._veron_load_fixes(installed, [lang.code])
+		self._brand_terms()
+		root = self.env.ref("base.partner_root", raise_if_not_found=False)
+		if root and root.name == "OdooBot":
+			root.name = "VeronBot"
 		self.env["res.users"].with_context(active_test=False).search([("share", "=", False)]).write(
 			{"lang": lang.code, "tz": "Asia/Tehran"}
 		)
@@ -64,6 +69,27 @@ class VeronIran(models.AbstractModel):
 		self._module_names(lang.code)
 		self._holidays()
 		self._location_names()
+		self._channel_names()
+
+	# The texts of the database, in Persian, that name Odoo: the program is ERP-VERON to its people
+	BRAND_COLUMNS = [("ir_ui_view", "arch_db"), ("ir_act_window", "help"), ("ir_model_fields", "help"),
+		("ir_model_fields", "field_description"), ("ir_ui_menu", "name"), ("ir_module_module", "summary"),
+		("ir_module_module", "shortdesc"), ("res_groups", "comment"), ("ir_actions", "help")]
+
+	@api.model
+	def _brand_terms(self):
+		"""«Odoo» in the Persian of the database's texts, as in the code's: «Veron», «VeronBot»; the addresses
+		(odoo.com) and the code names are left as they are"""
+		cr = self.env.cr
+		for table, column in self.BRAND_COLUMNS:
+			cr.execute("SELECT 1 FROM information_schema.columns WHERE table_name = %s AND column_name = %s AND "
+				"data_type = 'jsonb'", (table, column))
+			if not cr.fetchone():
+				continue
+			cr.execute(rf"""
+				UPDATE "{table}" SET "{column}" = jsonb_set("{column}", '{{fa_IR}}', to_jsonb(
+					regexp_replace(replace("{column}"->>'fa_IR', 'OdooBot', 'VeronBot'), '(?<![\w./@-])Odoo(?![\w])', 'Veron', 'g')))
+				WHERE "{column}" ? 'fa_IR' AND "{column}"->>'fa_IR' ~ 'Odoo'""")
 
 	def _persian(self):
 		lang = self.env["res.lang"].with_context(active_test=False).search([("code", "=", "fa_IR")], limit=1)
@@ -162,6 +188,25 @@ class VeronIran(models.AbstractModel):
 				module.update_field_translations("shortdesc", {lang: name})
 			if module.summary != summary:
 				module.update_field_translations("summary", {lang: summary})
+
+	def _channel_names(self):
+		"""The two channels Discuss makes, named in English (a plain field), named in Persian while unchanged"""
+		for xmlid, (english, persian, about_en, about_fa) in {
+			"mail.channel_all_employees": ("general", "عمومی", "General announcements for all employees.",
+				"اطلاعیه‌های عمومی برای همه کارکنان."),
+			"mail.channel_admin": ("Administrators", "مدیران", "General channel for administrators.",
+				"کانال عمومی مدیران سیستم."),
+		}.items():
+			channel = self.env.ref(xmlid, raise_if_not_found=False)
+			if not channel:
+				continue
+			if channel.name == english:
+				channel.name = persian
+			if channel.description == about_en:
+				channel.description = about_fa
+		# The chat with the bot was named when the bot was still OdooBot
+		for channel in self.env["discuss.channel"].sudo().search([("name", "like", "OdooBot")]):
+			channel.name = channel.name.replace("OdooBot", "VeronBot")
 
 	def _location_names(self):
 		"""The locations stock makes with English names (a plain field, not translated), while unchanged"""
@@ -278,6 +323,27 @@ HOLIDAYS_LUNAR = [
 ]
 
 MODULE_NAMES = {
+	"veron_account_iran": ("حسابداری ایرانی", "شماره سند در سال شمسی، صورتحساب رسمی، سند تجمیعی، کسورات قانونی و دفاتر قانونی"),
+	"veron_ai_agent": ("ایجنت‌های هوش مصنوعی", "ایجنت با مهارت، دانش، راه‌انداز و تأیید انسانی، و دستیار هر صفحه"),
+	"veron_ai_agent_account": ("ایجنت‌های مالی", "ابزارهای مالی ایجنت‌ها و بستن تنخواه با رسیدهای خوانده‌شده"),
+	"veron_ai_agent_payroll": ("ایجنت‌های حقوق و دستمزد", "بررسی ورودی‌ها، محاسبه فیش‌ها و مقایسه با ماه قبل"),
+	"veron_attendance_device": ("دستگاه‌های حضور و غیاب", "دریافت ترددها از دستگاه ZKTeco یا فایل دستگاه و ساخت ورود و خروج"),
+	"veron_currency_rate": ("نرخ ارز", "دریافت خودکار نرخ دلار، یورو، درهم و ارزهای دیگر به ریال"),
+	"veron_fonts_iran": ("قلم‌های فارسی", "وزیرمتن، ساحل، شبنم و صمیم در برنامه و اسناد چاپی"),
+	"veron_hr_iran": ("منابع انسانی ایرانی", "وام و مساعده، مأموریت، بیمه تکمیلی، طبقه‌بندی مشاغل، دیسکت بیمه و لیست مالیات"),
+	"veron_hr_iran_lunch": ("ناهار و حقوق", "کسر سهم کارمند از ناهارهای ماه در فیش حقوقی"),
+	"veron_migration": ("انتقال از Odoo قدیمی", "آوردن یک شرکت از Odoo نسخه ۱۷ یا ۱۸ با همه سوابق"),
+	"veron_payment_iran": ("درگاه‌های پرداخت ایران", "زرین‌پال، زیبال، به‌پرداخت ملت، سداد و آسان‌پرداخت"),
+	"veron_planning_rotation": ("شیفت‌های چرخشی", "الگوی صبح، عصر، شب و استراحت و ساخت شیفت‌های هر نفر"),
+	"veron_secretariat": ("دبیرخانه", "نامه‌های وارده و صادره، شماره‌گذاری شمسی، ارجاع و نامه‌های محرمانه"),
+	"veron_sms_iran": ("پیامک ایرانی", "کاوه‌نگار، SMS.ir، ملی‌پیامک، فراپیامک، فراز اس‌ام‌اس و قاصدک با پنل پشتیبان"),
+	"veron_spreadsheet_iran": ("داشبوردهای فارسی", "داشبوردها به فارسی و ریال، و تیره در حالت تاریک"),
+	"veron_stock_kardex": ("کاردکس کالا", "هر ورود و خروج کالا به ترتیب، با مانده و بهای تمام‌شده"),
+	"veron_storage_s3": ("فضای ذخیره‌سازی S3", "نگهداری فایل‌های برنامه روی آروان، پارس‌پک، MinIO یا AWS"),
+	"veron_theme": ("ظاهر ERP-VERON", "حالت تاریک و روشن، صفحه اصلی برنامه‌ها و صفحه ورود"),
+	"veron_website_iran": ("وب‌سایت ایرانی", "ورود با موبایل و پیامک، قلم فارسی، آپارات، نقشه نشان و پادکست"),
+	"veron_whatsapp": ("واتس‌اپ", "پیام واتس‌اپ به مشتریان و دریافت پاسخ‌ها روی رکورد"),
+	"ai_claude_anthropic": ("هوش مصنوعی Claude", "Claude به‌عنوان مدل زبانی، خواندن عکس و PDF و جستجوی وب ایجنت‌ها"),
 	"payroll": ("حقوق و دستمزد", "فیش حقوقی، قراردادها و محاسبه‌ی حقوق کارکنان"),
 	"account_financial_report": ("گزارش‌های مالی", "دفتر کل، تراز آزمایشی، صورت‌حساب طرف حساب و گزارش سنی"),
 	"base_territory": ("مناطق و شعبه‌ها", "تعریف منطقه، شعبه و ناحیه برای فروش و خدمات"),

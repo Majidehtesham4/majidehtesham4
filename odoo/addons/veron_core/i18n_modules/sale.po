@@ -21,3 +21,37 @@ msgstr "جلاتو (Gelato)"
 #: model:ir.model.fields,field_description:sale.field_res_config_settings__module_delivery_starshipit
 msgid "Starshipit Connector"
 msgstr "رابط Starshipit"
+
+#. module: sale
+#. odoo-javascript
+#: code:addons/sale/static/src/views/sale_file_upload_kanban/sale_file_upload_kanban_renderer.js:0
+#: code:addons/sale/static/src/views/sale_file_upload_list/sale_file_upload_list_renderer.js:0
+msgid "\n            If your customer runs on Odoo 18 or higher, customer data and sales order lines\n            will be automatically created. Any other pdf containing an attached\n            UBL-RequestForQuotation file will work as well.\n        "
+msgstr "\n            اگر مشتری شما از نسخه ۱۸ یا بالاتر برنامه استفاده کند، مشخصات مشتری و سطرهای سفارش فروش\n            خودکار ساخته می‌شوند. هر PDF دیگری که فایل UBL-RequestForQuotation\n            پیوست داشته باشد هم کار می‌کند.\n        "
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "<strong>\n                            Invoicing Address\n                        </strong>"
+msgstr "<strong>\n                            نشانی صورتحساب\n                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "<strong>\n                            Shipping Address\n                        </strong>"
+msgstr "<strong>\n                            نشانی ارسال\n                        </strong>"
+
+#. module: sale
+#: model_terms:ir.ui.view,arch_db:sale.report_saleorder_document
+msgid "<strong>\n                        Invoicing and Shipping Address\n                    </strong>"
+msgstr "<strong>\n                        نشانی صورتحساب و ارسال\n                    </strong>"
+
+#. module: sale
+#: model:ir.model.fields,help:sale.field_sale_order__validity_date
+msgid "Validity of the quotation. After this date, you will no longer be able to sign and pay it."
+msgstr "اعتبار پیش‌فاکتور. پس از این تاریخ دیگر نمی‌توانید آن را امضا و پرداخت کنید."
+
+#. module: sale
+#. odoo-python
+#: code:addons/sale/models/product_product.py:0
+#: code:addons/sale/models/product_template.py:0
+msgid "You should not change the product type because this product is already used in sales orders. Changing it may affect how the related order lines are delivered."
+msgstr "نوع این محصول را تغییر ندهید؛ این محصول در سفارش‌های فروش استفاده شده است. تغییر آن ممکن است شیوه تحویل سطرهای سفارش مربوط را تغییر دهد."

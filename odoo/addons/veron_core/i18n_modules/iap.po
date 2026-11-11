@@ -16,3 +16,41 @@ msgstr "گیرندگان هشدار ایمیل"
 #: model:ir.model.fields,field_description:iap.field_iap_account__warning_threshold
 msgid "Email Alert Threshold"
 msgstr "آستانه هشدار ایمیل"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "In-App Purchase Accounts"
+msgstr "حساب‌های خرید درون‌برنامه‌ای"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "Manage"
+msgstr "مدیریت"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "Rotate"
+msgstr "تعویض"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "The IAP server is unreachable and the information may not be up to date. Please try again later."
+msgstr "سرور IAP در دسترس نیست و ممکن است اطلاعات به‌روز نباشد. بعداً دوباره امتحان کنید."
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.iap_account_view_tree
+msgid "This is useful if you think it may have leaked. It will also deactivate auto-refill if set. Are you sure to rotate your IAP token?"
+msgstr "اگر فکر می‌کنید توکن IAP لو رفته، آن را تعویض کنید. این کار شارژ خودکار را هم غیرفعال می‌کند. توکن IAP تعویض شود؟"
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "Unable to rotate token, another process is busy. Please try later."
+msgstr "تعویض توکن ممکن نشد؛ فرایند دیگری در حال کار است. بعداً امتحان کنید."
+
+#. module: iap
+#. odoo-python
+#: code:addons/iap/models/iap_account.py:0
+msgid "Unexpected while contacting IAP. Please contact the support."
+msgstr "هنگام ارتباط با IAP خطای غیرمنتظره‌ای رخ داد. با پشتیبانی تماس بگیرید."

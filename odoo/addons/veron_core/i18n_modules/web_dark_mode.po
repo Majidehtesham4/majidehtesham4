@@ -20,3 +20,37 @@ msgstr "حالت تاریک"
 #: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__dark_mode_device_dependent
 msgid "Device Dependent Dark Mode"
 msgstr "حالت تاریک بر اساس تنظیم دستگاه"
+
+#. module: web_dark_mode
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__dark_mode_device_dependent
+msgid "Dark Mode Device Dependent"
+msgstr "حالت تاریک بر اساس تنظیم دستگاه"
+
+#. module: web_dark_mode
+#: model:ir.model.fields,field_description:web_dark_mode.field_ir_http__display_name
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users__display_name
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__display_name
+msgid "Display Name"
+msgstr "نام نمایشی"
+
+#. module: web_dark_mode
+#: model:ir.model,name:web_dark_mode.model_ir_http
+msgid "HTTP Routing"
+msgstr "مسیریابی HTTP"
+
+#. module: web_dark_mode
+#: model:ir.model.fields,field_description:web_dark_mode.field_ir_http__id
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users__id
+#: model:ir.model.fields,field_description:web_dark_mode.field_res_users_settings__id
+msgid "ID"
+msgstr "شناسه"
+
+#. module: web_dark_mode
+#: model:ir.model,name:web_dark_mode.model_res_users
+msgid "User"
+msgstr "کاربر"
+
+#. module: web_dark_mode
+#: model:ir.model,name:web_dark_mode.model_res_users_settings
+msgid "User Settings"
+msgstr "تنظیمات کاربر"

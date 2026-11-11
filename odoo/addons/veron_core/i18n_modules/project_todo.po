@@ -41,3 +41,9 @@ msgstr ""
 #: model:ir.model,name:project_todo.model_res_users
 msgid "User"
 msgstr "کاربر"
+
+#. module: project_todo
+#. odoo-javascript
+#: code:addons/project_todo/static/src/views/todo_form/todo_form_controller.js:0
+msgid "The To-do description was empty at the time."
+msgstr "شرح کار در آن زمان خالی بود."

@@ -1,0 +1,10 @@
+# Corrections of the Persian Odoo ships for hr_holidays (French or unrelated text): these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: hr_holidays
+#: model_terms:ir.ui.view,arch_db:hr_holidays.report_holidayssummary
+msgid "&gt;"
+msgstr "&gt;"

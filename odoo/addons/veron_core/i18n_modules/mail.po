@@ -16,3 +16,97 @@ msgstr "نوع سرور ایمیل خروجی"
 #: model:ir.model,website_form_label:mail.model_mail_mail
 msgid "Send an E-mail"
 msgstr "ارسال ایمیل"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/search_message_result.js:0
+msgid "1 message found"
+msgstr "۱ پیام پیدا شد"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Add a Klipy GIF API key to enable GIFs support. If you were using a Tenor GIF API key (service shutdown on June 30, 2026), please replace it here with a Klipy GIF API key"
+msgstr "برای پشتیبانی از GIF یک کلید API از Klipy وارد کنید. اگر از کلید Tenor استفاده می‌کردید (این سرویس از ۳۰ ژوئن ۲۰۲۶ متوقف می‌شود)، آن را اینجا با کلید Klipy جایگزین کنید"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_config_settings__tenor_api_key
+msgid "Add a Klipy GIF API key to enable GIFs support. https://docs.klipy.com/getting-started\nIf you were using a Tenor GIF API key (service shutdown on June 30, 2026), please replace it here with a Klipy GIF API key"
+msgstr "برای پشتیبانی از GIF یک کلید API از Klipy وارد کنید. https://docs.klipy.com/getting-started\nاگر از کلید Tenor استفاده می‌کردید (این سرویس از ۳۰ ژوئن ۲۰۲۶ متوقف می‌شود)، آن را اینجا با کلید Klipy جایگزین کنید"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel__channel_name_member_ids
+msgid "Channel Name Member"
+msgstr "عضو نام کانال"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "If you were using a Tenor API key, please replace it with a Klipy API key in the General Settings."
+msgstr "اگر از کلید API سرویس Tenor استفاده می‌کردید، آن را در تنظیمات عمومی با کلید API سرویس Klipy جایگزین کنید."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_res_config_settings__tenor_api_key
+msgid "Klipy API key"
+msgstr "کلید API سرویس Klipy"
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.res_config_settings_view_form
+msgid "Klipy GIF API key"
+msgstr "کلید API سرویس GIF Klipy"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_mail_message_translation__target_lang
+msgid "Language code used as the target for the translation request."
+msgstr "کد زبانی که درخواست ترجمه به آن زبان است."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/attachment_view.js:0
+msgid "Pop out is not supported on mobile."
+msgstr "باز کردن در پنجره جدا در موبایل پشتیبانی نمی‌شود."
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/discuss/gif_picker/common/gif_picker.xml:0
+msgid "Search Klipy"
+msgstr "جستجو در Klipy"
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_discuss_channel__self_member_id
+msgid "Self Member"
+msgstr "عضو خود"
+
+#. module: mail
+#. odoo-javascript
+#: code:addons/mail/static/src/core/common/search_message_result.js:0
+msgid "Showing the first %(count)s messages found. Narrow your search or scroll to see more."
+msgstr "%(count)s پیام اول پیدا‌شده نمایش داده شده است. جستجو را دقیق‌تر کنید یا پایین بروید تا بیشتر ببینید."
+
+#. module: mail
+#: model_terms:ir.ui.view,arch_db:mail.mail_activity_type_view_tree
+msgid "Triggered Next"
+msgstr "اجرای بعدی"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_ir_actions_server__state
+#: model:ir.model.fields,help:mail.field_ir_cron__state
+msgid "Type of server action. The following values are available:\n- 'Update a Record': update the values of a record\n- 'Create Activity': create an activity (Discuss)\n- 'Send Email': post a message, a note or send an email (Discuss)\n- 'Send SMS': send SMS, log them on documents (SMS)- 'Add/Remove Followers': add or remove followers to a record (Discuss)\n- 'Create Record': create a new record with new values\n- 'Execute Code': a block of Python code that will be executed\n- 'Send Webhook Notification': send a POST request to an external system, also known as a Webhook\n- 'Multi Actions': define an action that triggers several other server actions\n"
+msgstr "نوع کنش سرور. مقدارهای ممکن:\n- «به‌روزرسانی رکورد»: مقدارهای یک رکورد را تغییر می‌دهد\n- «ایجاد فعالیت»: یک فعالیت می‌سازد (گفتگو)\n- «ارسال ایمیل»: پیام، یادداشت یا ایمیل می‌فرستد (گفتگو)\n- «ارسال پیامک»: پیامک می‌فرستد و روی سند ثبت می‌کند (پیامک)- «افزودن/حذف دنبال‌کنندگان»: دنبال‌کننده اضافه یا حذف می‌کند (گفتگو)\n- «ایجاد رکورد»: رکورد تازه‌ای با مقدارهای تازه می‌سازد\n- «اجرای کد»: یک قطعه کد پایتون اجرا می‌شود\n- «ارسال اعلان وب‌هوک»: یک درخواست POST به سامانه بیرونی (وب‌هوک) می‌فرستد\n- «چند کنش»: کنشی که چند کنش سرور دیگر را اجرا می‌کند\n"
+
+#. module: mail
+#: model:ir.model.fields,help:mail.field_res_partner__vat
+#: model:ir.model.fields,help:mail.field_res_users__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr "برای مشتری بدون شناسه مالیاتی می‌توانید «/» وارد کنید."
+
+#. module: mail
+#. odoo-python
+#: code:addons/mail/models/mail_alias_domain.py:0
+msgid "You cannot assign an empty domain name."
+msgstr "نام دامنه نمی‌تواند خالی باشد."
+
+#. module: mail
+#: model:ir.model.fields,field_description:mail.field_mail_mail__outgoing_email_to
+#: model:ir.model.fields,field_description:mail.field_mail_message__outgoing_email_to
+msgid "emails To"
+msgstr "گیرندگان ایمیل"

@@ -1,0 +1,26 @@
+# Persian of sms that Odoo or the OCA has not
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: fa\n"
+
+#. module: sms
+#: model:ir.model.fields,help:sms.field_ir_actions_server__state
+#: model:ir.model.fields,help:sms.field_ir_cron__state
+msgid "Type of server action. The following values are available:\n- 'Update a Record': update the values of a record\n- 'Create Activity': create an activity (Discuss)\n- 'Send Email': post a message, a note or send an email (Discuss)\n- 'Send SMS': send SMS, log them on documents (SMS)- 'Add/Remove Followers': add or remove followers to a record (Discuss)\n- 'Create Record': create a new record with new values\n- 'Execute Code': a block of Python code that will be executed\n- 'Send Webhook Notification': send a POST request to an external system, also known as a Webhook\n- 'Multi Actions': define an action that triggers several other server actions\n"
+msgstr "نوع کنش سرور. مقدارهای ممکن:\n- «به‌روزرسانی رکورد»: مقدارهای یک رکورد را تغییر می‌دهد\n- «ایجاد فعالیت»: یک فعالیت می‌سازد (گفتگو)\n- «ارسال ایمیل»: پیام، یادداشت یا ایمیل می‌فرستد (گفتگو)\n- «ارسال پیامک»: پیامک می‌فرستد و روی سند ثبت می‌کند (پیامک)- «افزودن/حذف دنبال‌کنندگان»: دنبال‌کننده اضافه یا حذف می‌کند (گفتگو)\n- «ایجاد رکورد»: رکورد تازه‌ای با مقدارهای تازه می‌سازد\n- «اجرای کد»: یک قطعه کد پایتون اجرا می‌شود\n- «ارسال اعلان وب‌هوک»: یک درخواست POST به سامانه بیرونی (وب‌هوک) می‌فرستد\n- «چند کنش»: کنشی که چند کنش سرور دیگر را اجرا می‌کند\n"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Your country is not supported due to sender registration legislation"
+msgstr "به دلیل قوانین ثبت فرستنده، کشور شما پشتیبانی نمی‌شود"
+
+#. module: sms
+#. odoo-python
+#: code:addons/sms/tools/sms_api.py:0
+msgid "Your database is not activated"
+msgstr "پایگاه داده شما فعال نشده است"

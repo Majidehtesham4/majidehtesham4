@@ -1,6 +1,7 @@
 """Persian of the texts written in code (Python messages, the web client's texts), which Odoo reads from
 each module's own i18n folder only:
 - i18n_modules/<module>.po adds what a module, mostly an OCA one, has no Persian for;
+- i18n_fixes/<module>.po corrects the Persian Odoo ships where it is French or unrelated text;
 - i18n_overrides.json replaces a few of Odoo's own words, e.g. «ربع» for Quarter, which is a season in Shamsi;
 - «Odoo» in the Persian texts is written «Veron», and OdooBot «VeronBot».
 Read once per module and language, as Odoo does."""
@@ -28,6 +29,11 @@ def _veron_code_translations(module_name, lang, filter_func):
 		with file_open(path, mode="rb") as fileobj:
 			extra = translate.CodeTranslations._read_code_translations_file(fileobj, filter_func)
 		translations = {**extra, **translations}
+	# Corrections of Odoo's own Persian win over it
+	path = os.path.join(ROOT, "i18n_fixes", f"{module_name}.po")
+	if os.path.isfile(path):
+		with file_open(path, mode="rb") as fileobj:
+			translations.update(translate.CodeTranslations._read_code_translations_file(fileobj, filter_func))
 	for src, value in OVERRIDES.items():
 		if src in translations:
 			translations[src] = value

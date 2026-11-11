@@ -1,0 +1,17 @@
+# Corrections of the Persian Odoo ships for html_editor (French or unrelated text): these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/media/media_dialog/video_selector.xml:0
+msgid "(URL or Embed)"
+msgstr "(نشانی یا کد جاسازی)"
+
+#. module: html_editor
+#. odoo-javascript
+#: code:addons/html_editor/static/src/main/media/image_description.xml:0
+msgid "Tooltip"
+msgstr "راهنمای کوتاه"

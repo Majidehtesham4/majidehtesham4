@@ -1,0 +1,12 @@
+# Corrections of the Persian Odoo ships for crm (French or unrelated text): these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: crm
+#: model_terms:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
+#: model_terms:ir.ui.view,arch_db:crm.view_crm_case_my_activities_filter
+#: model_terms:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
+msgid "Show all opportunities for which the next action date is before today"
+msgstr "نمایش همه فرصت‌هایی که تاریخ کنش بعدی‌شان پیش از امروز است"

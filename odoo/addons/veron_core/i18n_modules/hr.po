@@ -27,3 +27,58 @@ msgstr "نما"
 #: code:addons/hr/static/src/components/avatar_card/avatar_card_popover_patch.xml:0
 msgid "View Profile"
 msgstr "مشاهده پروفایل"
+
+#. module: hr
+#. odoo-javascript
+#: code:addons/hr/static/src/components/avatar_card/avatar_card_popover_patch.xml:0
+msgid "Open Contact Profile"
+msgstr "باز کردن پروفایل مخاطب"
+
+#. module: hr
+#. odoo-javascript
+#: code:addons/hr/static/src/components/avatar_card/avatar_card_popover_patch.xml:0
+msgid "Open Employee Profile (activates company)"
+msgstr "باز کردن پروفایل کارمند (شرکت فعال می‌شود)"
+
+#. module: hr
+#. odoo-python
+#: code:addons/hr/models/hr_employee.py:0
+msgid "The Badge ID must contain only printable ASCII characters, without spaces, and be no longer than 18 characters."
+msgstr "شناسه کارت باید فقط نویسه‌های قابل چاپ ASCII، بدون فاصله و حداکثر ۱۸ نویسه باشد."
+
+#. module: hr
+#: model_terms:hr.job,description:hr.job_marketing
+msgid "The Marketing Manager defines the mid- to long-term marketing strategy for his covered market segments\n                in the World. He develops and monitors the annual budget in collaboration with Sales. He defines the\n                products and customers portfolio according to the marketing plan. This mission requires strong\n                collaboration with Technical Service and Sales."
+msgstr "مدیر بازاریابی راهبرد میان‌مدت و بلندمدت بازاریابی را برای بخش‌های بازار خود\n                تعیین می‌کند. بودجه سالانه را با همکاری فروش تهیه و پیگیری می‌کند و\n                سبد محصولات و مشتریان را طبق برنامه بازاریابی مشخص می‌کند. این نقش به\n                همکاری نزدیک با خدمات فنی و فروش نیاز دارد."
+
+#. module: hr
+#: model_terms:hr.job,website_description:hr.job_consultant
+msgid "Understanding of IT strategy development"
+msgstr "آشنایی با تدوین راهبرد فناوری اطلاعات"
+
+#. module: hr
+#: model_terms:hr.job,website_description:hr.job_developer
+msgid "Understanding of user experience (UX) principles"
+msgstr "آشنایی با اصول تجربه کاربری (UX)"
+
+#. module: hr
+#: model_terms:hr.job,website_description:hr.job_trainee
+msgid "Update and maintain project documentation"
+msgstr "به‌روزرسانی و نگهداری مستندات پروژه"
+
+#. module: hr
+#: model:ir.model.fields,field_description:hr.field_hr_employee__version_revision
+msgid "Version Revision"
+msgstr "بازنگری نسخه"
+
+#. module: hr
+#: model_terms:hr.job,description:hr.job_consultant
+msgid "We are looking for a Consultant to provide expert advice and strategic solutions,\n                driving business growth. Strong analytical skills and a proven track record in delivering results are\n                essential."
+msgstr "به دنبال مشاوری هستیم که با مشاوره تخصصی و راهکارهای راهبردی\n                به رشد کسب‌وکار کمک کند. مهارت تحلیلی قوی و سابقه موفق در رسیدن به نتیجه\n                ضروری است."
+
+#. module: hr
+#: model_terms:hr.job,description:hr.job_developer
+msgid "We are looking for an experience developer to join our Web team.\n                Someone who can snap out of coding and perform analysis or meet clients to explain the technical\n                possibilities that can meet their needs."
+msgstr "به دنبال برنامه‌نویس باتجربه‌ای برای تیم وب هستیم؛\n                کسی که بتواند علاوه بر برنامه‌نویسی، تحلیل کند یا با مشتریان دیدار کند و\n                امکانات فنی متناسب با نیازشان را توضیح دهد."
+
+

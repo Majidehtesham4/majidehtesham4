@@ -21,3 +21,14 @@ msgstr "خاکستری"
 #: model:ir.model,name:product.model_product_catalog_mixin
 msgid "Product Catalog Mixin"
 msgstr "میکسین کاتالوگ محصول"
+
+#. module: product
+#: model:ir.model,name:product.model_product_uom
+msgid "Link between products and their UoMs"
+msgstr "پیوند محصولات و واحدهای اندازه‌گیری آن‌ها"
+
+#. module: product
+#. odoo-python
+#: code:addons/product/report/product_pricelist_report.py:0
+msgid "Sorry, you are not allowed to access this document."
+msgstr "شما اجازه دسترسی به این سند را ندارید."

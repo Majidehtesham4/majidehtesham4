@@ -17,3 +17,79 @@ msgstr "شرکت"
 #: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.js:0
 msgid "day(s)"
 msgstr "روز"
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/hr_leave.py:0
+msgid "%(leave_type)s: %(duration)s (%(start)s)"
+msgstr "%(leave_type)s: %(duration)s (%(start)s)"
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/wizard/hr_leave_allocation_generate_multi_wizard.py:0
+msgid "%(name)s (%(duration)s %(request_unit)s(s))"
+msgstr "%(name)s (%(duration)s %(request_unit)s)"
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/hr_leave.py:0
+msgid "%(name)s does not have a valid allocation for the leave type %(leave_type)s to cover that request."
+msgstr "%(name)s برای نوع مرخصی %(leave_type)s تخصیص معتبری برای این درخواست ندارد."
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/hr_leave.py:0
+msgid "%(name)s: %(duration)s"
+msgstr "%(name)s: %(duration)s"
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/hr_leave.py:0
+msgid "%(person)s: %(duration)s (%(start)s)"
+msgstr "%(person)s: %(duration)s (%(start)s)"
+
+#. module: hr_holidays
+#: model_terms:ir.ui.view,arch_db:hr_holidays.hr_leave_view_form
+msgid "A supporting document is required for this type of time off."
+msgstr "برای این نوع مرخصی، مدرک پشتیبان الزامی است."
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/hr_version.py:0
+msgid "Changing the contract on this employee changes their working schedule in a period they already took leaves. Changing this working schedule changes the duration of these leaves in such a way the employee no longer has the required allocation for them. Please review these leaves and/or allocations before changing the contract.\n\nThis error has been triggered by:\n"
+msgstr "تغییر قرارداد این کارمند، برنامه کاری او را در دوره‌ای که مرخصی گرفته تغییر می‌دهد. این تغییر مدت آن مرخصی‌ها را طوری عوض می‌کند که کارمند دیگر تخصیص لازم را ندارد. پیش از تغییر قرارداد، این مرخصی‌ها و تخصیص‌ها را بررسی کنید.\n\nاین خطا به دلیل این موارد رخ داده است:\n"
+
+#. module: hr_holidays
+#: model:ir.model.fields,help:hr_holidays.field_hr_leave_type__create_calendar_meeting
+msgid "If this field is checked, every leave request of this type will have a corresponding entry in the calendar application. There will be no entry if this stays unchecked."
+msgstr "اگر این گزینه انتخاب شود، برای هر درخواست مرخصی از این نوع، رویدادی در تقویم ثبت می‌شود. اگر انتخاب نشود، رویدادی ثبت نمی‌شود."
+
+#. module: hr_holidays
+#. odoo-python
+#: code:addons/hr_holidays/models/res_company.py:0
+msgid "The company country cannot be changed while time off leaves or allocations with the country exist."
+msgstr "تا وقتی مرخصی یا تخصیص با این کشور وجود دارد، کشور شرکت قابل تغییر نیست."
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.xml:0
+msgid "and a balance cap is set to"
+msgstr "و سقف مانده روی این مقدار است"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.js:0
+msgid "hour(s)"
+msgstr "ساعت"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.js:0
+msgid "month(s)"
+msgstr "ماه"
+
+#. module: hr_holidays
+#. odoo-javascript
+#: code:addons/hr_holidays/static/src/components/accrual_level/accrual_levels.js:0
+msgid "year(s)"
+msgstr "سال"

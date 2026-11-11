@@ -21,3 +21,9 @@ msgstr "حساب IAP"
 #: model:ir.model.fields,field_description:iap_mail.field_iap_account__id
 msgid "ID"
 msgstr "شناسه"
+
+#. module: iap_mail
+#. odoo-javascript
+#: code:addons/iap_mail/static/src/js/services/iap_notification_service.js:0
+msgid "Buy more credits"
+msgstr "خرید اعتبار بیشتر"

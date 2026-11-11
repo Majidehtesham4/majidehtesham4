@@ -46,3 +46,27 @@ msgstr ""
 "        !!! تنظیم وظیفه با اولویت فوری\n"
 "\n"
 "        اطمینان حاصل کنید که از فرمت و ترتیب صحیح استفاده می‌کنید، به عنوان مثال: بهبود صفحه پیکربندی 5h #feature #v16 @Alireza !"
+
+#. module: project
+#: model:res.groups,comment:project.group_project_manager
+msgid "Administrator: Can manage projects and stages, with access to reporting and configuration."
+msgstr "مدیر: پروژه‌ها و مراحل را مدیریت می‌کند و به گزارش‌ها و پیکربندی دسترسی دارد."
+
+#. module: project
+#: model:ir.model.fields.selection,name:project.selection__project_project__privacy_visibility__portal
+msgid "All internal users and invited portal users"
+msgstr "همه کاربران داخلی و کاربران پورتال دعوت‌شده"
+
+#. module: project
+#. odoo-javascript
+#: code:addons/project/static/src/views/project_task_form/project_task_form_controller.js:0
+msgid "The task description was empty at the time."
+msgstr "شرح وظیفه در آن زمان خالی بود."
+
+#. module: project
+#: model:res.groups,comment:project.group_project_user
+msgid "User: Can manage tasks in projects shared with them."
+msgstr "کاربر: وظایف پروژه‌هایی را که با او به اشتراک گذاشته شده مدیریت می‌کند."
+
+
+

@@ -24,3 +24,63 @@ msgstr "خیر"
 #: code:addons/spreadsheet/static/src/hooks.js:0
 msgid "Yes"
 msgstr "بله"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "Cannot perform this action on merged cells. Unmerge the cells and try again."
+msgstr "این کار روی سلول‌های ادغام‌شده انجام نمی‌شود. ادغام سلول‌ها را بردارید و دوباره امتحان کنید."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.xml:0
+msgid "Chip"
+msgstr "تراشه"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "In [[FUNCTION_NAME]], the number of columns of the first matrix (%s) must be equal to the           number of rows of the second matrix (%s)."
+msgstr "در [[FUNCTION_NAME]]، تعداد ستون‌های ماتریس اول (%s) باید با تعداد سطرهای ماتریس دوم (%s) برابر باشد."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/helpers/geo_json_service.js:0
+msgid "Oceania"
+msgstr "اقیانوسیه"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/pivot/pivot_functions.js:0
+msgid "Return the label of the current value of a spreadsheet filter."
+msgstr "برچسب مقدار کنونی یک فیلتر صفحه‌گسترده را برمی‌گرداند."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "This operation would cause tables to overlap. Move or remove the conflicting table and try again."
+msgstr "این کار باعث هم‌پوشانی جدول‌ها می‌شود. جدول مزاحم را جابه‌جا یا حذف کنید و دوباره امتحان کنید."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "US (NASD) 30/360"
+msgstr "US (NASD) 30/360"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "Viridis"
+msgstr "Viridis"
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "Whether or not to remove empty text messages from the split results. The default behavior is to treat         consecutive delimiters as one (if TRUE). If FALSE, empty cells values are added between consecutive delimiters."
+msgstr "اینکه پیام‌های متنی خالی از نتایج تقسیم حذف شوند یا نه. به‌طور پیش‌فرض جداکننده‌های پشت سر هم یکی حساب می‌شوند (اگر TRUE). اگر FALSE باشد، میان جداکننده‌های پشت سر هم سلول خالی اضافه می‌شود."
+
+#. module: spreadsheet
+#. odoo-javascript
+#: code:addons/spreadsheet/static/src/o_spreadsheet/o_spreadsheet.js:0
+msgid "You copied content from a different version of the application. Only text and image content will be pasted."
+msgstr "محتوایی را از نسخه دیگری از برنامه کپی کرده‌اید. فقط متن و تصویر چسبانده می‌شود."

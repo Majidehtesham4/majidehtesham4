@@ -390,3 +390,267 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
 msgid "on"
 msgstr "در"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "<i class=\"fa fa-arrow-right\"/> Link to the demo video"
+msgstr "<i class=\"fa fa-arrow-right\"/> پیوند ویدیوی نمایشی"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_kanban
+msgid "<span class=\"pe-2\">Templates:</span>"
+msgstr "<span class=\"pe-2\">الگوها:</span>"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_kanban
+msgid "<span>Document type:</span>"
+msgstr "<span>نوع سند:</span>"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "A form field set as used in product documents can't be linked to a quotation document."
+msgstr "فیلد فرمی که برای اسناد محصول تعیین شده، به سند پیش‌فاکتور پیوند داده نمی‌شود."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "A form field set as used in quotation documents can't be linked to a product document."
+msgstr "فیلد فرمی که برای اسناد پیش‌فاکتور تعیین شده، به سند محصول پیوند داده نمی‌شود."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__add_by_default
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search_view
+msgid "Add By Default"
+msgstr "افزودن به‌طور پیش‌فرض"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order_line__available_product_document_ids
+msgid "Available Product Documents"
+msgstr "اسناد محصول موجود"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__available_quotation_document_ids
+msgid "Available Quotation Documents"
+msgstr "اسناد پیش‌فاکتور موجود"
+
+#. module: sale_pdf_quote_builder
+#. odoo-javascript
+#: code:addons/sale_pdf_quote_builder/static/src/js/custom_content_kanban_like_widget/custom_field_card/custom_field_card.js:0
+msgid "Click to write content for the PDF quote..."
+msgstr "برای نوشتن محتوای PDF پیش‌فاکتور کلیک کنید..."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.product_document_form
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
+msgid "Configure dynamic fields"
+msgstr "پیکربندی فیلدهای پویا"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.product_document_form
+msgid "Configure the path to fill the form fields."
+msgstr "مسیر پر کردن فیلدهای فرم را تنظیم کنید."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search
+msgid "Customizable"
+msgstr "قابل سفارشی‌سازی"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__customizable_pdf_form_fields
+msgid "Customizable PDF Form Fields"
+msgstr "فیلدهای فرم قابل سفارشی‌سازی PDF"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__document_type
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__document_type
+msgid "Document Type"
+msgstr "نوع سند"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search_view
+msgid "Document type"
+msgstr "نوع سند"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__name
+msgid "Form Field Name"
+msgstr "نام فیلد فرم"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+#: code:addons/sale_pdf_quote_builder/models/quotation_document.py:0
+msgid "Form Fields"
+msgstr "فیلدهای فرم"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_product_document__form_field_ids
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_quotation_document__form_field_ids
+msgid "Form Fields Included"
+msgstr "فیلدهای فرم شامل‌شده"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.constraint,message:sale_pdf_quote_builder.constraint_sale_pdf_form_field_unique_name_per_doc_type
+msgid "Form field name must be unique for a given document type."
+msgstr "نام فیلد فرم برای هر نوع سند باید یکتا باشد."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model,name:sale_pdf_quote_builder.model_sale_pdf_form_field
+msgid "Form fields of inside quotation documents."
+msgstr "فیلدهای فرم اسناد داخل پیش‌فاکتور."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order_template__quotation_document_ids
+msgid "Headers and footers"
+msgstr "سربرگ‌ها و پانویس‌ها"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_quotation_document__add_by_default
+msgid "If checked, this header or footer will be added by default on new quotes."
+msgstr "اگر انتخاب شود، این سربرگ یا پانویس به‌طور پیش‌فرض به پیش‌فاکتورهای تازه اضافه می‌شود."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_quotation_document__active
+msgid "If unchecked, it will allow you to hide the header or footer without removing it."
+msgstr "اگر انتخاب نشود، می‌توانید سربرگ یا پانویس را بدون حذف پنهان کنید."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields.selection,name:sale_pdf_quote_builder.selection__product_document__attached_on_sale__inside
+msgid "Inside quote pdf"
+msgstr "داخل PDF پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "Invalid form field name %(field_name)s. A form field name in a header or a footer can not start with \"sol_id_\"."
+msgstr "نام فیلد فرم %(field_name)s نامعتبر است. نام فیلد فرم در سربرگ یا پانویس نمی‌تواند با «sol_id_» شروع شود."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "Invalid form field name %(field_name)s. It should only contain alphanumerics, hyphens or underscores."
+msgstr "نام فیلد فرم %(field_name)s نامعتبر است. فقط حرف، عدد، خط تیره و زیرخط مجاز است."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "Invalid path %(path)s. It should only contain alphanumerics, hyphens, underscores or points."
+msgstr "مسیر %(path)s نامعتبر است. فقط حرف، عدد، خط تیره، زیرخط و نقطه مجاز است."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order__is_pdf_quote_builder_available
+msgid "Is Pdf Quote Builder Available"
+msgstr "سازنده PDF پیش‌فاکتور در دسترس است"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/utils.py:0
+msgid "It seems that we're not able to process this pdf inside a quotation. It is either encrypted, or encoded in a format we do not support."
+msgstr "این PDF داخل پیش‌فاکتور قابل پردازش نیست؛ یا رمزگذاری شده یا در قالبی است که پشتیبانی نمی‌شود."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_form
+msgid "Mark fields as safe to fill in the quote."
+msgstr "فیلدهایی را که پر کردنشان در پیش‌فاکتور امن است مشخص کنید."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+msgid "Only PDF documents can be attached inside a quote."
+msgstr "فقط سند PDF را می‌توان داخل پیش‌فاکتور پیوست کرد."
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/quotation_document.py:0
+msgid "Only PDF documents can be used as header or footer."
+msgstr "فقط سند PDF را می‌توان به‌عنوان سربرگ یا پانویس به کار برد."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.actions.act_window,help:sale_pdf_quote_builder.quotation_document_action
+msgid "Personalize your quotes with catchy header and footer pages\n                <br>\n                to boost your sales."
+msgstr "پیش‌فاکتورهای خود را با صفحه‌های سربرگ و پانویس جذاب شخصی کنید\n                <br>\n                تا فروشتان بیشتر شود."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_order_line__product_document_ids
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__product_document_ids
+msgid "Product Documents"
+msgstr "اسناد محصول"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "Provide header pages and footer pages to compose an attractive quotation with more information\n                        about your company, your products and you services. <br/>\n                        The pdf of your quotes will be built by putting together header pages, product descriptions,\n                        details of the quote and then the footer pages. <br/>\n                        If empty, it will use those define in the company settings. <br/>"
+msgstr "صفحه‌های سربرگ و پانویس بدهید تا پیش‌فاکتوری جذاب با اطلاعات بیشتر\n                        درباره شرکت، محصولات و خدماتتان بسازید. <br/>\n                        PDF پیش‌فاکتور از کنار هم گذاشتن صفحه‌های سربرگ، شرح محصولات،\n                        جزئیات پیش‌فاکتور و سپس صفحه‌های پانویس ساخته می‌شود. <br/>\n                        اگر خالی باشد، همان‌هایی به کار می‌روند که در تنظیمات شرکت تعیین شده‌اند. <br/>"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.actions.report,name:sale_pdf_quote_builder.action_report_saleorder_raw
+msgid "Quotation / Order"
+msgstr "پیش‌فاکتور / سفارش"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search_view
+msgid "Quotation Document"
+msgstr "سند پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,field_description:sale_pdf_quote_builder.field_sale_pdf_form_field__quotation_document_ids
+msgid "Quotation Documents"
+msgstr "اسناد پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model,name:sale_pdf_quote_builder.model_quotation_document
+msgid "Quotation's Headers & Footers"
+msgstr "سربرگ‌ها و پانویس‌های پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_form_inherit_sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "Quote Builder"
+msgstr "سازنده پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.sale_order_template_form
+msgid "Quote Builder Demo Video"
+msgstr "ویدیوی نمایشی سازنده پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.actions.server,name:sale_pdf_quote_builder.cron_post_upgrade_assign_missing_form_fields_ir_actions_server
+msgid "Sale Pdf Quote Builder: assign form fields to documents post upgrade"
+msgstr "سازنده PDF پیش‌فاکتور: تخصیص فیلدهای فرم به اسناد پس از ارتقا"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/sale_pdf_form_field.py:0
+msgid "The field %(field_name)s doesn't exist on model %(model_name)s"
+msgstr "فیلد %(field_name)s در مدل %(model_name)s وجود ندارد"
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_pdf_form_field__name
+msgid "The form field name as written in the PDF."
+msgstr "نام فیلد فرم همان‌طور که در PDF نوشته شده است."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_pdf_form_field__path
+msgid "The path to follow to dynamically fill the form field. \nLeave empty to be able to customized it in the quotation form."
+msgstr "مسیری که برای پر کردن پویای فیلد فرم دنبال می‌شود. \nبرای سفارشی‌سازی در فرم پیش‌فاکتور، خالی بگذارید."
+
+#. module: sale_pdf_quote_builder
+#: model:ir.model.fields,help:sale_pdf_quote_builder.field_sale_order_line__product_document_ids
+msgid "The product documents for this order line that will be merged in the PDF quote."
+msgstr "اسناد محصول این سطر سفارش که در PDF پیش‌فاکتور ادغام می‌شوند."
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.ui.view,arch_db:sale_pdf_quote_builder.quotation_document_search
+msgid "This document"
+msgstr "این سند"
+
+#. module: sale_pdf_quote_builder
+#: model_terms:ir.actions.act_window,help:sale_pdf_quote_builder.quotation_document_action
+msgid "Upload quotation headers and footers"
+msgstr "بارگذاری سربرگ و پانویس پیش‌فاکتور"
+
+#. module: sale_pdf_quote_builder
+#. odoo-python
+#: code:addons/sale_pdf_quote_builder/models/product_document.py:0
+msgid "When attached inside a quote, the document must be a file, not a URL."
+msgstr "سندی که داخل پیش‌فاکتور پیوست می‌شود باید فایل باشد، نه نشانی اینترنتی."

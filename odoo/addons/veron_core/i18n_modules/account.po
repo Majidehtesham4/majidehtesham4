@@ -47,7 +47,408 @@ msgstr "فناوری"
 msgid "Uncategorized"
 msgstr "دسته‌بندی نشده"
 
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__account_move_line_ids
+msgid "Account Move Line"
+msgstr "سطر سند حسابداری"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__account_reconcile_model_line_ids
+msgid "Account Reconcile Model Line"
+msgstr "سطر مدل تطبیق حساب"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_665
+msgid "Automobile Expenses"
+msgstr "هزینه‌های خودرو"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
+msgid "Back to Credit Note"
+msgstr "بازگشت به یادداشت بستانکار"
+
+#. module: account
+#. odoo-javascript
+#: code:addons/account/static/src/components/product_catalog/kanban_controller.js:0
+msgid "Back to Refund"
+msgstr "بازگشت به برگشتی"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__l10n_us_bank_account_type
+msgid "Bank Account Type"
+msgstr "نوع حساب بانکی"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_650
+msgid "Bank Service Charges"
+msgstr "کارمزدهای بانکی"
+
+#. module: account
+#: model:ir.model,name:account.model_account_document_import_mixin
+msgid "Business document import mixin"
+msgstr "میکسین ورود اسناد تجاری"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__count_reconciled_lines
+msgid "Count Reconciled Lines"
+msgstr "تعداد سطرهای تطبیق‌شده"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__count_reconciled_lines_excluding_exchange_diff
+msgid "Count Reconciled Lines Excluding Exchange Diff"
+msgstr "تعداد سطرهای تطبیق‌شده بدون تفاوت نرخ ارز"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_res_company__display_account_storno
+#: model:ir.model.fields,field_description:account.field_res_config_settings__display_account_storno
+msgid "Display Account Storno"
+msgstr "نمایش استورنو حساب"
+
+#. module: account
+#: model_terms:ir.ui.view,arch_db:account.res_config_settings_view_form
+msgid "Electronic Invoicing"
+msgstr "صورتحساب الکترونیکی"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_account_journal__incoming_einvoice_notification_email
+msgid "Email addresses that should receive invoices copy/return reminders. Separate entries with ';'."
+msgstr "نشانی‌های ایمیلی که رونوشت فاکتورها و یادآوری‌ها را دریافت می‌کنند. با «;» جدا کنید."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__first_reconciled_lines_id
+msgid "First Reconciled Lines"
+msgstr "نخستین سطرهای تطبیق‌شده"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_move_line__first_reconciled_lines_excluding_exchange_diff_id
+msgid "First Reconciled Lines Excluding Exchange Diff"
+msgstr "نخستین سطرهای تطبیق‌شده بدون تفاوت نرخ ارز"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_tax__company_country_code
+msgid "Fiscal Country Code of the Company"
+msgstr "کد کشور مالیاتی شرکت"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_655
+msgid "Insurance Expenses"
+msgstr "هزینه‌های بیمه"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid "Invoice generated but not sent."
+msgstr "فاکتور ساخته شد، اما فرستاده نشد."
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__is_draft_duplicated_ref_ids
+#: model:ir.model.fields,field_description:account.field_account_move__is_draft_duplicated_ref_ids
+msgid "Is Draft Duplicated Ref"
+msgstr "مرجع تکراری در پیش‌نویس است"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__is_exact_move_duplicate
+#: model:ir.model.fields,field_description:account.field_account_move__is_exact_move_duplicate
+msgid "Is Exact Move Duplicate"
+msgstr "سند دقیقاً تکراری است"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_line__sanitize_payment_reference
+#: model:ir.model.fields,field_description:account.field_account_move__sanitize_payment_reference
+msgid "Label sanitize"
+msgstr "پاک‌سازی برچسب"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_67
+msgid "Marketing Expenses"
+msgstr "هزینه‌های بازاریابی"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/chart_template.py:0
+msgid "Need to update"
+msgstr "نیاز به به‌روزرسانی"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move_send.py:0
+msgid "No valid sending method could be applied, so this invoice was not sent automatically. Please configure a sending method and send it manually."
+msgstr "هیچ روش ارسال معتبری قابل اجرا نبود، پس این فاکتور خودکار فرستاده نشد. یک روش ارسال تنظیم کنید و آن را دستی بفرستید."
+
+#. module: account
+#: model:account.group,name:account.2_us_group_651
+msgid "Office Expenses"
+msgstr "هزینه‌های اداری"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/partner.py:0
+msgid "Only Accounting managers can create foreign taxes."
+msgstr "فقط مدیران حسابداری می‌توانند مالیات خارجی بسازند."
+
+#. module: account
+#: model:account.group,name:account.2_us_group_6
+msgid "Operating Expenses"
+msgstr "هزینه‌های عملیاتی"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_61
+msgid "Payroll Expenses"
+msgstr "هزینه‌های حقوق و دستمزد"
+
 #. module: account
 #: model_terms:ir.ui.view,arch_db:account.view_move_form
-msgid "<span class=\"o_stat_text\">Journal Items</span>"
-msgstr "<span class=\"o_stat_text\">آرتیکل‌های سند</span>"
+msgid "Professional %"
+msgstr "درصد حق‌الزحمه"
+
+#. module: account
+#: model:account.group,name:account.2_us_group_62
+msgid "Professional Fees"
+msgstr "حق‌الزحمه‌های تخصصی"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/company.py:0
+#: model:account.account,name:account.1_profit_or_loss
+#: model:account.account,name:account.2_account_account_us_profit_or_loss_appropriation
+msgid "Profit or Loss Appropriation"
+msgstr "تخصیص سود یا زیان"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_account_tag__report_expression_id
+msgid "Report Expression"
+msgstr "عبارت گزارش"
+
+#. module: account
+#: model:ir.model.fields,field_description:account.field_account_setup_bank_manual_config__show_aba_routing
+msgid "Show Aba Routing"
+msgstr "نمایش کد مسیریابی ABA"
+
+#. module: account
+#: model:account.tax.group,name:account.1_tax_group_0
+#: model:account.tax.group,name:account.2_account_tax_group_us_0
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_0
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_0
+msgid "Tax 0%"
+msgstr "مالیات ۰٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_2_9
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_2_9
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_2_9
+msgid "Tax 2.9%"
+msgstr "مالیات ۲٫۹٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4
+msgid "Tax 4%"
+msgstr "مالیات ۴٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4_2
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4_2
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4_2
+msgid "Tax 4.2%"
+msgstr "مالیات ۴٫۲٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4_225
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4_225
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4_225
+msgid "Tax 4.225%"
+msgstr "مالیات ۴٫۲۲۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4_5
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4_5
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4_5
+msgid "Tax 4.5%"
+msgstr "مالیات ۴٫۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4_75
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4_75
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4_75
+msgid "Tax 4.75%"
+msgstr "مالیات ۴٫۷۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_4_875
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_4_875
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_4_875
+msgid "Tax 4.875%"
+msgstr "مالیات ۴٫۸۷۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_5
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_5
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_5
+msgid "Tax 5%"
+msgstr "مالیات ۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_5_3
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_5_3
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_5_3
+msgid "Tax 5.3%"
+msgstr "مالیات ۵٫۳٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_5_5
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_5_5
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_5_5
+msgid "Tax 5.5%"
+msgstr "مالیات ۵٫۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_5_6
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_5_6
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_5_6
+msgid "Tax 5.6%"
+msgstr "مالیات ۵٫۶٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_5_75
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_5_75
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_5_75
+msgid "Tax 5.75%"
+msgstr "مالیات ۵٫۷۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6
+msgid "Tax 6%"
+msgstr "مالیات ۶٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_1
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_1
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_1
+msgid "Tax 6.1%"
+msgstr "مالیات ۶٫۱٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_25
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_25
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_25
+msgid "Tax 6.25%"
+msgstr "مالیات ۶٫۲۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_35
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_35
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_35
+msgid "Tax 6.35%"
+msgstr "مالیات ۶٫۳۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_5
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_5
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_5
+msgid "Tax 6.5%"
+msgstr "مالیات ۶٫۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_625
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_625
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_625
+msgid "Tax 6.625%"
+msgstr "مالیات ۶٫۶۲۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_85
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_85
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_85
+msgid "Tax 6.85%"
+msgstr "مالیات ۶٫۸۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_6_875
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_6_875
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_6_875
+msgid "Tax 6.875%"
+msgstr "مالیات ۶٫۸۷۵٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_7
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_7
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_7
+msgid "Tax 7%"
+msgstr "مالیات ۷٪"
+
+#. module: account
+#: model:account.tax.group,name:account.2_account_tax_group_us_7_25
+#: model_terms:account.tax,description:account.2_account_tax_us_purchase_7_25
+#: model_terms:account.tax,description:account.2_account_tax_us_sale_7_25
+msgid "Tax 7.25%"
+msgstr "مالیات ۷٫۲۵٪"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_account.py:0
+msgid "The account code can only contain alphanumeric characters and dots. (account code: %s)"
+msgstr "کد حساب فقط می‌تواند حرف، عدد و نقطه داشته باشد. (کد حساب: %s)"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "The entry is using taxes (%(tax_names)s) from a different company."
+msgstr "این سند مالیات‌هایی (%(tax_names)s) از شرکت دیگری به کار برده است."
+
+#. module: account
+#: model:account.group,name:account.2_us_group_661
+msgid "Travel Expenses"
+msgstr "هزینه‌های سفر"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/chart_template.py:0
+msgid "Update app"
+msgstr "به‌روزرسانی برنامه"
+
+#. module: account
+#: model:account.account,name:account.2_account_account_us_utilities
+#: model:account.group,name:account.2_us_group_64
+msgid "Utilities"
+msgstr "آب و برق و گاز"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_journal.py:0
+msgid "You can not archive a journal containing draft journal entries.\n\nTo proceed:\n1/ go to Accounting > Accounting > Journal Entries\n2/ filter on this journal and on 'Unposted' entries\n3/ select them all and post or delete them through the action menu"
+msgstr "دفتری که سند پیش‌نویس دارد بایگانی نمی‌شود.\n\nبرای ادامه:\n۱/ به حسابداری > حسابداری > اسناد حسابداری بروید\n۲/ این دفتر و اسناد «ثبت‌نشده» را فیلتر کنید\n۳/ همه را انتخاب کنید و از منوی کنش‌ها ثبت یا حذف کنید"
+
+#. module: account
+#: model:ir.model.fields,help:account.field_base_document_layout__vat
+msgid "You can use '/' to indicate that the customer has no Tax ID."
+msgstr "برای مشتری بدون شناسه مالیاتی می‌توانید «/» وارد کنید."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_payment.py:0
+msgid "You cannot change the amount of a payment with multiple liquidity lines."
+msgstr "مبلغ پرداختی که چند سطر نقدی دارد قابل تغییر نیست."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_tax.py:0
+msgid "You cannot delete taxes that are currently in use. Consider archiving them instead."
+msgstr "مالیاتی که در حال استفاده است حذف نمی‌شود؛ به‌جای آن بایگانی‌اش کنید."
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+msgid "You cannot modify the following readonly fields on the posted move %(move)s: %(fields)s"
+msgstr "این فیلدهای فقط‌خواندنی در سند ثبت‌شده %(move)s قابل تغییر نیستند: %(fields)s"
+
+#. module: account
+#. odoo-python
+#: code:addons/account/models/account_move.py:0
+#: code:addons/account/wizard/account_payment_register.py:0
+msgid "You cannot register payments for blocked invoices."
+msgstr "برای فاکتورهای مسدودشده نمی‌توان پرداخت ثبت کرد."

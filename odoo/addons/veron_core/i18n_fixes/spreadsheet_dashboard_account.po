@@ -1,0 +1,12 @@
+# Corrections of the Persian Odoo ships for spreadsheet_dashboard_account: these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: spreadsheet_dashboard_account
+#. odoo-javascript
+#: code:addons/spreadsheet_dashboard_account/data/files/invoicing_dashboard.json:0
+#: code:addons/spreadsheet_dashboard_account/data/files/invoicing_sample_dashboard.json:0
+msgid "Top Invoices"
+msgstr "فاکتورهای برتر"

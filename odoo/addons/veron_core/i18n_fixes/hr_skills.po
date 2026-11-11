@@ -1,0 +1,431 @@
+# Corrections of the Persian Odoo ships for hr_skills (French or unrelated text): these replace it
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fa\n"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jth_wilkinson_plc
+msgid "Architectural technologist"
+msgstr "فن‌شناس معماری"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_fme_russellwebster
+msgid "Biochemist, clinical"
+msgstr "بیوشیمیست بالینی"
+
+#. module: hr_skills
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_cv_wizard__can_show_others
+msgid "Can Show Others"
+msgstr "می‌تواند دیگران را نشان دهد"
+
+#. module: hr_skills
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_cv_wizard__can_show_skills
+msgid "Can Show Skills"
+msgstr "می‌تواند مهارت‌ها را نشان دهد"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_stw_finley_rowe_and_adams
+msgid "Copywriter, advertising"
+msgstr "نویسنده تبلیغات"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.report_employee_cv_company
+msgid "Demo Address"
+msgstr "نشانی نمونه"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.report_employee_cv_company
+msgid "Demo Company Name"
+msgstr "نام شرکت نمونه"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_admin_white_inc
+msgid "Designer, television/film set"
+msgstr "طراح صحنه تلویزیون و سینما"
+
+#. module: hr_skills
+#: model:ir.actions.report,name:hr_skills.action_report_employee_cv
+#: model:ir.model,name:hr_skills.model_report_hr_skills_report_employee_cv
+msgid "Employee Resume"
+msgstr "رزومه کارمند"
+
+#. module: hr_skills
+#: model:ir.model,name:hr_skills.model_hr_employee_skill_history_report
+#: model:ir.model,name:hr_skills.model_hr_employee_skill_report
+msgid "Employee Skills Report"
+msgstr "گزارش مهارت‌های کارمندان"
+
+#. module: hr_skills
+#: model:hr.resume.line,name:hr_skills.employee_resume_line_admin_5
+msgid "Encryption/decryption"
+msgstr "رمزگذاری/رمزگشایی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_qdp_hughes_parker_and_barber
+msgid "Engineer, drilling"
+msgstr "مهندس حفاری"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_admin_schultz_inc
+msgid "Engineer, electrical"
+msgstr "مهندس برق"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_fme_johnson_shaw_and_carroll
+msgid "Engineer, mining"
+msgstr "مهندس معدن"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_han_davis_plc
+msgid "Engineer, production"
+msgstr "مهندس تولید"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_line_admin_6
+msgid "Enter your finance data and the app tries to forecast what will be your future incomes/expenses. The application uses machine learning to train itself."
+msgstr "داده‌های مالی خود را وارد کنید تا برنامه درآمدها و هزینه‌های آینده‌تان را پیش‌بینی کند. برنامه با یادگیری ماشین خودش را آموزش می‌دهد."
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jep_cole_ltd
+msgid "Fast food restaurant manager"
+msgstr "مدیر رستوران فست‌فود"
+
+#. module: hr_skills
+#: model:hr.resume.line,name:hr_skills.employee_resume_line_admin_6
+msgid "Finance forecaster"
+msgstr "پیش‌بینی‌کننده مالی"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.report_employee_cv_main_panel
+msgid "Fluent"
+msgstr "مسلط"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_chs_hanson_roach_and_jordan
+msgid "Geographical information systems officer"
+msgstr "کارشناس سامانه‌های اطلاعات جغرافیایی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_han_perezmorgan
+msgid "Geoscientist"
+msgstr "زمین‌شناس"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_lur_ramirez_inc
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_mit_hill_group
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_ngh_stanleymendez
+msgid "Glass blower/designer"
+msgstr "شیشه‌گر/طراح شیشه"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jve_davis_and_sons
+msgid "Health physicist"
+msgstr "فیزیک‌دان بهداشت"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_chs_freeman_williams_and_berger
+msgid "Human resources officer"
+msgstr "کارشناس منابع انسانی"
+
+#. module: hr_skills
+#: model:ir.model.fields,help:hr_skills.field_hr_skill_level__default_level
+msgid "If checked, this level will be the default one selected when choosing this skill."
+msgstr "اگر انتخاب شود، هنگام انتخاب این مهارت، این سطح به‌طور پیش‌فرض انتخاب می‌شود."
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/skills_one2many/skills_one2many.xml:0
+msgid "If skills are missing, they can be created by an HR officer."
+msgstr "اگر مهارتی نیست، مسئول منابع انسانی می‌تواند آن را بسازد."
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_niv_arroyo_ltd
+msgid "Insurance risk surveyor"
+msgstr "ارزیاب ریسک بیمه"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jve_saundersadkins
+msgid "Jewellery designer"
+msgstr "طراح جواهر"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_qdp_rivera_shaw_and_hughes
+msgid "Landscape architect"
+msgstr "معمار منظر"
+
+#. module: hr_skills
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_certification_report__level_progress
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_history_report__level_progress
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_report__level_progress
+msgid "Level Progress"
+msgstr "پیشرفت سطح"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jog_allenkeller
+msgid "Lexicographer"
+msgstr "فرهنگ‌نویس"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_admin_greeneorr
+msgid "Magazine journalist"
+msgstr "روزنامه‌نگار مجله"
+
+#. module: hr_skills
+#: model:hr.resume.line,name:hr_skills.employee_resume_line_admin_7
+msgid "Map Generator"
+msgstr "تولیدکننده نقشه"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_al_garcia_smith_and_king
+msgid "Medical illustrator"
+msgstr "تصویرگر پزشکی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_chs_boyd_wilson_and_moore
+msgid "Medical physicist"
+msgstr "فیزیک‌دان پزشکی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_fpi_chavez_group
+msgid "Mental health nurse"
+msgstr "پرستار سلامت روان"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jgo_fox_and_sons
+msgid "Merchant navy officer"
+msgstr "افسر نیروی دریایی بازرگانی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jog_douglas_thompson_and_conner
+msgid "Music therapist"
+msgstr "موسیقی‌درمانگر"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jve_arnoldcohen
+msgid "Personnel officer"
+msgstr "کارشناس امور کارکنان"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_vad_loganmartin
+msgid "Petroleum engineer"
+msgstr "مهندس نفت"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/skills_one2many/skills_one2many.xml:0
+msgid "Pick a skill from the list"
+msgstr "یک مهارت از فهرست انتخاب کنید"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_mit_burns_lester_and_cuevas
+msgid "Police officer"
+msgstr "افسر پلیس"
+
+#. module: hr_skills
+#. odoo-python
+#: code:addons/hr_skills/wizard/hr_employee_cv_wizard.py:0
+#: model:ir.actions.act_window,name:hr_skills.action_hr_employee_cv_wizard
+#: model:ir.actions.server,name:hr_skills.action_print_employees_cv
+#: model:ir.model,name:hr_skills.model_hr_employee_cv_wizard
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_cv_wizard_view_form
+msgid "Print Resume"
+msgstr "چاپ رزومه"
+
+#. module: hr_skills
+#: model:ir.model.fields,help:hr_skills.field_hr_employee_skill__level_progress
+#: model:ir.model.fields,help:hr_skills.field_hr_individual_skill_mixin__level_progress
+#: model:ir.model.fields,help:hr_skills.field_hr_job_skill__level_progress
+#: model:ir.model.fields,help:hr_skills.field_hr_skill_level__level_progress
+msgid "Progress from zero knowledge (0%) to fully mastered (100%)."
+msgstr "پیشرفت از بدون دانش (۰٪) تا تسلط کامل (۱۰۰٪)."
+
+#. module: hr_skills
+#: model:ir.model.constraint,message:hr_skills.constraint_hr_skill_level_check_level_progress
+msgid "Progress should be a number between 0 and 100."
+msgstr "پیشرفت باید عددی میان ۰ و ۱۰۰ باشد."
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_mit_robinson_crawford_and_norman
+msgid "Psychiatric nurse"
+msgstr "پرستار روان‌پزشکی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_stw_lynchhodges
+msgid "Publishing rights manager"
+msgstr "مدیر حقوق نشر"
+
+#. module: hr_skills
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee__resume_line_ids
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_public__resume_line_ids
+msgid "Resume lines"
+msgstr "سطرهای رزومه"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_mit_parker_roberson_and_acosta
+msgid "Science writer"
+msgstr "نویسنده علمی"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_skill_view_search
+msgid "Search Skill"
+msgstr "جستجوی مهارت"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_chs_davis_plc
+msgid "Secretary, company"
+msgstr "منشی شرکت"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/form_view_one2many/form_view_one2many.xml:0
+msgid "Select & Close"
+msgstr "انتخاب و بستن"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/form_view_one2many/form_view_one2many.xml:0
+msgid "Select & New"
+msgstr "انتخاب و جدید"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/one2many_tags_skills/one2many_tags_skills.js:0
+msgid "Select Skills"
+msgstr "انتخاب مهارت‌ها"
+
+#. module: hr_skills
+#: model:ir.model,name:hr_skills.model_hr_skill
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee__skill_ids
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_certification_report__skill_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill__skill_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_history_report__skill_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_report__skill_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_individual_skill_mixin__skill_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_job__skill_ids
+#: model:ir.model.fields,field_description:hr_skills.field_hr_job_skill__skill_id
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_history_report_view_search
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_report_view_search
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_skill_view_search
+msgid "Skill"
+msgstr "مهارت"
+
+#. module: hr_skills
+#: model:ir.actions.act_window,name:hr_skills.action_hr_employee_skill_log_department
+#: model:ir.actions.server,name:hr_skills.action_open_skills_log_department
+msgid "Skill History Report"
+msgstr "گزارش تاریخچه مهارت‌ها"
+
+#. module: hr_skills
+#: model:ir.model,name:hr_skills.model_hr_skill_level
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_certification_report__skill_level
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill__skill_level_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_report__skill_level
+#: model:ir.model.fields,field_description:hr_skills.field_hr_individual_skill_mixin__skill_level_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_job_skill__skill_level_id
+#: model_terms:ir.ui.view,arch_db:hr_skills.employee_skill_level_view_form
+msgid "Skill Level"
+msgstr "سطح مهارت"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.employee_skill_level_view_tree
+#: model_terms:ir.ui.view,arch_db:hr_skills.employee_skill_view_tree
+msgid "Skill Levels"
+msgstr "سطح‌های مهارت"
+
+#. module: hr_skills
+#: model:ir.model,name:hr_skills.model_hr_skill_type
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_certification_report__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_history_report__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_employee_skill_report__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_individual_skill_mixin__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_job_skill__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_skill__skill_type_id
+#: model:ir.model.fields,field_description:hr_skills.field_hr_skill_level__skill_type_id
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_history_report_view_search
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_report_view_search
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_type_view_form
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_skill_view_search
+msgid "Skill Type"
+msgstr "نوع مهارت"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_department_view_kanban
+msgid "Skills History"
+msgstr "تاریخچه مهارت‌ها"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/skills_one2many/skills_one2many.js:0
+msgid "Skills Report"
+msgstr "گزارش مهارت‌ها"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.report_employee_cv_main_panel
+#: model_terms:ir.ui.view,arch_db:hr_skills.report_employee_cv_sidepanel
+msgid "Software Developer"
+msgstr "برنامه‌نویس نرم‌افزار"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_lur_whitebell
+msgid "Sports coach"
+msgstr "مربی ورزشی"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_fme_lewis_group
+msgid "Sports development officer"
+msgstr "کارشناس توسعه ورزش"
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_qdp_phillips_jones_and_brown
+msgid "Teacher, special educational needs"
+msgstr "معلم آموزش‌های ویژه"
+
+#. module: hr_skills
+#. odoo-python
+#: code:addons/hr_skills/models/hr_individual_skill_mixin.py:0
+msgid "The skill level %(level)s is not valid for skill type: %(type)s"
+msgstr "سطح مهارت %(level)s برای نوع مهارت %(type)s معتبر نیست"
+
+#. module: hr_skills
+#: model:ir.model.constraint,message:hr_skills.constraint_hr_resume_line_date_check
+msgid "The start date must be anterior to the end date."
+msgstr "تاریخ شروع باید پیش از تاریخ پایان باشد."
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_qdp_evans_cooper_and_white
+msgid "Therapist, speech and language"
+msgstr "گفتاردرمانگر"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/skills_one2many/skills_one2many.xml:0
+msgid "There are no skills defined in the library."
+msgstr "هیچ مهارتی در کتابخانه تعریف نشده است."
+
+#. module: hr_skills
+#: model_terms:hr.resume.line,description:hr_skills.employee_resume_jod_wilson_ltd
+msgid "Trade union research officer"
+msgstr "کارشناس پژوهش اتحادیه کارگری"
+
+#. module: hr_skills
+#: model:ir.model,name:hr_skills.model_hr_resume_line_type
+msgid "Type of a resume line"
+msgstr "نوع سطر رزومه"
+
+#. module: hr_skills
+#. odoo-javascript
+#: code:addons/hr_skills/static/src/fields/skills_one2many/skills_one2many.xml:0
+msgid "You can add skills from our library to the employee profile."
+msgstr "می‌توانید مهارت‌ها را از کتابخانه ما به پروفایل کارمند اضافه کنید."
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.hr_employee_skill_type_view_form
+msgid "e.g. Languages"
+msgstr "مثلاً زبان‌ها"
+
+#. module: hr_skills
+#: model_terms:ir.ui.view,arch_db:hr_skills.resume_line_view_form
+msgid "e.g. Odoo Inc."
+msgstr "مثلاً شرکت نمونه"
