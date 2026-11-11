@@ -27,6 +27,7 @@ The base of every ERP-VERON installation:
 			"veron_core/static/src/branding.js",
 			"veron_core/static/src/sample.js",
 			"veron_core/static/src/form_leave.js",
+			"veron_core/static/src/list_widths.js",
 		],
 		# The website and the portal: dates and the date picker in Shamsi too
 		"web.assets_frontend": [
