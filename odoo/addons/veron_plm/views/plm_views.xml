@@ -154,7 +154,7 @@
 		</field>
 	</record>
 
-	<menuitem id="menu_root" name="PLM" web_icon="veron_plm,static/description/icon.png" groups="mrp.group_mrp_user" sequence="47"/>
+	<menuitem id="menu_root" name="PLM" web_icon="veron_plm,static/description/icon.svg" groups="mrp.group_mrp_user" sequence="47"/>
 	<menuitem id="menu_ecos" name="Engineering Changes" parent="menu_root" action="action_ecos" sequence="1"/>
 	<menuitem id="menu_boms" name="Bill of Materials Versions" parent="menu_root" action="action_bom_versions" sequence="2"/>
 </odoo>

@@ -49,6 +49,6 @@
 		<field name="view_mode">list,form</field>
 	</record>
 
-	<menuitem id="veron_menu_root" name="ERP-VERON" sequence="5" web_icon="base,static/description/icon.png"/>
+	<menuitem id="veron_menu_root" name="ERP-VERON" sequence="5" web_icon="veron_base,static/description/icon.svg"/>
 	<menuitem id="veron_note_menu" name="یادداشت‌ها" parent="veron_menu_root" action="veron_note_action" sequence="10"/>
 </odoo>

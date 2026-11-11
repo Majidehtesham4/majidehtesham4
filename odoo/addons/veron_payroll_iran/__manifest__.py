@@ -31,6 +31,7 @@ Payroll by the Iranian labour law, on the OCA payroll:
 		"views/hr_version_views.xml",
 		"views/hr_payslip_views.xml",
 		"views/hr_salary_rule_views.xml",
+		"views/menu_icon.xml",
 	],
 	"installable": True,
 	"application": False,

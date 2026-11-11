@@ -111,7 +111,7 @@
 		<field name="view_mode">list,form</field>
 	</record>
 
-	<menuitem id="menu_root" name="Social Posting" web_icon="veron_social,static/description/icon.png" groups="group_social_user" sequence="57"/>
+	<menuitem id="menu_root" name="Social Posting" web_icon="veron_social,static/description/icon.svg" groups="group_social_user" sequence="57"/>
 	<menuitem id="menu_posts" name="Posts" parent="menu_root" action="action_posts" sequence="1"/>
 	<menuitem id="menu_accounts" name="Channels" parent="menu_root" action="action_accounts" sequence="2"/>
 </odoo>

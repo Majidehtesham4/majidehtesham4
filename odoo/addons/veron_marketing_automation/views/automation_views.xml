@@ -158,7 +158,7 @@
 		<field name="view_mode">list</field>
 	</record>
 
-	<menuitem id="menu_root" name="Marketing Automation" web_icon="veron_marketing_automation,static/description/icon.png" groups="group_automation_user" sequence="58"/>
+	<menuitem id="menu_root" name="Marketing Automation" web_icon="veron_marketing_automation,static/description/icon.svg" groups="group_automation_user" sequence="58"/>
 	<menuitem id="menu_campaigns" name="Campaigns" parent="menu_root" action="action_campaigns" sequence="1"/>
 	<menuitem id="menu_traces" name="Steps Done" parent="menu_root" action="action_traces" sequence="2"/>
 </odoo>

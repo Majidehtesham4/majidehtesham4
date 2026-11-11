@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!-- The app of payroll with an icon drawn like Odoo's other apps -->
+	<record id="payroll.payroll_menu_root" model="ir.ui.menu">
+		<field name="web_icon">veron_payroll_iran,static/description/icon.svg</field>
+	</record>
+</odoo>

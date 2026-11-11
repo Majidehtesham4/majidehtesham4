@@ -292,7 +292,7 @@
 		<field name="view_mode">list</field>
 	</record>
 
-	<menuitem id="menu_root" name="Petty Cash" web_icon="veron_ai_agent_account,static/description/icon.png" sequence="45"
+	<menuitem id="menu_root" name="Petty Cash" web_icon="veron_ai_agent_account,static/description/icon.svg" sequence="45"
 		groups="group_petty_cash_custodian,account.group_account_user"/>
 	<menuitem id="menu_closings" name="Closings" parent="menu_root" action="action_closings" sequence="1"/>
 	<menuitem id="menu_receipts" name="Receipts" parent="menu_root" action="action_receipts" sequence="2"/>

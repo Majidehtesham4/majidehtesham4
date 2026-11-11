@@ -176,8 +176,8 @@ $v-radius: 10px;
 	padding: 0.4rem;
 	text-decoration: none;
 	.o_app {
-		width: 96px;
-		height: 96px;
+		width: 92px;
+		height: 92px;
 		margin: 0 auto;
 		display: flex;
 		align-items: center;
@@ -188,9 +188,11 @@ $v-radius: 10px;
 		box-shadow: 0 6px 18px $v-shadow;
 		transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
 	}
+	// The picture fills the tile as in Odoo: the icons are drawn with their own margin
 	&__icon {
-		width: 62px !important;
-		height: 62px !important;
+		width: 68px !important;
+		height: 68px !important;
+		padding: 0 !important;
 		background: transparent !important;
 		border-radius: 14px !important;
 		box-shadow: none !important;
@@ -482,74 +484,4 @@ $v-radius: 10px;
 	overflow: hidden;
 }
 
-// --- the assistant (ERP-VERON's own chat)
-
-.o_veron_assistant {
-	.o_veron_assistant_button {
-		width: 58px;
-		height: 58px;
-		border: 0 !important;
-		background: linear-gradient(135deg, #7a3fae, #8f4179 55%, #1cbcb1) !important;
-		box-shadow: 0 10px 28px rgba(122, 63, 174, 0.45) !important;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		transition: transform 0.15s ease, box-shadow 0.15s ease;
-		> i {
-			display: none;
-		}
-		&::before {
-			content: "";
-			width: 30px;
-			height: 30px;
-			background: url("/veron_theme/static/src/img/veron-glyph.svg") center / contain no-repeat;
-		}
-		&:hover {
-			transform: translateY(-2px) scale(1.05);
-			box-shadow: 0 14px 34px rgba(122, 63, 174, 0.55) !important;
-		}
-	}
-	.o_veron_assistant_panel {
-		background: $v-surface-2 !important;
-		border: 1px solid $v-border;
-		border-radius: 16px !important;
-		overflow: hidden;
-		.o_veron_assistant_head {
-			background: $v-surface;
-			border-color: $v-border !important;
-			padding: 0.7rem 0.9rem !important;
-			> .fa-comments {
-				width: 28px;
-				height: 28px;
-				border-radius: 8px;
-				background: url("/veron_theme/static/src/img/veron-mark.svg") center / contain no-repeat;
-				&::before {
-					content: none;
-				}
-			}
-			b {
-				font-size: 1.05rem;
-			}
-		}
-		.o_veron_ai_bubble {
-			border-radius: 14px !important;
-		}
-		.o_veron_ai_input {
-			border-color: $v-border !important;
-			textarea,
-			input.form-control {
-				border-radius: 20px;
-				background: $v-surface;
-				border: 1px solid $v-border;
-				padding: 0.55rem 0.9rem;
-				&:focus {
-					border-color: $v-accent;
-					box-shadow: 0 0 0 3px rgba($v-accent, 0.15);
-				}
-			}
-			.btn {
-				border-radius: 50%;
-			}
-		}
-	}
-}
+// --- the assistant: veron_ai_agent draws its page, its window and its AI logo itself

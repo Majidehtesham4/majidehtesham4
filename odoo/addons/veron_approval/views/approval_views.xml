@@ -182,7 +182,7 @@
 		<field name="view_mode">list,form</field>
 	</record>
 
-	<menuitem id="menu_root" name="Approvals" web_icon="veron_approval,static/description/icon.png" sequence="59"/>
+	<menuitem id="menu_root" name="Approvals" web_icon="veron_approval,static/description/icon.svg" sequence="59"/>
 	<menuitem id="menu_new" name="New Request" parent="menu_root" action="action_new" sequence="1"/>
 	<menuitem id="menu_mine" name="My Requests" parent="menu_root" action="action_my_requests" sequence="2"/>
 	<menuitem id="menu_to_approve" name="To Approve" parent="menu_root" action="action_to_approve" sequence="3"/>

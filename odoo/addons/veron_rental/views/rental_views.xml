@@ -168,7 +168,7 @@
 		<field name="context">{'default_rent_ok': True, 'default_type': 'consu'}</field>
 	</record>
 
-	<menuitem id="menu_root" name="Rental" web_icon="veron_rental,static/description/icon.png" groups="group_rental_user" sequence="48"/>
+	<menuitem id="menu_root" name="Rental" web_icon="veron_rental,static/description/icon.svg" groups="group_rental_user" sequence="48"/>
 	<menuitem id="menu_orders" name="Rental Orders" parent="menu_root" action="action_orders" sequence="1"/>
 	<menuitem id="menu_products" name="Products for Rent" parent="menu_root" action="action_products" sequence="2"/>
 </odoo>

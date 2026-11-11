@@ -6,5 +6,5 @@
 		<field name="target">main</field>
 	</record>
 	<menuitem id="menu_shopfloor_root" name="Shop Floor" action="action_shopfloor"
-		web_icon="veron_shopfloor,static/description/icon.png" groups="mrp.group_mrp_user" sequence="46"/>
+		web_icon="veron_shopfloor,static/description/icon.svg" groups="mrp.group_mrp_user" sequence="46"/>
 </odoo>

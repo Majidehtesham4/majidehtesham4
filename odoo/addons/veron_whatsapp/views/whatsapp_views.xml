@@ -116,7 +116,7 @@
 		<field name="view_mode">list</field>
 	</record>
 
-	<menuitem id="menu_root" name="WhatsApp" web_icon="veron_whatsapp,static/description/icon.png" sequence="62"
+	<menuitem id="menu_root" name="WhatsApp" web_icon="veron_whatsapp,static/description/icon.svg" sequence="62"
 		groups="group_whatsapp_user"/>
 	<menuitem id="menu_messages" name="Messages" parent="menu_root" action="action_message" sequence="1"/>
 	<menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="10" groups="base.group_system"/>

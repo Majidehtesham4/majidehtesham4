@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-	<menuitem id="menu_root" name="Showroom" web_icon="veron_dealership,static/description/icon.png" sequence="5"
+	<menuitem id="menu_root" name="Showroom" web_icon="veron_dealership,static/description/icon.svg" sequence="5"
 		groups="group_dealership_reception"/>
 	<menuitem id="menu_dashboard" name="Dashboard" parent="menu_root" action="action_vehicle_dashboard" sequence="1"
 		groups="group_dealership_user"/>

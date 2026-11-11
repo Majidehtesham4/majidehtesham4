@@ -10,6 +10,7 @@
 	<menuitem id="menu_bank_file" name="Salary Bank File" parent="menu_iran" action="action_bank_file" sequence="12" groups="payroll.group_payroll_manager"/>
 	<menuitem id="menu_plans" name="Supplementary and Life Insurance" parent="menu_iran" action="action_plans" sequence="20"/>
 	<menuitem id="menu_job_groups" name="Job Classification Groups" parent="menu_iran" action="action_job_groups" sequence="21"/>
-	<menuitem id="menu_corrections" name="Attendance Corrections" action="action_corrections" sequence="206"
-		web_icon="hr_attendance,static/description/icon.png"/>
+	<!-- Inside Attendances, not as an app of its own with Attendances' icon -->
+	<menuitem id="menu_corrections" name="Attendance Corrections" action="action_corrections" sequence="30"
+		parent="hr_attendance.menu_hr_attendance_root"/>
 </odoo>

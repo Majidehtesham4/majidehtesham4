@@ -168,7 +168,7 @@
 		<field name="group_ids" eval="[(4, ref('hr.group_hr_user'))]"/>
 	</record>
 
-	<menuitem id="menu_planning_root" name="Planning" web_icon="veron_planning,static/description/icon.png" sequence="55"/>
+	<menuitem id="menu_planning_root" name="Planning" web_icon="veron_planning,static/description/icon.svg" sequence="55"/>
 	<menuitem id="menu_planning" name="Planning" parent="menu_planning_root" action="action_shifts" sequence="1" groups="hr.group_hr_user"/>
 	<menuitem id="menu_my_shifts" name="My Shifts" parent="menu_planning_root" action="action_my_shifts" sequence="2"/>
 	<menuitem id="menu_copy_week" name="Copy Previous Week" parent="menu_planning_root" action="action_copy_previous_week" sequence="3" groups="hr.group_hr_user"/>

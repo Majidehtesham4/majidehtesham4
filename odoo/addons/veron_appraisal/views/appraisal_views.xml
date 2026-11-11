@@ -194,7 +194,7 @@
 		</field>
 	</record>
 
-	<menuitem id="menu_root" name="Appraisals" web_icon="veron_appraisal,static/description/icon.png" sequence="56"/>
+	<menuitem id="menu_root" name="Appraisals" web_icon="veron_appraisal,static/description/icon.svg" sequence="56"/>
 	<menuitem id="menu_appraisals" name="Appraisals" parent="menu_root" action="action_appraisals" sequence="1"/>
 	<menuitem id="menu_config" name="Configuration" parent="menu_root" sequence="10" groups="hr.group_hr_user"/>
 	<menuitem id="menu_templates" name="Appraisal Forms" parent="menu_config" action="action_templates"/>

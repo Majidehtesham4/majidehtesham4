@@ -6,6 +6,6 @@
 		<field name="target">main</field>
 	</record>
 	<menuitem id="menu_barcode_root" name="Barcode" action="action_barcode"
-		web_icon="veron_barcode,static/description/icon.png"
+		web_icon="veron_barcode,static/description/icon.svg"
 		groups="stock.group_stock_user" sequence="45"/>
 </odoo>
