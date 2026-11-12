@@ -96,3 +96,14 @@ class TestPayrollIran(TransactionCase):
 		self.employee.version_id.wage = 100000000
 		with self.assertRaises(UserError):
 			self.payslip().compute_sheet()
+
+
+	def test_kinds_of_pay_in_persian(self):
+		"""Odoo's kinds of pay are named in Persian; one renamed by people is left as it is"""
+		employee = self.env.ref("hr.structure_type_employee")
+		employee.name = "Employee"
+		self.env["hr.payroll.structure.type"]._veron_persian_names()
+		self.assertEqual(employee.name, "کارمند")
+		employee.name = "کارمند رسمی"
+		self.env["hr.payroll.structure.type"]._veron_persian_names()
+		self.assertEqual(employee.name, "کارمند رسمی")

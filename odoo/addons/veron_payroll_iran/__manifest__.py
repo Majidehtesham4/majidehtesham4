@@ -17,7 +17,7 @@ Payroll by the Iranian labour law, on the OCA payroll:
   posted by the accountant
 - Every rule is a salary rule of payroll, open to change
 """,
-	"version": "19.0.1.0.0",
+	"version": "19.0.1.1.0",
 	"category": "Human Resources/Payroll",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
@@ -27,6 +27,7 @@ Payroll by the Iranian labour law, on the OCA payroll:
 		"security/payroll_security.xml",
 		"data/payroll_structure.xml",
 		"data/payroll_year_data.xml",
+		"data/structure_type_names.xml",
 		"views/payroll_year_views.xml",
 		"views/hr_version_views.xml",
 		"views/hr_payslip_views.xml",
