@@ -110,7 +110,15 @@ class Recorder {
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
     await this.reveal(l, opts);
     const target = await this.box(l);
-    const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
+    let cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
+    if (!cam && opts.cam === undefined && target) {
+      // a field of a form: the camera keeps the whole width of the form's sheet (its labels and the other column
+      // with it) and only follows the field up and down, never off to one side
+      const sheet = await l.evaluate((e) => { const s = e.closest('.o_form_sheet'); if (!s) return null;
+        const b = s.getBoundingClientRect(); return [b.x, b.y, b.width, b.height]; }).catch(() => null);
+      if (sheet && !(await l.evaluate((e) => !!e.closest('.o_list_renderer, .modal')).catch(() => false)))
+        cam = { focus: [sheet[0], target[1] - 170, sheet[2], target[3] + 340] };
+    }
     const first = await this.snap(this.file());
     await l.click({ timeout: 8000 });
     if (opts.clear !== false) { await this.page.keyboard.press('Control+A'); await this.page.keyboard.press('Delete'); }
@@ -151,6 +159,48 @@ class Recorder {
     }
     await this.page.waitForTimeout(300);
     this.push({ kind: 'scroll', file: first, files, dur: opts.dur ?? 2.2 }, opts);
+  }
+  // a file chosen from the computer: the cursor clicks the button, the computer's window for opening a file shows
+  // (drawn in the page, as the screenshots cannot see the real one), the file is picked and opened
+  async chooseFile(sel, file, opts = {}) {
+    const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
+    await this.reveal(l, opts);
+    const target = await this.box(l);
+    this.push({ kind: 'click', file: await this.snap(this.file()), target, mark: true }, { sub: opts.sub, step: opts.step });
+    const [chooser] = await Promise.all([this.page.waitForEvent('filechooser', { timeout: 8000 }), l.click()]);
+    const name = path.basename(file);
+    await this.page.evaluate(({ name, others }) => {
+      const icon = (n) => n.endsWith('.xlsx') ? '#1f9d55' : n.endsWith('.pdf') ? '#d64541' : n.endsWith('.docx') ? '#2b6cd4' : '#8a8f99';
+      const rows = [...others, name].sort().map((n) => `<div class="fd-row" data-n="${n}"><span class="fd-ic" style="background:${icon(n)}"></span><span>${n}</span><span class="fd-d">۱۴۰۵/۰۸/۲۱</span></div>`).join('');
+      const d = document.createElement('div');
+      d.id = 'fd';
+      d.innerHTML = `<style>
+        #fd{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;font-family:Vazirmatn,sans-serif;direction:rtl}
+        #fd .fd-w{width:720px;background:#202127;border:1px solid #3a3b44;border-radius:10px;box-shadow:0 24px 60px rgba(0,0,0,.6);color:#e6e7ea;overflow:hidden}
+        #fd .fd-t{padding:12px 16px;background:#2a2b33;font-weight:700;font-size:15px;border-bottom:1px solid #3a3b44}
+        #fd .fd-b{display:flex;height:300px} #fd .fd-s{width:170px;border-left:1px solid #3a3b44;padding:10px;font-size:14px;color:#b8bac2}
+        #fd .fd-s div{padding:7px 10px;border-radius:6px} #fd .fd-s .on{background:#34353f;color:#fff}
+        #fd .fd-l{flex:1;padding:8px} #fd .fd-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:6px;font-size:14px;direction:ltr;justify-content:flex-end}
+        #fd .fd-row.sel{background:#3b2a33;outline:1px solid #c8202b} #fd .fd-ic{width:18px;height:22px;border-radius:3px;order:3}
+        #fd .fd-d{color:#8d8f99;font-size:12px;margin-right:auto;order:0} #fd .fd-row span:nth-child(2){order:2}
+        #fd .fd-f{display:flex;gap:10px;align-items:center;padding:12px 16px;border-top:1px solid #3a3b44;background:#25262d}
+        #fd .fd-n{flex:1;background:#18191d;border:1px solid #3a3b44;border-radius:6px;padding:7px 10px;direction:ltr;text-align:right;min-height:20px;font-size:14px}
+        #fd button{border:0;border-radius:6px;padding:8px 18px;font:600 14px Vazirmatn,sans-serif;cursor:pointer}
+        #fd .fd-o{background:#c8202b;color:#fff} #fd .fd-c{background:#34353f;color:#ddd}</style>
+        <div class="fd-w"><div class="fd-t">باز کردن فایل</div><div class="fd-b"><div class="fd-s"><div>دسکتاپ</div><div class="on">اسناد</div><div>دانلودها</div></div>
+        <div class="fd-l">${rows}</div></div><div class="fd-f"><div class="fd-n"></div><button class="fd-c">انصراف</button><button class="fd-o">باز کردن</button></div></div>`;
+      document.body.appendChild(d);
+      d.querySelectorAll('.fd-row').forEach((r) => r.addEventListener('click', () => {
+        d.querySelectorAll('.fd-row').forEach((x) => x.classList.remove('sel')); r.classList.add('sel');
+        d.querySelector('.fd-n').textContent = r.dataset.n; }));
+      d.querySelector('.fd-o').addEventListener('click', () => d.remove());
+    }, { name, others: opts.others || [] });
+    const win = { focus: '#fd .fd-w', zoom: 1.35 };
+    await this.view({ wait: 300, hold: 0.8, sub: opts.dialogSub, ...win });
+    await this.click(this.page.locator(`#fd .fd-row[data-n="${name}"]`), { wait: 300, afterHold: 0.6, ...win, afterCam: win });
+    await this.click(this.page.locator('#fd .fd-o'), { wait: 100, after: false, ...win });
+    await chooser.setFiles(file);
+    await this.view({ wait: opts.wait ?? 2500, newpage: true, hold: opts.afterHold ?? 1.6, sub: opts.afterSub, done: opts.done });
   }
   // the address of the program typed in the browser's bar
   async address(text, go, opts = {}) {

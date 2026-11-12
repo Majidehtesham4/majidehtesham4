@@ -27,10 +27,14 @@ module.exports = async (R, page) => {
   await R.click(page.locator('.o_cp_action_menus button, .o_control_panel_breadcrumbs .fa-cog').first(), { wait: 700, afterHold: 0.6,
     afterCam: { focus: [700, 40, 740, 260], zoom: 1.35 } });
   await R.click(R.menuItem('ورود رکورد'), { sub: '«ورود رکورد» را می‌زنیم و فایل اکسل را انتخاب می‌کنیم.', wait: 1500, newpage: true, afterHold: 0.6 });
-  await page.locator('input[type=file]').first().setInputFiles(path.join(__dirname, '..', 'assets', 'contacts.xlsx'));
-  await R.view({ sub: 'برنامه ستون‌های فایل را خودش با فیلدها جور می‌کند: نام، تلفن، شهر.', wait: 2500, hold: 2.2 });
+  await R.chooseFile(page.locator('.o_control_panel button:visible', { hasText: 'آپلود' }).first(), path.join(__dirname, '..', 'assets', 'contacts.xlsx'), {
+    sub: 'روی «آپلود فایل داده» می‌زنیم…', dialogSub: '…و از رایانه فایل اکسل مخاطبان را انتخاب می‌کنیم.',
+    others: ['report-1404.docx', 'price-list.pdf', 'logo.png'],
+    afterSub: 'برنامه ستون‌های فایل را خودش با فیلدها جور می‌کند: نام، تلفن، شهر.', afterHold: 2.2 });
   await R.click(page.locator('button:visible', { hasText: /^ورود$|^درون‌ریزی$|^وارد کردن$/ }).first(), { sub: 'و با یک کلیک همه وارد می‌شوند.', wait: 3000, newpage: true, afterHold: 1.6, done: 4 });
-  await R.view({ sub: 'فهرست مخاطبان آماده است؛ با جست‌وجو و فیلتر هر کدام را زود پیدا می‌کنیم.', step: 4, hold: 2.2, cam: 'full' });
-  await R.search('فولاد', { sub: 'مثلاً با نوشتن «فولاد» تأمین‌کننده‌ی فولاد پیدا می‌شود.', done: 5 });
+  // back to all the contacts (the page after an import shows only what was imported)
+  await R.click(page.locator('.o_breadcrumb a, .breadcrumb-item a').first(), { sub: 'به فهرست همه‌ی مخاطبان برمی‌گردیم.', step: 4, wait: 1500, newpage: true, afterHold: 1.4 });
+  await R.search('فولاد', { sub: 'با جست‌وجو هر مخاطب را زود پیدا می‌کنیم؛ مثلاً با نوشتن «فولاد».', cam: 'full', afterHold: 1.6 });
+  await R.click(page.locator('.o_data_row, .o_kanban_record:not(.o_kanban_ghost)').first(), { sub: 'شرکت فولاد پویا پیدا شد؛ با یک کلیک مشخصاتش باز می‌شود.', wait: 1500, newpage: true, afterHold: 2.2, done: 5 });
   await R.view({ sub: 'مخاطبان ثبت شد. بخش بعد: کالاها و ماشین‌آلاتی که آریا پک می‌سازد.', cam: 'full', hold: 2.4 });
 };
