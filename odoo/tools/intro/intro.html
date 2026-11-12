@@ -796,8 +796,9 @@ const NETWORK_LEN = 7.9;
 const NET_TILE = { x0: 240, y0: 194, x1: 783, y1: 728, r: 72 };
 const NET_C = [(NET_TILE.x0 + NET_TILE.x1) / 2, (NET_TILE.y0 + NET_TILE.y1) / 2];
 // the eight main modules and the node each comes to, in the order they land; the AI comes last, to the tip
-const MODULES = [["Sales", 7, "sales"], ["CRM", 21, "crm"], ["Purchase", 1, "purchase"], ["Inventory", 27, "inventory"],
-	["Manufacturing", 17, "manufacturing"], ["HR & Payroll", 4, "hr"], ["Accounting", 2, "accounting"], ["AI Agents", 30, "ai"]];
+// (left and right in turn, and never one falling past another still open)
+const MODULES = [["Sales", 7, "sales"], ["CRM", 21, "crm"], ["Manufacturing", 17, "manufacturing"], ["HR & Payroll", 4, "hr"],
+	["Purchase", 1, "purchase"], ["Inventory", 27, "inventory"], ["Accounting", 2, "accounting"], ["AI Agents", 30, "ai"]];
 const NET_LAND = (() => {
 	// when each node is in place: the named ones one by one, the others falling like rain in between
 	const land = new Array(NET.nodes.length).fill(0), named = new Set(MODULES.map((m) => m[1]));
