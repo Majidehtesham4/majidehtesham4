@@ -1,0 +1,5 @@
+package/
+*.tgz
+*.mp4
+*.wav
+st_*.png

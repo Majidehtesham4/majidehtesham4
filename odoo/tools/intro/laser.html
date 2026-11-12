@@ -1,0 +1,795 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html, body { margin: 0; background: #000; } canvas { display: block; }</style>
+<script type="importmap">{"imports": {"three": "./package/build/three.module.js", "three/addons/": "./package/examples/jsm/"}}</script>
+</head>
+<body>
+<script type="module">
+// «Laser engraving»: a laser cuts the VERON logo into a plate of polished black steel. The grooves are real
+// geometry below the surface (seen through a stencil), filled with metal that melts white-hot and cools to the
+// logo's red; sparks fly and bounce, smoke rises, the air shimmers; the camera follows the light, then rises to
+// show the whole logo, and a last small laser draws the line under ERP. render(t) draws the frame at t seconds.
+import * as THREE from "three";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { BokehPass } from "three/addons/postprocessing/BokehPass.js";
+import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
+
+const W = 1920, H = 1080, LEN = 12.0;
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const seg = (t, a, b) => clamp((t - a) / (b - a));
+const mix = (a, b, x) => a + (b - a) * x;
+const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const smooth = (x) => x * x * (3 - 2 * x);
+function rng(seed) {
+	return function () {
+		seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+		let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+		t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+		return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+	};
+}
+
+// ---------------------------------------------------------------- the logo (traced, in 1032 x 1048 px)
+const CX = 512, CY = 532, TOPY = 288, SLOPE = 0.5, VW = 24, APEX = [610, 725, 855];
+const ARCS = [[207, 162, 30, 22], [250, 140, 26, 16], [292, 120, 24, 16], [335, 100, 22, 15], [377, 78, 20, 14], [412, 57, 16, 12]]
+	.map(([y, h, s, w]) => { const R = (h * h + s * s) / (2 * s), phi = Math.asin(h / R); return { cy: y + R, R, a0: -Math.PI / 2 - phi, a1: -Math.PI / 2 + phi, w }; });
+const RINGS = [[330, 26, 221, 100], [281, 20, 233, 104], [235, 18, 233, 108], [199, 13, 240, 150], [160, 11, 235, 165]]
+	.map(([r, w, up, low]) => ({ r, w, up: (up * Math.PI) / 180, low: (low * Math.PI) / 180 }));
+const wx = (x) => (x - 511) / 100, wz = (y) => (y - 526) / 100;
+function inGap(x, y) {
+	const d = 30, apexY = APEX[2] + d / Math.sin(Math.atan(SLOPE));
+	return y < apexY && Math.abs(x - CX) < (apexY - y) * SLOPE;
+}
+
+// a path: its points in the world, which of them fall in a gap, their distance along it
+function makePath(name, ptsPx, widthPx, opts = {}) {
+	const pts = ptsPx.map(([x, y]) => new THREE.Vector3(opts.world ? x : wx(x), opts.y ?? 0, opts.world ? y : wz(y)));
+	const gap = ptsPx.map(([x, y]) => (opts.gaps ? inGap(x, y) : false));
+	const s = [0];
+	for (let i = 1; i < pts.length; i++) s.push(s[i - 1] + pts[i].distanceTo(pts[i - 1]));
+	return { name, pts, gap, s, L: s[s.length - 1], hw: (opts.world ? widthPx : widthPx / 100) / 2, y: opts.y ?? 0 };
+}
+function arcPts(cx, cy, R, a0, a1) {
+	const n = Math.max(8, Math.ceil(Math.abs(a1 - a0) * R / 2));
+	return Array.from({ length: n + 1 }, (_, i) => { const a = mix(a0, a1, i / n); return [cx + R * Math.cos(a), cy + R * Math.sin(a)]; });
+}
+function linePts(points) {
+	const out = [];
+	for (let k = 1; k < points.length; k++) {
+		const [x0, y0] = points[k - 1], [x1, y1] = points[k];
+		const n = Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 2);
+		for (let i = k === 1 ? 0 : 1; i <= n; i++) out.push([mix(x0, x1, i / n), mix(y0, y1, i / n)]);
+	}
+	return out;
+}
+const PATHS = {};
+for (let i = 0; i < 3; i++) {
+	const half = (APEX[i] - TOPY) * SLOPE;
+	PATHS["v" + i] = makePath("v" + i, linePts([[CX - half, TOPY], [CX, APEX[i]], [CX + half, TOPY]]), VW);
+}
+RINGS.forEach((r, i) => {
+	PATHS["rl" + i] = makePath("rl" + i, arcPts(CX, CY, r.r, r.up, r.low), r.w, { gaps: true });
+	PATHS["rr" + i] = makePath("rr" + i, arcPts(CX, CY, r.r, Math.PI - r.up, Math.PI - r.low), r.w, { gaps: true });
+});
+ARCS.forEach((a, i) => (PATHS["a" + i] = makePath("a" + i, arcPts(CX, a.cy, a.R, a.a0, a.a1), a.w)));
+
+// the wordmark, flat on the floor below the plate, and the line under ERP
+const FLOOR = -0.6, WORD_W = 16.8, WORD_Z = 7.18, MASK_W = 1755, MASK_H = 290;
+const WORD_H = (WORD_W * MASK_H) / MASK_W, WK = WORD_W / MASK_W;
+const UNDER = [[1298, 258], [1740, 258]].map(([x, y]) => [(x - MASK_W / 2) * WK, WORD_Z + (y - MASK_H / 2) * WK]);
+PATHS.under = makePath("under", linePts(UNDER), 0.12, { world: true, y: FLOOR });
+
+// ---------------------------------------------------------------- the lasers and when they cut what
+const LASERS = [];
+function inverse(ease) {
+	const N = 400, table = Array.from({ length: N + 1 }, (_, i) => ease(i / N));
+	return (u) => {
+		let lo = 0, hi = N;
+		while (hi - lo > 1) { const m = (lo + hi) >> 1; if (table[m] < u) lo = m; else hi = m; }
+		const f = (u - table[lo]) / Math.max(1e-9, table[hi] - table[lo]);
+		return (lo + clamp(f)) / N;
+	};
+}
+function laser(jobs, opts = {}) {
+	jobs.forEach((j) => (j.inv = inverse(j.ease)));
+	LASERS.push({ jobs, power: opts.power ?? 1, sparks: opts.sparks ?? 1 });
+}
+const linear = (x) => x;
+laser([{ path: PATHS.v2, t0: 1.57, t1: 5.2, ease: (x) => 0.32 * x + 0.68 * x * x }], { power: 1.25, sparks: 1.4 });
+// the rest: six lasers, each a part of the logo around its centre, all done by 8.3 s
+(() => {
+	const rest = Object.values(PATHS).filter((p) => p.name !== "v2" && p.name !== "under");
+	const mid = (p) => p.pts[Math.floor(p.pts.length / 2)];
+	rest.sort((a, b) => Math.atan2(mid(a).z, mid(a).x) - Math.atan2(mid(b).z, mid(b).x));
+	const total = rest.reduce((a, p) => a + p.L, 0), groups = [[]];
+	let acc = 0;
+	for (const p of rest) {
+		if (acc > (total / 6) * groups.length && groups.length < 6) groups.push([]);
+		groups[groups.length - 1].push(p);
+		acc += p.L;
+	}
+	groups.forEach((g, k) => {
+		const start = 5.15 + k * 0.1, end = 8.3, len = g.reduce((a, p) => a + p.L, 0);
+		const speed = len / (end - start - 0.08 * (g.length - 1));
+		let t = start;
+		laser(g.map((p) => { const job = { path: p, t0: t, t1: t + p.L / speed, ease: linear }; t = job.t1 + 0.08; return job; }), { power: 0.85, sparks: 0.8 });
+	});
+})();
+laser([{ path: PATHS.under, t0: 9.1, t1: 9.8, ease: easeInOut }], { power: 0.7, sparks: 0.7 });
+
+function pointAt(path, s) {
+	let lo = 0, hi = path.s.length - 1;
+	while (hi - lo > 1) { const m = (lo + hi) >> 1; if (path.s[m] < s) lo = m; else hi = m; }
+	const f = clamp((s - path.s[lo]) / Math.max(1e-9, path.s[hi] - path.s[lo]));
+	const p = path.pts[lo].clone().lerp(path.pts[hi], f);
+	const dir = path.pts[hi].clone().sub(path.pts[lo]).normalize();
+	return { p, dir, gap: path.gap[lo] || path.gap[hi] };
+}
+// where a laser is at t, whether it is on
+function laserState(L, t) {
+	for (const j of L.jobs) {
+		if (t >= j.t0 && t <= j.t1) {
+			const at = pointAt(j.path, j.path.L * j.ease((t - j.t0) / (j.t1 - j.t0)));
+			return { ...at, on: !at.gap, path: j.path };
+		}
+	}
+	// between jobs or after: where it was last, off
+	let last = null;
+	for (const j of L.jobs) if (t > j.t1) last = j;
+	if (last) return { ...pointAt(last.path, last.path.L), on: false, path: last.path };
+	const first = L.jobs[0];
+	return { ...pointAt(first.path, 0), on: false, path: first.path };
+}
+// the time the laser cut each point of a path
+const cutTimes = new Map();
+for (const L of LASERS) for (const j of L.jobs) cutTimes.set(j.path, j.path.s.map((s) => j.t0 + j.inv(s / j.path.L) * (j.t1 - j.t0)));
+
+// ---------------------------------------------------------------- renderer, scene, camera
+const renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: true, stencil: true });
+renderer.setSize(W, H);
+renderer.setPixelRatio(1);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+document.body.appendChild(renderer.domElement);
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x000000);
+const camera = new THREE.PerspectiveCamera(30, W / H, 0.02, 500);
+const pmrem = new THREE.PMREMGenerator(renderer);
+// a dark studio: black, with a few long soft strip lights, as on a set; the steel reflects only these
+const studio = new THREE.Scene();
+studio.background = new THREE.Color(0x000000);
+for (const [w, h, x, y, z, I] of [[34, 1.6, 0, 10, -22, 1.6], [1.4, 26, -24, 7, 4, 0.7], [1.4, 26, 24, 9, -6, 0.45], [14, 14, 0, 32, 4, 0.32]]) {
+	const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(I, I * 0.98, I * 1.04), side: THREE.DoubleSide }));
+	m.position.set(x, y, z);
+	m.lookAt(0, 0, 0);
+	studio.add(m);
+}
+scene.environment = pmrem.fromScene(studio, 0.02).texture;
+
+// textures made here: brushed steel, a soft puff, a round glow
+function canvasTex(size, draw, repeat) {
+	const c = document.createElement("canvas");
+	c.width = c.height = size;
+	draw(c.getContext("2d"), size);
+	const t = new THREE.CanvasTexture(c);
+	if (repeat) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat); }
+	t.anisotropy = 8;
+	return t;
+}
+const R0 = rng(5);
+const brushed = canvasTex(1024, (g, n) => {
+	g.fillStyle = "rgb(128,128,128)"; g.fillRect(0, 0, n, n);
+	for (let i = 0; i < 9000; i++) {
+		const v = 128 + (R0() - 0.5) * 70, y = R0() * n, l = 40 + R0() * 500, x = R0() * n;
+		g.strokeStyle = `rgba(${v},${v},${v},${0.25 + R0() * 0.35})`;
+		g.lineWidth = 0.5 + R0() * 1.2;
+		g.beginPath(); g.moveTo(x, y); g.lineTo(x + l, y + (R0() - 0.5) * 0.6); g.stroke();
+	}
+	for (let i = 0; i < 40; i++) {
+		// a few fine scratches
+		g.strokeStyle = `rgba(200,200,200,${0.15 + R0() * 0.2})`;
+		g.lineWidth = 0.6;
+		const x = R0() * n, y = R0() * n, a = R0() * Math.PI, l = 30 + R0() * 160;
+		g.beginPath(); g.moveTo(x, y); g.lineTo(x + Math.cos(a) * l, y + Math.sin(a) * l); g.stroke();
+	}
+}, 0.18);
+const glowTex = canvasTex(256, (g, n) => {
+	const r = g.createRadialGradient(n / 2, n / 2, 0, n / 2, n / 2, n / 2);
+	r.addColorStop(0, "rgba(255,255,255,1)"); r.addColorStop(0.12, "rgba(255,255,255,0.6)");
+	r.addColorStop(0.4, "rgba(255,255,255,0.12)"); r.addColorStop(1, "rgba(255,255,255,0)");
+	g.fillStyle = r; g.fillRect(0, 0, n, n);
+});
+const puffTex = canvasTex(256, (g, n) => {
+	const R = rng(9);
+	for (let i = 0; i < 60; i++) {
+		const x = n / 2 + (R() - 0.5) * n * 0.45, y = n / 2 + (R() - 0.5) * n * 0.45, r = n * (0.12 + R() * 0.22);
+		const gr = g.createRadialGradient(x, y, 0, x, y, r);
+		gr.addColorStop(0, "rgba(255,255,255,0.10)"); gr.addColorStop(1, "rgba(255,255,255,0)");
+		g.fillStyle = gr; g.fillRect(0, 0, n, n);
+	}
+});
+
+// ---------------------------------------------------------------- the plate and the floor
+const stencilOut = { stencilWrite: true, stencilRef: 1, stencilFunc: THREE.NotEqualStencilFunc,
+	stencilFail: THREE.KeepStencilOp, stencilZFail: THREE.KeepStencilOp, stencilZPass: THREE.KeepStencilOp };
+const plateMat = new THREE.MeshPhysicalMaterial({ color: 0x4d5259, metalness: 1.0, roughness: 0.32, roughnessMap: brushed,
+	clearcoat: 0.3, clearcoatRoughness: 0.16, envMapIntensity: 0.9, ...stencilOut });
+const shape = new THREE.Shape();
+shape.moveTo(0, 0);
+(() => {
+	const x0 = wx(54), x1 = wx(968), y0 = -wz(984), y1 = -wz(68), r = 1.32;
+	shape.moveTo(x0 + r, y0); shape.lineTo(x1 - r, y0); shape.quadraticCurveTo(x1, y0, x1, y0 + r);
+	shape.lineTo(x1, y1 - r); shape.quadraticCurveTo(x1, y1, x1 - r, y1); shape.lineTo(x0 + r, y1);
+	shape.quadraticCurveTo(x0, y1, x0, y1 - r); shape.lineTo(x0, y0 + r); shape.quadraticCurveTo(x0, y0, x0 + r, y0);
+})();
+const plateGeo = new THREE.ExtrudeGeometry(shape, { depth: 0.48, bevelEnabled: true, bevelThickness: 0.06, bevelSize: 0.06, bevelSegments: 6, curveSegments: 32 });
+plateGeo.rotateX(-Math.PI / 2);
+plateGeo.translate(0, -0.54, 0);
+const plate = new THREE.Mesh(plateGeo, plateMat);
+plate.renderOrder = 1;
+scene.add(plate);
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(400, 400), new THREE.MeshStandardMaterial({ color: 0x010101, roughness: 0.9, metalness: 0, envMapIntensity: 0.0, ...stencilOut }));
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = FLOOR;
+floor.renderOrder = 1;
+scene.add(floor);
+const PLATE = { x0: wx(54), x1: wx(968), z0: wz(68), z1: wz(984) };
+
+// ---------------------------------------------------------------- the grooves
+const NL = 10; // lights the grooves know: the lasers, the sweep over the words, the red glow
+const grooveUniforms = {
+	uTime: { value: 0 }, uGlow: { value: 1 },
+	uLP: { value: Array.from({ length: NL }, () => new THREE.Vector3(0, -100, 0)) },
+	uLC: { value: Array.from({ length: NL }, () => new THREE.Vector3()) },
+	uKeyDir: { value: new THREE.Vector3(-0.5, 0.7, -0.5).normalize() }, uKeyCol: { value: new THREE.Vector3(0.25, 0.27, 0.3) },
+};
+const NOISE = `
+	float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+	float noise(vec2 p) { vec2 i = floor(p), f = fract(p); f = f * f * (3.0 - 2.0 * f);
+		return mix(mix(hash(i), hash(i + vec2(1, 0)), f.x), mix(hash(i + vec2(0, 1)), hash(i + vec2(1, 1)), f.x), f.y); }
+`;
+const grooveVS = `
+	attribute float aU; attribute float aCut; attribute float aS;
+	varying vec3 vPos; varying vec3 vN; varying float vU; varying float vCut; varying float vS;
+	void main() { vU = aU; vCut = aCut; vS = aS; vN = normal; vec4 w = modelMatrix * vec4(position, 1.0); vPos = w.xyz;
+		gl_Position = projectionMatrix * viewMatrix * w; }
+`;
+const grooveFS = `
+	uniform float uTime; uniform float uGlow; uniform vec3 uLP[${NL}]; uniform vec3 uLC[${NL}]; uniform vec3 uKeyDir; uniform vec3 uKeyCol;
+	varying vec3 vPos; varying vec3 vN; varying float vU; varying float vCut; varying float vS;
+	${NOISE}
+	void main() {
+		float age = uTime - vCut;
+		if (age < 0.0) discard;
+		float au = abs(vU);
+		vec3 N = normalize(vN), V = normalize(cameraPosition - vPos);
+		vec3 base = vec3(0.05, 0.052, 0.058), col = vec3(0.0);
+		for (int i = 0; i < ${NL}; i++) {
+			vec3 L = uLP[i] - vPos; float d2 = dot(L, L); L /= sqrt(d2);
+			float dif = max(dot(N, L), 0.0); float sp = pow(max(dot(N, normalize(L + V)), 0.0), 50.0);
+			col += uLC[i] * (dif * base * 2.5 + sp * 0.5) / (d2 + 0.015);
+		}
+		col += uKeyCol * (max(dot(N, uKeyDir), 0.0) * base * 2.0 + pow(max(dot(N, normalize(uKeyDir + V)), 0.0), 40.0) * 0.25);
+		// the metal in the groove: white-hot where just cut, then yellow, orange, and the logo's red
+		float n = noise(vec2(vS * 9.0, vU * 2.5 + uTime * 1.7)) * 0.65 + noise(vec2(vS * 31.0, uTime * 3.0)) * 0.35;
+		float temp = exp(-age / 0.42);
+		float tt = clamp(temp * (0.78 + 0.45 * n), 0.0, 1.0);
+		vec3 hot = tt > 0.55 ? mix(vec3(1.0, 0.42, 0.07), vec3(1.0, 0.93, 0.78), (tt - 0.55) / 0.45)
+			: mix(vec3(0.75, 0.05, 0.015), vec3(1.0, 0.42, 0.07), tt / 0.55);
+		float core = 1.0 - smoothstep(0.38, 0.72, au);
+		float core2 = 1.0 - smoothstep(0.72, 1.0, au);
+		vec3 red = vec3(1.0, 0.012, 0.03);
+		float cool = smoothstep(0.1, 1.6, age);
+		vec3 e = core * hot * pow(tt, 1.6) * 7.0 + core2 * red * (1.15 + 0.25 * n) * cool * uGlow;
+		col += (1.0 - core) * hot * pow(tt, 1.8) * 0.9 + (1.0 - core2) * red * 0.3 * uGlow * cool;
+		gl_FragColor = vec4(col + e, 1.0);
+	}
+`;
+const haloFS = `
+	uniform float uTime; uniform float uGlow; varying vec3 vPos; varying vec3 vN; varying float vU; varying float vCut; varying float vS;
+	void main() {
+		float age = uTime - vCut; float au = abs(vU);
+		if (age < 0.0 || au < 1.0) discard;
+		float f = pow(clamp(1.0 - (au - 1.0) / 0.95, 0.0, 1.0), 2.2);
+		vec3 e = vec3(1.0, 0.22, 0.04) * exp(-age / 0.35) * 1.2 * f + vec3(1.0, 0.03, 0.045) * 0.16 * f * smoothstep(0.3, 1.8, age) * uGlow;
+		gl_FragColor = vec4(e, 1.0);
+	}
+`;
+const mouthFS = `
+	uniform float uTime; varying float vCut; varying float vU; varying vec3 vPos; varying vec3 vN; varying float vS;
+	void main() { if (uTime < vCut || abs(vU) > 1.0) discard; gl_FragColor = vec4(0.0); }
+`;
+const mouthMat = new THREE.ShaderMaterial({ uniforms: grooveUniforms, vertexShader: grooveVS, fragmentShader: mouthFS,
+	colorWrite: false, depthWrite: false, stencilWrite: true, stencilRef: 1, stencilFunc: THREE.AlwaysStencilFunc,
+	stencilZPass: THREE.ReplaceStencilOp, stencilFail: THREE.KeepStencilOp, stencilZFail: THREE.KeepStencilOp, side: THREE.DoubleSide });
+const grooveMat = new THREE.ShaderMaterial({ uniforms: grooveUniforms, vertexShader: grooveVS, fragmentShader: grooveFS,
+	stencilWrite: true, stencilRef: 1, stencilFunc: THREE.EqualStencilFunc, stencilZPass: THREE.KeepStencilOp,
+	stencilFail: THREE.KeepStencilOp, stencilZFail: THREE.KeepStencilOp, side: THREE.DoubleSide });
+const haloMat = new THREE.ShaderMaterial({ uniforms: grooveUniforms, vertexShader: grooveVS, fragmentShader: haloFS,
+	transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+
+// the U-shaped groove of a path (and its flat mouth, and the glow around it on the surface), with rounded ends
+function grooveGeometry(path, times) {
+	const K = 9, depthK = 0.55;
+	const groove = { pos: [], nor: [], u: [], cut: [], s: [], idx: [] };
+	const mouth = { pos: [], nor: [], u: [], cut: [], s: [], idx: [] };
+	const halo = { pos: [], nor: [], u: [], cut: [], s: [], idx: [] };
+	const hw = path.hw, depth = hw * depthK, y0 = path.y;
+	const runs = [];
+	let run = [];
+	path.pts.forEach((p, i) => { if (!path.gap[i]) run.push(i); else if (run.length) { runs.push(run); run = []; } });
+	if (run.length) runs.push(run);
+	const push = (G, x, y, z, nx, ny, nz, u, c, s) => { G.pos.push(x, y, z); G.nor.push(nx, ny, nz); G.u.push(u); G.cut.push(c); G.s.push(s); };
+	for (const r of runs) {
+		if (r.length < 2) continue;
+		const off = r.map((i, k) => {
+			const a = path.pts[r[Math.max(0, k - 1)]], b = path.pts[r[Math.min(r.length - 1, k + 1)]];
+			const prev = k > 0 ? path.pts[i].clone().sub(a).normalize() : b.clone().sub(path.pts[i]).normalize();
+			const next = k < r.length - 1 ? b.clone().sub(path.pts[i]).normalize() : prev.clone();
+			const n1 = new THREE.Vector3(-prev.z, 0, prev.x), n2 = new THREE.Vector3(-next.z, 0, next.x);
+			const n = n1.clone().add(n2).normalize();
+			return n.multiplyScalar(1 / Math.max(0.3, n.dot(n1)));
+		});
+		// the groove: K columns across, the depth a parabola
+		const gStart = groove.pos.length / 3, mStart = mouth.pos.length / 3, hStart = halo.pos.length / 3;
+		r.forEach((i, k) => {
+			const p = path.pts[i], o = off[k], c = times[i], s = path.s[i];
+			const nn = o.clone().normalize();
+			for (let j = 0; j < K; j++) {
+				const u = -1 + (2 * j) / (K - 1), slope = (2 * depth * u) / hw;
+				const nv = new THREE.Vector3(-slope * nn.x, 1, -slope * nn.z).normalize();
+				push(groove, p.x + o.x * u * hw, y0 - depth * (1 - u * u), p.z + o.z * u * hw, nv.x, nv.y, nv.z, u, c, s);
+			}
+			for (const u of [-1, 1]) push(mouth, p.x + o.x * u * hw, y0 + 0.0004, p.z + o.z * u * hw, 0, 1, 0, u, c, s);
+			for (const u of [-1.95, 1.95]) push(halo, p.x + o.x * u * hw, y0 + 0.0008, p.z + o.z * u * hw, 0, 1, 0, u, c, s);
+		});
+		for (let k = 0; k < r.length - 1; k++) {
+			for (let j = 0; j < K - 1; j++) {
+				const a = gStart + k * K + j, b = a + K;
+				groove.idx.push(a, b, a + 1, a + 1, b, b + 1);
+			}
+			const a = mStart + k * 2, b = hStart + k * 2;
+			mouth.idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+			halo.idx.push(b, b + 2, b + 1, b + 1, b + 2, b + 3);
+		}
+		// the rounded ends: a half-bowl at each end of the run
+		for (const [k, sign] of [[0, -1], [r.length - 1, 1]]) {
+			const i = r[k], p = path.pts[i], c = times[i], s = path.s[i];
+			const a = path.pts[r[Math.max(0, k - 1)]], b = path.pts[r[Math.min(r.length - 1, k + 1)]];
+			const tan = (k === 0 ? b.clone().sub(p) : p.clone().sub(a)).normalize().multiplyScalar(sign);
+			const side = new THREE.Vector3(-tan.z, 0, tan.x);
+			const NA = 12, NR = 5, gs = groove.pos.length / 3, ms = mouth.pos.length / 3, hs = halo.pos.length / 3;
+			for (let ai = 0; ai <= NA; ai++) {
+				const ph = -Math.PI / 2 + (Math.PI * ai) / NA;
+				const d = tan.clone().multiplyScalar(Math.cos(ph)).add(side.clone().multiplyScalar(Math.sin(ph)));
+				for (let ri = 0; ri <= NR; ri++) {
+					const u = ri / NR, slope = (2 * depth * u) / hw;
+					const nv = new THREE.Vector3(-slope * d.x, 1, -slope * d.z).normalize();
+					push(groove, p.x + d.x * u * hw, y0 - depth * (1 - u * u), p.z + d.z * u * hw, nv.x, nv.y, nv.z, u, c, s);
+				}
+				push(mouth, p.x + d.x * hw, y0 + 0.0004, p.z + d.z * hw, 0, 1, 0, 1, c, s);
+				push(halo, p.x + d.x * hw, y0 + 0.0008, p.z + d.z * hw, 0, 1, 0, 1, c, s);
+				push(halo, p.x + d.x * hw * 1.95, y0 + 0.0008, p.z + d.z * hw * 1.95, 0, 1, 0, 1.95, c, s);
+			}
+			push(mouth, p.x, y0 + 0.0004, p.z, 0, 1, 0, 0, c, s);
+			const mc = mouth.pos.length / 3 - 1;
+			for (let ai = 0; ai < NA; ai++) {
+				for (let ri = 0; ri < NR; ri++) {
+					const q = gs + ai * (NR + 1) + ri, w = q + NR + 1;
+					groove.idx.push(q, w, q + 1, q + 1, w, w + 1);
+				}
+				mouth.idx.push(mc, ms + ai, ms + ai + 1);
+				const h0 = hs + ai * 2, h1 = h0 + 2;
+				halo.idx.push(h0, h1, h0 + 1, h0 + 1, h1, h1 + 1);
+			}
+		}
+	}
+	const geo = (G) => {
+		const g = new THREE.BufferGeometry();
+		g.setAttribute("position", new THREE.Float32BufferAttribute(G.pos, 3));
+		g.setAttribute("normal", new THREE.Float32BufferAttribute(G.nor, 3));
+		g.setAttribute("aU", new THREE.Float32BufferAttribute(G.u, 1));
+		g.setAttribute("aCut", new THREE.Float32BufferAttribute(G.cut, 1));
+		g.setAttribute("aS", new THREE.Float32BufferAttribute(G.s, 1));
+		g.setIndex(G.idx);
+		return g;
+	};
+	return { groove: geo(groove), mouth: geo(mouth), halo: geo(halo) };
+}
+for (const path of Object.values(PATHS)) {
+	const G = grooveGeometry(path, cutTimes.get(path));
+	const m = new THREE.Mesh(G.mouth, mouthMat); m.renderOrder = 0; scene.add(m);
+	const g = new THREE.Mesh(G.groove, grooveMat); g.renderOrder = 2; scene.add(g);
+	const h = new THREE.Mesh(G.halo, haloMat); h.renderOrder = 3; scene.add(h);
+}
+
+// ---------------------------------------------------------------- the beams, the flares, the lights at the cut
+const beamVS = `attribute vec2 aB; varying vec2 vB; void main() { vB = aB; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`;
+const beamFS = `
+	uniform float uOn; uniform float uTime; varying vec2 vB;
+	${NOISE}
+	void main() {
+		float v = vB.x, t = vB.y;
+		float core = exp(-v * v * 400.0), glow = exp(-v * v * 12.0);
+		float along = smoothstep(0.0, 0.75, t) * (0.85 + 0.3 * noise(vec2(t * 40.0 - uTime * 25.0, 0.0)));
+		vec3 c = vec3(1.0, 0.1, 0.08) * glow * 0.09 + mix(vec3(1.0, 0.25, 0.2), vec3(1.0, 0.85, 0.8), core) * core * 6.0;
+		gl_FragColor = vec4(c * along * uOn, 1.0);
+	}
+`;
+const LIGHT_LIFT = 0.12;
+const units = LASERS.map((L, k) => {
+	const geo = new THREE.BufferGeometry();
+	geo.setAttribute("position", new THREE.Float32BufferAttribute(new Float32Array(12), 3));
+	geo.setAttribute("aB", new THREE.Float32BufferAttribute([-1, 0, 1, 0, -1, 1, 1, 1], 2));
+	geo.setIndex([0, 2, 1, 1, 2, 3]);
+	const mat = new THREE.ShaderMaterial({ uniforms: { uOn: { value: 0 }, uTime: { value: 0 } }, vertexShader: beamVS, fragmentShader: beamFS,
+		transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, side: THREE.DoubleSide });
+	const beam = new THREE.Mesh(geo, mat);
+	beam.frustumCulled = false;
+	beam.renderOrder = 6;
+	scene.add(beam);
+	const flare = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: new THREE.Color(3.2, 1.6, 0.9), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+	const streak = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: new THREE.Color(1.4, 0.18, 0.12), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+	flare.renderOrder = streak.renderOrder = 7;
+	scene.add(flare, streak);
+	const light = new THREE.PointLight(0xff8a50, 0, 0, 2);
+	scene.add(light);
+	return { beam, flare, streak, light, mat, slot: k };
+});
+// the source of the light, high above and behind on the left
+const SOURCE = new THREE.Vector3(-3.2, 11, -4.5);
+
+// a small red aiming dot before the first cut
+const aim = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: new THREE.Color(5, 0.3, 0.3), blending: THREE.AdditiveBlending, depthWrite: false, transparent: true }));
+aim.renderOrder = 7;
+scene.add(aim);
+
+// lights of the scene: a cool key from the side, the red glow of the finished logo, a light sweeping over the words
+const key = new THREE.DirectionalLight(0xc8d4ff, 0.0);
+key.position.set(-6, 5, -7);
+scene.add(key);
+const top = new THREE.SpotLight(0xffffff, 0, 0, 0.6, 1, 2);
+top.position.set(0, 30, 6);
+top.target.position.set(0, 0, 2);
+scene.add(top, top.target);
+// a low light from beyond the first cut: its sheen on the brushed steel is what the first shot sees
+const sheen = new THREE.SpotLight(0xdfe6ff, 0, 0, 0.5, 0.9, 2);
+sheen.position.set(3.2, 0.9, 1.4);
+sheen.target.position.set(-2.8, 0, -2.4);
+scene.add(sheen, sheen.target);
+const redGlow = new THREE.PointLight(0xff1020, 0, 0, 2);
+redGlow.position.set(0, 2.5, 0);
+scene.add(redGlow);
+const sweep = new THREE.PointLight(0xfff2e8, 0, 0, 2);
+scene.add(sweep);
+
+// ---------------------------------------------------------------- the words on the floor
+const mask = new Image();
+mask.src = "wordmark_mask.png";
+const wordReady = new Promise((r) => (mask.onload = r)).then(() => {
+	const c = document.createElement("canvas");
+	c.width = MASK_W; c.height = MASK_H;
+	const g = c.getContext("2d");
+	g.drawImage(mask, 0, 0);
+	const d = g.getImageData(0, 0, MASK_W, MASK_H);
+	for (let i = 0; i < d.data.length; i += 4) { const a = d.data[i + 3]; d.data[i] = d.data[i + 1] = d.data[i + 2] = a; d.data[i + 3] = 255; }
+	g.putImageData(d, 0, 0);
+	const alphaTex = new THREE.CanvasTexture(c);
+	// the outline around the letters, for their red edge
+	const e = document.createElement("canvas");
+	e.width = MASK_W; e.height = MASK_H;
+	const eg = e.getContext("2d");
+	for (let i = 0; i < 16; i++) { const a = (i / 16) * Math.PI * 2; eg.drawImage(mask, Math.cos(a) * 5, Math.sin(a) * 5); }
+	eg.globalCompositeOperation = "destination-out";
+	eg.drawImage(mask, 0, 0);
+	eg.globalCompositeOperation = "source-in";
+	eg.fillStyle = "#fff";
+	eg.fillRect(0, 0, MASK_W, MASK_H);
+	const edgeTex = new THREE.CanvasTexture(e);
+	const geo = new THREE.PlaneGeometry(WORD_W, WORD_H);
+	geo.rotateX(-Math.PI / 2);
+	const wordMat = new THREE.MeshPhysicalMaterial({ color: 0xb4b9c1, metalness: 1, roughness: 0.3, roughnessMap: brushed, alphaMap: alphaTex,
+		transparent: true, opacity: 0, envMapIntensity: 0.55, clearcoat: 0.4, clearcoatRoughness: 0.2 });
+	const word = new THREE.Mesh(geo, wordMat);
+	word.position.set(0, FLOOR + 0.004, WORD_Z);
+	word.renderOrder = 4;
+	const edgeMat = new THREE.MeshBasicMaterial({ map: edgeTex, color: new THREE.Color(3.0, 0.06, 0.1), transparent: true, opacity: 0,
+		blending: THREE.AdditiveBlending, depthWrite: false });
+	const edge = new THREE.Mesh(geo, edgeMat);
+	edge.position.set(0, FLOOR + 0.006, WORD_Z);
+	edge.renderOrder = 5;
+	scene.add(word, edge);
+	WORD.mat = wordMat; WORD.edge = edgeMat;
+});
+const WORD = {};
+
+// ---------------------------------------------------------------- sparks and smoke (simulated from the start, in fixed steps)
+const MAXS = 3000, MAXP = 180;
+const sparkGeo = new THREE.BufferGeometry();
+const sparkPos = new Float32Array(MAXS * 6), sparkCol = new Float32Array(MAXS * 6);
+sparkGeo.setAttribute("position", new THREE.BufferAttribute(sparkPos, 3));
+sparkGeo.setAttribute("color", new THREE.BufferAttribute(sparkCol, 3));
+const sparkMat = new THREE.ShaderMaterial({
+	vertexShader: `attribute vec3 color; varying vec3 vC; void main() { vC = color; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+	fragmentShader: `varying vec3 vC; void main() { gl_FragColor = vec4(vC, 1.0); }`,
+	transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+});
+const sparkLines = new THREE.LineSegments(sparkGeo, sparkMat);
+sparkLines.frustumCulled = false;
+sparkLines.renderOrder = 8;
+scene.add(sparkLines);
+const puffs = Array.from({ length: MAXP }, () => {
+	const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: puffTex, transparent: true, depthWrite: false, opacity: 0, color: 0x888888 }));
+	s.renderOrder = 9;
+	s.visible = false;
+	scene.add(s);
+	return s;
+});
+const SIM = { t: 0, sparks: [], smoke: [], R: rng(42), started: false };
+const DT = 1 / 240;
+function groundAt(x, z) { return x > PLATE.x0 && x < PLATE.x1 && z > PLATE.z0 && z < PLATE.z1 ? 0 : FLOOR; }
+function emit(t, L, st, rate, dt) {
+	const R = SIM.R;
+	let n = rate * dt;
+	while (n > 0) {
+		if (n < 1 && R() > n) break;
+		n -= 1;
+		if (SIM.sparks.length >= MAXS) SIM.sparks.shift();
+		const a = R() * Math.PI * 2, up = 0.35 + R() * 0.9, sp = 1.0 + R() * 4.2;
+		const v = new THREE.Vector3(Math.cos(a), up, Math.sin(a)).normalize().multiplyScalar(sp);
+		v.addScaledVector(st.dir, -1.2 * R());
+		SIM.sparks.push({ p: st.p.clone().setY(st.p.y + 0.02), v, age: 0, life: 0.3 + R() * 0.9, hot: 0.8 + R() * 0.4 });
+	}
+	if (R() < 13 * dt * L.sparks) {
+		if (SIM.smoke.length >= MAXP) SIM.smoke.shift();
+		SIM.smoke.push({ p: st.p.clone().setY(st.p.y + 0.04), v: new THREE.Vector3((R() - 0.5) * 0.12, 0.28 + R() * 0.2, (R() - 0.5) * 0.12),
+			age: 0, life: 2.2 + R() * 1.2, rot: R() * 6.28, spin: (R() - 0.5) * 0.6, size: 0.12 + R() * 0.1 });
+	}
+}
+function simulate(T) {
+	if (T < SIM.t) { SIM.t = 0; SIM.sparks = []; SIM.smoke = []; SIM.R = rng(42); SIM.started = false; }
+	while (SIM.t + DT <= T) {
+		const t = SIM.t;
+		LASERS.forEach((L) => {
+			const st = laserState(L, t);
+			if (st.on) emit(t, L, st, 230 * L.sparks, DT);
+		});
+		if (!SIM.started && t >= 1.57) {
+			// the first touch: a burst
+			SIM.started = true;
+			const st = laserState(LASERS[0], 1.58);
+			emit(t, LASERS[0], st, 450, 1);
+		}
+		for (const s of SIM.sparks) {
+			s.age += DT;
+			s.v.y -= 6.5 * DT;
+			s.v.multiplyScalar(1 - 0.5 * DT);
+			s.p.addScaledVector(s.v, DT);
+			const gy = groundAt(s.p.x, s.p.z);
+			if (s.p.y < gy) { s.p.y = gy; s.v.y = -s.v.y * 0.32; s.v.x *= 0.65; s.v.z *= 0.65; }
+		}
+		SIM.sparks = SIM.sparks.filter((s) => s.age < s.life);
+		for (const m of SIM.smoke) { m.age += DT; m.p.addScaledVector(m.v, DT); m.v.multiplyScalar(1 - 0.25 * DT); m.rot += m.spin * DT; }
+		SIM.smoke = SIM.smoke.filter((m) => m.age < m.life);
+		SIM.t += DT;
+	}
+}
+function drawParticles() {
+	let k = 0;
+	for (const s of SIM.sparks) {
+		const temp = clamp(1 - s.age / s.life) * s.hot;
+		const c = temp > 0.6 ? [1.0, mix(0.55, 0.9, (temp - 0.6) / 0.4), mix(0.2, 0.6, (temp - 0.6) / 0.4)] : [1.0, mix(0.08, 0.55, temp / 0.6), mix(0.02, 0.2, temp / 0.6)];
+		const I = 7 * Math.pow(temp, 1.4);
+		const tail = s.p.clone().addScaledVector(s.v, -1 / 40);
+		sparkPos.set([s.p.x, s.p.y, s.p.z, tail.x, tail.y, tail.z], k * 6);
+		sparkCol.set([c[0] * I, c[1] * I, c[2] * I, c[0] * I * 0.2, c[1] * I * 0.2, c[2] * I * 0.2], k * 6);
+		k++;
+	}
+	sparkGeo.setDrawRange(0, k * 2);
+	sparkGeo.attributes.position.needsUpdate = true;
+	sparkGeo.attributes.color.needsUpdate = true;
+	puffs.forEach((p, i) => {
+		const m = SIM.smoke[i];
+		p.visible = !!m;
+		if (!m) return;
+		const x = m.age / m.life;
+		p.position.copy(m.p);
+		const sc = m.size + x * 1.3;
+		p.scale.set(sc, sc, 1);
+		p.material.rotation = m.rot;
+		p.material.opacity = 0.2 * Math.sin(Math.PI * Math.min(1, x * 1.6)) * (1 - x);
+		const warm = Math.exp(-m.age * 2.5);
+		p.material.color.setRGB(mix(0.3, 1.0, warm), mix(0.3, 0.45, warm), mix(0.32, 0.3, warm));
+	});
+}
+
+// dust in the air, lit by the cut
+const dustGeo = new THREE.BufferGeometry();
+(() => {
+	const R = rng(7), n = 500, a = new Float32Array(n * 3);
+	for (let i = 0; i < n; i++) { a[i * 3] = -6 + R() * 10; a[i * 3 + 1] = 0.05 + R() * 2.2; a[i * 3 + 2] = -5 + R() * 9; }
+	dustGeo.setAttribute("position", new THREE.BufferAttribute(a, 3));
+})();
+const dustMat = new THREE.PointsMaterial({ map: glowTex, size: 0.012, color: new THREE.Color(1.4, 0.6, 0.45), transparent: true, opacity: 0.5,
+	blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true });
+const dust = new THREE.Points(dustGeo, dustMat);
+dust.renderOrder = 9;
+scene.add(dust);
+
+// ---------------------------------------------------------------- the camera
+const FINAL_T = new THREE.Vector3(0, 0, 3.36);
+const V2 = PATHS.v2;
+function laser0Pos(t) {
+	const j = LASERS[0].jobs[0];
+	const tt = clamp(t, j.t0, j.t1);
+	return pointAt(j.path, j.path.L * j.ease((tt - j.t0) / (j.t1 - j.t0))).p;
+}
+function focusAt(t) {
+	// the light, a little behind its own path so that the camera lags it like a hand would
+	const acc = new THREE.Vector3();
+	for (let k = 0; k < 8; k++) acc.add(laser0Pos(t - 0.04 * k));
+	return acc.multiplyScalar(1 / 8);
+}
+function cameraAt(t) {
+	const F = focusAt(Math.min(t, 5.25));
+	const k = easeInOut(seg(t, 0, 5.4));
+	const yaw = mix(3.55, 4.3, k), pitch = mix(0.21, 0.5, easeInOut(seg(t, 0.4, 5.3)));
+	const dist = mix(0.95, 3.8, Math.pow(easeInOut(seg(t, 0.2, 5.5)), 1.4));
+	const dirB = new THREE.Vector3(Math.cos(pitch) * Math.cos(yaw), Math.sin(pitch), Math.cos(pitch) * Math.sin(yaw));
+	// a slight hand-held drift while close
+	const hand = (1 - seg(t, 4, 7)) * 0.012 * dist;
+	const shake = new THREE.Vector3(Math.sin(t * 1.7) + 0.5 * Math.sin(t * 4.3), Math.sin(t * 2.3 + 1) * 0.6, Math.cos(t * 1.3) + 0.4 * Math.sin(t * 5.1)).multiplyScalar(hand);
+	// then up and over, to look straight down at the whole logo
+	const b = easeInOut(seg(t, 5.0, 8.9));
+	const finalH = mix(61.5, 57.5, easeInOut(seg(t, 8.8, 12)));
+	const dir = dirB.clone().lerp(new THREE.Vector3(0, 1, 0.0006), b).normalize();
+	const d = Math.exp(mix(Math.log(dist), Math.log(finalH), Math.pow(b, 1.25)));
+	const target = F.clone().lerp(FINAL_T, smooth(b));
+	const pos = target.clone().addScaledVector(dir, d).add(shake);
+	const up = new THREE.Vector3(0, 1, 0).lerp(new THREE.Vector3(0, 0, -1), smooth(seg(b, 0.25, 0.9))).normalize();
+	camera.position.copy(pos);
+	camera.up.copy(up);
+	camera.lookAt(target);
+	return { target, dist: pos.distanceTo(target), b };
+}
+
+// ---------------------------------------------------------------- post: depth of field, heat haze, bloom, the film
+const rt = new THREE.WebGLRenderTarget(W, H, { type: THREE.HalfFloatType, samples: 4, stencilBuffer: true });
+const composer = new EffectComposer(renderer, rt);
+composer.setPixelRatio(1);
+composer.setSize(W, H);
+composer.addPass(new RenderPass(scene, camera));
+const bokeh = new BokehPass(scene, camera, { focus: 2.0, aperture: 0.003, maxblur: 0.012 });
+composer.addPass(bokeh);
+const haze = new ShaderPass({
+	uniforms: { tDiffuse: { value: null }, uHot: { value: Array.from({ length: 8 }, () => new THREE.Vector3()) }, uTime: { value: 0 }, uAspect: { value: W / H } },
+	vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+	fragmentShader: `
+		uniform sampler2D tDiffuse; uniform vec3 uHot[8]; uniform float uTime; uniform float uAspect; varying vec2 vUv;
+		${NOISE}
+		void main() {
+			vec2 off = vec2(0.0);
+			for (int i = 0; i < 8; i++) {
+				vec2 d = vUv - uHot[i].xy; d.x *= uAspect;
+				float above = smoothstep(0.02, -0.12, d.y);
+				float f = uHot[i].z * exp(-dot(d, d) * 55.0) * (0.4 + 0.6 * above);
+				off += f * (vec2(noise(vUv * 38.0 + vec2(0.0, -uTime * 3.0)), noise(vUv * 41.0 + vec2(7.0, -uTime * 3.4))) - 0.5);
+			}
+			gl_FragColor = texture2D(tDiffuse, vUv + off * 0.012);
+		}
+	`,
+});
+composer.addPass(haze);
+const bloom = new UnrealBloomPass(new THREE.Vector2(W, H), 0.62, 0.5, 0.78);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+const film = new ShaderPass({
+	uniforms: { tDiffuse: { value: null }, uTime: { value: 0 }, uFade: { value: 0 } },
+	vertexShader: `varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }`,
+	fragmentShader: `
+		uniform sampler2D tDiffuse; uniform float uTime; uniform float uFade; varying vec2 vUv;
+		float h(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233)) + uTime * 37.0) * 43758.5453); }
+		void main() {
+			vec2 c = vUv - 0.5; float r2 = dot(c, c);
+			// a touch of lens: colour fringes toward the edges
+			vec3 col = vec3(texture2D(tDiffuse, vUv - c * 0.0035 * r2 * 4.0).r, texture2D(tDiffuse, vUv).g, texture2D(tDiffuse, vUv + c * 0.0035 * r2 * 4.0).b);
+			col *= 1.0 - smoothstep(0.12, 0.62, r2) * 0.55;
+			col = pow(col, vec3(1.02, 1.0, 0.98));
+			col += (h(vUv * 1000.0) - 0.5) * 0.035;
+			gl_FragColor = vec4(col * (1.0 - uFade), 1.0);
+		}
+	`,
+});
+composer.addPass(film);
+
+// ---------------------------------------------------------------- one frame
+const tmp = new THREE.Vector3();
+function render(t) {
+	simulate(t);
+	const cam = cameraAt(t);
+	grooveUniforms.uTime.value = t;
+	// the red of the finished logo swells once when all is cut
+	const glow = 1 + 0.55 * Math.exp(-Math.pow((t - 8.75) / 0.35, 2)) + 0.15 * seg(t, 8.6, 9.6);
+	grooveUniforms.uGlow.value = glow;
+	const hot = [];
+	units.forEach((u, k) => {
+		const L = LASERS[k], st = laserState(L, t);
+		// the first beam comes down from above before it touches
+		let on = st.on ? 1 : 0, reach = 1;
+		if (k === 0) { reach = seg(t, 1.45, 1.57); on = t >= 1.45 && t <= LASERS[0].jobs[0].t1 ? 1 : 0; }
+		const flick = 0.82 + 0.18 * Math.sin(t * 97 + k * 13) * Math.sin(t * 61 + k * 7);
+		const P = st.p.clone();
+		const src = P.clone().add(SOURCE);
+		const end = src.clone().lerp(P, reach);
+		const beamOn = on * (k === 0 ? 1 : seg(t, L.jobs[0].t0 - 0.1, L.jobs[0].t0));
+		u.mat.uniforms.uOn.value = beamOn * L.power;
+		u.mat.uniforms.uTime.value = t;
+		const axis = end.clone().sub(src), mid = src.clone().add(end).multiplyScalar(0.5);
+		const side = axis.clone().cross(camera.position.clone().sub(mid)).normalize().multiplyScalar(0.05 + 0.0025 * cam.dist);
+		const pa = u.beam.geometry.attributes.position;
+		pa.setXYZ(0, src.x - side.x, src.y - side.y, src.z - side.z); pa.setXYZ(1, src.x + side.x, src.y + side.y, src.z + side.z);
+		pa.setXYZ(2, end.x - side.x, end.y - side.y, end.z - side.z); pa.setXYZ(3, end.x + side.x, end.y + side.y, end.z + side.z);
+		pa.needsUpdate = true;
+		const touching = beamOn > 0 && reach >= 1 && st.on ? 1 : 0;
+		const fl = touching * L.power * flick;
+		u.flare.position.copy(P).setY(P.y + 0.02);
+		const fs = (0.11 + 0.004 * cam.dist) * (0.85 + 0.3 * flick);
+		u.flare.scale.set(fs, fs, 1);
+		u.flare.material.opacity = fl;
+		u.streak.position.copy(u.flare.position);
+		u.streak.scale.set(fs * 14, fs * 0.22, 1);
+		u.streak.material.opacity = fl * 0.8;
+		u.light.position.copy(P).setY(P.y + LIGHT_LIFT);
+		u.light.intensity = 0.12 * fl;
+		grooveUniforms.uLP.value[k].copy(u.light.position);
+		grooveUniforms.uLC.value[k].set(1.0, 0.54, 0.3).multiplyScalar(u.light.intensity * 0.6);
+		if (fl > 0) {
+			tmp.copy(P).project(camera);
+			hot.push(new THREE.Vector3(tmp.x * 0.5 + 0.5, tmp.y * 0.5 + 0.5, 0.6 * fl / (1 + 0.15 * cam.dist)));
+		}
+	});
+	// the aiming dot
+	const aimA = seg(t, 0.55, 0.75) * (1 - seg(t, 1.5, 1.6)) * (0.75 + 0.25 * Math.sin(t * 40));
+	aim.position.copy(V2.pts[0]).setY(0.01);
+	aim.scale.set(0.05, 0.05, 1);
+	aim.material.opacity = aimA;
+	haze.uniforms.uHot.value.forEach((v, i) => v.copy(hot[i] || new THREE.Vector3(0, 0, 0)));
+	haze.uniforms.uTime.value = t;
+	// the light of the scene
+	key.intensity = mix(0.18, 0.1, cam.b);
+	sheen.intensity = 1.6 * (1 - 0.6 * seg(t, 1.5, 3)) * (1 - seg(t, 5, 8));
+	top.intensity = 2.2 * smooth(seg(t, 7.5, 9.5));
+	redGlow.intensity = 0.5 * smooth(seg(t, 6.5, 9.0)) * glow;
+	grooveUniforms.uLP.value[8].copy(redGlow.position);
+	grooveUniforms.uLC.value[8].set(1, 0.03, 0.05).multiplyScalar(redGlow.intensity * 0.3);
+	// the words: they come out of the dark, a light sweeps across their metal, their edge turns red
+	if (WORD.mat) {
+		const wa = smooth(seg(t, 9.2, 10.0));
+		WORD.mat.opacity = wa;
+		WORD.mat.envMapIntensity = mix(0.2, 1.0, seg(t, 9.6, 10.8));
+		const sx = mix(-12, 12, easeInOut(seg(t, 9.5, 11.0)));
+		sweep.position.set(sx, FLOOR + 1.6, WORD_Z - 0.6);
+		sweep.intensity = 1.1 * seg(t, 9.4, 9.7) * (1 - seg(t, 10.9, 11.2));
+		WORD.edge.opacity = 0.7 * smooth(seg(t, 10.0, 11.0));
+	}
+	grooveUniforms.uLP.value[9].copy(sweep.position);
+	grooveUniforms.uLC.value[9].set(1, 0.95, 0.9).multiplyScalar(sweep.intensity * 0.2);
+	drawParticles();
+	dustMat.opacity = 0.55 * (1 - seg(t, 5, 7.5));
+	// depth of field: shallow while close, everything sharp from above
+	bokeh.uniforms.focus.value = cam.dist;
+	bokeh.uniforms.aperture.value = mix(0.0042, 0.0, smooth(seg(cam.b, 0.0, 0.6)));
+	bokeh.uniforms.maxblur.value = 0.012;
+	film.uniforms.uTime.value = t;
+	film.uniforms.uFade.value = Math.max(1 - seg(t, 0, 0.6), seg(t, LEN - 0.7, LEN));
+	composer.render();
+}
+
+window.LEN = LEN;
+window.render = (t) => { render(t); return true; };
+window.ready = wordReady.then(() => true);
+</script>
+</body></html>
