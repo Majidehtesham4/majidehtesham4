@@ -12,7 +12,10 @@ class MrpBom(models.Model):
 	def _compute_display_name(self):
 		super()._compute_display_name()
 		for bom in self:
-			if bom.veron_version > 1:
+			if not bom.product_tmpl_id and not bom.code:
+				# Odoo names a bill by its product: before one is chosen, it read «False»
+				bom.display_name = _("New")
+			elif bom.veron_version > 1:
 				bom.display_name = _("%(name)s (version %(version)s)", name=bom.display_name, version=bom.veron_version)
 
 	def _compute_veron_eco_count(self):

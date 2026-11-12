@@ -9,5 +9,6 @@ docker compose exec -T db createdb -U odoo -T aryapack_s$1 aryapack
 # the compiled styles and scripts are rebuilt: their files may have been cleaned up since the snapshot was taken
 docker compose exec -T db psql -U odoo -d aryapack -qc "DELETE FROM ir_attachment WHERE url LIKE '/web/assets/%'"
 docker compose up -d odoo >/dev/null
-sleep 8
+# until the program answers
+for i in $(seq 1 90); do curl -s -o /dev/null -w "%{http_code}" localhost:8069/web/login | grep -q 200 && break; sleep 2; done
 echo "aryapack is as before section $1"

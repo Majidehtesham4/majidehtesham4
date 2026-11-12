@@ -227,7 +227,22 @@ class Recorder {
     await this.settle(1200);
     await this.view({ sub: opts.sub, step: opts.step ?? 0, hold: 1.2, newpage: true, cam: 'full' });
     const icon = this.page.locator(`.o-app-menu-item[data-menu-xmlid="${xmlid}"]`).first();
+    const b = await icon.boundingBox({ timeout: 5000 }).catch(() => null);
+    if (b && b.y + b.height > VH - 40) {
+      // the icon low on the page: it goes down until the icon and its name show whole
+      await this.scroll(Math.round(b.y + b.height - (VH - 150)), { at: [40, 420], dur: 1.3, hold: 0.4 });
+    }
     await this.click(icon, { wait: 1800, newpage: true, afterHold: opts.hold ?? 1.4, afterSub: opts.afterSub });
+  }
+  // the menus of the app, one after another, each opened and told about, before the work starts
+  async tourMenus(items, opts = {}) {
+    const bar = ['.o_menu_brand', '.o_menu_sections'];
+    for (const [k, [t, sub]] of items.entries()) {
+      await this.click(this.topMenu(t), { sub, step: k === 0 ? opts.step : undefined, wait: 600, afterHold: 1.4, focus: bar, zoom: 1.3,
+        afterCam: { focus: ['.o_menu_sections', '.o-dropdown--menu'], zoom: 1.3 } });
+      await this.page.keyboard.press('Escape');
+      await this.page.waitForTimeout(350);
+    }
   }
   // shortcuts for the forms of the program
   topMenu(t) { return this.page.locator('.o_menu_sections button, .o_menu_sections a', { hasText: t }).first(); }

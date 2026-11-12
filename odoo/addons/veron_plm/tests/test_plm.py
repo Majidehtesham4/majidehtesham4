@@ -60,3 +60,8 @@ class TestPlm(TransactionCase):
 		eco.action_cancel()
 		self.assertFalse(new.exists())
 		self.assertTrue(self.bom.active)
+
+	def test_new_bill_is_named_new(self):
+		"""a bill of materials not yet given a product is named «New», not «False»"""
+		bom = self.env["mrp.bom"].with_context(lang="en_US").new({})
+		self.assertEqual(bom.display_name, "New")
