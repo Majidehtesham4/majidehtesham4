@@ -18,7 +18,18 @@ class Recorder {
     await this.page.waitForLoadState('networkidle', { timeout: 8000 }).catch(() => {});
     await this.page.waitForTimeout(ms);
   }
-  async snap(name) { await this.page.screenshot({ path: path.join(this.out, name) }); return name; }
+  async snap(name) {
+    // the picture taken from the browser's own surface: Playwright's screenshot came out blank on some pages
+    // (the email editor), the browser's capture does not
+    try {
+      this.cdp = this.cdp || await this.page.context().newCDPSession(this.page);
+      const shot = await this.cdp.send('Page.captureScreenshot', { format: 'png', fromSurface: true });
+      fs.writeFileSync(path.join(this.out, name), Buffer.from(shot.data, 'base64'));
+    } catch (e) {
+      await this.page.screenshot({ path: path.join(this.out, name) });
+    }
+    return name;
+  }
   async box(sel) {
     // a rectangle as it is; several things: the rectangle around them all
     if (Array.isArray(sel) && typeof sel[0] === 'number') return sel;

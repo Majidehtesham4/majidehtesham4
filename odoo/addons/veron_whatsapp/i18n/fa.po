@@ -228,7 +228,7 @@ msgstr "نام"
 #. module: veron_whatsapp
 #: model:ir.ui.menu,name:veron_whatsapp.menu_accounts
 msgid "Numbers"
-msgstr "اعداد"
+msgstr "شماره‌ها"
 
 #. module: veron_whatsapp
 #: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_message__partner_id
@@ -329,7 +329,7 @@ msgstr "نام قالب"
 #. module: veron_whatsapp
 #: model:ir.ui.menu,name:veron_whatsapp.menu_templates
 msgid "Templates"
-msgstr "قالبها"
+msgstr "قالب‌ها"
 
 #. module: veron_whatsapp
 #: model:ir.model.fields,field_description:veron_whatsapp.field_veron_whatsapp_composer__text
