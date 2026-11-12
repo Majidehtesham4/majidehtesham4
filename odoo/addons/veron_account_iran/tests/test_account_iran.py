@@ -161,3 +161,16 @@ class TestAccountIran(TransactionCase):
 		treasury = self.env["veron.treasury.wizard"].create({"date_from": "2026-10-01", "date_to": "2026-10-31"})
 		html = self.env["ir.actions.report"]._render_qweb_html("veron_account_iran.report_treasury", treasury.ids)[0].decode()
 		self.assertIn("صندوق و بانک", html)
+
+	def test_payment_method_named_in_company_language(self):
+		"""a journal made in English names its ways of paying in the company's language"""
+		lang = self.env["res.lang"]._activate_lang("fa_IR")
+		self.env.company.partner_id.lang = lang.code
+		journal = self.env["account.journal"].with_context(lang="en_US").create(
+			{"name": "بانک آزمون", "type": "bank", "code": "BTST"})
+		manual = self.env.ref("account.account_payment_method_manual_in")
+		line = journal.inbound_payment_method_line_ids.filtered(lambda l: l.payment_method_id == manual)
+		self.assertEqual(line.name, manual.with_context(lang="fa_IR").name)
+		line.name = manual.with_context(lang="en_US").name
+		self.env["account.payment.method.line"]._veron_rename()
+		self.assertEqual(line.name, manual.with_context(lang="fa_IR").name)

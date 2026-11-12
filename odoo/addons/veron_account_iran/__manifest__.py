@@ -26,7 +26,7 @@ What an Iranian accountant expects of the accounting, on top of ERP-VERON Accoun
 
 Nothing is posted by itself; the numbers and deposits follow what an accountant posts.
 """,
-	"version": "19.0.1.0.0",
+	"version": "19.0.1.1.0",
 	"category": "Accounting/Localizations",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",

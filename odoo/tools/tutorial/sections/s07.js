@@ -24,9 +24,10 @@ module.exports = async (R, page) => {
   await R.click('.o_statusbar_buttons button[name=button_validate]:visible', { sub: 'و «اعتبارسنجی»؛ کالا وارد انبار مرکزی می‌شود و موجودی بالا می‌رود.', wait: 2000, afterHold: 1.8, done: 3 });
   const conf = page.locator('.modal button.btn-primary:visible').first();
   if (await conf.count()) await R.click(conf, { wait: 1800, afterHold: 1.0 });
-  await R.click(page.locator('.o_breadcrumb a, .breadcrumb-item a').last(), { sub: 'به سفارش خرید برمی‌گردیم.', wait: 1600, newpage: true, afterHold: 0.8 });
-  // the bill
-  await R.click('.o_statusbar_buttons button[name=action_create_invoice]:visible', { sub: 'فاکتور تأمین‌کننده رسید: «ایجاد صورتحساب» آن را از روی سفارش می‌سازد.', step: 3, wait: 2200, newpage: true, afterHold: 1.4 });
+  // the bill: made from the list of purchase orders (the order is ticked, then «Create Bills»)
+  await R.menu('سفارشات', 'سفارشات خرید', { sub: 'فاکتور تأمین‌کننده رسید؛ از فهرست سفارش‌های خرید صورتحساب را می‌سازیم.', step: 3 });
+  await R.click(page.locator('.o_data_row .o_list_record_selector input').first(), { sub: 'سفارش را علامت می‌زنیم…', wait: 700, afterHold: 0.6 });
+  await R.click('button[name=action_create_invoice]:visible', { sub: '…و «ایجاد صورتحساب»؛ سطرهای فاکتور از روی سفارش ساخته می‌شود.', wait: 2200, newpage: true, afterHold: 1.4 });
   const date = page.locator('div[name=invoice_date] input').first();
   await R.click(date, { sub: 'تاریخ فاکتور را می‌زنیم؛ تقویم شمسی است.', wait: 700, afterHold: 0.8, focus: [500, 100, 940, 380], zoom: 1.3,
     afterCam: { focus: [500, 100, 940, 500], zoom: 1.25 } });
