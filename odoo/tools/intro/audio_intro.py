@@ -2,6 +2,7 @@
 signal: a radar ping, rising blips for the arcs, swooshes for the lines, a riser and an impact, a shimmer for the words
 metal:  a deep drone, the clicks and hum of neon tubes coming on, metallic «shing» for the reflections, a low swell"""
 import math
+import os
 import sys
 import wave
 
@@ -267,5 +268,50 @@ def pulse(path):
 	finish(buf, path, fade_in=0.05, fade_out=0.35)
 
 
+def pluck(f, dur=1.6):
+	"""a soft plucked note with a little shimmer"""
+	t = t_(dur)
+	x = sum(np.sin(2 * math.pi * f * h * t + h) * a * np.exp(-t * (2.5 + h * 1.5)) for h, a in ((1, 1), (2, 0.45), (3, 0.2), (4, 0.08)))
+	return x * np.minimum(1, t / 0.004) * 0.45
+
+
+def glass(f):
+	t = t_(0.5)
+	return (np.sin(2 * math.pi * f * t) + 0.3 * np.sin(2 * math.pi * f * 2.76 * t)) * np.exp(-t * 14) * np.minimum(1, t / 0.002) * 0.2
+
+
+def network(path):
+	import json
+	dur = 7.9
+	buf = np.zeros((int(dur * SR), 2))
+	note = lambda n: 440.0 * 2 ** ((n - 69) / 12)
+	pad = drone(dur, [note(45), note(52), note(57), note(60)], lambda t: 0.15 + 0.35 * np.clip(t / 4.5, 0, 1) + 0.35 * np.clip((t - 5.0) / 1.0, 0, 1))
+	place(buf, reverb(pad, 0.4, 1.3), 0, 0.55)
+	# the named modules: each falls with a soft breath and lands on a note; the AI, last, on the highest
+	names = [(1.25 + i * 0.4, n) for i, n in enumerate((69, 72, 74, 76, 79, 81, 84))] + [(4.65, 88)]
+	for k, (at, n) in enumerate(names):
+		place(buf, reverb(whoosh(0.8, 0.85), 0.3), at - 0.8, 0.07, pan=(k % 2) * 0.6 - 0.3)
+		place(buf, reverb(pluck(note(n)), 0.45, 1.3), at, 0.42 if k < 7 else 0.6, pan=((k * 37) % 7 - 3) / 6)
+		place(buf, reverb(thump(55 if k < 7 else 45, 9), 0.3), at, 0.28)
+	place(buf, reverb(chime(note(88)), 0.5, 1.4), 4.65, 0.35)
+	# the other nodes falling like rain: glassy ticks
+	G = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "net_graph.json")))
+	named = {7, 21, 1, 27, 17, 4, 2, 30}
+	rest = sorted([i for i in range(len(G["nodes"])) if i not in named], key=lambda i: (G["nodes"][i][1], G["nodes"][i][0]))
+	scale = [81, 84, 86, 88, 91, 93, 96]
+	for k, i in enumerate(rest):
+		f = math.sin(i * 91.3) * 0.5 + 0.5
+		at = 2.55 + (k / len(rest)) * 1.7 + f * 0.25
+		place(buf, reverb(glass(note(scale[(i * 5) % len(scale)])), 0.5), at, 0.22, pan=(G["nodes"][i][0] - 511) / 200)
+	# the wave up the V, the whole logo
+	place(buf, riser(0.5), 4.6, 0.3)
+	place(buf, reverb(impact() * 0.8, 0.45, 1.4), 5.15, 0.75)
+	place(buf, reverb(shimmer(1.4, 1760), 0.5), 5.2, 0.35)
+	place(buf, reverb(whoosh(0.8, 0.4), 0.35), 5.7, 0.12)
+	place(buf, reverb(shimmer(1.4, 2349), 0.5, 1.3), 6.1, 0.35, 0.3)
+	place(buf, reverb(chime(note(81)), 0.55, 1.4), 6.2, 0.3)
+	finish(buf, path, fade_in=0.2, fade_out=0.6)
+
+
 if __name__ == "__main__":
-	{"signal": signal, "metal": metal, "draw": draw, "energy": energy, "pulse": pulse}[sys.argv[1]](sys.argv[2])
+	{"signal": signal, "metal": metal, "draw": draw, "energy": energy, "pulse": pulse, "network": network}[sys.argv[1]](sys.argv[2])

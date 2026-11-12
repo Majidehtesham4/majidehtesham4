@@ -7,6 +7,7 @@ canvas { display: block; }
 <body>
 <canvas id="c" width="1920" height="1080"></canvas>
 <script src="wordmark_mask.js"></script>
+<script src="net_graph.js"></script>
 <script>
 // VERON ERP intros. The logo is rebuilt as lines (in the 1032 x 1048 space of the traced logo, its tile centred on
 // 511, 526) so that every line can be drawn, lit and swept by light on its own. render(t, scene) draws one frame.
@@ -790,9 +791,267 @@ function pulse(t) {
 	fade(seg(t, PULSE_LEN - 0.35, PULSE_LEN));
 }
 
+// =============== scene 7: Network — the modules fall into place and become the V ===============
+const NETWORK_LEN = 7.9;
+const NET_TILE = { x0: 240, y0: 194, x1: 783, y1: 728, r: 72 };
+const NET_C = [(NET_TILE.x0 + NET_TILE.x1) / 2, (NET_TILE.y0 + NET_TILE.y1) / 2];
+// the eight main modules and the node each comes to, in the order they land; the AI comes last, to the tip
+const MODULES = [["Sales", 7, "sales"], ["CRM", 21, "crm"], ["Purchase", 1, "purchase"], ["Inventory", 27, "inventory"],
+	["Manufacturing", 17, "manufacturing"], ["HR & Payroll", 4, "hr"], ["Accounting", 2, "accounting"], ["AI Agents", 30, "ai"]];
+const NET_LAND = (() => {
+	// when each node is in place: the named ones one by one, the others falling like rain in between
+	const land = new Array(NET.nodes.length).fill(0), named = new Set(MODULES.map((m) => m[1]));
+	// the AI last, once the others are closed into their nodes (it falls past the middle)
+	MODULES.forEach(([, node], i) => (land[node] = i < 7 ? 1.25 + i * 0.4 : 4.65));
+	const rest = NET.nodes.map((_, i) => i).filter((i) => !named.has(i));
+	rest.sort((a, b) => NET.nodes[a][1] - NET.nodes[b][1] || NET.nodes[a][0] - NET.nodes[b][0]);
+	rest.forEach((i, k) => { const f = Math.sin(i * 91.3) * 0.5 + 0.5; land[i] = 2.55 + (k / rest.length) * 1.7 + f * 0.25; });
+	return land;
+})();
+const NET_FALL = (i) => (MODULES.some((m) => m[1] === i) ? 0.9 : 0.5);
+
+// line icons of the modules, drawn on a 24-unit grid around 0,0
+function moduleIcon(kind) {
+	ctx.beginPath();
+	const L = (pts) => { ctx.moveTo(pts[0], pts[1]); for (let i = 2; i < pts.length; i += 2) ctx.lineTo(pts[i], pts[i + 1]); };
+	const C = (x, y, r) => { ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, Math.PI * 2); };
+	switch (kind) {
+		case "accounting": // a calculator
+			ctx.roundRect(-7, -9, 14, 18, 2); L([-4, -5, 4, -5]);
+			for (const [x, y] of [[-4, 0], [0, 0], [4, 0], [-4, 4], [0, 4], [4, 4]]) C(x, y, 0.6);
+			break;
+		case "sales": // rising bars and an arrow
+			L([-8, 8, 9, 8]); L([-6, 8, -6, 3]); L([-1, 8, -1, 0]); L([4, 8, 4, -3]);
+			L([-8, -1, -2, -6, 2, -3, 8, -9]); L([4, -9, 8, -9, 8, -5]);
+			break;
+		case "inventory": // a box
+			L([0, -9, 8, -5, 8, 5, 0, 9, -8, 5, -8, -5, 0, -9]); L([-8, -5, 0, -1, 8, -5]); L([0, -1, 0, 9]);
+			break;
+		case "manufacturing": { // a gear
+			for (let k = 0; k < 8; k++) { const a = (k / 8) * Math.PI * 2; L([Math.cos(a) * 6.5, Math.sin(a) * 6.5, Math.cos(a) * 9.2, Math.sin(a) * 9.2]); }
+			C(0, 0, 6.5); C(0, 0, 2.6);
+			break;
+		}
+		case "hr": // a person and a coin
+			C(-2, -4, 3.6); ctx.moveTo(-9, 9); ctx.quadraticCurveTo(-8, 1, -2, 1); ctx.quadraticCurveTo(4, 1, 5, 6);
+			C(6, 5, 3.4); L([6, 3.4, 6, 6.6]);
+			break;
+		case "purchase": // a cart
+			L([-9, -7, -6, -7, -3, 4, 7, 4, 9, -4, -5, -4]); C(-2, 8, 1.4); C(6, 8, 1.4);
+			break;
+		case "crm": // two people
+			C(-3.5, -4, 3.2); ctx.moveTo(-10, 8); ctx.quadraticCurveTo(-9, 1, -3.5, 1); ctx.quadraticCurveTo(2, 1, 3, 8);
+			C(4.5, -2.5, 2.6); ctx.moveTo(5.5, 2.5); ctx.quadraticCurveTo(9.5, 3, 10, 8);
+			break;
+		case "ai": { // a spark and a small one
+			const star = (x, y, r) => { ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.quadraticCurveTo(x, y, x, y + r); ctx.quadraticCurveTo(x, y, x - r, y); ctx.quadraticCurveTo(x, y, x, y - r); };
+			star(-2, 1, 8); star(6.5, -6.5, 3.2);
+			break;
+		}
+	}
+	ctx.stroke();
+}
+
+function netCamera(t) {
+	// close on the V while the modules land, then back to the whole logo
+	const z = easeInOut(seg(t, 4.6, 5.7));
+	const zoom = mix(2.35, 1.62, z) * (1 + 0.04 * (1 - seg(t, 0, 4.6)));
+	const fx = 511, fy = 472;
+	return { zoom, fx, fy, s: 0.6 * zoom, sx: W / 2, sy: mix(540, 430, z) };
+}
+function netToScreen(cam, x, y) { return [cam.sx + (x - cam.fx) * cam.s, cam.sy + (y - cam.fy) * cam.s]; }
+
+function network(t) {
+	const cam = netCamera(t);
+	background("#050506", 0.25 + 0.45 * seg(t, 1, 4.6) + 0.35 * Math.exp(-Math.pow((t - 5.25) / 0.35, 2)), 420, t);
+	// a faint drift of red dust
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	for (let k = 0; k < 70; k++) {
+		const f = (v) => v - Math.floor(v);
+		const x = f(Math.sin(k * 12.9) * 4375) * W, y = (f(Math.sin(k * 78.2) * 9999) * H + t * (12 + 20 * f(k * 0.37))) % H;
+		ctx.fillStyle = `rgba(255,60,60,${0.12 + 0.12 * Math.sin(t * 2 + k)})`;
+		ctx.beginPath(); ctx.arc(x, y, 1 + 1.6 * f(k * 0.71), 0, Math.PI * 2); ctx.fill();
+	}
+	ctx.restore();
+	// the tile comes in behind once the V is whole
+	const tileA = 0; // no tile around the network V
+	if (tileA > 0) {
+		ctx.save();
+		ctx.translate(cam.sx, cam.sy); ctx.scale(cam.s, cam.s); ctx.translate(-cam.fx, -cam.fy);
+		ctx.globalAlpha = tileA;
+		ctx.shadowColor = "rgba(0,0,0,0.85)"; ctx.shadowBlur = 60; ctx.shadowOffsetY = 22;
+		const g = ctx.createLinearGradient(0, NET_TILE.y0, 0, NET_TILE.y1);
+		g.addColorStop(0, "#1d1f24"); g.addColorStop(1, "#0c0d10");
+		ctx.fillStyle = g;
+		ctx.beginPath(); ctx.roundRect(NET_TILE.x0, NET_TILE.y0, NET_TILE.x1 - NET_TILE.x0, NET_TILE.y1 - NET_TILE.y0, NET_TILE.r); ctx.fill();
+		ctx.shadowColor = "transparent";
+		const e = ctx.createLinearGradient(0, NET_TILE.y0, 0, NET_TILE.y1);
+		e.addColorStop(0, "rgba(255,255,255,0.16)"); e.addColorStop(0.5, "rgba(255,255,255,0.03)"); e.addColorStop(1, "rgba(0,0,0,0.5)");
+		ctx.strokeStyle = e; ctx.lineWidth = 3 / cam.s;
+		ctx.beginPath(); ctx.roundRect(NET_TILE.x0, NET_TILE.y0, NET_TILE.x1 - NET_TILE.x0, NET_TILE.y1 - NET_TILE.y0, NET_TILE.r); ctx.stroke();
+		ctx.restore();
+	}
+	// the pulse that runs up from the tip when all is in place
+	const wave = seg(t, 5.05, 5.85), apex = NET.nodes[30];
+	const waveY = mix(apex[1] + 20, NET_TILE.y0 - 40, easeOut(wave));
+	const boost = (y) => (wave > 0 && wave < 1 ? Math.exp(-Math.pow((y - waveY) / 45, 2)) * 1.6 : 0);
+	// the lines: each drawn from the node that was there first, once both are in place
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	ctx.lineCap = "round";
+	for (const [i, j] of NET.edges) {
+		const a = NET_LAND[i] <= NET_LAND[j] ? i : j, b = a === i ? j : i;
+		const p = easeOut(seg(t, NET_LAND[b], NET_LAND[b] + 0.32));
+		if (p <= 0) continue;
+		const [x0, y0] = netToScreen(cam, ...NET.nodes[a]), [x1, y1] = netToScreen(cam, ...NET.nodes[b]);
+		const xe = mix(x0, x1, p), ye = mix(y0, y1, p);
+		const fresh = 1 - seg(t, NET_LAND[b] + 0.2, NET_LAND[b] + 0.9);
+		const lit = 0.55 + 0.45 * fresh + boost((NET.nodes[a][1] + NET.nodes[b][1]) / 2);
+		ctx.strokeStyle = `rgba(255,${Math.round(55 + 90 * fresh)},${Math.round(55 + 70 * fresh)},${Math.min(1, 0.85 * lit)})`;
+		ctx.shadowColor = rgba(RED, 0.9);
+		ctx.shadowBlur = 6;
+		ctx.lineWidth = Math.max(1.1, 1.6 * cam.s);
+		ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(xe, ye); ctx.stroke();
+	}
+	ctx.restore();
+	// the nodes: falling, then in place; the named ones as circles with their icon and name
+	MODULES.forEach(([name, node, kind], i) => drawModule(t, cam, name, node, kind, boost));
+	NET.nodes.forEach((n, i) => {
+		if (MODULES.some((m) => m[1] === i)) return;
+		const land = NET_LAND[i], fall = NET_FALL(i);
+		const p = seg(t, land - fall, land);
+		if (p <= 0) return;
+		const [x, y] = netToScreen(cam, ...n);
+		const r = 5.2 * cam.s;
+		if (p < 1) {
+			// a falling spark with its trail
+			const yy = mix(-60, y, p * p);
+			ctx.save();
+			ctx.globalCompositeOperation = "lighter";
+			const g = ctx.createLinearGradient(x, yy - 90, x, yy);
+			g.addColorStop(0, "rgba(255,40,40,0)"); g.addColorStop(1, "rgba(255,120,110,0.8)");
+			ctx.strokeStyle = g; ctx.lineWidth = 2;
+			ctx.beginPath(); ctx.moveTo(x, yy - 90); ctx.lineTo(x, yy); ctx.stroke();
+			ctx.restore();
+			head(x, yy, 16, 0.9);
+		} else {
+			nodeDot(x, y, r, 1 + 1.4 * (1 - seg(t, land, land + 0.4)) + boost(n[1]));
+			const fl = seg(t, land, land + 0.45);
+			if (fl < 1) ring(x, y, 6 + 26 * easeOut(fl), (1 - fl) * 0.7);
+		}
+	});
+	// the words
+	const wa = easeOut(seg(t, 5.75, 6.5));
+	drawWord(W / 2, 745, 420, {
+		alpha: wa, metal: 0.88, rim: 0.32 * wa, under: easeInOut(seg(t, 6.0, 6.6)),
+		orbit: mix(-Math.PI / 2, Math.PI * 1.5, easeInOut(seg(t, 6.1, 7.3))), orbitStrength: 0.9 * seg(t, 6.1, 6.3) * (1 - seg(t, 7.1, 7.4)),
+		sweep: mix(-0.4, 1.4, easeInOut(seg(t, 6.2, 7.1))), sweepStrength: 0.5,
+	});
+	vignette(0.75);
+	filmGrain(t, 0.05);
+	fade(1 - seg(t, 0, 0.35));
+	fade(seg(t, NETWORK_LEN - 0.5, NETWORK_LEN));
+}
+
+function nodeDot(x, y, r, lit) {
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	const g = ctx.createRadialGradient(x, y, 0, x, y, r * 3.6);
+	g.addColorStop(0, rgba([255, 60, 60], Math.min(1, 0.5 * lit)));
+	g.addColorStop(1, "rgba(255,0,0,0)");
+	ctx.fillStyle = g;
+	ctx.fillRect(x - r * 5, y - r * 5, r * 10, r * 10);
+	ctx.fillStyle = rgba([255, 200, 190], Math.min(1, 0.85 * lit));
+	ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+	ctx.restore();
+}
+function ring(x, y, r, a) {
+	if (a <= 0) return;
+	ctx.save();
+	ctx.globalCompositeOperation = "lighter";
+	ctx.strokeStyle = `rgba(255,90,85,${a})`;
+	ctx.lineWidth = 2;
+	ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.stroke();
+	ctx.restore();
+}
+
+function drawModule(t, cam, name, node, kind, boost) {
+	const land = NET_LAND[node], fall = NET_FALL(node);
+	const p = seg(t, land - fall, land);
+	if (p <= 0) return;
+	const [x, y] = netToScreen(cam, ...NET.nodes[node]);
+	const R = 46;
+	if (p < 1) {
+		// falling, slowing as it arrives, with a short trail of light above it
+		const e = 1 - Math.pow(1 - p, 3);
+		const yy = mix(-R - 40, y, e), sp = 3 * Math.pow(1 - p, 2);
+		ctx.save();
+		ctx.globalCompositeOperation = "lighter";
+		for (const dx of [-R * 0.55, 0, R * 0.55]) {
+			const len = (dx ? 120 : 190) * Math.min(1, sp);
+			const g = ctx.createLinearGradient(x, yy - R - len, x, yy - R * 0.7);
+			g.addColorStop(0, "rgba(255,40,40,0)"); g.addColorStop(1, `rgba(255,90,80,${(dx ? 0.35 : 0.6) * Math.min(1, sp)})`);
+			ctx.strokeStyle = g; ctx.lineWidth = dx ? 1.2 : 2;
+			ctx.beginPath(); ctx.moveTo(x + dx, yy - R - len); ctx.lineTo(x + dx, yy - R * (dx ? 0.85 : 0.7)); ctx.stroke();
+		}
+		ctx.restore();
+		moduleBadge(x, yy, R, name, kind, 1, 1);
+		return;
+	}
+	// in place: the circle closes into its node, its name fades
+	const q = seg(t, land, land + 0.32);
+	const r = mix(R, 6 * cam.s, easeInOut(q));
+	if (q < 1) {
+		moduleBadge(x, y, r, name, kind, 1 - q, 1 - seg(t, land + 0.05, land + 0.3));
+		const fl = seg(t, land, land + 0.6);
+		ring(x, y, R * 0.6 + 70 * easeOut(fl), (1 - fl) * 0.8);
+		head(x, y, 60 * (1 - fl), 1 - fl);
+	}
+	nodeDot(x, y, 6 * cam.s, (q < 1 ? q : 1) * (1 + 1.6 * (1 - seg(t, land + 0.2, land + 0.8))) + boost(NET.nodes[node][1]));
+}
+
+function moduleBadge(x, y, R, name, kind, iconA, labelA) {
+	ctx.save();
+	// the circle: dark glass with a red ring of light
+	ctx.shadowColor = "rgba(0,0,0,0.8)"; ctx.shadowBlur = 20; ctx.shadowOffsetY = 6;
+	const g = ctx.createRadialGradient(x, y - R * 0.4, 0, x, y, R);
+	g.addColorStop(0, "rgba(42,44,52,0.97)"); g.addColorStop(1, "rgba(14,15,19,0.97)");
+	ctx.fillStyle = g;
+	ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+	ctx.shadowOffsetY = 0;
+	ctx.globalCompositeOperation = "lighter";
+	ctx.shadowColor = rgba(RED, 0.9); ctx.shadowBlur = 16;
+	ctx.strokeStyle = "rgba(255,50,55,0.95)"; ctx.lineWidth = Math.max(1.5, R * 0.055);
+	ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.stroke();
+	ctx.globalCompositeOperation = "source-over";
+	ctx.shadowColor = "transparent";
+	if (iconA > 0.02 && R > 10) {
+		ctx.translate(x, y);
+		const k = R / 22;
+		ctx.scale(k, k);
+		ctx.strokeStyle = `rgba(240,240,244,${iconA})`;
+		ctx.fillStyle = "transparent";
+		ctx.lineWidth = 1.7;
+		ctx.lineJoin = "round"; ctx.lineCap = "round";
+		moduleIcon(kind);
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+	}
+	if (labelA > 0.02) {
+		ctx.font = "600 22px Inter";
+		ctx.letterSpacing = "1px";
+		ctx.textAlign = "center";
+		ctx.textBaseline = "top";
+		ctx.shadowColor = "rgba(0,0,0,0.9)"; ctx.shadowBlur = 8;
+		ctx.fillStyle = `rgba(236,236,240,${labelA})`;
+		ctx.fillText(name.toUpperCase(), x, y + R + 12);
+	}
+	ctx.restore();
+}
+
 window.SCENES = { signal: [signal, SIGNAL_LEN], draw: [drawWithLight, DRAW_LEN], energy: [energy, ENERGY_LEN],
-	metal: [metal, METAL_LEN], pulse: [pulse, PULSE_LEN] };
+	metal: [metal, METAL_LEN], pulse: [pulse, PULSE_LEN], network: [network, NETWORK_LEN] };
 window.render = (t, scene) => { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = "none"; SCENES[scene][0](t); };
-window.ready = maskReady.then(() => true);
+window.ready = Promise.all([maskReady, document.fonts.load("600 22px Inter")]).then(() => true);
 </script>
 </body></html>
