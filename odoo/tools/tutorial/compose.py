@@ -598,7 +598,7 @@ UNDER = (1298, 258, 1740, 258)      # the red line under ERP, in the mask's spac
 
 @lru_cache(maxsize=2)
 def word_layers(w):
-	"""the wordmark at width w: its letters (brushed metal), their thin red outline, the line under ERP"""
+	"""the wordmark at width w: its letters (brushed metal), their thin red outline (not drawn now), the line under ERP"""
 	m = Image.open(WORD).split()[3]
 	k = w / m.width
 	h = round(m.height * k)
@@ -646,8 +646,6 @@ def outro(img, u):
 		L = np.asarray(letters, np.float32)
 		L[..., :3] = np.clip(L[..., :3] + band[..., None] * 90, 0, 255)
 		letters = Image.fromarray(L.astype(np.uint8), "RGBA")
-	put(img, glow, (wx, wy), p * 0.8)
-	put(img, rim, (wx, wy), p)
 	put(img, letters, (wx, wy), p)
 	# the red line under ERP draws itself
 	r = out3((u - 1.0) / 0.6)
