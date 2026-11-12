@@ -86,7 +86,7 @@ class Recorder {
     const rec = { kind: 'click', file: await this.snap(this.file()), target };
     if (cam) rec.cam = cam;
     this.push(rec, { ...opts, newpage: undefined, done: undefined });
-    await l.click({ timeout: 8000 });
+    if (opts.dbl) await l.dblclick({ timeout: 8000 }); else await l.click({ timeout: 8000 });
     if (opts.after !== false) {
       const v = { wait: opts.wait ?? 700, newpage: opts.newpage, hold: opts.afterHold ?? 1.0, done: opts.done, sub: opts.afterSub };
       if (opts.afterCam && opts.afterCam.focus) { v.focus = opts.afterCam.focus; v.zoom = opts.afterCam.zoom; }
@@ -120,8 +120,14 @@ class Recorder {
         cam = { focus: [sheet[0], target[1] - 170, sheet[2], target[3] + 340] };
     }
     const first = await this.snap(this.file());
-    await l.click({ timeout: 8000 });
-    if (opts.clear !== false) { await this.page.keyboard.press('Control+A'); await this.page.keyboard.press('Delete'); }
+    if (opts.line) {
+      // a text of a page being edited: the line chosen with three clicks and typed over (Ctrl+A would take the page)
+      await l.click({ timeout: 8000, clickCount: 3 });
+      await this.page.waitForTimeout(250);
+    } else {
+      await l.click({ timeout: 8000 });
+      if (opts.clear !== false) { await this.page.keyboard.press('Control+A'); await this.page.keyboard.press('Delete'); }
+    }
     const files = [];
     const every = text.length > 24 ? 3 : text.length > 12 ? 2 : 1;
     for (let i = 0; i < text.length; i++) {
@@ -201,6 +207,19 @@ class Recorder {
     await this.click(this.page.locator('#fd .fd-o'), { wait: 100, after: false, ...win });
     await chooser.setFiles(file);
     await this.view({ wait: opts.wait ?? 2500, newpage: true, hold: opts.afterHold ?? 1.6, sub: opts.afterSub, done: opts.done });
+  }
+  // a thing dragged and dropped: the cursor takes it, carries it and lets it go
+  async drag(src, dst, opts = {}) {
+    const a = await this.box(src), b = Array.isArray(dst) ? dst : await this.box(dst);
+    this.push({ kind: 'hover', file: await this.snap(this.file()), target: a, mark: true }, { ...opts, hold: 0.6 });
+    const ax = a[0] + a[2] / 2, ay = a[1] + a[3] / 2, bx = b[0] + b[2] / 2, by = b[1] + b[3] / 2;
+    await this.page.mouse.move(ax, ay);
+    await this.page.mouse.down();
+    for (let i = 1; i <= 18; i++) { await this.page.mouse.move(ax + (bx - ax) * i / 18, ay + (by - ay) * i / 18); await this.page.waitForTimeout(35); }
+    await this.page.waitForTimeout(400);
+    this.push({ kind: 'click', file: await this.snap(this.file()), target: b }, { hold: 0.2 });
+    await this.page.mouse.up();
+    await this.view({ wait: opts.wait ?? 2500, hold: opts.afterHold ?? 1.0, cam: opts.afterCam });
   }
   // the address of the program typed in the browser's bar
   async address(text, go, opts = {}) {
