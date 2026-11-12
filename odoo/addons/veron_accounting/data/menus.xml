@@ -18,6 +18,8 @@
 	<function model="ir.ui.menu" name="update_field_translations"
 		eval="[[ref('account_asset_management.menu_finance_config_assets')], 'name', {'fa_IR': 'دارایی‌ها'}]"/>
 	<function model="ir.ui.menu" name="update_field_translations"
+		eval="[[ref('account_asset_management.menu_action_account_asset_report')], 'name', {'fa_IR': 'تحلیل دارایی‌ها'}]"/>
+	<function model="ir.ui.menu" name="update_field_translations"
 		eval="[[ref('account_asset_management.account_asset_group_menu')], 'name', {'fa_IR': 'گروه‌های دارایی'}]"/>
 	<function model="ir.ui.menu" name="update_field_translations"
 		eval="[[ref('account_asset_management.account_asset_profile_menu')], 'name', {'fa_IR': 'الگوهای دارایی'}]"/>

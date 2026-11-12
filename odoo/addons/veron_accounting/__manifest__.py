@@ -8,7 +8,7 @@ modules give what the paid Accounting app does: general ledger, trial balance, o
 balances and VAT report; bank reconciliation; fixed assets and depreciation; MIS reports; and OCA's
 Iranian chart of accounts with the provinces and cities, loaded for a company that has recorded nothing yet.
 """,
-	"version": "19.0.1.2.0",
+	"version": "19.0.1.3.0",
 	"category": "Accounting",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",
