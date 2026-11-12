@@ -50,6 +50,7 @@ class VeronIran(models.AbstractModel):
 		root = self.env.ref("base.partner_root", raise_if_not_found=False)
 		if root and root.name == "OdooBot":
 			root.name = "VeronBot"
+		self._privilege_placeholders()
 		self.env["res.users"].with_context(active_test=False).search([("share", "=", False)]).write(
 			{"lang": lang.code, "tz": "Asia/Tehran"}
 		)
@@ -188,6 +189,15 @@ class VeronIran(models.AbstractModel):
 				module.update_field_translations("shortdesc", {lang: name})
 			if module.summary != summary:
 				module.update_field_translations("summary", {lang: summary})
+
+	@api.model
+	def _privilege_placeholders(self):
+		"""The words shown in the access of a user when an app gives none («No», «View»): stored as data, not
+		translatable, so written in Persian"""
+		if "res.groups.privilege" not in self.env:
+			return
+		for english, persian in (("No", "ندارد"), ("View", "مشاهده")):
+			self.env["res.groups.privilege"].sudo().search([("placeholder", "=", english)]).write({"placeholder": persian})
 
 	def _channel_names(self):
 		"""The two channels Discuss makes, named in English (a plain field), named in Persian while unchanged"""

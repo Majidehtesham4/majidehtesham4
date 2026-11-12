@@ -1,0 +1,50 @@
+"""The sections of the tutorial series «Aria Pack, a maker of packaging machines, on ERP-VERON»: their number,
+title, goal, the modules they use (name, icon) and the steps listed in the panel"""
+import os
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ADDONS = os.path.join(HERE, "..", "..", "addons")
+
+
+def ours(module):
+	return os.path.join(ADDONS, module, "static", "description", "icon.png")
+
+
+def odoo(module):
+	return os.path.join(HERE, "icons", module + ".png")
+
+
+COMPANY = "آریا پک"
+
+SECTIONS = {
+	1: {
+		"title": "ورود به سامانه و آشنایی با محیط",
+		"goal": "از مرورگر وارد ERP-VERON شوید و با صفحه‌ی برنامه‌ها، منوها، جست‌وجو و ظاهر برنامه آشنا شوید.",
+		"modules": [("ERP-VERON", ours("veron_base")), ("ظاهر و تم", ours("veron_theme")), ("دستیار هوشمند", ours("veron_ai_agent"))],
+		"steps": ["وارد کردن آدرس سامانه", "ورود با نام کاربری و رمز", "صفحه‌ی برنامه‌ها", "منوها و جست‌وجو", "ظاهر تیره و روشن"],
+	},
+	2: {
+		"title": "ساخت شرکت و کاربران",
+		"goal": "مشخصات شرکت آریا پک، سال مالی و واحد پول را ثبت کنید و برای همکاران کاربر با دسترسی درست بسازید.",
+		"modules": [("تنظیمات", odoo("base")), ("حسابداری ایران", ours("veron_account_iran")), ("مخاطبان", odoo("contacts"))],
+		"steps": ["مشخصات شرکت", "لوگو و نشانی", "کد اقتصادی و شناسه‌ی ملی", "کاربر حسابدار", "کاربر انبار و فروش"],
+	},
+	3: {"title": "پایه‌ی مالی", "goal": "", "modules": [], "steps": []},
+	4: {"title": "مخاطبان: مشتری و تأمین‌کننده", "goal": "", "modules": [], "steps": []},
+	5: {"title": "کالاها", "goal": "", "modules": [], "steps": []},
+	6: {"title": "انبار", "goal": "", "modules": [], "steps": []},
+	7: {"title": "خرید", "goal": "", "modules": [], "steps": []},
+	8: {"title": "تولید", "goal": "", "modules": [], "steps": []},
+	9: {"title": "فروش و CRM", "goal": "", "modules": [], "steps": []},
+	10: {"title": "سامانه‌ی مؤدیان", "goal": "", "modules": [], "steps": []},
+	11: {"title": "حسابداری", "goal": "", "modules": [], "steps": []},
+	12: {"title": "وب‌سایت و فروشگاه اینترنتی", "goal": "", "modules": [], "steps": []},
+	13: {"title": "بازاریابی دیجیتال", "goal": "", "modules": [], "steps": []},
+	14: {"title": "منابع انسانی و حقوق", "goal": "", "modules": [], "steps": []},
+	15: {"title": "تأییدها و دبیرخانه", "goal": "", "modules": [], "steps": []},
+	16: {"title": "هوش مصنوعی", "goal": "", "modules": [], "steps": []},
+	17: {"title": "داشبورد مدیر", "goal": "", "modules": [], "steps": []},
+	18: {"title": "جمع‌بندی", "goal": "", "modules": [], "steps": []},
+}
+for _n, _s in SECTIONS.items():
+	_s["n"] = _n
