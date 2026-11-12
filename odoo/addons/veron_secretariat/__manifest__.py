@@ -17,7 +17,7 @@ The secretariat of an Iranian organization:
 - Related letters: following up (پیرو), in reference to (عطف), in answer to (بازگشت)
 - The letter printed on the letterhead, with its number, date and enclosure; files kept on the letter
 """,
-	"version": "19.0.1.0.0",
+	"version": "19.0.1.1.0",
 	"category": "Productivity",
 	"author": "ERP-VERON",
 	"license": "LGPL-3",

@@ -382,7 +382,7 @@ msgstr "ارجاع‌شده به من"
 #. module: veron_secretariat
 #: model_terms:ir.ui.view,arch_db:veron_secretariat.letter_view_form
 msgid "Register"
-msgstr "ثبت نام"
+msgstr "ثبت در دبیرخانه"
 
 #. module: veron_secretariat
 #: model:ir.model.fields.selection,name:veron_secretariat.selection__veron_letter__state__registered

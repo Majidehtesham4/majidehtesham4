@@ -58,3 +58,8 @@ class TestLetters(TransactionCase):
 		self.assertFalse(activity.exists() and activity.active, "the to-do is done")
 		html = self.env["ir.actions.report"]._render_qweb_html("veron_secretariat.report_letter", letter.ids)[0].decode()
 		self.assertIn(letter.name, html)
+
+	def test_administrator_registers_letters(self):
+		"""the administrator manages the secretariat from the start, as in the other apps"""
+		admin = self.env.ref("base.user_admin")
+		self.assertTrue(admin.has_group("veron_secretariat.group_manager"))

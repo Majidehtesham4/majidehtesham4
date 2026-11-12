@@ -11,6 +11,8 @@
 	<record id="group_manager" model="res.groups">
 		<field name="name">Secretariat: Manager</field>
 		<field name="implied_ids" eval="[(4, ref('group_user'))]"/>
+		<!-- the administrator, as in the other apps: without it, a new database has nobody who may register a letter -->
+		<field name="user_ids" eval="[(4, ref('base.user_admin'))]"/>
 		<field name="comment">Sees every letter, the confidential ones too.</field>
 	</record>
 	<!-- A letter of an ordinary classification is seen by every person of the company; a confidential or secret one only
