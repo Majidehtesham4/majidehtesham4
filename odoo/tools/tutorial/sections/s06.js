@@ -1,7 +1,7 @@
 // Section 6: the main warehouse, the opening stock by a count, the kardex of a product, the stock report
 module.exports = async (R, page) => {
   await R.login('modir', 'Veron@1405');
-  await R.goto('/odoo/inventory', { sub: 'برنامه‌ی «انبار»: رسیدها، تحویل‌ها و تولیدات در یک نگاه.', step: 0, hold: 1.8 });
+  await R.openApp('stock.menu_stock_root', { sub: 'از صفحه‌ی برنامه‌ها «انبار» را باز می‌کنیم.', afterSub: 'رسیدها، تحویل‌ها و تولیدات در یک نگاه.', hold: 1.8 });
   await R.menu('پیکربندی', 'انبارها', { sub: 'اول انبار اصلی شرکت را نام‌گذاری می‌کنیم.' });
   await R.click(page.locator('.o_data_row').first(), { wait: 1500, newpage: true, afterHold: 0.6 });
   await R.set('name', 'انبار مرکزی آریا پک', { focus: [300, 100, 1140, 300], zoom: 1.3 });

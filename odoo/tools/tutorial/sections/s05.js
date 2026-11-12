@@ -1,7 +1,8 @@
 // Section 5: the machine Aria Pack makes, with its prices and barcode; a part it buys, with its supplier
 module.exports = async (R, page) => {
   await R.login('modir', 'Veron@1405');
-  await R.goto('/odoo/action-stock.product_template_action_product', { sub: 'کالاها را از «انبار» یا «فروش» تعریف می‌کنیم؛ همه یک فهرست‌اند.', step: 0, hold: 1.6 });
+  await R.openApp('stock.menu_stock_root', { sub: 'کالاها را در برنامه‌ی «انبار» تعریف می‌کنیم؛ از صفحه‌ی برنامه‌ها بازش می‌کنیم.' });
+  await R.menu('محصولات', 'محصولات', { sub: 'از منوی «محصولات» فهرست کالاها را باز می‌کنیم؛ فروش و خرید هم همین فهرست را می‌بینند.' });
   await R.create({ sub: 'محصول اصلی آریا پک: دستگاه بسته‌بندی عمودی.' });
   const top = [200, 100, 1240, 470];
   await R.set('name', 'دستگاه بسته‌بندی عمودی VFFS-320', { focus: top, zoom: 1.2 });
@@ -36,6 +37,7 @@ module.exports = async (R, page) => {
   const price = page.locator('.o_selected_row div[name=price] input').first();
   if (await price.count()) await R.type(price, '96000000', { sub: 'و قیمت خرید از او؛ در سفارش خرید خودکار می‌آید.', focus: 'div[name=seller_ids]', zoom: 1.3 });
   await R.saveForm({ sub: 'ذخیره.', done: 4, afterHold: 1.2 });
-  await R.goto('/odoo/action-stock.product_template_action_product?view_type=list', { sub: 'همه‌ی ماشین‌آلات، قطعات و مواد اولیه‌ی آریا پک در یک فهرست.', step: 4, hold: 2.2, done: 5 });
+  await R.click(page.locator('.o_breadcrumb a, .breadcrumb-item a').first(), { sub: 'همه‌ی ماشین‌آلات، قطعات و مواد اولیه‌ی آریا پک در یک فهرست.', step: 4, wait: 1500, newpage: true, afterHold: 0.6 });
+  await R.click('.o_switch_view.o_list', { wait: 1500, newpage: true, afterHold: 2.2, done: 5 });
   await R.view({ sub: 'کالاها آماده است. بخش بعد: انبارها و موجودی اول دوره.', cam: 'full', hold: 2.4 });
 };

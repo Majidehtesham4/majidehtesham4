@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = async (R, page) => {
   await R.login('modir', 'Veron@1405');
-  await R.goto('/odoo/settings', { sub: 'همه‌ی تنظیمات پایه از برنامه‌ی «تنظیمات» شروع می‌شود.', step: 0, hold: 1.4 });
+  await R.openApp('base.menu_administration', { sub: 'همه‌ی تنظیمات پایه در برنامه‌ی «تنظیمات» است؛ از صفحه‌ی برنامه‌ها بازش می‌کنیم.' });
   const top = (t) => page.locator('.o_menu_sections button, .o_menu_sections a', { hasText: t }).first();
   const item = (t) => page.locator('.o-dropdown--menu .dropdown-item, .o-dropdown--menu .o-dropdown-item', { hasText: t }).first();
   await R.click(top('کاربران و شرکت'), { sub: 'از منوی «کاربران و شرکت‌ها» سراغ مشخصات شرکت می‌رویم.', wait: 600, afterHold: 0.8,

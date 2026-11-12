@@ -179,11 +179,13 @@ msgid "Warehouse"
 msgstr "انبار"
 
 #. module: veron_stock_kardex
+#. odoo-python
 #: code:addons/veron_stock_kardex/wizard/kardex.py:0
 msgid "Kardex: %s"
 msgstr "کاردکس: %s"
 
 #. module: veron_stock_kardex
+#. odoo-python
 #: code:addons/veron_stock_kardex/wizard/kardex.py:0
 msgid "Inventory Count"
 msgstr "شمارش موجودی"

@@ -30,9 +30,33 @@ class Recorder {
       return [x0, y0, x1 - x0, y1 - y0];
     }
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
-    await l.scrollIntoViewIfNeeded({ timeout: 3000 }).catch(() => {});
     const b = await l.boundingBox({ timeout: 5000 }).catch(() => null);
     return b ? [b.x, b.y, b.width, b.height] : null;
+  }
+  // a thing above or below what shows: the page scrolls to it smoothly (never a jump the viewer cannot follow)
+  async reveal(sel, opts = {}) {
+    if (sel === undefined || sel === null || (Array.isArray(sel) && typeof sel[0] === 'number')) return;
+    if (Array.isArray(sel)) sel = sel[0];
+    const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
+    // the bar of menus, the control panel, a menu, a dialog: they do not scroll with the page
+    const fixed = await l.evaluate((e) => !!e.closest('.o_main_navbar, .o_control_panel, .o-dropdown--menu, .modal, .o_popover, .o-autocomplete--dropdown-menu, .o-overlay-container')).catch(() => true);
+    if (fixed) return;
+    const out = (b) => !b || b.y < 40 || b.y + Math.min(b.height, VH * 0.6) > VH - 24;
+    let b = await l.boundingBox({ timeout: 4000 }).catch(() => null);
+    if (b && out(b)) {
+      const dy = Math.round(b.y + Math.min(b.height, VH * 0.6) / 2 - VH * 0.45);
+      const x = Math.min(VW - 40, Math.max(40, b.x + Math.min(b.width, 200) / 2));
+      const sub = this.sub, step = this.step;
+      await this.scroll(dy, { at: [x, VH / 2], dur: Math.min(2.2, 0.7 + Math.abs(dy) / 600), hold: 0.2, sub: opts.sub, step: opts.step });
+      const after = await l.boundingBox({ timeout: 2000 }).catch(() => null);
+      if (after && Math.abs(after.y - b.y) < 4) {
+        // nothing moved: the scroll is taken back
+        const rec = this.steps.pop(); this.n--; this.sub = sub; this.step = step;
+        for (const f of [rec.file, ...rec.files]) fs.unlinkSync(path.join(this.out, f));
+      }
+      b = after;
+    }
+    if (!b || out(b)) await l.scrollIntoViewIfNeeded({ timeout: 3000 }).catch(() => {});
   }
   url() { return this.page.url().replace(/^https?:\/\/[^/]+/, 'aryapack.veronerp.ir'); }
   push(rec, opts) {
@@ -47,20 +71,24 @@ class Recorder {
   // a look at the page as it is
   async view(opts = {}) {
     await this.settle(opts.wait ?? 400);
+    if (opts.focus) await this.reveal(opts.focus, opts);
+    const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
     const rec = { kind: 'view', file: await this.snap(this.file()) };
-    if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+    if (cam) rec.cam = cam;
     this.push(rec, opts);
   }
   // the cursor goes to a thing and clicks it; then the page as it becomes
   async click(sel, opts = {}) {
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
+    await this.reveal(l, opts);
     const target = await this.box(l);
+    const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
     const rec = { kind: 'click', file: await this.snap(this.file()), target };
-    if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+    if (cam) rec.cam = cam;
     this.push(rec, { ...opts, newpage: undefined, done: undefined });
     await l.click({ timeout: 8000 });
     if (opts.after !== false) {
-      const v = { wait: opts.wait ?? 700, newpage: opts.newpage, hold: opts.afterHold ?? 1.0, done: opts.done };
+      const v = { wait: opts.wait ?? 700, newpage: opts.newpage, hold: opts.afterHold ?? 1.0, done: opts.done, sub: opts.afterSub };
       if (opts.afterCam && opts.afterCam.focus) { v.focus = opts.afterCam.focus; v.zoom = opts.afterCam.zoom; }
       else if (opts.afterCam) v.cam = opts.afterCam;
       await this.view(v);
@@ -68,18 +96,21 @@ class Recorder {
   }
   async hover(sel, opts = {}) {
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
-    const b = await l.boundingBox({ timeout: 5000 }).catch(() => null);
-    const target = b ? [b.x, b.y, b.width, b.height] : null;
+    await this.reveal(l, opts);
+    const target = await this.box(l);
+    const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
     await l.hover();
     await this.page.waitForTimeout(400);
     const rec = { kind: 'hover', file: await this.snap(this.file()), target };
-    if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+    if (cam) rec.cam = cam;
     this.push(rec, opts);
   }
   // typing into a field: one picture every few letters
   async type(sel, text, opts = {}) {
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
+    await this.reveal(l, opts);
     const target = await this.box(l);
+    const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
     const first = await this.snap(this.file());
     await l.click({ timeout: 8000 });
     if (opts.clear !== false) { await this.page.keyboard.press('Control+A'); await this.page.keyboard.press('Delete'); }
@@ -93,7 +124,7 @@ class Recorder {
       }
     }
     const rec = { kind: 'type', file: first, files, target };
-    if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+    if (cam) rec.cam = cam;
     else if (opts.cam !== undefined) rec.cam = opts.cam;
     this.push(rec, opts);
     if (opts.enter) { await this.page.keyboard.press('Enter'); }
@@ -140,6 +171,14 @@ class Recorder {
     await this.page.click('.oe_login_form button[type=submit]');
     await this.settle(1500);
   }
+  // every section starts on the apps page: the app is opened from its icon, never by an address the viewer did not see
+  async openApp(xmlid, opts = {}) {
+    await this.page.goto(B + '/odoo');
+    await this.settle(1200);
+    await this.view({ sub: opts.sub, step: opts.step ?? 0, hold: 1.2, newpage: true, cam: 'full' });
+    const icon = this.page.locator(`.o-app-menu-item[data-menu-xmlid="${xmlid}"]`).first();
+    await this.click(icon, { wait: 1800, newpage: true, afterHold: opts.hold ?? 1.4, afterSub: opts.afterSub });
+  }
   // shortcuts for the forms of the program
   topMenu(t) { return this.page.locator('.o_menu_sections button, .o_menu_sections a', { hasText: t }).first(); }
   menuItem(t) { return this.page.locator('.o-dropdown--menu .dropdown-item, .o-dropdown--menu .o-dropdown-item', { hasText: t }).first(); }
@@ -162,9 +201,11 @@ class Recorder {
     const sel = div.locator('select');
     const radio = div.locator('.o_radio_item, .form-check', { hasText: label }).first();
     if (await sel.count()) {
+      await this.reveal(sel, opts);
       const target = await this.box(sel);
+      const cam = opts.focus ? { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom } : undefined;
       const rec = { kind: 'click', file: await this.snap(this.file()), target };
-      if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+      if (cam) rec.cam = cam;
       this.push(rec, { ...opts, done: undefined });
       await sel.selectOption({ label });
       await this.view({ wait: 700, hold: opts.afterHold ?? 0.9, done: opts.done });

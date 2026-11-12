@@ -1,7 +1,7 @@
 // Section 3: the Iranian chart of accounts, the VAT, the bank account, the cash box and a cheque book
 module.exports = async (R, page) => {
   await R.login('modir', 'Veron@1405');
-  await R.goto('/odoo/accounting', { sub: 'پایه‌ی مالی شرکت در برنامه‌ی «حسابداری» تنظیم می‌شود.', step: 0, hold: 1.4 });
+  await R.openApp('account.menu_finance', { sub: 'پایه‌ی مالی شرکت در برنامه‌ی «حسابداری» تنظیم می‌شود؛ از صفحه‌ی برنامه‌ها بازش می‌کنیم.' });
   await R.menu('پیکربندی', 'جدول حساب ها', { sub: 'از منوی «پیکربندی» جدول حساب‌ها را باز می‌کنیم.' });
   await R.view({ sub: 'جدول حساب‌ها بر اساس کدینگ استاندارد ایران آماده است؛ از صندوق و بانک تا درآمد و هزینه.', hold: 1.8,
     focus: [0, 90, 1440, 520], zoom: 1.2 });

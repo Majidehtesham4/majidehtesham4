@@ -327,6 +327,8 @@ def build(steps, meta):
 			cam = focus_cam(c["focus"], c.get("zoom"))
 		elif kind == "type" and tgt and c is None:
 			cam = focus_cam([tgt[0] - 300, tgt[1] - 160, tgt[2] + 600, tgt[3] + 320])
+		if kind in ("click", "type", "hover") and tgt:
+			cam = keep_in_view(cam, tgt)
 		cam_keys.append((t0, cam))
 		pics = []
 		if kind in ("click", "type", "hover") and tgt:
@@ -417,6 +419,25 @@ def focus_cam(rect, zoom=None):
 	fit = min(VW / max(w, 1), VH / max(h, 1))
 	z = clamp(min(zoom or fit, fit), 1.0, MAX_ZOOM)
 	return (x + w / 2, y + h / 2, z)
+
+
+def view_rect(cam):
+	cx, cy, z = cam
+	vw, vh = VW / z, VH / z
+	x0, y0 = clamp(cx - vw / 2, 0, VW - vw), clamp(cy - vh / 2, 0, VH - vh)
+	return x0, y0, vw, vh
+
+
+def keep_in_view(cam, tgt, pad=24):
+	"""the camera as it is if the thing the cursor goes to shows in it; else wider, to show both what it showed and
+	the thing (the cursor never goes where the viewer cannot see)"""
+	x0, y0, vw, vh = view_rect(cam)
+	a0, b0, a1, b1 = tgt[0] - pad, tgt[1] - pad, tgt[0] + tgt[2] + pad, tgt[1] + tgt[3] + pad
+	if a0 >= x0 and b0 >= y0 and a1 <= x0 + vw and b1 <= y0 + vh:
+		return cam
+	u0, v0 = min(x0, a0), min(y0, b0)
+	u1, v1 = max(x0 + vw, a1), max(y0 + vh, b1)
+	return focus_cam([u0, v0, u1 - u0, v1 - v0])
 
 
 def keyed(keys, t, dur=0.75):
@@ -575,7 +596,11 @@ def render(i):
 def mark(frame, seg, t, x0, y0, z):
 	"""a red frame round the thing the cursor points at, when the record asks for it (a small button)"""
 	r = seg["rec"]
-	if not r.get("mark") or not r.get("target"):
+	if not r.get("target"):
+		return
+	w0, h0 = r["target"][2], r["target"][3]
+	small = r["kind"] == "click" and max(w0, h0) <= 52      # a small button (save, a checkbox, an icon): always marked
+	if not (r.get("mark") or small):
 		return
 	q = out3((t - seg["t0"] - 0.6) / 0.3)
 	if q <= 0:
