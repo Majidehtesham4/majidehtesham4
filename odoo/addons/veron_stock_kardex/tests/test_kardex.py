@@ -32,9 +32,20 @@ class TestKardex(TransactionCase):
 		self.assertEqual([(l.quantity_in, l.quantity_out, l.balance) for l in card.line_ids], [(50, 0, 150), (0, 20, 130)],
 			"a move inside the warehouse is neither in nor out")
 		self.assertEqual(card.closing, 130)
+		self.assertIn(product.name, card.display_name, "the card is named after its product")
 		shelf_card = self.env["veron.stock.kardex"].create({"product_id": product.id, "location_id": shelf.id,
 			"date_from": "2026-09-23", "date_to": "2026-10-22"})
 		shelf_card.action_compute()
 		self.assertEqual((shelf_card.opening, shelf_card.closing), (0, 30))
 		html = self.env["ir.actions.report"]._render_qweb_html("veron_stock_kardex.report_kardex", card.ids)[0].decode()
 		self.assertIn("کاردکس کالا", html)
+
+	def test_count_is_named(self):
+		warehouse = self.env["stock.warehouse"].search([("company_id", "=", self.env.company.id)], limit=1)
+		product = self.env["product.product"].create({"name": "مهره", "is_storable": True})
+		self.env["stock.quant"].with_context(inventory_mode=True).create({"product_id": product.id,
+			"location_id": warehouse.lot_stock_id.id, "inventory_quantity": 7}).action_apply_inventory()
+		card = self.env["veron.stock.kardex"].create({"product_id": product.id, "warehouse_id": warehouse.id})
+		card.action_compute()
+		self.assertEqual(card.line_ids.mapped("quantity_in"), [7])
+		self.assertEqual(card.line_ids.reference, "Inventory Count", "a count reads as a count, not an internal name")

@@ -1,7 +1,8 @@
 """The film of one section, from the screenshots capture.js took (steps.json) and the section's description
 (sections.py): the logo first, then the panel on the right that slides in toward the left, the program on the left
 in a browser frame, subtitles below; a gentle camera, the cursor and its clicks, the typing; the panel slides out
-to the right at the end. No fade at the end: the sections are cut one after another.
+to the right at the end, the browser to the left, and the logo comes with VERON ERP under it and stays to the last
+frame. No fade at the end: the sections are cut one after another.
 
 	python3 compose.py <section number> <folder of the screenshots> <out.mp4>
 	FRAMES=0,300 python3 compose.py ...      only those frames (to check), as PNGs in the folder
@@ -58,6 +59,15 @@ def clamp(x, a=0.0, b=1.0):
 def ease(x):
 	x = clamp(x)
 	return 4 * x * x * x if x < 0.5 else 1 - (-2 * x + 2) ** 3 / 2
+
+
+def ease_inv(y):
+	"""the time at which ease() reaches y: the pictures of a scroll spaced so it starts and ends slowly"""
+	lo, hi = 0.0, 1.0
+	for _ in range(30):
+		mid = (lo + hi) / 2
+		lo, hi = (mid, hi) if ease(mid) < y else (lo, mid)
+	return (lo + hi) / 2
 
 
 def out3(x):
@@ -294,6 +304,7 @@ class Panel:
 
 INTRO = 3.4          # the logo alone, then it goes to the panel
 PANEL_IN = 0.9
+OUTRO = 4.2          # the logo and the wordmark at the end
 
 
 def build(steps, meta):
@@ -341,6 +352,16 @@ def build(steps, meta):
 			else:
 				pics.append((t0, r["file"]))
 				T = tc + (0.45 if kind == "click" else 0.6)
+		elif kind == "scroll":
+			# the page going down (or up): its pictures one after another, no dissolve between them
+			files = r["files"]
+			pics.append((t0, r["file"]))
+			step = r.get("dur", 2.2) / max(1, len(files))
+			tt = t0 + 0.2
+			for k, f in enumerate(files):
+				# eased: slow to start and to stop
+				pics.append((t0 + 0.2 + r.get("dur", 2.2) * ease_inv(k / max(1, len(files) - 1)), f))
+			T = t0 + 0.2 + r.get("dur", 2.2) + 0.3
 		elif kind == "url":
 			pics.append((t0, r["file"]))
 			url = r["url_typed"]
@@ -358,7 +379,8 @@ def build(steps, meta):
 			done = max(done, r["done"])
 			sounds.append((T - 0.2, "tick"))
 		segs.append({"t0": t0, "t1": T, "rec": r, "pics": pics, "step": r.get("step", 0), "done": done})
-		if r.get("sub"):
+		# a subtitle comes in once, when its text changes; the records under the same text keep it still
+		if r.get("sub") and (not subs or subs[-1][1] != r["sub"]):
 			subs.append([t0, r["sub"]])
 	# each subtitle long enough to be read: the time it needs is added after its last record
 	k = 0
@@ -381,16 +403,19 @@ def build(steps, meta):
 			T += extra
 		k += 1
 	end_hold = 1.4
-	t_out = T + end_hold
-	total = t_out + 0.8 + 0.9
+	t_out = T + end_hold                   # the panel goes out to the right,
+	t_away = t_out + 0.55                  # then the browser to the left,
+	t_end = t_away + 0.75                  # then the logo with VERON ERP, held to the last frame (no fade)
+	total = t_end + OUTRO
 	return {"segs": segs, "cam": cam_keys, "cur": cur_keys, "clicks": clicks, "subs": subs, "sounds": sounds,
-		"t_out": t_out, "total": total, "start": INTRO + PANEL_IN + 0.3}
+		"t_out": t_out, "t_away": t_away, "t_end": t_end, "total": total, "start": INTRO + PANEL_IN + 0.3}
 
 
 def focus_cam(rect, zoom=None):
 	x, y, w, h = rect
-	z = zoom or min(VW / max(w, 1), VH / max(h, 1))
-	z = clamp(z, 1.0, MAX_ZOOM)
+	# never closer than what keeps the whole of the focused thing in the picture
+	fit = min(VW / max(w, 1), VH / max(h, 1))
+	z = clamp(min(zoom or fit, fit), 1.0, MAX_ZOOM)
 	return (x + w / 2, y + h / 2, z)
 
 
@@ -506,7 +531,8 @@ def render(i):
 		draw_panel(img, t, px, *step_state(t), p_in)
 	# --- the browser
 	fa_in = out3((t - (INTRO + 0.45)) / 0.7)
-	if fa_in > 0:
+	away = in3((t - tl["t_away"]) / 0.75)                     # the browser leaving to the left at the end
+	if fa_in > 0 and away < 1:
 		seg = current_seg(t)
 		page, (x0, y0, z) = page_view(max(t, start))
 		frame = Image.new("RGBA", (FW, BAR + PH), (0, 0, 0, 255))
@@ -529,16 +555,108 @@ def render(i):
 					ov = Image.new("RGBA", frame.size, (0, 0, 0, 0))
 					ImageDraw.Draw(ov).ellipse((sx - r, sy - r, sx + r, sy + r), outline=(232, 40, 50, int(220 * (1 - q))), width=3)
 					frame.alpha_composite(ov)
+			mark(frame, seg, t, x0, y0, z)
 			frame.alpha_composite(cursor_img(), (int(sx - 3), int(sy - 3)))
+		dx = -30 * (1 - fa_in) - (FX + FW + 90) * away
 		sh, pad = frame_shadow()
-		put(img, sh, (FX - pad - 30 * (1 - fa_in), FY - pad), fa_in)
+		put(img, sh, (FX - pad + dx, FY - pad), fa_in)
 		mask = frame_mask()
 		fr = Image.new("RGBA", frame.size, (0, 0, 0, 0))
 		fr.paste(frame, (0, 0), mask)
-		put(img, fr, (FX - 30 * (1 - fa_in), FY), fa_in)
+		put(img, fr, (FX + dx, FY), fa_in)
 	# --- the subtitles
 	draw_sub(img, t)
+	# --- the end: the logo and VERON ERP
+	if t >= tl["t_end"]:
+		outro(img, t - tl["t_end"])
 	return img.convert("RGB")
+
+
+def mark(frame, seg, t, x0, y0, z):
+	"""a red frame round the thing the cursor points at, when the record asks for it (a small button)"""
+	r = seg["rec"]
+	if not r.get("mark") or not r.get("target"):
+		return
+	q = out3((t - seg["t0"] - 0.6) / 0.3)
+	if q <= 0:
+		return
+	x, y, w, h = r["target"]
+	k = z * PW / VW
+	pad = 7 + 3 * math.sin(t * 6)
+	a0, b0 = (x - x0) * k - pad, (y - y0) * k + BAR - pad
+	a1, b1 = (x + w - x0) * k + pad, (y + h - y0) * k + BAR + pad
+	ov = Image.new("RGBA", frame.size, (0, 0, 0, 0))
+	d = ImageDraw.Draw(ov)
+	d.rounded_rectangle((a0 - 4, b0 - 4, a1 + 4, b1 + 4), 12, outline=(232, 34, 44, int(70 * q)), width=6)
+	d.rounded_rectangle((a0, b0, a1, b1), 9, outline=(240, 50, 60, int(235 * q)), width=3)
+	frame.alpha_composite(ov)
+
+
+WORD = os.path.join(HERE, "..", "intro", "wordmark_mask.png")
+UNDER = (1298, 258, 1740, 258)      # the red line under ERP, in the mask's space
+
+
+@lru_cache(maxsize=2)
+def word_layers(w):
+	"""the wordmark at width w: its letters (brushed metal), their thin red outline, the line under ERP"""
+	m = Image.open(WORD).split()[3]
+	k = w / m.width
+	h = round(m.height * k)
+	pad = 30
+	a = Image.new("L", (w + 2 * pad, h + 2 * pad), 0)
+	a.paste(m.resize((w, h), Image.LANCZOS), (pad, pad))
+	A = np.asarray(a, np.float32) / 255
+	# brushed metal: light above, a dark band in the middle, lighter again below (over the letters' own height)
+	yy = np.clip((np.arange(a.height) - pad) / max(1, h), 0, 1)
+	tone = np.interp(yy, [0, 0.42, 0.5, 1], [214, 150, 92, 172])[:, None]
+	face = np.zeros((a.height, a.width, 4), np.float32)
+	face[..., 0] = tone; face[..., 1] = tone + 4; face[..., 2] = tone + 12
+	face[..., 3] = A * 255
+	grown = np.asarray(a.filter(ImageFilter.MaxFilter(5)), np.float32) / 255
+	rim = np.clip(grown - A, 0, 1)
+	rim_im = np.zeros_like(face)
+	rim_im[..., 0], rim_im[..., 1], rim_im[..., 2], rim_im[..., 3] = 255, 52, 58, rim * 255
+	rim_img = Image.fromarray(rim_im.astype(np.uint8), "RGBA")
+	glow = rim_img.filter(ImageFilter.GaussianBlur(6))
+	x0, y0, x1, y1 = (v * k for v in UNDER)
+	return (Image.fromarray(np.clip(face, 0, 255).astype(np.uint8), "RGBA"), rim_img, glow, A,
+		(x0 + pad, y0 + pad, x1 + pad), pad)
+
+
+def outro(img, u):
+	"""the logo grows in the middle, VERON ERP comes up under it, a light runs over the letters; it stays"""
+	big = 300
+	q = out3(u / 0.7)
+	size = round(big * (0.86 + 0.14 * q))
+	lb = logo.box(size, 3.0 + u)
+	ly = (H - big) / 2 - 110
+	put(img, shadowed(lb, 18, 0.7, (0, 10)), ((W - size) / 2 - 54, ly + (big - size) / 2 - 54), q)
+	ww = 560
+	face, rim, glow, A, (ux0, uy, ux1), pad = word_layers(ww)
+	p = out3((u - 0.55) / 0.8)
+	if p <= 0:
+		return
+	wx = (W - face.width) / 2
+	wy = ly + big + 40 + 16 * (1 - p)
+	letters = face.copy()
+	s = (u - 1.0) / 1.1                                       # one bright band across the letters
+	if -0.2 < s < 1.2:
+		xx = np.arange(face.width)[None, :]
+		band = np.exp(-((xx - (-120 + (face.width + 240) * s)) / 70) ** 2)
+		L = np.asarray(letters, np.float32)
+		L[..., :3] = np.clip(L[..., :3] + band[..., None] * 90, 0, 255)
+		letters = Image.fromarray(L.astype(np.uint8), "RGBA")
+	put(img, glow, (wx, wy), p * 0.8)
+	put(img, rim, (wx, wy), p)
+	put(img, letters, (wx, wy), p)
+	# the red line under ERP draws itself
+	r = out3((u - 1.0) / 0.6)
+	if r > 0:
+		line = Image.new("RGBA", (face.width, face.height), (0, 0, 0, 0))
+		d = ImageDraw.Draw(line)
+		d.line((ux1 - (ux1 - ux0) * r, uy, ux1, uy), fill=(232, 34, 44, 255), width=4)
+		put(img, line.filter(ImageFilter.GaussianBlur(5)), (wx, wy), 0.9)
+		put(img, line, (wx, wy))
 
 
 @lru_cache(maxsize=1)
@@ -586,7 +704,7 @@ def sub_img(text):
 def draw_sub(img, t):
 	subs = G["tl"]["subs"]
 	for k, (t0, text) in enumerate(subs):
-		t1 = subs[k + 1][0] if k + 1 < len(subs) else G["tl"]["t_out"] + 0.6
+		t1 = subs[k + 1][0] if k + 1 < len(subs) else G["tl"]["t_away"] + 0.3
 		if t0 - 0.05 <= t <= t1:
 			q = out3((t - t0) / 0.3) * (1 - out3((t - (t1 - 0.22)) / 0.22))
 			im = sub_img(text)
@@ -612,6 +730,8 @@ def sound(tl, path):
 	add(A.whoosh(0.8), INTRO - 0.1, 0.18, 0.3)
 	add(AI.chime(1174.7) if hasattr(AI, "chime") else A.pop(), 1.6, 0.18)
 	add(A.whoosh(0.7), tl["t_out"] - 0.1, 0.15, 0.4)
+	add(A.whoosh(0.8), tl["t_away"] - 0.05, 0.15, -0.4)
+	add(AI.chime(880.0) if hasattr(AI, "chime") else A.pop(), tl["t_end"] + 0.5, 0.16)
 	key = A.key()
 	for t, kind in tl["sounds"]:
 		if kind == "click":

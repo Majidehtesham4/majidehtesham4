@@ -27,6 +27,18 @@ class StockKardex(models.TransientModel):
 	closing = fields.Float("Balance After", readonly=True)
 	line_ids = fields.One2many("veron.stock.kardex.line", "kardex_id", readonly=True)
 
+	@api.depends("product_id")
+	def _compute_display_name(self):
+		for kardex in self:
+			kardex.display_name = _("Kardex: %s", kardex.product_id.display_name) if kardex.product_id else _("Stock Kardex")
+
+	def _reference(self, move):
+		if move.picking_id:
+			return move.picking_id.name
+		if move.is_inventory:
+			return _("Inventory Count")
+		return move.reference or ""
+
 	def _places(self):
 		self.ensure_one()
 		Location = self.env["stock.location"]
@@ -73,7 +85,7 @@ class StockKardex(models.TransientModel):
 			balance += quantity_in - quantity_out
 			cost = abs(move.price_unit) if "price_unit" in move._fields and move.price_unit else self.product_id.standard_price
 			partner = move.picking_id.partner_id or (move.partner_id if "partner_id" in move._fields else move.picking_id.partner_id)
-			lines.append((0, 0, {"date": move.date, "reference": move.picking_id.name or move.reference or "",
+			lines.append((0, 0, {"date": move.date, "reference": self._reference(move),
 				"partner": partner.name or "", "quantity_in": quantity_in, "quantity_out": quantity_out, "balance": balance,
 				"cost": cost, "value_in": quantity_in * cost, "value_out": quantity_out * cost, "move_id": move.id}))
 		self.write({"opening": opening, "closing": balance, "line_ids": lines})

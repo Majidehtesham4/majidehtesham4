@@ -177,3 +177,13 @@ msgstr "ارزش خروجی"
 #: model:ir.model.fields,field_description:veron_stock_kardex.field_veron_stock_kardex__warehouse_id
 msgid "Warehouse"
 msgstr "انبار"
+
+#. module: veron_stock_kardex
+#: code:addons/veron_stock_kardex/wizard/kardex.py:0
+msgid "Kardex: %s"
+msgstr "کاردکس: %s"
+
+#. module: veron_stock_kardex
+#: code:addons/veron_stock_kardex/wizard/kardex.py:0
+msgid "Inventory Count"
+msgstr "شمارش موجودی"

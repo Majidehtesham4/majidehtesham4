@@ -20,7 +20,15 @@ class Recorder {
   }
   async snap(name) { await this.page.screenshot({ path: path.join(this.out, name) }); return name; }
   async box(sel) {
-    if (Array.isArray(sel)) return sel;
+    // a rectangle as it is; several things: the rectangle around them all
+    if (Array.isArray(sel) && typeof sel[0] === 'number') return sel;
+    if (Array.isArray(sel)) {
+      const bs = (await Promise.all(sel.map((s) => this.box(s)))).filter(Boolean);
+      if (!bs.length) return null;
+      const x0 = Math.min(...bs.map((b) => b[0])), y0 = Math.min(...bs.map((b) => b[1]));
+      const x1 = Math.max(...bs.map((b) => b[0] + b[2])), y1 = Math.max(...bs.map((b) => b[1] + b[3]));
+      return [x0, y0, x1 - x0, y1 - y0];
+    }
     const l = typeof sel === 'string' ? this.page.locator(sel).first() : sel;
     await l.scrollIntoViewIfNeeded({ timeout: 3000 }).catch(() => {});
     const b = await l.boundingBox({ timeout: 5000 }).catch(() => null);
@@ -31,7 +39,7 @@ class Recorder {
     if (opts.sub !== undefined) this.sub = opts.sub;
     if (opts.step !== undefined) this.step = opts.step;
     rec.sub = this.sub; rec.step = this.step;
-    for (const k of ['hold', 'cam', 'done', 'newpage']) if (opts[k] !== undefined) rec[k] = opts[k];
+    for (const k of ['hold', 'cam', 'done', 'newpage', 'mark']) if (opts[k] !== undefined) rec[k] = opts[k];
     if (!('url' in rec)) rec.url = this.url();
     this.steps.push(rec); this.n++;
     console.log(this.n, rec.kind, rec.sub.slice(0, 50));
@@ -64,7 +72,9 @@ class Recorder {
     const target = b ? [b.x, b.y, b.width, b.height] : null;
     await l.hover();
     await this.page.waitForTimeout(400);
-    this.push({ kind: 'hover', file: await this.snap(this.file()), target }, opts);
+    const rec = { kind: 'hover', file: await this.snap(this.file()), target };
+    if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+    this.push(rec, opts);
   }
   // typing into a field: one picture every few letters
   async type(sel, text, opts = {}) {
@@ -95,6 +105,21 @@ class Recorder {
     } else if (opts.after) {
       await this.view({ wait: 500, hold: 0.8 });
     }
+  }
+  // the page scrolled smoothly by dy css px (the wheel, where the pointer is), a picture every few px
+  async scroll(dy, opts = {}) {
+    const at = opts.at || [40, 420];
+    await this.page.mouse.move(at[0], at[1]);
+    const first = await this.snap(this.file());
+    const files = [];
+    const n = Math.max(6, Math.round(Math.abs(dy) / 18));
+    for (let i = 0; i < n; i++) {
+      await this.page.mouse.wheel(0, dy / n);
+      await this.page.waitForTimeout(40);
+      files.push(await this.snap(this.file('_t' + String(files.length).padStart(3, '0'))));
+    }
+    await this.page.waitForTimeout(300);
+    this.push({ kind: 'scroll', file: first, files, dur: opts.dur ?? 2.2 }, opts);
   }
   // the address of the program typed in the browser's bar
   async address(text, go, opts = {}) {
@@ -130,6 +155,30 @@ class Recorder {
   async saveForm(opts = {}) { await this.click('.o_form_button_save', { wait: 1500, afterHold: 1.0, ...opts }); }
   async create(opts = {}) {
     await this.click('.o_list_button_add, .o-kanban-button-new, .o_form_button_create', { wait: 1500, newpage: true, afterHold: 0.6, ...opts });
+  }
+  async select(name, label, opts = {}) {
+    // a selection: a <select>, radio buttons, or the menu of a select field
+    const div = this.page.locator(`div[name=${name}]`).first();
+    const sel = div.locator('select');
+    const radio = div.locator('.o_radio_item, .form-check', { hasText: label }).first();
+    if (await sel.count()) {
+      const target = await this.box(sel);
+      const rec = { kind: 'click', file: await this.snap(this.file()), target };
+      if (opts.focus) rec.cam = { focus: await this.box(opts.focus) ?? opts.focus, zoom: opts.zoom };
+      this.push(rec, { ...opts, done: undefined });
+      await sel.selectOption({ label });
+      await this.view({ wait: 700, hold: opts.afterHold ?? 0.9, done: opts.done });
+    } else if (await radio.count()) {
+      await this.click(radio.locator('input, label').first(), { ...opts, wait: 700, afterHold: opts.afterHold ?? 0.9 });
+    } else {
+      await this.click(div.locator('input, .o_select_menu_toggler').first(), { ...opts, done: undefined, wait: 600, afterHold: 0.6 });
+      await this.click(this.page.locator('.o_select_menu_item, .o-dropdown--menu .dropdown-item', { hasText: label }).first(),
+        { wait: 700, afterHold: opts.afterHold ?? 0.9, done: opts.done });
+    }
+  }
+  async search(text, opts = {}) {
+    await this.type('.o_searchview_input', text, { ...opts, enter: true });
+    await this.view({ wait: 1200, hold: opts.afterHold ?? 1.4, done: opts.done });
   }
   async button(text, opts = {}) {
     await this.click(this.page.locator('button:visible', { hasText: text }).first(), { wait: 1500, afterHold: 1.0, ...opts });
