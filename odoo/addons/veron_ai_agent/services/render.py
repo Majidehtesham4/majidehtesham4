@@ -26,7 +26,7 @@ LABELS = {
 	"product": "کالا", "products": "کالاها", "quantity": "مقدار", "price": "قیمت", "warehouse": "انبار", "employee": "کارمند",
 	"missing": "کمبود", "records": "رکوردها", "name": "نام", "state": "وضعیت", "quotations": "پیش‌فاکتورها",
 	"quotation": "پیش‌فاکتور", "valid_until": "اعتبار تا", "expired": "منقضی", "biggest": "بزرگ‌ترین‌ها",
-	"by_salesperson": "به تفکیک فروشنده", "groups": "گروه‌ها", "draft": "پیش‌نویس", "draft_id": "شماره‌ی پیش‌نویس",
+	"by_salesperson": "به تفکیک فروشنده", "by_day": "به تفکیک روز", "groups": "گروه‌ها", "draft": "پیش‌نویس", "draft_id": "شماره‌ی پیش‌نویس",
 	"posted": "ثبت قطعی", "result": "نتیجه", "results": "نتیجه‌ها", "title": "عنوان", "url": "نشانی", "text": "متن",
 	"note": "یادداشت", "changes": "تغییرها", "receipts": "رسیدها", "closing": "صورت تنخواه", "sheet": "برگه",
 	"columns": "ستون‌ها", "rows": "ردیف‌ها", "created": "ساخته‌شده", "skipped": "ردشده", "phone": "تلفن", "email": "ایمیل",

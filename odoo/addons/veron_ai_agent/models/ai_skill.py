@@ -95,13 +95,16 @@ class AiSkill(models.Model):
 		Tool = self.env["veron.ai.tool"]
 		Tool._sync()
 		existing = {s.code: s for s in self.with_context(active_test=False).search([("code", "!=", False)])}
+		# On a new database Persian is turned on once every module is loaded (veron.iran); until then the names stay
+		# English and are given their Persian then, by the same steps
+		persian = bool(self.env["res.lang"].search_count([("code", "=", "fa_IR")]))
 		for sequence, (code, (name, icon, codes, instructions)) in enumerate(BUILTIN.items(), 1):
 			tools = Tool._by_codes(codes)
 			if code in existing:
 				skill = existing[code]
 				skill.tool_ids = [(6, 0, tools.ids)]
 				# Made before their Persian was given: given now, unless a manager renamed them
-				if skill.with_context(lang="fa_IR").name == name:
+				if persian and skill.with_context(lang="fa_IR").name == name:
 					skill.update_field_translations("name", {"fa_IR": FA[code][0]})
 				if not skill.description:
 					skill.with_context(lang="en_US").description = FA[code][1]
@@ -111,7 +114,8 @@ class AiSkill(models.Model):
 			skill = self.with_context(lang="en_US").create({"code": code, "name": name, "icon": icon,
 				"description": description_fa, "instructions": instructions, "sequence": sequence * 10,
 				"tool_ids": [(6, 0, tools.ids)]})
-			skill.update_field_translations("name", {"fa_IR": name_fa})
+			if persian:
+				skill.update_field_translations("name", {"fa_IR": name_fa})
 
 	def _prompt(self):
 		return "\n".join(f"Skill «{skill.name}»: {skill.instructions}" for skill in self if skill.instructions)
@@ -224,3 +228,14 @@ class AiAgentButtons(models.Model):
 
 	def action_add_trigger(self):
 		return self._open_wizard("veron.ai.trigger.add", _("When Should Your Agent Be Triggered?"))
+
+
+class VeronIran(models.AbstractModel):
+	_inherit = "veron.iran"
+
+	@api.model
+	def _apply(self):
+		"""Persian is on now: the skills made before it get their Persian names"""
+		result = super()._apply()
+		self.env["veron.ai.skill"].sudo()._setup_builtin()
+		return result

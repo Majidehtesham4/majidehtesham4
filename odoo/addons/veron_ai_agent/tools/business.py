@@ -5,6 +5,8 @@ installed is not offered."""
 from collections import defaultdict
 from datetime import datetime, time, timedelta
 
+import pytz
+
 from odoo import fields
 from odoo.fields import Domain
 from odoo.tools.translate import LazyTranslate
@@ -17,8 +19,15 @@ _lt = LazyTranslate(__name__)
 
 
 def _span(ctx, args, default_days):
+	"""The days of the period and the moments it starts and ends in UTC, as stored: the days are those of the
+	person's own time zone, so an order at 1 a.m. their time is of that day and not of the day before"""
 	start, end = period(ctx, args, default_days)
-	return start, end, datetime.combine(start, time.min), datetime.combine(end, time.max)
+	zone = pytz.timezone(ctx.env.user.tz or "UTC")
+
+	def utc(day, moment):
+		return zone.localize(datetime.combine(day, moment)).astimezone(pytz.utc).replace(tzinfo=None)
+
+	return start, end, utc(start, time.min), utc(end, time.max)
 
 
 class Analysis(Tool):
@@ -44,14 +53,20 @@ class SalesSummary(Analysis):
 			("date_order", "<=", dt_end)])
 		orders = model.search(domain)
 		by_user = defaultdict(lambda: [0, 0.0])
+		# The day of an order is the person's own day, not the day in UTC
+		by_day = defaultdict(lambda: [0, 0.0])
 		for order in orders:
 			by_user[order.user_id.name or "-"][0] += 1
 			by_user[order.user_id.name or "-"][1] += order.amount_untaxed
+			day = fields.Datetime.context_timestamp(order, order.date_order).date()
+			by_day[day][0] += 1
+			by_day[day][1] += order.amount_untaxed
 		top = orders.sorted("amount_untaxed", reverse=True)[:5]
 		ctx.link(top)
 		return {
 			"period": f"{start} - {end}", "orders": len(orders), "untaxed": round(sum(orders.mapped("amount_untaxed")), 2),
 			"total": round(sum(orders.mapped("amount_total")), 2),
+			"by_day": [{"date": str(day), "orders": v[0], "untaxed": round(v[1], 2)} for day, v in sorted(by_day.items())],
 			"by_salesperson": [{"salesperson": k, "orders": v[0], "untaxed": round(v[1], 2)} for k, v in by_user.items()],
 			"biggest": [{"order": o.name, "customer": o.partner_id.display_name, "untaxed": o.amount_untaxed} for o in top],
 		}
